@@ -1,4 +1,5 @@
 export const pagesRoutes: any[] = [
+  
     {
       id: 2,
       index: true,
