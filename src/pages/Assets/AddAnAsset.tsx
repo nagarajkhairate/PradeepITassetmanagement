@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactNode,SyntheticEvent,useState } from "react";
 import {
   Typography,
   Box,
@@ -8,22 +8,22 @@ import {
   selectClasses,
   Select as MuiSelect,
   Option,
-  FormControl,
 } from "@mui/joy";
 
 import { IoIosArrowDown } from "react-icons/io";
 import { FaPlus } from "react-icons/fa";
 import { IoCloudUploadSharp } from "react-icons/io5";
 
-const TypographyLabel = ({ title }) => (
+const TypographyLabel: React.FC<{ title: string }> = ({ title }) => (
   <Typography level="body-xs" sx={{ mt: 1, color: "#767676", mb: "5px" }}>
     {title}
   </Typography>
 );
 
-const Input = ({ placeholder, ...props }) => (
+const Input: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = ({
+  ...props
+}) => (
   <MuiInput
-    placeholder={placeholder}
     sx={{
       borderRadius: "15px",
       padding: "10px",
@@ -32,54 +32,110 @@ const Input = ({ placeholder, ...props }) => (
         sm: "100%",
         md: 350,
       },
-      ...props.sx,
     }}
     {...props}
   />
 );
 
-//  value, onChange
-
-const Select = ({ placeholder,value,onChange, ...props }) => {
-  console.log("props slected - ", props);
-
-  return (
-    <MuiSelect
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      indicator={<IoIosArrowDown />}
-      sx={{
-        borderRadius: "15px",
-        padding: "12.25px",
-        width: {
-          xs: "100%",
-          sm: "100%",
-          md: 350,
-        },
-        [`& .${selectClasses.indicator}`]: {
-          transition: "0.2s",
-          [`&.${selectClasses.expanded}`]: {
-            transform: "rotate(-180deg)",
-          },
-        },
-        ...props.sx, // Spread any additional styles
-      }}
-      {...props}
-    />
-  );
+type SelectProps = {
+  placeholder: string;
+  value:string;
+  sx?:any;
+  props?: ReactNode; 
 };
 
-const AddAnAsset = () => {
-  const [siteSelected, setSite] = useState([]);
+const Select: React.FC<SelectProps> = ({ placeholder,value,sx, ...props }) => (
+  <MuiSelect
+  component={}
+    placeholder={placeholder}
+    value={value}
+    IconComponent={IoIosArrowDown}
+    sx={{
+      borderRadius: "15px",
+      padding: "12.25px",
+      width: {
+        xs: "100%",
+        sm: "100%",
+        md: 350,
+      },
+      [`& .${selectClasses.indicator}`]: {
+        transition: "0.2s",
+        [`&.${selectClasses.expanded}`]: {
+          transform: "rotate(-180deg)",
+        },
+      },
+      ...sx,
+  }}
+    {...props}
+  />
+);
 
-  const handleSiteChange = (event) => {
-    setSite(event?.target?.value);
+const AddAnAsset: React.FC = () => {
+  const [description, setDescription] = useState<string>("");
+  const [assetTagId, setAssetTagId] = useState<string>("");
+  const [purchasedFrom, setPurchasedFrom] = useState<string>("");
+  const [category, setCategory] = useState<string>("");
+  const [brand, setBrand] = useState<string>("");
+  const [cost, setCost] = useState<string>("");
+  const [model, setModel] = useState<string>("");
+  const [serialNo, setSerialNo] = useState<string>("");
+  const [site, setSite] = useState<string>("");
+  const [equipment, setEquipment] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
+  const [department, setDepartment] = useState<string>("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const handleFileUpload = () => {
+    const fileInput = document.getElementById("fileInput") as HTMLInputElement;
+    if (fileInput) {
+      fileInput.click();
+    }
   };
 
-  useEffect(() => {
-    console.log("rendered");
-  });
+  const handleFileInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+    }
+  };
+
+  const handleSubmit = () => {
+    const formData = {
+      site,
+      description,
+      assetTagId,
+      purchasedFrom,
+      category,
+      brand,
+      cost,
+      model,
+      serialNo,
+      equipment,
+      location,
+      department,
+      selectedFile,
+    };
+    console.log(formData);
+  };
+
+  const handleCancel = () => {
+    setDescription("");
+    setAssetTagId("");
+    setPurchasedFrom("");
+    setCategory("");
+    setBrand("");
+    setCost("");
+    setModel("");
+    setSerialNo("");
+    setSite("");
+    setEquipment("");
+    setLocation("");
+    setDepartment("");
+    setSelectedFile(null);
+  };
+
   return (
     <>
       <div style={{ width: "100%", background: "#f9f9f9" }}>
@@ -129,6 +185,8 @@ const AddAnAsset = () => {
                   </Typography>
                   <Input
                     placeholder=""
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
                     sx={{
                       borderRadius: "15px",
                       padding: "10px",
@@ -144,19 +202,36 @@ const AddAnAsset = () => {
                 <Grid>
                   <TypographyLabel title="Asset Tag ID"></TypographyLabel>
 
-                  <Input placeholder="" />
+                  <Input
+                    placeholder=""
+                    value={assetTagId}
+                    onChange={(e) => setAssetTagId(e.target.value)}
+                  />
                 </Grid>
                 <Grid>
                   <TypographyLabel title="Purchased From"></TypographyLabel>
-                  <Input placeholder="All Location" />
+                  <Input
+                    placeholder="All Location"
+                    value={purchasedFrom}
+                    onChange={(e) => setPurchasedFrom(e.target.value)}
+                  />
                 </Grid>
                 <Grid>
                   <TypographyLabel title="Category"></TypographyLabel>
-                  <Input placeholder="dd/mm/yyyy-dd/mm/yyyy" type="Date" />
+                  <Input
+                    placeholder="dd/mm/yyyy-dd/mm/yyyy"
+                    type="Date"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                  />
                 </Grid>
                 <Grid>
                   <TypographyLabel title="Brand"></TypographyLabel>
-                  <Input placeholder="" />
+                  <Input
+                    placeholder=""
+                    value={brand}
+                    onChange={(e) => setBrand(e.target.value)}
+                  />
                 </Grid>
                 <Grid>
                   <Typography
@@ -165,15 +240,27 @@ const AddAnAsset = () => {
                   >
                     Cost
                   </Typography>
-                  <Input placeholder="Indian Rupee" />
+                  <Input
+                    placeholder="Indian Rupee"
+                    value={cost}
+                    onChange={(e) => setCost(e.target.value)}
+                  />
                 </Grid>
                 <Grid>
                   <TypographyLabel title="Model"></TypographyLabel>
-                  <Input placeholder="" />
+                  <Input
+                    placeholder=""
+                    value={model}
+                    onChange={(e) => setModel(e.target.value)}
+                  />
                 </Grid>
                 <Grid>
                   <TypographyLabel title="Serial No."></TypographyLabel>
-                  <Input placeholder="Nothing Selected" />
+                  <Input
+                    placeholder="Nothing Selected"
+                    value={serialNo}
+                    onChange={(e) => setSerialNo(e.target.value)}
+                  />
                 </Grid>
               </Grid>
               <Typography
@@ -215,17 +302,19 @@ const AddAnAsset = () => {
                       flexDirection: { xs: "column", md: "row" },
                     }}
                   >
-                    <FormControl>
-                      <Select
-                        value={siteSelected}
-                        onChange={handleSiteChange}
-                        placeholder="OneSite(Indore,India)"
-                      >
-                        <Option value="Indore">Indore</Option>
-                        <Option value="Mumbai">Mumbai</Option>
-                        <Option value="Delhi">Delhi</Option>
-                      </Select>
-                    </FormControl>
+                    <Select
+                      placeholder="OneSite(Indore,India)"
+                      value={site}
+                      onChange={(event: React.SyntheticEvent | null,
+                        newValue: string | null,
+                      )=> {
+                        setSite(newValue!);
+                      }}
+                    >
+                      <Option value="Indore">Indore</Option>
+                      <Option value="Mumbai">Mumbai</Option>
+                      <Option value="Delhi">Delhi</Option>
+                    </Select>
                     <Button
                       sx={{
                         width: "150px",
@@ -238,10 +327,12 @@ const AddAnAsset = () => {
                         color: "#767676",
                       }}
                     >
-                      <Typography sx={{ mr: "25px" }}>
+                      <Typography sx={{ mr: "25px", color: "#767676" }}>
                         <FaPlus />
                       </Typography>
-                      <Typography sx={{ mr: "25px" }}>New</Typography>
+                      <Typography sx={{ mr: "25px", color: "#767676" }}>
+                        New
+                      </Typography>
                     </Button>
                   </Grid>
                 </Box>
@@ -260,7 +351,17 @@ const AddAnAsset = () => {
                       flexDirection: { xs: "column", md: "row" },
                     }}
                   >
-                    <Select placeholder="Computer Equipment"></Select>
+                    <Select
+                      placeholder="Computer Equipment"
+                      value={equipment}
+                      onChange={(event: React.SyntheticEvent | null,
+                        newValue: string | null,
+                      ) =>{ setEquipment(newValue!)}}
+                    >
+                      <Option value="Laptop">Laptop</Option>
+                      <Option value="Desktop">Desktop</Option>
+                      <Option value="Monitor">Monitor</Option>
+                    </Select>
                     <Button
                       sx={{
                         width: "150px",
@@ -270,13 +371,14 @@ const AddAnAsset = () => {
                         "&:hover": {
                           background: "#E4E4E4",
                         },
-                        color: "#767676",
                       }}
                     >
-                      <Typography sx={{ mr: "25px" }}>
+                      <Typography sx={{ mr: "25px", color: "#767676" }}>
                         <FaPlus />
                       </Typography>
-                      <Typography sx={{ mr: "25px" }}>New</Typography>
+                      <Typography sx={{ mr: "25px", color: "#767676" }}>
+                        New
+                      </Typography>
                     </Button>
                   </Grid>
                 </Box>
@@ -292,10 +394,20 @@ const AddAnAsset = () => {
                     sx={{
                       display: "flex",
                       gap: "30px",
-                      flexDirection: { xs: "column", md: "row" }, // Align items to the end
+                      flexDirection: { xs: "column", md: "row" },
                     }}
                   >
-                    <Select placeholder="Indore" />
+                    <Select
+                      placeholder="Indore"
+                      value={location}
+                      onChange={(event: React.SyntheticEvent | null,
+                        newValue: string | null,
+                      ) =>{ setLocation(newValue!)}}
+                    >
+                      <Option value="Indore">Indore</Option>
+                      <Option value="Mumbai">Mumbai</Option>
+                      <Option value="Delhi">Delhi</Option>
+                    </Select>
                     <Button
                       sx={{
                         width: "150px",
@@ -308,10 +420,12 @@ const AddAnAsset = () => {
                         color: "#767676",
                       }}
                     >
-                      <Typography sx={{ mr: "25px" }}>
+                      <Typography sx={{ mr: "25px", color: "#767676" }}>
                         <FaPlus />
                       </Typography>
-                      <Typography sx={{ mr: "25px" }}>New</Typography>
+                      <Typography sx={{ mr: "25px", color: "#767676" }}>
+                        New
+                      </Typography>
                     </Button>
                   </Grid>
                 </Box>
@@ -330,7 +444,17 @@ const AddAnAsset = () => {
                       flexDirection: { xs: "column", md: "row" },
                     }}
                   >
-                    <Select placeholder="Supplier eco system" />
+                    <Select
+                      placeholder="Supplier eco system"
+                      value={department}
+                      onChange={(event: React.SyntheticEvent | null,
+                        newValue: string | null,
+                      ) =>{ setDepartment(newValue!)}}
+                    >
+                      <Option value="Supplier A">Supplier A</Option>
+                      <Option value="Supplier B">Supplier B</Option>
+                      <Option value="Supplier C">Supplier C</Option>
+                    </Select>
                     <Button
                       sx={{
                         width: "150px",
@@ -343,10 +467,12 @@ const AddAnAsset = () => {
                         color: "#767676",
                       }}
                     >
-                      <Typography sx={{ mr: "25px" }}>
+                      <Typography sx={{ mr: "25px", color: "#767676" }}>
                         <FaPlus />
                       </Typography>
-                      <Typography sx={{ mr: "25px" }}>New</Typography>
+                      <Typography sx={{ mr: "25px", color: "#767676" }}>
+                        New
+                      </Typography>
                     </Button>
                   </Grid>
                 </Box>
@@ -371,14 +497,16 @@ const AddAnAsset = () => {
                     height: "100%",
                     width: "100%",
                     display: "flex",
+                    flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
+                    gap: "5px",
                   }}
                 >
                   <Box
                     sx={{
-                      height: "44px",
-                      width: "44px",
+                      height: "55px",
+                      width: "55px",
                       borderRadius: "10px",
                       display: "flex",
                       justifyContent: "center",
@@ -388,8 +516,28 @@ const AddAnAsset = () => {
                       cursor: "pointer",
                     }}
                   >
-                    <IoCloudUploadSharp size={23} />
+                    <Button
+                      onClick={handleFileUpload}
+                      sx={{
+                        borderRadius: "10px",
+                        border: "none",
+                        background: "none",
+                        "&:hover": {
+                          background: "#13B457",
+                        },
+                      }}
+                    >
+                      <IoCloudUploadSharp size={23} />
+                    </Button>
+                    <input
+                      type="file"
+                      id="fileInput"
+                      style={{ display: "none" }}
+                      onChange={handleFileInputChange}
+                    />
                   </Box>
+                  {selectedFile && <p> {selectedFile.name}</p>}
+                  <TypographyLabel title="Only(JPG,GIF,PNG)Allowed"></TypographyLabel>
                 </Box>
               </Box>
             </Box>
@@ -408,6 +556,7 @@ const AddAnAsset = () => {
             >
               <Button
                 size="lg"
+                onClick={handleSubmit}
                 sx={{
                   color: "#000000",
                   borderRadius: "15px",
@@ -422,6 +571,7 @@ const AddAnAsset = () => {
               </Button>
               <Button
                 size="lg"
+                onClick={handleCancel}
                 sx={{
                   borderRadius: "15px",
                   padding: "18px 70px",

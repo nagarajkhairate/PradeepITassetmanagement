@@ -5,6 +5,7 @@ import MainLayout from './components/Main/mainLayout'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { pagesRoutes } from './routes/pagesRoutes'
 import Dashboard from './pages/Dashboard/dashboard'
+import AddAnAsset from './pages/Assets/AddAnAsset'
 
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
     //   </Routes>
     // </BrowserRouter>
     <MainLayout/>
+    // <AddAnAsset/>
   )
 }
 
