@@ -1,4 +1,4 @@
-import React, { ReactNode,SyntheticEvent,useState } from "react";
+import React, { ReactNode,SyntheticEvent,useState,useEffect } from "react";
 import {
   Typography,
   Box,
@@ -13,6 +13,10 @@ import {
 import { IoIosArrowDown } from "react-icons/io";
 import { FaPlus } from "react-icons/fa";
 import { IoCloudUploadSharp } from "react-icons/io5";
+import {  useSelector,useDispatch } from 'react-redux'
+import {loadFunc, submitData} from "../../Redux/Features/assetSlice";
+import { RootState } from "../../Redux/Features/store";
+import { ThunkDispatch } from "@reduxjs/toolkit";
 
 const TypographyLabel: React.FC<{ title: string }> = ({ title }) => (
   <Typography level="body-xs" sx={{ mt: 1, color: "#767676", mb: "5px" }}>
@@ -46,7 +50,7 @@ type SelectProps = {
 
 const Select: React.FC<SelectProps> = ({ placeholder,value,sx, ...props }) => (
   <MuiSelect
-  component={}
+
     placeholder={placeholder}
     value={value}
     IconComponent={IoIosArrowDown}
@@ -71,6 +75,7 @@ const Select: React.FC<SelectProps> = ({ placeholder,value,sx, ...props }) => (
 );
 
 const AddAnAsset: React.FC = () => {
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [description, setDescription] = useState<string>("");
   const [assetTagId, setAssetTagId] = useState<string>("");
   const [purchasedFrom, setPurchasedFrom] = useState<string>("");
@@ -84,57 +89,70 @@ const AddAnAsset: React.FC = () => {
   const [location, setLocation] = useState<string>("");
   const [department, setDepartment] = useState<string>("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
+  
   const handleFileUpload = () => {
     const fileInput = document.getElementById("fileInput") as HTMLInputElement;
     if (fileInput) {
       fileInput.click();
     }
   };
-
+  
   const handleFileInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files && event.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-    }
-  };
-
-  const handleSubmit = () => {
-    const formData = {
-      site,
-      description,
-      assetTagId,
-      purchasedFrom,
-      category,
-      brand,
-      cost,
-      model,
-      serialNo,
-      equipment,
-      location,
-      department,
-      selectedFile,
+    ) => {
+      const file = event.target.files && event.target.files[0];
+      if (file) {
+        setSelectedFile(file);
+      }
     };
-    console.log(formData);
-  };
+    
+    const handleSubmit = () => {
+      const formData = {
+        site,
+        description,
+        assetTagId,
+        purchasedFrom,
+        category,
+        brand,
+        cost,
+        model,
+        serialNo,
+        equipment,
+        location,
+        department,
+        selectedFile,
+      };
+      console.log(formData);
+      // const res = loadFunc(formData)
+      // dispatch(submitData(
+      //   res
+      // ))
+      dispatch(submitData(
+        formData
+      ))
+    };
+    
+    const handleCancel = () => {
+      setDescription("");
+      setAssetTagId("");
+      setPurchasedFrom("");
+      setCategory("");
+      setBrand("");
+      setCost("");
+      setModel("");
+      setSerialNo("");
+      setSite("");
+      setEquipment("");
+      setLocation("");
+      setDepartment("");
+      setSelectedFile(null);
+    };
+    
+    
 
-  const handleCancel = () => {
-    setDescription("");
-    setAssetTagId("");
-    setPurchasedFrom("");
-    setCategory("");
-    setBrand("");
-    setCost("");
-    setModel("");
-    setSerialNo("");
-    setSite("");
-    setEquipment("");
-    setLocation("");
-    setDepartment("");
-    setSelectedFile(null);
-  };
+    const {data,error} = useSelector((state: RootState)=>state.assets)
+  console.log(data)
+
 
   return (
     <>

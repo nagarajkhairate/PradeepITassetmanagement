@@ -31,7 +31,7 @@ const data: Document[] = [
     fileName: "invoice1",
     uploadDate: "2023/01/01",
     uploadBy: "User A",
-  },
+  }, 
   {
     description: "invoice2",
     fileType: "JPG",
@@ -41,13 +41,14 @@ const data: Document[] = [
   },
 ];
 
-const Documents = () => {
+const Documents = (props: any) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'))
   const [documents, setDocuments] = useState(data);
 
   const [sortField, setSortField] = useState("uploadDate");
   const [sortDirection, setSortDirection] = useState("asc");
+  const[docData, setDocData] = useState(props.assetDocument || []);
 
   const sortDocuments = (field: keyof Document) => {
     // Determine the new sort direction
@@ -68,6 +69,11 @@ const Documents = () => {
     // Update the documents state with the sorted array
     setDocuments(sortedDocuments);
   };
+  const [docsData,setDocsData] = useState(props.assetDetail || {})
+  const docsUpdater = ()=>{
+    props.handleUpdatedData({ tabName :'assetDetail', tabsData: docsData
+})
+}
 
   return (
     <div>
@@ -244,7 +250,47 @@ const Documents = () => {
             </tr>
           </thead>
           <tbody>
-            {documents.map((doc, index) => (
+            {/* {documents.map((doc, index) => (
+              <tr key={index}>
+                <td>{doc.description}</td>
+                <td>{doc.fileType}</td>
+                <td>{doc.fileName}</td>
+                <td>{doc.uploadDate}</td>
+                <td>{doc.uploadBy}</td>
+                <td>
+                  <Button
+                    sx={{
+                      marginRight: "3px",
+                      background: "white",
+                      border: "1px solid #13b457",
+                      color: "#13b457",
+                      borderRadius: "15px",
+                      "&:hover": {
+                        backgroundColor: "#13b457",
+                        color: "white",
+                      },
+                    }}
+                  >
+                    Download
+                  </Button>
+                  <Button
+                    sx={{
+                      background: "white",
+                      border: "1px solid red",
+                      color: "red",
+                      borderRadius: "15px",
+                      "&:hover": {
+                        backgroundColor: "red",
+                        color: "white",
+                      },
+                    }}
+                  >
+                    Detach
+                  </Button>
+                </td>
+              </tr>
+            ))} */}
+            {docData.map((doc: any, index: any) => (
               <tr key={index}>
                 <td>{doc.description}</td>
                 <td>{doc.fileType}</td>

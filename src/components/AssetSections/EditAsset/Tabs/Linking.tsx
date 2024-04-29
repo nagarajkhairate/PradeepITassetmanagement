@@ -17,9 +17,11 @@ import {
 } from "@mui/material";
 import { BsLink45Deg } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
+import { SelectChangeEvent } from '@mui/material/Select';
 
 
-const Linking = () => {
+
+const Linking = (props:any) => {
   const [assetParent, setAssetParent] = React.useState<string[]>([]);
   const [assetChild, setAssetChild] = React.useState<string[]>([]);
   const [open, setOpen] = useState(false);
@@ -33,7 +35,7 @@ const Linking = () => {
     setOpen(false);
   };
 
-  const handleParentChange = (event: SelectChangeEvent<typeof personName>) => {
+  const handleParentChange = (event: SelectChangeEvent ) => {
     const {
       target: { value },
     } = event;
@@ -43,7 +45,7 @@ const Linking = () => {
     );
   };
 
-  const handleChildChange = (event: SelectChangeEvent<typeof personName>) => {
+  const handleChildChange = (event: SelectChangeEvent) => {
     const {
       target: { value },
     } = event;
@@ -52,6 +54,11 @@ const Linking = () => {
       typeof value === "string" ? value.split(",") : value
     );
   };
+  const [linkData,setlinkData] = useState(props.assetDetail || {})
+  const linkUpdater = ()=>{
+    props.handleUpdatedData({ tabName :'assetDetail', tabsData: linkData
+})
+  }
 
   return (
     <>

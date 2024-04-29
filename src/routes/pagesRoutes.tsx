@@ -1,3 +1,16 @@
+import { CiCircleList } from "react-icons/ci";
+import { IoIosAddCircleOutline } from "react-icons/io";
+import { LiaUserCheckSolid } from "react-icons/lia";
+import { LiaUserTimesSolid } from "react-icons/lia";
+import { CiPaperplane } from "react-icons/ci";
+import { PiRecycle } from "react-icons/pi";
+import { GrVmMaintenance } from "react-icons/gr";
+import { IoMoveSharp } from "react-icons/io5";
+import { MdOutlineCalendarMonth } from "react-icons/md";
+
+
+
+
 export const pagesRoutes: any[] = [
   
     {
@@ -32,7 +45,7 @@ export const pagesRoutes: any[] = [
       updatedBy: 'Admin',
       arrow:true,
 
-    },
+    }, 
     {
       id: 4,
       index: true,
@@ -48,6 +61,18 @@ export const pagesRoutes: any[] = [
       createdBy: 'Admin',
       updatedBy: 'Admin',
       arrow:true,
+      children:[
+    { name: "List of assets", icon: <CiCircleList  /> },
+    { name: "Add an Asset", icon: <IoIosAddCircleOutline /> },
+    { name: "Check out", icon: <LiaUserCheckSolid /> },
+    { name: "Check In", icon: <LiaUserTimesSolid /> },
+    { name: "Lease", icon: <CiPaperplane /> },
+    { name: "Lease Return", icon: <CiPaperplane /> },
+    { name: "Dispose", icon: <PiRecycle /> },
+    { name: "Maintenance", icon: <GrVmMaintenance /> },
+    { name: "Move", icon: <IoMoveSharp /> },
+    { name: "Reserve", icon: <MdOutlineCalendarMonth /> }
+      ]
 
     },
     {

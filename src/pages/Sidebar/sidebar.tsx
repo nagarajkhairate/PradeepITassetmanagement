@@ -17,29 +17,33 @@ const Sidebar = () => {
                 // position: { xs: 'fixed', md: 'sticky' },
                 transform: {
                     xs: 'translateX(calc(100% * (var(--SideNavigation-slideIn, 0) - 1)))',
-                    md: 'none',
+                   md: 'none',
                 },
                 transition: 'transform 0.4s, width 0.4s',
                 zIndex: 10000,
                 height: '100vh',
-                width: '250px',
+                width: {
+                    sx:"100px",
+                    sm:"250px",
+                    md:'250px',
+                },
                 top: 0,
                 // p: 2,
                 background:'white',
                 flexShrink: 0,
-                display: 'flex',
+                    display: 'flex',
                 flexDirection: 'column',
                 gap: 2,
-                borderRight: '1px solid',
+                borderRight: '1px solid black',
                 borderColor: 'divider',
             }}
         >
             <GlobalStyles
                 styles={(theme) => ({
                     ':root': {
-                        '--Sidebar-width': '331px',
-                        [theme.breakpoints.up('lg')]: {
-                            '--Sidebar-width': '240px',
+                        '--Sidebar-width': '80vw',
+                        [theme.breakpoints.up('sm')]: {
+                            '--Sidebar-width': '250px',
                         },
                     },
                 })}
@@ -98,16 +102,7 @@ const Sidebar = () => {
                         // '--List-nestedInsetStart': '0px',
                         // '--ListItem-radius': (theme) => theme.vars.radius.sm,
                     // width: '250px',
-
-                        
-
-
-
-
-
-                    }}
-
-                >
+                    }}>
 
                     {pagesRoutes.map((item, index) => {
                         return <SidebarItem key={index} item={item} />;

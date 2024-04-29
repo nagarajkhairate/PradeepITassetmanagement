@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {
   Box,
   Typography,
@@ -7,7 +7,12 @@ import {
 
 } from "@mui/joy";
 
-const Audit = () => {
+const Audit = (props:any) => {
+  const [auditData,setAuditData] = useState(props.assetDetail || {})
+  const auditUpdater = ()=>{
+    props.handleUpdatedData({ tabName :'assetDetail', tabsData: auditData
+})
+}
   return (
     <>
       <Box sx={{ paddingBottom: "20px" }}>

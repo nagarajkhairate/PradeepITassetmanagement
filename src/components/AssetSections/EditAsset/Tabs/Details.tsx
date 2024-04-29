@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Typography, Table, Divider } from "@mui/joy";
 
 const data = [
@@ -9,8 +9,16 @@ const data = [
     createdBy: "Pranjna B",
   },
 ];
+ 
+const Details = (props: any) => {
+  const [detailData, setSetailData] = useState(props.assetDetail || {});
+  const detailUpdater = (data: any)=>{
+// to do --- state uupdate based on user modification
 
-const Details = () => {
+props.handleUpdatedData({ tabName :'assetDetail', tabsData: detailData
+})
+}
+
   return (
     <>
       <Box sx={{ paddingBottom: "20px" }}>
@@ -36,7 +44,8 @@ const Details = () => {
               <tbody>
                 <tr>
                   <th scope="row">Serial No.</th>
-                  <td>{data[0].serialNo}</td>
+                  {/* <td>{data[0].serialNo}</td> */}
+                  <td>{detailData.serialNo}</td>
                 </tr>
               </tbody>
             </Table>
@@ -46,7 +55,8 @@ const Details = () => {
               <tbody>
                 <tr>
                   <th scope="row">Purchased From</th>
-                  <td>{data[0].purchasedFrom}</td>
+                  {/* <td>{data[0].purchasedFrom}</td> */}
+                  <td>{detailData.purchasedFrom}</td>
                 </tr>
               </tbody>
             </Table>
@@ -77,7 +87,8 @@ const Details = () => {
               <tbody>
                 <tr>
                   <th scope="row">Date Created</th>
-                  <td>{data[0].dateCreated}</td>
+                  {/* <td>{data[0].dateCreated}</td> */}
+                  <td>{detailData.dateCreated}</td>
                 </tr>
               </tbody>
             </Table>
@@ -87,7 +98,8 @@ const Details = () => {
               <tbody>
                 <tr>
                   <th scope="row">Created By</th>
-                  <td>{data[0].createdBy}</td>
+                  {/* <td>{data[0].createdBy}</td> */}
+                  <td>{detailData.createdBy}</td>
                 </tr>
               </tbody>
             </Table>

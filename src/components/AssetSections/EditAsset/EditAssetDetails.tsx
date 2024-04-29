@@ -15,12 +15,19 @@ import Maintenance from "./Tabs/Maintenance";
 import Reserve from "./Tabs/Reserve";
 import Audit from "./Tabs/Audit";
 import History from "./Tabs/History";
+import { useSelector } from "react-redux";
 
-const EditAssetDetails: React.FC = () => {
+const EditAssetDetails : React.FC = (props :any) => {2
   const [selectedTab, setSelectedTab] = useState<string>("Details");
   const [open, setOpen] = React.useState(false);
+  const [AssetData, editAssetData] = useState(props.assetDetails || {});
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+const HandleUpdatedData = (tabsData: any)=>{     //tabsData = {tabName,tabData}
+  editAssetData((prevState: any)=> ({ ...prevState, tabsData}));
+  tabsData.dataUpdater(tabsData,"assetDetails");
+}
 
   const handleTabsChange = (
     event: React.SyntheticEvent<Element, Event> | null,
@@ -123,34 +130,34 @@ const EditAssetDetails: React.FC = () => {
   const renderTabPanels = () => (
     <>
       <TabPanel value="Details">
-        <Details />
+        <Details handleUpdatedData={HandleUpdatedData} assetDetail={AssetData.assetDetail || []}/>
       </TabPanel>
       <TabPanel value="Events">
-        <Event />
+        <Event handleUpdatedData={HandleUpdatedData} assetEvent={AssetData.assetEvent  || []}/>
       </TabPanel>
       <TabPanel value="Photos">
-        <Photos />
+        <Photos handleUpdatedData={HandleUpdatedData} assetPhoto={AssetData.assetPhoto || []}/>
       </TabPanel>
       <TabPanel value="Docs">
-        <Documents />
+        <Documents handleUpdatedData={HandleUpdatedData} assetDocument={AssetData.assetDocument || []}/>
       </TabPanel>
       <TabPanel value="Warranty">
-        <Warranty />
+        <Warranty handleUpdatedData={HandleUpdatedData} assetWarranty={AssetData.assetWarranty || []}/>
       </TabPanel>
       <TabPanel value="Linking">
-        <Linking />
+        <Linking handleUpdatedData={HandleUpdatedData} assetLinking={AssetData.assetLinking || []}/>
       </TabPanel>
       <TabPanel value="Maintt">
-        <Maintenance />
+        <Maintenance handleUpdatedData={HandleUpdatedData} assetMaintenance={AssetData.assetMaintenance || []}/>
       </TabPanel>
       <TabPanel value="Reserve">
-        <Reserve />
+        <Reserve handleUpdatedData={HandleUpdatedData} assetReserve={AssetData.assetReserve || []}/>
       </TabPanel>
       <TabPanel value="Audit">
-        <Audit />
+        <Audit handleUpdatedData={HandleUpdatedData} assetAudit={AssetData.assetAudit || []}/>
       </TabPanel>
       <TabPanel value="History">
-        <History />
+        <History handleUpdatedData={HandleUpdatedData} assetHistory={AssetData.assetHistory || []}/>
       </TabPanel>
     </>
   );

@@ -5,7 +5,7 @@ import { useTheme,useMediaQuery } from "@mui/material/";
 import {
   AiOutlineFileText,
   AiOutlineCalendar,
-  AiOutlineUser,
+  AiOutlineUser, 
   AiOutlineEdit,
 } from "react-icons/ai";
 
@@ -41,13 +41,13 @@ const data: HistoryItem[] = [
   },
 ];
 
-const History = () => {
+const History = (props: any) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'))
   const [history, setHistory] = useState(data);
   const [historySortField, setHistorySortField] = useState("date");
   const [historySortDirection, setHistorySortDirection] = useState("asc");
-
+  const [assetHistoryData, setassetHistoryData]=useState(props.assetHistory || []);
   const sortHistory = (field: keyof HistoryItem) => {
     const newSortDirection =
       field !== historySortField
@@ -70,6 +70,11 @@ const History = () => {
     // Update the history state with the sorted array
     setHistory(sortedHistory);
   };
+  const [historyData,setHistoryData] = useState(props.assetDetail || {})
+  const historyUpdater = ()=>{
+    props.handleUpdatedData({ tabName :'assetDetail', tabsData: historyData
+})
+}
 
   return (
     <>
@@ -116,7 +121,38 @@ const History = () => {
             //  className="responsiveTable"
               borderAxis="both">
                <tbody>
-                 {history.map((doc, index) => (
+                 {/* {history.map((doc, index) => (
+                   <React.Fragment key={index}>
+                     <tr>
+                       <th scope="row" >
+                         Date
+                       </th>
+                       <td>{doc.date}</td>
+                     </tr>
+                     <tr>
+                       <th scope="row">Event</th>
+                       <td>{doc.event}</td>
+                     </tr>
+                     <tr>
+                       <th scope="row">Field</th>
+                       <td>{doc.field}</td>
+                     </tr>
+                     <tr>
+                       <th scope="row">Changed From</th>
+                       <td>{doc.changedFrom}</td>
+                     </tr>
+                     <tr>
+                       <th scope="row">Changed To</th>
+                       <td>{doc.changedTo}</td>
+                     </tr>
+                     <tr>
+                       <th scope="row">Action By</th>
+                       <td>{doc.actionBy}</td>
+                     </tr>
+                     <Box sx={{ width: "100%", height: "55px" }}></Box>
+                   </React.Fragment>
+                 ))} */}
+                  {assetHistoryData.length> 0 && assetHistoryData.map((doc: any, index: any) => (
                    <React.Fragment key={index}>
                      <tr>
                        <th scope="row" >

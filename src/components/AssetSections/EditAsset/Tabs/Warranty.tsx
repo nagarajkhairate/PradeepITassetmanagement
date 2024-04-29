@@ -1,13 +1,19 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {
   Box,
   Typography,
   Button,
   Divider,
 
-} from "@mui/joy";
+} from "@mui/joy"; 
 import { AiOutlinePlus } from "react-icons/ai";
-const Warranty = () => {
+const Warranty = (props:any) => {
+  const [warrantyData,setWarrantyData] = useState(props.assetDetail || {})
+  const warrantyUpdater = ()=>{
+    props.handleUpdatedData({ tabName :'assetDetail', tabsData: warrantyData
+})
+  }
+
   return (
     <>
        <Box

@@ -43,7 +43,7 @@
 // };
 
 // export default Event;
-import React from "react";
+import React, { useState } from "react";
 import { Box, Typography, Table, Divider } from "@mui/joy";
 import { useTheme } from '@mui/material/styles';
 
@@ -62,8 +62,14 @@ const eventData = [
   },
 ];
 
-const Event = () => {
+const Event = (props: any) => {
   const theme = useTheme();
+  const [eventData, setEventData] = useState(props.assetEvent || [])
+  const eventUpdater = (data: any)=>{
+    // to do --- state uupdate based on user modification
+    props.handleUpdatedData({ tabName :'assetDetail', tabsData: eventData
+    })
+  }
 
   return (
     <>
@@ -102,7 +108,28 @@ const Event = () => {
         <Box sx={{ border: "1px solid black" }}>
           <Table className="responsiveTable" borderAxis="both">
             <tbody>
-              {eventData.map((event, index) => (
+              {/* {eventData.map((event:any, index) => (
+                <React.Fragment key={index}>
+                  <tr>
+                    <th scope="row">Check-out-Date</th>
+                    <td><Typography level="body-sm">{event.checkOutDate}</Typography></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Assigned To</th>
+                    <td><Typography level="body-md" sx={{ color: "blue" }}>{event.assignedTo}</Typography></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Due date</th>
+                    <td><Typography level="body-md">{event.dueDate}</Typography></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Check-out Notes</th>
+                    <td>{event.checkOutNotes}</td>
+                  </tr>
+                  <Box sx={{width:"100%",height:"55px"}}></Box>
+                </React.Fragment>
+              ))} */}
+                {eventData.map((event:any, index: any) => (
                 <React.Fragment key={index}>
                   <tr>
                     <th scope="row">Check-out-Date</th>

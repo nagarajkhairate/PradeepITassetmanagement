@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {
   Box,
   Typography,
@@ -9,7 +9,12 @@ import {
 import { AiOutlinePlus } from "react-icons/ai";
 
 
-const Maintenance = () => {
+const Maintenance = (props:any) => {
+  const [maintenanceData,setMaintenanceData] = useState(props.assetDetail || {})
+  const maintenanceUpdater = ()=>{
+    props.handleUpdatedData({ tabName :'assetDetail', tabsData: maintenanceData
+})
+}
   return (
     <>
        <Box

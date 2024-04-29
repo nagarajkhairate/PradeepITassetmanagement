@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {
   Box,
   Typography,
@@ -6,7 +6,12 @@ import {
   Divider,
 } from "@mui/joy";
 
-const Reserve = () => {
+const Reserve = (props:any) => {
+  const [reserveData,setReserveData] = useState(props.assetDetail || {})
+  const reserveUpdater = ()=>{
+    props.handleUpdatedData({ tabName :'assetDetail', tabsData: reserveData
+})
+}
   return (
     <>
         <Box sx={{ paddingBottom: "20px" }}>

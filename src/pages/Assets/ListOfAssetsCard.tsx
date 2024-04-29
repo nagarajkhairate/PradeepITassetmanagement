@@ -32,82 +32,40 @@ const ListOfAssetsCard = () => {
     <Box 
     sx={{ display: { xs: 'block', sm: 'none' } }}
     >
-      <List size="sm" sx={{background:"white",
-    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-    borderRadius:"15px",
-    }}>
-      <ListItem 
-      sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'start',
-            }}
-            >
-      <ListItemContent sx={{ display: 'flex', gap: 2, alignItems: 'start' }}>
-        <ListItemDecorator>
-          <img src="" alt="sdf" />
-        </ListItemDecorator>
-        <div>
-          <Typography fontWeight={600}>{data[0].AssignedTo} </Typography>
-          <Typography sx={{mb:0.5}}>{data[0].Description} </Typography>
-          <Typography level="body-xs">{data[0].AssetTagID} </Typography>
-          <Box sx={{display:"flex",gap:0.5,mb:1}}>
-          <Typography level="body-xs">{data[0].PurchaseDate} </Typography>
-          <Typography level="body-xs">&bull;</Typography>
-          <Typography level="body-xs">{data[0].SerialNo} </Typography>
-          </Box>
-          <Box>
-          {data[0].Cost} 
-          </Box>
-          <Box>
-          <SlEye/>
-          </Box>
-        </div>
-      </ListItemContent>
-      <Chip color="primary" size='md'>
-      {data[0].Status} 
-      </Chip>
-      </ListItem>
-      <ListDivider/>
-      </List>
-      <List size="sm" sx={{background:"white",
-    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-    borderRadius:"15px",
-    }}>
-      <ListItem 
-      sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'start',
-            }}
-            >
-      <ListItemContent sx={{ display: 'flex', gap: 2, alignItems: 'start' }}>
-        <ListItemDecorator>
-          <img src="" alt="sdf" />
-        </ListItemDecorator>
-        <div>
-          <Typography fontWeight={600}>{data[1].AssignedTo} </Typography>
-          <Typography sx={{mb:0.5}}>{data[1].Description} </Typography>
-          <Typography level="body-xs">{data[1].AssetTagID} </Typography>
-          <Box sx={{display:"flex",gap:0.5,mb:1}}>
-          <Typography level="body-xs">{data[1].PurchaseDate} </Typography>
-          <Typography level="body-xs">&bull;</Typography>
-          <Typography level="body-xs">{data[1].SerialNo} </Typography>
-          </Box>
-          <Box>
-          {data[1].Cost} 
-          </Box>
-          <Box>
-          <SlEye/>
-          </Box>
-        </div>
-      </ListItemContent>
-      <Chip color="primary" size='md'>
-      {data[1].Status} 
-      </Chip>
-      </ListItem>
-      <ListDivider/>
-      </List>
+      {data.map((item, index) => (
+        <React.Fragment key={index}>
+          <List size="sm" sx={{ background: "white", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)", borderRadius: "15px" }}>
+            <ListItem sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+              <ListItemContent sx={{ display: 'flex', gap: 2, alignItems: 'start' }}>
+                <ListItemDecorator>
+                  <img src="" alt="" /> {/* If you have images, you can use them here */}
+                </ListItemDecorator>
+                <div>
+                  <Typography fontWeight={600}>{item.AssignedTo}</Typography>
+                  <Typography sx={{ mb: 0.5 }}>{item.Description}</Typography>
+                  <Typography level="body-xs">{item.AssetTagID}</Typography>
+                  <Box sx={{ display: "flex", gap: 0.5, mb: 1 }}>
+                    <Typography level="body-xs">{item.PurchaseDate}</Typography>
+                    <Typography level="body-xs">&bull;</Typography>
+                    <Typography level="body-xs">{item.SerialNo}</Typography>
+                  </Box>
+                  <Box>
+                    {item.Cost}
+                  </Box>
+                  <Box>
+                    <SlEye />
+                  </Box>
+                </div>
+              </ListItemContent>
+              <Chip color="primary" size='md'>
+                {item.Status}
+              </Chip>
+            </ListItem>
+          </List>
+          {index < data.length - 1 && <ListDivider />} {/* Add divider except for the last item */}
+        </React.Fragment>
+      ))}
+      
       
     </Box>
     

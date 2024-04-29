@@ -6,16 +6,24 @@ import Dashboard from '../../pages/Dashboard/dashboard'
 import AddAnAsset from '../../pages/Assets/AddAnAsset'
 import ListOfAssets from '../../pages/Assets/ListOfAssets'
 import EditAssets from '../../pages/Assets/EditAssets'
+import CompanyInformation from '../../pages/Setup/CompanyInformation'
+import CreateAccount from '../../pages/Registration/CreateAccount'
+import LoginAccount from '../../pages/Registration/LoginAccount'
 const MainLayout = () => {
   return (
+
     <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
       {/* <Header/> */}
-      {/* <Sidebar /> */}
-      <EditAssets/>
+      <Sidebar />
+      {/* <EditAssets/> */}
+      <AddAnAsset/>
+      {/* <ListOfAssets/> */}
+      {/* <CompanyInformation/> */}
+      {/* <CreateAccount/> */}
+      {/* <LoginAccount/> */}
       <Box
         component="main"
-        className="MainContent"
-        
+        className="MainContent" 
       >
         <Outlet />
       </Box>

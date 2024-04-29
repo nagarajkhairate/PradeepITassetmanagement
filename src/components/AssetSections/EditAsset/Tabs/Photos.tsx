@@ -7,10 +7,14 @@ import {
 } from "@mui/joy";
 import FileUpload from "../../../Main/FileUpload";
 
-const Photos = () => {
+const Photos = (props: any) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [selectedFileUrl, setSelectedFileUrl] = useState<string | null>(null);
-
+  const [photosData,setPhotosData] = useState(props.assetDetail || {})
+  const photosUpdater = ()=>{
+    props.handleUpdatedData({ tabName :'assetDetail', tabsData: photosData
+})
+  }
   return (
     <>
       <Box
