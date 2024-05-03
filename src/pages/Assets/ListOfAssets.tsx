@@ -315,7 +315,7 @@ const ListOfAssets = () => {
                       <td>{item.Status}</td>
                       <td>{item.SerialNo}</td>
                       <td>{item.AssignedTo}</td>
-                      <td>
+                      <td style={{cursor:"pointer"}}>
                         <SlEye size={20} />
                       </td>
                     </tr>

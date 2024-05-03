@@ -7,6 +7,8 @@ import { PiRecycle } from "react-icons/pi";
 import { GrVmMaintenance } from "react-icons/gr";
 import { IoMoveSharp } from "react-icons/io5";
 import { MdOutlineCalendarMonth } from "react-icons/md";
+import { Link } from "react-router-dom";
+
 
 
 
@@ -62,8 +64,8 @@ export const pagesRoutes: any[] = [
       updatedBy: 'Admin',
       arrow:true,
       children:[
-    { name: "List of assets", icon: <CiCircleList  /> },
-    { name: "Add an Asset", icon: <IoIosAddCircleOutline /> },
+    { name: "List of assets",path:'/assets/listofassets',icon: <CiCircleList  /> },
+    { name: "Add an Asset",path:'/assets/addanasset',  icon: <IoIosAddCircleOutline /> },
     { name: "Check out", icon: <LiaUserCheckSolid /> },
     { name: "Check In", icon: <LiaUserTimesSolid /> },
     { name: "Lease", icon: <CiPaperplane /> },

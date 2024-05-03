@@ -10,8 +10,6 @@ type Props = {
 const sidebarMenuCollapse = ({ item }: Props) => {
   const [open, setOpen] = useState(false);
 
-  
-
   return (
     <List>
       {open &&
@@ -23,5 +21,6 @@ const sidebarMenuCollapse = ({ item }: Props) => {
     </List>
   );
 };
-   
+
 export default sidebarMenuCollapse;
+

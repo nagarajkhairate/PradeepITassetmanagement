@@ -1,9 +1,7 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 // import { RootState } from '../../../redux/store'
-
 // import useColorSelector from '../../../configs/useColorSelector'
-
 import {
   ListItem,
   ListItemButton,
@@ -22,6 +20,7 @@ import { AiOutlineTool } from "react-icons/ai";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
+
 
 const SidebarItem = ({ item }: any) => {
   //   const styleConfigs = useColorSelector()
@@ -51,13 +50,12 @@ const SidebarItem = ({ item }: any) => {
   };
 
   const [open, setOpen] = useState(false); // State to track expansion
-
   const handleItemClick = () => {
     if (item.children) {
       setOpen(!open); // Toggle expansion state
-    }
-  };
 
+    }
+}
   return item && item.path ? (
     <>
       <ListItemButton
@@ -66,7 +64,8 @@ const SidebarItem = ({ item }: any) => {
         onClick={handleItemClick} // Handle click to toggle expansion
         color="none"
         sx={{
-          width: "115%",
+            mt:"10px",
+          width: "112%",
           "&:hover": {
             background: "#FEF8E8",
             borderLeft: "5px solid #FABC1E",
@@ -111,8 +110,9 @@ const SidebarItem = ({ item }: any) => {
             <ListItem
               key={index + `${item.pageName}`}
               sx={{
+                mb:"8px",
                 pl: 8,
-                width: "115%",
+                width: "112%",
                 cursor: "pointer",
                 "&:hover": {
                   background: "#F8F8F8",
@@ -122,12 +122,14 @@ const SidebarItem = ({ item }: any) => {
                 },
               }}
             >
+            <Link to={child.path } style={{textDecoration:"none",color:"inherit"}}>
               {" "}
               {/* Adjust padding as needed */}
               <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
                 {child.icon}
                 <Typography> {child.name}</Typography>
               </Box>
+            </Link>
             </ListItem>
           ))}
         </Collapse>

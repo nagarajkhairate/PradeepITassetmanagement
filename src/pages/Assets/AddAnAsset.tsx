@@ -17,6 +17,7 @@ import {  useSelector,useDispatch } from 'react-redux'
 import {loadFunc, submitData} from "../../Redux/Features/assetSlice";
 import { RootState } from "../../Redux/Features/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
+import { Link } from "react-router-dom";
 
 const TypographyLabel: React.FC<{ title: string }> = ({ title }) => (
   <Typography level="body-xs" sx={{ mt: 1, color: "#767676", mb: "5px" }}>
@@ -74,7 +75,9 @@ const Select: React.FC<SelectProps> = ({ placeholder,value,sx, ...props }) => (
   />
 );
 
-const AddAnAsset: React.FC = () => {
+const AddAnAsset : React.FC = () => {
+  
+
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [description, setDescription] = useState<string>("");
   const [assetTagId, setAssetTagId] = useState<string>("");

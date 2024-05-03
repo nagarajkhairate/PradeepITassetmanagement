@@ -6,21 +6,49 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { pagesRoutes } from './routes/pagesRoutes'
 import Dashboard from './pages/Dashboard/dashboard'
 import AddAnAsset from './pages/Assets/AddAnAsset'
-
+import { Box } from '@mui/joy'
+import ListOfAssets from './pages/Assets/ListOfAssets'
+import EventOption from './pages/Setup/EventOption'
+import TableOption from './pages/Setup/TableOption'
 
 const App = () => {
-  const name = "hari"
+  
   return (
 
-    // <BrowserRouter>
     //   <Routes>
     //     <Route path="/" element={<MainLayout />}>
     //       {pagesRoutes}
     //     </Route>
     //   </Routes>
-    // </BrowserRouter>
-    <MainLayout/>
+    // <MainLayout/>
     // <AddAnAsset/>
+
+
+    // -----
+     <Box sx={{display:"flex",height:"100vh"}}>
+
+        {/* <Routes> */}
+        {/* <Route path="/" element={<MainLayout />}>
+    //       <Route index element={<Dashboard/>}></Route>
+    //       <Route path='addanasset' element={<AddAnAsset/>}></Route>
+    //     </Route>
+    //   </Routes> */}
+     <MainLayout/>
+    {/* <EventOption/> */}
+    <TableOption/>
+     {/* <AddAnAsset/> */}
+    </Box>
+
+    // <Box sx={{display:"flex",height:"100vh"}}>
+    //   <Sidebar/>
+    //   <Routes>
+    //       <Route path='/' element={<Dashboard/>}/>
+    //       <Route path='/dashboard' element={<Dashboard/>}/>
+    //       <Route path='/assets/addanasset' element={<AddAnAsset/>}/>
+    //       <Route path='/assets/listofassets' element={<ListOfAssets/>}/>
+    //   </Routes>
+    // </Box>
+    
   )
 }
 
