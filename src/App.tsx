@@ -10,7 +10,8 @@ import { Box } from '@mui/joy'
 import ListOfAssets from './pages/Assets/ListOfAssets'
 import EventOption from './pages/Setup/EventOption'
 import TableOption from './pages/Setup/TableOption'
-
+import EditAssets from './pages/Assets/EditAssets'
+import EditAssetDetails from './components/AssetSections/EditAsset/EditAssetDetails'
 const App = () => {
   
   return (
@@ -29,13 +30,15 @@ const App = () => {
 
         {/* <Routes> */}
         {/* <Route path="/" element={<MainLayout />}>
-    //       <Route index element={<Dashboard/>}></Route>
-    //       <Route path='addanasset' element={<AddAnAsset/>}></Route>
-    //     </Route>
-    //   </Routes> */}
+          <Route index element={<Dashboard/>}></Route>
+          <Route path='addanasset' element={<AddAnAsset/>}></Route>
+        </Route>
+      </Routes> */}
      <MainLayout/>
-    {/* <EventOption/> */}
-    <TableOption/>
+      {/* <EditAssets/> */}
+    <EventOption/>
+
+    {/* <TableOption/> */}
      {/* <AddAnAsset/> */}
     </Box>
 

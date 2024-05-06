@@ -7,6 +7,7 @@ interface Assets{
   error:string|null;
   selectedAsset:any|null;
 }
+
 const data={
   "assetInfo":{
   // "discription":"HP Pavillion 14-ek 1074TU Intel core i5 13th gen(14inch, 16GB, 512GB
@@ -116,13 +117,11 @@ export const fetch_Assets = createAsyncThunk('assets/fetch_Assets', async()=>{
       //  const resData = loadFunc( action.payload);
       // state = {...state, dataFromApi: action.payload}
 
-
       axios.post('https://jsonplaceholder.typicode.com/users', action.payload).then((datares:any)=>{
         console.log("data", JSON.stringify(datares));
         state = {...state, data: datares}
        }).catch((err)=>{
         console.log("err: ", err)});
-
     },
     updateAsset:(state,action)=>{
       axios.put('https://jsonplaceholder.typicode.com/users', action.payload).then((datares:any)=>{

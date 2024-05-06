@@ -10,14 +10,53 @@ import { PiRecycleLight } from "react-icons/pi";
 import { FaRegHeart } from "react-icons/fa";
 import { ImHammer2 } from "react-icons/im";
 
-const CompanyInformation: React.FC = () => {
+
   interface CustomButtonBoxProps {
     setupCheckoutText: string;
     customizeFormText: string;
   }
 
-  const AssetRadioGroup = () => (
-    <RadioGroup defaultValue="outlined">
+  type VisibilityState = {
+    checkoutButtons: boolean;
+    leaseButtons: boolean;
+    lostFoundButtons: boolean;
+    repairButtons:boolean;
+    brokenButtons:boolean;
+    disposeButtons:boolean;
+    donateButtons:boolean;
+    sellButtons:boolean;
+  };
+
+  interface AssetRadioGroupProps {
+    onChange: (show: boolean) => void;
+    value: string; 
+
+  }
+  
+  const EventOption: React.FC = () => {
+    // Use the VisibilityState type for the state variable
+    const [visibility, setVisibility] = useState<VisibilityState>({
+      checkoutButtons: true,
+      leaseButtons: true,
+      lostFoundButtons: true,
+      repairButtons:true,
+    brokenButtons:true,
+    disposeButtons:true,
+    donateButtons:true,
+    sellButtons:true,
+    });
+  
+    // Update the function signature to include types
+    const handleVisibilityChange = (section: keyof VisibilityState, show: boolean) => {
+      setVisibility(prevState => ({
+        ...prevState,
+        [section]: show,
+      }));
+    };
+
+  const AssetRadioGroup: React.FC<AssetRadioGroupProps> = ({onChange,value}) => (
+    <RadioGroup defaultValue="outlined" onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChange(event.target.value === 'Yes')}     value={value}
+    >
       <Box>
         <Radio value="Yes" label="Yes" variant="outlined" sx={{ mr: "15px" }} />
         <Radio value="No" label="No" variant="outlined" />
@@ -27,10 +66,13 @@ const CompanyInformation: React.FC = () => {
 
   const CustomButtonBox: React.FC<CustomButtonBoxProps> = (
     {setupCheckoutText,
-    customizeFormText,}
+    customizeFormText,
+  }
   ) => {
     return (
       <Box>
+        <a href="_blank">
+
         <Button
           sx={{
             mr: "10px",
@@ -42,9 +84,13 @@ const CompanyInformation: React.FC = () => {
               background: "#FADFB4",
             },
           }}
-        >
+          
+          >
             {setupCheckoutText}
         </Button>
+          </a>
+          <a href="_blank">
+
         <Button
           sx={{
             background: "#ffffff",
@@ -56,9 +102,11 @@ const CompanyInformation: React.FC = () => {
               background: "green",
             },
           }}
-        >
+          
+          >
             {customizeFormText}
         </Button>
+          </a>
       </Box>
     );
   };
@@ -108,16 +156,20 @@ const CompanyInformation: React.FC = () => {
                   <LiaUserCheckSolid /> Check-out assets:
                 </Typography>
               </Box>
-              <AssetRadioGroup />
-
-              <CustomButtonBox
+              <AssetRadioGroup onChange={(show) => handleVisibilityChange('checkoutButtons', show)}   value={visibility.checkoutButtons ? "Yes" : "No"} // Determine the value based on the state
+ />
+              {visibility.checkoutButtons && (
+                <>
+                <CustomButtonBox
                 setupCheckoutText="Setup 'Check out'"
                 customizeFormText="Customize Form"
-              />
+                />
               <CustomButtonBox
-                setupCheckoutText="Setup 'Check in'"
-                customizeFormText="Customize Form"
-              />
+              setupCheckoutText="Setup 'Check in'"
+              customizeFormText="Customize Form"
+ />
+              </>
+              )}
             </Box>
 
             <Box sx={{ ml: {md:"260px",xs:"none"}, paddingBottom: "20px" }}>
@@ -141,15 +193,20 @@ const CompanyInformation: React.FC = () => {
                   <CiPaperplane /> Lease assets:
                 </Typography>
               </Box>
-              <AssetRadioGroup />
+              <AssetRadioGroup onChange={(show) => handleVisibilityChange('leaseButtons', show)}    value={visibility.leaseButtons ? "Yes" : "No"} // Determine the value based on the state
+/>
+              {visibility.leaseButtons && (
+                <>
               <CustomButtonBox
                 setupCheckoutText="Setup 'Lease'"
                 customizeFormText="Customize Form"
-              />
+                />
               <CustomButtonBox
                 setupCheckoutText="Setup 'Lease return'"
                 customizeFormText="Customize Form"
-              />
+                />
+                </>
+              )}
             </Box>
             <Box sx={{ ml: {md:"260px",xs:"none"}, paddingBottom: "20px" }}>
               <Typography  level="body-xs">
@@ -173,15 +230,19 @@ const CompanyInformation: React.FC = () => {
                   < BiDislike/> Lost/Found assets:
                 </Typography>
               </Box>
-              <AssetRadioGroup />
+              <AssetRadioGroup onChange={(show) => handleVisibilityChange('lostFoundButtons', show)}    value={visibility.lostFoundButtons ? "Yes" : "No"}/>
+              {visibility.lostFoundButtons && (
+                <>
               <CustomButtonBox
                 setupCheckoutText="Setup 'Lost/Missing'"
                 customizeFormText="Customize Form"
-              />
+                />
               <CustomButtonBox
               setupCheckoutText="Setup Found"
               customizeFormText="Customize Form"
               />
+              </>
+              )}
             </Box>
 
             <Divider></Divider>
@@ -201,21 +262,14 @@ const CompanyInformation: React.FC = () => {
                   <HiMiniWrenchScrewdriver /> Repair assets:
                 </Typography>
               </Box>
-              <RadioGroup defaultValue="outlined">
-                <Box>
-                  <Radio
-                    value="Yes"
-                    label="Yes"
-                    variant="outlined"
-                    sx={{ mr: "15px" }}
-                  />
-                  <Radio value="No" label="No" variant="outlined" />
-                </Box>
-              </RadioGroup>
+              <AssetRadioGroup onChange={(show) => handleVisibilityChange('repairButtons', show)}    value={visibility.repairButtons ? "Yes" : "No"}/> 
+              {visibility.repairButtons && (              
+
               <CustomButtonBox
                 setupCheckoutText="Setup 'Repair'"
                 customizeFormText="Customize Form"
               />
+              )}
             </Box>
             <Divider></Divider>
             <Box
@@ -235,11 +289,13 @@ const CompanyInformation: React.FC = () => {
                   <PiLinkBreakLight /> Broken assets:
                 </Typography>
               </Box>
-              <AssetRadioGroup />
+              <AssetRadioGroup onChange={(show) => handleVisibilityChange('brokenButtons', show)}    value={visibility.brokenButtons ? "Yes" : "No"}/> 
+              {visibility.brokenButtons && (              
               <CustomButtonBox
                 setupCheckoutText="Setup 'Broken'"
                 customizeFormText="Customize Form"
               />
+              )}
             </Box>
 
             <Divider></Divider>
@@ -260,11 +316,13 @@ const CompanyInformation: React.FC = () => {
                   <PiRecycleLight /> Dispose assets:
                 </Typography>
               </Box>
-              <AssetRadioGroup />
+              <AssetRadioGroup onChange={(show) => handleVisibilityChange('disposeButtons', show)}    value={visibility.disposeButtons ? "Yes" : "No"}/>
+              {visibility.disposeButtons && (
               <CustomButtonBox
               setupCheckoutText="Setup 'Dispose'"
               customizeFormText="Customize Form"
               />
+              )}
             </Box>
 
             <Divider></Divider>
@@ -285,11 +343,13 @@ const CompanyInformation: React.FC = () => {
                   <FaRegHeart /> Donate assets:
                 </Typography>
               </Box>
-              <AssetRadioGroup />
+              <AssetRadioGroup onChange={(show) => handleVisibilityChange('donateButtons', show)}    value={visibility.donateButtons ? "Yes" : "No"}/>
+              {visibility.donateButtons && (
               <CustomButtonBox
                 setupCheckoutText="Setup 'Donate"
                 customizeFormText="Customize Form"
               />
+              )}
             </Box>
 
             <Divider></Divider>
@@ -310,11 +370,13 @@ const CompanyInformation: React.FC = () => {
                   <ImHammer2 /> Sell assets:
                 </Typography>
               </Box>
-              <AssetRadioGroup />
+              <AssetRadioGroup onChange={(show) => handleVisibilityChange('sellButtons', show)}    value={visibility.sellButtons ? "Yes" : "No"}/>
+              {visibility.sellButtons && (
               <CustomButtonBox
               setupCheckoutText="Setup 'Sell'"
               customizeFormText="Customize Form"
               />
+              )}
             </Box>
             <Divider></Divider>
             <Box
@@ -339,4 +401,4 @@ const CompanyInformation: React.FC = () => {
   );
 };
 
-export default CompanyInformation;
+export default EventOption;
