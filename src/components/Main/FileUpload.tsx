@@ -1,7 +1,7 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent } from 'react';
 import { Button } from '@mui/joy';
 import { AiOutlinePlus } from 'react-icons/ai';
-
+ 
 interface FileUploadProps {
   onFileSelect: (file: File, fileUrl: string) => void; // Callback to pass the selected file back to the parent component
 }

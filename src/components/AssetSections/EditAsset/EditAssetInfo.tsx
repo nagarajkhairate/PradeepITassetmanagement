@@ -1,9 +1,33 @@
 import React, { useState } from "react";
-import { Box, Typography, Button, Table } from "@mui/joy";
+import {
+  Box,
+  Typography,
+  Button,
+  Table,
+  Divider, 
+  Menu,
+  MenuButton,
+  Dropdown,
+} from "@mui/joy";
+import {
+  MenuItem,
+} from "@mui/material";
 
 import { AiOutlinePrinter } from "react-icons/ai";
 import { BiSolidPencil } from "react-icons/bi";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+import { LuUser2 } from "react-icons/lu";
+import { CiPaperplane } from "react-icons/ci";
+import { BiDislike } from "react-icons/bi";
+import { FiTool } from "react-icons/fi";
+import { PiLinkBreak } from "react-icons/pi";
+import { PiRecycle } from "react-icons/pi";
+import { IoIosHeartEmpty } from "react-icons/io";
+import { MdOutlineSell } from "react-icons/md";
+import { MdDeleteOutline } from "react-icons/md";
+import { MdOutlineEmail } from "react-icons/md";
+import { MdContentCopy } from "react-icons/md";
+import CheckOutDialog from "./Check Out/CheckOutDialog";
 
 interface Asset {
   // discription:string;
@@ -20,31 +44,48 @@ interface Asset {
   status: string;
 }
 
-const data:Asset[]=[{
-  // "discription":"HP Pavillion 14-ek 1074TU Intel core i5 13th gen(14inch, 16GB, 512GB
-  //   windows 11 home, MS Office 2021, Intel UHD,FHD IPS Display)",
-  "assetTagId": "BBC-BLR-BKS-1029",
-  "purchaseDate": "06/02/2024",
-  "cost": "₹36,0000.00",
-  "brand": "Asus VivoBook",
-  "model": "VivoBook Go 14",
-  "site": "Banashankari ",
-  "location": "Bangalore",
-  "category": "Computer Equipment",
-  "department": "	RPO",
-  "assignedTo": "Mr.X",
-  "status": "Available",
-}]
+const data: Asset[] = [
+  {
+    // "discription":"HP Pavillion 14-ek 1074TU Intel core i5 13th gen(14inch, 16GB, 512GB
+    //   windows 11 home, MS Office 2021, Intel UHD,FHD IPS Display)",
+    assetTagId: "BBC-BLR-BKS-1029",
+    purchaseDate: "06/02/2024",
+    cost: "₹36,0000.00",
+    brand: "Asus VivoBook",
+    model: "VivoBook Go 14",
+    site: "Banashankari ",
+    location: "Bangalore",
+    category: "Computer Equipment",
+    department: "	RPO",
+    assignedTo: "Mr.X",
+    status: "Available",
+  },
+];
 
-const EditAssetInfo: React.FC  = (props: any) => {
+const EditAssetInfo: React.FC = (props: any) => {
   const [assetInfodata, setAssetInfodata] = useState(props?.assetInfo || {});
-  const handleUpadtes = (updatedFielddata: any)=>{   //{"assetTagId":e.target?.value}
-        // TO-Do -  update based on user changes
-    setAssetInfodata((prevState: any)=>({...prevState, ...updatedFielddata}))
-  }
-  const handleSubmitAssetInfo = ()=>{
-    props?.dataUpdater({"assetInfo":assetInfodata}, "assetInfo");
-  }
+  const handleUpadtes = (updatedFielddata: any) => {
+    //{"assetTagId":e.target?.value}
+    // TO-Do -  update based on user changes
+    setAssetInfodata((prevState: any) => ({
+      ...prevState,
+      ...updatedFielddata,
+    }));
+  };
+  const handleSubmitAssetInfo = () => {
+    props?.dataUpdater({ assetInfo: assetInfodata }, "assetInfo");
+  };
+
+  const [open, setOpen] = useState(false);
+  const openPopUp = () => {
+    console.log("openPopUp", openPopUp)
+    setOpen(true);
+  };
+
+  const closePopUp = () => {
+    setOpen(false);
+  };
+
 
   return (
     <>
@@ -96,24 +137,69 @@ const EditAssetInfo: React.FC  = (props: any) => {
             {" "}
             <BiSolidPencil size={23} /> Edit Asset
           </Button>
-          <Button
-            sx={{
-              background: "#13b457",
-              borderRadius: "15px",
-              "&:hover": {
-                backgroundColor: "#0d903f", // Slightly darker color on hover
-              },
-            }}
-          >
-            More Actions <MdOutlineKeyboardArrowDown size={23} />{" "}
-          </Button>
+
+          <Dropdown>
+            <MenuButton
+              sx={{
+                background: "#13b457",
+                borderRadius: "15px",
+                "&:hover": {
+                  backgroundColor: "#0d903f", // Slightly darker color on hover
+                },
+                color: "#ffffff",
+              }}
+            >
+              More Action <MdOutlineKeyboardArrowDown size={23} />{" "}
+            </MenuButton>
+            <Menu>
+              <MenuItem onClick={openPopUp}>
+                <LuUser2 />
+                Check Out
+              </MenuItem>
+              <MenuItem>
+                <CiPaperplane /> Lease
+              </MenuItem>
+              <MenuItem>
+                <BiDislike /> Lost/Minning
+              </MenuItem>
+              <MenuItem>
+                <FiTool /> Repair
+              </MenuItem>
+              <Divider></Divider>
+              <MenuItem>
+                <PiLinkBreak /> Broken
+              </MenuItem>
+              <MenuItem>
+                <PiRecycle /> Dispose
+              </MenuItem>
+              <MenuItem>
+                <IoIosHeartEmpty /> Donate
+              </MenuItem>
+              <MenuItem>
+                <MdOutlineSell /> Sell
+              </MenuItem>
+              <Divider></Divider>
+              <MenuItem>
+                <MdDeleteOutline /> Delete
+              </MenuItem>
+              <MenuItem>
+                <MdOutlineEmail /> Email
+              </MenuItem>
+              <MenuItem>
+                <MdContentCopy /> Replicate
+              </MenuItem>
+            </Menu>
+          </Dropdown>
+
+          <CheckOutDialog  closePopUp={closePopUp} open={open}/>
+          
         </Box>
         <Box
           sx={{
             display: "flex",
             gap: "30px",
-            width:"100%",
-            justifyContent:"space-evenly",
+            width: "100%",
+            justifyContent: "space-evenly",
             flexDirection: { xs: "column", md: "row" },
           }}
         >
@@ -126,7 +212,7 @@ const EditAssetInfo: React.FC  = (props: any) => {
           >
             <img
               src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
-              style={{ width: "100%", height:"200px"}}
+              style={{ width: "100%", height: "200px" }}
               alt=""
             />
           </Box>
@@ -135,7 +221,7 @@ const EditAssetInfo: React.FC  = (props: any) => {
               height: "265px",
               width: { md: "450px", xs: "100%" },
               border: "1px solid black",
-              overflowX:"auto"
+              overflowX: "auto",
             }}
           >
             <Table borderAxis="both" sx={{}}>
@@ -143,7 +229,13 @@ const EditAssetInfo: React.FC  = (props: any) => {
                 <tr>
                   <th scope="row">Asset Tag ID</th>
                   {/* <td>{data[0].assetTagId}</td> */}
-                  <td onChange={(e: any)=>handleUpadtes({"assetTagId":e.target?.value})}>{assetInfodata?.assetTagId}</td>
+                  <td
+                    onChange={(e: any) =>
+                      handleUpadtes({ assetTagId: e.target?.value })
+                    }
+                  >
+                  {assetInfodata?.assetTagId}
+                  </td>
                 </tr>
                 <tr>
                   <th scope="row">Purchase Date</th>
@@ -168,7 +260,13 @@ const EditAssetInfo: React.FC  = (props: any) => {
               </tbody>
             </Table>
           </Box>
-          <Box sx={{ width: { md: "450px", xs: "100%" }, border: "1px solid black",overflowX:"auto" }}>
+          <Box
+            sx={{
+              width: { md: "450px", xs: "100%" },
+              border: "1px solid black",
+              overflowX: "auto",
+            }}
+          >
             <Table borderAxis="both">
               <tbody>
                 <tr>

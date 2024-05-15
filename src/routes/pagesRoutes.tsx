@@ -3,14 +3,10 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import { LiaUserCheckSolid } from "react-icons/lia";
 import { LiaUserTimesSolid } from "react-icons/lia";
 import { CiPaperplane } from "react-icons/ci";
-import { PiRecycle } from "react-icons/pi";
+import { PiRecycle } from "react-icons/pi"; 
 import { GrVmMaintenance } from "react-icons/gr";
 import { IoMoveSharp } from "react-icons/io5";
 import { MdOutlineCalendarMonth } from "react-icons/md";
-import { Link } from "react-router-dom";
-
-
-
 
 
 export const pagesRoutes: any[] = [
@@ -46,7 +42,6 @@ export const pagesRoutes: any[] = [
       createdBy: 'Admin',
       updatedBy: 'Admin',
       arrow:true,
-
     }, 
     {
       id: 4,

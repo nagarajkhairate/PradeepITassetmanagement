@@ -58,7 +58,8 @@ const Linking = (props:any) => {
   const linkUpdater = ()=>{
     props.handleUpdatedData({ tabName :'assetDetail', tabsData: linkData
 })
-  }
+
+}
 
   return (
     <>
@@ -142,7 +143,7 @@ const Linking = (props:any) => {
                         <MenuItem value="" disabled>
                           Search Asset Tag ID or Description
                         </MenuItem>
-                        <MenuItem value="Asset 1asdfasdfa adasfd">
+                        <MenuItem value="Asset 1asdfasdfa adas">
                           Asset 1
                         </MenuItem>
                         <MenuItem value="Asset 2 adfa sdfasfadf ">

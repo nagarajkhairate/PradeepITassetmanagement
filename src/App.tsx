@@ -26,31 +26,18 @@ const App = () => {
 
 
     // -----
-     <Box sx={{display:"flex",height:"100vh"}}>
+  
 
-        {/* <Routes> */}
-        {/* <Route path="/" element={<MainLayout />}>
-          <Route index element={<Dashboard/>}></Route>
-          <Route path='addanasset' element={<AddAnAsset/>}></Route>
-        </Route>
-      </Routes> */}
-     <MainLayout/>
-      {/* <EditAssets/> */}
-    <EventOption/>
-
-    {/* <TableOption/> */}
-     {/* <AddAnAsset/> */}
+    <Box sx={{display:"flex",height:"100vh"}}>
+      <Sidebar/>
+      <Routes>
+          <Route path='/' element={<Dashboard/>}/>
+          <Route path='/dashboard' element={<Dashboard/>}/>
+          <Route path='/assets/addanasset' element={<AddAnAsset/>}/>
+          <Route path='/assets/listofassets' element={<ListOfAssets/>}/>
+          <Route path='/assets/EditAsset' element={<EditAssets/>}/>
+      </Routes>
     </Box>
-
-    // <Box sx={{display:"flex",height:"100vh"}}>
-    //   <Sidebar/>
-    //   <Routes>
-    //       <Route path='/' element={<Dashboard/>}/>
-    //       <Route path='/dashboard' element={<Dashboard/>}/>
-    //       <Route path='/assets/addanasset' element={<AddAnAsset/>}/>
-    //       <Route path='/assets/listofassets' element={<ListOfAssets/>}/>
-    //   </Routes>
-    // </Box>
     
   )
 }

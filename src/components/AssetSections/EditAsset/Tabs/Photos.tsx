@@ -4,7 +4,7 @@ import {
   Typography,
   Divider,
 
-} from "@mui/joy";
+} from "@mui/joy"; 
 import FileUpload from "../../../Main/FileUpload";
 
 const Photos = (props: any) => {

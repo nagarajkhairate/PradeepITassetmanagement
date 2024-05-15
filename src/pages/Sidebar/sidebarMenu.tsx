@@ -15,7 +15,7 @@ import { LiaPuzzlePieceSolid } from "react-icons/lia";
 import { BiHome } from "react-icons/bi";
 import { AiOutlineFlag } from "react-icons/ai";
 import { CiCircleList } from "react-icons/ci";
-import { PiFileTextLight } from "react-icons/pi";
+import { PiFileTextLight } from "react-icons/pi"; 
 import { AiOutlineTool } from "react-icons/ai";
 import { IoSettingsOutline } from "react-icons/io5";
 import { useState } from "react";
@@ -50,8 +50,9 @@ const SidebarItem = ({ item }: any) => {
   };
 
   const [open, setOpen] = useState(false); // State to track expansion
-  const handleItemClick = () => {
+  const handleItemClick = (event:any) => {
     if (item.children) {
+      event.preventDefault()
       setOpen(!open); // Toggle expansion state
 
     }
@@ -60,7 +61,7 @@ const SidebarItem = ({ item }: any) => {
     <>
       <ListItemButton
         component={Link}
-        to={item.path || "#"}
+        to={item.children ? "#" : item.path || "#"}
         onClick={handleItemClick} // Handle click to toggle expansion
         color="none"
         sx={{

@@ -1,4 +1,4 @@
-import React, { ReactNode,SyntheticEvent,useState,useEffect } from "react";
+import React, { ReactNode, useState  } from "react";
 import {
   Typography,
   Box,
@@ -13,11 +13,10 @@ import {
 import { IoIosArrowDown } from "react-icons/io";
 import { FaPlus } from "react-icons/fa";
 import { IoCloudUploadSharp } from "react-icons/io5";
-import {  useSelector,useDispatch } from 'react-redux'
-import {loadFunc, submitData} from "../../Redux/Features/assetSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { reducerone } from "../../Redux/Features/assetSlice";
 import { RootState } from "../../Redux/Features/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { Link } from "react-router-dom";
 
 const TypographyLabel: React.FC<{ title: string }> = ({ title }) => (
   <Typography level="body-xs" sx={{ mt: 1, color: "#767676", mb: "5px" }}>
@@ -44,14 +43,18 @@ const Input: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = ({
 
 type SelectProps = {
   placeholder: string;
-  value:string;
-  sx?:any;
-  props?: ReactNode; 
+  value: string;
+  sx?: any;
+  props?: ReactNode;
 };
 
-const Select: React.FC<SelectProps> = ({ placeholder,value,sx, ...props }) => (
+const Select: React.FC<SelectProps> = ({
+  placeholder,
+  value,
+  sx,
+  ...props
+}) => (
   <MuiSelect
-
     placeholder={placeholder}
     value={value}
     IconComponent={IoIosArrowDown}
@@ -70,92 +73,204 @@ const Select: React.FC<SelectProps> = ({ placeholder,value,sx, ...props }) => (
         },
       },
       ...sx,
-  }}
+    }}
     {...props}
   />
 );
 
-const AddAnAsset : React.FC = () => {
-  
+interface ValidationErrors {
+  asset_name?: string;
+  description?: string;
+  assetTagId?: string;
+  purchase_From?: string;
+  purchase_date?: string;
+  brand?: string;
+  cost?: string;
+  model?: string;
+  serial_number?: string;
+  status?: string;
+  site?: string;
+  category?: string;
+  location?: string;
+  department?: string;
+  asset_photo?: string;
+}
 
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+const AddAnAsset: React.FC = () => {
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+  const [asset_name, setAsset_Name] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [assetTagId, setAssetTagId] = useState<string>("");
-  const [purchasedFrom, setPurchasedFrom] = useState<string>("");
-  const [category, setCategory] = useState<string>("");
+  const [purchase_From, setPurchase_From] = useState<string>("");
+  const [purchase_date, setPurchase_date] = useState<string>("");
   const [brand, setBrand] = useState<string>("");
-  const [cost, setCost] = useState<string>("");
+  const [cost, setCost] = useState<number>();
   const [model, setModel] = useState<string>("");
-  const [serialNo, setSerialNo] = useState<string>("");
+  const [serial_number, setSerial_number] = useState<string>("");
+  const [status, setStatus] = useState<string | "">("");
   const [site, setSite] = useState<string>("");
-  const [equipment, setEquipment] = useState<string>("");
+  const [category, setCategory] = useState<string>("");
   const [location, setLocation] = useState<string>("");
   const [department, setDepartment] = useState<string>("");
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  
+  const [asset_photo, setAsset_Photo] = useState<File | null>(null);
+
+  const [validationMessages, setValidationMessages] = useState<ValidationErrors>({
+    asset_name: "",
+    description: "",
+    assetTagId: "",
+    purchase_From: "",
+    purchase_date: "",
+    brand: "",
+    cost: "",
+    model: "",
+    serial_number: "",
+    status: "",
+    site: "",
+    category: "",
+    location: "",
+    department: "",
+    asset_photo: "",
+  });
+
+  const validateForm = (): boolean => {
+    let isValid = true;
+    const errors: ValidationErrors = {};
+
+    if (!asset_name) {
+      errors.asset_name = "Asset name is required";
+      isValid = false;
+    }
+    if (!description) {
+      errors.description = "Description is required";
+      isValid = false;
+    }
+    if (!assetTagId) {
+      errors.assetTagId = "Asset Tag Id is required";
+      isValid = false;
+    }
+    if (!purchase_From) {
+      errors.purchase_From = "purchased From is required";
+      isValid = false;
+    }
+    if (!purchase_date) {
+      errors.purchase_date = "Purchase Date  is required";
+      isValid = false;
+    }
+    if (!brand) {
+      errors.brand = "Brand  is required";
+      isValid = false;
+    }
+    if (!model) {
+      errors.model = "Model  is required";
+      isValid = false;
+    }
+    if (!serial_number) {
+      errors.serial_number = "Serial No  is required";
+      isValid = false;
+    }
+    if (!status) {
+      errors.status = "Status is required";
+      isValid = false;
+    }
+    if (!site) {
+      errors.site = "Site  is required";
+      isValid = false;
+    }
+    if (!category) {
+      errors.category = "category  is required";
+      isValid = false;
+    }
+    if (!location) {
+      errors.location = "Location  is required";
+      isValid = false;
+    }
+    if (!department) {
+      errors.department = "Department  is required";
+      isValid = false;
+    }
+    if (!asset_photo) {
+      errors.asset_photo = "Photo  is required";
+      isValid = false;
+    }
+    if (isNaN(Number(cost))) {
+      errors.cost = "Please enter a valid cost";
+      isValid = false;
+    }
+
+    setValidationMessages(errors);
+    return isValid;
+  };
+
   const handleFileUpload = () => {
     const fileInput = document.getElementById("fileInput") as HTMLInputElement;
     if (fileInput) {
       fileInput.click();
     }
   };
-  
+
   const handleFileInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-      const file = event.target.files && event.target.files[0];
-      if (file) {
-        setSelectedFile(file);
-      }
-    };
-    
-    const handleSubmit = () => {
-      const formData = {
-        site,
-        description,
-        assetTagId,
-        purchasedFrom,
-        category,
-        brand,
-        cost,
-        model,
-        serialNo,
-        equipment,
-        location,
-        department,
-        selectedFile,
-      };
-      console.log(formData);
-      // const res = loadFunc(formData)
-      // dispatch(submitData(
-      //   res
-      // ))
-      dispatch(submitData(
-        formData
-      ))
-    };
-    
-    const handleCancel = () => {
-      setDescription("");
-      setAssetTagId("");
-      setPurchasedFrom("");
-      setCategory("");
-      setBrand("");
-      setCost("");
-      setModel("");
-      setSerialNo("");
-      setSite("");
-      setEquipment("");
-      setLocation("");
-      setDepartment("");
-      setSelectedFile(null);
-    };
-    
-    
+  ) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      setAsset_Photo(file);
+    }
+  };
 
-    const {data,error} = useSelector((state: RootState)=>state.assets)
-  console.log(data)
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    const isFormValid = validateForm();
+    if (!isFormValid) {
+      return;
+    }
+    const formData = {
+      asset_name,
+      site,
+      description,
+      assetTagId,
+      purchase_From,
+      purchase_date,
+      brand,
+      cost,
+      model,
+      serial_number,
+      status,
+      category,
+      location,
+      department,
+      asset_photo,
+    };
+    // console.log(formData);
+    // const res = loadFunc(formData)
+    // dispatch(submitData(
+    //   res
+    // ))
+    // await dispatch(reducerone(formData))
+    dispatch(reducerone(formData));
+    console.log(formData);
+    // navigate('/assets/listofassets')
+  };
 
+  const handleCancel = () => {
+    setDescription("");
+    setAssetTagId("");
+    setPurchase_From("");
+    setPurchase_date("");
+    setBrand("");
+    setCost(undefined);
+    setModel("");
+    setSerial_number("");
+    setSite("");
+    setCategory("");
+    setLocation("");
+    setDepartment("");
+    setStatus("");
+    setAsset_Name("");
+    setAsset_Photo(null);
+  };
+
+  const { data, error } = useSelector((state: RootState) => state.assets);
+  console.log(data);
 
   return (
     <>
@@ -190,14 +305,54 @@ const AddAnAsset : React.FC = () => {
                   gap: "10px",
                 }}
               >
-                <Grid item xs={12}>
+                <Grid xs={12}>
                   <Typography
                     sx={{ fontWeight: "bold", mb: 0, paddingLeft: "32px" }}
                   >
                     Assets Details
                   </Typography>
                 </Grid>
-                <Grid>
+                <Grid >
+                  <Typography
+                    level="body-xs"
+                    sx={{ color: "#767676", mt: "8px", mb: "5px" }}
+                  >
+                    Asset Name
+                  </Typography>
+                  <Input
+                    value={asset_name}
+                    onChange={(e) => setAsset_Name(e.target.value)}
+                    sx={{
+                      borderRadius: "15px",
+                      padding: "10px",
+                      width: { xs: "100%", md: "550px" },
+                    }}
+                  />
+                  {validationMessages.asset_name && (
+                    <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
+                      {validationMessages.asset_name}
+                    </Typography>
+                  )}
+                </Grid>
+                <Grid >
+                  <TypographyLabel title="Asset Tag ID"></TypographyLabel>
+                  <Input
+                    placeholder=""
+                    value={assetTagId}
+                    onChange={(e) => setAssetTagId(e.target.value)}
+                    sx={{
+                      borderRadius: "15px",
+                      padding: "10px",
+                      width: { xs: "100%", md: "550px" },
+                    }}
+                  />
+                  {validationMessages.assetTagId && (
+                    <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
+                      {validationMessages.assetTagId}
+                    </Typography>
+                  )}
+                </Grid>
+                <Grid md={11.1}>
                   <Typography
                     level="body-xs"
                     sx={{ color: "#767676", mt: "8px", mb: "5px" }}
@@ -211,40 +366,41 @@ const AddAnAsset : React.FC = () => {
                     sx={{
                       borderRadius: "15px",
                       padding: "10px",
-                      width: {
-                        xs: "100%",
-                        sm: "100%",
-                        md: 750,
-                      },
                     }}
                   />
+                  {validationMessages.description && (
+                    <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
+                      {validationMessages.description}
+                    </Typography>
+                  )}
                 </Grid>
 
-                <Grid>
-                  <TypographyLabel title="Asset Tag ID"></TypographyLabel>
-
-                  <Input
-                    placeholder=""
-                    value={assetTagId}
-                    onChange={(e) => setAssetTagId(e.target.value)}
-                  />
-                </Grid>
                 <Grid>
                   <TypographyLabel title="Purchased From"></TypographyLabel>
                   <Input
                     placeholder="All Location"
-                    value={purchasedFrom}
-                    onChange={(e) => setPurchasedFrom(e.target.value)}
+                    value={purchase_From}
+                    onChange={(e) => setPurchase_From(e.target.value)}
                   />
+                  {validationMessages.purchase_From && (
+                    <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
+                      {validationMessages.purchase_From}
+                    </Typography>
+                  )}
                 </Grid>
                 <Grid>
-                  <TypographyLabel title="Category"></TypographyLabel>
+                  <TypographyLabel title="Purchased Date"></TypographyLabel>
                   <Input
                     placeholder="dd/mm/yyyy-dd/mm/yyyy"
                     type="Date"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
+                    value={purchase_date}
+                    onChange={(e) => setPurchase_date(e.target.value)}
                   />
+                  {validationMessages.purchase_date && (
+                    <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
+                      {validationMessages.purchase_date}
+                    </Typography>
+                  )}
                 </Grid>
                 <Grid>
                   <TypographyLabel title="Brand"></TypographyLabel>
@@ -253,6 +409,11 @@ const AddAnAsset : React.FC = () => {
                     value={brand}
                     onChange={(e) => setBrand(e.target.value)}
                   />
+                  {validationMessages.brand && (
+                    <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
+                      {validationMessages.brand}
+                    </Typography>
+                  )}
                 </Grid>
                 <Grid>
                   <Typography
@@ -263,9 +424,18 @@ const AddAnAsset : React.FC = () => {
                   </Typography>
                   <Input
                     placeholder="Indian Rupee"
-                    value={cost}
-                    onChange={(e) => setCost(e.target.value)}
+                    value={cost?.toString() || ""}
+                    onChange={(e) =>
+                      setCost(
+                        e.target.value ? Number(e.target.value) : undefined
+                      )
+                    }
                   />
+                  {validationMessages.cost && (
+                    <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
+                      {validationMessages.cost}
+                    </Typography>
+                  )}
                 </Grid>
                 <Grid>
                   <TypographyLabel title="Model"></TypographyLabel>
@@ -274,14 +444,44 @@ const AddAnAsset : React.FC = () => {
                     value={model}
                     onChange={(e) => setModel(e.target.value)}
                   />
+                  {validationMessages.model && (
+                    <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
+                      {validationMessages.model}
+                    </Typography>
+                  )}
                 </Grid>
                 <Grid>
                   <TypographyLabel title="Serial No."></TypographyLabel>
                   <Input
                     placeholder="Nothing Selected"
-                    value={serialNo}
-                    onChange={(e) => setSerialNo(e.target.value)}
+                    value={serial_number}
+                    onChange={(e) => setSerial_number(e.target.value)}
                   />
+                  {validationMessages.serial_number && (
+                    <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
+                      {validationMessages.serial_number}
+                    </Typography>
+                  )}
+                </Grid>
+                <Grid sx={{ mr: "820px" }}>
+                  <TypographyLabel title="Status"></TypographyLabel>
+                  <Select
+                    value={status}
+                    onChange={(
+                      event: React.SyntheticEvent | null,
+                      newValue: string | null
+                    ) => {
+                      setStatus(newValue!);
+                    }}
+                  >
+                    <Option value="Available">Available</Option>
+                    <Option value="Not Available">Not Available</Option>
+                  </Select>
+                  {validationMessages.status && (
+                    <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
+                      {validationMessages.status}
+                    </Typography>
+                  )}
                 </Grid>
               </Grid>
               <Typography
@@ -326,9 +526,10 @@ const AddAnAsset : React.FC = () => {
                     <Select
                       placeholder="OneSite(Indore,India)"
                       value={site}
-                      onChange={(event: React.SyntheticEvent | null,
-                        newValue: string | null,
-                      )=> {
+                      onChange={(
+                        event: React.SyntheticEvent | null,
+                        newValue: string | null
+                      ) => {
                         setSite(newValue!);
                       }}
                     >
@@ -336,6 +537,7 @@ const AddAnAsset : React.FC = () => {
                       <Option value="Mumbai">Mumbai</Option>
                       <Option value="Delhi">Delhi</Option>
                     </Select>
+
                     <Button
                       sx={{
                         width: "150px",
@@ -356,6 +558,11 @@ const AddAnAsset : React.FC = () => {
                       </Typography>
                     </Button>
                   </Grid>
+                  {validationMessages.site && (
+                    <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
+                      {validationMessages.site}
+                    </Typography>
+                  )}
                 </Box>
 
                 <Box>
@@ -373,11 +580,14 @@ const AddAnAsset : React.FC = () => {
                     }}
                   >
                     <Select
-                      placeholder="Computer Equipment"
-                      value={equipment}
-                      onChange={(event: React.SyntheticEvent | null,
-                        newValue: string | null,
-                      ) =>{ setEquipment(newValue!)}}
+                      placeholder="Computer category"
+                      value={category}
+                      onChange={(
+                        event: React.SyntheticEvent | null,
+                        newValue: string | null
+                      ) => {
+                        setCategory(newValue!);
+                      }}
                     >
                       <Option value="Laptop">Laptop</Option>
                       <Option value="Desktop">Desktop</Option>
@@ -402,6 +612,11 @@ const AddAnAsset : React.FC = () => {
                       </Typography>
                     </Button>
                   </Grid>
+                  {validationMessages.category && (
+                    <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
+                      {validationMessages.category}
+                    </Typography>
+                  )}
                 </Box>
 
                 <Box>
@@ -421,9 +636,12 @@ const AddAnAsset : React.FC = () => {
                     <Select
                       placeholder="Indore"
                       value={location}
-                      onChange={(event: React.SyntheticEvent | null,
-                        newValue: string | null,
-                      ) =>{ setLocation(newValue!)}}
+                      onChange={(
+                        event: React.SyntheticEvent | null,
+                        newValue: string | null
+                      ) => {
+                        setLocation(newValue!);
+                      }}
                     >
                       <Option value="Indore">Indore</Option>
                       <Option value="Mumbai">Mumbai</Option>
@@ -449,6 +667,11 @@ const AddAnAsset : React.FC = () => {
                       </Typography>
                     </Button>
                   </Grid>
+                  {validationMessages.location && (
+                    <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
+                      {validationMessages.location}
+                    </Typography>
+                  )}
                 </Box>
 
                 <Box>
@@ -468,9 +691,12 @@ const AddAnAsset : React.FC = () => {
                     <Select
                       placeholder="Supplier eco system"
                       value={department}
-                      onChange={(event: React.SyntheticEvent | null,
-                        newValue: string | null,
-                      ) =>{ setDepartment(newValue!)}}
+                      onChange={(
+                        event: React.SyntheticEvent | null,
+                        newValue: string | null
+                      ) => {
+                        setDepartment(newValue!);
+                      }}
                     >
                       <Option value="Supplier A">Supplier A</Option>
                       <Option value="Supplier B">Supplier B</Option>
@@ -496,6 +722,11 @@ const AddAnAsset : React.FC = () => {
                       </Typography>
                     </Button>
                   </Grid>
+                  {validationMessages.department && (
+                    <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
+                      {validationMessages.department}
+                    </Typography>
+                  )}
                 </Box>
               </Grid>
               <Box sx={{ paddingLeft: "48px", mb: "30px", mt: "20px" }}>
@@ -557,10 +788,17 @@ const AddAnAsset : React.FC = () => {
                       onChange={handleFileInputChange}
                     />
                   </Box>
-                  {selectedFile && <p> {selectedFile.name}</p>}
+                  {asset_photo && <p> {asset_photo.name}</p>}
                   <TypographyLabel title="Only(JPG,GIF,PNG)Allowed"></TypographyLabel>
+                  {validationMessages.asset_photo && (
+      <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
+        {validationMessages.asset_photo}
+      </Typography>
+    )}
                 </Box>
+                
               </Box>
+              
             </Box>
             <Box
               sx={{

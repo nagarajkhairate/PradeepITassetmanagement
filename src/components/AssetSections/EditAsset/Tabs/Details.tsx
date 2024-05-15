@@ -44,8 +44,8 @@ props.handleUpdatedData({ tabName :'assetDetail', tabsData: detailData
               <tbody>
                 <tr>
                   <th scope="row">Serial No.</th>
-                  {/* <td>{data[0].serialNo}</td> */}
-                  <td>{detailData.serialNo}</td>
+                  <td>{data[0].serialNo}</td>
+                  {/* <td>{detailData.serialNo}</td> */}
                 </tr>
               </tbody>
             </Table>
@@ -55,8 +55,8 @@ props.handleUpdatedData({ tabName :'assetDetail', tabsData: detailData
               <tbody>
                 <tr>
                   <th scope="row">Purchased From</th>
-                  {/* <td>{data[0].purchasedFrom}</td> */}
-                  <td>{detailData.purchasedFrom}</td>
+                  <td>{data[0].purchasedFrom}</td>
+                  {/* <td>{detailData.purchasedFrom}</td> */}
                 </tr>
               </tbody>
             </Table>
@@ -87,8 +87,8 @@ props.handleUpdatedData({ tabName :'assetDetail', tabsData: detailData
               <tbody>
                 <tr>
                   <th scope="row">Date Created</th>
-                  {/* <td>{data[0].dateCreated}</td> */}
-                  <td>{detailData.dateCreated}</td>
+                  <td>{data[0].dateCreated}</td>
+                  {/* <td>{detailData.dateCreated}</td> */}
                 </tr>
               </tbody>
             </Table>
@@ -98,8 +98,8 @@ props.handleUpdatedData({ tabName :'assetDetail', tabsData: detailData
               <tbody>
                 <tr>
                   <th scope="row">Created By</th>
-                  {/* <td>{data[0].createdBy}</td> */}
-                  <td>{detailData.createdBy}</td>
+                  <td>{data[0].createdBy}</td>
+                  {/* <td>{detailData.createdBy}</td> */}
                 </tr>
               </tbody>
             </Table>

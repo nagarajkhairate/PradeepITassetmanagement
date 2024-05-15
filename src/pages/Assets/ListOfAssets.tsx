@@ -1,11 +1,11 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, Box, Button, Select, Checkbox } from "@mui/joy";
 import Table from "@mui/joy/Table";
 import { CgSearch } from "react-icons/cg";
 import { LuUpload } from "react-icons/lu";
 import { IoSettingsOutline } from "react-icons/io5";
 import { SlEye } from "react-icons/sl";
-import { useMediaQuery } from "@mui/material";
+import { useMediaQuery } from "@mui/material"; 
 import { useTheme } from "@mui/material/styles";
 import ListOfAssetsCard from "./ListOfAssetsCard";
 import { useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { fetch_listAssets } from "../../Redux/Features/assetSlice";
 import { RootState } from "../../Redux/Features/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
+import { Link } from "react-router-dom";
 
 const data1 = [
   {
@@ -24,7 +25,7 @@ const data1 = [
     Cost: "70,800.00",
     Status: "Checked In",
     SerialNo: "8CG3250PAR",
-    AssignedTo: "Piya V",
+    AssignedTo: "Piya V", 
   },
   {
     AssetTagID: "BBC-BLR-BKS - 10e4",
@@ -40,21 +41,23 @@ const data1 = [
 ];
 
 const ListOfAssets = () => {
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const [listData, setListData] = useState(data1)
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+  const [listData, setListData] = useState(data1);
+  // const allAssetdata = useSelector((state:any)=>state.assets.data || []);
+  // console.log("allassets",allAssetdata)
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const { data, loading, error } = useSelector((state:RootState) => state.assets);
-  console.log(data)
-  console.log(loading)
-  console.log(error)
+  const { data, loading, error } = useSelector(
+    (state: RootState) => state.assets
+  );
+  // console.log(data);
+  // console.log(loading);
+  // console.log(error);
 
   useEffect(() => {
     dispatch(fetch_listAssets());
   }, [dispatch]);
-
-
 
   return (
     <>
@@ -208,7 +211,7 @@ const ListOfAssets = () => {
                 <thead>
                   <tr>
                     <th style={{ background: "#f9f9f9", borderBottom: "none" }}>
-                      <Checkbox  />
+                      <Checkbox />
                     </th>
                     <th
                       style={{
@@ -303,9 +306,10 @@ const ListOfAssets = () => {
                   }}
                 >
                   {listData.map((item, index) => (
+                     
                     <tr key={index}>
                       <td>
-                        <Checkbox  />
+                        <Checkbox />
                       </td>
                       <td>{item.AssetTagID}</td>
                       <td>{item.Description}</td>
@@ -315,8 +319,13 @@ const ListOfAssets = () => {
                       <td>{item.Status}</td>
                       <td>{item.SerialNo}</td>
                       <td>{item.AssignedTo}</td>
-                      <td style={{cursor:"pointer"}}>
-                        <SlEye size={20} />
+                      <td style={{ cursor: "pointer" }}>
+                        <Link
+                          to={`/assets/editasset`}
+                          style={{ color: "inherit" }}
+                        >
+                          <SlEye size={20} />
+                        </Link>
                       </td>
                     </tr>
                   ))}

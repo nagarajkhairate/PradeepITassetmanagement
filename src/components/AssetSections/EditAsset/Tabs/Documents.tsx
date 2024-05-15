@@ -250,47 +250,7 @@ const Documents = (props: any) => {
             </tr>
           </thead>
           <tbody>
-            {/* {documents.map((doc, index) => (
-              <tr key={index}>
-                <td>{doc.description}</td>
-                <td>{doc.fileType}</td>
-                <td>{doc.fileName}</td>
-                <td>{doc.uploadDate}</td>
-                <td>{doc.uploadBy}</td>
-                <td>
-                  <Button
-                    sx={{
-                      marginRight: "3px",
-                      background: "white",
-                      border: "1px solid #13b457",
-                      color: "#13b457",
-                      borderRadius: "15px",
-                      "&:hover": {
-                        backgroundColor: "#13b457",
-                        color: "white",
-                      },
-                    }}
-                  >
-                    Download
-                  </Button>
-                  <Button
-                    sx={{
-                      background: "white",
-                      border: "1px solid red",
-                      color: "red",
-                      borderRadius: "15px",
-                      "&:hover": {
-                        backgroundColor: "red",
-                        color: "white",
-                      },
-                    }}
-                  >
-                    Detach
-                  </Button>
-                </td>
-              </tr>
-            ))} */}
-            {docData.map((doc: any, index: any) => (
+            {documents.map((doc, index) => (
               <tr key={index}>
                 <td>{doc.description}</td>
                 <td>{doc.fileType}</td>
@@ -330,6 +290,46 @@ const Documents = (props: any) => {
                 </td>
               </tr>
             ))}
+            {/* {docData.map((doc: any, index: any) => (
+              <tr key={index}>
+                <td>{doc.description}</td>
+                <td>{doc.fileType}</td>
+                <td>{doc.fileName}</td>
+                <td>{doc.uploadDate}</td>
+                <td>{doc.uploadBy}</td>
+                <td>
+                  <Button
+                    sx={{
+                      marginRight: "3px",
+                      background: "white",
+                      border: "1px solid #13b457",
+                      color: "#13b457",
+                      borderRadius: "15px",
+                      "&:hover": {
+                        backgroundColor: "#13b457",
+                        color: "white",
+                      },
+                    }}
+                  >
+                    Download
+                  </Button>
+                  <Button
+                    sx={{
+                      background: "white",
+                      border: "1px solid red",
+                      color: "red",
+                      borderRadius: "15px",
+                      "&:hover": {
+                        backgroundColor: "red",
+                        color: "white",
+                      },
+                    }}
+                  >
+                    Detach
+                  </Button>
+                </td>
+              </tr>
+            ))} */}
           </tbody>
         </Table>
         )}

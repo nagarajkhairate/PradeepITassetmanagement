@@ -15,9 +15,8 @@ import Maintenance from "./Tabs/Maintenance";
 import Reserve from "./Tabs/Reserve";
 import Audit from "./Tabs/Audit";
 import History from "./Tabs/History";
-import { useSelector } from "react-redux";
 
-const EditAssetDetails : React.FC = (props :any) => {2
+const EditAssetDetails : React.FC = (props :any) => {
   const [selectedTab, setSelectedTab] = useState<string>("Details");
   const [open, setOpen] = React.useState(false);
   const [AssetData, editAssetData] = useState(props.assetDetails || {});

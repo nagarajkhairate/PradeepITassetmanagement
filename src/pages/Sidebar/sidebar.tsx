@@ -6,7 +6,7 @@ import { Container, Drawer, IconButton, List, Box } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme, useMediaQuery } from '@mui/material';
 
-const Sidebar = () => {
+const Sidebar = () => { 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md')); // Adjust 'md' as needed
     const [openDrawer, setOpenDrawer] = useState(false);
