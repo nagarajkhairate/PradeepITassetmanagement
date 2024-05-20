@@ -12,6 +12,11 @@ import EventOption from './pages/Setup/EventOption'
 import TableOption from './pages/Setup/TableOption'
 import EditAssets from './pages/Assets/EditAssets'
 import EditAssetDetails from './components/AssetSections/EditAsset/EditAssetDetails'
+import Location from './components/Companyinfo/Location/Location'
+import Category from './components/Companyinfo/Category/CategoryAdd'
+import DataBase from './components/Companyinfo/Data/DataBase'
+import EventOption1 from './components/Companyinfo/EventOption/EventOption1'
+
 const App = () => {
   
   return (
@@ -36,6 +41,10 @@ const App = () => {
           <Route path='/assets/addanasset' element={<AddAnAsset/>}/>
           <Route path='/assets/listofassets' element={<ListOfAssets/>}/>
           <Route path='/assets/EditAsset' element={<EditAssets/>}/>
+          <Route path="/location" element={<Location />} />
+          <Route path="/category" element={<Category />} />
+      <Route path="/database" element={<DataBase />} />
+      <Route path='/event' element={<EventOption1 />} />
       </Routes>
     </Box>
     
