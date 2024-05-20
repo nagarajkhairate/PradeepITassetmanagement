@@ -157,15 +157,15 @@ const tableData = [
 ];
 
 interface DataBaseProps {
-  siteFormData: any;
-  setSiteFormData: any;
+  companyFormData: any;
+  setCompanyFormData: any;
   activeTab: number;
   setActiveTab: (tab: number) => void;
 }
 
 const DataBase: React.FunctionComponent<DataBaseProps >  = ({
-  siteFormData, 
-  setSiteFormData,
+  companyFormData,
+  setCompanyFormData,
   activeTab,
   setActiveTab,
 }) => {
@@ -176,7 +176,7 @@ const DataBase: React.FunctionComponent<DataBaseProps >  = ({
   const [deleteOpen, setDeleteOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const [formData, setFormData] = useState([]);
+  // const [formData, setFormData] = useState([]);
 
   const addCustomField = (custom: string) => {
     setLapCat({ ...lapCat, data: [...lapCat.data, custom] });
@@ -254,18 +254,20 @@ const DataBase: React.FunctionComponent<DataBaseProps >  = ({
 
   const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    setCompanyFormData((prevData: any) => ({ ...prevData, [name]: value }));
   };
 
-  const handleContinue = () => {
-    setFormData((prevData) => ({ ...prevData, ...lapCat }));
+  // const handleContinue = () => {
+  //   setFormData((prevData) => ({ ...prevData, ...lapCat }));
 
-    console.log(JSON.stringify(formData));
-    console.log(JSON.stringify(lapCat));
-  };
+  //   console.log(JSON.stringify(formData));
+  //   console.log(JSON.stringify(lapCat));
+  // };
 
   const handleNextTab = () => {
+    setCompanyFormData((prevData: any) => ({ ...prevData, ...lapCat }));
     setActiveTab(activeTab + 1); 
+    console.log(JSON.stringify(lapCat));
   };
 
   const handlePrevTab = () => {

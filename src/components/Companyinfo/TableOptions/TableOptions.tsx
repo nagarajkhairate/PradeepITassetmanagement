@@ -13,15 +13,15 @@ import { GiReceiveMoney } from "react-icons/gi";
 import { CompanyInfData } from "./TableInfoData";
 
 interface TableProps {
-  tableFormData: any;
-  setTableFormData: any;
+  companyFormData: any;
+  setCompanyFormData: any;
   activeTab: number;
   setActiveTab: (tab: number) => void;
 }
 
 const TableOptions: React.FC<TableProps> = ({
-  tableFormData,
-  setTableFormData,
+  companyFormData,
+  setCompanyFormData,
   activeTab,
   setActiveTab,
 }) => {

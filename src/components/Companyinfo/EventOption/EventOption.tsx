@@ -15,8 +15,8 @@ import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlin
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
 
 interface EventOptionProps {
-  siteFormData: any;
-  setSiteFormData: any;
+  companyFormData: any;
+  setCompanyFormData: any;
   activeTab: number;
   setActiveTab: (tab: number) => void;
 }
@@ -44,8 +44,8 @@ interface AssetRadioGroupProps {
 }
 
 const EventOption: React.FunctionComponent<EventOptionProps > = ({
-  siteFormData, 
-  setSiteFormData,
+  companyFormData,
+  setCompanyFormData,
   activeTab,
   setActiveTab,
 }) => {
@@ -149,9 +149,9 @@ const EventOption: React.FunctionComponent<EventOptionProps > = ({
     );
   };
 
-  const handleNextTab = () => {
-    setActiveTab(activeTab + 1); 
-  };
+  // const handleNextTab = () => {
+  //   setActiveTab(activeTab + 1); 
+  // };
 
   const handlePrevTab = () => {
     setActiveTab(activeTab - 1);
@@ -463,7 +463,7 @@ const EventOption: React.FunctionComponent<EventOptionProps > = ({
              
                 "&:hover": { background: "#E1A91B" },
               }}
-              onClick={handleNextTab}
+              onClick={handleSubmit}
               >
                   Finish
                   <NavigateNextOutlinedIcon />{" "}

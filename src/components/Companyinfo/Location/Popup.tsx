@@ -246,7 +246,7 @@ export function Popup({
               <Box sx={{ marginBottom: "20px", padding: "20px" }}>
                 Are you sure you want to delete this Category?
               </Box>
-              <Input
+              {/* <Input
                 variant="outlined"
                 type="text"
                 id="Custom"
@@ -256,7 +256,7 @@ export function Popup({
                 defaultValue={
                   selectedCell !== null ? lapCat.data[selectedCell] : ""
                 }
-              />
+              /> */}
             </FormControl>
             <Button
               autoFocus

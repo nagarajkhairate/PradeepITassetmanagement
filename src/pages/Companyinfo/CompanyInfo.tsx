@@ -96,48 +96,48 @@ const CompanyInfo = () => {
           </TabPanel>
           <TabPanel value={1}>
             <Sites
-              siteFormData={siteFormData}
-              setSiteFormData={setSiteFormData}
+              companyFormData={companyFormData}
+              setCompanyFormData={setCompanyFormData}
               activeTab={activeTab}
               setActiveTab={setActiveTab}
             />
           </TabPanel>
           <TabPanel value={2}>
             <Location
-              siteFormData={siteFormData}
-              setSiteFormData={setSiteFormData}
+              companyFormData={companyFormData}
+              setCompanyFormData={setCompanyFormData}
               activeTab={activeTab}
               setActiveTab={setActiveTab}
             />
           </TabPanel>
           <TabPanel value={3}>
           <Category
-              siteFormData={siteFormData}
-              setSiteFormData={setSiteFormData}
+              companyFormData={companyFormData}
+              setCompanyFormData={setCompanyFormData}
               activeTab={activeTab}
               setActiveTab={setActiveTab}
             />
           </TabPanel>
           <TabPanel value={4}>
           <DataBase
-              siteFormData={siteFormData}
-              setSiteFormData={setSiteFormData}
+              companyFormData={companyFormData}
+              setCompanyFormData={setCompanyFormData}
               activeTab={activeTab}
               setActiveTab={setActiveTab}
             />
           </TabPanel>
           <TabPanel value={5}>
             <TableOptions
-              tableFormData={tableFormData}
-              setTableFormData={setTableFormData}
+              companyFormData={companyFormData}
+              setCompanyFormData={setCompanyFormData}
               activeTab={activeTab}
               setActiveTab={setActiveTab}
             />
           </TabPanel>
           <TabPanel value={6}>
           <EventOption
-              siteFormData={siteFormData}
-              setSiteFormData={setSiteFormData}
+              companyFormData={companyFormData}
+              setCompanyFormData={setCompanyFormData}
               activeTab={activeTab}
               setActiveTab={setActiveTab}
             />

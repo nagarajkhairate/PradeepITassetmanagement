@@ -46,15 +46,15 @@ interface Site {
 }
 
 interface SiteProps {
-  siteFormData: any;
-  setSiteFormData: any;
+  companyFormData: any;
+  setCompanyFormData: any;
   activeTab: number;
   setActiveTab: (tab: number) => void;
 }
 
 const Sites: React.FC<SiteProps> = ({
-  siteFormData, 
-  setSiteFormData,
+  companyFormData,
+  setCompanyFormData,
   activeTab,
   setActiveTab,
 }) => {

@@ -24,15 +24,15 @@ const initialData = {
 };
 
 interface LocationProps {
-  siteFormData: any;
-  setSiteFormData: any;
+  companyFormData: any;
+  setCompanyFormData: any;
   activeTab: number;
   setActiveTab: (tab: number) => void;
 }
 
 const Location: React.FunctionComponent<LocationProps > = ({
-  siteFormData, 
-  setSiteFormData,
+  companyFormData,
+  setCompanyFormData,
   activeTab,
   setActiveTab,
 }) => {
@@ -43,7 +43,6 @@ const Location: React.FunctionComponent<LocationProps > = ({
   const [editOpen, setEditOpen] = useState(false);
   const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
   const [lapCat, setLapCat] = useState<{ data: string[] }>(initialData);
-  const [formData, setFormData] = useState([]);
   const [selectedValue, setSelectedValue] = useState<string | "">("");
 
   const handleAddSkill = (e: React.FormEvent<HTMLFormElement>) => {
@@ -79,6 +78,7 @@ const Location: React.FunctionComponent<LocationProps > = ({
   };
 
   const handleNextTab = () => {
+    setCompanyFormData((prevData: any) => ({ ...prevData, ...lapCat }));
     setActiveTab(activeTab + 1); 
   };
 
@@ -143,10 +143,10 @@ const Location: React.FunctionComponent<LocationProps > = ({
     }
   };
 
-  const handleContinue = () => {
-    setFormData((prevData) => ({ ...prevData, ...lapCat }));
-    console.log(JSON.stringify(lapCat));
-  };
+  // const handleContinue = () => {
+    
+  //   console.log(JSON.stringify(lapCat));
+  // };
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setSelectedValue(event.target.value as string);

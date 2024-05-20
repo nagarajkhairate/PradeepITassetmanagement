@@ -27,16 +27,16 @@ import { Category2 } from "./CategoryEditDelete";
 interface CategoryProps {}
 
 interface CategoryProps {
-  siteFormData: any;
-  setSiteFormData: any;
+  companyFormData: any;
+  setCompanyFormData: any;
   activeTab: number;
   setActiveTab: (tab: number) => void;
 }
 
 const Category: React.FunctionComponent<CategoryProps > = (
   {
-    siteFormData, 
-    setSiteFormData,
+    companyFormData,
+  setCompanyFormData,
     activeTab,
     setActiveTab,
   }
@@ -46,7 +46,6 @@ const Category: React.FunctionComponent<CategoryProps > = (
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [lapCat, setLapCat] = useState<string>("");
   const [categories, setCategories] = useState<string[]>([]);
-  const [formData, setFormData] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -69,14 +68,16 @@ const Category: React.FunctionComponent<CategoryProps > = (
     handleClose();
   };
 
-  const handleContinue = () => {
-    setFormData((prevData) => ({ ...prevData, lapCat }));
+  // const handleContinue = () => {
+  //   setFormData((prevData) => ({ ...prevData, lapCat }));
 
-    console.log(JSON.stringify(lapCat));
-  };
+  //   console.log(JSON.stringify(lapCat));
+  // };
 
   const handleNextTab = () => {
+    setCompanyFormData((prevData: any) => ({ ...prevData, lapCat }));
     setActiveTab(activeTab + 1); 
+    console.log(JSON.stringify(lapCat));
   };
 
   const handlePrevTab = () => {
