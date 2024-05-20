@@ -72,24 +72,15 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
     section: keyof VisibilityState,
     show: boolean
   ) => {
-    setVisibility((prevState) => ({
+    setCompanyFormData((prevState:any) => ({
       ...prevState,
       [section]: show,
     }));
   };
 
   const handleSubmit = () => {
-    const tableData = {
-      checkoutButtons: visibility.checkoutButtons,
-      leaseButtons: visibility.leaseButtons,
-      lostFoundButtons: visibility.lostFoundButtons,
-      repairButtons: visibility.repairButtons,
-      brokenButtons: visibility.brokenButtons,
-      disposeButtons: visibility.disposeButtons,
-      donateButtons: visibility.donateButtons,
-      sellButtons: visibility.sellButtons,
-    };
-    console.log(JSON.stringify(tableData));
+ 
+    console.log(JSON.stringify(companyFormData));
   };
 
   const AssetRadioGroup: React.FC<AssetRadioGroupProps> = ({

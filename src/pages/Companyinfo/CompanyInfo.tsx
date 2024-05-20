@@ -10,8 +10,8 @@ import Company from "../../components/Companyinfo/Company/Company";
 import Sites from "../../components/Companyinfo/Sites/Sites";
 import TableOptions from "../../components/Companyinfo/TableOptions/TableOptions";
 import Location from "../../components/Companyinfo/Location/Location";
-import Category from "../../components/Companyinfo/Category/CategoryAdd";
-import DataBase from "../../components/Companyinfo/Data/DataBase";
+import Category from "../../components/Companyinfo/Category/Category";
+import DataBase from "../../components/Companyinfo/Database/DataBase";
 import EventOption from "../../components/Companyinfo/EventOption/EventOption";
 
 const CompanyInfo = () => {
@@ -20,22 +20,15 @@ const CompanyInfo = () => {
   const [tableFormData, setTableFormData] = React.useState({});
   const [activeTab, setActiveTab] = React.useState(0);
 
-  const handleNextTab = () => {
-    setActiveTab((prevTab) => Math.min(prevTab + 1, 6));
-  };
-
-  const handlePrevTab = () => {
-    setActiveTab((prevTab) => Math.max(prevTab - 1, 0));
-  };
 
   const tabs = [
-    { label: "1. Company", icon: <LanguageIcon fontSize="large" /> },
-    { label: "2. Sites", icon: <LanguageIcon fontSize="large" /> },
-    { label: "3. Locations", icon: <LanguageIcon fontSize="large" /> },
-    { label: "4. Categories", icon: <LanguageIcon fontSize="large" /> },
-    { label: "5. Database", icon: <LanguageIcon fontSize="large" /> },
-    { label: "6. Table Options", icon: <LanguageIcon fontSize="large" /> },
-    { label: "7. Event Options", icon: <LanguageIcon fontSize="large" /> },
+    { label: " Company", icon: <LanguageIcon fontSize="large" /> },
+    { label: "Sites", icon: <LanguageIcon fontSize="large" /> },
+    { label: "Locations", icon: <LanguageIcon fontSize="large" /> },
+    { label: "Categories", icon: <LanguageIcon fontSize="large" /> },
+    { label: "Database", icon: <LanguageIcon fontSize="large" /> },
+    { label: "Table Options", icon: <LanguageIcon fontSize="large" /> },
+    { label: "Event Options", icon: <LanguageIcon fontSize="large" /> },
   ];
 
   return (
@@ -61,24 +54,24 @@ const CompanyInfo = () => {
               <Tab
                 key={index}
                 disabled={index > activeTab}
-                sx={{
-                  display: "flex",
-                  flexDirection: { xs: "row", sm: "row", md: "column" },
-                  alignItems: "center",
-                  minWidth: "auto",
-                  padding: "8px",
-                  color: activeTab === index ? "red" : "inherit",
-                  width: { xs: "100%", sm: "100%", md: "auto" },
-                  marginBottom: { xs: "8px", sm: "8px", md: "0" },
-                }}
+                // sx={{
+                //   display: "flex",
+                //   flexDirection: { xs: "row", sm: "row", md: "column" },
+                //   alignItems: "center",
+                //   minWidth: "auto",
+                //   padding: "8px",
+                //   color: activeTab === index ? "red" : "inherit",
+                //   width: { xs: "100%", sm: "100%", md: "auto" },
+                //   marginBottom: { xs: "8px", sm: "8px", md: "0" },
+                // }}
               >
                 <IconButton>
                   {React.cloneElement(tab.icon, {
-                    style: { color: index <= activeTab ? "red" : "inherit" },
+                    style: { color: index <= activeTab ? "#FBC21E" : "inherit" },
                   })}
                   {index < activeTab && (
                     <CheckCircleIcon
-                      style={{ color: "green", marginLeft: "4px" }}
+                      style={{ color: "green", marginLeft: "4px" , fontSize:"small" }}
                     />
                   )}
                 </IconButton>
@@ -151,12 +144,6 @@ const CompanyInfo = () => {
             width: "100%",
           }}
         >
-          {/* <Button disabled={activeTab === 0} onClick={handlePrevTab}>
-            Previous
-          </Button>
-          <Button disabled={activeTab === 6} onClick={handleNextTab}>
-            Continue
-          </Button> */}
         </Box>
       </Box>
     </Box>

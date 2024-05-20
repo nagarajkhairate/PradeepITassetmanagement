@@ -44,7 +44,7 @@ const Category: React.FunctionComponent<CategoryProps > = (
   const [open, setOpen] = useState<boolean>(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const [lapCat, setLapCat] = useState<string>("");
+  const [category, setCategory] = useState<string>("");
   const [categories, setCategories] = useState<string[]>([]);
 
   const handleClickOpen = () => {
@@ -57,8 +57,8 @@ const Category: React.FunctionComponent<CategoryProps > = (
 
   const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // const newCategory: string = (e.target as any).lapCat.value;
-    const newCategory: string = lapCat;
+    // const newCategory: string = (e.target as any).category.value;
+    const newCategory: string = category;
     if (categories && Array.isArray(categories)) {
       // Check if categories is iterable
       setCategories([...categories, newCategory]);
@@ -69,15 +69,14 @@ const Category: React.FunctionComponent<CategoryProps > = (
   };
 
   // const handleContinue = () => {
-  //   setFormData((prevData) => ({ ...prevData, lapCat }));
+  //   setFormData((prevData) => ({ ...prevData, category }));
 
-  //   console.log(JSON.stringify(lapCat));
+  //   console.log(JSON.stringify(category));
   // };
 
   const handleNextTab = () => {
-    setCompanyFormData((prevData: any) => ({ ...prevData, lapCat }));
+    setCompanyFormData((prevData: any) => ({ ...prevData, category: category }));
     setActiveTab(activeTab + 1); 
-    console.log(JSON.stringify(lapCat));
   };
 
   const handlePrevTab = () => {
@@ -208,10 +207,10 @@ const Category: React.FunctionComponent<CategoryProps > = (
                                     Category*:
                                   </FormLabel>
                                   <Input
-                                    value={lapCat}
+                                    value={category}
                                     onChange={(
                                       e: React.ChangeEvent<HTMLInputElement>
-                                    ) => setLapCat(e.target.value)}
+                                    ) => setCategory(e.target.value)}
                                     placeholder="Type here"
                                     sx={{ marginLeft: "20px", width: "70%" }}
                                   />

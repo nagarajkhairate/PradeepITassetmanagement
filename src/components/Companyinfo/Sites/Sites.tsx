@@ -119,6 +119,10 @@ const Sites: React.FC<SiteProps> = ({
   };
 
   const handleNextTab = () => {
+    setCompanyFormData((prevData: any) => ({
+      ...prevData,
+      site: sites,
+    }));
     setActiveTab(activeTab + 1); 
   };
 

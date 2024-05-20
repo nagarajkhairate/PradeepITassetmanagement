@@ -4,17 +4,17 @@ import AddIcon from "@mui/icons-material/Add";
 
 
 interface DataAddProps {
-    lapCat: { data: string[] };
-    setLapCat: React.Dispatch<React.SetStateAction<{ data: string[] }>>;
+    dataBase: { data: string[] };
+    setDataBase: React.Dispatch<React.SetStateAction<{ data: string[] }>>;
     addCustomField: (custom: string) => void;
     deleteCustomField: (index: number) => void;
   }
 
-export function DataAdd({
-    lapCat,
-    setLapCat,
+const DataBaseAdd = ({
+    dataBase,
+    setDataBase,
     addCustomField,
-  }: DataAddProps){
+  }: DataAddProps) => {
     const [open, setOpen] = useState(false);
     const [custom, setCustom] = useState("");
 
@@ -26,7 +26,7 @@ export function DataAdd({
       };
 
       const addSkill = (custom: string) => {
-        setLapCat({ ...lapCat, data: [...lapCat.data, custom] });
+        setDataBase({ ...dataBase, data: [...dataBase.data, custom] });
         handleClose();
       };
 
@@ -134,4 +134,4 @@ export function DataAdd({
               </Grid>
     )
 }
-export default DataAdd;
+export default DataBaseAdd;

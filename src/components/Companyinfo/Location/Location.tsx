@@ -42,7 +42,7 @@ const Location: React.FunctionComponent<LocationProps> = ({
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
   const [editOpen, setEditOpen] = useState(false);
   const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
-  const [lapCat, setLapCat] = useState<{ data: string[] }>(initialData);
+  const [location, setLocation] = useState<{ data: string[] }>(initialData);
   const [selectedValue, setSelectedValue] = useState<string | "">("");
 
   const handleAddSkill = (e: React.FormEvent<HTMLFormElement>) => {
@@ -56,7 +56,7 @@ const Location: React.FunctionComponent<LocationProps> = ({
   };
 
   const addSkill = (custom: string) => {
-    setLapCat({ ...lapCat, data: [...lapCat.data, custom] });
+    setLocation({ ...location, data: [...location.data, custom] });
     handleClose();
   };
 
@@ -78,7 +78,10 @@ const Location: React.FunctionComponent<LocationProps> = ({
   };
 
   const handleNextTab = () => {
-    setCompanyFormData((prevData: any) => ({ ...prevData, ...lapCat }));
+    setCompanyFormData((prevData: any) => ({
+      ...prevData,
+      categories: location,
+    }));
     setActiveTab(activeTab + 1);
   };
 
@@ -90,10 +93,10 @@ const Location: React.FunctionComponent<LocationProps> = ({
     e.preventDefault();
     const Custom = (e.target as HTMLFormElement).Custom.value;
     if (selectedCell !== null) {
-      const updatedData = lapCat.data.map((item, index) =>
+      const updatedData = location.data.map((item, index) =>
         index === selectedCell ? Custom : item
       );
-      setLapCat({ ...lapCat, data: updatedData });
+      setLocation({ ...location, data: updatedData });
       handleEditClose();
     }
     console.log(Custom);
@@ -116,10 +119,10 @@ const Location: React.FunctionComponent<LocationProps> = ({
 
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const updatedData = lapCat.data.filter(
+    const updatedData = location.data.filter(
       (_, index) => index !== selectedCell
     );
-    setLapCat({ ...lapCat, data: updatedData });
+    setLocation({ ...location, data: updatedData });
     setMatchedSelected([]);
     setDeleteOpen(false);
   };
@@ -134,7 +137,7 @@ const Location: React.FunctionComponent<LocationProps> = ({
   };
 
   useEffect(() => {
-    setLapCat(initialData);
+    setLocation(initialData);
   }, []);
 
   const handleEdit = () => {
@@ -143,10 +146,9 @@ const Location: React.FunctionComponent<LocationProps> = ({
     }
   };
 
-  // const handleContinue = () => {
 
-  //   console.log(JSON.stringify(lapCat));
-  // };
+  console.log(JSON.stringify(companyFormData))
+
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setSelectedValue(event.target.value as string);
@@ -409,7 +411,7 @@ const Location: React.FunctionComponent<LocationProps> = ({
           </Box>
           <Divider />
           <Popup
-            lapCat={lapCat}
+            location={location}
             matchedSelected={matchedSelected}
             handleCheckboxChange={handleCheckboxChange}
             handleEdit={handleEdit}
@@ -424,7 +426,7 @@ const Location: React.FunctionComponent<LocationProps> = ({
             handleDeleteClose={handleDeleteClose}
             setMatchedSelected={setMatchedSelected}
           />
-          {/* <Buttons handleContinue={handleContinue} toLink="category" /> */}
+          {/* <Buttons handleContinue={handleContinue} toLink="location" /> */}
           <Grid xs={12} md={4}>
             <React.Fragment>
               <Box

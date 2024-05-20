@@ -1,13 +1,14 @@
 import React, { useState, useRef, ChangeEvent } from "react";
-import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
+import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined';
 import { Box, Typography, styled, Divider} from "@mui/joy";
-import { SlEqualizer} from "react-icons/sl";
-import { PiShoppingBagOpen } from "react-icons/pi";
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
+import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined';
 import Input from "@mui/joy/Input";
 import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import Button from "@mui/joy/Button";
 import { TbMathGreater } from "react-icons/tb";
+import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
 import { currencySymbols, months, timezones } from "./Companyinfodata";
 
 const CustomInputLabel = styled("label")({
@@ -74,21 +75,21 @@ const Company: React.FC<CompanyProps> = ({
   activeTab,
   setActiveTab,
 }) => {
-  const [formData, setFormData] = useState<FormData>({
-    companyName: "",
-    country: "",
-    address: "",
-    aptSuite: "",
-    city: "",
-    state: "",
-    postalCode: 0,
-    timezone: "",
-    currency: "",
-    date: new Date(),
-    month: "",
-    financialDays: 0,
-    logo: null,
-  });
+  // const [companyFormData, setFormData] = useState<FormData>({
+  //   companyName: "",
+  //   country: "",
+  //   address: "",
+  //   aptSuite: "",
+  //   city: "",
+  //   state: "",
+  //   postalCode: 0,
+  //   timezone: "",
+  //   currency: "",
+  //   date: new Date(),
+  //   month: "",
+  //   financialDays: 0,
+  //   logo: null,
+  // });
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedTimezone, setSelectedTimezone] = useState<string>("");
@@ -112,7 +113,7 @@ const Company: React.FC<CompanyProps> = ({
       reader.readAsDataURL(file);
     }
 
-    setFormData((prevData) => ({
+    setCompanyFormData((prevData) => ({
       ...prevData,
       logo: file || null,
     }));
@@ -144,7 +145,7 @@ const Company: React.FC<CompanyProps> = ({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
+    setCompanyFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -155,7 +156,7 @@ const Company: React.FC<CompanyProps> = ({
     newValue: string | null
   ) => {
     if (newValue !== null) {
-      setFormData((prevData) => ({
+      setCompanyFormData((prevData) => ({
         ...prevData,
         month: newValue,
       }));
@@ -168,7 +169,7 @@ const Company: React.FC<CompanyProps> = ({
     newValue: number | null
   ) => {
     if (newValue !== null) {
-      setFormData((prevData) => ({
+      setCompanyFormData((prevData) => ({
         ...prevData,
         financialDays: newValue,
       }));
@@ -187,7 +188,7 @@ const Company: React.FC<CompanyProps> = ({
     newValue: string | null
   ) => {
     if (newValue !== null) {
-      setFormData((prevData) => ({
+      setCompanyFormData((prevData) => ({
         ...prevData,
         currency: newValue,
       }));
@@ -200,7 +201,7 @@ const Company: React.FC<CompanyProps> = ({
     newValue: string | null
   ) => {
     if (newValue !== null) {
-      setFormData((prevData) => ({
+      setCompanyFormData((prevData) => ({
         ...prevData,
         timezone: newValue,
       }));
@@ -217,7 +218,7 @@ const Company: React.FC<CompanyProps> = ({
     event: React.SyntheticEvent | null,
     newValue: string | null
   ) => {
-    setFormData((prevData) => ({
+    setCompanyFormData((prevData) => ({
       ...prevData,
       country: newValue!,
     }));
@@ -228,7 +229,7 @@ const Company: React.FC<CompanyProps> = ({
     event: React.SyntheticEvent | null,
     newValue: string | null
   ) => {
-    setFormData((prevData) => ({
+    setCompanyFormData((prevData) => ({
       ...prevData,
       state: newValue!,
     }));
@@ -249,31 +250,31 @@ const Company: React.FC<CompanyProps> = ({
       />
     );
   };
-  const validateForm = (formData: FormData) => {
-    console.log("Form Data:", formData); 
+  const validateForm = (companyFormData: FormData) => {
+   
     const isValid =
-      formData.companyName.trim() !== "" &&
-      formData.country.trim() !== "" &&
-      formData.address.trim() !== "" &&
-      formData.city.trim() !== "" &&
-      formData.state.trim() !== "" &&
-      formData.postalCode !== null &&
-      formData.postalCode > 0 &&
-      formData.timezone.trim() !== "" &&
-      formData.currency.trim() !== "" &&
-      formData.date instanceof Date &&
-      !isNaN(formData.date.getTime()) &&
-      formData.month.trim() !== "" &&
-      formData.financialDays !== null &&
-      formData.financialDays > 0 &&
-      formData.logo !== null;
+      companyFormData.companyName.trim() !== "" &&
+      companyFormData.country.trim() !== "" &&
+      companyFormData.address.trim() !== "" &&
+      companyFormData.city.trim() !== "" &&
+      companyFormData.state.trim() !== "" &&
+      companyFormData.postalCode !== null &&
+      companyFormData.postalCode > 0 &&
+      companyFormData.timezone.trim() !== "" &&
+      companyFormData.currency.trim() !== "" &&
+      companyFormData.date instanceof Date &&
+      !isNaN(companyFormData.date.getTime()) &&
+      companyFormData.month.trim() !== "" &&
+      companyFormData.financialDays !== null &&
+      companyFormData.financialDays > 0 &&
+      companyFormData.logo !== null;
 
     return isValid;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(JSON.stringify(formData));
+    console.log(JSON.stringify(companyFormData));
     // if (validateForm(formData)) {
     //   console.log("Form submitted:", formData);
     //   window.location.href = "/Sites";
@@ -282,6 +283,7 @@ const Company: React.FC<CompanyProps> = ({
     // }
   };
 
+  console.log("Form Data:", companyFormData); 
   return (
     <>
       <Box sx={{ mb: "10px" }}>
@@ -290,7 +292,7 @@ const Company: React.FC<CompanyProps> = ({
       level="h3"
       sx={{
         marginLeft: { xs: "10px", md: "50px" },
-        fontSize: { xs: "24px", md: "32px" },
+        fontSize: { xs: "24px", md: "24px" },
         marginTop: { xs: "20px", md: "35px" },
         display: "flex",
         alignItems: "center",
@@ -299,11 +301,10 @@ const Company: React.FC<CompanyProps> = ({
       }}
     >
       <Box
-        component={SlEqualizer}
-        // size={xs: "10px", md: "32px" }
-        color="red"
+        component={TuneOutlinedIcon}
+        color="#FBC21E"
         sx={{
-          fontSize: { xs: "24px", md: "32px" },
+          fontSize: { xs: "24px", md: "30px" },
           marginRight: "10px"
         }}
       />
@@ -341,8 +342,8 @@ const Company: React.FC<CompanyProps> = ({
                       marginTop: "10px",
                     }}
                   >
-                    <PiShoppingBagOpen size={25} color="red" />
-                    Company Details.
+                    <ContactMailOutlinedIcon  /><span>Company Details.</span>
+                    
                   </Typography>
                   <Typography level="body-sm">
                     Provide the name and site of the main office.
@@ -381,7 +382,7 @@ const Company: React.FC<CompanyProps> = ({
                       type="text"
                       id="companyName"
                       name="companyName"
-                      value={formData.companyName}
+                      value={companyFormData.companyName}
                       onChange={handleInputChange}
                       required
                       sx={{ width: { md: "500px", xs: "100%" } }}
@@ -407,7 +408,7 @@ const Company: React.FC<CompanyProps> = ({
                     <Select
                       id="country"                     
                       onChange={handleCountryChange}
-                      value={formData.country}               
+                      value={companyFormData.country}               
                       placeholder="Select country..."
                       sx={{ width: { md: "500px", xs: "100%" } }}
                     >
@@ -440,7 +441,7 @@ const Company: React.FC<CompanyProps> = ({
                       type="text"
                       id="address"
                       name="address"
-                      value={formData.address}
+                      value={companyFormData.address}
                       onChange={handleInputChange}
                       required
                       sx={{ width: { md: "500px", xs: "100%" } }}
@@ -468,7 +469,7 @@ const Company: React.FC<CompanyProps> = ({
                       type="text"
                       id="aptSuite"
                       name="aptSuite"
-                      value={formData.aptSuite}
+                      value={companyFormData.aptSuite}
                       onChange={handleInputChange}
                       sx={{ width: { md: "500px", xs: "100%" } }}
                     />
@@ -495,7 +496,7 @@ const Company: React.FC<CompanyProps> = ({
                       type="text"
                       id="city"
                       name="city"
-                      value={formData.city}
+                      value={companyFormData.city}
                       onChange={handleInputChange}
                       required
                       sx={{ width: { md: "500px", xs: "100%" } }}
@@ -520,7 +521,7 @@ const Company: React.FC<CompanyProps> = ({
                     </label>
                     <Select
                       id="state"
-                      value={formData.state}
+                      value={companyFormData.state}
                       onChange={handleStateChange}
                       placeholder="Select state..."
                       sx={{ width: { md: "500px", xs: "100%" } }}
@@ -556,7 +557,7 @@ const Company: React.FC<CompanyProps> = ({
                       type="text"
                       id="postalCode"
                       name="postalCode"
-                      value={formData.postalCode}
+                      value={companyFormData.postalCode}
                       onChange={handleInputChange}
                       required
                       sx={{ width: { md: "500px", xs: "100%" } }}
@@ -578,7 +579,7 @@ const Company: React.FC<CompanyProps> = ({
                         marginTop: "10px",
                       }}
                     >
-                      <PiShoppingBagOpen size={25} color="red" />
+                      <CurrencyExchangeOutlinedIcon  />
                       Timezone and Currency Details.
                     </Typography>
                     <Typography level="body-sm">
@@ -719,7 +720,7 @@ const Company: React.FC<CompanyProps> = ({
                           id="financialDays"
                           name="financialDays"
                           onChange={handleFinancialDaysChange}
-                          value={formData.financialDays}
+                          value={companyFormData.financialDays}
                           sx={{ width: "80px" }}
                           placeholder="1"
                         >
@@ -751,7 +752,8 @@ const Company: React.FC<CompanyProps> = ({
         marginTop: "10px",
       }}
     >
-      <MdOutlinePhotoSizeSelectActual size={25} color="red" />
+      
+      <CollectionsOutlinedIcon />
       Company Logo
     </Typography>
     <Typography level="body-sm">

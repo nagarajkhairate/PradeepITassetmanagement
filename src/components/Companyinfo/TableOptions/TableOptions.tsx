@@ -30,7 +30,6 @@ const TableOptions: React.FC<TableProps> = ({
   const [depreciationMethod, setDepreciationMethod] = useState<string>("");
   const [calculationFrequency, setCalculationFrequency] = useState<string>("");
   const [enableLinking, setEnableLinking] = useState<string>("No");
-  const [formData, setFormData] = useState<{ [key: string]: string }>({});
   const [selectedOptions, setSelectedOptions] = useState<{
     [key: string]: string;
   }>({});
@@ -39,7 +38,7 @@ const TableOptions: React.FC<TableProps> = ({
   const handleDepreciationChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setShowDepreciationOptions(value === "Yes");
-    setFormData((prevState) => ({ ...prevState, assetDepreciation: value }));
+    setCompanyFormData((prevState: any) => ({ ...prevState, assetDepreciation: value }));
   };
   
   const handleDepreciationMethodChange = (
@@ -48,7 +47,7 @@ const TableOptions: React.FC<TableProps> = ({
   ) => {
     if (newValue !== null) {
       setDepreciationMethod(newValue);
-      setFormData((prevState) => ({ ...prevState, depreciationMethod: newValue }));
+      setCompanyFormData((prevState :any) => ({ ...prevState, depreciationMethod: newValue }));
     }
   };
 
@@ -58,19 +57,19 @@ const TableOptions: React.FC<TableProps> = ({
   ) => {
     if (newValue !== null)
       { setCalculationFrequency(newValue);
-    setFormData((prevState) => ({ ...prevState, calculationFrequency: newValue }));
+    setCompanyFormData((prevState :any) => ({ ...prevState, calculationFrequency: newValue }));
     }
   };
 
   const handleEnableLinkingChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setEnableLinking(value);
-    setFormData((prevState) => ({ ...prevState, enableLinking: value }));
+    setCompanyFormData((prevState: any) => ({ ...prevState, enableLinking: value }));
   };
 
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setFormData((prevState) => ({
+    setCompanyFormData((prevState: any) => ({
       ...prevState,
       [name]: value,
     }));
@@ -78,7 +77,7 @@ const TableOptions: React.FC<TableProps> = ({
 
 
   const handleNextTab = () => {
-    console.log("Form Data:", formData);
+    console.log("Form Data:", companyFormData);
     setActiveTab(activeTab + 1); // Update this to navigate to the next tab
   };
 
@@ -270,7 +269,7 @@ const TableOptions: React.FC<TableProps> = ({
                                     name={option.name}
                                     label={option.label}
                                     sx={{ mr: "10px" }}
-                                    checked={formData[option.name] === option.value}
+                                    checked={companyFormData[option.name] === option.value}
                                     onChange={handleOptionChange}
                                   />
                                 ))}

@@ -6,8 +6,8 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 interface DataProps {
     matchedSelected: number[];
     setMatchedSelected: React.Dispatch<React.SetStateAction<number[]>>;
-    lapCat: { data: string[] };
-    setLapCat: React.Dispatch<React.SetStateAction<{ data: string[] }>>;
+    dataBase: { data: string[] };
+    setDataBase: React.Dispatch<React.SetStateAction<{ data: string[] }>>;
     editOpen: boolean;
     setEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
     deleteOpen: boolean;
@@ -24,10 +24,10 @@ interface DataProps {
     handleDeleteClose: () => void;
   }
 
-const Data: React.FC<DataProps>= ({ matchedSelected,
+const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
     setMatchedSelected,
-    lapCat,
-    setLapCat,
+    dataBase,
+    setDataBase,
     editOpen,
     setEditOpen,
     deleteOpen,
@@ -66,23 +66,23 @@ const Data: React.FC<DataProps>= ({ matchedSelected,
                           size="sm"
                           indeterminate={
                             matchedSelected.length > 0 &&
-                            matchedSelected.length < lapCat.data.length
+                            matchedSelected.length < dataBase.data.length
                           }
                           checked={
                             matchedSelected.length > 0 &&
-                            matchedSelected.length === lapCat.data.length
+                            matchedSelected.length === dataBase.data.length
                           }
                           onChange={(event) => {
                             const isChecked = event.target.checked;
                             setMatchedSelected(
                               isChecked
-                                ? lapCat.data.map((_, index) => index)
+                                ? dataBase.data.map((_, index) => index)
                                 : []
                             );
                           }}
                           color={
                             matchedSelected.length > 0 &&
-                            matchedSelected.length === lapCat.data.length
+                            matchedSelected.length === dataBase.data.length
                               ? "primary"
                               : undefined
                           }
@@ -95,7 +95,7 @@ const Data: React.FC<DataProps>= ({ matchedSelected,
                     </tr>
                   </thead>
                   <tbody>
-                    {lapCat.data.map((Custom, index) => (
+                    {dataBase.data.map((Custom, index) => (
                       <tr key={index}>
                         <td>
                           <Checkbox
@@ -169,7 +169,7 @@ const Data: React.FC<DataProps>= ({ matchedSelected,
                           sx={{ width: "70%", marginLeft: "10px" }}
                           defaultValue={
                             selectedCell !== null
-                              ? lapCat.data[selectedCell]
+                              ? dataBase.data[selectedCell]
                               : ""
                           }
                         />
@@ -248,7 +248,7 @@ const Data: React.FC<DataProps>= ({ matchedSelected,
                           sx={{ width: "92%", marginLeft: "20px" }}
                           defaultValue={
                             selectedCell !== null
-                              ? lapCat.data[selectedCell]
+                              ? dataBase.data[selectedCell]
                               : ""
                           }
                         />
@@ -284,4 +284,4 @@ const Data: React.FC<DataProps>= ({ matchedSelected,
               </Stack>
     )
 }
-export default Data;
+export default DataBaseEdit;

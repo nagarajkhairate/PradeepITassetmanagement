@@ -11,8 +11,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined';
-import DataAdd from "./DataAdd";
-import Data from "./DataEdtDlt";
+import DataBaseAdd from "./DataBaseAdd";
+import DataBaseEdit from "./DataBaseEdit";
 
 const initialData = {
   data: ["Buldings", "computer Equipments", "transfer"],
@@ -170,7 +170,7 @@ const DataBase: React.FunctionComponent<DataBaseProps >  = ({
   setActiveTab,
 }) => {
   const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
-  const [lapCat, setLapCat] = useState<{ data: string[] }>(initialData);
+  const [dataBase, setDataBase] = useState<{ data: string[] }>(initialData);
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -179,12 +179,12 @@ const DataBase: React.FunctionComponent<DataBaseProps >  = ({
   // const [formData, setFormData] = useState([]);
 
   const addCustomField = (custom: string) => {
-    setLapCat({ ...lapCat, data: [...lapCat.data, custom] });
+    setDataBase({ ...dataBase, data: [...dataBase.data, custom] });
   };
 
   const deleteCustomField = (index: number) => {
-    const updatedData = lapCat.data.filter((_, idx) => idx !== index);
-    setLapCat({ ...lapCat, data: updatedData });
+    const updatedData = dataBase.data.filter((_, idx) => idx !== index);
+    setDataBase({ ...dataBase, data: updatedData });
   };
 
   const handleClickEditOpen = () => {
@@ -200,10 +200,10 @@ const DataBase: React.FunctionComponent<DataBaseProps >  = ({
     e.preventDefault();
     const Custom = (e.target as HTMLFormElement).Custom.value;
     if (selectedCell !== null) {
-      const updatedData = lapCat.data.map((item, index) =>
+      const updatedData = dataBase.data.map((item, index) =>
         index === selectedCell ? Custom : item
       );
-      setLapCat({ ...lapCat, data: updatedData });
+      setDataBase({ ...dataBase, data: updatedData });
       handleEditClose();
     }
   };
@@ -225,10 +225,10 @@ const DataBase: React.FunctionComponent<DataBaseProps >  = ({
 
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const updatedData = lapCat.data.filter(
+    const updatedData = dataBase.data.filter(
       (_, index) => index !== selectedCell
     );
-    setLapCat({ ...lapCat, data: updatedData });
+    setDataBase({ ...dataBase, data: updatedData });
     setMatchedSelected([]);
     setDeleteOpen(false);
   };
@@ -243,7 +243,7 @@ const DataBase: React.FunctionComponent<DataBaseProps >  = ({
   };
 
   useEffect(() => {
-    setLapCat(initialData);
+    setDataBase(initialData);
   }, []);
 
   const handleEdit = () => {
@@ -258,16 +258,16 @@ const DataBase: React.FunctionComponent<DataBaseProps >  = ({
   };
 
   // const handleContinue = () => {
-  //   setFormData((prevData) => ({ ...prevData, ...lapCat }));
+  //   setFormData((prevData) => ({ ...prevData, ...dataBase }));
 
   //   console.log(JSON.stringify(formData));
-  //   console.log(JSON.stringify(lapCat));
+  //   console.log(JSON.stringify(dataBase));
   // };
 
   const handleNextTab = () => {
-    setCompanyFormData((prevData: any) => ({ ...prevData, ...lapCat }));
+    setCompanyFormData((prevData: any) => ({ ...prevData, dataBase : dataBase}));
     setActiveTab(activeTab + 1); 
-    console.log(JSON.stringify(lapCat));
+    console.log(JSON.stringify(dataBase));
   };
 
   const handlePrevTab = () => {
@@ -364,18 +364,18 @@ const DataBase: React.FunctionComponent<DataBaseProps >  = ({
             </Box>
 
             <Box>
-              <DataAdd
-                lapCat={lapCat}
-                setLapCat={setLapCat}
+              <DataBaseAdd
+                dataBase={dataBase}
+                setDataBase={setDataBase}
                 addCustomField={addCustomField}
                 deleteCustomField={deleteCustomField}
               />
 
-              <Data
+              <DataBaseEdit
                 matchedSelected={matchedSelected}
                 setMatchedSelected={setMatchedSelected}
-                lapCat={lapCat}
-                setLapCat={setLapCat}
+                dataBase={dataBase}
+                setDataBase={setDataBase}
                 editOpen={editOpen}
                 setEditOpen={setEditOpen}
                 deleteOpen={deleteOpen}

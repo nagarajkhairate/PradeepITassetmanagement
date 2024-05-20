@@ -15,7 +15,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 interface PopupProps {
-  lapCat: { data: string[] };
+  location: { data: string[] };
   matchedSelected: number[];
   handleCheckboxChange: (index: number) => void;
   handleEdit: () => void;
@@ -32,7 +32,7 @@ interface PopupProps {
 }
 
 export function Popup({
-  lapCat,
+  location,
   matchedSelected,
   handleCheckboxChange,
   handleEdit,
@@ -70,21 +70,21 @@ export function Popup({
                 size="sm"
                 indeterminate={
                   matchedSelected.length > 0 &&
-                  matchedSelected.length < lapCat.data.length
+                  matchedSelected.length < location.data.length
                 }
                 checked={
                   matchedSelected.length > 0 &&
-                  matchedSelected.length === lapCat.data.length
+                  matchedSelected.length === location.data.length
                 }
                 onChange={(event) => {
                   const isChecked = event.target.checked;
                   setMatchedSelected(
-                    isChecked ? lapCat.data.map((_, index) => index) : []
+                    isChecked ? location.data.map((_, index) => index) : []
                   );
                 }}
                 color={
                   matchedSelected.length > 0 &&
-                  matchedSelected.length === lapCat.data.length
+                  matchedSelected.length === location.data.length
                     ? "primary"
                     : undefined
                 }
@@ -97,7 +97,7 @@ export function Popup({
           </tr>
         </thead>
         <tbody>
-          {lapCat.data.map((Custom, index) => (
+          {location.data.map((Custom, index) => (
             <tr key={index}>
               <td>
                 <Checkbox
@@ -186,7 +186,7 @@ export function Popup({
                       marginTop: "25px",
                     }}
                     defaultValue={
-                      selectedCell !== null ? lapCat.data[selectedCell] : ""
+                      selectedCell !== null ? location.data[selectedCell] : ""
                     }
                   />
                 </FormControl>
@@ -274,7 +274,7 @@ export function Popup({
                 required
                 sx={{ width: "92%", marginLeft: "15px", marginTop:'-20px' }}
                 defaultValue={
-                  selectedCell !== null ? lapCat.data[selectedCell] : ""
+                  selectedCell !== null ? location.data[selectedCell] : ""
                 }
               /> */}
               </FormControl>
