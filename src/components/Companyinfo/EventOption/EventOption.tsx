@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Typography, Box, Button, Radio, RadioGroup, Divider } from "@mui/joy";
+import { Typography, Box, Button, Radio, RadioGroup, Divider, Grid, ButtonGroup } from "@mui/joy";
 import { VscSettings } from "react-icons/vsc";
 import SendTwoToneIcon from '@mui/icons-material/SendTwoTone';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
@@ -11,6 +11,16 @@ import { FaRegHeart } from "react-icons/fa";
 import GavelOutlinedIcon from '@mui/icons-material/GavelOutlined';
 import Buttonss from "./Buttonss";
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
+import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined';
+import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
+
+interface EventOptionProps {
+  siteFormData: any;
+  setSiteFormData: any;
+  activeTab: number;
+  setActiveTab: (tab: number) => void;
+}
+
 
 interface CustomButtonBoxProps {
   setupCheckoutText: string;
@@ -33,7 +43,12 @@ interface AssetRadioGroupProps {
   value: string;
 }
 
-const EventOption1: React.FC = () => {
+const EventOption: React.FunctionComponent<EventOptionProps > = ({
+  siteFormData, 
+  setSiteFormData,
+  activeTab,
+  setActiveTab,
+}) => {
   const [visibility, setVisibility] = useState<VisibilityState>({
     checkoutButtons: true,
     leaseButtons: true,
@@ -133,6 +148,14 @@ const EventOption1: React.FC = () => {
       </Box>
     );
   };
+
+  const handleNextTab = () => {
+    setActiveTab(activeTab + 1); 
+  };
+
+  const handlePrevTab = () => {
+    setActiveTab(activeTab - 1);
+};
 
   return (
     <>
@@ -413,19 +436,43 @@ const EventOption1: React.FC = () => {
                 />
               )}
             </Box>
-            <Divider></Divider>
+            <Divider />
 
-            <Box
-              sx={{
-                display: "flex",
-                width: "100%",
-                justifyContent: "flex-end",
-                py: "20px",
+
+           <Grid xs={12} md={4} >
+              <React.Fragment>
+              <Box sx={{marginTop: "1px", marginBottom: "15px", padding: "20px" }}>
+            <ButtonGroup  
+              spacing="1rem"
+              aria-label="spacing button group"
+              sx={{ paddingLeft: "70%" }}
+            >
+              <Button sx={{ fontSize: "15px" }}
+              onClick={handlePrevTab}
+              >
+                <NavigateBeforeOutlinedIcon />
+                
+                  Cancel
+              
+              </Button>
+              <Button sx={{  fontSize: "15px",
+                ml: "10px",
+                background: "#FABC1E",
+                color: "black",
+                // borderRadius: "15px",
+             
+                "&:hover": { background: "#E1A91B" },
               }}
-            >  
-            
+              onClick={handleNextTab}
+              >
+                  Finish
+                  <NavigateNextOutlinedIcon />{" "}
+              </Button>
+            </ButtonGroup>
             </Box>
-              <Buttonss handleSubmit={handleSubmit} />
+              </React.Fragment>
+            </Grid>
+            
           </Box>
         </div>
       </div>
@@ -433,4 +480,4 @@ const EventOption1: React.FC = () => {
   );
 };
 
-export default EventOption1;
+export default EventOption;

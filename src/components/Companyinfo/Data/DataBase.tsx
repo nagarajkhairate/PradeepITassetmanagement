@@ -1,6 +1,5 @@
-import { Typography, Radio, RadioGroup, Divider } from "@mui/joy";
+import { Typography, Radio, RadioGroup, Divider, Grid } from "@mui/joy";
 import { AiFillDatabase } from "react-icons/ai";
-import { Link } from "react-router-dom";
 import ButtonGroup from "@mui/joy/ButtonGroup";
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/joy";
@@ -157,7 +156,19 @@ const tableData = [
   },
 ];
 
-const DataBase: React.FC = () => {
+interface DataBaseProps {
+  siteFormData: any;
+  setSiteFormData: any;
+  activeTab: number;
+  setActiveTab: (tab: number) => void;
+}
+
+const DataBase: React.FunctionComponent<DataBaseProps >  = ({
+  siteFormData, 
+  setSiteFormData,
+  activeTab,
+  setActiveTab,
+}) => {
   const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
   const [lapCat, setLapCat] = useState<{ data: string[] }>(initialData);
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
@@ -252,6 +263,14 @@ const DataBase: React.FC = () => {
     console.log(JSON.stringify(formData));
     console.log(JSON.stringify(lapCat));
   };
+
+  const handleNextTab = () => {
+    setActiveTab(activeTab + 1); 
+  };
+
+  const handlePrevTab = () => {
+    setActiveTab(activeTab - 1);
+};
 
   return (
     <>
@@ -374,70 +393,32 @@ const DataBase: React.FC = () => {
 
             <Divider sx={{ marginTop: "3%" }} />
 
-            <Box
-              sx={{
-                // marginTop: "1px",
-                marginBottom: "6px",
-                padding: "20px",
-              }}
+            <Grid xs={12} md={4} >
+              <React.Fragment>
+              <Box sx={{marginTop: "1px", marginBottom: "15px", padding: "20px" }}>
+            <ButtonGroup  
+              spacing="1rem"
+              aria-label="spacing button group"
+              sx={{ paddingLeft: "84%" }}
             >
-              <ButtonGroup
-                spacing="1rem"
-                aria-label="spacing button group"
-                sx={{
-                  paddingLeft: "82%",
-                  "@media (max-width: 600px)": {
-                    paddingLeft: "30%",
-                  },
-                }}
+              <Button sx={{ fontSize: "15px" }}
+              onClick={handlePrevTab}
               >
-                <Button
-                  sx={{
-                    background: "#fdd835",
-                    color: "black",
-                    marginLeft: "-30%",
-                    "@media (max-width: 600px)": {
-                      marginLeft: 0,
-                      marginRight: "auto",
-                    },
-                  }}
-                >
-                  <NavigateBeforeOutlinedIcon />
-                  <Link
-                    to="/category"
-                    style={{
-                      textDecoration: "none",
-                      color: "inherit",
-                    }}
-                  >
-                    Back
-                  </Link>
-                </Button>
-                <Button
-                  sx={{
-                    background: "#fdd835",
-                    color: "black",
-                    marginRight: "-10px",
-                    "@media (max-width: 600px)": {
-                      marginRight: 0,
-                      marginLeft: "auto",
-                    },
-                  }}
-                  onClick={handleContinue}
-                >
-                  <Link
-                    to=".././event"
-                    style={{
-                      textDecoration: "none",
-                      color: "inherit",
-                    }}
-                  >
-                    Continue
-                  </Link>
-                 < NavigateNextOutlinedIcon />
-                </Button>
-              </ButtonGroup>
+                <NavigateBeforeOutlinedIcon />
+                
+                  Back
+              
+              </Button>
+              <Button sx={{ background: "#fdd835", fontSize: "15px" }}
+              onClick={handleNextTab}
+              >
+                  Continue
+                <NavigateNextOutlinedIcon />{" "}
+              </Button>
+            </ButtonGroup>
             </Box>
+              </React.Fragment>
+            </Grid>
           </Box>
         </div>
       </div>

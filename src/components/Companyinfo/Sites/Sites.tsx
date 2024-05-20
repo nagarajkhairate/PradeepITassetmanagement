@@ -336,7 +336,7 @@ const Sites: React.FC<SiteProps> = ({
             <Grid xs={12} md={4} >
               <React.Fragment>
               <Box sx={{marginTop: "1px", marginBottom: "15px", padding: "20px" }}>
-            <ButtonGroup
+            <ButtonGroup  
               spacing="1rem"
               aria-label="spacing button group"
               sx={{ paddingLeft: "84%" }}

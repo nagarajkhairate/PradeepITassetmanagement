@@ -26,7 +26,21 @@ import { Category2 } from "./CategoryEditDelete";
 
 interface CategoryProps {}
 
-const Category: React.FC<CategoryProps> = () => {
+interface CategoryProps {
+  siteFormData: any;
+  setSiteFormData: any;
+  activeTab: number;
+  setActiveTab: (tab: number) => void;
+}
+
+const Category: React.FunctionComponent<CategoryProps > = (
+  {
+    siteFormData, 
+    setSiteFormData,
+    activeTab,
+    setActiveTab,
+  }
+) => {
   const [open, setOpen] = useState<boolean>(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -60,6 +74,15 @@ const Category: React.FC<CategoryProps> = () => {
 
     console.log(JSON.stringify(lapCat));
   };
+
+  const handleNextTab = () => {
+    setActiveTab(activeTab + 1); 
+  };
+
+  const handlePrevTab = () => {
+    setActiveTab(activeTab - 1);
+};
+
 
   return (
     <div style={{ width: "100%", background: "#f9f9f9" }}>
@@ -317,79 +340,33 @@ const Category: React.FC<CategoryProps> = () => {
           </Box>
           <Divider />
 
-          <Box
-            sx={{
-              marginTop: "1px",
-              marginBottom: "15px",
-              padding: "20px",
-            }}
-          >
-            <ButtonGroup
+          
+          <Grid xs={12} md={4} >
+              <React.Fragment>
+              <Box sx={{marginTop: "1px", marginBottom: "15px", padding: "20px" }}>
+            <ButtonGroup  
               spacing="1rem"
               aria-label="spacing button group"
-              sx={{
-                paddingLeft: { xs: "30%", md: "82%" },
-                "@media (max-width: 600px)": {
-                  paddingLeft: "30%",
-                },
-              }}
+              sx={{ paddingLeft: "84%" }}
             >
-              <Button
-               sx={{
-                background: "#FABC1E",
-                width: { xs: "100%", sm: "150px", md: "125px" },
-                height: "50px",
-                marginLeft: { xs: "0", md: "auto" },
-                marginTop: { xs: "10px", md: "0" },
-                color: "black",
-                "&:hover": {
-                  backgroundColor: "#d79918",
-                },
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
+              <Button sx={{ fontSize: "15px" }}
+              onClick={handlePrevTab}
               >
                 <NavigateBeforeOutlinedIcon />
-                <Link
-                  to="/"
-                  style={{
-                    textDecoration: "none",
-                    color: "inherit",
-                  }}
-                >
-                 
+                
                   Back
-                </Link>
+              
               </Button>
-
-              <Button
-                sx={{
-                  background: "#FABC1E",
-                  width: { xs: "100%", sm: "150px", md: "125px" },
-                  height: "50px",
-                  marginLeft: { xs: "0", md: "auto" },
-                  marginTop: { xs: "10px", md: "0" },
-                  color: "black",
-                  "&:hover": {
-                    backgroundColor: "#d79918",
-                  },
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-                onClick={handleContinue}
+              <Button sx={{ background: "#fdd835", fontSize: "15px" }}
+              onClick={handleNextTab}
               >
-                <Link
-                  to="../database"
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
                   Continue
-                </Link>
-                <NavigateNextOutlinedIcon />
+                  <NavigateNextOutlinedIcon />{" "}
               </Button>
             </ButtonGroup>
-          </Box>
+            </Box>
+              </React.Fragment>
+            </Grid>
         </Box>
       </div>
     </div>

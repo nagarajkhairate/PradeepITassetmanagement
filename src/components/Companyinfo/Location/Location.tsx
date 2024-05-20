@@ -16,12 +16,26 @@ import AddIcon from "@mui/icons-material/Add";
 import Popup from "./Popup";
 import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined';
 import Buttons from "../../Common/Buttons";
+import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
+import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined';
 
 const initialData = {
   data: ["transfer"],
 };
 
-const Location = () => {
+interface LocationProps {
+  siteFormData: any;
+  setSiteFormData: any;
+  activeTab: number;
+  setActiveTab: (tab: number) => void;
+}
+
+const Location: React.FunctionComponent<LocationProps > = ({
+  siteFormData, 
+  setSiteFormData,
+  activeTab,
+  setActiveTab,
+}) => {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -63,6 +77,14 @@ const Location = () => {
     setEditOpen(false);
     setSelectedCell(null);
   };
+
+  const handleNextTab = () => {
+    setActiveTab(activeTab + 1); 
+  };
+
+  const handlePrevTab = () => {
+    setActiveTab(activeTab - 1);
+};
 
   const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -396,7 +418,33 @@ const Location = () => {
             handleDeleteClose={handleDeleteClose}
             setMatchedSelected={setMatchedSelected}
           />
-          <Buttons handleContinue={handleContinue} toLink="category" />
+          {/* <Buttons handleContinue={handleContinue} toLink="category" /> */}
+          <Grid xs={12} md={4} >
+              <React.Fragment>
+              <Box sx={{marginTop: "1px", marginBottom: "15px", padding: "20px" }}>
+            <ButtonGroup  
+              spacing="1rem"
+              aria-label="spacing button group"
+              sx={{ paddingLeft: "84%" }}
+            >
+              <Button sx={{ fontSize: "15px" }}
+              onClick={handlePrevTab}
+              >
+                <NavigateBeforeOutlinedIcon />
+                
+                  Back
+              
+              </Button>
+              <Button sx={{ background: "#fdd835", fontSize: "15px" }}
+              onClick={handleNextTab}
+              >
+                  Continue
+                  <NavigateNextOutlinedIcon />{" "}
+              </Button>
+            </ButtonGroup>
+            </Box>
+              </React.Fragment>
+            </Grid>
         </Box>
       </div>
     </div>
