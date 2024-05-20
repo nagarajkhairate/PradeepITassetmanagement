@@ -14,10 +14,10 @@ import { useState, useEffect } from "react";
 import { useTheme } from "@mui/joy/styles";
 import AddIcon from "@mui/icons-material/Add";
 import Popup from "./Popup";
-import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined';
+import PublishOutlinedIcon from "@mui/icons-material/PublishOutlined";
 import Buttons from "../../Common/Buttons";
-import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
-import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined';
+import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined";
+import NavigateBeforeOutlinedIcon from "@mui/icons-material/NavigateBeforeOutlined";
 
 const initialData = {
   data: ["transfer"],
@@ -30,7 +30,7 @@ interface LocationProps {
   setActiveTab: (tab: number) => void;
 }
 
-const Location: React.FunctionComponent<LocationProps > = ({
+const Location: React.FunctionComponent<LocationProps> = ({
   companyFormData,
   setCompanyFormData,
   activeTab,
@@ -79,12 +79,12 @@ const Location: React.FunctionComponent<LocationProps > = ({
 
   const handleNextTab = () => {
     setCompanyFormData((prevData: any) => ({ ...prevData, ...lapCat }));
-    setActiveTab(activeTab + 1); 
+    setActiveTab(activeTab + 1);
   };
 
   const handlePrevTab = () => {
     setActiveTab(activeTab - 1);
-};
+  };
 
   const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -144,7 +144,7 @@ const Location: React.FunctionComponent<LocationProps > = ({
   };
 
   // const handleContinue = () => {
-    
+
   //   console.log(JSON.stringify(lapCat));
   // };
 
@@ -154,12 +154,14 @@ const Location: React.FunctionComponent<LocationProps > = ({
 
   return (
     <div style={{ width: "100%", background: "#f9f9f9" }}>
-       <Typography level="h4" style={{ display: 'flex', alignItems: 'center' }}>
-        <SlEqualizer style={{ fontSize: '0.8rem', color: "red", marginRight: '1rem' }} />
-         Step3-Locations
+      <Typography level="h4" style={{ display: "flex", alignItems: "center" }}>
+        <SlEqualizer
+          style={{ fontSize: "0.8rem", color: "red", marginRight: "1rem" }}
+        />
+        Step3-Locations
       </Typography>
       <div style={{ margin: "10px" }}>
-        <Box  
+        <Box
           sx={{
             borderRadius: "none",
             boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
@@ -190,175 +192,179 @@ const Location: React.FunctionComponent<LocationProps > = ({
                 </Typography>
               </Box>
 
-              <Box
-                sx={{ paddingLeft: { xs: "10%", md: "30%" } }}
-              >
+              <Box sx={{ paddingLeft: { xs: "10%", md: "30%" } }}>
                 <ButtonGroup
                   spacing={{ xs: "0.5rem", md: "1rem" }}
                   aria-label="spacing button group"
                   sx={{
                     display: "flex",
                     justifyContent: { xs: "center", md: "flex-start" },
-                    flexDirection:{xs:"column",md:"row"}
+                    flexDirection: { xs: "column", md: "row" },
                   }}
                 >
-                    <Button
-                      autoFocus
-                      type="submit"
-                      // variant="solid"
-            sx={{
-              background: "#ffffff",
-              color: "green",
-              border: "1px solid green ",
-              borderRadius: "15px",
-              "&:hover": {
-                color: "white",
-                background: "green",
-              },
-            }}
-                      onClick={handleClickOpen}
-                    >
-                      <AddIcon /> Add New Location
-                    </Button>
-                    <Modal
+                  <Button
+                    autoFocus
+                    type="submit"
+                    // variant="solid"
+                    sx={{
+                      background: "#ffffff",
+                      color: "green",
+                      border: "1px solid green ",
+                      borderRadius: "15px",
+                      "&:hover": {
+                        color: "white",
+                        background: "green",
+                      },
+                    }}
+                    onClick={handleClickOpen}
+                  >
+                    <AddIcon /> Add New Location
+                  </Button>
+                  <Modal
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                    aria-labelledby="responsive-dialog-title"
+                    aria-describedby="modal-desc"
+                    open={open}
+                    onClose={handleClose}
+                  >
+                    <Sheet
+                      variant="outlined"
                       sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
+                        maxWidth: 500,
+                        borderRadius: "md",
+                        p: 3,
+                        boxShadow: "lg",
                       }}
-                      aria-labelledby="responsive-dialog-title"
-                      aria-describedby="modal-desc"
-                      open={open}
-                      onClose={handleClose}
                     >
-                      <Sheet
-                        variant="outlined"
-                        sx={{
-                          maxWidth: 500,
-                          borderRadius: "md",
-                          p: 3,
-                          boxShadow: "lg",
-                        }}
-                      >
-                        <div>
-                          <Typography
-                            id="responsive-dialog-title"
-                            component="h2"
-                            level="h4"
-                            textColor="inherit"
-                            fontWeight="lg"
-                            mb={1}
-                          >
-                            {"Add an Location"}
-                          </Typography>
-                          <Divider />
-                          <Box sx={{ marginBottom: "10px" }}>
-                            <form onSubmit={handleAddSkill}>
-                              <FormControl
+                      <div>
+                        <Typography
+                          id="responsive-dialog-title"
+                          component="h2"
+                          level="h4"
+                          textColor="inherit"
+                          fontWeight="lg"
+                          mb={1}
+                        >
+                          {"Add an Location"}
+                        </Typography>
+                        <Divider />
+                        <Box sx={{ marginBottom: "10px" }}>
+                          <form onSubmit={handleAddSkill}>
+                            <FormControl
+                              sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                              }}
+                            >
+                              <FormLabel
                                 sx={{
-                                  display: "flex",
-                                  flexDirection: "row",
-                                  alignItems: "center",
+                                  paddingTop: "30px",
+                                  marginLeft: "20px",
                                 }}
                               >
-                                <FormLabel
-                                  sx={{
-                                    paddingTop: "30px",
-                                    marginLeft: "20px",
-                                  }}
-                                >
-                                  Site*
-                                </FormLabel>
-                                <Select
-                                  placeholder="Select Location"
-                                  sx={{
-                                    // width: 240,
-                                    marginLeft: "45px",
-                                    width: "50%",
-                                    marginBottom: "30px",
-                                    marginTop: "25px"
-                                  }}
-                                  // required
-                                >
-                                  {/* <Option value=""></Option>
+                                Site*
+                              </FormLabel>
+                              <Select
+                                placeholder="Select Location"
+                                sx={{
+                                  // width: 240,
+                                  marginLeft: "45px",
+                                  width: "50%",
+                                  marginBottom: "30px",
+                                  marginTop: "25px",
+                                }}
+                                // required
+                              >
+                                {/* <Option value=""></Option>
                               <Option value=""></Option>
                               <Option value=""></Option>
                               <Option value=""></Option> */}
-                                </Select>
-                              </FormControl>
-                              <FormControl
+                              </Select>
+                            </FormControl>
+                            <FormControl
+                              sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                              }}
+                            >
+                              <FormLabel
                                 sx={{
-                                  display: "flex",
-                                  flexDirection: "row",
-                                  alignItems: "center",
+                                  paddingTop: "5px",
+                                  marginLeft: "20px",
                                 }}
                               >
-                                <FormLabel
-                                  sx={{
-                                    paddingTop: "5px",
-                                    marginLeft: "20px",
-                                  }}
-                                >
-                                  Location*
-                                </FormLabel>
-                                <Input
-                                  variant="outlined"
-                                  type="text"
-                                  id="skill"
-                                  name="skill"
-                                  required
-                                  sx={{
-                                    marginLeft: "15px",
-                                    width: "50%",
-                                    marginBottom: "10px",
-                                    // marginTop: '20px'
-                                  }}
-                                />
-                              </FormControl>
-                              <Divider />
-                              <Button
-                                autoFocus
-                                type="submit"
-                                variant="solid"
+                                Location*
+                              </FormLabel>
+                              <Input
+                                variant="outlined"
+                                type="text"
+                                id="skill"
+                                name="skill"
+                                required
                                 sx={{
-                                  background: "#fdd835",
-                                  color: "black",
-                                  marginTop: "25px",
-                                  marginLeft: "40%",
+                                  marginLeft: "15px",
+                                  width: "50%",
+                                  marginBottom: "10px",
+                                  // marginTop: '20px'
                                 }}
-                              >
-                                Add
-                              </Button>
-                              <Button
-                                type="button"
-                                onClick={handleClose}
-                                variant="solid"
-                                autoFocus
-                                sx={{ background: "black",color: "white", marginTop: "20px", marginLeft: "30px" }}
-                              >
-                                Cancel
-                              </Button>
-                            </form>
-                          </Box>
-                        </div>
-                      </Sheet>
-                    </Modal>
+                              />
+                            </FormControl>
+                            <Divider />
+                            <Button
+                              autoFocus
+                              type="submit"
+                              variant="solid"
+                              sx={{
+                                background: "#fdd835",
+                                color: "black",
+                                marginTop: "25px",
+                                marginLeft: "40%",
+                              }}
+                            >
+                              Add
+                            </Button>
+                            <Button
+                              type="button"
+                              onClick={handleClose}
+                              variant="solid"
+                              autoFocus
+                              sx={{
+                                background: "black",
+                                color: "white",
+                                marginTop: "20px",
+                                marginLeft: "30px",
+                              }}
+                            >
+                              Cancel
+                            </Button>
+                          </form>
+                        </Box>
+                      </div>
+                    </Sheet>
+                  </Modal>
 
-
-                  <Button autoFocus
-                      type="submit"
-                      variant="solid"
-                      sx={{
-                        mr: "10px",
-                        background: "#FDE8BC",
-                        border: "1px solid #C2B083",
-                        color: "black",
-                        borderRadius: "15px",
-                        "&:hover": {
-                          background: "#FADFB4",
-                        },
-                      }}>
-                    < PublishOutlinedIcon />
+                  <Button
+                    autoFocus
+                    type="submit"
+                    variant="solid"
+                    sx={{
+                      mr: "10px",
+                      background: "#FDE8BC",
+                      border: "1px solid #C2B083",
+                      color: "black",
+                      borderRadius: "15px",
+                      "&:hover": {
+                        background: "#FADFB4",
+                      },
+                    }}
+                  >
+                    <PublishOutlinedIcon />
                     Import Locations
                   </Button>
                 </ButtonGroup>
@@ -419,32 +425,31 @@ const Location: React.FunctionComponent<LocationProps > = ({
             setMatchedSelected={setMatchedSelected}
           />
           {/* <Buttons handleContinue={handleContinue} toLink="category" /> */}
-          <Grid xs={12} md={4} >
-              <React.Fragment>
-              <Box sx={{marginTop: "1px", marginBottom: "15px", padding: "20px" }}>
-            <ButtonGroup  
-              spacing="1rem"
-              aria-label="spacing button group"
-              sx={{ paddingLeft: "84%" }}
-            >
-              <Button sx={{ fontSize: "15px" }}
-              onClick={handlePrevTab}
+          <Grid xs={12} md={4}>
+            <React.Fragment>
+              <Box
+                sx={{ marginTop: "1px", marginBottom: "15px", padding: "20px" }}
               >
-                <NavigateBeforeOutlinedIcon />
-                
-                  Back
-              
-              </Button>
-              <Button sx={{ background: "#fdd835", fontSize: "15px" }}
-              onClick={handleNextTab}
-              >
-                  Continue
-                  <NavigateNextOutlinedIcon />{" "}
-              </Button>
-            </ButtonGroup>
-            </Box>
-              </React.Fragment>
-            </Grid>
+                <ButtonGroup
+                  spacing="1rem"
+                  aria-label="spacing button group"
+                  sx={{ paddingLeft: "84%" }}
+                >
+                  <Button sx={{ fontSize: "15px" }} onClick={handlePrevTab}>
+                    <NavigateBeforeOutlinedIcon />
+                    Back
+                  </Button>
+                  <Button
+                    sx={{ background: "#fdd835", fontSize: "15px" }}
+                    onClick={handleNextTab}
+                  >
+                    Continue
+                    <NavigateNextOutlinedIcon />{" "}
+                  </Button>
+                </ButtonGroup>
+              </Box>
+            </React.Fragment>
+          </Grid>
         </Box>
       </div>
     </div>

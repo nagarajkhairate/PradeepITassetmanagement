@@ -11,8 +11,8 @@ import {
   Table,
   Typography,
 } from "@mui/joy";
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 interface PopupProps {
   lapCat: { data: string[] };
@@ -114,8 +114,12 @@ export function Popup({
                 </Button>
               </td>
               <td>
-                <Button onClick={handleDeleteButton} variant="plain" color="danger">
-                  <DeleteForeverIcon/>
+                <Button
+                  onClick={handleDeleteButton}
+                  variant="plain"
+                  color="danger"
+                >
+                  <DeleteForeverIcon />
                   Delete
                 </Button>
               </td>
@@ -124,129 +128,145 @@ export function Popup({
         </tbody>
       </Table>
 
-      <Box sx={{background:'white'}}>
-      <Modal
-        aria-labelledby="responsive-dialog-title"
-        aria-describedby="modal-desc"
-        open={editOpen}
-        onClose={handleEditClose}
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-      > 
-      <Sheet
-          variant="outlined"
+      <Box sx={{ background: "white" }}>
+        <Modal
+          aria-labelledby="responsive-dialog-title"
+          aria-describedby="modal-desc"
+          open={editOpen}
+          onClose={handleEditClose}
           sx={{
-            maxWidth: 500,
-            borderRadius: 'md',
-            p: 3,
-            boxShadow: 'lg',
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
-        <div>
-          <Typography id="responsive-dialog-title"  component="h2"
-            level="h4"
-            textColor="inherit"
-            fontWeight="lg"
-            mb={1}>
-            {"Edit the Customs here"}
-          </Typography>
+          <Sheet
+            variant="outlined"
+            sx={{
+              maxWidth: 500,
+              borderRadius: "md",
+              p: 3,
+              boxShadow: "lg",
+            }}
+          >
+            <div>
+              <Typography
+                id="responsive-dialog-title"
+                component="h2"
+                level="h4"
+                textColor="inherit"
+                fontWeight="lg"
+                mb={1}
+              >
+                {"Edit the Customs here"}
+              </Typography>
 
-          <form onSubmit={handleEditButton}>
-            <FormControl
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-evenly",
-                alignItems:'center'
-              }}
-            >
-              <FormLabel sx={{ paddingTop: "30px", marginLeft: "20px" }}>
-                Category*
-              </FormLabel>
-              <Input
-                variant="outlined"
-                type="text"
-                id="Custom"
-                name="Custom"
-                required
-                // sx={{ width: "70%", marginLeft: "10px", marginTop:'25px' }}
-                sx={{ width: { xs: "100%", sm: "70%" }, marginLeft: "10px", marginTop: '25px' }}
-                defaultValue={
-                  selectedCell !== null ? lapCat.data[selectedCell] : ""
-                }
-              />
-            </FormControl>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-            <Button
-              autoFocus
-              type="submit"
-              variant="solid"
-              sx={{
-                background: "#fdd835",
-                color: "black",
-                // marginTop: "25px",
-                // marginLeft: "30%",
-                mt: "25px",
-              }}
-            >
-              Update
-            </Button>
+              <form onSubmit={handleEditButton}>
+                <FormControl
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-evenly",
+                    alignItems: "center",
+                  }}
+                >
+                  <FormLabel sx={{ paddingTop: "30px", marginLeft: "20px" }}>
+                    Category*
+                  </FormLabel>
+                  <Input
+                    variant="outlined"
+                    type="text"
+                    id="Custom"
+                    name="Custom"
+                    required
+                    // sx={{ width: "70%", marginLeft: "10px", marginTop:'25px' }}
+                    sx={{
+                      width: { xs: "100%", sm: "70%" },
+                      marginLeft: "10px",
+                      marginTop: "25px",
+                    }}
+                    defaultValue={
+                      selectedCell !== null ? lapCat.data[selectedCell] : ""
+                    }
+                  />
+                </FormControl>
+                <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+                  <Button
+                    autoFocus
+                    type="submit"
+                    variant="solid"
+                    sx={{
+                      background: "#fdd835",
+                      color: "black",
+                      // marginTop: "25px",
+                      // marginLeft: "30%",
+                      mt: "25px",
+                    }}
+                  >
+                    Update
+                  </Button>
 
-            <Button
-              type="button"
-              onClick={handleEditClose}
-              autoFocus
-              variant="solid"
-              sx={{ background: "black",
-              color: "white", mt: "25px",
-              ml: 2 }}
-            >
-              Cancel
-            </Button>
-            </Box>
-          </form>
-        </div>
-        </Sheet>
-      </Modal>
+                  <Button
+                    type="button"
+                    onClick={handleEditClose}
+                    autoFocus
+                    variant="solid"
+                    sx={{
+                      background: "black",
+                      color: "white",
+                      mt: "25px",
+                      ml: 2,
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </Box>
+              </form>
+            </div>
+          </Sheet>
+        </Modal>
       </Box>
 
       <Modal
         aria-labelledby="responsive-dialog-title"
         aria-describedby="modal-desc"
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
         open={deleteOpen}
         onClose={() => setDeleteOpen(false)}
-        
       >
         <Sheet
           variant="outlined"
           sx={{
             maxWidth: 500,
-            borderRadius: 'md',
+            borderRadius: "md",
             p: 3,
-            boxShadow: 'lg',
+            boxShadow: "lg",
           }}
         >
-        <div>
-          <Typography id="responsive-dialog-title"  component="h2"
-            level="h4"
-            textColor="inherit"
-            fontWeight="lg"
-            mb={1}>
-            {"Edit the Customs here"}
-          </Typography>
-
-          <form onSubmit={handleDeleteSubmit}>
-            <FormControl
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-evenly",
-              }}
+          <div>
+            <Typography
+              id="responsive-dialog-title"
+              component="h2"
+              level="h4"
+              textColor="inherit"
+              fontWeight="lg"
+              mb={1}
             >
-              <Box sx={{ marginBottom: "20px", padding: "20px" }}>
-                Are you sure you want to delete this Category?
-              </Box>
-              {/* <Input
+              {"Edit the Customs here"}
+            </Typography>
+
+            <form onSubmit={handleDeleteSubmit}>
+              <FormControl
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-evenly",
+                }}
+              >
+                <Box sx={{ marginBottom: "20px", padding: "20px" }}>
+                  Are you sure you want to delete this Category?
+                </Box>
+                {/* <Input
                 variant="outlined"
                 type="text"
                 id="Custom"
@@ -257,38 +277,39 @@ export function Popup({
                   selectedCell !== null ? lapCat.data[selectedCell] : ""
                 }
               /> */}
-            </FormControl>
-            <Button
-              autoFocus
-              type="submit"
-              variant="solid"
-              sx={{
-                background: "#fdd835",
-                color: "black",
-                // marginTop: "25px",
-                // marginLeft: "40%",
-                mt: "25px",
-              }}
-            >
-              Confirm Delete
-            </Button>
+              </FormControl>
+              <Button
+                autoFocus
+                type="submit"
+                variant="solid"
+                sx={{
+                  background: "#fdd835",
+                  color: "black",
+                  // marginTop: "25px",
+                  // marginLeft: "40%",
+                  mt: "25px",
+                }}
+              >
+                Confirm Delete
+              </Button>
 
-            <Button
-              type="button"
-              onClick={handleDeleteClose}
-              autoFocus
-              variant="solid"
-              sx={{ background: "black",
-              color: "white",
-              //  marginTop: "25px", marginLeft: "10px" 
-              mt: "25px",
-                    ml: 2
-              }}
-            >
-              Cancel
-            </Button>
-          </form>
-        </div>
+              <Button
+                type="button"
+                onClick={handleDeleteClose}
+                autoFocus
+                variant="solid"
+                sx={{
+                  background: "black",
+                  color: "white",
+                  //  marginTop: "25px", marginLeft: "10px"
+                  mt: "25px",
+                  ml: 2,
+                }}
+              >
+                Cancel
+              </Button>
+            </form>
+          </div>
         </Sheet>
       </Modal>
     </Stack>

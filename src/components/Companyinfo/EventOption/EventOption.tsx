@@ -1,18 +1,27 @@
 import React, { useState } from "react";
-import { Typography, Box, Button, Radio, RadioGroup, Divider, Grid, ButtonGroup } from "@mui/joy";
+import {
+  Typography,
+  Box,
+  Button,
+  Radio,
+  RadioGroup,
+  Divider,
+  Grid,
+  ButtonGroup,
+} from "@mui/joy";
 import { VscSettings } from "react-icons/vsc";
-import SendTwoToneIcon from '@mui/icons-material/SendTwoTone';
-import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
-import ConstructionOutlinedIcon from '@mui/icons-material/ConstructionOutlined';
+import SendTwoToneIcon from "@mui/icons-material/SendTwoTone";
+import ThumbDownAltOutlinedIcon from "@mui/icons-material/ThumbDownAltOutlined";
+import ConstructionOutlinedIcon from "@mui/icons-material/ConstructionOutlined";
 import { HiMiniWrenchScrewdriver } from "react-icons/hi2";
 import { PiLinkBreakLight } from "react-icons/pi";
 import { PiRecycleLight } from "react-icons/pi";
 import { FaRegHeart } from "react-icons/fa";
-import GavelOutlinedIcon from '@mui/icons-material/GavelOutlined';
+import GavelOutlinedIcon from "@mui/icons-material/GavelOutlined";
 import Buttonss from "./Buttonss";
-import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
-import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined';
-import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
+import HowToRegOutlinedIcon from "@mui/icons-material/HowToRegOutlined";
+import NavigateBeforeOutlinedIcon from "@mui/icons-material/NavigateBeforeOutlined";
+import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined";
 
 interface EventOptionProps {
   companyFormData: any;
@@ -20,7 +29,6 @@ interface EventOptionProps {
   activeTab: number;
   setActiveTab: (tab: number) => void;
 }
-
 
 interface CustomButtonBoxProps {
   setupCheckoutText: string;
@@ -43,7 +51,7 @@ interface AssetRadioGroupProps {
   value: string;
 }
 
-const EventOption: React.FunctionComponent<EventOptionProps > = ({
+const EventOption: React.FunctionComponent<EventOptionProps> = ({
   companyFormData,
   setCompanyFormData,
   activeTab,
@@ -96,12 +104,7 @@ const EventOption: React.FunctionComponent<EventOptionProps > = ({
       value={value}
     >
       <Box>
-        <Radio
-          value="Yes"
-          label="Yes"
-          variant="outlined"
-          sx={{ mr: "15px" }}
-        />
+        <Radio value="Yes" label="Yes" variant="outlined" sx={{ mr: "15px" }} />
         <Radio value="No" label="No" variant="outlined" />
       </Box>
     </RadioGroup>
@@ -150,12 +153,12 @@ const EventOption: React.FunctionComponent<EventOptionProps > = ({
   };
 
   // const handleNextTab = () => {
-  //   setActiveTab(activeTab + 1); 
+  //   setActiveTab(activeTab + 1);
   // };
 
   const handlePrevTab = () => {
     setActiveTab(activeTab - 1);
-};
+  };
 
   return (
     <>
@@ -203,8 +206,10 @@ const EventOption: React.FunctionComponent<EventOptionProps > = ({
                 </Typography>
               </Box>
               <AssetRadioGroup
-                onChange={(show) => handleVisibilityChange("checkoutButtons", show)}
-                value={visibility.checkoutButtons ? "Yes" : "No"} 
+                onChange={(show) =>
+                  handleVisibilityChange("checkoutButtons", show)
+                }
+                value={visibility.checkoutButtons ? "Yes" : "No"}
               />
               {visibility.checkoutButtons && (
                 <>
@@ -220,7 +225,9 @@ const EventOption: React.FunctionComponent<EventOptionProps > = ({
               )}
             </Box>
 
-            <Box sx={{ ml: { md: "260px", xs: "none" }, paddingBottom: "20px" }}>
+            <Box
+              sx={{ ml: { md: "260px", xs: "none" }, paddingBottom: "20px" }}
+            >
               <Typography level="body-xs">
                 Assets are 'checked out' or 'assigned to' individuals. Enter
                 individuals in 'Advanced &gt; Persons/Employee' table.{" "}
@@ -243,8 +250,10 @@ const EventOption: React.FunctionComponent<EventOptionProps > = ({
                 </Typography>
               </Box>
               <AssetRadioGroup
-                onChange={(show) => handleVisibilityChange("leaseButtons", show)}
-                value={visibility.leaseButtons ? "Yes" : "No"} 
+                onChange={(show) =>
+                  handleVisibilityChange("leaseButtons", show)
+                }
+                value={visibility.leaseButtons ? "Yes" : "No"}
               />
               {visibility.leaseButtons && (
                 <>
@@ -259,9 +268,12 @@ const EventOption: React.FunctionComponent<EventOptionProps > = ({
                 </>
               )}
             </Box>
-            <Box sx={{ ml: { md: "260px", xs: "none" }, paddingBottom: "20px" }}>
+            <Box
+              sx={{ ml: { md: "260px", xs: "none" }, paddingBottom: "20px" }}
+            >
               <Typography level="body-xs">
-                Assets are 'leased' or 'rented/loaned' to customers. Maintain a list of customers in the 'Advanced &gt; Customers' table.
+                Assets are 'leased' or 'rented/loaned' to customers. Maintain a
+                list of customers in the 'Advanced &gt; Customers' table.
               </Typography>
             </Box>
             <Divider></Divider>
@@ -281,7 +293,9 @@ const EventOption: React.FunctionComponent<EventOptionProps > = ({
                 </Typography>
               </Box>
               <AssetRadioGroup
-                onChange={(show) => handleVisibilityChange("lostFoundButtons", show)}
+                onChange={(show) =>
+                  handleVisibilityChange("lostFoundButtons", show)
+                }
                 value={visibility.lostFoundButtons ? "Yes" : "No"}
               />
               {visibility.lostFoundButtons && (
@@ -311,11 +325,13 @@ const EventOption: React.FunctionComponent<EventOptionProps > = ({
             >
               <Box>
                 <Typography level="body-sm">
-                  <ConstructionOutlinedIcon  /> Repair assets:
+                  <ConstructionOutlinedIcon /> Repair assets:
                 </Typography>
               </Box>
               <AssetRadioGroup
-                onChange={(show) => handleVisibilityChange("repairButtons", show)}
+                onChange={(show) =>
+                  handleVisibilityChange("repairButtons", show)
+                }
                 value={visibility.repairButtons ? "Yes" : "No"}
               />
               {visibility.repairButtons && (
@@ -342,7 +358,9 @@ const EventOption: React.FunctionComponent<EventOptionProps > = ({
                 </Typography>
               </Box>
               <AssetRadioGroup
-                onChange={(show) => handleVisibilityChange("brokenButtons", show)}
+                onChange={(show) =>
+                  handleVisibilityChange("brokenButtons", show)
+                }
                 value={visibility.brokenButtons ? "Yes" : "No"}
               />
               {visibility.brokenButtons && (
@@ -370,7 +388,9 @@ const EventOption: React.FunctionComponent<EventOptionProps > = ({
                 </Typography>
               </Box>
               <AssetRadioGroup
-                onChange={(show) => handleVisibilityChange("disposeButtons", show)}
+                onChange={(show) =>
+                  handleVisibilityChange("disposeButtons", show)
+                }
                 value={visibility.disposeButtons ? "Yes" : "No"}
               />
               {visibility.disposeButtons && (
@@ -398,7 +418,9 @@ const EventOption: React.FunctionComponent<EventOptionProps > = ({
                 </Typography>
               </Box>
               <AssetRadioGroup
-                onChange={(show) => handleVisibilityChange("donateButtons", show)}
+                onChange={(show) =>
+                  handleVisibilityChange("donateButtons", show)
+                }
                 value={visibility.donateButtons ? "Yes" : "No"}
               />
               {visibility.donateButtons && (
@@ -438,41 +460,41 @@ const EventOption: React.FunctionComponent<EventOptionProps > = ({
             </Box>
             <Divider />
 
-
-           <Grid xs={12} md={4} >
+            <Grid xs={12} md={4}>
               <React.Fragment>
-              <Box sx={{marginTop: "1px", marginBottom: "15px", padding: "20px" }}>
-            <ButtonGroup  
-              spacing="1rem"
-              aria-label="spacing button group"
-              sx={{ paddingLeft: "70%" }}
-            >
-              <Button sx={{ fontSize: "15px" }}
-              onClick={handlePrevTab}
-              >
-                <NavigateBeforeOutlinedIcon />
-                
-                  Cancel
-              
-              </Button>
-              <Button sx={{  fontSize: "15px",
-                ml: "10px",
-                background: "#FABC1E",
-                color: "black",
-                // borderRadius: "15px",
-             
-                "&:hover": { background: "#E1A91B" },
-              }}
-              onClick={handleSubmit}
-              >
-                  Finish
-                  <NavigateNextOutlinedIcon />{" "}
-              </Button>
-            </ButtonGroup>
-            </Box>
+                <Box
+                  sx={{
+                    marginTop: "1px",
+                    marginBottom: "15px",
+                    padding: "20px",
+                  }}
+                >
+                  <ButtonGroup
+                    spacing="1rem"
+                    aria-label="spacing button group"
+                    sx={{ paddingLeft: "70%" }}
+                  >
+                    <Button sx={{ fontSize: "15px" }} onClick={handlePrevTab}>
+                      <NavigateBeforeOutlinedIcon />
+                      Cancel
+                    </Button>
+                    <Button
+                      sx={{
+                        fontSize: "15px",
+                        ml: "10px",
+                        background: "#FABC1E",
+                        color: "black",
+                        "&:hover": { background: "#E1A91B" },
+                      }}
+                      onClick={handleSubmit}
+                    >
+                      Finish
+                      <NavigateNextOutlinedIcon />{" "}
+                    </Button>
+                  </ButtonGroup>
+                </Box>
               </React.Fragment>
             </Grid>
-            
           </Box>
         </div>
       </div>
