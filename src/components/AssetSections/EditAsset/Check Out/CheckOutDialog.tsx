@@ -20,6 +20,7 @@ import {
 
 import { AiOutlineClose } from "react-icons/ai";
 import EmployeeDialog from "./EmployeeDialog";
+import ClientDialog from "./ClientDialog";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { RootState } from "../../../../Redux/Features/store";
 import { useDispatch } from "react-redux";
@@ -32,6 +33,7 @@ interface CheckoutData {
   asset_id:string;
   check_out_date: string;
   assigned_to: string;
+  client:string;
   due_date: string;
   check_out_site: string;
   check_out_location: string;
@@ -45,6 +47,7 @@ interface CheckoutErrors{
   asset_id?:string;
   check_out_date?: string;
   assigned_to?: string;
+  client?:string;
   due_date?: string;
   check_out_site?: string;
   check_out_location?: string;
@@ -59,6 +62,7 @@ const CheckOutDialog = (props: any) => {
     asset_id:"",
     check_out_date: "",
     assigned_to: "",
+    client:"",
     due_date: "",
     check_out_site: "",
     check_out_location: "",
@@ -66,8 +70,10 @@ const CheckOutDialog = (props: any) => {
     check_out_notes: "",
     emailAddress: "",
   });
+
   const [sendEmail, setSendEmail] = useState<boolean>(false);
   const [employees, setEmployees] = useState([{ name: "Default Employee" }]);
+  const [clients,setClients] = useState([{name:"Default Client"}])
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
   // Event handler for the Check-Out button
@@ -84,6 +90,15 @@ const CheckOutDialog = (props: any) => {
   };
 
   const [newDialogOpen, setNewDialogOpen] = useState<boolean>(false);
+  const [newClientDialogOpen ,setNewClientDialogOpen] = useState<boolean>(false)
+
+  const openClientDialog =()=>{
+    setNewClientDialogOpen(true)
+  }
+
+  const closeClientDialog =()=>{
+    setNewClientDialogOpen(false)
+  }
 
   const openNewDialog = () => {
     setNewDialogOpen(true);
@@ -102,6 +117,19 @@ const CheckOutDialog = (props: any) => {
       { name: newEmployeeName },
     ]); // Add the new employee to the list
     closeNewDialog(); // Close the EmployeeDialog
+  };
+
+  const handleNewClientAdded = (newClientName: string) => {
+    console.log("New client added:", newClientName);
+    setCheckoutData({
+      ...checkoutData,
+      client: newClientName, // Update the assigned_to field with the new employee's name
+    });
+    setClients((prevClient) => [
+      ...prevClient,
+      { name: newClientName },
+    ]); // Add the new employee to the list
+    closeClientDialog(); 
   };
 
   const [errors, setErrors] = useState<CheckoutErrors>({});
@@ -125,6 +153,10 @@ const CheckOutDialog = (props: any) => {
   }
   if (!checkoutData.assigned_to) {
     tempErrors.assigned_to = "Assign to is required";
+    isValid = false;
+  }
+  if (!checkoutData.client) {
+    tempErrors.client = "Client is required";
     isValid = false;
   }
   if (!checkoutData.due_date) {
@@ -315,6 +347,59 @@ const CheckOutDialog = (props: any) => {
               </Typography>
             )}
             </Box>
+            <Box
+              sx={{
+                display: "flex",
+                gap: "15px",
+                alignItems: "center",
+                width: "100%",
+                justifyContent: "center",
+                mb: "25px",
+              }}
+            >
+              <Box sx={{marginRight:"5px",width:'100px',ml:"53px"}}>
+              <Typography>Client</Typography>
+              </Box>
+              <Select
+                value={checkoutData.client}
+                onChange={(e) =>
+                  setCheckoutData({
+                    ...checkoutData,
+                    client: e.target.value,
+                  })
+                }
+                sx={{borderRadius: "15px",width:"350px"}}
+              >
+                {clients.map((client, index) => (
+                  <MenuItem key={index} value={client.name}>
+                    {client.name}
+                  </MenuItem>
+                ))}
+              </Select>
+
+              <Button
+                sx={{
+                  background: "white",
+                  border: "1.5px solid black",
+                  color: "#000000",
+                  borderRadius: "15px",
+                  "&:hover": {
+                    backgroundColor: "#f9f9f9",
+                  },
+                }}
+                onClick={openClientDialog}
+              >
+                New
+              </Button>
+              {errors.client && (
+              <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
+                {errors.client}
+              </Typography>
+            )}
+            </Box>
+
+
+
             <Box
               sx={{
                 display: "flex",
@@ -525,6 +610,7 @@ const CheckOutDialog = (props: any) => {
                 sx={{borderRadius: "15px"}}
               />
             </Box>
+            {/* <ClientDialog open={closeClientDialog} onClose={openClientDialog}/> */}
           <Divider></Divider>
         </DialogContent>
         <DialogActions>
@@ -569,8 +655,11 @@ const CheckOutDialog = (props: any) => {
         onClose={closeNewDialog}
         onAddEmployee={handleNewEmployeeAdded}
       />
+    <ClientDialog open={newClientDialogOpen} onClose={closeClientDialog} onAddClient={handleNewClientAdded}/>
     </>
   );
 };
 
 export default CheckOutDialog;
+
+

@@ -17,6 +17,7 @@ export const fetch_employee = createAsyncThunk('transaction/fetch_employee',asyn
   const response = await axios.get("")
   return response.data
 })
+
 export const update_employee = createAsyncThunk('transaction/update_employee',async()=>{
   const response = await axios.put("")
   return response.data

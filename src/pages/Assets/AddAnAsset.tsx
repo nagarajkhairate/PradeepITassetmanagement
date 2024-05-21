@@ -9,6 +9,7 @@ import {
   Select as MuiSelect,
   Option,
 } from "@mui/joy";
+import { InputProps } from '@mui/joy';
 
 import { IoIosArrowDown } from "react-icons/io";
 import { FaPlus } from "react-icons/fa";
@@ -24,7 +25,7 @@ const TypographyLabel: React.FC<{ title: string }> = ({ title }) => (
   </Typography>
 );
 
-const Input: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = ({
+const Input: React.FC<InputProps>  = ({
   ...props
 }) => (
   <MuiInput
@@ -72,6 +73,7 @@ const Select: React.FC<SelectProps> = ({
           transform: "rotate(-180deg)",
         },
       },
+      
       ...sx,
     }}
     {...props}
@@ -463,7 +465,7 @@ const AddAnAsset: React.FC = () => {
                     </Typography>
                   )}
                 </Grid>
-                <Grid sx={{ mr: "820px" }}>
+                <Grid sx={{  }}>
                   <TypographyLabel title="Status"></TypographyLabel>
                   <Select
                     value={status}

@@ -12,7 +12,7 @@ const initialState:Transaction={
   loading:false,
   error:null,
 }
-
+ 
 export const fetch_check_out = createAsyncThunk('transaction/fetch_data',async()=>{
   const response = await axios.get("")
   return response.data

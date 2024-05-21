@@ -78,7 +78,6 @@ const EditAssetInfo: React.FC = (props: any) => {
 
   const [open, setOpen] = useState(false);
   const openPopUp = () => {
-    console.log("openPopUp", openPopUp)
     setOpen(true);
   };
 
