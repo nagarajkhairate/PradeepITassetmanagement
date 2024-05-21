@@ -78,10 +78,7 @@ const Location: React.FunctionComponent<LocationProps> = ({
   };
 
   const handleNextTab = () => {
-    setCompanyFormData((prevData: any) => ({
-      ...prevData,
-      categories: location,
-    }));
+    setCompanyFormData((prevData: any) => ({ ...prevData, ...location }));
     setActiveTab(activeTab + 1);
   };
 
@@ -99,7 +96,7 @@ const Location: React.FunctionComponent<LocationProps> = ({
       setLocation({ ...location, data: updatedData });
       handleEditClose();
     }
-    console.log(Custom);
+    // console.log(Custom);
   };
 
   const handleCheckboxChange = (index: number) => {
@@ -146,13 +143,16 @@ const Location: React.FunctionComponent<LocationProps> = ({
     }
   };
 
+  // const handleContinue = () => {
 
-  console.log(JSON.stringify(companyFormData))
-
+  //   console.log(JSON.stringify(location));
+  // };
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setSelectedValue(event.target.value as string);
   };
+
+  console.log(JSON.stringify(companyFormData))
 
   return (
     <div style={{ width: "100%", background: "#f9f9f9" }}>
@@ -184,7 +184,7 @@ const Location: React.FunctionComponent<LocationProps> = ({
             <Divider />
             <Grid
               container
-              spacing={1}
+              spacing={2}
               sx={{ flexGrow: 1, paddingTop: "20px", paddingBottom: "10px" }}
             >
               <Box>
@@ -194,14 +194,15 @@ const Location: React.FunctionComponent<LocationProps> = ({
                 </Typography>
               </Box>
 
-              <Box sx={{ paddingLeft: { xs: "10%", md: "30%" } }}>
+              <Box sx={{ paddingLeft: { xs: "10%", md: "30%", marginLeft:"25%" } }}>
                 <ButtonGroup
-                  spacing={{ xs: "0.5rem", md: "1rem" }}
+                  spacing={{ xs: "0.5rem", md: "2rem"}}
                   aria-label="spacing button group"
                   sx={{
                     display: "flex",
                     justifyContent: { xs: "center", md: "flex-start" },
                     flexDirection: { xs: "column", md: "row" },
+                    
                   }}
                 >
                   <Button
@@ -209,9 +210,9 @@ const Location: React.FunctionComponent<LocationProps> = ({
                     type="submit"
                     // variant="solid"
                     sx={{
-                      background: "#ffffff",
+                      background: "1px solid green",
                       color: "green",
-                      border: "1px solid green ",
+                      // border: "1px solid green ",
                       borderRadius: "15px",
                       "&:hover": {
                         color: "white",
@@ -385,15 +386,22 @@ const Location: React.FunctionComponent<LocationProps> = ({
             <FormControl
               sx={{
                 display: "flex",
-                flexDirection: "row",
+                // flexDirection: "row",
+                flexDirection:{ xs: "column", md: "row" }
               }}
             >
-              <FormLabel sx={{ paddingTop: "1px" }}>Select a Site:</FormLabel>
+              <FormLabel sx={{ paddingTop: "1px", mb: { xs: 1, md: 0 } }}>Select a Site:</FormLabel>
               <Select
                 placeholder="Nothing Selected"
+                // sx={{
+                //   width: 240,
+                //   marginLeft: "20px",
+                //   background: "#c62828",
+                //   color: "white",
+                // }}
                 sx={{
-                  width: 240,
-                  marginLeft: "20px",
+                  width: { xs: "100%", md: 240 },
+                  marginLeft: { md: "20px" },
                   background: "#c62828",
                   color: "white",
                 }}
@@ -426,16 +434,18 @@ const Location: React.FunctionComponent<LocationProps> = ({
             handleDeleteClose={handleDeleteClose}
             setMatchedSelected={setMatchedSelected}
           />
-          {/* <Buttons handleContinue={handleContinue} toLink="location" /> */}
+
+          
           <Grid xs={12} md={4}>
             <React.Fragment>
               <Box
-                sx={{ marginTop: "1px", marginBottom: "15px", padding: "20px" }}
+                sx={{ marginTop: "1px", marginBottom: "15px", padding: "20px", marginRight:"8%" }}
               >
                 <ButtonGroup
                   spacing="1rem"
                   aria-label="spacing button group"
-                  sx={{ paddingLeft: "84%" }}
+                  // sx={{ paddingLeft: "84%" }}
+                  sx={{ paddingLeft: { xs: "0", md: "84%" }, justifyContent: { xs: "center", md: "flex-start" } }}
                 >
                   <Button sx={{ fontSize: "15px" }} onClick={handlePrevTab}>
                     <NavigateBeforeOutlinedIcon />

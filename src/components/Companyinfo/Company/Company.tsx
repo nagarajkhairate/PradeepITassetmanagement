@@ -113,7 +113,7 @@ const Company: React.FC<CompanyProps> = ({
       reader.readAsDataURL(file);
     }
 
-    setCompanyFormData((prevData) => ({
+    setCompanyFormData((prevData:any) => ({
       ...prevData,
       logo: file || null,
     }));
@@ -145,7 +145,7 @@ const Company: React.FC<CompanyProps> = ({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setCompanyFormData((prevData) => ({
+    setCompanyFormData((prevData:any) => ({
       ...prevData,
       [name]: value,
     }));
@@ -156,7 +156,7 @@ const Company: React.FC<CompanyProps> = ({
     newValue: string | null
   ) => {
     if (newValue !== null) {
-      setCompanyFormData((prevData) => ({
+      setCompanyFormData((prevData:any) => ({
         ...prevData,
         month: newValue,
       }));
@@ -169,7 +169,7 @@ const Company: React.FC<CompanyProps> = ({
     newValue: number | null
   ) => {
     if (newValue !== null) {
-      setCompanyFormData((prevData) => ({
+      setCompanyFormData((prevData:any) => ({
         ...prevData,
         financialDays: newValue,
       }));
@@ -188,7 +188,7 @@ const Company: React.FC<CompanyProps> = ({
     newValue: string | null
   ) => {
     if (newValue !== null) {
-      setCompanyFormData((prevData) => ({
+      setCompanyFormData((prevData:any) => ({
         ...prevData,
         currency: newValue,
       }));
@@ -201,7 +201,7 @@ const Company: React.FC<CompanyProps> = ({
     newValue: string | null
   ) => {
     if (newValue !== null) {
-      setCompanyFormData((prevData) => ({
+      setCompanyFormData((prevData:any) => ({
         ...prevData,
         timezone: newValue,
       }));
@@ -218,7 +218,7 @@ const Company: React.FC<CompanyProps> = ({
     event: React.SyntheticEvent | null,
     newValue: string | null
   ) => {
-    setCompanyFormData((prevData) => ({
+    setCompanyFormData((prevData: any) => ({
       ...prevData,
       country: newValue!,
     }));
@@ -229,7 +229,7 @@ const Company: React.FC<CompanyProps> = ({
     event: React.SyntheticEvent | null,
     newValue: string | null
   ) => {
-    setCompanyFormData((prevData) => ({
+    setCompanyFormData((prevData:any) => ({
       ...prevData,
       state: newValue!,
     }));
