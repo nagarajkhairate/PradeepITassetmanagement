@@ -12,6 +12,14 @@ import TableOption from './pages/Setup/TableOption'
 import EditAssets from './pages/Assets/EditAssets'
 import EditAssetDetails from './components/AssetSections/EditAsset/EditAssetDetails'
 import CompanyInfo from './pages/Companyinfo/CompanyInfo'
+import CheckOut from './pages/CheckOut/CheckOut'
+import CheckIn from './pages/CheckIn/CheckIn'
+import Lease from './pages/Lease/Lease'
+import LeaseReturn from './pages/LeaseReturn/LeaseReturn'
+import Dispose from './pages/Dispose/Dispose'
+import Maintenance from './pages/Maintenance/Maintenance'
+import Reserve from './components/AssetSections/EditAsset/Tabs/Reserve'
+import Move from './pages/Move/Move'
 
 const App = () => {
   
@@ -38,6 +46,15 @@ const App = () => {
           <Route path='/assets/listofassets' element={<ListOfAssets/>}/>
           <Route path='/assets/EditAsset' element={<EditAssets/>}/>
           <Route path="/company-info" element={<CompanyInfo />} />
+          <Route path="/checkout" element={<CheckOut />} />
+          <Route path="/checkin" element={<CheckIn />} />
+          <Route path="/lease" element={<Lease/>} />
+          <Route path="/leasereturn" element={<LeaseReturn />} />
+          <Route path="/dispose" element={<Dispose />} />
+          <Route path="/maintenance" element={<Maintenance/>} />
+          <Route path='/move' element={<Move/>} />
+           <Route path='/reserve' element={<Reserve/>} />
+
       </Routes>
     </Box>
     

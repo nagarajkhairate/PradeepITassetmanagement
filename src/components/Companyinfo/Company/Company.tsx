@@ -57,7 +57,7 @@ interface FormData {
   date: Date;
   month: string;
   financialDays: number;
-  logo: File | null;
+  logo: string;
 }
 
 type FileInputChangeHandler = (file: File | null) => void;
@@ -88,7 +88,7 @@ const Company: React.FC<CompanyProps> = ({
   //   date: new Date(),
   //   month: "",
   //   financialDays: 0,
-  //   logo: null,
+  //   logo: "",
   // });
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -113,7 +113,7 @@ const Company: React.FC<CompanyProps> = ({
       reader.readAsDataURL(file);
     }
 
-    setCompanyFormData((prevData) => ({
+    setCompanyFormData((prevData : any)  => ({
       ...prevData,
       logo: file || null,
     }));
@@ -145,7 +145,7 @@ const Company: React.FC<CompanyProps> = ({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setCompanyFormData((prevData) => ({
+    setCompanyFormData((prevData:any) => ({
       ...prevData,
       [name]: value,
     }));
@@ -156,7 +156,7 @@ const Company: React.FC<CompanyProps> = ({
     newValue: string | null
   ) => {
     if (newValue !== null) {
-      setCompanyFormData((prevData) => ({
+      setCompanyFormData((prevData:any) => ({
         ...prevData,
         month: newValue,
       }));
@@ -169,7 +169,7 @@ const Company: React.FC<CompanyProps> = ({
     newValue: number | null
   ) => {
     if (newValue !== null) {
-      setCompanyFormData((prevData) => ({
+      setCompanyFormData((prevData:any) => ({
         ...prevData,
         financialDays: newValue,
       }));
@@ -188,7 +188,7 @@ const Company: React.FC<CompanyProps> = ({
     newValue: string | null
   ) => {
     if (newValue !== null) {
-      setCompanyFormData((prevData) => ({
+      setCompanyFormData((prevData:any) => ({
         ...prevData,
         currency: newValue,
       }));
@@ -201,7 +201,7 @@ const Company: React.FC<CompanyProps> = ({
     newValue: string | null
   ) => {
     if (newValue !== null) {
-      setCompanyFormData((prevData) => ({
+      setCompanyFormData((prevData:any) => ({
         ...prevData,
         timezone: newValue,
       }));
@@ -218,24 +218,22 @@ const Company: React.FC<CompanyProps> = ({
     event: React.SyntheticEvent | null,
     newValue: string | null
   ) => {
-    setCompanyFormData((prevData) => ({
+    setCompanyFormData((prevData:any) => ({
       ...prevData,
       country: newValue!,
     }));
   };
 
-  // Handle state change
   const handleStateChange = (
     event: React.SyntheticEvent | null,
     newValue: string | null
   ) => {
-    setCompanyFormData((prevData) => ({
+    setCompanyFormData((prevData:any) => ({
       ...prevData,
       state: newValue!,
     }));
   };
 
-  //custom component for Datepicker
   const DatePicker: React.FC<{
     value: string;
     onChange: (date: string) => void;
@@ -267,7 +265,7 @@ const Company: React.FC<CompanyProps> = ({
       companyFormData.month.trim() !== "" &&
       companyFormData.financialDays !== null &&
       companyFormData.financialDays > 0 &&
-      companyFormData.logo !== null;
+      companyFormData.logo !== "";
 
     return isValid;
   };
@@ -302,7 +300,7 @@ const Company: React.FC<CompanyProps> = ({
     >
       <Box
         component={TuneOutlinedIcon}
-        color="#FBC21E"
+        color="#FABC1E"
         sx={{
           fontSize: { xs: "24px", md: "30px" },
           marginRight: "10px"
@@ -313,10 +311,10 @@ const Company: React.FC<CompanyProps> = ({
         </FlexBox>
       </Box>
 
-      <div style={{ width: "100%", background: "#f9f9f9" }}>
+      <div style={{ margin: "20px" }} >
         <Box
           sx={{
-            borderRadius: "10px",
+            borderRadius: "16px",
             boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
             background: "#ffffff",
             margin: {
@@ -326,9 +324,6 @@ const Company: React.FC<CompanyProps> = ({
           }}
         >
           <Box component="section" sx={{ p: 2, border: "10px" }}>
-            {/* <Header /> */}
-            <Divider />
-
             <form>
               <Box
               >
@@ -815,7 +810,7 @@ const Company: React.FC<CompanyProps> = ({
                   sx={{
                     background: "#FABC1E",
                     width: { xs: "100%", sm: "150px", md: "125px" },
-                    height: "50px",
+                    height: "30px",
                     marginLeft: { xs: "0", md: "auto" },
                     marginTop: { xs: "10px", md: "0" },
                     color: "black",
