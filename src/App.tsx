@@ -12,7 +12,10 @@ import TableOption from './pages/Setup/TableOption'
 import EditAssets from './pages/Assets/EditAssets'
 import EditAssetDetails from './components/AssetSections/EditAsset/EditAssetDetails'
 import CompanyInfo from './pages/Companyinfo/CompanyInfo'
-import MaintainanceDue from './pages/Maintainance/MaintainanceDue'
+import MaintenanceDue from './pages/Maintainance/MaintenanceDue'
+import MaintenanceOverdue from './pages/Maintainance/MaintenanceOverdue'
+import Warranty from './pages/Maintainance/WarrantieExp'
+import LeasesExp from './pages/Maintainance/LeasesExpiring'
 
 const App = () => {
   
@@ -39,7 +42,10 @@ const App = () => {
           <Route path='/assets/listofassets' element={<ListOfAssets/>}/>
           <Route path='/assets/EditAsset' element={<EditAssets/>}/>
           <Route path="/company-info" element={<CompanyInfo />} />
-          <Route path='/maintainance' element={<MaintainanceDue />} />
+          <Route path='/maintenance' element={<MaintenanceDue />} />
+          <Route path='/maintenanceoverdue' element={<MaintenanceOverdue />} />
+          <Route path='/warranty' element={<Warranty />} />
+          <Route path='/lease' element={<LeasesExp />} />
       </Routes>
     </Box>
     

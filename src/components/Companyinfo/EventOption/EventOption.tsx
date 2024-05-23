@@ -55,14 +55,14 @@ interface CustomButtonBoxProps {
 }
 
 type companyFormDataState = {
-  checkoutButtons: boolean;
-  leaseButtons: boolean;
-  lostFoundButtons: boolean;
-  repairButtons: boolean;
-  brokenButtons: boolean;
-  disposeButtons: boolean;
-  donateButtons: boolean;
-  sellButtons: boolean;
+  checkout: boolean;
+  lease: boolean;
+  lostFound: boolean;
+  repair: boolean;
+  broken: boolean;
+  dispose: boolean;
+  donate: boolean;
+  sell: boolean;
 };
 
 interface AssetRadioGroupProps {
@@ -216,9 +216,9 @@ const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
                 </Typography>
               </Box>
               <AssetRadioGroup
-              name='checkoutButtons'
+              name='checkout'
                 onChange={HandleRadioSelect}
-                value={companyFormData.checkoutButtons}
+                value={companyFormData.checkout}
               />
               <>
                   <CustomButtonBox
@@ -258,10 +258,10 @@ const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
                 </Typography>
               </Box>
               <AssetRadioGroup
-              name='leaseButtons'
+              name='lease'
               onChange={HandleRadioSelect}
                 
-                value={companyFormData.leaseButtons}
+                value={companyFormData.lease}
               />
               
                 <>
@@ -301,10 +301,10 @@ const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
                 </Typography>
               </Box>
               <AssetRadioGroup
-              name='lostFoundButtons'
+              name='lostFound'
               onChange={HandleRadioSelect}
                
-                value={companyFormData.lostFoundButtons}
+                value={companyFormData.lostFound}
               />
              
                 <>
@@ -337,10 +337,10 @@ const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
                 </Typography>
               </Box>
               <AssetRadioGroup
-              name='repairButtons'
+              name='repair'
               onChange={HandleRadioSelect}
                
-                value={companyFormData.repairButtons}
+                value={companyFormData.repair}
               />
               
                 <CustomButtonBox
@@ -366,11 +366,11 @@ const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
                 </Typography>
               </Box>
               <AssetRadioGroup
-               name='brokenButtons'
+               name='broken'
                onChange={HandleRadioSelect}
                 
                 
-                value={companyFormData.brokenButtons}
+                value={companyFormData.broken}
               />
              
                 <CustomButtonBox
@@ -397,11 +397,11 @@ const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
                 </Typography>
               </Box>
               <AssetRadioGroup
-              name='disposeButtons'
+              name='dispose'
               onChange={HandleRadioSelect}
                
                 
-                value={companyFormData.disposeButtons}
+                value={companyFormData.dispose}
               />
              
                 <CustomButtonBox
@@ -428,11 +428,11 @@ const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
                 </Typography>
               </Box>
               <AssetRadioGroup
-              name='donateButtons'
+              name='donate'
               onChange={HandleRadioSelect}
                
                
-                value={companyFormData.donateButtons}
+                value={companyFormData.donate}
               />
              
                 <CustomButtonBox
@@ -459,12 +459,12 @@ const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
                 </Typography>
               </Box>
               <AssetRadioGroup
-               name='sellButtons'
+               name='sell'
                onChange={HandleRadioSelect}
                 
                 
                 
-                value={companyFormData.sellButtons}
+                value={companyFormData.sell}
               />
              
                 <CustomButtonBox

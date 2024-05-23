@@ -1,13 +1,35 @@
-import { Box, Button, Checkbox, FormControl, FormLabel, Input, Modal, Sheet, Stack, Table, Typography } from "@mui/joy";
+import { Box, Button, Checkbox, FormControl, FormLabel, Input, Modal, Option, Radio, RadioGroup, Select, Sheet, Stack, Table, Typography } from "@mui/joy";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { ChangeEvent, useState } from "react";
+ 
+
+const initialDatabase = [
+    {
+     
+      fieldName: "swde",
+      dataType: "wsedf",
+      Category: "234frd",
+      required: "swed",
+    },
+  ];
+   
+  interface dataItem {
+   
+    fieldName: string;
+    dataType: string;
+    category: string;
+    required: boolean;
+  }
 
 
+ 
 interface DataProps {
     matchedSelected: number[];
     setMatchedSelected: React.Dispatch<React.SetStateAction<number[]>>;
-    dataBase: { data: string[] };
-    setDataBase: React.Dispatch<React.SetStateAction<{ data: string[] }>>;
+    dataBase: { data: dataItem[] };
+    setDataBase: React.Dispatch<React.SetStateAction<{ data: dataItem[] }>>;
+    
     editOpen: boolean;
     setEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
     deleteOpen: boolean;
@@ -23,7 +45,9 @@ interface DataProps {
     handleDeleteOpen: () => void;
     handleDeleteClose: () => void;
   }
-
+ 
+ 
+ 
 const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
     setMatchedSelected,
     dataBase,
@@ -36,13 +60,71 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
     setSelectedCell,
     handleCheckboxChange,
     handleEdit,
-    handleEditButton,
+    // handleEditButton,
     handleDeleteButton,
     handleDeleteSubmit,
-    handleEditClose,
+    // handleEditClose,
     handleDeleteOpen,
     handleDeleteClose,
-  })=>{
+  }: DataProps)=>{
+ 
+    const [formData, setFormData] = useState({
+        custom: "",
+        dataType: "",
+        dataRequired: false,
+        selectedCategories: "",
+      });
+    const [showDepreciationOptions, setShowDepreciationOptions] =useState<boolean>(false);
+    const handleDepreciationChange = (event: ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+      setShowDepreciationOptions(value === "Yes");
+      // setCompanyFormData((prevState: any) => ({ ...prevState, assetDepreciation: value }));
+    };
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value, type } = e.target;
+        const val = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
+        setFormData((prevData) => ({ ...prevData, [name]: val }));
+      };
+
+      const handleSelectChange = (
+        event: React.SyntheticEvent | null,
+        newValue: string | null
+      ) => {
+        setFormData((prevData) => ({ ...prevData, dataType: newValue || "" }));
+      };
+
+      const handleClickEditOpen = () => {
+        setEditOpen(true);
+      };
+    
+      const handleEditClose = () => {
+        setEditOpen(false);
+        setSelectedCell(null);
+    
+        // console.log(JSON.stringify(editOpen))
+      };
+      const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Access the value of the 'Custom' field from the form
+    const custom = formData.custom;
+
+    // Check if a cell is selected
+    if (selectedCell !== null) {
+        // Update the data in the database
+        const updatedData = dataBase.data.map((item, index) =>
+            index === selectedCell ? { ...item, fieldName: custom } : item
+        );
+
+        // Update the state with the updated database
+        setDataBase({ ...dataBase, data: updatedData });
+
+        // Close the edit modal
+        handleEditClose();
+    }
+};
+
     return(
         <Stack
                 direction={{ xs: "column", sm: "row" }}
@@ -89,13 +171,17 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
                           sx={{ verticalAlign: "text-bottom" }}
                         />
                       </th>
+                      <th>Field Name</th>
+                      <th>Data Type</th>
                       <th>Category</th>
+                      <th>Required</th>
                       <th>Edit</th>
                       <th>Delete</th>
+ 
                     </tr>
                   </thead>
                   <tbody>
-                    {dataBase.data.map((Custom, index) => (
+                    {dataBase.data.map((item, index) => (
                       <tr key={index}>
                         <td>
                           <Checkbox
@@ -104,7 +190,10 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
                             color="primary"
                           />
                         </td>
-                        <td>{Custom}</td>
+                        <td>{item.fieldName}</td>
+                        <td>{item.dataType}</td>
+                        <td>{item.required}</td>
+                        <td>{item.category}</td>
                         <td>
                           <Button onClick={handleEdit}>
                             <EditOutlinedIcon />
@@ -121,7 +210,9 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
                     ))}
                   </tbody>
                 </Table>
-
+ 
+ 
+ 
                 <Modal
                   open={editOpen}
                   onClose={handleEditClose}
@@ -146,8 +237,9 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
             mb={1}>
                       {"Edit the Customs here"}
                     </Typography>
-
+ 
                     <form onSubmit={handleEditButton}>
+                     
                       <FormControl
                         sx={{
                           display: "flex",
@@ -158,22 +250,98 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
                         <FormLabel
                           sx={{ paddingTop: "30px", marginLeft: "20px" }}
                         >
-                          Category*
+                          Custom Field Label*
                         </FormLabel>
                         <Input
                           variant="outlined"
                           type="text"
-                          id="Custom"
-                          name="Custom"
+                          id="custom"
+                          name="custom"
+                          value={formData.custom}
+                        onChange={handleChange}
                           required
                           sx={{ width: "70%", marginLeft: "10px" }}
-                          defaultValue={
-                            selectedCell !== null
-                              ? dataBase.data[selectedCell]
-                              : ""
-                          }
+                        //   defaultValue={
+                        //     selectedCell !== null
+                        //       ? dataBase.data[selectedCell]
+                        //       : ""
+                        //   }
                         />
                       </FormControl>
+ 
+                      <FormControl>
+                            <FormLabel
+                              sx={{ paddingTop: "30px", marginLeft: "20px" }}
+                            >
+                              Data Types*
+                           
+                            <Select placeholder="Select Data Types"
+                            sx={{ width: "50%", marginLeft: "60px" }}
+                            value={formData.dataType}
+                        onChange={handleSelectChange}
+                            >
+                             <Option value="checkbox List">Checkbox List</Option>
+                             <Option value="Currency">Currency</Option>
+                             <Option value="Date">Date</Option>
+                             <Option value="Memo">Memo</Option>
+                             <Option value="Email">Email</Option>
+                            </Select>
+                            </FormLabel>
+                          </FormControl>
+ 
+ 
+ 
+                         
+                          <FormControl
+                        sx={{
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                        }}
+                      >
+                         
+                          <FormLabel sx={{ paddingTop: "30px", marginLeft: "20px" }}> Data Required </FormLabel>
+                          <RadioGroup
+                          name="dataRequired"
+                          value={formData.dataRequired.toString()} 
+                          onChange={handleChange}
+                        >
+                          <Box>
+                            <Radio
+                              value="Yes"
+                              label="true"
+                              variant="outlined"
+                              sx={{ paddingTop: "30px", marginLeft: "50px" }}
+                            />
+                            <Radio value="No" label="No" variant="outlined" sx={{ paddingTop: "30px", marginLeft: "10px" }}/>
+                          </Box>
+                          </RadioGroup>
+                          </FormControl>
+ 
+                          <Box>
+                          <FormLabel sx={{ paddingTop: "40px", marginLeft: "20px" }}> Selected Categories</FormLabel>
+                          <FormLabel sx={{ marginLeft: "165px", paddingBottom:'30px' }}> Is this field visible to assets of selective 'Categories'?</FormLabel>
+                          <RadioGroup
+                           name="selectedCategories" value={formData.selectedCategories.toString()}
+                          
+                          onChange={handleChange}
+                        >
+                          <Box>
+                            <Radio
+                              value="Yes"
+                              label="All Categories"
+                              variant="outlined"
+                              sx={{ paddingTop: "20px", marginLeft: "160px" }}
+                            />
+                            <Radio value="No" label="Limited Categories" variant="outlined" sx={{ paddingTop: "30px", marginLeft: "20px" }}/>
+                           
+                          </Box>
+                          </RadioGroup>
+                        </Box>
+ 
+ 
+ 
+ 
                       <Button
               autoFocus
               type="submit"
@@ -187,7 +355,7 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
             >
               Update
             </Button>
-
+ 
             <Button
               type="button"
               onClick={handleEditClose}
@@ -202,7 +370,7 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
                   </div>
                   </Sheet>
                 </Modal>
-
+ 
                 <Modal
                   open={deleteOpen}
                   onClose={() => setDeleteOpen(false)}
@@ -227,7 +395,7 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
             mb={1}>
                       {"Edit the Customs here"}
                     </Typography>
-
+ 
                     <form onSubmit={handleDeleteSubmit}>
                       <FormControl
                         sx={{
@@ -237,21 +405,9 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
                         }}
                       >
                         <Box sx={{ marginBottom: "20px", padding: "20px" }}>
-                          Are you sure you want to delete this Category?
+                          Are you sure you want to delete this Field Data?
                         </Box>
-                        <Input
-                          variant="outlined"
-                          type="text"
-                          id="Custom"
-                          name="Custom"
-                          required
-                          sx={{ width: "92%", marginLeft: "20px" }}
-                          defaultValue={
-                            selectedCell !== null
-                              ? dataBase.data[selectedCell]
-                              : ""
-                          }
-                        />
+                        
                       </FormControl>
                       <Button
               autoFocus
@@ -266,7 +422,7 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
             >
               Confirm Delete
             </Button>
-
+ 
             <Button
               type="button"
               onClick={handleDeleteClose}

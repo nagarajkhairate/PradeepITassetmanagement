@@ -257,11 +257,17 @@ const DataBase: React.FunctionComponent<DataBaseProps >  = ({
     setCompanyFormData((prevData: any) => ({ ...prevData, [name]: value }));
   };
 
+  // const handleContinue = () => {
+  //   setFormData((prevData) => ({ ...prevData, ...dataBase }));
 
+  //   console.log(JSON.stringify(formData));
+  //   console.log(JSON.stringify(dataBase));
+  // };
 
   const handleNextTab = () => {
     setCompanyFormData((prevData: any) => ({ ...prevData, dataBase : dataBase}));
     setActiveTab(activeTab + 1); 
+    console.log(JSON.stringify(dataBase));
   };
 
   const handlePrevTab = () => {
@@ -358,12 +364,17 @@ const DataBase: React.FunctionComponent<DataBaseProps >  = ({
             </Box>
 
             <Box>
-              <DataBaseAdd
-                dataBase={dataBase}
-                setDataBase={setDataBase}
-                addCustomField={addCustomField}
-                deleteCustomField={deleteCustomField}
-              />
+            <DataBaseAdd
+  dataBase={dataBase} 
+  setDataBase={setDataBase} 
+  addCustomField={addCustomField}
+  deleteCustomField={deleteCustomField} 
+  companyFormData={companyFormData} 
+  setCompanyFormData={setCompanyFormData} 
+  activeTab={activeTab} 
+  setActiveTab={setActiveTab} 
+/>
+
 
               <DataBaseEdit
                 matchedSelected={matchedSelected}

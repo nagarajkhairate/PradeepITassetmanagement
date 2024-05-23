@@ -15,7 +15,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 interface PopupProps {
-  location: { data: string[] };
+  location: { locationData: string[] };
   matchedSelected: number[];
   handleCheckboxChange: (index: number) => void;
   handleEdit: () => void;
@@ -70,21 +70,21 @@ export function Popup({
                 size="sm"
                 indeterminate={
                   matchedSelected.length > 0 &&
-                  matchedSelected.length < location.data.length
+                  matchedSelected.length < location.locationData.length
                 }
                 checked={
                   matchedSelected.length > 0 &&
-                  matchedSelected.length === location.data.length
+                  matchedSelected.length === location.locationData.length
                 }
                 onChange={(event) => {
                   const isChecked = event.target.checked;
                   setMatchedSelected(
-                    isChecked ? location.data.map((_, index) => index) : []
+                    isChecked ? location.locationData.map((_, index) => index) : []
                   );
                 }}
                 color={
                   matchedSelected.length > 0 &&
-                  matchedSelected.length === location.data.length
+                  matchedSelected.length === location.locationData.length
                     ? "primary"
                     : undefined
                 }
@@ -97,7 +97,7 @@ export function Popup({
           </tr>
         </thead>
         <tbody>
-          {location.data.map((Custom, index) => (
+          {location.locationData.map((Custom, index) => (
             <tr key={index}>
               <td>
                 <Checkbox
@@ -186,7 +186,7 @@ export function Popup({
                       marginTop: "25px",
                     }}
                     defaultValue={
-                      selectedCell !== null ? location.data[selectedCell] : ""
+                      selectedCell !== null ? location.locationData[selectedCell] : ""
                     }
                   />
                 </FormControl>

@@ -20,7 +20,8 @@ import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined";
 import NavigateBeforeOutlinedIcon from "@mui/icons-material/NavigateBeforeOutlined";
 
 const initialData = {
-  data: ["transfer"],
+  locationData: [
+    "transfer"],
 };
 
 interface LocationProps {
@@ -42,7 +43,7 @@ const Location: React.FunctionComponent<LocationProps> = ({
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
   const [editOpen, setEditOpen] = useState(false);
   const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
-  const [location, setLocation] = useState<{ data: string[] }>(initialData);
+  const [location, setLocation] = useState<{ locationData: string[] }>(initialData);
   const [selectedValue, setSelectedValue] = useState<string | "">("");
 
   const handleAddSkill = (e: React.FormEvent<HTMLFormElement>) => {
@@ -56,7 +57,7 @@ const Location: React.FunctionComponent<LocationProps> = ({
   };
 
   const addSkill = (custom: string) => {
-    setLocation({ ...location, data: [...location.data, custom] });
+    setLocation({ ...location, locationData: [...location.locationData, custom] });
     handleClose();
   };
 
@@ -90,10 +91,10 @@ const Location: React.FunctionComponent<LocationProps> = ({
     e.preventDefault();
     const Custom = (e.target as HTMLFormElement).Custom.value;
     if (selectedCell !== null) {
-      const updatedData = location.data.map((item, index) =>
+      const updatedData = location.locationData.map((item, index) =>
         index === selectedCell ? Custom : item
       );
-      setLocation({ ...location, data: updatedData });
+      setLocation({ ...location, locationData: updatedData });
       handleEditClose();
     }
     // console.log(Custom);
@@ -116,10 +117,10 @@ const Location: React.FunctionComponent<LocationProps> = ({
 
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const updatedData = location.data.filter(
+    const updatedData = location.locationData.filter(
       (_, index) => index !== selectedCell
     );
-    setLocation({ ...location, data: updatedData });
+    setLocation({ ...location, locationData: updatedData });
     setMatchedSelected([]);
     setDeleteOpen(false);
   };
