@@ -64,6 +64,7 @@ const Maintenance: React.FC = () => {
 
   const selectedAssetData = assets.filter(asset => selectedAssets.includes(asset.id));
 
+
   return (
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', margin: "52px" }}>

@@ -66,29 +66,44 @@ const CheckOut: React.FC = () => {
   );
 
   const selectedAssetData = assets.filter(asset => selectedAssets.includes(asset.id));
-
+  
   return (
     <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', margin: "52px" }}>
-        <Typography
-          level="h3"
-          sx={{ display: "flex", alignItems: "center" }}
-        >
-          Check-Out
-        </Typography>
-        
-        <Button
-          onClick={handleOpen}
-          sx={{
-            backgroundColor: "#13B457",
-            color: "white",
-            "&:hover": { backgroundColor: "darkgreen" },
-          }}
-        >
-          + Select Assets
-        </Button>
-      </Box>
-
+  <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        margin: { xs: "16px", sm: "36px", md: "52px" },  // Adjusted margin for different screen sizes
+        flexDirection: { xs: "column", md: "row" },
+        alignItems: 'center', // Ensure alignment in column layout
+      }}
+    >
+      <Typography
+        level="h3"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          fontSize: { xs: "1.5rem", sm: "2rem", md: "2.0rem" }, 
+          marginBottom: { xs: "16px", md: "0" },  // Add bottom margin for small screens
+        }}
+      >
+        Check-Out
+      </Typography>
+      
+      <Button
+        onClick={handleOpen}
+        sx={{
+          backgroundColor: "#13B457",
+          width: { xs: "100%", sm: "50%", md: "180px" },
+          height: { xs: "40px", sm: "50px", md: "40px" }, 
+          fontSize: { xs: "1rem", sm: "1.25rem", md: "1rem" },  
+          color: "white",
+          "&:hover": { backgroundColor: "darkgreen" },
+        }}
+      >
+        + Select Assets
+      </Button>
+    </Box>
     
       {selectedAssetData.length > 0 ? (
         <CheckOutForm selectedAssets={selectedAssetData} />
@@ -127,10 +142,10 @@ const CheckOut: React.FC = () => {
             />
           </Box>
           <Box>
-            <Grid container spacing={1} sx={{ marginBottom: 2, fontWeight: 'bold', padding: "0 20px" }} color="#767676">
+            <Grid container spacing={1} sx={{ marginBottom: 2, fontWeight: 'bold', padding: "0 20px", }} color="#767676">
               <Grid xs={1}><Checkbox /></Grid>
-              <Grid xs={2}>Assets Tag ID</Grid>
-              <Grid xs={4}>Description</Grid>
+              <Grid xs={2}> Assets Tag ID</Grid>
+              <Grid xs={4}> Description</Grid>
               <Grid xs={1}>Status</Grid>
               <Grid xs={2}>Assigned to</Grid>
               <Grid xs={1}>Site</Grid>

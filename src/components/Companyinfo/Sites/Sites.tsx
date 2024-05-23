@@ -22,7 +22,7 @@ import DeleteSiteDialog from "./DeleteSiteDialog";
 const initialSites = [
   {
     id: 1,
-    name: "swde",
+    sitename: "swde",
     description: "wsedf",
     address: "234frd",
     aptSuite: "swed",
@@ -35,7 +35,7 @@ const initialSites = [
 
 interface Site {
   id: number;
-  name: string;
+  sitename: string;
   description: string;
   address: string;
   aptSuite: string;
@@ -67,7 +67,6 @@ const Sites: React.FC<SiteProps> = ({
   const [selectedSite, setSelectedSite] = useState<any>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
-  // const [siteChange, setSiteChange] = useState(initialSites);
   const [sites, setSites] = useState(initialSites);
 
   const handleDeleteClick = (site: any) => {
@@ -76,7 +75,7 @@ const Sites: React.FC<SiteProps> = ({
   };
 
   const handleDelete = () => {
-    const updatedSites = sites.filter((site) => site.name !== selectedSite.name);
+    const updatedSites = sites.filter((site) => site.sitename !== selectedSite.name);
     setSites(updatedSites);
     setDeleteOpen(false);
     setSelectedSite(null);
@@ -320,7 +319,7 @@ const Sites: React.FC<SiteProps> = ({
                           color="primary"
                         />
                       </td>
-                      <td>{site.name}</td>
+                      <td>{site.sitename}</td>
                       <td>{site.description}</td>
                       <td>{site.address}</td>
                       <td>{site.aptSuite}</td>

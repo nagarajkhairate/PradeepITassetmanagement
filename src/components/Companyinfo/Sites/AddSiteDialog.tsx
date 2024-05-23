@@ -11,7 +11,7 @@ interface AddSiteDialogProps {
 
 const initialSitesData = {
   id: "",
-  name: "", 
+  sitename: "", 
   description: "",
   address: "",
   aptSuite: "",
@@ -51,7 +51,7 @@ const AddSiteDialog: React.FC<AddSiteDialogProps> = ({ open, onClose, setSites, 
     <Modal open={open} onClose={onClose}>
       <Box sx={modalStyle}>
         <Typography level="h4" sx={{ mb: 2 }}>Add New Site</Typography>
-        <Input placeholder="Select Site" name="name" value={newSite.name} onChange={handleChange} fullWidth sx={{ mb: 2 }} />
+        <Input placeholder="Select Site" name="sitename" value={newSite.sitename} onChange={handleChange} fullWidth sx={{ mb: 2 }} />
         <Input placeholder="Description" name="description" value={newSite.description} onChange={handleChange} fullWidth sx={{ mb: 2 }} />
         <Input placeholder="Address" name="address" value={newSite.address} onChange={handleChange} fullWidth sx={{ mb: 2 }} />
         <Input placeholder="Apt./ Suite" name="aptSuite" value={newSite.aptSuite} onChange={handleChange} fullWidth sx={{ mb: 2 }} />

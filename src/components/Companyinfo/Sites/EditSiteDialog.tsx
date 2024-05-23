@@ -8,7 +8,7 @@ interface EditSiteDialogProps {
 
   site: {
     id: number;
-    name: string;
+    sitename: string;
     description: string;
     address: string;
     aptSuite: string;
@@ -19,7 +19,7 @@ interface EditSiteDialogProps {
   };
   sites: {
     id: number;
-    name: string;
+    sitename: string;
     description: string;
     address: string;
     aptSuite: string;
@@ -80,8 +80,8 @@ const EditSiteDialog: React.FC<EditSiteDialogProps> = ({
           <FormControl sx={{ mb: 2 }}>
         <Input
           placeholder="Site Name"
-          name="name"
-          value={updatedSite.name}
+          name="sitename"
+          value={updatedSite.sitename}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}

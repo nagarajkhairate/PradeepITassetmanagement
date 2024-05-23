@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Typography, Box, Button, Grid, Checkbox, Modal, Input } from "@mui/joy";
 import SearchIcon from "../../Assets/search.svg";
 import EmptyContainer from "../../components/Common/EmptyContainer";
+import CheckInForm from "./CheckInForm";
 
 const assets = [
   {
@@ -37,6 +38,7 @@ const CheckIn: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectedAssets, setSelectedAssets] = useState<string[]>([]);
+  const [remainingAssets, setRemainingAssets] = useState(assets);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -54,6 +56,8 @@ const CheckIn: React.FC = () => {
   };
 
   const handleAddToList = () => {
+    const addedAssets = remainingAssets.filter(asset => selectedAssets.includes(asset.id));
+    setRemainingAssets(remainingAssets.filter(asset => !selectedAssets.includes(asset.id)));
     handleClose();
   };
 
@@ -65,29 +69,47 @@ const CheckIn: React.FC = () => {
 
   return (
     <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', margin: "52px" }}>
-        <Typography
-          level="h3"
-          sx={{ display: "flex", alignItems: "center" }}
-        >
-          Check-In
-        </Typography>
-        
-        <Button
-          onClick={handleOpen}
-          sx={{
-            backgroundColor: "#13B457",
-            color: "white",
-            "&:hover": { backgroundColor: "darkgreen" },
-          }}
-        >
-          + Select Assets
-        </Button>
-      </Box>
+     <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        margin: { xs: "16px", sm: "36px", md: "52px" },  // Adjusted margin for different screen sizes
+        flexDirection: { xs: "column", md: "row" },
+        alignItems: 'center', // Ensure alignment in column layout
+      }}
+    >
+      <Typography
+        level="h3"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          fontSize: { xs: "1.5rem", sm: "2rem", md: "2.0rem" }, 
+          marginBottom: { xs: "16px", md: "0" },  // Add bottom margin for small screens
+        }}
+      >
+        Check-In
+      </Typography>
+      
+      <Button
+        onClick={handleOpen}
+        sx={{
+          backgroundColor: "#13B457",
+          width: { xs: "100%", sm: "50%", md: "180px" },
+          height: { xs: "40px", sm: "50px", md: "40px" }, 
+          fontSize: { xs: "1rem", sm: "1.25rem", md: "1rem" },  
+          color: "white",
+          "&:hover": { backgroundColor: "darkgreen" },
+        }}
+      >
+        + Select Assets
+      </Button>
+    </Box>
 
-      <EmptyContainer title="Keep track of your assets within your organization and create an even more detailed history of them."
-    //    selectedAssets={selectedAssetData}
-       />
+      {selectedAssetData.length > 0 ? (
+        <CheckInForm selectedAssets={selectedAssetData} />
+      ) : (
+        <EmptyContainer title="Keep track of your assets within your organization and create an even more detailed history of them."/>
+      )}
 
       <Modal open={open} onClose={handleClose}>
         <Box sx={{ background: '#fff', padding: 3, borderRadius: "16px", margin: "auto", marginTop: "5%", width: "50%" }}>
