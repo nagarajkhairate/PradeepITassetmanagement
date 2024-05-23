@@ -13,6 +13,7 @@ import { ThunkDispatch } from "@reduxjs/toolkit";
 import { RootState } from "../../../../Redux/Features/store";
 import InputField from "../../../Common/Input";
 import SelectField from "../../../Common/Select";
+import {post_add_client} from "../../../../Redux/Features/clientSlice";
 
 interface ClientData {
   person_name: string;
@@ -131,8 +132,25 @@ const ClientDialog = (props: any) => {
 
       console.log("Client Data: ", client);
       props.onAddClient(client.person_name);
-      // dispatch(post_add_Employee(client))
-    } 
+      dispatch(post_add_client(client))
+    }
+    setClient({
+      person_name: "",
+      company: "",
+      email: "",
+      street: "",
+      city: "",
+      state: "",
+      zip_code: "",
+      country: "",
+      phone_number: "",
+      tele_phone: "",
+      website: "",
+      registration_date: "",
+      industry: "",
+      status: "",
+    }) 
+    setErrors({})
   };
 
   return (
@@ -235,7 +253,7 @@ const ClientDialog = (props: any) => {
           error={errors.status}
         />
       </DialogContent>
-      <DialogActions>
+      <DialogActions sx={{border:"1px solid #E0E1E3"}}>
         <Button
           sx={{
             background: "rgb(245,193,67)",

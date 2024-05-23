@@ -104,6 +104,19 @@ const EmployeeDialog = (props: any) => {
       dispatch(post_add_Employee(employee))
       
       // Reset form and errors if needed
+      setEmployee({
+        emp_name: "",
+        title: "",
+        phone: "",
+        email: "",
+        emp_site: "",
+        emp_location: "",
+        emp_department: "",
+        notes: "",
+      });
+      
+      // Optionally reset errors as well
+      setErrors({});
     }
   };
 
@@ -376,9 +389,8 @@ const EmployeeDialog = (props: any) => {
               </Typography>
             )}
           </Box>
-          <Divider></Divider>
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{border:"1px solid #E0E1E3"}}>
           <Button
             sx={{
               background: "rgb(245,193,67)",

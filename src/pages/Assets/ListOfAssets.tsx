@@ -62,7 +62,7 @@ const ListOfAssets = () => {
   return (
     <>
       <div style={{ width: "100%", background: "#f9f9f9" }}>
-        <div style={{ margin: "52px" }}>
+        <div style={{ marginLeft: "52px",paddingTop:"30px" }}>
           <Typography level="h3">List Of Assets</Typography>
           <Box
             sx={{
@@ -107,7 +107,9 @@ const ListOfAssets = () => {
                       marginTop: "-0.25rem",
                     }}
                   >
+                    <Link to='/searchcriteria' style={{color:"inherit",textDecoration:"none"}}>
                     Search Criteria
+                    </Link>
                   </Typography>
                 </Box>
               </Button>

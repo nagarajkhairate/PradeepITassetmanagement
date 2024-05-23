@@ -610,10 +610,8 @@ const CheckOutDialog = (props: any) => {
                 sx={{borderRadius: "15px"}}
               />
             </Box>
-            {/* <ClientDialog open={closeClientDialog} onClose={openClientDialog}/> */}
-          <Divider></Divider>
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{border:"1px solid #E0E1E3"}}>
           <Box
             sx={{
               paddingBottom: "10px",
@@ -648,7 +646,7 @@ const CheckOutDialog = (props: any) => {
               Cancel
             </Button>
           </Box>
-        </DialogActions>
+        </DialogActions >
       </Dialog>
       <EmployeeDialog
         open={newDialogOpen}

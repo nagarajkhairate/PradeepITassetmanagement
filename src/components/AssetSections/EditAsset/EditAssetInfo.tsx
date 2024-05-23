@@ -94,6 +94,7 @@ const EditAssetInfo: React.FC = (props: any) => {
           boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
           background: "#ffffff",
           padding: "20px",
+          mt:"30px"
         }}
       >
         <Box>
@@ -136,7 +137,6 @@ const EditAssetInfo: React.FC = (props: any) => {
             {" "}
             <BiSolidPencil size={23} /> Edit Asset
           </Button>
-
           <Dropdown>
             <MenuButton
               sx={{
@@ -148,7 +148,7 @@ const EditAssetInfo: React.FC = (props: any) => {
                 color: "#ffffff",
               }}
             >
-              More Action <MdOutlineKeyboardArrowDown size={23} />{" "}
+            More Action <MdOutlineKeyboardArrowDown size={23} />{" "}
             </MenuButton>
             <Menu>
               <MenuItem onClick={openPopUp}>
@@ -189,9 +189,7 @@ const EditAssetInfo: React.FC = (props: any) => {
               </MenuItem>
             </Menu>
           </Dropdown>
-
           <CheckOutDialog  closePopUp={closePopUp} open={open}/>
-          
         </Box>
         <Box
           sx={{
