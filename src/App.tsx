@@ -7,6 +7,18 @@ import Dashboard from './pages/Dashboard/dashboard'
 import AddAnAsset from './pages/Assets/AddAnAsset'
 import { Box } from '@mui/joy'
 import ListOfAssets from './pages/Assets/ListOfAssets'
+import TableOption from './pages/Setup/TableOption'
+import EditAssets from './pages/Assets/EditAssets'
+import EditAssetDetails from './components/AssetSections/EditAsset/EditAssetDetails'
+import CompanyInfo from './pages/Companyinfo/CompanyInfo'
+import CheckOut from './pages/CheckOut/CheckOut'
+import CheckIn from './pages/CheckIn/CheckIn'
+import Lease from './pages/Lease/Lease'
+import LeaseReturn from './pages/LeaseReturn/LeaseReturn'
+import Dispose from './pages/Dispose/Dispose'
+import Maintenance from './pages/Maintenance/Maintenance'
+import Reserve from './components/AssetSections/EditAsset/Tabs/Reserve'
+import Move from './pages/Move/Move'
 import EditAssets from './pages/Assets/EditAssets'
 import Setup from './pages/Alerts/Setup'
 import MaintainenceDue from './pages/Alerts/MaintenanceDue'
@@ -27,6 +39,7 @@ const App = () => {
     // -----
   
 
+
     // <Box sx={{display:"flex",height:"100vh"}}>
     //   <Sidebar/>
     //   <Header/>
@@ -44,8 +57,20 @@ const App = () => {
         <Box sx={{ }}>
           <Header />
           <Routes>
-            <Route path='/' element={<Dashboard />} />
-            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/' element={<Dashboard/>}/>
+          <Route path='/dashboard' element={<Dashboard/>}/>
+          <Route path='/assets/addanasset' element={<AddAnAsset/>}/>
+          <Route path='/assets/listofassets' element={<ListOfAssets/>}/>
+          <Route path='/assets/EditAsset' element={<EditAssets/>}/>
+          <Route path="/company-info" element={<CompanyInfo />} />
+          <Route path="/checkout" element={<CheckOut />} />
+          <Route path="/checkin" element={<CheckIn />} />
+          <Route path="/lease" element={<Lease/>} />
+          <Route path="/leasereturn" element={<LeaseReturn />} />
+          <Route path="/dispose" element={<Dispose />} />
+          <Route path="/maintenance" element={<Maintenance/>} />
+          <Route path='/move' element={<Move/>} />
+           <Route path='/reserve' element={<Reserve/>} />
             <Route path='/assets/addanasset' element={<AddAnAsset />} />
             <Route path='/assets/listofassets' element={<ListOfAssets />} />
             <Route path='/assets/editasset' element={<EditAssets />} />

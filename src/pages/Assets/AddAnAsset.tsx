@@ -288,9 +288,11 @@ const AddAnAsset: React.FC = () => {
 
   return (
     <>
-      <div style={{ width: "100%", background: "#f9f9f9" }}>
-        <div style={{ marginLeft: "52px",paddingTop:"30px" }}>
-          <Typography level="h3">
+
+      <div >
+        <div style={{ margin: "52px" }}>
+          <Typography level="h3" color="initial">
+
             Add An Asset
           </Typography>
         </div>
