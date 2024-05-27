@@ -364,12 +364,17 @@ const DataBase: React.FunctionComponent<DataBaseProps >  = ({
             </Box>
 
             <Box>
-              <DataBaseAdd
-                dataBase={dataBase}
-                setDataBase={setDataBase}
-                addCustomField={addCustomField}
-                deleteCustomField={deleteCustomField}
-              />
+            <DataBaseAdd
+  dataBase={dataBase} 
+  setDataBase={setDataBase} 
+  addCustomField={addCustomField}
+  deleteCustomField={deleteCustomField} 
+  companyFormData={companyFormData} 
+  setCompanyFormData={setCompanyFormData} 
+  activeTab={activeTab} 
+  setActiveTab={setActiveTab} 
+/>
+
 
               <DataBaseEdit
                 matchedSelected={matchedSelected}

@@ -113,6 +113,7 @@ const Company: React.FC<CompanyProps> = ({
       reader.readAsDataURL(file);
     }
 
+
     setCompanyFormData((prevData : any)  => ({
       ...prevData,
       logo: file || null,
@@ -218,6 +219,7 @@ const Company: React.FC<CompanyProps> = ({
     event: React.SyntheticEvent | null,
     newValue: string | null
   ) => {
+
     setCompanyFormData((prevData:any) => ({
       ...prevData,
       country: newValue!,
