@@ -65,7 +65,7 @@ const SidebarItem = ({ item }: any) => {
         onClick={handleItemClick} // Handle click to toggle expansion
         color="none"
         sx={{
-            mt:"10px",
+            mt:"10px", 
           width: "112%",
           "&:hover": {
             background: "#FEF8E8",
@@ -123,7 +123,7 @@ const SidebarItem = ({ item }: any) => {
                 },
               }}
             >
-            <Link to={child.path } style={{textDecoration:"none",color:"inherit"}}>
+            <Link to={child.path} style={{textDecoration:"none",color:"inherit"}}>
               {" "}
               {/* Adjust padding as needed */}
               <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>

@@ -7,6 +7,7 @@ import { PiRecycle } from "react-icons/pi";
 import { GrVmMaintenance } from "react-icons/gr";
 import { IoMoveSharp } from "react-icons/io5";
 import { MdOutlineCalendarMonth } from "react-icons/md";
+import { AiOutlineTool } from "react-icons/ai";
 
 
 export const pagesRoutes: any[] = [
@@ -28,7 +29,7 @@ export const pagesRoutes: any[] = [
       updatedBy: 'Admin',
     },
     {
-      id: 3,
+      id: 3, 
       index: true,
       pageName: 'Alerts',
       pageType: 'Static',
@@ -42,6 +43,14 @@ export const pagesRoutes: any[] = [
       createdBy: 'Admin',
       updatedBy: 'Admin',
       arrow:true,
+      children:[
+        { name: "Assets Past Due", },
+        { name: "Leases Expiring",},
+        { name: "Maintenance Due",  path:'/alerts/maintenancedue'},
+        { name: "Maintenance Overdue",  },
+        { name: "Warranties Expiring", },
+        { name: "Setup/Alerts",path:'/alerts/setup',icon:<AiOutlineTool />},
+          ]
     }, 
     {
       id: 4,

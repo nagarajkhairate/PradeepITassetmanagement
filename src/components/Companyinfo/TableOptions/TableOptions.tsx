@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, SyntheticEvent } from "react";
 import { Link } from "react-router-dom";
 import {Box,Typography,Divider,Select,Option,Radio,RadioGroup,FormControl,FormLabel,Checkbox,Button,ButtonGroup,} from "@mui/joy";
 import { RxCalendar } from "react-icons/rx";
-import { SlEqualizer } from "react-icons/sl";
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 import { MdAddLink } from "react-icons/md";
 import { FaLessThan, FaGreaterThan } from "react-icons/fa6";
 import { BsBoxArrowInLeft } from "react-icons/bs";
@@ -87,26 +87,35 @@ const TableOptions: React.FC<TableProps> = ({
 
   return (
     <>
-      <Box sx={{ mb: "10px" }}>
-        <Typography
-          level="h3"
-          sx={{
-            marginLeft: { xs: "10px", md: "50px" },
-            fontSize: { xs: "24px", md: "32px" },
-            marginTop: { xs: "20px", md: "35px" },
-            display: "flex",
-            alignItems: "center",
-            marginBottom: { xs: "-20px", md: "-42px" },
-          }}
-        >
-          <SlEqualizer size={35} color="red" /> Step 7- Table Options
-        </Typography>
+      <Box >
+      <Typography
+      level="h3"
+      sx={{
+        marginLeft: { xs: "10px", md: "50px" },
+        fontSize: { xs: "24px", md: "24px" },
+        marginTop: { xs: "20px", md: "35px" },
+        display: "flex",
+        alignItems: "center",
+        marginBottom: { xs: "-20px", md: "-42px" },
+        paddingBottom: "10px",
+      }}
+    >
+      <Box
+        component={TuneOutlinedIcon}
+        color="#FBC21E"
+        sx={{
+          fontSize: { xs: "24px", md: "30px" },
+          marginRight: "10px"
+        }}
+      />
+      Step 1- Company Information
+    </Typography>
       </Box>
 
-      <div style={{ width: "100%", background: "#f9f9f9" }}>
+      <div>
         <Box
           sx={{
-            borderRadius: "10px",
+            borderRadius: "16px",
             boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
             background: "#ffffff",
             margin: {
@@ -115,9 +124,7 @@ const TableOptions: React.FC<TableProps> = ({
             },
           }}
         >
-          <Box>
-            
-            <Divider />
+          <Box >
             <Box
               component="section"
               sx={{
@@ -400,7 +407,7 @@ const TableOptions: React.FC<TableProps> = ({
                         <FaLessThan />
                         Back
                       </Button>
-                      <Button sx={{ background: "#fdd835", fontSize: "15px" }}
+                      <Button sx={{ background: "#FABC1E", fontSize: "15px" }}
                       onClick={handleNextTab}
                       >
                           Continue

@@ -22,7 +22,7 @@ import DeleteSiteDialog from "./DeleteSiteDialog";
 const initialSites = [
   {
     id: 1,
-    name: "swde",
+    sitename: "swde",
     description: "wsedf",
     address: "234frd",
     aptSuite: "swed",
@@ -35,7 +35,7 @@ const initialSites = [
 
 interface Site {
   id: number;
-  name: string;
+  sitename: string;
   description: string;
   address: string;
   aptSuite: string;
@@ -67,7 +67,6 @@ const Sites: React.FC<SiteProps> = ({
   const [selectedSite, setSelectedSite] = useState<any>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
-  // const [siteChange, setSiteChange] = useState(initialSites);
   const [sites, setSites] = useState(initialSites);
 
   const handleDeleteClick = (site: any) => {
@@ -76,7 +75,7 @@ const Sites: React.FC<SiteProps> = ({
   };
 
   const handleDelete = () => {
-    const updatedSites = sites.filter((site) => site.id !== selectedSite.id);
+    const updatedSites = sites.filter((site) => site.sitename !== selectedSite.name);
     setSites(updatedSites);
     setDeleteOpen(false);
     setSelectedSite(null);
@@ -140,25 +139,33 @@ const Sites: React.FC<SiteProps> = ({
   return (
     <div style={{ width: "100%", background: "#f9f9f9" }}>
       <FlexBox>
-        <Typography
-          level="h3"
-          sx={{
-            marginLeft: "70px",
-            fontSize: "32px",
-            color: "#444",
-            marginTop: "35px",
-            display: "flex",
-            alignItems: "center",
-            marginBottom: "-42px",
-          }}
-        >
-          <TuneOutlinedIcon fontSize="large" /> Step 2- Sites
-        </Typography>
+      <Typography
+      level="h3"
+      sx={{
+        marginLeft: { xs: "10px", md: "50px" },
+        fontSize: { xs: "24px", md: "24px" },
+        marginTop: { xs: "20px", md: "35px" },
+        display: "flex",
+        alignItems: "center",
+        marginBottom: { xs: "-20px", md: "-42px" },
+        paddingBottom: "10px",
+      }}
+    >
+      <Box
+        component={TuneOutlinedIcon}
+        color="#FBC21E"
+        sx={{
+          fontSize: { xs: "24px", md: "30px" },
+          marginRight: "10px"
+        }}
+      />
+      Step 1- Company Information
+    </Typography>
       </FlexBox>
       <div style={{ margin: "20px" }}>
         <Box
           sx={{
-            borderRadius: "none",
+            borderRadius: "16px",
             boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
             background: "#ffffff",
             margin: {
@@ -174,7 +181,7 @@ const Sites: React.FC<SiteProps> = ({
             textOverflow="ellipsis"
             height={70}
           >
-            <Divider />
+ 
             <Grid
               container
               spacing={1}
@@ -192,28 +199,43 @@ const Sites: React.FC<SiteProps> = ({
                       marginLeft: "15px",
                     }}
                   >
-                    <CiBoxList size={30} color="red" />
+                    <CiBoxList size={30} color="#FBC21E" />
                     List of Sites
                   </Typography>
                 </Box>
               </Grid>
 
-              <Grid xs={8} paddingLeft="45%">
+              <Grid xs={12} sm={8} >
                 <React.Fragment>
-                  <ButtonGroup spacing="1rem" aria-label="spacing button group">
+                  <ButtonGroup aria-label="button group"
+       sx={{ display: 'flex', justifyContent: { xs: 'flex-start', sm: 'flex-end' }, flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'center', gap: '1rem', marginLeft: { xs: '15px', sm: '0' }, marginTop: { xs: '10px', sm: '0' } }}
+        >
+                  
                     <Button
-                      sx={{
-                        background: "green",
-                        color: "white",
-                        fontSize: "15px",
-                      }}
+                    sx={{
+                      backgroundColor: 'green',
+                      color: 'white',
+                      fontSize: '10px',
+                      padding:"10px",
+                      width: { xs: '100%', sm: 'auto' , md:"150px"},
+                      height: '40px', 
+                      '&:hover': {
+                        backgroundColor: 'darkgreen',
+                      },
+                    }}
                       onClick={() => setOpen(true)}
                     >
-                      <AddIcon /> Add New site
+                      <AddIcon sx={{ mr: 1 , fontSize:"10px"}}/>
+                      Add New Site
                     </Button>
 
-                    <Button sx={{ fontSize: "15px" }}>
-                      <AiOutlineCloudUpload />
+                    <Button sx={{
+            fontSize: '10px',
+            width: { xs: '100%', sm: 'auto', md:"150px" },
+            marginRight:"10px",
+            height: '40px',
+          }}>
+                      <AiOutlineCloudUpload style={{ marginRight: '8px' }} />
                       Import Sites
                     </Button>
                   </ButtonGroup>
@@ -297,7 +319,7 @@ const Sites: React.FC<SiteProps> = ({
                           color="primary"
                         />
                       </td>
-                      <td>{site.name}</td>
+                      <td>{site.sitename}</td>
                       <td>{site.description}</td>
                       <td>{site.address}</td>
                       <td>{site.aptSuite}</td>
@@ -343,19 +365,30 @@ const Sites: React.FC<SiteProps> = ({
             <ButtonGroup  
               spacing="1rem"
               aria-label="spacing button group"
-              sx={{ paddingLeft: "84%" }}
+              sx={{ marginLeft:"80%",}}
             >
-              <Button sx={{ fontSize: "15px" }}
+              <Button sx={{ fontSize: "15px",  width: { xs: "100%", sm: "150px", md: "125px" } }}
               onClick={handlePrevTab}
               >
-                <FaLessThan />
-                
-                  Back
-              
+                <FaLessThan />                
+                  Back             
               </Button>
-              <Button sx={{ background: "#fdd835", fontSize: "15px" }}
-              onClick={handleNextTab}
-              >
+              <Button  sx={{
+                  background: "#FABC1E",
+                  width: { xs: "100%", sm: "150px", md: "100px" },
+
+                  height: "30px",
+                  color: "black",
+                  "&:hover": {
+                    backgroundColor: "#d79918",
+                  },
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                  onClick={handleNextTab}
+                >
+              
                   Continue
                 <FaGreaterThan />{" "}
               </Button>

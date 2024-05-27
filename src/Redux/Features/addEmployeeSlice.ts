@@ -13,11 +13,12 @@ const initialState:addEmployee={
   error:null,
 }
 
-export const fetch_employee = createAsyncThunk('transaction/fetch_employee',async()=>{
+export const fetch_employee = createAsyncThunk('addEmployee/fetch_employee',async()=>{
   const response = await axios.get("")
   return response.data
 })
-export const update_employee = createAsyncThunk('transaction/update_employee',async()=>{
+
+export const update_employee = createAsyncThunk('addEmployee/update_employee',async()=>{
   const response = await axios.put("")
   return response.data
 })

@@ -53,7 +53,7 @@ const CompanyInfo = () => {
             {tabs.map((tab, index) => (
               <Tab
                 key={index}
-                disabled={index > activeTab}
+                // disabled={index > activeTab}
                 // sx={{
                 //   display: "flex",
                 //   flexDirection: { xs: "row", sm: "row", md: "column" },
