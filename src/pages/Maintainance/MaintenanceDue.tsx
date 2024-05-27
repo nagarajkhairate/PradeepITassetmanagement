@@ -1,12 +1,9 @@
-import React from 'react';
+import React from "react";
 import {
   Box,
   Button,
-  ButtonGroup,
   FormControl,
-  FormLabel,
   Grid,
-  TextField,
   Typography,
 } from "@mui/joy";
 import SvgIcon from "@mui/joy/SvgIcon";
@@ -64,12 +61,39 @@ const VisuallyHiddenInput = styled("input")`
 export const MaintenanceDue: React.FC = () => {
   return (
     <>
-      <Box>
-        <Box>
-          <Typography level="h4" sx={{marginLeft:'5%', fontFamily:"Poppins, sans-serif"}}>Maintenance</Typography>
-        </Box>
 
-        <Box sx={{ display: "flex", alignItems: "center", marginTop: "60px", marginLeft:'5%' }}>
+<div style={{ width: "100%", background: "#f9f9f9" }}>
+        <div style={{ margin: "52px" }}>
+          <Box
+            sx={{
+              mt: "40px",
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+              flexDirection: { xs: "column", md: "row" },
+            }}
+          >
+          
+        <Box>
+          <Typography
+            level="h4"
+          >
+            Maintenance
+          </Typography>
+
+
+        <Box
+          sx={{
+            display: "flex",
+            width:"100%",
+            alignItems: "center",
+            marginTop: "60px",
+            // marginLeft: "5%",
+            flexDirection: { md: "row", xs: "column" },
+            gap:{md:"100px",xs:"5px"}
+          }}
+        >
+          <Box sx={{width:"100%"}}>
           <Button
             type="button"
             variant="solid"
@@ -77,24 +101,28 @@ export const MaintenanceDue: React.FC = () => {
             sx={{
               background: "#1CCAB8",
               color: "white",
-              marginRight: "auto",
-              borderRadius:'16px'
+              // marginRight: "auto",
+              borderRadius: "15px"
+              ,width:{md:"200px",xs:"100%"}
             }}
-          >
+            >
             <SettingsOutlinedIcon />
             Search Criteria
           </Button>
-          <Box sx={{ marginLeft: "auto", marginRight:'10%' }}>
-          
-       
-            <ButtonGroup spacing="0.5rem" aria-label="spacing button group">
+            </Box>
+
+          <Box 
+          sx={{
+            width:"100%",
+              marginRight: "10%" , display:{md:"flex",xs:"flex"} , flexDirection:{md:"row",xs:"column"},gap:"5px" }}>
               <Button
                 variant="solid"
                 autoFocus
                 sx={{
                   background: "#388e3c",
                   color: "white",
-                  borderRadius:'16px'
+                  borderRadius: "15px",
+                  width:{md:"200px",xs:"100%"}
                 }}
                 component="label"
                 role={undefined}
@@ -127,7 +155,9 @@ export const MaintenanceDue: React.FC = () => {
                 sx={{
                   background: "#2196f3",
                   color: "white",
-                  borderRadius:'16px'
+                  borderRadius: "15px"
+                  ,width:{md:"200px",xs:"100%"}
+            
                 }}
                 component="label"
                 role={undefined}
@@ -161,32 +191,40 @@ export const MaintenanceDue: React.FC = () => {
                 sx={{
                   background: "black",
                   color: "white",
-                  borderRadius:'16px'
+                  borderRadius: "15px"
+                  ,width:{md:"200px",xs:"100%"}
                 }}
-              >
+                >
                 <SettingsOutlinedIcon />
                 Setup Column
               </Button>
-            </ButtonGroup>
           </Box>
         </Box>
 
 
-        <Grid sx={{ display: "flex", gap: "30px", marginLeft: "5%" }}>
-          <Grid>
+
+
+        
+        <Box sx={{ gap:{md:"50px",xs:"5px"},
+          width:"100%",
+          marginRight: { md: '10%', xs: '0' }, display:"flex" , flexDirection:{md:"row",xs:"column"},
+             }}
+        >
+          <Box>
             <Select
               placeholder="Maintenance Due"
               indicator={<KeyboardArrowDown />}
               sx={{
-                width: 240,
+                width: { md: 230, xs: '100%' },
                 [`& .${selectClasses.indicator}`]: {
                   transition: "0.2s",
                   [`&.${selectClasses.expanded}`]: {
                     transform: "rotate(-180deg)",
                   },
                 },
-                marginTop: "20%",
-                borderRadius: "10px",
+                marginTop: { md: '20%', xs: '10px' },
+                borderRadius: "15px",
+                
               }}
             >
               <Option value="dog">Dog</Option>
@@ -194,63 +232,57 @@ export const MaintenanceDue: React.FC = () => {
               <Option value="fish">Fish</Option>
               <Option value="bird">Bird</Option>
             </Select>
-          </Grid>
+          </Box>
 
-          <Grid>
+          <Box>
             <Select
               placeholder="10"
               indicator={<KeyboardArrowDown />}
               sx={{
-                width: 140,
+                width: { md: 130, xs: '100%' },
                 [`& .${selectClasses.indicator}`]: {
                   transition: "0.2s",
                   [`&.${selectClasses.expanded}`]: {
                     transform: "rotate(-180deg)",
                   },
                 },
-                // marginLeft: "2%",
-                marginTop: "34%",
-                borderRadius: "10px",
+                marginTop: { md: '34%', xs: '10px' },
+                borderRadius: "15px",
+              
               }}
             >
               <Option value="10">10</Option>
               <Option value="15">15</Option>
               <Option value="20">20</Option>
             </Select>
-          </Grid>
+          </Box>
 
-          <Grid xs>
+         
             <Box
               sx={{
-                marginRight: "18%",
+                // marginRight: "18%",
                 display: "flex",
                 justifyContent: "flex-end",
                 alignItems: "flex-end ",
                 color: "danger",
-                // marginTop: "2%",
+                fontFamily: "Poppins, sans-serif",
+                fontStyle: "italic",
+                marginTop:'2px'
               }}
             >
-              <FormControl>
-                <Textarea
-                  defaultValue="Assets that are more than 7 days overdue for maintenance (as indicated by 'overdue time')"
-                  // minRows={2}
-                  sx={{
-                    fontFamily: "Poppins, sans-serif",
-                    fontStyle: "italic",
-                    display: "flex",
-                    width: "auto",
-                    marginTop: "22%",
-                  }}
-                />
-              </FormControl>
-            </Box>
-          </Grid>
-        </Grid>
+             
+                
+        Assets that are more than 7 days overdue for maintenance (as indicated by 'overdue time')
+                  
+            
+
+          </Box>
+        </Box>
 
         <Box>
           <Table hoverRow>
-            <thead>
-              <tr style={{ width: "104px" }}>
+            <thead style={{background:"#959595"}}>
+              <tr>
                 <th style={{ width: "10%" }}>Status</th>
                 <th>Expires</th>
                 <th>Asset Tag Id</th>
@@ -267,8 +299,12 @@ export const MaintenanceDue: React.FC = () => {
           <Image />
         </Box>
       </Box>
+      </Box>
+            </div>
+            </div>
+
     </>
   );
-}
+};
 
 export default MaintenanceDue;

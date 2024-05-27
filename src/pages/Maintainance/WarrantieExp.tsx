@@ -51,12 +51,39 @@ const VisuallyHiddenInput = styled("input")`
 export function Warranty() {
   return (
     <>
-      <Box>
+      
+<div style={{ width: "100%", background: "#f9f9f9" }}>
+        <div style={{ margin: "52px" }}>
+          <Box
+            sx={{
+              mt: "40px",
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+              flexDirection: { xs: "column", md: "row" },
+            }}
+          >
+          
         <Box>
-          <Typography level="h4">Warranties</Typography>
-        </Box>
+          <Typography
+            level="h4"
+          >
+            Warranty
+          </Typography>
 
-        <Box sx={{ display: "flex", alignItems: "center", marginTop: "20px" }}>
+
+        <Box
+          sx={{
+            display: "flex",
+            width:"100%",
+            alignItems: "center",
+            marginTop: "60px",
+            // marginLeft: "5%",
+            flexDirection: { md: "row", xs: "column" },
+            gap:{md:"100px",xs:"5px"}
+          }}
+        >
+          <Box sx={{width:"100%"}}>
           <Button
             type="button"
             variant="solid"
@@ -64,24 +91,28 @@ export function Warranty() {
             sx={{
               background: "#1CCAB8",
               color: "white",
-              marginRight: "auto", // Pushes the button to the left
-              marginLeft:'5%'
+              // marginRight: "auto",
+              borderRadius: "15px"
+              ,width:{md:"200px",xs:"100%"}
             }}
-          >
+            >
             <SettingsOutlinedIcon />
             Search Criteria
           </Button>
-          <Box sx={{ marginLeft: "auto" }}>
-            {" "}
-       
-            <ButtonGroup spacing="0.5rem" aria-label="spacing button group"
-            >
+            </Box>
+
+          <Box 
+          sx={{
+            width:"100%",
+              marginRight: "10%" , display:{md:"flex",xs:"flex"} , flexDirection:{md:"row",xs:"column"},gap:"5px" }}>
               <Button
                 variant="solid"
                 autoFocus
                 sx={{
                   background: "#388e3c",
-                  color: "white"
+                  color: "white",
+                  borderRadius: "15px",
+                  width:{md:"200px",xs:"100%"}
                 }}
                 component="label"
                 role={undefined}
@@ -114,6 +145,9 @@ export function Warranty() {
                 sx={{
                   background: "#2196f3",
                   color: "white",
+                  borderRadius: "15px"
+                  ,width:{md:"200px",xs:"100%"}
+            
                 }}
                 component="label"
                 role={undefined}
@@ -147,32 +181,40 @@ export function Warranty() {
                 sx={{
                   background: "black",
                   color: "white",
+                  borderRadius: "15px"
+                  ,width:{md:"200px",xs:"100%"}
                 }}
-              >
+                >
                 <SettingsOutlinedIcon />
                 Setup Column
               </Button>
-            </ButtonGroup>
           </Box>
         </Box>
 
 
-        <Grid sx={{ display: "flex", gap: "30px", marginLeft: "5%" }}>
-          <Grid>
+
+
+        
+        <Box sx={{ gap:{md:"50px",xs:"5px"},
+          width:"100%",
+          marginRight: { md: '10%', xs: '0' }, display:"flex" , flexDirection:{md:"row",xs:"column"},
+             }}
+        >
+          <Box>
             <Select
-              placeholder="Warraties Expiring"
+              placeholder="Warranties Expiring"
               indicator={<KeyboardArrowDown />}
               sx={{
-                width: 240,
+                width: { md: 230, xs: '100%' },
                 [`& .${selectClasses.indicator}`]: {
                   transition: "0.2s",
                   [`&.${selectClasses.expanded}`]: {
                     transform: "rotate(-180deg)",
                   },
                 },
-                // marginLeft:'5%',
-                marginTop: "20%",
-                borderRadius: "16px",
+                marginTop: { md: '20%', xs: '10px' },
+                borderRadius: "15px",
+                
               }}
             >
               <Option value="dog">Dog</Option>
@@ -180,60 +222,53 @@ export function Warranty() {
               <Option value="fish">Fish</Option>
               <Option value="bird">Bird</Option>
             </Select>
-          </Grid>
+          </Box>
 
-          <Grid>
+          <Box>
             <Select
               placeholder="10"
               indicator={<KeyboardArrowDown />}
               sx={{
-                width: 240,
+                width: { md: 130, xs: '100%' },
                 [`& .${selectClasses.indicator}`]: {
                   transition: "0.2s",
                   [`&.${selectClasses.expanded}`]: {
                     transform: "rotate(-180deg)",
                   },
                 },
-                marginLeft: "5%",
-                marginTop: "20%",
-                borderRadius: "16px",
+                marginTop: { md: '34%', xs: '10px' },
+                borderRadius: "15px",
+              
               }}
             >
               <Option value="10">10</Option>
               <Option value="15">15</Option>
               <Option value="20">20</Option>
             </Select>
-          </Grid>
+          </Box>
 
-          <Grid xs>
+         
             <Box
               sx={{
-                marginRight: "6%",
+                // marginRight: "18%",
                 display: "flex",
                 justifyContent: "flex-end",
-                // gap: 2,
                 alignItems: "flex-end ",
-                // flexWrap: 'wrap',
                 color: "danger",
-                maringTop: "100%",
+                fontFamily: "Poppins, sans-serif",
+                fontStyle: "italic",
+                marginTop:'2px'
               }}
             >
-              <FormControl>
-                <Textarea
-                  defaultValue=" Link warranties to specific assets by choosing view next to the warranty you wish to edit. then, add the required information."
-                  minRows={2}
-                  sx={{
-                    fontFamily: "Poppins, sans-serif",
-                    fontStyle: "italic",
-                    display: "flex",
-                    width: "auto",
-                    marginTop: "22%",
-                  }}
-                />
-              </FormControl>
-            </Box>
-          </Grid>
-        </Grid>
+             
+                
+             Link warranties to specific assets by choosing 
+             view next to the warranty you wish to edit. then, add the required information.
+                  
+            
+
+          </Box>
+        </Box>
 
         <Box>
           <Table hoverRow>
@@ -255,6 +290,11 @@ export function Warranty() {
           <Image />
         </Box>
       </Box>
+
+      </Box>
+      </div>
+      </div>
+
     </>
   );
 }

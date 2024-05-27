@@ -30,7 +30,7 @@ const VisuallyHiddenInput = styled("input")`
   width: 1px;
 `;
 
-export const LeasesExp: React.FC =()=> {
+export const AssetsPastDue: React.FC =()=> {
   return (
 <>
 <div style={{ width: "100%", background: "#f9f9f9" }}>
@@ -73,16 +73,8 @@ export const LeasesExp: React.FC =()=> {
           >
             Checkout by Past Due
           </Typography>
+
           <Box sx={{ marginLeft: { xs: 0, md: "auto" }, mt: { xs: 2, md: 0 } }}>
-            <ButtonGroup
-              spacing="0.5rem"
-              aria-label="spacing button group"
-              sx={{
-                display: "flex",
-                justifyContent: { xs: "center", md: "flex-end" },
-                width: "100%",
-              }}
-            >
               <Button
                 variant="solid"
                 sx={{
@@ -108,66 +100,9 @@ export const LeasesExp: React.FC =()=> {
                 <SettingsOutlinedIcon />
                 SetUp
               </Button>
-            </ButtonGroup>
           </Box>
         </Box>
         
-        <Grid container spacing={2} sx={{ justifyContent: "center", mb: 4 }}>
-          <Grid  xs={12} md={4}>
-            <Typography
-              sx={{
-                fontFamily: "Poppins",
-                fontSize: "20px",
-                fontWeight: 500,
-                lineHeight: "30px",
-                textAlign: { xs: "center", md: "left" },
-              }}
-            >
-              Report Type:
-            </Typography>
-          </Grid>
-          <Grid  xs={12} md={4}>
-            <Select
-              placeholder="Current Status"
-              indicator={<KeyboardArrowDown />}
-              sx={{
-                width: "100%",
-                [`& .${selectClasses.indicator}`]: {
-                  transition: "0.2s",
-                  [`&.${selectClasses.expanded}`]: {
-                    transform: "rotate(-180deg)",
-                  },
-                },
-                borderRadius: "16px",
-              }}
-            >
-              <Option value="dog">Dog</Option>
-              <Option value="cat">Cat</Option>
-              <Option value="fish">Fish</Option>
-              <Option value="bird">Bird</Option>
-            </Select>
-          </Grid>
-          <Grid  xs={12} md={4}>
-            <Select
-              placeholder="100"
-              indicator={<KeyboardArrowDown />}
-              sx={{
-                width: "100%",
-                [`& .${selectClasses.indicator}`]: {
-                  transition: "0.2s",
-                  [`&.${selectClasses.expanded}`]: {
-                    transform: "rotate(-180deg)",
-                  },
-                },
-                borderRadius: "16px",
-              }}
-            >
-              <Option value="10">10</Option>
-              <Option value="15">15</Option>
-              <Option value="20">20</Option>
-            </Select>
-          </Grid>
-        </Grid>
 
         <Box sx={{ display: "flex", justifyContent: "center", mb: 4 }}>
           <ButtonGroup
@@ -218,4 +153,4 @@ export const LeasesExp: React.FC =()=> {
   );
 }
 
-export default LeasesExp;
+export default AssetsPastDue;
