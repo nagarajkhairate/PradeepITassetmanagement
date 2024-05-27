@@ -8,7 +8,7 @@ import AddAnAsset from './pages/Assets/AddAnAsset'
 import { Box } from '@mui/joy'
 import ListOfAssets from './pages/Assets/ListOfAssets'
 import TableOption from './pages/Setup/TableOption'
-import EditAssets from './pages/Assets/EditAssets'
+
 import EditAssetDetails from './components/AssetSections/EditAsset/EditAssetDetails'
 import CompanyInfo from './pages/Companyinfo/CompanyInfo'
 
@@ -28,6 +28,7 @@ import SearchCriteria from './pages/Assets/SearchCriteria'
 import Warranty from './pages/Maintainance/WarrantieExp'
 import LeasesExp from './pages/Maintainance/LeasesExpiring'
 import AssetsPastDue from './pages/Maintainance/AssetsPastDue'
+import MaintenancesDue from "./pages/Maintainance/MaintenancesDue"
 
 const App = () => {
    
@@ -77,11 +78,11 @@ const App = () => {
           <Route path="/maintenance" element={<Maintenance/>} />
           <Route path='/move' element={<Move/>} />
            <Route path='/reserve' element={<Reserve/>} />
-        <Route path='/maintenancedue' element={<MaintenanceDue />} />
+        <Route path='/maintenancesdue' element={<MaintenancesDue />} />
           <Route path='/maintenanceoverdue' element={<MaintenanceOverdue />} />
-          <Route path='/warranty' element={<Warranty />} />
-          <Route path='/leases' element={<LeasesExp />} />
-          <Route path='/assetspast' element={<AssetsPastDue />} />
+          <Route path='/warrantieExp' element={<Warranty />} />
+          <Route path='/leasesExpiring' element={<LeasesExp />} />
+          <Route path='/assetspastdue' element={<AssetsPastDue />} />
             <Route path='/assets/addanasset' element={<AddAnAsset />} />
             <Route path='/assets/listofassets' element={<ListOfAssets />} />
             <Route path='/assets/editasset' element={<EditAssets />} />

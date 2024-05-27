@@ -2,8 +2,6 @@ import React from "react";
 import {
   Box,
   Button,
-  FormControl,
-  Grid,
   Typography,
 } from "@mui/joy";
 import SvgIcon from "@mui/joy/SvgIcon";
@@ -13,8 +11,8 @@ import Image from "../../components/Common/MaintenanceEmpty";
 import Select, { selectClasses } from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
-import Textarea from "@mui/joy/Textarea";
 import Table from "@mui/joy/Table";
+import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 
 // Define a type for the data rows
 interface DataRow {
@@ -58,7 +56,7 @@ const VisuallyHiddenInput = styled("input")`
   width: 1px;
 `;
 
-export const MaintenanceDue: React.FC = () => {
+export const MaintenancesDue: React.FC = () => {
   return (
     <>
 
@@ -66,7 +64,7 @@ export const MaintenanceDue: React.FC = () => {
         <div style={{ margin: "52px" }}>
           <Box
             sx={{
-              mt: "40px",
+              mt: "30px",
               width: "100%",
               display: "flex",
               justifyContent: "space-between",
@@ -82,15 +80,14 @@ export const MaintenanceDue: React.FC = () => {
           </Typography>
 
 
-        <Box
+          <Box
           sx={{
             display: "flex",
             width:"100%",
             alignItems: "center",
-            marginTop: "60px",
-            // marginLeft: "5%",
+            marginTop: "40px",
             flexDirection: { md: "row", xs: "column" },
-            gap:{md:"100px",xs:"5px"}
+            gap:{md:"20px",xs:"5px"}
           }}
         >
           <Box sx={{width:"100%"}}>
@@ -101,9 +98,8 @@ export const MaintenanceDue: React.FC = () => {
             sx={{
               background: "#1CCAB8",
               color: "white",
-              // marginRight: "auto",
               borderRadius: "15px"
-              ,width:{md:"200px",xs:"100%"}
+              ,width:{md:"150px",xs:"90%"}
             }}
             >
             <SettingsOutlinedIcon />
@@ -114,7 +110,8 @@ export const MaintenanceDue: React.FC = () => {
           <Box 
           sx={{
             width:"100%",
-              marginRight: "10%" , display:{md:"flex",xs:"flex"} , flexDirection:{md:"row",xs:"column"},gap:"5px" }}>
+              // marginRight: "10%" , 
+              display:{md:"flex",xs:"flex"} , flexDirection:{md:"row",xs:"column"},gap:"5px" }}>
               <Button
                 variant="solid"
                 autoFocus
@@ -122,30 +119,11 @@ export const MaintenanceDue: React.FC = () => {
                   background: "#388e3c",
                   color: "white",
                   borderRadius: "15px",
-                  width:{md:"200px",xs:"100%"}
+                  width:{md:"160px",xs:"90%"}
                 }}
-                component="label"
-                role={undefined}
-                tabIndex={-1}
-                color="neutral"
-                startDecorator={
-                  <SvgIcon>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"
-                      />
-                    </svg>
-                  </SvgIcon>
-                }
+               
               >
+                 <CloudUploadOutlinedIcon />
                 Export to Excel
                 <VisuallyHiddenInput type="file" />
               </Button>
@@ -155,32 +133,13 @@ export const MaintenanceDue: React.FC = () => {
                 sx={{
                   background: "#2196f3",
                   color: "white",
-                  borderRadius: "15px"
-                  ,width:{md:"200px",xs:"100%"}
-            
+                  borderRadius: "15px",
+                  whiteSpace:'nowrap',
+                  width:{md:"180px",xs:"90%"}
+                  
                 }}
-                component="label"
-                role={undefined}
-                tabIndex={-1}
-                color="neutral"
-                startDecorator={
-                  <SvgIcon>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"
-                      />
-                    </svg>
-                  </SvgIcon>
-                }
               >
+                <CloudUploadOutlinedIcon />
                 Import Maintenance
                 <VisuallyHiddenInput type="file" />
               </Button>
@@ -192,7 +151,7 @@ export const MaintenanceDue: React.FC = () => {
                   background: "black",
                   color: "white",
                   borderRadius: "15px"
-                  ,width:{md:"200px",xs:"100%"}
+                  ,width:{md:"160px",xs:"90%"}
                 }}
                 >
                 <SettingsOutlinedIcon />
@@ -215,7 +174,7 @@ export const MaintenanceDue: React.FC = () => {
               placeholder="Maintenance Due"
               indicator={<KeyboardArrowDown />}
               sx={{
-                width: { md: 230, xs: '100%' },
+                width: { md: 200, xs: '90%' },
                 [`& .${selectClasses.indicator}`]: {
                   transition: "0.2s",
                   [`&.${selectClasses.expanded}`]: {
@@ -239,7 +198,7 @@ export const MaintenanceDue: React.FC = () => {
               placeholder="10"
               indicator={<KeyboardArrowDown />}
               sx={{
-                width: { md: 130, xs: '100%' },
+                width: { md: 130, xs: '90%' },
                 [`& .${selectClasses.indicator}`]: {
                   transition: "0.2s",
                   [`&.${selectClasses.expanded}`]: {
@@ -307,4 +266,4 @@ export const MaintenanceDue: React.FC = () => {
   );
 };
 
-export default MaintenanceDue;
+export default MaintenancesDue;

@@ -42,7 +42,7 @@ export const AssetsPastDue: React.FC = () => {
   return (
     <>
       <div style={{ width: "100%", background: "#f9f9f9" }}>
-        <div>
+        <div style={{ marginLeft: "52px"}}>
           <Box
             sx={{
               mt: "40px",
