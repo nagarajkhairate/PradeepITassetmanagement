@@ -3,7 +3,6 @@ import Sidebar from './pages/Sidebar/sidebar'
 import Header from './pages/Header/header'
 import MainLayout from './components/Main/mainLayout'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { pagesRoutes } from './routes/pagesRoutes'
 import Dashboard from './pages/Dashboard/dashboard'
 import AddAnAsset from './pages/Assets/AddAnAsset'
 import { Box } from '@mui/joy'
@@ -20,9 +19,12 @@ import Dispose from './pages/Dispose/Dispose'
 import Maintenance from './pages/Maintenance/Maintenance'
 import Reserve from './components/AssetSections/EditAsset/Tabs/Reserve'
 import Move from './pages/Move/Move'
-
+import EditAssets from './pages/Assets/EditAssets'
+import Setup from './pages/Alerts/Setup'
+import MaintainenceDue from './pages/Alerts/MaintenanceDue'
+import SearchCriteria from './pages/Assets/SearchCriteria'
 const App = () => {
-  
+   
   return (
 
     //   <Routes>
@@ -37,10 +39,25 @@ const App = () => {
     // -----
   
 
-    <Box sx={{display:"flex",height:"100vh"}}>
-      <Sidebar/>
-      <Routes>
-          <Route path='/' element={<Dashboard/>}/>
+
+    // <Box sx={{display:"flex",height:"100vh"}}>
+    //   <Sidebar/>
+    //   <Header/>
+    //   <Routes>
+    //       <Route path='/' element={<Dashboard/>}/>
+    //       <Route path='/dashboard' element={<Dashboard/>}/>
+    //       <Route path='/assets/addanasset' element={<AddAnAsset/>}/>
+    //       <Route path='/assets/listofassets' element={<ListOfAssets/>}/>
+    //       <Route path='/assets/EditAsset' element={<EditAssets/>}/>
+    //       <Route path='/alerts/setup' element={<Setup/>}/>
+    //   </Routes>
+    // </Box>
+    <Box sx={{ display: "flex" }}>
+        <Sidebar />
+        <Box sx={{ }}>
+          <Header />
+          <Routes>
+            <Route path='/' element={<Dashboard/>}/>
           <Route path='/dashboard' element={<Dashboard/>}/>
           <Route path='/assets/addanasset' element={<AddAnAsset/>}/>
           <Route path='/assets/listofassets' element={<ListOfAssets/>}/>
@@ -54,10 +71,15 @@ const App = () => {
           <Route path="/maintenance" element={<Maintenance/>} />
           <Route path='/move' element={<Move/>} />
            <Route path='/reserve' element={<Reserve/>} />
-
-      </Routes>
-    </Box>
-    
+            <Route path='/assets/addanasset' element={<AddAnAsset />} />
+            <Route path='/assets/listofassets' element={<ListOfAssets />} />
+            <Route path='/assets/editasset' element={<EditAssets />} />
+            <Route path='/alerts/setup' element={<Setup />} />
+            <Route path='/alerts/maintenancedue' element={<MaintainenceDue/>}/>
+            <Route path='/assetsearchcriteria' element={<SearchCriteria/>}/>
+          </Routes>
+        </Box>
+      </Box>
   )
 }
 

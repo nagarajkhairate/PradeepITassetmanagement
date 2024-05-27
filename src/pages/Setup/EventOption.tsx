@@ -42,7 +42,7 @@ import { ImHammer2 } from "react-icons/im";
       repairButtons:true,
     brokenButtons:true, 
     disposeButtons:true,
-    donateButtons:true,
+    donateButtons:true, 
     sellButtons:true,
     });
   

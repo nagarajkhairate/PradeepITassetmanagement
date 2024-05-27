@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateAsset } from "../../Redux/Features/assetSlice";
 import { RootState } from "../../Redux/Features/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
+import {Typography} from '@mui/joy'
 
 const EditAssets: React.FC = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
@@ -45,7 +46,10 @@ const EditAssets: React.FC = () => {
   return (
     <>
       <div style={{ width: "100%", background: "#f9f9f9" }}>
-        <div style={{ margin: "52px" }}>
+        <div style={{ margin: " 0px 52px 0 65px",paddingTop:"30px" }}>
+        <Typography level="h3">
+            Asset View
+          </Typography>
           <EditAssetInfo
             assetInfo={editAssetData?.assetInfo || []}
             dataUpdater={dataUpdater}

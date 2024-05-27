@@ -8,7 +8,8 @@ import {
   selectClasses,
   Select as MuiSelect,
   Option,
-} from "@mui/joy";
+} from "@mui/joy"; 
+import { InputProps } from '@mui/joy';
 
 import { IoIosArrowDown } from "react-icons/io";
 import { FaPlus } from "react-icons/fa";
@@ -24,7 +25,7 @@ const TypographyLabel: React.FC<{ title: string }> = ({ title }) => (
   </Typography>
 );
 
-const Input: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = ({
+const Input: React.FC<InputProps>  = ({
   ...props
 }) => (
   <MuiInput
@@ -72,6 +73,7 @@ const Select: React.FC<SelectProps> = ({
           transform: "rotate(-180deg)",
         },
       },
+      
       ...sx,
     }}
     {...props}
@@ -214,8 +216,9 @@ const AddAnAsset: React.FC = () => {
     const file = event.target.files && event.target.files[0];
     if (file) {
       setAsset_Photo(file);
+      setValidationMessages(prevState => ({ ...prevState, asset_photo: "" }));
     }
-  };
+  }
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -249,7 +252,7 @@ const AddAnAsset: React.FC = () => {
     dispatch(reducerone(formData));
     console.log(formData);
     // navigate('/assets/listofassets')
-  };
+  }
 
   const handleCancel = () => {
     setDescription("");
@@ -269,14 +272,27 @@ const AddAnAsset: React.FC = () => {
     setAsset_Photo(null);
   };
 
+  const handleChange = (setter: React.Dispatch<React.SetStateAction<any>>, field: keyof ValidationErrors) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setter(e.target.value);
+    setValidationMessages(prevState => ({ ...prevState, [field]: "" }));
+  };
+
+  const handleSelectChange = (setter: React.Dispatch<React.SetStateAction<any>>, field: keyof ValidationErrors) => (event: React.SyntheticEvent | null, newValue: string | null) => {
+    setter(newValue!);
+    setValidationMessages(prevState => ({ ...prevState, [field]: "" }));
+  };
+
+
   const { data, error } = useSelector((state: RootState) => state.assets);
   console.log(data);
 
   return (
     <>
+
       <div >
         <div style={{ margin: "52px" }}>
           <Typography level="h3" color="initial">
+
             Add An Asset
           </Typography>
         </div>
@@ -321,7 +337,7 @@ const AddAnAsset: React.FC = () => {
                   </Typography>
                   <Input
                     value={asset_name}
-                    onChange={(e) => setAsset_Name(e.target.value)}
+                    onChange={handleChange(setAsset_Name, 'asset_name')}
                     sx={{
                       borderRadius: "15px",
                       padding: "10px",
@@ -339,7 +355,7 @@ const AddAnAsset: React.FC = () => {
                   <Input
                     placeholder=""
                     value={assetTagId}
-                    onChange={(e) => setAssetTagId(e.target.value)}
+                    onChange={handleChange(setAssetTagId, 'assetTagId')}
                     sx={{
                       borderRadius: "15px",
                       padding: "10px",
@@ -362,7 +378,7 @@ const AddAnAsset: React.FC = () => {
                   <Input
                     placeholder=""
                     value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    onChange={handleChange(setDescription, 'description')}
                     sx={{
                       borderRadius: "15px",
                       padding: "10px",
@@ -380,7 +396,7 @@ const AddAnAsset: React.FC = () => {
                   <Input
                     placeholder="All Location"
                     value={purchase_From}
-                    onChange={(e) => setPurchase_From(e.target.value)}
+                    onChange={handleChange(setPurchase_From, 'purchase_From')}
                   />
                   {validationMessages.purchase_From && (
                     <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
@@ -394,7 +410,7 @@ const AddAnAsset: React.FC = () => {
                     placeholder="dd/mm/yyyy-dd/mm/yyyy"
                     type="Date"
                     value={purchase_date}
-                    onChange={(e) => setPurchase_date(e.target.value)}
+                    onChange={handleChange(setPurchase_date, 'purchase_date')}
                   />
                   {validationMessages.purchase_date && (
                     <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
@@ -407,7 +423,7 @@ const AddAnAsset: React.FC = () => {
                   <Input
                     placeholder=""
                     value={brand}
-                    onChange={(e) => setBrand(e.target.value)}
+                    onChange={handleChange(setBrand, 'brand')}
                   />
                   {validationMessages.brand && (
                     <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
@@ -425,11 +441,12 @@ const AddAnAsset: React.FC = () => {
                   <Input
                     placeholder="Indian Rupee"
                     value={cost?.toString() || ""}
-                    onChange={(e) =>
-                      setCost(
-                        e.target.value ? Number(e.target.value) : undefined
-                      )
-                    }
+                    // onChange={(e) =>
+                    //   setCost(
+                    //     e.target.value ? Number(e.target.value) : undefined
+                    //   )
+                    // }
+                    onChange={handleChange(setCost, 'cost')}
                   />
                   {validationMessages.cost && (
                     <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
@@ -442,7 +459,7 @@ const AddAnAsset: React.FC = () => {
                   <Input
                     placeholder=""
                     value={model}
-                    onChange={(e) => setModel(e.target.value)}
+                    onChange={handleChange(setModel, 'model')}
                   />
                   {validationMessages.model && (
                     <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
@@ -455,7 +472,7 @@ const AddAnAsset: React.FC = () => {
                   <Input
                     placeholder="Nothing Selected"
                     value={serial_number}
-                    onChange={(e) => setSerial_number(e.target.value)}
+                    onChange={handleChange(setSerial_number, 'serial_number')}
                   />
                   {validationMessages.serial_number && (
                     <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
@@ -463,16 +480,17 @@ const AddAnAsset: React.FC = () => {
                     </Typography>
                   )}
                 </Grid>
-                <Grid sx={{ mr: "820px" }}>
+                <Grid sx={{  }}>
                   <TypographyLabel title="Status"></TypographyLabel>
                   <Select
                     value={status}
-                    onChange={(
-                      event: React.SyntheticEvent | null,
-                      newValue: string | null
-                    ) => {
-                      setStatus(newValue!);
-                    }}
+                    // onChange={(
+                    //   event: React.SyntheticEvent | null,
+                    //   newValue: string | null
+                    // ) => {
+                    //   setStatus(newValue!);
+                    // }}
+                    onChange={handleSelectChange(setStatus, 'status')}
                   >
                     <Option value="Available">Available</Option>
                     <Option value="Not Available">Not Available</Option>
@@ -526,12 +544,7 @@ const AddAnAsset: React.FC = () => {
                     <Select
                       placeholder="OneSite(Indore,India)"
                       value={site}
-                      onChange={(
-                        event: React.SyntheticEvent | null,
-                        newValue: string | null
-                      ) => {
-                        setSite(newValue!);
-                      }}
+                      onChange={handleSelectChange(setSite, 'site')}
                     >
                       <Option value="Indore">Indore</Option>
                       <Option value="Mumbai">Mumbai</Option>
@@ -582,12 +595,7 @@ const AddAnAsset: React.FC = () => {
                     <Select
                       placeholder="Computer category"
                       value={category}
-                      onChange={(
-                        event: React.SyntheticEvent | null,
-                        newValue: string | null
-                      ) => {
-                        setCategory(newValue!);
-                      }}
+                      onChange={handleSelectChange(setCategory, 'category')}
                     >
                       <Option value="Laptop">Laptop</Option>
                       <Option value="Desktop">Desktop</Option>
@@ -636,12 +644,7 @@ const AddAnAsset: React.FC = () => {
                     <Select
                       placeholder="Indore"
                       value={location}
-                      onChange={(
-                        event: React.SyntheticEvent | null,
-                        newValue: string | null
-                      ) => {
-                        setLocation(newValue!);
-                      }}
+                      onChange={handleSelectChange(setLocation, 'location')}
                     >
                       <Option value="Indore">Indore</Option>
                       <Option value="Mumbai">Mumbai</Option>
@@ -691,12 +694,7 @@ const AddAnAsset: React.FC = () => {
                     <Select
                       placeholder="Supplier eco system"
                       value={department}
-                      onChange={(
-                        event: React.SyntheticEvent | null,
-                        newValue: string | null
-                      ) => {
-                        setDepartment(newValue!);
-                      }}
+                      onChange={handleSelectChange(setDepartment, 'department')}
                     >
                       <Option value="Supplier A">Supplier A</Option>
                       <Option value="Supplier B">Supplier B</Option>
@@ -822,7 +820,7 @@ const AddAnAsset: React.FC = () => {
                   padding: "18px 70px",
                   background: "#FABC1E",
                   "&:hover": {
-                    background: "#FABC1E",
+                    background: "#e0a71b",
                   },
                 }}
               >
@@ -836,7 +834,7 @@ const AddAnAsset: React.FC = () => {
                   padding: "18px 70px",
                   background: "#000000",
                   "&:hover": {
-                    background: "#000000",
+                    background: "#333333",
                   },
                 }}
               >
