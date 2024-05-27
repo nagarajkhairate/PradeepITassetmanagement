@@ -107,7 +107,7 @@ const ListOfAssets = () => {
                       marginTop: "-0.25rem",
                     }}
                   >
-                    <Link to='/searchcriteria' style={{color:"inherit",textDecoration:"none"}}>
+                    <Link to='/assetsearchcriteria' style={{color:"inherit",textDecoration:"none"}}>
                     Search Criteria
                     </Link>
                   </Typography>
