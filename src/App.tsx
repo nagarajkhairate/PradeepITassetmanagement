@@ -8,7 +8,6 @@ import AddAnAsset from './pages/Assets/AddAnAsset'
 import { Box } from '@mui/joy'
 import ListOfAssets from './pages/Assets/ListOfAssets'
 import TableOption from './pages/Setup/TableOption'
-import EditAssets from './pages/Assets/EditAssets'
 import EditAssetDetails from './components/AssetSections/EditAsset/EditAssetDetails'
 import CompanyInfo from './pages/Companyinfo/CompanyInfo'
 
@@ -28,6 +27,7 @@ import SearchCriteria from './pages/Assets/SearchCriteria'
 import Warranty from './pages/Maintainance/WarrantieExp'
 import LeasesExp from './pages/Maintainance/LeasesExpiring'
 import AssetsPastDue from './pages/Maintainance/AssetsPastDue'
+import MaintenanceDue from './pages/Maintainance/MaintenanceDue'
 
 const App = () => {
    
