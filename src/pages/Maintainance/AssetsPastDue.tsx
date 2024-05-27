@@ -5,8 +5,16 @@ import Image from "../../components/Common/MaintenanceEmpty";
 import Select, { selectClasses } from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
+import MarkunreadOutlinedIcon from "@mui/icons-material/MarkunreadOutlined";
+import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
 
-function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
+function createData(
+  name: string,
+  calories: number,
+  fat: number,
+  carbs: number,
+  protein: number
+) {
   return { name, calories, fat, carbs, protein };
 }
 
@@ -30,11 +38,11 @@ const VisuallyHiddenInput = styled("input")`
   width: 1px;
 `;
 
-export const AssetsPastDue: React.FC =()=> {
+export const AssetsPastDue: React.FC = () => {
   return (
-<>
-<div style={{ width: "100%", background: "#f9f9f9" }}>
-        <div style={{ margin: "52px" }}>
+    <>
+      <div style={{ width: "100%", background: "#f9f9f9" }}>
+        <div>
           <Box
             sx={{
               mt: "40px",
@@ -44,113 +52,129 @@ export const AssetsPastDue: React.FC =()=> {
               flexDirection: { xs: "column", md: "row" },
             }}
           >
-
-      <Box sx={{ padding: { xs: 2, md: 4 } }}>
-        <Box sx={{ display: "flex", alignItems: "center", flexDirection: { xs: "column", md: "row" }, mb: 2 }}>
-          <Typography
-            sx={{
-              fontFamily: "Poppins",
-              fontSize: { xs: "24px", md: "32px" },
-              fontWeight: 500,
-              lineHeight: { xs: "36px", md: "48px" },
-              textAlign: { xs: "center", md: "left" },
-              width: { xs: "100%", md: "auto" },
-            }}
-          >
-            Report
-          </Typography>
-          <Typography
-            sx={{
-              fontFamily: "Poppins",
-              fontSize: { xs: "14px", md: "18px" },
-              fontWeight: 400,
-              lineHeight: { xs: "21px", md: "27px" },
-              textAlign: { xs: "center", md: "left" },
-              width: { xs: "100%", md: "auto" },
-              mt: { xs: 1, md: 0 },
-              ml: { md: 2 },
-            }}
-          >
-            Checkout by Past Due
-          </Typography>
-
-          <Box sx={{ marginLeft: { xs: 0, md: "auto" }, mt: { xs: 2, md: 0 } }}>
-              <Button
-                variant="solid"
+            <Box sx={{ padding: { xs: 2, md: 4 } }}>
+              <Box
                 sx={{
-                  background: "#388e3c",
-                  color: "white",
-                  marginRight: { xs: 1, md: 2 },
-                  width: { xs: "100%", md: "auto" },
-                }}
-                component="label"
-              >
-                Automated Report
-                <VisuallyHiddenInput type="file" />
-              </Button>
-              <Button
-                type="button"
-                variant="solid"
-                sx={{
-                  background: "black",
-                  color: "white",
-                  width: { xs: "100%", md: "auto" },
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: { xs: "column", md: "row" },
+                  mb: 2,
                 }}
               >
-                <SettingsOutlinedIcon />
-                SetUp
-              </Button>
+                <Typography
+                  sx={{
+                    fontFamily: "Poppins",
+                    fontSize: { xs: "24px", md: "32px" },
+                    fontWeight: 500,
+                    lineHeight: { xs: "36px", md: "48px" },
+                    textAlign: { xs: "center", md: "left" },
+                    width: { xs: "100%", md: "auto" },
+                  }}
+                >
+                  Report
+                </Typography>
+                <Typography
+                  sx={{
+                    fontFamily: "Poppins",
+                    fontSize: { xs: "14px", md: "18px" },
+                    fontWeight: 400,
+                    lineHeight: { xs: "22px", md: "27px" },
+                    textAlign: { xs: "center", md: "left" },
+                    width: { xs: "100%", md: "auto" },
+                    mt: { xs: 1, md: 0 },
+                    ml: { md: 2 },
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Checkout by Past Due
+                </Typography>
+                <Box
+                  sx={{
+                    width: "100%",
+                    // marginRight:'5%',
+                    display: { md: "flex", xs: "flex" },
+                    justifyContent:'flex-end',
+                    flexDirection: { md: "row", xs: "column" },
+                    gap: "5px",
+                  }}
+                >
+                  <Button
+                    variant="solid"
+                    sx={{
+                      background: "#388e3c",
+                      color: "white",
+                      marginRight: { xs: 1, md: 2 },
+                      width: { xs: "100%", md: "auto" },
+                    }}
+                    component="label"
+                  >
+                    <MarkunreadOutlinedIcon />
+                    Automated Report
+                    <VisuallyHiddenInput type="file" />
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="solid"
+                    sx={{
+                      background: "black",
+                      color: "white",
+                      width: { xs: "100%", md: "auto" },
+                    }}
+                  >
+                    <SettingsOutlinedIcon />
+                    SetUp
+                  </Button>
+                </Box>
+              </Box>
+
+
+              <Box
+                // sx={{ display: "flex", justifyContent: "center", mb: 4 }}
+                sx={{
+                    width: "100%",
+                    // marginRight:'10%',
+                    display: { md: "flex", xs: "flex" },
+                    justifyContent:'flex-end',
+                    flexDirection: { md: "row", xs: "column" },
+                    gap: "5px",
+                  }}
+              >
+                <Button
+                  variant="solid"
+                  sx={{
+                    background: "#388e3c",
+                    color: "white",
+                    marginRight: { xs: 1, md: 2 },
+                    width: { xs: "100%", md: "auto" },
+                  }}
+                  component="label"
+                >
+                  Export
+                  <VisuallyHiddenInput type="file" />
+                </Button>
+                <Button
+                  type="button"
+                  variant="solid"
+                  sx={{
+                    background: "black",
+                    color: "white",
+                    width: { xs: "100%", md: "auto" },
+                  }}
+                >
+                  <PrintOutlinedIcon />
+                  Print
+                </Button>
+              </Box>
+
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <Image />
+              </Box>
+            </Box>
           </Box>
-        </Box>
-        
-
-        <Box sx={{ display: "flex", justifyContent: "center", mb: 4 }}>
-          <ButtonGroup
-            spacing="0.5rem"
-            aria-label="spacing button group"
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              width: "100%",
-            }}
-          >
-            <Button
-              variant="solid"
-              sx={{
-                background: "#388e3c",
-                color: "white",
-                marginRight: { xs: 1, md: 2 },
-                width: { xs: "100%", md: "auto" },
-              }}
-              component="label"
-            >
-              Export
-              <VisuallyHiddenInput type="file" />
-            </Button>
-            <Button
-              type="button"
-              variant="solid"
-              sx={{
-                background: "black",
-                color: "white",
-                width: { xs: "100%", md: "auto" },
-              }}
-            >
-              <SettingsOutlinedIcon />
-              Print
-            </Button>
-          </ButtonGroup>
-        </Box>
-
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Image />
-        </Box>
-      </Box>
-      </Box>
+        </div>
       </div>
-      </div>
-      </>
+    </>
   );
-}
+};
 
 export default AssetsPastDue;
