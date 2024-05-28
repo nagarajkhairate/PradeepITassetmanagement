@@ -47,8 +47,8 @@ export const pagesRoutes: any[] = [
         { name: "Assets Past Due", },
         { name: "Leases Expiring",},
         { name: "Maintenance Due",  path:'/alerts/maintenancedue'},
-        { name: "Maintenance Overdue",  },
-        { name: "Warranties Expiring", },
+        { name: "Maintenance Overdue", path:"/alerts/maintenanceoverdue"  },
+        { name: "Warranties Expiring", path:"/alerts/warrantieExp" },
         { name: "Setup/Alerts",path:'/alerts/setup',icon:<AiOutlineTool />},
           ]
     }, 

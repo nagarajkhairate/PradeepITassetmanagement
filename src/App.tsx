@@ -79,8 +79,8 @@ const App = () => {
           <Route path='/move' element={<Move/>} />
            <Route path='/reserve' element={<Reserve/>} />
         <Route path='/maintenancesdue' element={<MaintenancesDue />} />
-          <Route path='/maintenanceoverdue' element={<MaintenanceOverdue />} />
-          <Route path='/warrantieExp' element={<Warranty />} />
+          <Route path='/alerts/maintenanceoverdue' element={<MaintenanceOverdue />} />
+          <Route path='/alerts/warrantieExp' element={<Warranty />} />
           <Route path='/leasesExpiring' element={<LeasesExp />} />
           <Route path='/assetspastdue' element={<AssetsPastDue />} />
             <Route path='/assets/addanasset' element={<AddAnAsset />} />
