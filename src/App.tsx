@@ -78,11 +78,11 @@ const App = () => {
           <Route path="/maintenance" element={<Maintenance/>} />
           <Route path='/move' element={<Move/>} />
            <Route path='/reserve' element={<Reserve/>} />
-        <Route path='/maintenancesdue' element={<MaintenancesDue />} />
+        <Route path='/alerts/maintenancesdue' element={<MaintenancesDue />} />
           <Route path='/alerts/maintenanceoverdue' element={<MaintenanceOverdue />} />
           <Route path='/alerts/warrantieExp' element={<Warranty />} />
-          <Route path='/leasesExpiring' element={<LeasesExp />} />
-          <Route path='/assetspastdue' element={<AssetsPastDue />} />
+          <Route path='/alerts/leasesExpiring' element={<LeasesExp />} />
+          <Route path='/alerts/assetspastdue' element={<AssetsPastDue />} />
             <Route path='/assets/addanasset' element={<AddAnAsset />} />
             <Route path='/assets/listofassets' element={<ListOfAssets />} />
             <Route path='/assets/editasset' element={<EditAssets />} />

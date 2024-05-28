@@ -44,8 +44,9 @@ export const pagesRoutes: any[] = [
       updatedBy: 'Admin',
       arrow:true,
       children:[
-        { name: "Assets Past Due", },
-        { name: "Leases Expiring",},
+        { name: "Maintances Due", path:'/alerts/maintenancesdue' },
+        { name: "Assets Past Due",  path:'/alerts/assetspastdue' },
+        { name: "Leases Expiring", path:'./alerts/leasesExpiring'},
         { name: "Maintenance Due",  path:'/alerts/maintenancedue'},
         { name: "Maintenance Overdue", path:"/alerts/maintenanceoverdue"  },
         { name: "Warranties Expiring", path:"/alerts/warrantieExp" },
