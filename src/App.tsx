@@ -10,7 +10,6 @@ import ListOfAssets from './pages/Assets/ListOfAssets'
 import TableOption from './pages/Setup/TableOption'
 import EditAssetDetails from './components/AssetSections/EditAsset/EditAssetDetails'
 import CompanyInfo from './pages/Companyinfo/CompanyInfo'
-
 import CheckOut from './pages/CheckOut/CheckOut'
 import CheckIn from './pages/CheckIn/CheckIn'
 import Lease from './pages/Lease/Lease'
@@ -68,7 +67,7 @@ const App = () => {
           <Route path='/assets/addanasset' element={<AddAnAsset/>}/>
           <Route path='/assets/listofassets' element={<ListOfAssets/>}/>
           <Route path='/assets/EditAsset' element={<EditAssets/>}/>
-          <Route path="/company-info" element={<CompanyInfo />} />
+          <Route path="setup/companyinfo" element={<CompanyInfo />} />
           <Route path="/assets/checkout" element={<CheckOut />} />
           <Route path="/assets/checkin" element={<CheckIn />} />
           <Route path="/assets/lease" element={<Lease/>} />

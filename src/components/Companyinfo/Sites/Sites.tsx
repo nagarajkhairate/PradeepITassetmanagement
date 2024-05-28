@@ -159,7 +159,7 @@ const Sites: React.FC<SiteProps> = ({
           marginRight: "10px"
         }}
       />
-      Step 1- Company Information
+      Step 2- Sites
     </Typography>
       </FlexBox>
       <div style={{ margin: "20px" }}>
