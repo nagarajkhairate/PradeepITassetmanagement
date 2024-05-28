@@ -69,14 +69,14 @@ const App = () => {
           <Route path='/assets/listofassets' element={<ListOfAssets/>}/>
           <Route path='/assets/EditAsset' element={<EditAssets/>}/>
           <Route path="/company-info" element={<CompanyInfo />} />
-          <Route path="/checkout" element={<CheckOut />} />
-          <Route path="/checkin" element={<CheckIn />} />
-          <Route path="/lease" element={<Lease/>} />
-          <Route path="/leasereturn" element={<LeaseReturn />} />
-          <Route path="/dispose" element={<Dispose />} />
-          <Route path="/maintenance" element={<Maintenance/>} />
-          <Route path='/move' element={<Move/>} />
-           <Route path='/reserve' element={<Reserve/>} />
+          <Route path="/assets/checkout" element={<CheckOut />} />
+          <Route path="/assets/checkin" element={<CheckIn />} />
+          <Route path="/assets/lease" element={<Lease/>} />
+          <Route path="/assets/leasereturn" element={<LeaseReturn />} />
+          <Route path="/assets/dispose" element={<Dispose />} />
+          <Route path="/assets/maintenance" element={<Maintenance/>} />
+          <Route path='/assets/move' element={<Move/>} />
+           <Route path='/assets/reserve' element={<Reserve/>} />
         <Route path='/maintenancedue' element={<MaintenanceDue />} />
           <Route path='/maintenanceoverdue' element={<MaintenanceOverdue />} />
           <Route path='/warranty' element={<Warranty />} />

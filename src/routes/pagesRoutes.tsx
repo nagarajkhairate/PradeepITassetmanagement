@@ -70,14 +70,14 @@ export const pagesRoutes: any[] = [
       children:[
     { name: "List of assets",path:'/assets/listofassets',icon: <CiCircleList  /> },
     { name: "Add an Asset",path:'/assets/addanasset',  icon: <IoIosAddCircleOutline /> },
-    { name: "Check out", icon: <LiaUserCheckSolid /> },
-    { name: "Check In", icon: <LiaUserTimesSolid /> },
-    { name: "Lease", icon: <CiPaperplane /> },
-    { name: "Lease Return", icon: <CiPaperplane /> },
-    { name: "Dispose", icon: <PiRecycle /> },
-    { name: "Maintenance", icon: <GrVmMaintenance /> },
-    { name: "Move", icon: <IoMoveSharp /> },
-    { name: "Reserve", icon: <MdOutlineCalendarMonth /> }
+    { name: "Check out",path:'/assets/checkout',  icon: <LiaUserCheckSolid /> },
+    { name: "Check In",path:'/assets/checkin',  icon: <LiaUserTimesSolid /> },
+    { name: "Lease",path:'/assets/lease',  icon: <CiPaperplane /> },
+    { name: "Lease Return",path:'/assets/leasereturn',  icon: <CiPaperplane /> },
+    { name: "Dispose",path:'/assets/dispose',  icon: <PiRecycle /> },
+    { name: "Maintenance",path:'/assets/maintenance',  icon: <GrVmMaintenance /> },
+    { name: "Move",path:'/assets/move',  icon: <IoMoveSharp /> },
+    { name: "Reserve",path:'/assets/reserve',  icon: <MdOutlineCalendarMonth /> }
       ]
 
     },
