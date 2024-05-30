@@ -11,6 +11,7 @@ import {
   Select,
   RadioGroup,
   Textarea,
+  FormLabel,
 } from "@mui/joy";
 
 interface CheckOutFormProps {
@@ -42,6 +43,22 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
   const handleFormSubmit = () => {
     console.log(formData);
   };
+  
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | { name?: string; value: unknown }>) => {
+    const { name, value, type, checked } = e.target as HTMLInputElement;
+    setFormData({
+      ...formData,
+      [name]: type === 'checkbox' ? checked : value
+    });
+  };
+
+  const handleSelectChange = (name: string, newValue: string | null) => {
+    setFormData({
+      ...formData,
+      [name]: newValue || ''
+    });
+  };
+
 
   return (
     <Box
@@ -53,70 +70,85 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
         flexGrow: 1,
         marginLeft: "52px",
         marginTop: "22px",
-        width: "1100px",
+        width: { xs: "100%", sm: "90%", md: "1100px" },
         height: "auto",
       }}
     >
       <Typography component="h2" sx={{ mb: 2 }}>
         Assets Pending Check-Out
       </Typography>
-      <Table>
+      <Box
+      sx={{
+        overflowX: "auto",
+        marginBottom: "20px",
+      }}
+      >
+         <Table sx={{ border: "1px solid #f2f2f2", width: "100%" }}>
         <thead>
-          <tr>
-            <th>Asset Tag ID</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Assigned to</th>
-            <th>Site</th>
-            <th>Location</th>
+        <tr>
+            <th style={{ padding: "8px", border: "1px solid #f2f2f2", width:"20px",background: "#fff8e6" }}><Checkbox /></th>
+            <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Asset Tag ID</th>
+            <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Description</th>
+            <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Status</th>
+            <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Assigned to</th>
+            <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Site</th>
+            <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Location</th>
           </tr>
         </thead>
 
         <tbody>
           {selectedAssets.map((asset) => (
             <tr key={asset.id}>
-              <td>{asset.id}</td>
-              <td>{asset.description}</td>
-              <td>{asset.status}</td>
-              <td>{asset.assignedTo}</td>
-              <td>{asset.site}</td>
-              <td>{asset.location}</td>
+              <td style={{ padding: "8px", border: "1px solid #f2f2f2" , width:"20px"}}><Checkbox /></td>
+              <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.id}</td>
+              <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.description}</td>
+              <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.status}</td>
+              <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.assignedTo}</td>
+              <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.site}</td>
+              <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.location}</td>
             </tr>
           ))}
         </tbody>
       </Table>
+      </Box>
+     
 
       <Box mt={4}>
         <Box
           sx={{
             display: "grid",
             gap: 2,
-            gridTemplateColumns: "repeat(2, 1fr)",
+            gridTemplateColumns: { xs: "1fr", md: "repeat(2, 1fr)" },
           }}
         >
           <Box sx={{ display: "flex" }}>
-            <Typography>Check-out Date:</Typography>
-            <Input placeholder="Check-out Date" type="date" fullWidth />
+            <FormLabel>Check-out Date:</FormLabel>
+            <Input placeholder="Check-out Date"
+             type="date" 
+             fullWidth 
+             onChange={(e) =>
+              setFormData({ ...formData, check_out_date: e.target.value })}/>
           </Box>
 
 
-          <Typography level="body-md">Optionally select Site, Location , Department of Asset to :</Typography>
+          <FormLabel >Optionally select Site, Location , Department of Asset to :</FormLabel>
 
           <Box
             sx={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: {md:"row" , xs:"column"},
               alignItems: "center",
               gap: 2,
             }}
           >
             <Box>
-              <Typography>Check-out to:</Typography>
+              <FormLabel>Check-out to:</FormLabel>
             </Box>
             <RadioGroup
-              name="checkout-to"
+              name="checkout_to"
               defaultValue="person"
               sx={{ display: "flex", alignItems: "center" }}
+              onChange={handleChange}
             >
               <Box>
                 <Radio value="person" label="Person" />
@@ -129,13 +161,20 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: {md:"row" , xs:"column"},
               alignItems: "center",
               gap: 2,
             }}
           >
-            <Typography>Site:</Typography>
-            <Select placeholder="Site" sx={{width:"80%"}}>
+            <FormLabel>Site:</FormLabel>
+            <Select 
+            name="check_out_site"
+            placeholder="Site" 
+            sx={{ ml:"60px",
+            width:"80%"}}
+            value={formData.check_out_site}
+            onChange={(event, newValue)=> handleSelectChange('check_out_site', newValue as string)}
+            >
               <Option value="site1">Site 1</Option>
               <Option value="site2">Site 2</Option>
             </Select>
@@ -144,13 +183,19 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: {md:"row" , xs:"column"},
               alignItems: "center",
               gap: 2,
             }}
           >
-            <Typography>Assigned to:</Typography>
-            <Select placeholder="Assign to"   sx={{width:"80%"}}>
+            <FormLabel>Assigned to:</FormLabel>
+            <Select
+            name="assigned_to"
+            placeholder="Assign to"
+            sx={{width:"80%"}}
+            value={formData.assigned_to}
+            onChange={(event, newValue)=> handleSelectChange('assigned_to', newValue as string)}
+            >
               <Option value="person1">Person 1</Option>
               <Option value="person2">Person 2</Option>
             </Select>
@@ -159,13 +204,22 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: {md:"row" , xs:"column"},
               alignItems: "center",
               gap: 2,
             }}
           >
-            <Typography>Location:</Typography>
-            <Select placeholder="Location"  sx={{width:"80%"}}>
+            <FormLabel>Location:</FormLabel>
+            <Select
+            name="check_out_location"
+            placeholder="Location"
+            value={formData.check_out_location}
+            onChange={(event, newValue) => handleSelectChange ('check_out_location', newValue as string)}
+            sx={{
+                ml:"25px",
+                width:"80%"
+              }}
+             >
               <Option value="location1">Location 1</Option>
               <Option value="location2">Location 2</Option>
             </Select>
@@ -175,12 +229,12 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: {md:"row" , xs:"column"},
               alignItems: "center",
               gap: 2,
             }}
           >
-            <Typography>Due date:</Typography>
+            <FormLabel>Due date:</FormLabel>
             <Input
               placeholder="Due date"
               type="date"
@@ -195,13 +249,20 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: {md:"row" , xs:"column"},
               alignItems: "center",
               gap: 2,
             }}
           >
-            <Typography>Department:</Typography>
-            <Select placeholder="Department"  sx={{width:"80%"}}>
+            <FormLabel>Department:</FormLabel>
+            <Select
+            name="check_out_department"
+            placeholder="Department"
+            value={formData.check_out_department}
+            onChange={(event, newValue) => handleSelectChange('check_out_department' , newValue as string)}
+            sx={{
+                width:"80%"
+              }}>
               <Option value="department1">Department 1</Option>
               <Option value="department2">Department 2</Option>
             </Select>
@@ -211,12 +272,12 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
             mt={4}
             sx={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: {md:"row" , xs:"column"},
               alignItems: "center",
               gap: 2,
             }}
           >
-            <Typography>Check-out Notes:</Typography>
+            <FormLabel>Check-out Notes:</FormLabel>
             <Textarea
             sx={{width:'80%'}}
               placeholder="Check-out Notes"
@@ -231,7 +292,7 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
             mt={4}
             sx={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: {md:"row" , xs:"column"},
               alignItems: "center",
               gap: 2,
             }}

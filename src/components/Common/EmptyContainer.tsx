@@ -17,7 +17,7 @@ const EmptyContainer: React.FC<EmptyContainerProps> = ({ title }) => {
         flexGrow: 1,
         marginLeft: { xs: "0px", sm: "52px" },
         marginTop: { xs: "10px", sm: "22px" },
-        width: { xs: "100%", sm: "90%", md: "1100px" },
+        width: { xs: "100%", sm: "90%", md: "1160px" },
         height: "auto",
         display: 'flex',
         flexDirection: 'column',
