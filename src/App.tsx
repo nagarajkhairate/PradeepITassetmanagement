@@ -30,7 +30,6 @@ import AssetsPastDue from './pages/Maintainance/AssetsPastDue'
 
 import MaintenancesDue from "./pages/Maintainance/MaintenancesDue"
 
-import MaintenanceDue from './pages/Maintainance/MaintenanceDue'
 
 
 const App = () => {
@@ -83,7 +82,7 @@ const App = () => {
           <Route path="/assets/maintenance" element={<Maintenance/>} />
           <Route path='/assets/move' element={<Move/>} />
            <Route path='/assets/reserve' element={<Reserve/>} />
-        <Route path='/maintenancedue' element={<MaintenanceDue />} />
+         {/* <Route path='/maintenancedue' element={<MaintenanceDue />} /> */}
           <Route path='/maintenanceoverdue' element={<MaintenanceOverdue />} />
           <Route path='/warranty' element={<Warranty />} />
           <Route path='/leases' element={<LeasesExp />} />
