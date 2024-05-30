@@ -8,7 +8,10 @@ import AddAnAsset from './pages/Assets/AddAnAsset'
 import { Box } from '@mui/joy'
 import ListOfAssets from './pages/Assets/ListOfAssets'
 import TableOption from './pages/Setup/TableOption'
-import EditAssets from './pages/Assets/EditAssets'
+<<<<<<<<< Temporary merge branch 1
+
+=========
+>>>>>>>>> Temporary merge branch 2
 import EditAssetDetails from './components/AssetSections/EditAsset/EditAssetDetails'
 import CompanyInfo from './pages/Companyinfo/CompanyInfo'
 import CheckOut from './pages/CheckOut/CheckOut'
@@ -27,8 +30,9 @@ import SearchCriteria from './pages/Assets/SearchCriteria'
 import Warranty from './pages/Maintainance/WarrantieExp'
 import LeasesExp from './pages/Maintainance/LeasesExpiring'
 import AssetsPastDue from './pages/Maintainance/AssetsPastDue'
-import MaintenancesDue from './pages/Maintainance/MaintenancesDue'
-import SetupCompInfo from './pages/SetupPage/SetupCompInfo/SetupCompInfo'
+
+import MaintenancesDue from "./pages/Maintainance/MaintenancesDue"
+
 
 const App = () => {
    
@@ -69,20 +73,22 @@ const App = () => {
           <Route path='/assets/addanasset' element={<AddAnAsset/>}/>
           <Route path='/assets/listofassets' element={<ListOfAssets/>}/>
           <Route path='/assets/EditAsset' element={<EditAssets/>}/>
+
           <Route path="/company-info" element={<CompanyInfo />} />
-          <Route path="assets/checkout" element={<CheckOut />} />
-          <Route path="assets/checkin" element={<CheckIn />} />
-          <Route path="assets/lease" element={<Lease/>} />
-          <Route path="assets/leasereturn" element={<LeaseReturn />} />
-          <Route path="assets/dispose" element={<Dispose />} />
-          <Route path="assets/maintenance" element={<Maintenance/>} />
-          <Route path='assets/move' element={<Move/>} />
-           <Route path='assets/reserve' element={<Reserve/>} />
-        <Route path='/alserts/maintenancesdue' element={<MaintenancesDue />} />
+          <Route path="/checkout" element={<CheckOut />} />
+          <Route path="/checkin" element={<CheckIn />} />
+          <Route path="/lease" element={<Lease/>} />
+          <Route path="/leasereturn" element={<LeaseReturn />} />
+          <Route path="/dispose" element={<Dispose />} />
+          <Route path="/maintenance" element={<Maintenance/>} />
+          <Route path='/move' element={<Move/>} />
+           <Route path='/reserve' element={<Reserve/>} />
+        <Route path='/alerts/maintenancesdue' element={<MaintenancesDue />} />
           <Route path='/alerts/maintenanceoverdue' element={<MaintenanceOverdue />} />
-          <Route path='/alerts/warranty' element={<Warranty />} />
-          <Route path='/alerts/leases' element={<LeasesExp />} />
-          <Route path='/alerts/assetspast' element={<AssetsPastDue />} />
+          <Route path='/alerts/warrantieExp' element={<Warranty />} />
+          <Route path='/alerts/leasesExpiring' element={<LeasesExp />} />
+          <Route path='/alerts/assetspastdue' element={<AssetsPastDue />} />
+
             <Route path='/assets/addanasset' element={<AddAnAsset />} />
             <Route path='/assets/listofassets' element={<ListOfAssets />} />
             <Route path='/assets/editasset' element={<EditAssets />} />
