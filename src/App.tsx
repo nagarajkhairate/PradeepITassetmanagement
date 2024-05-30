@@ -21,7 +21,7 @@ import MaintenanceOverdue from "./pages/Maintenance/MaintenanceOverdue";
 import Warranty from "./pages/Maintenance/WarrantieExp";
 import LeasesExp from "./pages/Maintenance/LeasesExpiring";
 import AssetsPastDue from "./pages/Maintenance/AssetsPastDue";
-
+import CompanyInfo from "./pages/Companyinfo/CompanyInfo";
 import MaintenancesDue from "./pages/Maintenance/MaintenancesDue";
 import MaintenanceDue from "./pages/Alerts/MaintenanceDue";
 
@@ -34,6 +34,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/company-info" element={<CompanyInfo />} />
           <Route path="/assets/add-an-asset" element={<AddAnAsset />} />
           <Route path="/assets/list-of-assets" element={<ListOfAssets />} />
           <Route path="/assets/checkout" element={<CheckOut />} />
@@ -45,7 +46,7 @@ const App = () => {
           <Route path="/assets/maintenance" element={<Maintenance />} />
           <Route path="/assets/move" element={<Move />} />
           <Route path="/assets/reserve" element={<Reserve />} />
-          <Route path="/maintenance-over-due" element={<MaintenanceOverdue />} />
+          <Route path="/alerts/maintenance-over-due" element={<MaintenanceOverdue />} />
           <Route path="/warranty" element={<Warranty />} />
           <Route path="/leases" element={<LeasesExp />} />
           <Route path="/assets-past" element={<AssetsPastDue />} />

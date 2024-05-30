@@ -44,7 +44,7 @@ export const pagesRoutes: any[] = [
       updatedBy: 'Admin',
       arrow:true,
       children:[
-        { name: "Maintenances Due", path:'/alerts/Maintenances' },
+        { name: "Maintenances Due", path:'/alerts/Maintenances-due' },
         { name: "Assets Past Due",  path:'/alerts/assets-past-due' },
         { name: "Leases Expiring", path:'./alerts/leasesExpiring'},
         { name: "Maintenance Due",  path:'/alerts/maintenance-due'},
