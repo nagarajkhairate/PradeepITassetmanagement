@@ -4,7 +4,6 @@ import {
   Button,
   Typography,
 } from "@mui/joy";
-import SvgIcon from "@mui/joy/SvgIcon";
 import { styled } from "@mui/joy";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import Image from "../../components/Common/MaintenanceEmpty";
