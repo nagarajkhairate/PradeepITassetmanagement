@@ -101,7 +101,7 @@ interface ValidationErrors {
   dateRange?: string;
 }
 
-const MaintenenceDue: React.FC = () => {
+const MaintenanceDue: React.FC = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchFields, setSearchFields] = useState("");
   const [site, setSite] = useState("");
@@ -573,4 +573,4 @@ const MaintenenceDue: React.FC = () => {
   );
 };
 
-export default MaintenenceDue;
+export default MaintenanceDue;

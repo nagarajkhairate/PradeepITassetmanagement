@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Grid, Typography } from "@mui/joy";
+import { Box, Button, Typography } from "@mui/joy";
 import { styled } from "@mui/joy";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import Image from "../../components/Common/MaintenanceEmpty";
@@ -9,23 +9,9 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlined';
 
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-) {
-  return { name, calories, fat, carbs, protein };
-}
 
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
+
+
 
 const VisuallyHiddenInput = styled("input")`
   clip: rect(0 0 0 0);

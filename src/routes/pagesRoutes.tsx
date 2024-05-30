@@ -44,12 +44,12 @@ export const pagesRoutes: any[] = [
       updatedBy: 'Admin',
       arrow:true,
       children:[
-        { name: "Maintances Due", path:'/alerts/maintenancesdue' },
-        { name: "Assets Past Due",  path:'/alerts/assetspastdue' },
+        { name: "Maintenances Due", path:'/alerts/Maintenances' },
+        { name: "Assets Past Due",  path:'/alerts/assets-past-due' },
         { name: "Leases Expiring", path:'./alerts/leasesExpiring'},
-        { name: "Maintenance Due",  path:'/alerts/maintenancedue'},
-        { name: "Maintenance Overdue", path:"/alerts/maintenanceoverdue"},
-        { name: "Warranties Expiring", path:"/alerts/warrantieExp" },
+        { name: "Maintenance Due",  path:'/alerts/maintenance-due'},
+        { name: "Maintenance Overdue", path:"/alerts/maintenance-over-due"},
+        { name: "Warranties Expiring", path:"/alerts/warranty-exp" },
         { name: "Setup/Alerts",path:'/alerts/setup',icon:<AiOutlineTool />},
           ]
     }, 
@@ -69,12 +69,12 @@ export const pagesRoutes: any[] = [
       updatedBy: 'Admin',
       arrow:true,
       children:[
-    { name: "List of assets",path:'/assets/listofassets',icon: <CiCircleList  /> },
-    { name: "Add an Asset",path:'/assets/addanasset',  icon: <IoIosAddCircleOutline /> },
+    { name: "List of assets",path:'/assets/list-of-assets',icon: <CiCircleList  /> },
+    { name: "Add an Asset",path:'/assets/add-an-asset',  icon: <IoIosAddCircleOutline /> },
     { name: "Check out",path:'/assets/checkout',  icon: <LiaUserCheckSolid /> },
-    { name: "Check In",path:'/assets/checkin',  icon: <LiaUserTimesSolid /> },
+    { name: "Check In",path:'/assets/check-in',  icon: <LiaUserTimesSolid /> },
     { name: "Lease",path:'/assets/lease',  icon: <CiPaperplane /> },
-    { name: "Lease Return",path:'/assets/leasereturn',  icon: <CiPaperplane /> },
+    { name: "Lease Return",path:'/assets/lease-return',  icon: <CiPaperplane /> },
     { name: "Dispose",path:'/assets/dispose',  icon: <PiRecycle /> },
     { name: "Maintenance",path:'/assets/maintenance',  icon: <GrVmMaintenance /> },
     { name: "Move",path:'/assets/move',  icon: <IoMoveSharp /> },
@@ -173,7 +173,7 @@ export const pagesRoutes: any[] = [
         { name: "Departments",path:'/setup/departments',  icon: <CiPaperplane /> },
         { name: "Databases",path:'/setup/databases',  icon: <CiPaperplane /> },
         { name: "Events",path:'/setup/events',  icon: <PiRecycle /> },
-        { name: "Table Options",path:'/setup/tableoptions',  icon: <GrVmMaintenance /> },
+        { name: "Table Options",path:'/setup/table-options',  icon: <GrVmMaintenance /> },
           ]
 
     },

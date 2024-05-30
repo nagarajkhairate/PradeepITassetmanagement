@@ -2,11 +2,10 @@ import React from "react";
 import {
   Box,
   Button,
-  FormControl,
-  Grid,
+
   Typography,
 } from "@mui/joy";
-import SvgIcon from "@mui/joy/SvgIcon";
+
 import { styled } from "@mui/joy";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import Image from "../../components/Common/MaintenanceEmpty";
@@ -16,34 +15,9 @@ import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import Table from "@mui/joy/Table";
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 
-// Define a type for the data rows
-interface DataRow {
-  name: string;
-  calories: number;
-  fat: number;
-  carbs: number;
-  protein: number;
-}
 
-// Create data function
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-): DataRow {
-  return { name, calories, fat, carbs, protein };
-}
 
-// Data rows
-const rows: DataRow[] = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
+
 
 // Styled component for visually hidden input
 const VisuallyHiddenInput = styled("input")`
@@ -233,8 +207,7 @@ export const MaintenanceOverdue: React.FC = () => {
             >
              
                 
-        Assets that are more than 7 days overdue for maintenance (as indicated by 'overdue time')
-                  
+        Assets that are more than 7 days overdue for maintenance (as indicated by overdue time)                  
             
 
           </Box>

@@ -3,7 +3,6 @@ import {
   Button,
   Typography,
 } from "@mui/joy";
-import SvgIcon from "@mui/joy/SvgIcon";
 import { styled } from "@mui/joy";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import Image from "../../components/Common/MaintenanceEmpty";
@@ -12,23 +11,7 @@ import Option from "@mui/joy/Option";
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import Table from "@mui/joy/Table";
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-) {
-  return { name, calories, fat, carbs, protein };
-}
 
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
 
 const VisuallyHiddenInput = styled("input")`
   clip: rect(0 0 0 0);
