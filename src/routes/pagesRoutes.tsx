@@ -168,7 +168,7 @@ export const pagesRoutes: any[] = [
       children:[
         { name: "Company Info",path:'/setup/company',icon: <CiCircleList  /> },
         { name: "Sites",path:'/setup/sites',  icon: <IoIosAddCircleOutline /> },
-        { name: "Locations",path:'/setup/locations',  icon: <LiaUserCheckSolid /> },
+        { name: "SetupLocation",path:'/setup/locationsetup',  icon: <LiaUserCheckSolid /> },
         { name: "Categories",path:'/setup/categories',  icon: <LiaUserTimesSolid /> },
         { name: "Departments",path:'/setup/departments',  icon: <CiPaperplane /> },
         { name: "Databases",path:'/setup/databases',  icon: <CiPaperplane /> },

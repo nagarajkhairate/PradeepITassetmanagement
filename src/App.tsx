@@ -24,6 +24,7 @@ import AssetsPastDue from "./pages/Maintenance/AssetsPastDue";
 import CompanyInfo from "./pages/Companyinfo/CompanyInfo";
 import MaintenancesDue from "./pages/Maintenance/MaintenancesDue";
 import MaintenanceDue from "./pages/Alerts/MaintenanceDue";
+import LocationSetup from "./pages/Setup/SetupLocation/LocationSetup";
 
 const App = () => {
   return (
@@ -60,6 +61,7 @@ const App = () => {
           <Route path="/alerts/setup" element={<Setup />} />
           <Route path="/alerts/maintenance-due" element={<MaintenanceDue />} />
           <Route path="/asset-search-criteria" element={<SearchCriteria />} />
+          <Route path="/setup/locationsetup" element={<LocationSetup />} />
         </Routes>
       </Box>
     </Box>
