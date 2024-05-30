@@ -165,14 +165,14 @@ export const pagesRoutes: any[] = [
       updatedBy: 'Admin',
       arrow:true,
       children:[
-        { name: "Company Info",path:'/setup/companyinfo',icon: <CiCircleList  /> },
-        { name: "Sites",path:'/setup/companyinfo',  icon: <IoIosAddCircleOutline /> },
-        { name: "Locations",path:'/setup/companyinfo',  icon: <LiaUserCheckSolid /> },
-        { name: "Categories",path:'/setup/companyinfo',  icon: <LiaUserTimesSolid /> },
-        { name: "Departments",path:'/setup/companyinfo',  icon: <CiPaperplane /> },
-        { name: "Databases",path:'/setup/companyinfo',  icon: <CiPaperplane /> },
-        { name: "Events",path:'/setup/companyinfo',  icon: <PiRecycle /> },
-        { name: "Table Options",path:'/setup/companyinfo',  icon: <GrVmMaintenance /> },
+        { name: "Company Info",path:'/setup/company',icon: <CiCircleList  /> },
+        { name: "Sites",path:'/setup/sites',  icon: <IoIosAddCircleOutline /> },
+        { name: "Locations",path:'/setup/locations',  icon: <LiaUserCheckSolid /> },
+        { name: "Categories",path:'/setup/categories',  icon: <LiaUserTimesSolid /> },
+        { name: "Departments",path:'/setup/departments',  icon: <CiPaperplane /> },
+        { name: "Databases",path:'/setup/databases',  icon: <CiPaperplane /> },
+        { name: "Events",path:'/setup/events',  icon: <PiRecycle /> },
+        { name: "Table Options",path:'/setup/tableoptions',  icon: <GrVmMaintenance /> },
           ]
 
     },
