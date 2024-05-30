@@ -44,11 +44,12 @@ export const pagesRoutes: any[] = [
       updatedBy: 'Admin',
       arrow:true,
       children:[
-        { name: "Assets Past Due", },
-        { name: "Leases Expiring",},
+        { name: "Maintances Due", path:'/alerts/maintenancesdue' },
+        { name: "Assets Past Due",  path:'/alerts/assetspastdue' },
+        { name: "Leases Expiring", path:'./alerts/leasesExpiring'},
         { name: "Maintenance Due",  path:'/alerts/maintenancedue'},
-        { name: "Maintenance Overdue",  },
-        { name: "Warranties Expiring", },
+        { name: "Maintenance Overdue", path:"/alerts/maintenanceoverdue"},
+        { name: "Warranties Expiring", path:"/alerts/warrantieExp" },
         { name: "Setup/Alerts",path:'/alerts/setup',icon:<AiOutlineTool />},
           ]
     }, 
@@ -70,14 +71,14 @@ export const pagesRoutes: any[] = [
       children:[
     { name: "List of assets",path:'/assets/listofassets',icon: <CiCircleList  /> },
     { name: "Add an Asset",path:'/assets/addanasset',  icon: <IoIosAddCircleOutline /> },
-    { name: "Check out", icon: <LiaUserCheckSolid /> },
-    { name: "Check In", icon: <LiaUserTimesSolid /> },
-    { name: "Lease", icon: <CiPaperplane /> },
-    { name: "Lease Return", icon: <CiPaperplane /> },
-    { name: "Dispose", icon: <PiRecycle /> },
-    { name: "Maintenance", icon: <GrVmMaintenance /> },
-    { name: "Move", icon: <IoMoveSharp /> },
-    { name: "Reserve", icon: <MdOutlineCalendarMonth /> }
+    { name: "Check out",path:'/assets/checkout',  icon: <LiaUserCheckSolid /> },
+    { name: "Check In",path:'/assets/checkin',  icon: <LiaUserTimesSolid /> },
+    { name: "Lease",path:'/assets/lease',  icon: <CiPaperplane /> },
+    { name: "Lease Return",path:'/assets/leasereturn',  icon: <CiPaperplane /> },
+    { name: "Dispose",path:'/assets/dispose',  icon: <PiRecycle /> },
+    { name: "Maintenance",path:'/assets/maintenance',  icon: <GrVmMaintenance /> },
+    { name: "Move",path:'/assets/move',  icon: <IoMoveSharp /> },
+    { name: "Reserve",path:'/assets/reserve',  icon: <MdOutlineCalendarMonth /> }
       ]
 
     },
@@ -164,6 +165,16 @@ export const pagesRoutes: any[] = [
       createdBy: 'Admin',
       updatedBy: 'Admin',
       arrow:true,
+      children:[
+        { name: "Company Info",path:'/setup/company',icon: <CiCircleList  /> },
+        { name: "Sites",path:'/setup/sites',  icon: <IoIosAddCircleOutline /> },
+        { name: "Locations",path:'/setup/locations',  icon: <LiaUserCheckSolid /> },
+        { name: "Categories",path:'/setup/categories',  icon: <LiaUserTimesSolid /> },
+        { name: "Departments",path:'/setup/departments',  icon: <CiPaperplane /> },
+        { name: "Databases",path:'/setup/databases',  icon: <CiPaperplane /> },
+        { name: "Events",path:'/setup/events',  icon: <PiRecycle /> },
+        { name: "Table Options",path:'/setup/tableoptions',  icon: <GrVmMaintenance /> },
+          ]
 
     },
     {

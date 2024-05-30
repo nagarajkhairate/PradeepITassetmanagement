@@ -11,16 +11,18 @@ export function Image() {
               borderRadius: "16px",
               boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
               background: "#ffffff",
-              padding: { xs: "10px", sm: "20px" },
+              // padding: { xs: "10px", sm: "0px" },
               flexGrow: 1,
-              marginLeft: { xs: "0px", sm: "52px" },
+              // marginLeft: { xs: "0px", sm: "0px" },
               marginTop: { xs: "10px", sm: "22px" },
-              width: { xs: "100%", sm: "90%", md: "1100px" },
+              width: { xs: "100%", sm: "90%", md: "850px" },
               height: "auto",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
             }}
+
+            
           >
             <Box
               sx={{

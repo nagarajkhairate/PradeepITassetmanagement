@@ -1,16 +1,18 @@
 import React, { useState, ChangeEvent, SyntheticEvent } from "react";
-import { Link } from "react-router-dom";
-import {Box,Typography,Divider,Select,Option,Radio,RadioGroup,FormControl,FormLabel,Checkbox,Button,ButtonGroup,} from "@mui/joy";
+// import { Link } from "react-router-dom";
+import {Box,Typography,Divider,Select,Option,Radio,RadioGroup,FormControl,FormLabel,Checkbox,Button,ButtonGroup, Grid,} from "@mui/joy";
 import { RxCalendar } from "react-icons/rx";
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 import { MdAddLink } from "react-icons/md";
-import { FaLessThan, FaGreaterThan } from "react-icons/fa6";
+// import { FaLessThan, FaGreaterThan } from "react-icons/fa6";
 import { BsBoxArrowInLeft } from "react-icons/bs";
 import { AiOutlineUserSwitch, AiFillDelete, AiFillGift } from "react-icons/ai";
 import { BiPackage, BiSearchAlt2 } from "react-icons/bi";
 import { RiToolsFill, RiAlertFill } from "react-icons/ri";
 import { GiReceiveMoney } from "react-icons/gi";
 import { CompanyInfData } from "./TableInfoData";
+import NavigateBeforeOutlinedIcon from "@mui/icons-material/NavigateBeforeOutlined";
+import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined";
 
 interface TableProps {
   companyFormData: any;
@@ -108,7 +110,7 @@ const TableOptions: React.FC<TableProps> = ({
           marginRight: "10px"
         }}
       />
-      Step 1- Company Information
+      Step 3- Table Options
     </Typography>
       </Box>
 
@@ -156,7 +158,7 @@ const TableOptions: React.FC<TableProps> = ({
                       marginTop: "10px",
                     }}
                   >
-                    <div style={{ width: 25, height: 25, color: "red" }}>
+                    <div style={{ width: 25, height: 25, color: "#FBC21E" }}>
                       <RxCalendar />
                     </div>
 
@@ -249,7 +251,7 @@ const TableOptions: React.FC<TableProps> = ({
                             marginTop: "10px",
                           }}
                         >
-                          <item.icon size={25} color="red" />
+                          <item.icon size={25} color="#FBC21E" />
                           <span style={{ marginLeft: "8px" }}>{item.title}</span>
                         </Typography>
                         <Typography>{item.description}</Typography>
@@ -300,7 +302,7 @@ const TableOptions: React.FC<TableProps> = ({
                         marginTop: "10px",
                       }}
                     >
-                      <MdAddLink size={25} color="red" />
+                      <MdAddLink size={25} color="#FBC21E" />
                       <span style={{ marginLeft: "8px" }}>Linking of Assets</span>
                     </Typography>
                     <Typography>
@@ -344,43 +346,43 @@ const TableOptions: React.FC<TableProps> = ({
                         <FormControl component="fieldset">
                           <Box marginBottom={"10px"}>
                             <Checkbox />
-                            <BsBoxArrowInLeft size={20} color="red" /> Check-out
+                            <BsBoxArrowInLeft size={20} color="#FBC21E" /> Check-out
                           </Box>
                           <Box marginBottom={"10px"}>
                             <Checkbox />
-                            <AiOutlineUserSwitch size={20} color="red" /> Lease
+                            <AiOutlineUserSwitch size={20} color="#FBC21E" /> Lease
                             assets
                           </Box>
                           <Box marginBottom={"10px"}>
                             <Checkbox />
-                            <BiPackage size={20} color="red" /> Lost/Found
+                            <BiPackage size={20} color="#FBC21E" /> Lost/Found
                             assets
                           </Box>
                           <Box marginBottom={"10px"}>
                             <Checkbox />
-                            <RiToolsFill size={20} color="red" /> Repair assets
+                            <RiToolsFill size={20} color="#FBC21E" /> Repair assets
                           </Box>
                           <Box marginBottom={"10px"}>
                             <Checkbox />
-                            <RiAlertFill size={20} color="red" /> Broken assets
+                            <RiAlertFill size={20} color="#FBC21E" /> Broken assets
                           </Box>
                           <Box marginBottom={"10px"}>
                             <Checkbox />
-                            <AiFillDelete size={20} color="red" /> Dispose
+                            <AiFillDelete size={20} color="#FBC21E" /> Dispose
                             assets
                           </Box>
                           <Box marginBottom={"10px"}>
                             <Checkbox />
-                            <GiReceiveMoney size={20} color="red" /> Donate
+                            <GiReceiveMoney size={20} color="#FBC21E" /> Donate
                             assets
                           </Box>
                           <Box marginBottom={"10px"}>
                             <Checkbox />
-                            <AiFillGift size={20} color="red" /> Sell assets
+                            <AiFillGift size={20} color="#FBC21E" /> Sell assets
                           </Box>
                           <Box marginBottom={"10px"}>
                             <Checkbox />
-                            <BiSearchAlt2 size={20} color="red" /> Audit assets
+                            <BiSearchAlt2 size={20} color="#FBC21E" /> Audit assets
                           </Box>
                         </FormControl>
                       </Box>
@@ -389,7 +391,44 @@ const TableOptions: React.FC<TableProps> = ({
 
                   <Divider />
 
-                  <Box
+                  <Grid xs={12} md={4}>
+              <React.Fragment>
+                <Box
+                  sx={{
+                    marginTop: "1px",
+                    marginBottom: "15px",
+                    padding: "20px",
+                  }}
+                >
+                  <ButtonGroup
+                    spacing="1rem"
+                    aria-label="spacing button group"
+                    sx={{ paddingLeft: "70%",marginRigth: "80%"}}
+                  >
+                    <Button sx={{ fontSize: "15px" }} onClick={handlePrevTab}>
+                      <NavigateBeforeOutlinedIcon />
+                      Back
+                    </Button>
+                    <Button
+                      sx={{
+                        fontSize: "15px",
+                        ml: "10px",
+                        background: "#FABC1E",
+                        color: "black",
+
+                        "&:hover": { background: "#E1A91B" },
+                      }}
+                      onClick={handleNextTab}
+                    >
+                      Continue
+                      <NavigateNextOutlinedIcon />{" "}
+                    </Button>
+                  </ButtonGroup>
+                </Box>
+              </React.Fragment>
+            </Grid>
+
+                  {/* <Box
                     sx={{
                       marginTop: "1px",
                       marginBottom: "15px",
@@ -414,7 +453,7 @@ const TableOptions: React.FC<TableProps> = ({
                         <FaGreaterThan />{" "}
                       </Button>
                     </ButtonGroup>
-                  </Box>
+                  </Box> */}
                 </Box>
               </form>
             </Box>

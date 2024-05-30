@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Typography, Box, Button, Grid, Checkbox, Modal, Input } from "@mui/joy";
+import { Typography, Box, Button, Grid, Checkbox, Modal, Input, Table } from "@mui/joy";
 import SearchIcon from "../../Assets/search.svg";
 import EmptyContainer from "../../components/Common/EmptyContainer";
 
@@ -121,30 +121,35 @@ const Dispose: React.FC = () => {
             />
           </Box>
           <Box>
-            <Grid container spacing={1} sx={{ marginBottom: 2, fontWeight: 'bold', padding: "0 20px" }} color="#767676">
-              <Grid xs={1}><Checkbox /></Grid>
-              <Grid xs={2}>Assets Tag ID</Grid>
-              <Grid xs={4}>Description</Grid>
-              <Grid xs={1}>Status</Grid>
-              <Grid xs={2}>Assigned to</Grid>
-              <Grid xs={1}>Site</Grid>
-              <Grid xs={1}>Location</Grid>
-            </Grid>
+            <Table  sx={{ marginBottom: 2, fontWeight: 'bold', border: "1px solid #f2f2f2", width: "100%" }}>
+            <thead>
+        <tr>
+            <th style={{ padding: "8px", border: "1px solid #f2f2f2", width:"20px",background: "#fff8e6" }}><Checkbox /></th>
+            <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Asset Tag ID</th>
+            <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Description</th>
+            <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Status</th>
+            <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Assigned to</th>
+            <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Site</th>
+            <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Location</th>
+          </tr>
+        </thead>
+
+            </Table>
             {filteredAssets.map((asset, index) => (
-              <Grid container spacing={3} key={index} sx={{ padding: "0 20px" }}>
-                <Grid xs={1} color="#FFFFFF33">
+              <tr key={index}>
+                <td  style={{ padding: "8px", border: "1px solid #f2f2f2" , width:"20px"}} color="#FFFFFF33">
                   <Checkbox
                     checked={selectedAssets.includes(asset.id)}
                     onChange={() => handleCheckboxChange(asset.id)}
                   />
-                </Grid>
-                <Grid xs={2} color="#4880FF">{asset.id}</Grid>
-                <Grid xs={4}>{asset.description}</Grid>
-                <Grid xs={1} color="#13B457">{asset.status}</Grid>
-                <Grid xs={2}>{asset.assignedTo}</Grid>
-                <Grid xs={1}>{asset.site}</Grid>
-                <Grid xs={1}>{asset.location}</Grid>
-              </Grid>
+                </td>
+                <td style={{ padding: "8px", border: "1px solid #f2f2f2" }} color="#4880FF">{asset.id}</td>
+                <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.description}</td>
+                <td  style={{ padding: "8px", border: "1px solid #f2f2f2" }} color="#13B457">{asset.status}</td>
+                <td  style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.assignedTo}</td>
+                <td  style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.site}</td>
+                <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.location}</td>
+              </tr>
             ))}
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>

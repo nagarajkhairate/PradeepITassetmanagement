@@ -221,7 +221,7 @@ const MaintenenceDue: React.FC = () => {
   return (
     <div style={{ width: "100%", background: "#f9f9f9" }}>
       <div style={{ marginLeft: "52px", paddingTop: "30px" }}>
-        <Typography level="h3" color="initial">
+        <Typography level="h3" style={{color:"initial"}}>
           Maintenance
         </Typography>
         <Typography
