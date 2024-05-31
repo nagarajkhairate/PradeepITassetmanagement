@@ -1,5 +1,5 @@
 import { Box } from "@mui/joy";
-import Img from "../../Assets/Maintainance.png";
+import Img from '../../Assets/Maintainance.png'
 
 export function Image() {
   return (
