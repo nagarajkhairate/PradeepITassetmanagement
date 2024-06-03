@@ -11,13 +11,14 @@ import {
 } from "@mui/joy"; 
 import { InputProps } from '@mui/joy';
 
-import { IoIosArrowDown } from "react-icons/io";
-import { FaPlus } from "react-icons/fa";
-import { IoCloudUploadSharp } from "react-icons/io5";
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import AddIcon from '@mui/icons-material/Add';
+import BackupIcon from '@mui/icons-material/Backup';
 import { useSelector, useDispatch } from "react-redux";
-import { reducerone } from "../../Redux/features/assetSlice";
-import { RootState } from "../../Redux/features/store";
+
 import { ThunkDispatch } from "@reduxjs/toolkit";
+import { RootState } from "../../Redux/store";
+import { reducerone } from "../../Redux/features/assetSlice";
 
 const TypographyLabel: React.FC<{ title: string }> = ({ title }) => (
   <Typography level="body-xs" sx={{ mt: 1, color: "#767676", mb: "5px" }}>
@@ -58,7 +59,7 @@ const Select: React.FC<SelectProps> = ({
   <MuiSelect
     placeholder={placeholder}
     value={value}
-    IconComponent={IoIosArrowDown}
+    IconComponent={ArrowDownwardIcon}
     sx={{
       borderRadius: "15px",
       padding: "12.25px",
@@ -564,7 +565,7 @@ const AddAnAsset: React.FC = () => {
                       }}
                     >
                       <Typography sx={{ mr: "25px", color: "#767676" }}>
-                        <FaPlus />
+                        <AddIcon />
                       </Typography>
                       <Typography sx={{ mr: "25px", color: "#767676" }}>
                         New
@@ -613,7 +614,7 @@ const AddAnAsset: React.FC = () => {
                       }}
                     >
                       <Typography sx={{ mr: "25px", color: "#767676" }}>
-                        <FaPlus />
+                        <AddIcon />
                       </Typography>
                       <Typography sx={{ mr: "25px", color: "#767676" }}>
                         New
@@ -663,7 +664,7 @@ const AddAnAsset: React.FC = () => {
                       }}
                     >
                       <Typography sx={{ mr: "25px", color: "#767676" }}>
-                        <FaPlus />
+                        <AddIcon />
                       </Typography>
                       <Typography sx={{ mr: "25px", color: "#767676" }}>
                         New
@@ -713,7 +714,7 @@ const AddAnAsset: React.FC = () => {
                       }}
                     >
                       <Typography sx={{ mr: "25px", color: "#767676" }}>
-                        <FaPlus />
+                        <AddIcon />
                       </Typography>
                       <Typography sx={{ mr: "25px", color: "#767676" }}>
                         New
@@ -777,7 +778,7 @@ const AddAnAsset: React.FC = () => {
                         },
                       }}
                     >
-                      <IoCloudUploadSharp size={23} />
+                      <BackupIcon size={23} />
                     </Button>
                     <input
                       type="file"

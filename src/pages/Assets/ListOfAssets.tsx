@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Box, Button, Select, Checkbox } from "@mui/joy";
 import Table from "@mui/joy/Table";
-import { CgSearch } from "react-icons/cg";
-import { LuUpload } from "react-icons/lu";
-import { IoSettingsOutline } from "react-icons/io5";
-import { SlEye } from "react-icons/sl";
+import SearchIcon from '@mui/icons-material/Search';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import SettingsIcon from '@mui/icons-material/Settings';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useMediaQuery } from "@mui/material"; 
 import { useTheme } from "@mui/material/styles";
 import ListOfAssetsCard from "./ListOfAssetsCard";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { fetch_listAssets } from "../../Redux/features/assetSlice";
-import { RootState } from "../../Redux/features/store";
+
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { Link } from "react-router-dom";
+import { RootState } from "../../Redux/store";
 
 const data1 = [
   {
@@ -97,7 +98,7 @@ const ListOfAssets = () => {
                   }}
                 >
                   <Typography sx={{ color: "white" }}>
-                    <CgSearch size={23} />
+                    <SearchIcon  />
                   </Typography>
                   <Typography
                     sx={{
@@ -139,7 +140,7 @@ const ListOfAssets = () => {
                   }}
                 >
                   <Typography sx={{ color: "white" }}>
-                    <LuUpload size={23} />
+                    <UploadFileIcon  />
                   </Typography>
                   <Typography
                     sx={{
@@ -176,7 +177,7 @@ const ListOfAssets = () => {
                   }}
                 >
                   <Typography sx={{ color: "white" }}>
-                    <IoSettingsOutline size={23} />
+                    <SettingsIcon  />
                   </Typography>
 
                   <Typography
@@ -326,7 +327,7 @@ const ListOfAssets = () => {
                           to={`/assets/editasset`}
                           style={{ color: "inherit" }}
                         >
-                          <SlEye size={20} />
+                          <VisibilityIcon />
                         </Link>
                       </td>
                     </tr>

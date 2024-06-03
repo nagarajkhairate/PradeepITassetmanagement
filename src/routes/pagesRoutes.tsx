@@ -1,13 +1,13 @@
-import { CiCircleList } from "react-icons/ci";
-import { IoIosAddCircleOutline } from "react-icons/io";
-import { LiaUserCheckSolid } from "react-icons/lia";
-import { LiaUserTimesSolid } from "react-icons/lia";
-import { CiPaperplane } from "react-icons/ci";
-import { PiRecycle } from "react-icons/pi";
-import { GrVmMaintenance } from "react-icons/gr";
-import { IoMoveSharp } from "react-icons/io5";
-import { MdOutlineCalendarMonth } from "react-icons/md";
-import { AiOutlineTool } from "react-icons/ai";
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import Person4Icon from '@mui/icons-material/Person4';
+import SendIcon from '@mui/icons-material/Send';
+import RecyclingIcon from '@mui/icons-material/Recycling';
+
+import EngineeringIcon from '@mui/icons-material/Engineering';
+import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import SetupCompInfo from "../pages/Setup/SetupCompInfo/SetupCompInfo";
 import Reserve from "../pages/Reserve/Reserve";
 import Dispose from "../pages/Dispose/Dispose";
@@ -55,7 +55,7 @@ export const pagesRoutes: any[] = [
         path: "/assets/list-of-assets",
         element: <ListOfAssets />,
         state: 'assets',
-        icon: <CiCircleList />,
+        icon: <FormatListBulletedIcon />,
       },
       {
         index: true,
@@ -63,7 +63,7 @@ export const pagesRoutes: any[] = [
         path: "/assets/add-an-asset",
         element: <AddAnAsset />,
         state: 'assets',
-        icon: <IoIosAddCircleOutline />,
+        icon: <AddCircleOutlineIcon />,
       },
       {
         index: true,
@@ -71,7 +71,7 @@ export const pagesRoutes: any[] = [
         path: "/assets/checkout",
         element: <CheckOut />,
         state: 'assets',
-        icon: <LiaUserCheckSolid />,
+        icon: <VerifiedUserIcon />,
       },
       {
         index: true,
@@ -79,34 +79,34 @@ export const pagesRoutes: any[] = [
         path: "/assets/check-in",
         element: <CheckIn />,
         state: 'assets',
-        icon: <LiaUserTimesSolid />,
+        icon: <Person4Icon />,
       },
-      { index: true, name: "Lease", path: "/assets/lease", icon: <CiPaperplane /> },
+      { index: true, name: "Lease", path: "/assets/lease", icon: <SendIcon /> },
       {
         index: true,
         name: "Lease Return",
         path: "/assets/lease-return",
         element: <LeaseReturn />,
         state: 'assets',
-        icon: <CiPaperplane />,
+        icon: <SendIcon />,
       },
-      { index: true, name: "Dispose", path: "/assets/dispose",  element: <Dispose />,icon: <PiRecycle /> },
+      { index: true, name: "Dispose", path: "/assets/dispose",  element: <Dispose />,icon: <RecyclingIcon /> },
       {
         index: true,
         name: "Maintenance",
         path: "/assets/maintenance",
         element: <Dispose />,
         state: 'assets',
-        icon: <GrVmMaintenance />,
+        icon: <EngineeringIcon />,
       },
-      { index: true, name: "Move", path: "/assets/move",  state: 'assets', icon: <IoMoveSharp /> },
+      { index: true, name: "Move", path: "/assets/move",  state: 'assets', icon: <ZoomOutMapIcon /> },
       {
         index: true,
         name: "Reserve",
         path: "/assets/reserve",
         element: <Reserve />,
         state: 'assets',
-        icon: <MdOutlineCalendarMonth />,
+        icon: <CalendarMonthIcon />,
       },
     ],
   },
@@ -151,34 +151,34 @@ export const pagesRoutes: any[] = [
         path: "/setup/setup-comp-info",
         state: 'assets',
         element: <SetupCompInfo />,
-        icon: <CiCircleList />,
+        icon: <FormatListBulletedIcon />,
       },
-      // { name: "Sites", path: "/setup/sites", icon: <IoIosAddCircleOutline /> },
+      // { name: "Sites", path: "/setup/sites", icon: <AddCircleOutlineIcon /> },
       // {
       //   name: "SetupLocation",
       //   path: "/setup/location-setup",
       //   element: <PurchaseOrders />,
-      //   icon: <LiaUserCheckSolid />,
+      //   icon: <VerifiedUserIcon />,
       // },
       // {
       //   name: "Categories",
       //   path: "/setup/categories",
       //   element: <PurchaseOrders />,
-      //   icon: <LiaUserTimesSolid />,
+      //   icon: <Person4Icon />,
       // },
       // {
       //   name: "Departments",
       //   path: "/setup/departments",
       //   element: <PurchaseOrders />,
-      //   icon: <CiPaperplane />,
+      //   icon: <SendIcon />,
       // },
-      // { name: "Databases", path: "/setup/databases", element: <PurchaseOrders />, icon: <CiPaperplane /> },
-      // { name: "Events", path: "/setup/events",  element: <PurchaseOrders />,icon: <PiRecycle /> },
+      // { name: "Databases", path: "/setup/databases", element: <PurchaseOrders />, icon: <SendIcon /> },
+      // { name: "Events", path: "/setup/events",  element: <PurchaseOrders />,icon: <RecyclingIcon /> },
       // {
       //   name: "Table Options",
       //   path: "/setup/table-options",
       //   element: <PurchaseOrders />,
-      //   icon: <GrVmMaintenance />,
+      //   icon: <EngineeringIcon />,
       // },
     ],
   },

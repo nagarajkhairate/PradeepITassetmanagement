@@ -1,6 +1,6 @@
 import React from 'react'
-import { Typography, Box, Button,List,ListItem,ListItemContent ,ListItemDecorator,ListDivider,Chip} from "@mui/joy";
-import { SlEye } from "react-icons/sl";
+import { Typography, Box,List,ListItem,ListItemContent ,ListItemDecorator,ListDivider,Chip} from "@mui/joy";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const data = [
   {
@@ -53,7 +53,7 @@ const ListOfAssetsCard = () => {
                     {item.Cost}
                   </Box>
                   <Box>
-                    <SlEye />
+                    <VisibilityIcon />
                   </Box>
                 </div>
               </ListItemContent>

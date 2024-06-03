@@ -1,6 +1,4 @@
 import React from "react";
-import Sidebar from "./pages/Sidebar/sidebar";
-import Header from "./pages/Header/header";
 import { Routes, Route } from "react-router-dom";
 
 import { Box } from "@mui/joy";
