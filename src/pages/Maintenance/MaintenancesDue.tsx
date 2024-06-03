@@ -10,7 +10,6 @@ import Table from '@mui/joy/Table'
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined'
 import AppView from '../../components/Common/AppView'
 
-// Styled component for visually hidden input
 const VisuallyHiddenInput = styled('input')`
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
@@ -33,24 +32,23 @@ export const MaintenancesDue: React.FC = () => {
           display: 'flex',
           alignItems: 'center',
           flexDirection: { md: 'row', xs: 'column' },
-          justifyContent: 'space-between'
+          justifyContent: { xs: 'center', md: 'space-between' },
+          gap: '5px',
         }}
       >
-       
-          <Button
-            type="button"
-            variant="solid"
-            autoFocus
-            sx={{
-              background: '#1CCAB8',
-              color: 'white',
-              borderRadius: '15px',
-            }}
-          >
-            <SettingsOutlinedIcon />
-            Search Criteria
-          </Button>
-        
+        <Button
+          type="button"
+          variant="solid"
+          autoFocus
+          sx={{
+            background: '#1CCAB8',
+            color: 'white',
+            borderRadius: '15px',
+          }}
+        >
+          <SettingsOutlinedIcon />
+          Search Criteria
+        </Button>
 
         <Box
           sx={{
@@ -66,7 +64,6 @@ export const MaintenancesDue: React.FC = () => {
               background: '#388e3c',
               color: 'white',
               borderRadius: '15px',
-              width: { md: '160px', xs: '90%' },
             }}
           >
             <CloudUploadOutlinedIcon />
@@ -81,7 +78,6 @@ export const MaintenancesDue: React.FC = () => {
               color: 'white',
               borderRadius: '15px',
               whiteSpace: 'nowrap',
-              width: { md: '180px', xs: '90%' },
             }}
           >
             <CloudUploadOutlinedIcon />
@@ -96,7 +92,6 @@ export const MaintenancesDue: React.FC = () => {
               background: 'black',
               color: 'white',
               borderRadius: '15px',
-              width: { md: '160px', xs: '90%' },
             }}
           >
             <SettingsOutlinedIcon />
@@ -105,40 +100,44 @@ export const MaintenancesDue: React.FC = () => {
         </Box>
       </Box>
 
-      <Box sx={{
+      <Box
+        sx={{
           display: 'flex',
           alignItems: 'center',
           flexDirection: { md: 'row', xs: 'column' },
-          justifyContent: 'space-between'
-        }}>
-        <Box sx={{
-          display: 'flex',
-          alignItems: 'center',
-        }}>
-        <Select
-          placeholder="Maintenance Due"
-          indicator={<KeyboardArrowDown />}
+          justifyContent: 'space-between',
+        }}
+      >
+        <Box
           sx={{
-            [`& .${selectClasses.indicator}`]: {
-              transition: '0.2s',
-              [`&.${selectClasses.expanded}`]: {
-                transform: 'rotate(-180deg)',
-              },
-            },
-
-            borderRadius: '15px',
+            display: 'flex',
+            alignItems: 'center',
           }}
         >
-          <Option value="term 1">term 1</Option>
-          <Option value="term 2">term 2</Option>
-          <Option value="term 3">term 3</Option>
-          <Option value="term 4">term 4</Option>
-        </Select>
-        <Select
+          <Select
+            placeholder="Maintenance Due"
+            indicator={<KeyboardArrowDown />}
+            sx={{
+              [`& .${selectClasses.indicator}`]: {
+                transition: '0.2s',
+                [`&.${selectClasses.expanded}`]: {
+                  transform: 'rotate(-180deg)',
+                },
+              },
+
+              borderRadius: '15px',
+            }}
+          >
+            <Option value="term 1">term 1</Option>
+            <Option value="term 2">term 2</Option>
+            <Option value="term 3">term 3</Option>
+            <Option value="term 4">term 4</Option>
+          </Select>
+          <Select
             placeholder="10"
             indicator={<KeyboardArrowDown />}
             sx={{
-              width: { md: 75, xs: '90%' },
+              width: 75,
               [`& .${selectClasses.indicator}`]: {
                 transition: '0.2s',
                 [`&.${selectClasses.expanded}`]: {
@@ -161,15 +160,11 @@ export const MaintenancesDue: React.FC = () => {
             fontStyle: 'italic',
             marginTop: '2px',
           }}
-          color='danger'
+          color="danger"
         >
-          Assets with a maintenance due date within the last 7 days
-(determined by overdue time) or in the near future (set by lead time).
-          
+          Assets with a maintenance due date within the last 7 days (determined
+          by overdue time) or in the near future (set by lead time).
         </Typography>
- 
-
-        
       </Box>
 
       <Box>

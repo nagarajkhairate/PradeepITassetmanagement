@@ -18,6 +18,7 @@ export function Image() {
     >
       <Box
         sx={{
+          p:4,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',

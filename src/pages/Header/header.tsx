@@ -25,7 +25,7 @@ const Header = () => {
         width: '100vw',
         height: 'var(--Header-height)',
         zIndex: 10,
-        p: 4,
+        p: 1,
         gap: 1,
         borderBottom: '1px solid',
         borderColor: 'background.level1',

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import SidebarItem from './sidebarMenu'; // Assuming this is your custom component
 import { pagesRoutes } from '../../routes/pagesRoutes';
@@ -22,7 +21,7 @@ const Sidebar = () => {
           md: 'none',
         },
         transition: 'transform 0.4s, width 0.4s',
-        zIndex: 10000,
+        zIndex: 1000,
         height: '100dvh',
         width: 'var(--Sidebar-width)',
         top: 0,
