@@ -7,7 +7,6 @@ import RecyclingIcon from '@mui/icons-material/Recycling';
 import EngineeringIcon from '@mui/icons-material/Engineering';
 import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import SetupCompInfo from "../pages/Setup/SetupCompInfo/SetupCompInfo";
 import Reserve from "../pages/Reserve/Reserve";
 import Dispose from "../pages/Dispose/Dispose";
 import LeaseReturn from "../pages/LeaseReturn/LeaseReturn";
@@ -22,6 +21,7 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import CategorySetup from '../pages/Setup/SetupCategory/CategorySetup';
 import CategorySub from '../pages/Setup/SubCategory/CategorySub';
 import SetupDept from '../pages/Setup/Departments/SetupDept';
+import SetupCompInfo from '../pages/Setup/CompInfoemation/SetupCompInfo';
 
 export const pagesRoutes: any[] = [
   {

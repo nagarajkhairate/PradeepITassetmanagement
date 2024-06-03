@@ -7,6 +7,7 @@ import {
   Divider,
   FormLabel,
   FormControl,
+  Grid,
 } from "@mui/joy";
 import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 import CurrencyExchangeOutlinedIcon from "@mui/icons-material/CurrencyExchangeOutlined";
@@ -15,7 +16,9 @@ import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import Button from "@mui/joy/Button";
 import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
-import { currencySymbols, months, timezones } from "./SetupCompData";
+import { CompanyInfoFields, currencySymbols, months, timezones } from "./Data";
+import AppView from "../../../components/Common/AppView";
+import InputField from "../../../components/Common/AppInput/InputField";
  
 const CustomInputLabel = styled("label")({
   display: "flex",
@@ -69,25 +72,8 @@ interface FormData {
 type FileInputChangeHandler = (file: File | null) => void;
  
 const SetupCompInfo: React.FC = ({}) => {
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormData({ ...companyFormData, [name]: value });
-  };
-  const [companyFormData, setFormData] = useState<FormData>({
-    name: "",
-    country: "",
-    address: "",
-    aptSuite: "",
-    city: "",
-    state: "",
-    postalCode: 0,
-    timezone: "",
-    currency: "",
-    date: new Date(),
-    month: "",
-    financialDays: 0,
-    logo: "",
-  });
+  
+  
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedTimezone, setSelectedTimezone] = useState<string>("");
@@ -96,214 +82,265 @@ const SetupCompInfo: React.FC = ({}) => {
   const [selectedCurrency, setSelectedCurrency] = useState<string>("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [selectedState, setSelectedState] = useState<string>("");
+  const [formData, setFormData] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
  
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  // const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0];
  
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setImagePreview(reader.result as string);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
  
-    setFormData((prevData: any) => ({
-      ...prevData,
-      logo: file || null,
-    }));
-  };
+  //   setFormData((prevData: any) => ({
+  //     ...prevData,
+  //     logo: file || null,
+  //   }));
+  // };
  
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const file = e.dataTransfer.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+  //   e.preventDefault();
+  //   const file = e.dataTransfer.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setImagePreview(reader.result as string);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
  
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-  };
+  // const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+  //   e.preventDefault();
+  // };
  
-  const handleClickDropZone = () => {
-    fileInputRef.current?.click();
-  };
+  // const handleClickDropZone = () => {
+  //   fileInputRef.current?.click();
+  // };
  
-  const handleMonthChange = (
-    event: React.SyntheticEvent | null,
-    newValue: string | null
-  ) => {
-    if (newValue !== null) {
-      setFormData((prevData: any) => ({
-        ...prevData,
-        month: newValue,
-      }));
-      setSelectedMonth(newValue);
-    }
-  };
+  // const handleMonthChange = (
+  //   event: React.SyntheticEvent | null,
+  //   newValue: string | null
+  // ) => {
+  //   if (newValue !== null) {
+  //     setFormData((prevData: any) => ({
+  //       ...prevData,
+  //       month: newValue,
+  //     }));
+  //     setSelectedMonth(newValue);
+  //   }
+  // };
  
-  const handleFinancialDaysChange = (
-    event: React.SyntheticEvent | null,
-    newValue: number | null
-  ) => {
-    if (newValue !== null) {
-      setFormData((prevData: any) => ({
-        ...prevData,
-        financialDays: newValue,
-      }));
-      setSelectedFinancialDays(newValue);
-    }
-  };
+  // const handleFinancialDaysChange = (
+  //   event: React.SyntheticEvent | null,
+  //   newValue: number | null
+  // ) => {
+  //   if (newValue !== null) {
+  //     setFormData((prevData: any) => ({
+  //       ...prevData,
+  //       financialDays: newValue,
+  //     }));
+  //     setSelectedFinancialDays(newValue);
+  //   }
+  // };
  
-  const maxSerialNumber = 100;
-  const serialNumbers = Array.from(
-    { length: maxSerialNumber },
-    (_, index) => index + 1
-  );
+  // const maxSerialNumber = 100;
+  // const serialNumbers = Array.from(
+  //   { length: maxSerialNumber },
+  //   (_, index) => index + 1
+  // );
  
-  const handleCurrencyChange = (
-    event: React.SyntheticEvent | null,
-    newValue: string | null
-  ) => {
-    if (newValue !== null) {
-      setFormData((prevData: any) => ({
-        ...prevData,
-        currency: newValue,
-      }));
-      setSelectedCurrency(newValue);
-    }
-  };
+  // const handleCurrencyChange = (
+  //   event: React.SyntheticEvent | null,
+  //   newValue: string | null
+  // ) => {
+  //   if (newValue !== null) {
+  //     setFormData((prevData: any) => ({
+  //       ...prevData,
+  //       currency: newValue,
+  //     }));
+  //     setSelectedCurrency(newValue);
+  //   }
+  // };
  
-  const handleTimezoneChange = (
-    event: React.SyntheticEvent | null,
-    newValue: string | null
-  ) => {
-    if (newValue !== null) {
-      setFormData((prevData: any) => ({
-        ...prevData,
-        timezone: newValue,
-      }));
-      setSelectedTimezone(newValue);
-    }
-  };
+  // const handleTimezoneChange = (
+  //   event: React.SyntheticEvent | null,
+  //   newValue: string | null
+  // ) => {
+  //   if (newValue !== null) {
+  //     setFormData((prevData: any) => ({
+  //       ...prevData,
+  //       timezone: newValue,
+  //     }));
+  //     setSelectedTimezone(newValue);
+  //   }
+  // };
  
-  const handleDateChange = (date: string) => {
-    setSelectedDate(date);
-  };
+  // const handleDateChange = (date: string) => {
+  //   setSelectedDate(date);
+  // };
  
   // Handle country change
-  const handleCountryChange = (
-    event: React.SyntheticEvent | null,
-    newValue: string | null
-  ) => {
-    setFormData((prevData: any) => ({
-      ...prevData,
-      country: newValue!,
-    }));
+  // const handleCountryChange = (
+  //   event: React.SyntheticEvent | null,
+  //   newValue: string | null
+  // ) => {
+  //   setFormData((prevData: any) => ({
+  //     ...prevData,
+  //     country: newValue!,
+  //   }));
+  // };
+ 
+  // const handleStateChange = (
+  //   event: React.SyntheticEvent | null,
+  //   newValue: string | null
+  // ) => {
+  //   setFormData((prevData: any) => ({
+  //     ...prevData,
+  //     state: newValue!,
+  //   }));
+  // };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prevData)=>({ ...prevData, [name]: value }));
   };
  
-  const handleStateChange = (
-    event: React.SyntheticEvent | null,
-    newValue: string | null
-  ) => {
-    setFormData((prevData: any) => ({
-      ...prevData,
-      state: newValue!,
-    }));
-  };
+  // const DatePicker: React.FC<{
+  //   value: string;
+  //   onChange: (date: string) => void;
+  // }> = ({ value, onChange }) => {
+  //   return (
+  //     <Input
+  //       type="date"
+  //       value={value}
+  //       onChange={(e) => onChange(e.target.value)}
+  //       required
+  //       sx={{ width: { md: "500px", xs: "100%" } }}
+  //     />
+  //   );
+  // };
+  // const validateForm = (companyFormData: FormData) => {
+  //   const isValid =
+  //     companyFormData.name.trim() !== "" &&
+  //     companyFormData.country.trim() !== "" &&
+  //     companyFormData.address.trim() !== "" &&
+  //     companyFormData.city.trim() !== "" &&
+  //     companyFormData.state.trim() !== "" &&
+  //     companyFormData.postalCode !== null &&
+  //     companyFormData.postalCode > 0 &&
+  //     companyFormData.timezone.trim() !== "" &&
+  //     companyFormData.currency.trim() !== "" &&
+  //     companyFormData.date instanceof Date &&
+  //     !isNaN(companyFormData.date.getTime()) &&
+  //     companyFormData.month.trim() !== "" &&
+  //     companyFormData.financialDays !== null &&
+  //     companyFormData.financialDays > 0 &&
+  //     companyFormData.logo !== "";
  
-  const DatePicker: React.FC<{
-    value: string;
-    onChange: (date: string) => void;
-  }> = ({ value, onChange }) => {
-    return (
-      <Input
-        type="date"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        required
-        sx={{ width: { md: "500px", xs: "100%" } }}
-      />
-    );
-  };
-  const validateForm = (companyFormData: FormData) => {
-    const isValid =
-      companyFormData.name.trim() !== "" &&
-      companyFormData.country.trim() !== "" &&
-      companyFormData.address.trim() !== "" &&
-      companyFormData.city.trim() !== "" &&
-      companyFormData.state.trim() !== "" &&
-      companyFormData.postalCode !== null &&
-      companyFormData.postalCode > 0 &&
-      companyFormData.timezone.trim() !== "" &&
-      companyFormData.currency.trim() !== "" &&
-      companyFormData.date instanceof Date &&
-      !isNaN(companyFormData.date.getTime()) &&
-      companyFormData.month.trim() !== "" &&
-      companyFormData.financialDays !== null &&
-      companyFormData.financialDays > 0 &&
-      companyFormData.logo !== "";
+  //   return isValid;
+  // };
  
-    return isValid;
-  };
- 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // console.log(JSON.stringify(companyFormData));
-    console.log("Form Data:", companyFormData);
-  };
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   // console.log(JSON.stringify(companyFormData));
+  //   console.log("Form Data:", companyFormData);
+  // };
+
+
+  console.log(JSON.stringify(formData))
  
   return (
-    <>
-      <Box sx={{ mb: "10px" }}>
-        <FlexBox>
-          <Typography
-            level="h3"
+    <AppView>
+      <Typography
+            level="h4"
             sx={{
-              marginLeft: { xs: "10px", md: "50px" },
-              fontSize: { xs: "24px", md: "24px" },
-              marginTop: { xs: "20px", md: "35px" },
-              display: "flex",
-              alignItems: "center",
-              marginBottom: { xs: "-20px", md: "-42px" },
-              paddingBottom: "10px",
+                
             }}
           >
             <Box
               component={TuneOutlinedIcon}
               color="#FABC1E"
-              sx={{
-                fontSize: { xs: "24px", md: "30px" },
-                marginRight: "10px",
-              }}
             />
-            Step 1- Company Information
+            Company Information
           </Typography>
-        </FlexBox>
-      </Box>
- 
-      <div style={{ margin: "20px" }}>
+    
         <Box
           sx={{
             borderRadius: "16px",
             boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
             background: "#ffffff",
-            margin: {
-              xs: "4px",
-              md: "52px",
-            },
+           
           }}
         >
-          <Box component="section" sx={{ p: 2, border: "10px" }}>
-            <form>
-              <Box>
-                <div>
+         
+        <Grid container spacing={2}>
+        <Typography
+                    level="h4"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ContactMailOutlinedIcon />
+                    Company Details
+                  </Typography>
+                  <Typography>Provide the name and site of the main office.</Typography>
+        {CompanyInfoFields && CompanyInfoFields.slice(1,7).map((field, index)=>(
+            <Grid key={index} md={8} xs={8} sm={8}>
+          
+            <InputField field={field}  formData={formData} handleInputChange={handleInputChange}/>
+          </Grid>
+          ))}
+           </Grid>
+
+          <Grid container spacing={2}>
+          <Typography
+                    level="h4"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ContactMailOutlinedIcon />
+                    Company Details
+                  </Typography>
+                  <Typography>Provide the name and site of the main office.</Typography>
+{CompanyInfoFields && CompanyInfoFields.slice(7,11).map((field, index)=>(
+            <Grid key={index} md={8} xs={8} sm={8}>
+          
+            <InputField field={field}  formData={formData} handleInputChange={handleInputChange}/>
+          </Grid>
+          ))}
+          </Grid>
+          <Grid container spacing={2}>
+          <Typography
+                    level="h4"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ContactMailOutlinedIcon />
+                    Company Details
+                  </Typography>
+                  <Typography>Provide the name and site of the main office.</Typography>
+          {CompanyInfoFields && CompanyInfoFields.slice(12,-1).map((field, index)=>(
+            <Grid key={index} md={8} xs={8} sm={8}>
+          
+            <InputField field={field}  formData={formData} handleInputChange={handleInputChange}/>
+          </Grid>
+          ))}
+          </Grid>
+         
+        
+       
+             
+                {/* <div>
                   <Typography
                     level="h4"
                     sx={{
@@ -319,21 +356,20 @@ const SetupCompInfo: React.FC = ({}) => {
                   <Typography level="body-sm">
                     Provide the name and site of the main office.
                   </Typography>
-                </div>
+                </div> */}
  
                 <Box
                   sx={{
                     display: "flex",
                     flexDirection: "column",
                     gap: "10px",
-                    width: { md: "100%", xs: "100%" },
                     justifyContent: "center",
                     marginBottom: "10px",
                     // paddingLeft:{md:"28%",xs:"0"}
                   }}
                 >
-                  {/* Company Name */}
-                  <Box
+                  
+                  {/* <Box
                     mt={4}
                     sx={{
                       display: "grid",
@@ -356,10 +392,10 @@ const SetupCompInfo: React.FC = ({}) => {
                         sx={{ width: "100%" }}
                       />
                     </FormControl>
-                  </Box>
+                  </Box> */}
  
-                  {/* Country */}
-                  <Box
+             
+                  {/* <Box
                     mt={4}
                     sx={{
                       display: "grid",
@@ -386,10 +422,10 @@ const SetupCompInfo: React.FC = ({}) => {
                         <Option value="China">China</Option>
                       </Select>
                     </FormControl>
-                  </Box>
+                  </Box> */}
  
-                  {/* Address */}
-                  <Box
+                  
+                  {/* <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -414,10 +450,10 @@ const SetupCompInfo: React.FC = ({}) => {
                       required
                       sx={{ width: { md: "500px", xs: "100%" } }}
                     />
-                  </Box>
+                  </Box> */}
  
                   {/* Apt./Suite */}
-                  <Box
+                  {/* <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -441,10 +477,10 @@ const SetupCompInfo: React.FC = ({}) => {
                       onChange={handleInputChange}
                       sx={{ width: { md: "500px", xs: "100%" } }}
                     />
-                  </Box>
+                  </Box> */}
  
                   {/* City */}
-                  <Box
+                  {/* <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -469,10 +505,10 @@ const SetupCompInfo: React.FC = ({}) => {
                       required
                       sx={{ width: { md: "500px", xs: "100%" } }}
                     />
-                  </Box>
+                  </Box> */}
  
                   {/* State */}
-                  <Box
+                  {/* <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -502,10 +538,10 @@ const SetupCompInfo: React.FC = ({}) => {
                       <Option value="Delhi">Delhi</Option>
                       <Option value="Kerala">Kerala</Option>
                     </Select>
-                  </Box>
+                  </Box> */}
  
                   {/* Postal Code */}
-                  <Box
+                  {/* <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -530,13 +566,12 @@ const SetupCompInfo: React.FC = ({}) => {
                       required
                       sx={{ width: { md: "500px", xs: "100%" } }}
                     />
-                  </Box>
+                  </Box> */}
                 </Box>
                 {/* </Box> */}
  
-                <Divider />
  
-                <Box>
+                {/* <Box>
                   <div>
                     <Typography
                       level="h4"
@@ -704,11 +739,11 @@ const SetupCompInfo: React.FC = ({}) => {
                       </Box>
                     </Box>
                   </CenteredForms>
-                </Box>
+                </Box> */}
  
                 <Divider />
  
-                <Box>
+                {/* <Box>
                   <div>
                     <Typography
                       level="h4"
@@ -775,34 +810,14 @@ const SetupCompInfo: React.FC = ({}) => {
                       only (JPG, GIF, PNG) are allowed.
                     </label>
                   </div>
-                </Box>
+                </Box> */}
                 <Divider />
  
-                <Button
-                  sx={{
-                    background: "#FABC1E",
-                    width: { xs: "100%", sm: "150px", md: "125px" },
-                    height: "30px",
-                    marginLeft: { xs: "0", md: "auto" },
-                    marginTop: { xs: "10px", md: "0" },
-                    color: "black",
-                    "&:hover": {
-                      backgroundColor: "#d79918",
-                    },
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                  onClick={handleSubmit}
-                >
-                  Continue
-                </Button>
-              </Box>
-            </form>
-          </Box>
+           
+       
         </Box>
-      </div>
-    </>
+     
+    </AppView>
   );
 };
  
