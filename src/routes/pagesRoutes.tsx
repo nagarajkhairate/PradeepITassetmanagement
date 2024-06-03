@@ -4,7 +4,6 @@ import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import Person4Icon from '@mui/icons-material/Person4';
 import SendIcon from '@mui/icons-material/Send';
 import RecyclingIcon from '@mui/icons-material/Recycling';
-
 import EngineeringIcon from '@mui/icons-material/Engineering';
 import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -18,6 +17,11 @@ import AddAnAsset from "../pages/Assets/AddAnAsset";
 import ListOfAssets from "../pages/Assets/ListOfAssets";
 import Dashboard from "../pages/Dashboard/dashboard";
 import MaintenancesDue from "../pages/Maintenance/MaintenancesDue";
+import LocationSetup from '../pages/Setup/SetupLocation/LocationSetup';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import CategorySetup from '../pages/Setup/SetupCategory/CategorySetup';
+import CategorySub from '../pages/Setup/SubCategory/CategorySub';
+import SetupDept from '../pages/Setup/Departments/SetupDept';
 
 export const pagesRoutes: any[] = [
   {
@@ -153,24 +157,44 @@ export const pagesRoutes: any[] = [
         element: <SetupCompInfo />,
         icon: <FormatListBulletedIcon />,
       },
+      {
+        index: true,
+        name: "Location",
+        path: "/setup/locationsetup",
+        state: 'assets',
+        element: <LocationSetup />,
+        icon: <LocationOnOutlinedIcon />,
+      },
+      {
+        index: true,
+        name: "Category",
+        path: "/setup/categorysetup",
+        state: 'assets',
+        element: <CategorySetup />,
+        icon: <LocationOnOutlinedIcon />,
+      },
+      {
+        index: true,
+        name: "Sub Category",
+        path: "/setup/categorysub",
+        state: 'assets',
+        element: <CategorySub />,
+        icon: <LocationOnOutlinedIcon />,
+      },
+      {
+        index: true,
+        name: "Department",
+        path: "/setup/departments",
+        state: 'assets',
+        element: <SetupDept />,
+        icon: <LocationOnOutlinedIcon />,
+      },
       // { name: "Sites", path: "/setup/sites", icon: <AddCircleOutlineIcon /> },
       // {
       //   name: "SetupLocation",
       //   path: "/setup/location-setup",
       //   element: <PurchaseOrders />,
       //   icon: <VerifiedUserIcon />,
-      // },
-      // {
-      //   name: "Categories",
-      //   path: "/setup/categories",
-      //   element: <PurchaseOrders />,
-      //   icon: <Person4Icon />,
-      // },
-      // {
-      //   name: "Departments",
-      //   path: "/setup/departments",
-      //   element: <PurchaseOrders />,
-      //   icon: <SendIcon />,
       // },
       // { name: "Databases", path: "/setup/databases", element: <PurchaseOrders />, icon: <SendIcon /> },
       // { name: "Events", path: "/setup/events",  element: <PurchaseOrders />,icon: <RecyclingIcon /> },
