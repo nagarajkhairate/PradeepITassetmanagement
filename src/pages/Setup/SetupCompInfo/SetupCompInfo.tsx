@@ -1,33 +1,39 @@
 import React, { useState, useRef, ChangeEvent } from "react";
-import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined';
-import { Box, Typography, styled, Divider} from "@mui/joy";
-import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
-import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined';
+import CollectionsOutlinedIcon from "@mui/icons-material/CollectionsOutlined";
+import {
+  Box,
+  Typography,
+  styled,
+  Divider,
+  FormLabel,
+  FormControl,
+} from "@mui/joy";
+import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
+import CurrencyExchangeOutlinedIcon from "@mui/icons-material/CurrencyExchangeOutlined";
 import Input from "@mui/joy/Input";
 import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import Button from "@mui/joy/Button";
-import { TbMathGreater } from "react-icons/tb";
-import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
-import { currencySymbols, months, timezones } from './SetupCompData'
-
+import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
+import { currencySymbols, months, timezones } from "./SetupCompData";
+ 
 const CustomInputLabel = styled("label")({
   display: "flex",
   flexDirection: "row",
-  alignItems: "center", 
+  alignItems: "center",
 });
-
+ 
 const CenteredForms = styled(Box)({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
 });
-
+ 
 const CustomInput = styled("input")({
   display: "none",
 });
-
+ 
 const DropZone = styled("div")({
   border: "2px solid #ccc",
   padding: "20px",
@@ -38,14 +44,14 @@ const DropZone = styled("div")({
     backgroundColor: "#d9d9d9", //darker shade of gray
   },
 });
-
+ 
 const FlexBox = styled(Box)({
   display: "flex",
   alignItems: "center",
 });
-
+ 
 interface FormData {
-  companyName: string;
+  name: string;
   country: string;
   address: string;
   aptSuite: string;
@@ -59,37 +65,29 @@ interface FormData {
   financialDays: number;
   logo: string;
 }
-
+ 
 type FileInputChangeHandler = (file: File | null) => void;
-
-interface SetCompInfoProps {
-  companyFormData: any;
-  setCompanyFormData: any;
-  activeTab: number;
-  setActiveTab: (tab: number) => void;
-}
-
-const SetupCompInfo: React.FC<SetCompInfoProps> = ({
-  companyFormData,
-  setCompanyFormData,
-  activeTab,
-  setActiveTab,
-}) => {
-  // const [companyFormData, setFormData] = useState<FormData>({
-  //   companyName: "",
-  //   country: "",
-  //   address: "",
-  //   aptSuite: "",
-  //   city: "",
-  //   state: "",
-  //   postalCode: 0,
-  //   timezone: "",
-  //   currency: "",
-  //   date: new Date(),
-  //   month: "",
-  //   financialDays: 0,
-  //   logo: "",
-  // });
+ 
+const SetupCompInfo: React.FC = ({}) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData({ ...companyFormData, [name]: value });
+  };
+  const [companyFormData, setFormData] = useState<FormData>({
+    name: "",
+    country: "",
+    address: "",
+    aptSuite: "",
+    city: "",
+    state: "",
+    postalCode: 0,
+    timezone: "",
+    currency: "",
+    date: new Date(),
+    month: "",
+    financialDays: 0,
+    logo: "",
+  });
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedTimezone, setSelectedTimezone] = useState<string>("");
@@ -99,12 +97,10 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
   const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [selectedState, setSelectedState] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  // const [activeTab, setActiveTab] = React.useState(0);
-
  
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-
+ 
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -112,18 +108,13 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
       };
       reader.readAsDataURL(file);
     }
-
-
-    setCompanyFormData((prevData : any)  => ({
+ 
+    setFormData((prevData: any) => ({
       ...prevData,
       logo: file || null,
     }));
   };
-
-  const handleNextTab = () => {
-    setActiveTab(activeTab + 1); // Update this to navigate to the next tab
-  };
-
+ 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
@@ -135,107 +126,98 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
       reader.readAsDataURL(file);
     }
   };
-
+ 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
-
+ 
   const handleClickDropZone = () => {
     fileInputRef.current?.click();
   };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setCompanyFormData((prevData:any) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
+ 
   const handleMonthChange = (
     event: React.SyntheticEvent | null,
     newValue: string | null
   ) => {
     if (newValue !== null) {
-      setCompanyFormData((prevData:any) => ({
+      setFormData((prevData: any) => ({
         ...prevData,
         month: newValue,
       }));
       setSelectedMonth(newValue);
     }
   };
-
+ 
   const handleFinancialDaysChange = (
     event: React.SyntheticEvent | null,
     newValue: number | null
   ) => {
     if (newValue !== null) {
-      setCompanyFormData((prevData:any) => ({
+      setFormData((prevData: any) => ({
         ...prevData,
         financialDays: newValue,
       }));
       setSelectedFinancialDays(newValue);
     }
   };
-  // Generate serial numbers from 1 to a specified maximum (e.g., 100)
+ 
   const maxSerialNumber = 100;
   const serialNumbers = Array.from(
     { length: maxSerialNumber },
     (_, index) => index + 1
   );
-
+ 
   const handleCurrencyChange = (
     event: React.SyntheticEvent | null,
     newValue: string | null
   ) => {
     if (newValue !== null) {
-      setCompanyFormData((prevData:any) => ({
+      setFormData((prevData: any) => ({
         ...prevData,
         currency: newValue,
       }));
       setSelectedCurrency(newValue);
     }
   };
-
+ 
   const handleTimezoneChange = (
     event: React.SyntheticEvent | null,
     newValue: string | null
   ) => {
     if (newValue !== null) {
-      setCompanyFormData((prevData:any) => ({
+      setFormData((prevData: any) => ({
         ...prevData,
         timezone: newValue,
       }));
       setSelectedTimezone(newValue);
     }
   };
-
+ 
   const handleDateChange = (date: string) => {
     setSelectedDate(date);
   };
-
+ 
   // Handle country change
   const handleCountryChange = (
     event: React.SyntheticEvent | null,
     newValue: string | null
   ) => {
-
-    setCompanyFormData((prevData:any) => ({
+    setFormData((prevData: any) => ({
       ...prevData,
       country: newValue!,
     }));
   };
-
+ 
   const handleStateChange = (
     event: React.SyntheticEvent | null,
     newValue: string | null
   ) => {
-    setCompanyFormData((prevData:any) => ({
+    setFormData((prevData: any) => ({
       ...prevData,
       state: newValue!,
     }));
   };
-
+ 
   const DatePicker: React.FC<{
     value: string;
     onChange: (date: string) => void;
@@ -251,9 +233,8 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
     );
   };
   const validateForm = (companyFormData: FormData) => {
-   
     const isValid =
-      companyFormData.companyName.trim() !== "" &&
+      companyFormData.name.trim() !== "" &&
       companyFormData.country.trim() !== "" &&
       companyFormData.address.trim() !== "" &&
       companyFormData.city.trim() !== "" &&
@@ -268,52 +249,46 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
       companyFormData.financialDays !== null &&
       companyFormData.financialDays > 0 &&
       companyFormData.logo !== "";
-
+ 
     return isValid;
   };
-
+ 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(JSON.stringify(companyFormData));
-    // if (validateForm(formData)) {
-    //   console.log("Form submitted:", formData);
-    //   window.location.href = "/Sites";
-    // } else {
-    //   alert("Please fill in all required fields.");
-    // }
+    // console.log(JSON.stringify(companyFormData));
+    console.log("Form Data:", companyFormData);
   };
-
-  console.log("Form Data:", companyFormData); 
+ 
   return (
     <>
       <Box sx={{ mb: "10px" }}>
         <FlexBox>
-        <Typography
-      level="h3"
-      sx={{
-        marginLeft: { xs: "10px", md: "50px" },
-        fontSize: { xs: "24px", md: "24px" },
-        marginTop: { xs: "20px", md: "35px" },
-        display: "flex",
-        alignItems: "center",
-        marginBottom: { xs: "-20px", md: "-42px" },
-        paddingBottom: "10px",
-      }}
-    >
-      <Box
-        component={TuneOutlinedIcon}
-        color="#FABC1E"
-        sx={{
-          fontSize: { xs: "24px", md: "30px" },
-          marginRight: "10px"
-        }}
-      />
-      Step 1- Company Information
-    </Typography>
+          <Typography
+            level="h3"
+            sx={{
+              marginLeft: { xs: "10px", md: "50px" },
+              fontSize: { xs: "24px", md: "24px" },
+              marginTop: { xs: "20px", md: "35px" },
+              display: "flex",
+              alignItems: "center",
+              marginBottom: { xs: "-20px", md: "-42px" },
+              paddingBottom: "10px",
+            }}
+          >
+            <Box
+              component={TuneOutlinedIcon}
+              color="#FABC1E"
+              sx={{
+                fontSize: { xs: "24px", md: "30px" },
+                marginRight: "10px",
+              }}
+            />
+            Step 1- Company Information
+          </Typography>
         </FlexBox>
       </Box>
-
-      <div style={{ margin: "20px" }} >
+ 
+      <div style={{ margin: "20px" }}>
         <Box
           sx={{
             borderRadius: "16px",
@@ -327,8 +302,7 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
         >
           <Box component="section" sx={{ p: 2, border: "10px" }}>
             <form>
-              <Box
-              >
+              <Box>
                 <div>
                   <Typography
                     level="h4"
@@ -339,14 +313,14 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
                       marginTop: "10px",
                     }}
                   >
-                    <ContactMailOutlinedIcon  /><span>Company Details.</span>
-                    
+                    <ContactMailOutlinedIcon />
+                    <span>Company Details.</span>
                   </Typography>
                   <Typography level="body-sm">
                     Provide the name and site of the main office.
                   </Typography>
                 </div>
-
+ 
                 <Box
                   sx={{
                     display: "flex",
@@ -360,63 +334,60 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
                 >
                   {/* Company Name */}
                   <Box
+                    mt={4}
                     sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "100%",
-                      flexDirection: { xs: "column", md: "row" },
+                      display: "grid",
+                      gap: 2,
+                      gridTemplateColumns: "repeat(3, 1fr)",
                     }}
                   >
-                    <label
-                      htmlFor="companyName"
-                      style={{ width: "150px", marginRight: "10px" }}
-                    >
-                      Company <span style={{ color: "red" }}>*</span>
-                    </label>
-                    <Input
-                      placeholder="Type in here..."
-                      type="text"
-                      id="companyName"
-                      name="companyName"
-                      value={companyFormData.companyName}
-                      onChange={handleInputChange}
-                      required
-                      sx={{ width: { md: "500px", xs: "100%" } }}
-                    />
+                    <FormControl>
+                      <FormLabel>
+                        Company <span style={{ color: "red" }}>*</span>
+                      </FormLabel>
+                      <Input
+                        placeholder="Type in here..."
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={companyFormData.name}
+                        onChange={handleInputChange}
+                        required
+                        sx={{ width: "100%" }}
+                      />
+                    </FormControl>
                   </Box>
-
+ 
                   {/* Country */}
                   <Box
+                    mt={4}
                     sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "100%",
-                      flexDirection: { xs: "column", md: "row" },
+                      display: "grid",
+                      gap: 2,
+                      gridTemplateColumns: "repeat(3, 1fr)",
                     }}
                   >
-                    <label
-                      htmlFor="country"
-                      style={{ width: "150px", marginRight: "10px" }}
-                    >
-                      Country <span style={{ color: "red" }}>*</span>
-                    </label>
-                    <Select
-                      id="country"                     
-                      onChange={handleCountryChange}
-                      value={companyFormData.country}               
-                      placeholder="Select country..."
-                      sx={{ width: { md: "500px", xs: "100%" } }}
-                    >
-                      <Option value="" disabled>
-                        Select country...
-                      </Option>
-                      <Option value="India">India</Option>
-                      <Option value="China">China</Option>
-                    </Select>
+                    <FormControl>
+                      <FormLabel>
+                        Country <span style={{ color: "red" }}>*</span>
+                      </FormLabel>
+                      <Select
+                        id="country"
+                        name="country"
+                        onChange={handleCountryChange}
+                        value={companyFormData.country}
+                        placeholder="Select country..."
+                        sx={{ width: "100%" }}
+                      >
+                        <Option value="" disabled>
+                          Select country...
+                        </Option>
+                        <Option value="India">India</Option>
+                        <Option value="China">China</Option>
+                      </Select>
+                    </FormControl>
                   </Box>
-
+ 
                   {/* Address */}
                   <Box
                     sx={{
@@ -444,7 +415,7 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
                       sx={{ width: { md: "500px", xs: "100%" } }}
                     />
                   </Box>
-
+ 
                   {/* Apt./Suite */}
                   <Box
                     sx={{
@@ -471,7 +442,7 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
                       sx={{ width: { md: "500px", xs: "100%" } }}
                     />
                   </Box>
-
+ 
                   {/* City */}
                   <Box
                     sx={{
@@ -499,7 +470,7 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
                       sx={{ width: { md: "500px", xs: "100%" } }}
                     />
                   </Box>
-
+ 
                   {/* State */}
                   <Box
                     sx={{
@@ -532,7 +503,7 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
                       <Option value="Kerala">Kerala</Option>
                     </Select>
                   </Box>
-
+ 
                   {/* Postal Code */}
                   <Box
                     sx={{
@@ -562,9 +533,9 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
                   </Box>
                 </Box>
                 {/* </Box> */}
-
+ 
                 <Divider />
-
+ 
                 <Box>
                   <div>
                     <Typography
@@ -576,7 +547,7 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
                         marginTop: "10px",
                       }}
                     >
-                      <CurrencyExchangeOutlinedIcon  />
+                      <CurrencyExchangeOutlinedIcon />
                       Timezone and Currency Details.
                     </Typography>
                     <Typography level="body-sm">
@@ -608,7 +579,7 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
                             *
                           </span>
                         </CustomInputLabel>
-
+ 
                         <Select
                           id="timezone"
                           name="timezone"
@@ -628,7 +599,7 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
                           ))}
                         </Select>
                       </Box>
-
+ 
                       <Box
                         sx={{
                           display: "flex",
@@ -661,7 +632,7 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
                           ))}
                         </Select>
                       </Box>
-
+ 
                       <Box
                         sx={{
                           display: "flex",
@@ -681,7 +652,7 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
                           onChange={handleDateChange}
                         />
                       </Box>
-
+ 
                       <Box
                         sx={{
                           display: "flex",
@@ -731,84 +702,83 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
                           ))}
                         </Select>
                       </Box>
-                
                     </Box>
                   </CenteredForms>
                 </Box>
-
+ 
                 <Divider />
-
+ 
                 <Box>
-                <div>
-    <Typography
-      level="h4"
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        marginBottom: "0px",
-        marginTop: "10px",
-      }}
-    >
-      
-      <CollectionsOutlinedIcon />
-      Company Logo
-    </Typography>
-    <Typography level="body-sm">
-      Upload your organization's logo to make this space your own.
-    </Typography>
-  </div>
-
-  <div>
-    <Box>
-      <DropZone
-        onClick={handleClickDropZone}
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        sx={{
-          width: { xs: "50%", sm: "80%", md: "400px" },
-          height: "80px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#f0f0f0",
-          margin: "auto",
-          border: "2px dashed grey",
-          textAlign: "center",        
-          cursor: "pointer",
-        }}
-      >
-        {imagePreview ? (
-          <img
-            src={imagePreview}
-            alt="Preview"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-          />
-        ) : (
-          "Drop your image here"
-        )}
-      </DropZone>
-    </Box>
-    <CustomInput
-      ref={fileInputRef}
-      type="file"
-      id="logo"
-      name="logo"
-      accept="image/*"
-      onChange={handleImageChange}
-      style={{ display: "none" }}
-    />
-    <label htmlFor="logo">
-      only (JPG, GIF, PNG) are allowed.
-    </label>
-  </div>
+                  <div>
+                    <Typography
+                      level="h4"
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "0px",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <CollectionsOutlinedIcon />
+                      Company Logo
+                    </Typography>
+                    <Typography level="body-sm">
+                      Upload your organization's logo to make this space your
+                      own.
+                    </Typography>
+                  </div>
+ 
+                  <div>
+                    <Box>
+                      <DropZone
+                        onClick={handleClickDropZone}
+                        onDrop={handleDrop}
+                        onDragOver={handleDragOver}
+                        sx={{
+                          width: { xs: "50%", sm: "80%", md: "400px" },
+                          height: "80px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          backgroundColor: "#f0f0f0",
+                          margin: "auto",
+                          border: "2px dashed grey",
+                          textAlign: "center",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {imagePreview ? (
+                          <img
+                            src={imagePreview}
+                            alt="Preview"
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                            }}
+                          />
+                        ) : (
+                          "Drop your image here"
+                        )}
+                      </DropZone>
+                    </Box>
+                    <CustomInput
+                      ref={fileInputRef}
+                      type="file"
+                      id="logo"
+                      name="logo"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      style={{ display: "none" }}
+                    />
+                    <label htmlFor="logo">
+                      only (JPG, GIF, PNG) are allowed.
+                    </label>
+                  </div>
                 </Box>
                 <Divider />
-
-                <Button                 
+ 
+                <Button
                   sx={{
                     background: "#FABC1E",
                     width: { xs: "100%", sm: "150px", md: "125px" },
@@ -823,12 +793,10 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
                     justifyContent: "center",
                     alignItems: "center",
                   }}
-                  onClick={handleNextTab}
+                  onClick={handleSubmit}
                 >
-                    Continue
-                  <TbMathGreater />
+                  Continue
                 </Button>
-
               </Box>
             </form>
           </Box>
@@ -837,5 +805,5 @@ const SetupCompInfo: React.FC<SetCompInfoProps> = ({
     </>
   );
 };
-
+ 
 export default SetupCompInfo;

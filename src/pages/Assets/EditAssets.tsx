@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import EditAssetInfo from "../../components/AssetSections/EditAsset/EditAssetInfo";
 import EditAssetDetails from "../../components/AssetSections/EditAsset/EditAssetDetails";
 import { useDispatch, useSelector } from "react-redux";
-import { updateAsset } from "../../Redux/Features/assetSlice";
-import { RootState } from "../../Redux/Features/store";
+import { updateAsset } from "../../Redux/features/assetSlice";
+import { RootState } from "../../Redux/features/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import {Typography} from '@mui/joy'
 

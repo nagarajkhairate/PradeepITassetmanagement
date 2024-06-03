@@ -10,8 +10,8 @@ import { useTheme } from "@mui/material/styles";
 import ListOfAssetsCard from "./ListOfAssetsCard";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { fetch_listAssets } from "../../Redux/Features/assetSlice";
-import { RootState } from "../../Redux/Features/store";
+import { fetch_listAssets } from "../../Redux/features/assetSlice";
+import { RootState } from "../../Redux/features/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { Link } from "react-router-dom";
 

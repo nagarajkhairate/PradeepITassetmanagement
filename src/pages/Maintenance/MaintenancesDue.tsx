@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Button,
-  Typography,
-} from "@mui/joy";
+import { Box, Button, Typography } from "@mui/joy";
 import { styled } from "@mui/joy";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import Image from "../../components/Common/MaintenanceEmpty";
@@ -11,10 +7,8 @@ import Select, { selectClasses } from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import Table from "@mui/joy/Table";
-import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
-
-
-
+import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
+import AppView from "../../components/Common/AppView";
 
 // Styled component for visually hidden input
 const VisuallyHiddenInput = styled("input")`
@@ -31,132 +25,100 @@ const VisuallyHiddenInput = styled("input")`
 
 export const MaintenancesDue: React.FC = () => {
   return (
-    <>
+    <AppView>
+        <Typography level="h4">Maintenance</Typography>
 
-<div style={{ width: "100%", background: "#f9f9f9" }}>
-        <div style={{ margin: "52px" }}>
-          <Box
-            sx={{
-              mt: "30px",
-              width: "100%",
-              display: "flex",
-              justifyContent: "space-between",
-              flexDirection: { xs: "column", md: "row" },
-            }}
-          >
-          
-        <Box>
-          <Typography
-            level="h4"
-          >
-            Maintenance
-          </Typography>
-
-
-          <Box
+        <Box
           sx={{
             display: "flex",
-            width:"100%",
             alignItems: "center",
-            marginTop: "40px",
             flexDirection: { md: "row", xs: "column" },
-            gap:{md:"20px",xs:"5px"}
           }}
         >
-          <Box sx={{width:"100%"}}>
-          <Button
-            type="button"
-            variant="solid"
-            autoFocus
-            sx={{
-              background: "#1CCAB8",
-              color: "white",
-              borderRadius: "15px"
-              ,width:{md:"150px",xs:"90%"}
-            }}
+          <Box >
+            <Button
+              type="button"
+              variant="solid"
+              autoFocus
+              sx={{
+                background: "#1CCAB8",
+                color: "white",
+                borderRadius: "15px",
+                width: { md: "150px", xs: "90%" },
+              }}
             >
-            <SettingsOutlinedIcon />
-            Search Criteria
-          </Button>
-            </Box>
+              <SettingsOutlinedIcon />
+              Search Criteria
+            </Button>
+          </Box>
 
-          <Box 
-          sx={{
-            width:"100%",
-              // marginRight: "10%" , 
-              display:{md:"flex",xs:"flex"} , flexDirection:{md:"row",xs:"column"},gap:"5px" }}>
-              <Button
-                variant="solid"
-                autoFocus
-                sx={{
-                  background: "#388e3c",
-                  color: "white",
-                  borderRadius: "15px",
-                  width:{md:"160px",xs:"90%"}
-                }}
-               
-              >
-                 <CloudUploadOutlinedIcon />
-                Export to Excel
-                <VisuallyHiddenInput type="file" />
-              </Button>
-              <Button
-                variant="solid"
-                autoFocus
-                sx={{
-                  background: "#2196f3",
-                  color: "white",
-                  borderRadius: "15px",
-                  whiteSpace:'nowrap',
-                  width:{md:"180px",xs:"90%"}
-                  
-                }}
-              >
-                <CloudUploadOutlinedIcon />
-                Import Maintenance
-                <VisuallyHiddenInput type="file" />
-              </Button>
-              <Button
-                type="button"
-                variant="solid"
-                autoFocus
-                sx={{
-                  background: "black",
-                  color: "white",
-                  borderRadius: "15px"
-                  ,width:{md:"160px",xs:"90%"}
-                }}
-                >
-                <SettingsOutlinedIcon />
-                Setup Column
-              </Button>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { md: "row", xs: "column" },
+              gap: "5px",
+            }}
+          >
+            <Button
+              variant="solid"
+              autoFocus
+              sx={{
+                background: "#388e3c",
+                color: "white",
+                borderRadius: "15px",
+                width: { md: "160px", xs: "90%" },
+              }}
+            >
+              <CloudUploadOutlinedIcon />
+              Export to Excel
+              <VisuallyHiddenInput type="file" />
+            </Button>
+            <Button
+              variant="solid"
+              autoFocus
+              sx={{
+                background: "#2196f3",
+                color: "white",
+                borderRadius: "15px",
+                whiteSpace: "nowrap",
+                width: { md: "180px", xs: "90%" },
+              }}
+            >
+              <CloudUploadOutlinedIcon />
+              Import Maintenance
+              <VisuallyHiddenInput type="file" />
+            </Button>
+            <Button
+              type="button"
+              variant="solid"
+              autoFocus
+              sx={{
+                background: "black",
+                color: "white",
+                borderRadius: "15px",
+                width: { md: "160px", xs: "90%" },
+              }}
+            >
+              <SettingsOutlinedIcon />
+              Setup Column
+            </Button>
           </Box>
         </Box>
 
-
-
-
-        
-        <Box sx={{ gap:{md:"50px",xs:"5px"},
-          width:"100%",
-          marginRight: { md: '10%', xs: '0' }, display:"flex" , flexDirection:{md:"row",xs:"column"},
-             }}
-        >
-          <Box>
+        <Box>
+     
             <Select
               placeholder="Maintenance Due"
               indicator={<KeyboardArrowDown />}
               sx={{
-                width: { md: 200, xs: '90%' },
                 [`& .${selectClasses.indicator}`]: {
                   transition: "0.2s",
                   [`&.${selectClasses.expanded}`]: {
                     transform: "rotate(-180deg)",
                   },
                 },
-                marginTop: { md: '20%', xs: '10px' },
-                borderRadius: "15px",
                 
+                borderRadius: "15px",
               }}
             >
               <Option value="dog">Dog</Option>
@@ -164,23 +126,21 @@ export const MaintenancesDue: React.FC = () => {
               <Option value="fish">Fish</Option>
               <Option value="bird">Bird</Option>
             </Select>
-          </Box>
+          
 
           <Box>
             <Select
               placeholder="10"
               indicator={<KeyboardArrowDown />}
               sx={{
-                width: { md: 130, xs: '90%' },
+                width: { md: 130, xs: "90%" },
                 [`& .${selectClasses.indicator}`]: {
                   transition: "0.2s",
                   [`&.${selectClasses.expanded}`]: {
                     transform: "rotate(-180deg)",
                   },
                 },
-                marginTop: { md: '34%', xs: '10px' },
                 borderRadius: "15px",
-              
               }}
             >
               <Option value="10">10</Option>
@@ -189,31 +149,26 @@ export const MaintenancesDue: React.FC = () => {
             </Select>
           </Box>
 
-         
-            <Box
-              sx={{
-                // marginRight: "18%",
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "flex-end ",
-                color: "danger",
-                fontFamily: "Poppins, sans-serif",
-                fontStyle: "italic",
-                marginTop:'2px'
-              }}
-            >
-             
-                
-        Assets that are more than 7 days overdue for maintenance (as indicated by overdue time)
-                  
-            
-
-          </Box>
+          <Typography
+            sx={{
+              // marginRight: "18%",
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "flex-end ",
+              color: "danger",
+              fontFamily: "Poppins, sans-serif",
+              fontStyle: "italic",
+              marginTop: "2px",
+            }}
+          >
+            Assets that are more than 7 days overdue for maintenance (as
+            indicated by overdue time)
+          </Typography>
         </Box>
 
         <Box>
           <Table hoverRow>
-            <thead style={{background:"#959595"}}>
+            <thead style={{ background: "#959595" }}>
               <tr>
                 <th style={{ width: "10%" }}>Status</th>
                 <th>Expires</th>
@@ -230,12 +185,8 @@ export const MaintenancesDue: React.FC = () => {
         <Box>
           <Image />
         </Box>
-      </Box>
-      </Box>
-            </div>
-            </div>
-
-    </>
+    
+    </AppView>
   );
 };
 

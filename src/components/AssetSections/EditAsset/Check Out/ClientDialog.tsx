@@ -10,10 +10,10 @@ import {
 import { AiOutlineClose } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { RootState } from "../../../../Redux/Features/store";
+import { RootState } from "../../../../Redux/features/store";
 import InputField from "../../../Common/Input";
 import SelectField from "../../../Common/Select";
-import {post_add_client} from "../../../../Redux/Features/clientSlice";
+import {post_add_client} from "../../../../Redux/features/clientSlice";
 
 interface ClientData {
   person_name: string;

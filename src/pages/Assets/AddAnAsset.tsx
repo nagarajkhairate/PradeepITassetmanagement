@@ -15,8 +15,8 @@ import { IoIosArrowDown } from "react-icons/io";
 import { FaPlus } from "react-icons/fa";
 import { IoCloudUploadSharp } from "react-icons/io5";
 import { useSelector, useDispatch } from "react-redux";
-import { reducerone } from "../../Redux/Features/assetSlice";
-import { RootState } from "../../Redux/Features/store";
+import { reducerone } from "../../Redux/features/assetSlice";
+import { RootState } from "../../Redux/features/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 
 const TypographyLabel: React.FC<{ title: string }> = ({ title }) => (

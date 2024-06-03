@@ -22,9 +22,9 @@ import { AiOutlineClose } from "react-icons/ai";
 import EmployeeDialog from "./EmployeeDialog";
 import ClientDialog from "./ClientDialog";
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { RootState } from "../../../../Redux/Features/store";
+import { RootState } from "../../../../Redux/features/store";
 import { useDispatch } from "react-redux";
-import { post_check_out } from "../../../../Redux/Features/transactionSlice";
+import { post_check_out } from "../../../../Redux/features/transactionSlice";
 
 
 // Define a type for the checkout and employee data
