@@ -22,6 +22,8 @@ import CategorySetup from '../pages/Setup/SetupCategory/CategorySetup';
 import CategorySub from '../pages/Setup/SubCategory/CategorySub';
 import SetupDept from '../pages/Setup/Departments/SetupDept';
 import SetupCompInfo from '../pages/Setup/CompInfoemation/SetupCompInfo';
+import CategoryIcon from '@mui/icons-material/Category';
+import GridViewIcon from '@mui/icons-material/GridView';
 
 export const pagesRoutes: any[] = [
   {
@@ -171,7 +173,7 @@ export const pagesRoutes: any[] = [
         path: "/setup/categorysetup",
         state: 'assets',
         element: <CategorySetup />,
-        icon: <LocationOnOutlinedIcon />,
+        icon: <CategoryIcon />,
       },
       {
         index: true,
@@ -179,7 +181,7 @@ export const pagesRoutes: any[] = [
         path: "/setup/categorysub",
         state: 'assets',
         element: <CategorySub />,
-        icon: <LocationOnOutlinedIcon />,
+        icon: <CategoryIcon />,
       },
       {
         index: true,
@@ -187,7 +189,7 @@ export const pagesRoutes: any[] = [
         path: "/setup/departments",
         state: 'assets',
         element: <SetupDept />,
-        icon: <LocationOnOutlinedIcon />,
+        icon: <GridViewIcon />,
       },
       // { name: "Sites", path: "/setup/sites", icon: <AddCircleOutlineIcon /> },
       // {

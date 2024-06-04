@@ -18,15 +18,22 @@ import { selectClasses } from "@mui/joy/Select";
 import CategorySubEdit from "./CategorySubEdit";
 import PlaylistAddCheckOutlinedIcon from "@mui/icons-material/PlaylistAddCheckOutlined";
 import { KeyboardArrowDown } from "@mui/icons-material";
+import AppView from "../../../components/Common/AppView";
+
+type SubCategory = {
+  id: number
+  subCategory: string
+}
+
 
 const CategorySub: React.FunctionComponent = () => {
   const [open, setOpen] = useState<boolean>(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const [category, setCategory] = useState<string>("");
-  const [categories, setCategories] = useState<string[]>([]);
+  const [subCategory, setSubCategory] = useState<string>("");
+  const [categories, setCategories] = useState<SubCategory[]>([]);
 
-  const handleCategoryChange = (updatedCategories: string[]) => {
+  const handleCategoryChange = (updatedCategories: SubCategory[]) => {
     setCategories(updatedCategories);
     console.log("subcategory: ", JSON.stringify(updatedCategories));
   };
@@ -40,83 +47,47 @@ const CategorySub: React.FunctionComponent = () => {
   };
 
   const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // const newCategory: string = (e.target as any).category.value;
-    const newCategory: string = category;
-    if (categories && Array.isArray(categories)) {
-      // Check if categories is iterable
-      setCategories([...categories, newCategory]);
-    } else {
-      setCategories([newCategory]); // Initialize categories if it's not iterable
+    e.preventDefault()
+    const newCategory: SubCategory = {
+      id: categories.length ? categories[categories.length - 1].id + 1 : 1,
+      subCategory: subCategory,
     }
-    handleClose();
-  };
-
-  // const handleContinue = () => {
-  //   setFormData((prevData) => ({ ...prevData, category }));
-
-  //   console.log(JSON.stringify(category));
-  // };
-
-  //   const handleNextTab = () => {
-  //     setCompanyFormData((prevData: any) => ({ ...prevData, category: category }));
-  //     setActiveTab(activeTab + 1);
-  //   };
-
-  //   const handlePrevTab = () => {
-  //     setActiveTab(activeTab - 1);
-  // };
+    setCategories([...categories, newCategory])
+    setSubCategory('') // Clear the input field after adding
+    handleClose()
+  }
 
   return (
-    <div style={{ width: "100%", background: "#f9f9f9" }}>
+    <AppView>
       <Typography level="h3" sx={{ display: "flex", alignItems: "center" }}>
         <SignpostOutlinedIcon
-          style={{ fontSize: "1.4rem", color: "#d32f2f", marginLeft: "3rem" }}
+          style={{ fontSize: "1.4rem", color: "#d32f2f"}}
         />
         Sub Categories
       </Typography>
 
-      <div style={{ width: "100%", background: "#f9f9f9" }}>
-        <div style={{ margin: "20px" }}>
           <Box
             sx={{
-              borderRadius: "none",
+              borderRadius: "10px",
               boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
               background: "#ffffff",
-              margin: {
-                xs: "4px",
-                md: "52px",
-              },
+              gap:'5px',
+              
             }}
           >
-            <Box
-              fontSize="h5.fontSize"
-              component="div"
-              overflow="hidden"
-              textOverflow="ellipsis"
-            ></Box>
 
             <Box
               sx={{
                 display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
+                alignItems: 'center',
+                flexDirection: { xs: "column", md: "row" },
+                justifyContent: { xs: 'center', md: 'space-between' },
+                gap: 2,
                 mb: 2,
               }}
             >
-              <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: { xs: "column", md: "row" },
-                  gap: 2,
-                  alignItems: "center",
-                  // mb:2
-                }}
-              >
                 <Box
                   sx={{
-                    width: { xs: "100%", md: "auto" },
                     textAlign: { xs: "center", md: "left" },
                   }}
                 >
@@ -138,20 +109,20 @@ const CategorySub: React.FunctionComponent = () => {
                 </Box>
 
                 <Box
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: { xs: "column", md: "row" },
-                    justifyContent: { xs: "center", md: "flex-end" },
-                    gap: 2,
-                    marginTop: "20px",
-                  }}
+                 sx={{
+                  display: "flex",
+                  flexDirection: { md: 'row', xs: 'column' },
+                  gap: 2,
+                  // marginTop: "10px",
+                }}
                 >
                   <Button
+                    autoFocus
+                    variant="solid"
                     sx={{
                       background: "#388e3c",
-                      color: "white",
-                      width: { xs: "100%", md: "auto" },
+                      borderRadius: '15px',
+                      color: "white",   
                     }}
                     onClick={handleClickOpen}
                   >
@@ -276,10 +247,10 @@ const CategorySub: React.FunctionComponent = () => {
                                   Sub Category*:
                                 </FormLabel>
                                 <Input
-                                  value={category}
+                                  value={subCategory}
                                   onChange={(
                                     e: React.ChangeEvent<HTMLInputElement>
-                                  ) => setCategory(e.target.value)}
+                                  ) => setSubCategory(e.target.value)}
                                   placeholder="Type here"
                                   sx={{
                                     marginLeft: "10px",
@@ -325,11 +296,13 @@ const CategorySub: React.FunctionComponent = () => {
                   </Modal>
 
                   <Button
+                    autoFocus
                     type="submit"
+                    variant="solid"
                     sx={{
-                      background: "#2196f3",
+                      background: "black",
+                      borderRadius: '15px',
                       color: "white",
-                      width: { xs: "100%", md: "auto" },
                     }}
                   >
                     <PublishOutlinedIcon />
@@ -337,113 +310,161 @@ const CategorySub: React.FunctionComponent = () => {
                   </Button>
                 </Box>
               </Box>
-            </Box>
+         
 
             <Divider />
 
             <Box>
               <Box sx={{ padding: "20px", marginTop: "10px" }}>
-                Add the type of groups of assets. To start with, commonly used
-                categories have already been created for you. Make them as broad
-                or as specific as you want. Categories can be 'laptops and
-                printers', 'equipment', or 'chairs'. Customize to your
-                particular need.
+              You may also add Sub Categories. Sub Categories are a subset of Categories. For example, the Sub Categories may be different types of Categories. The Sub Category may be a specific type or name within the Category. Select a Category and add your list of Sub Categories here.
               </Box>
 
-              <Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginLeft: "20px",
-                  }}
-                >
-                  <Select
-                    placeholder="10"
-                    value={
-                      categories && categories.length > 0
-                        ? String(categories.length)
-                        : ""
-                    }
-                    onChange={(e: any) => setCategories(e)}
-                    sx={{
-                      width: 70,
-                      height: 30,
-                      [`& .${selectClasses.indicator}`]: {
-                        transition: "0.2s",
-                        [`&.${selectClasses.expanded}`]: {
-                          transform: "rotate(-180deg)",
-                        },
-                      },
-                      // marginLeft: "20px",
-                      background: "none",
-                      color: "black",
-                    }}
-                    required
-                  >
-                    <Option value="10">10</Option>
-                    <Option value="15">15</Option>
-                    <Option value="20">20</Option>
-                  </Select>
 
-                  <Typography sx={{ marginLeft: "10px", minWidth: "70px" }}>
-                    categories
-                  </Typography>
+              <Box 
+        sx={{ 
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: { md: 'row', xs: 'column' },
+          justifyContent: { xs: 'center', md: 'space-between' },
+          // marginTop: "1px", 
+ 
+          padding: "20px" 
+        }}
+        >
+          <FormControl
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", md: "row" },
+              
+            }}
+          >
+            <FormLabel 
+            sx={{ 
+              
+              marginTop: "6px",
+              mb: { xs: 1, md: 1 } }}>
+              Select a Site:
+            </FormLabel>
 
-                  <Box
-                    sx={{
-                      // width: "100%",
-                      display: "flex",
-                      // flexDirection: { xs: "column", md: "row" },
-                      // justifyContent: { xs: "center", md: "flex-end" },
-                      gap: 1,
-                      width: { xs: "100%", md: "auto" },
-                      paddingLeft: { xs: "20%", md: "60%" },
-                    }}
-                  >
-                    <Button
-                      sx={{
-                        background: "#FDE8BC",
-                        border: "1px solid #C2B083",
-                        color: "black",
+            <Select
+              placeholder="Nothing Selected"
+              sx={{
+                marginLeft: { md: "20px" },
+              alignItems:'center',
+                background: "#ff5252",  
+                color: "white",
+                borderRadius: '15px',
+              }}
+              required
+              // value={selectedValue}
+              // onChange={(event) =>
+              //   setSelectedValue(
+              //     (event?.target as HTMLSelectElement)?.value ?? ""
+              //   )
+              // }
+            >
+              <Option value="Location1">Location1</Option>
+            </Select>
+          </FormControl>
+        </Box>
 
-                        "&:hover": {
-                          background: "#FADFB4",
-                        },
-                      }}
-                    >
-                      <NavigateBeforeOutlinedIcon />
-                    </Button>
-                    <Button
-                      sx={{
-                        background: "#ffffff",
-                        color: "green",
-                        border: "1px solid green ",
+              <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: { md: 'row', xs: 'column' },
+              justifyContent: { xs: 'center', md: 'space-between' },
+              
+              // marginBottom: "10px",
+              padding: '20px',
+            }}
+          >
+            <FormControl
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+              }}
+            >
+              <Select
+                placeholder="10"
+                sx={{
+                  alignItems: 'center',
+                  background: 'none',
+                  color: 'black',
+                  borderRadius: '15px',
+                }}
+                required
+                // value={selectedValue}
+                // onChange={(event) =>
+                //   setSelectedValue(
+                //     (event?.target as HTMLSelectElement)?.value ?? ""
+                //   )
+                // }
+              >
+                <Option value="10">10</Option>
+              </Select>
 
-                        "&:hover": {
-                          color: "white",
-                          background: "green",
-                        },
-                      }}
-                    >
-                      1
-                    </Button>
-                    <Button
-                      sx={{
-                        background: "#FDE8BC",
-                        border: "1px solid #C2B083",
-                        color: "black",
+              <FormLabel
+                sx={{
+                  marginLeft: '10px',
+                  marginTop: '6px',
+                  mb: { xs: 1, md: 1 },
+                }}
+              >
+                Category
+              </FormLabel>
+            </FormControl>
 
-                        "&:hover": {
-                          background: "#FADFB4",
-                        },
-                      }}
-                    >
-                      <NavigateNextOutlinedIcon />
-                    </Button>
-                  </Box>
-                </Box>
-              </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { md: 'row' },
+                justifyContent: { xs: 'center', md: 'space-between' },
+                gap: 1,
+              }}
+            >
+              <Button
+                sx={{
+                  background: '#FDE8BC',
+                  border: '1px solid #C2B083',
+                  color: 'black',
+
+                  '&:hover': {
+                    background: '#FADFB4',
+                  },
+                }}
+              >
+                <NavigateBeforeOutlinedIcon />
+              </Button>
+              <Button
+                sx={{
+                  background: '#ffffff',
+                  color: 'green',
+                  border: '1px solid green ',
+
+                  '&:hover': {
+                    color: 'white',
+                    background: 'green',
+                  },
+                }}
+              >
+                1
+              </Button>
+              <Button
+                sx={{
+                  background: '#FDE8BC',
+                  border: '1px solid #C2B083',
+                  color: 'black',
+
+                  '&:hover': {
+                    background: '#FADFB4',
+                  },
+                }}
+              >
+                <NavigateNextOutlinedIcon />
+              </Button>
+            </Box>
+          </Box>
             </Box>
 
             <Box>
@@ -454,9 +475,8 @@ const CategorySub: React.FunctionComponent = () => {
             </Box>
             <Divider />
           </Box>
-        </div>
-      </div>
-    </div>
+
+    </AppView>
   );
 };
 

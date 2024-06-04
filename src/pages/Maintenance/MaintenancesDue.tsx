@@ -1,6 +1,5 @@
 import React from 'react'
 import { Box, Button, Typography } from '@mui/joy'
-import { styled } from '@mui/joy'
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined'
 import MaintenanceEmpty from '../../components/Common/MaintenanceEmpty'
 import Select, { selectClasses } from '@mui/joy/Select'
@@ -9,18 +8,6 @@ import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown'
 import Table from '@mui/joy/Table'
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined'
 import AppView from '../../components/Common/AppView'
-
-const VisuallyHiddenInput = styled('input')`
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  white-space: nowrap;
-  width: 1px;
-`
 
 export const MaintenancesDue: React.FC = () => {
   return (
@@ -68,7 +55,6 @@ export const MaintenancesDue: React.FC = () => {
           >
             <CloudUploadOutlinedIcon />
             Export to Excel
-            <VisuallyHiddenInput type="file" />
           </Button>
           <Button
             variant="solid"
@@ -82,7 +68,6 @@ export const MaintenancesDue: React.FC = () => {
           >
             <CloudUploadOutlinedIcon />
             Import Maintenance
-            <VisuallyHiddenInput type="file" />
           </Button>
           <Button
             type="button"

@@ -54,14 +54,12 @@ export function SetupPopup({
       sx={{
         display: "flex",
         justifyContent: "space-between",
-        // paddingRight: "40px",
-        paddingRight: { xs: "0", sm: "40px" },
-        marginTop: "60px",
+
       }}
     >
       <Table
         borderAxis="both"
-        style={{ width: "100%", borderCollapse: "collapse" }}
+        style={{  borderCollapse: "collapse" }}
       >
         <thead>
           <tr>
@@ -108,16 +106,44 @@ export function SetupPopup({
               </td>
               <td>{Custom}</td>
               <td>
-                <Button onClick={handleEdit} variant="plain" color="neutral">
+                <Button 
+                 sx={{
+                  background: "#ffffff",
+                  color: "green",
+                  display:'flex',
+                  justifyContent:'flex-end',
+                  marginLeft:'60%',
+                  border: "1px solid green ",
+                  borderRadius: "15px",
+                  "&:hover": {
+                    color: "white",
+                    background: "green",
+                  
+                  },
+                }}
+                onClick={handleEdit} variant="plain" color="neutral">
                   <EditOutlinedIcon />
                   Edit
                 </Button>
               </td>
               <td>
                 <Button
+                sx={{
+                  background: "#ffffff",
+                  color: '#d32f2f',
+                  display:'flex',
+                  justifyContent:'flex-end',
+                  marginLeft:'60%',
+                  border: "1px solid red ",
+                  borderRadius: "15px",
+                  "&:hover": {
+                    color: "white",
+                    background:'#d32f2f',
+                   
+                  },
+                }}
                   onClick={handleDeleteButton}
-                  variant="plain"
-                  color="danger"
+                  
                 >
                   <DeleteForeverIcon />
                   Delete
