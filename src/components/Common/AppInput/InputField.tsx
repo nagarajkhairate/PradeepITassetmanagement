@@ -31,9 +31,10 @@ const InputField: React.FunctionComponent<InputFieldProps> = ({ field, formData,
       </FormLabel>
       <Input
         placeholder={field.title}
-        value={formData[field.value]} 
+        value={formData[field.value] || ''} 
         name={field.value} 
-        onChange={handleInputChange} // Pass field.value to handleInputChange
+        type='text'
+        onChange={handleInputChange}
         required={field.required}
       />
       <FormHelperText>This is a helper text.</FormHelperText>

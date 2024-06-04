@@ -25,14 +25,14 @@ const handleInputValue = (
   handleSelectChange?: (name: string, value: string | null) => void,
   mode?: string,
 ) => {
-  const { type } = field.uiComponents
+
   const commonProps = {
     field, formData, handleInputChange, handleSelectChange, mode
   }
-  switch (type) {
+  switch (field.type) {
+    
     case 'text':
-    case 'date':
-      return <InputField {...commonProps} />
+      return <InputField  {...commonProps}/>
     case 'select':
     
         return <SelectField {...commonProps} />

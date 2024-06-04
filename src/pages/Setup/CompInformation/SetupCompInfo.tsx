@@ -19,6 +19,8 @@ import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined'
 import { CompanyInfoFields, currencySymbols, months, timezones } from './Data'
 import AppView from '../../../components/Common/AppView'
 import InputField from '../../../components/Common/AppInput/InputField'
+import AppForm from '../../../components/Common/AppForm'
+import FieldComponent from '../../../utils/FieldComponent'
 
 const CustomInputLabel = styled('label')({
   display: 'flex',
@@ -248,22 +250,21 @@ const SetupCompInfo: React.FC = ({}) => {
   //   return isValid;
   // };
 
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   // console.log(JSON.stringify(companyFormData));
-  //   console.log("Form Data:", companyFormData);
-  // };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // console.log(JSON.stringify(companyFormData));
+    console.log("Form Data:", formData);
+  };
 
-  console.log(JSON.stringify(formData))
 
   return (
-    <AppView>
+    <AppForm onSubmit={handleSubmit}>
       <Typography level="h4" sx={{}}>
         <Box component={TuneOutlinedIcon} color="#FABC1E" />
         Company Information
       </Typography>
-
-      <Box
+ 
+      <Box 
         sx={{
           borderRadius: '16px',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
@@ -286,10 +287,13 @@ const SetupCompInfo: React.FC = ({}) => {
           {CompanyInfoFields &&
             CompanyInfoFields.slice(1, 7).map((field, index) => (
               <Grid key={index} md={8} xs={8} sm={8}>
-                <FieldComponent field={field}
+                
+                <FieldComponent 
+                field={field}
                   formData={formData}
                   handleInputChange={handleInputChange} 
-                  handleSelectChange={handleSelectChange}/>
+                  handleSelectChange={handleSelectChange}
+                  />
               
               </Grid>
             ))}
@@ -331,7 +335,7 @@ const SetupCompInfo: React.FC = ({}) => {
           </Typography>
           <Typography>Provide the name and site of the main office.</Typography>
           {CompanyInfoFields &&
-            CompanyInfoFields.slice(12, -1).map((field, index) => (
+            CompanyInfoFields.slice(11,12).map((field, index) => (
               <Grid key={index} md={8} xs={8} sm={8}>
                 <InputField
                   field={field}
@@ -811,7 +815,7 @@ const SetupCompInfo: React.FC = ({}) => {
                 </Box> */}
         <Divider />
       </Box>
-    </AppView>
+    </AppForm>
   )
 }
 

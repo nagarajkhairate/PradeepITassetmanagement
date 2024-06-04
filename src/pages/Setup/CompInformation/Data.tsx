@@ -55,6 +55,7 @@ export const timezones = [
     value: string;
     required: boolean;
     sequence: number;
+    type: string;
     className: {
       sm: number;
       md: number;
@@ -64,100 +65,112 @@ export const timezones = [
   
   export const CompanyInfoFields: CompanyInfoProps[] = [
     {
-      id: 1,
-      title: "Company name",
-      value: "company",
-      required: true,
-      sequence: 1,
-      className: { sm: 12, md: 6, lg: 6 }
+        "id": 1,
+        "title": "Company name",
+        "value": "company",
+        "required": true,
+        "sequence": 1,
+        "className": { "sm": 12, "md": 6, "lg": 6 },
+        "type": "text"
     },
     {
-      id: 2,
-      title: "Country",
-      value: "country",
-      required: true,
-      sequence: 2,
-      className: { sm: 12, md: 6, lg: 6 }
+        "id": 2,
+        "title": "Country",
+        "value": "country",
+        "required": true,
+        "sequence": 2,
+        "className": { "sm": 12, "md": 6, "lg": 6 },
+        "type": "text"
     },
     {
-      id: 3,
-      title: "Address",
-      value: "address",
-      required: true,
-      sequence: 3,
-      className: { sm: 12, md: 6, lg: 6 }
+        "id": 3,
+        "title": "Address",
+        "value": "address",
+        "required": true,
+        "sequence": 3,
+        "className": { "sm": 12, "md": 6, "lg": 6 },
+        "type": "text"
     },
     {
-      id: 4,
-      title: "Apt./Suite",
-      value: "aptSuite",
-      required: true,
-      sequence: 4,
-      className: { sm: 12, md: 6, lg: 6 }
+        "id": 4,
+        "title": "Apt./Suite",
+        "value": "aptSuite",
+        "required": true,
+        "sequence": 4,
+        "className": { "sm": 12, "md": 6, "lg": 6 },
+        "type": "text"
     },
     {
-      id: 5,
-      title: "City",
-      value: "city",
-      required: true,
-      sequence: 5,
-      className: { sm: 12, md: 6, lg: 6 }
+        "id": 5,
+        "title": "City",
+        "value": "city",
+        "required": true,
+        "sequence": 5,
+        "className": { "sm": 12, "md": 6, "lg": 6 },
+        "type": "text"
     },
     {
-      id: 6,
-      title: "State",
-      value: "state",
-      required: true,
-      sequence: 6,
-      className: { sm: 12, md: 6, lg: 6 }
+        "id": 6,
+        "title": "State",
+        "value": "state",
+        "required": true,
+        "sequence": 6,
+        "className": { "sm": 12, "md": 6, "lg": 6 },
+        "type": "text"
     },
     {
-      id: 7,
-      title: "Zip Code",
-      value: "zipCode",
-      required: true,
-      sequence: 7,
-      className: { sm: 12, md: 6, lg: 6 }
+        "id": 7,
+        "title": "Zip Code",
+        "value": "zipCode",
+        "required": true,
+        "sequence": 7,
+        "className": { "sm": 12, "md": 6, "lg": 6 },
+        "type": "text"
     },
     {
-      id: 8,
-      title: "Time Zone",
-      value: "timeZone",
-      required: true,
-      sequence: 8,
-      className: { sm: 12, md: 6, lg: 6 }
+        "id": 8,
+        "title": "Time Zone",
+        "value": "timeZone",
+        "required": true,
+        "sequence": 8,
+        "className": { "sm": 12, "md": 6, "lg": 6 },
+        "type": "text"
     },
     {
-      id: 9,
-      title: "Currency Symbol",
-      value: "currencySymbol",
-      required: true,
-      sequence: 9,
-      className: { sm: 12, md: 6, lg: 6 }
+        "id": 9,
+        "title": "Currency Symbol",
+        "value": "currencySymbol",
+        "required": true,
+        "sequence": 9,
+        "className": { "sm": 12, "md": 6, "lg": 6 },
+        "type": "text"
     },
     {
-      id: 10,
-      title: "Date format",
-      value: "dateFormate",
-      required: false,
-      sequence: 10,
-      className: { sm: 12, md: 6, lg: 6 }
+        "id": 10,
+        "title": "Date format",
+        "value": "dateFormate",
+        "required": false,
+        "sequence": 10,
+        "className": { "sm": 12, "md": 6, "lg": 6 },
+        "type": "text"
     },
     {
-      id: 11,
-      title: "Financial Year begins on",
-      value: "financialYear",
-      required: true,
-      sequence: 11,
-      className: { sm: 12, md: 6, lg: 6 }
+        "id": 11,
+        "title": "Financial Year begins on",
+        "value": "financialYear",
+        "required": true,
+        "sequence": 11,
+        "className": { "sm": 12, "md": 6, "lg": 6 },
+        "type": "text"
     },
     {
-      id: 12,
-      title: "Logo",
-      value: "companyLogo",
-      required: true,
-      sequence: 12,
-      className: { sm: 12, md: 6, lg: 6 }
+        "id": 12,
+        "title": "Logo",
+        "value": "companyLogo",
+        "required": true,
+        "sequence": 12,
+        "className": { "sm": 12, "md": 6, "lg": 6 },
+        "type": "text"
     }
-  ];
+];
   
