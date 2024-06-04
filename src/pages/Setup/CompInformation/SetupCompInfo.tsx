@@ -1,5 +1,5 @@
-import React, { useState, useRef, ChangeEvent } from "react";
-import CollectionsOutlinedIcon from "@mui/icons-material/CollectionsOutlined";
+import React, { useState, useRef, ChangeEvent } from 'react'
+import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined'
 import {
   Box,
   Typography,
@@ -8,86 +8,84 @@ import {
   FormLabel,
   FormControl,
   Grid,
-} from "@mui/joy";
-import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
-import CurrencyExchangeOutlinedIcon from "@mui/icons-material/CurrencyExchangeOutlined";
-import Input from "@mui/joy/Input";
-import Select from "@mui/joy/Select";
-import Option from "@mui/joy/Option";
-import Button from "@mui/joy/Button";
-import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
-import { CompanyInfoFields, currencySymbols, months, timezones } from "./Data";
-import AppView from "../../../components/Common/AppView";
-import InputField from "../../../components/Common/AppInput/InputField";
- 
-const CustomInputLabel = styled("label")({
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "center",
-});
- 
+} from '@mui/joy'
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
+import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined'
+import Input from '@mui/joy/Input'
+import Select from '@mui/joy/Select'
+import Option from '@mui/joy/Option'
+import Button from '@mui/joy/Button'
+import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined'
+import { CompanyInfoFields, currencySymbols, months, timezones } from './Data'
+import AppView from '../../../components/Common/AppView'
+import InputField from '../../../components/Common/AppInput/InputField'
+
+const CustomInputLabel = styled('label')({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+})
+
 const CenteredForms = styled(Box)({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-});
- 
-const CustomInput = styled("input")({
-  display: "none",
-});
- 
-const DropZone = styled("div")({
-  border: "2px solid #ccc",
-  padding: "20px",
-  textAlign: "center",
-  background: "#f0f0f0",
-  cursor: "pointer",
-  "&:hover": {
-    backgroundColor: "#d9d9d9", //darker shade of gray
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+})
+
+const CustomInput = styled('input')({
+  display: 'none',
+})
+
+const DropZone = styled('div')({
+  border: '2px solid #ccc',
+  padding: '20px',
+  textAlign: 'center',
+  background: '#f0f0f0',
+  cursor: 'pointer',
+  '&:hover': {
+    backgroundColor: '#d9d9d9', //darker shade of gray
   },
-});
- 
+})
+
 const FlexBox = styled(Box)({
-  display: "flex",
-  alignItems: "center",
-});
- 
+  display: 'flex',
+  alignItems: 'center',
+})
+
 interface FormData {
-  name: string;
-  country: string;
-  address: string;
-  aptSuite: string;
-  city: string;
-  state: string;
-  postalCode: number;
-  timezone: string;
-  currency: string;
-  date: Date;
-  month: string;
-  financialDays: number;
-  logo: string;
+  name: string
+  country: string
+  address: string
+  aptSuite: string
+  city: string
+  state: string
+  postalCode: number
+  timezone: string
+  currency: string
+  date: Date
+  month: string
+  financialDays: number
+  logo: string
 }
- 
-type FileInputChangeHandler = (file: File | null) => void;
- 
+
+type FileInputChangeHandler = (file: File | null) => void
+
 const SetupCompInfo: React.FC = ({}) => {
-  
-  
-  const [selectedDate, setSelectedDate] = useState<string>("");
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [selectedTimezone, setSelectedTimezone] = useState<string>("");
-  const [selectedFinancialDays, setSelectedFinancialDays] = useState<number>(0);
-  const [selectedMonth, setSelectedMonth] = useState<string | "">("");
-  const [selectedCurrency, setSelectedCurrency] = useState<string>("");
-  const [selectedCountry, setSelectedCountry] = useState<string>("");
-  const [selectedState, setSelectedState] = useState<string>("");
-  const [formData, setFormData] = useState<string>("");
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
- 
+  const [selectedDate, setSelectedDate] = useState<string>('')
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [selectedTimezone, setSelectedTimezone] = useState<string>('')
+  const [selectedFinancialDays, setSelectedFinancialDays] = useState<number>(0)
+  const [selectedMonth, setSelectedMonth] = useState<string | ''>('')
+  const [selectedCurrency, setSelectedCurrency] = useState<string>('')
+  const [selectedCountry, setSelectedCountry] = useState<string>('')
+  const [selectedState, setSelectedState] = useState<string>('')
+  const [formData, setFormData] = useState<string>('')
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
+
   // const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
   //   const file = e.target.files?.[0];
- 
+
   //   if (file) {
   //     const reader = new FileReader();
   //     reader.onloadend = () => {
@@ -95,13 +93,13 @@ const SetupCompInfo: React.FC = ({}) => {
   //     };
   //     reader.readAsDataURL(file);
   //   }
- 
+
   //   setFormData((prevData: any) => ({
   //     ...prevData,
   //     logo: file || null,
   //   }));
   // };
- 
+
   // const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
   //   e.preventDefault();
   //   const file = e.dataTransfer.files[0];
@@ -113,15 +111,15 @@ const SetupCompInfo: React.FC = ({}) => {
   //     reader.readAsDataURL(file);
   //   }
   // };
- 
+
   // const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
   //   e.preventDefault();
   // };
- 
+
   // const handleClickDropZone = () => {
   //   fileInputRef.current?.click();
   // };
- 
+
   // const handleMonthChange = (
   //   event: React.SyntheticEvent | null,
   //   newValue: string | null
@@ -134,7 +132,7 @@ const SetupCompInfo: React.FC = ({}) => {
   //     setSelectedMonth(newValue);
   //   }
   // };
- 
+
   // const handleFinancialDaysChange = (
   //   event: React.SyntheticEvent | null,
   //   newValue: number | null
@@ -147,13 +145,13 @@ const SetupCompInfo: React.FC = ({}) => {
   //     setSelectedFinancialDays(newValue);
   //   }
   // };
- 
+
   // const maxSerialNumber = 100;
   // const serialNumbers = Array.from(
   //   { length: maxSerialNumber },
   //   (_, index) => index + 1
   // );
- 
+
   // const handleCurrencyChange = (
   //   event: React.SyntheticEvent | null,
   //   newValue: string | null
@@ -166,7 +164,7 @@ const SetupCompInfo: React.FC = ({}) => {
   //     setSelectedCurrency(newValue);
   //   }
   // };
- 
+
   // const handleTimezoneChange = (
   //   event: React.SyntheticEvent | null,
   //   newValue: string | null
@@ -179,11 +177,11 @@ const SetupCompInfo: React.FC = ({}) => {
   //     setSelectedTimezone(newValue);
   //   }
   // };
- 
+
   // const handleDateChange = (date: string) => {
   //   setSelectedDate(date);
   // };
- 
+
   // Handle country change
   // const handleCountryChange = (
   //   event: React.SyntheticEvent | null,
@@ -194,7 +192,7 @@ const SetupCompInfo: React.FC = ({}) => {
   //     country: newValue!,
   //   }));
   // };
- 
+
   // const handleStateChange = (
   //   event: React.SyntheticEvent | null,
   //   newValue: string | null
@@ -206,10 +204,15 @@ const SetupCompInfo: React.FC = ({}) => {
   // };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormData((prevData)=>({ ...prevData, [name]: value }));
-  };
- 
+    const { name, value } = event.target
+    setFormData((prevData) => ({ ...prevData, [name]: value }))
+  }
+
+  const handleSelectChange = (name: string, value: string | null) => {
+
+    setFormData((prevData) => ({ ...prevData, [name]: value }))
+  }
+
   // const DatePicker: React.FC<{
   //   value: string;
   //   onChange: (date: string) => void;
@@ -241,106 +244,105 @@ const SetupCompInfo: React.FC = ({}) => {
   //     companyFormData.financialDays !== null &&
   //     companyFormData.financialDays > 0 &&
   //     companyFormData.logo !== "";
- 
+
   //   return isValid;
   // };
- 
+
   // const handleSubmit = (e: React.FormEvent) => {
   //   e.preventDefault();
   //   // console.log(JSON.stringify(companyFormData));
   //   console.log("Form Data:", companyFormData);
   // };
 
-
   console.log(JSON.stringify(formData))
- 
+
   return (
     <AppView>
-      <Typography
+      <Typography level="h4" sx={{}}>
+        <Box component={TuneOutlinedIcon} color="#FABC1E" />
+        Company Information
+      </Typography>
+
+      <Box
+        sx={{
+          borderRadius: '16px',
+          boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+          background: '#ffffff',
+          padding: 5,
+        }}
+      >
+        <Grid container spacing={2}>
+          <Typography
             level="h4"
             sx={{
-                
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
-            <Box
-              component={TuneOutlinedIcon}
-              color="#FABC1E"
-            />
-            Company Information
+            <ContactMailOutlinedIcon />
+            Company Details
           </Typography>
-    
-        <Box
-          sx={{
-            borderRadius: "16px",
-            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-            background: "#ffffff",
-           
-          }}
-        >
-         
-        <Grid container spacing={2}>
-        <Typography
-                    level="h4"
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    <ContactMailOutlinedIcon />
-                    Company Details
-                  </Typography>
-                  <Typography>Provide the name and site of the main office.</Typography>
-        {CompanyInfoFields && CompanyInfoFields.slice(1,7).map((field, index)=>(
-            <Grid key={index} md={8} xs={8} sm={8}>
-          
-            <InputField field={field}  formData={formData} handleInputChange={handleInputChange}/>
-          </Grid>
-          ))}
-           </Grid>
+          <Typography>Provide the name and site of the main office.</Typography>
+          {CompanyInfoFields &&
+            CompanyInfoFields.slice(1, 7).map((field, index) => (
+              <Grid key={index} md={8} xs={8} sm={8}>
+                <FieldComponent field={field}
+                  formData={formData}
+                  handleInputChange={handleInputChange} 
+                  handleSelectChange={handleSelectChange}/>
+              
+              </Grid>
+            ))}
+        </Grid>
 
-          <Grid container spacing={2}>
+        <Grid container spacing={2}>
           <Typography
-                    level="h4"
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    <ContactMailOutlinedIcon />
-                    Company Details
-                  </Typography>
-                  <Typography>Provide the name and site of the main office.</Typography>
-{CompanyInfoFields && CompanyInfoFields.slice(7,11).map((field, index)=>(
-            <Grid key={index} md={8} xs={8} sm={8}>
-          
-            <InputField field={field}  formData={formData} handleInputChange={handleInputChange}/>
-          </Grid>
-          ))}
-          </Grid>
-          <Grid container spacing={2}>
+            level="h4"
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <ContactMailOutlinedIcon />
+            Company Details
+          </Typography>
+          <Typography>Provide the name and site of the main office.</Typography>
+          {CompanyInfoFields &&
+            CompanyInfoFields.slice(7, 11).map((field, index) => (
+              <Grid key={index} md={8} xs={8} sm={8}>
+                <InputField
+                  field={field}
+                  formData={formData}
+                  handleInputChange={handleInputChange}
+                />
+              </Grid>
+            ))}
+        </Grid>
+        <Grid container spacing={2}>
           <Typography
-                    level="h4"
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    <ContactMailOutlinedIcon />
-                    Company Details
-                  </Typography>
-                  <Typography>Provide the name and site of the main office.</Typography>
-          {CompanyInfoFields && CompanyInfoFields.slice(12,-1).map((field, index)=>(
-            <Grid key={index} md={8} xs={8} sm={8}>
-          
-            <InputField field={field}  formData={formData} handleInputChange={handleInputChange}/>
-          </Grid>
-          ))}
-          </Grid>
-         
-        
-       
-             
-                {/* <div>
+            level="h4"
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <ContactMailOutlinedIcon />
+            Company Details
+          </Typography>
+          <Typography>Provide the name and site of the main office.</Typography>
+          {CompanyInfoFields &&
+            CompanyInfoFields.slice(12, -1).map((field, index) => (
+              <Grid key={index} md={8} xs={8} sm={8}>
+                <InputField
+                  field={field}
+                  formData={formData}
+                  handleInputChange={handleInputChange}
+                />
+              </Grid>
+            ))}
+        </Grid>
+
+        {/* <div>
                   <Typography
                     level="h4"
                     sx={{
@@ -357,19 +359,18 @@ const SetupCompInfo: React.FC = ({}) => {
                     Provide the name and site of the main office.
                   </Typography>
                 </div> */}
- 
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "10px",
-                    justifyContent: "center",
-                    marginBottom: "10px",
-                    // paddingLeft:{md:"28%",xs:"0"}
-                  }}
-                >
-                  
-                  {/* <Box
+
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
+            justifyContent: 'center',
+            marginBottom: '10px',
+            // paddingLeft:{md:"28%",xs:"0"}
+          }}
+        >
+          {/* <Box
                     mt={4}
                     sx={{
                       display: "grid",
@@ -393,9 +394,8 @@ const SetupCompInfo: React.FC = ({}) => {
                       />
                     </FormControl>
                   </Box> */}
- 
-             
-                  {/* <Box
+
+          {/* <Box
                     mt={4}
                     sx={{
                       display: "grid",
@@ -423,9 +423,8 @@ const SetupCompInfo: React.FC = ({}) => {
                       </Select>
                     </FormControl>
                   </Box> */}
- 
-                  
-                  {/* <Box
+
+          {/* <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -451,9 +450,9 @@ const SetupCompInfo: React.FC = ({}) => {
                       sx={{ width: { md: "500px", xs: "100%" } }}
                     />
                   </Box> */}
- 
-                  {/* Apt./Suite */}
-                  {/* <Box
+
+          {/* Apt./Suite */}
+          {/* <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -478,9 +477,9 @@ const SetupCompInfo: React.FC = ({}) => {
                       sx={{ width: { md: "500px", xs: "100%" } }}
                     />
                   </Box> */}
- 
-                  {/* City */}
-                  {/* <Box
+
+          {/* City */}
+          {/* <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -506,9 +505,9 @@ const SetupCompInfo: React.FC = ({}) => {
                       sx={{ width: { md: "500px", xs: "100%" } }}
                     />
                   </Box> */}
- 
-                  {/* State */}
-                  {/* <Box
+
+          {/* State */}
+          {/* <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -539,9 +538,9 @@ const SetupCompInfo: React.FC = ({}) => {
                       <Option value="Kerala">Kerala</Option>
                     </Select>
                   </Box> */}
- 
-                  {/* Postal Code */}
-                  {/* <Box
+
+          {/* Postal Code */}
+          {/* <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
@@ -567,11 +566,10 @@ const SetupCompInfo: React.FC = ({}) => {
                       sx={{ width: { md: "500px", xs: "100%" } }}
                     />
                   </Box> */}
-                </Box>
-                {/* </Box> */}
- 
- 
-                {/* <Box>
+        </Box>
+        {/* </Box> */}
+
+        {/* <Box>
                   <div>
                     <Typography
                       level="h4"
@@ -740,10 +738,10 @@ const SetupCompInfo: React.FC = ({}) => {
                     </Box>
                   </CenteredForms>
                 </Box> */}
- 
-                <Divider />
- 
-                {/* <Box>
+
+        <Divider />
+
+        {/* <Box>
                   <div>
                     <Typography
                       level="h4"
@@ -811,14 +809,10 @@ const SetupCompInfo: React.FC = ({}) => {
                     </label>
                   </div>
                 </Box> */}
-                <Divider />
- 
-           
-       
-        </Box>
-     
+        <Divider />
+      </Box>
     </AppView>
-  );
-};
- 
-export default SetupCompInfo;
+  )
+}
+
+export default SetupCompInfo

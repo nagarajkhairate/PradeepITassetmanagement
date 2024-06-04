@@ -20,7 +20,7 @@ type FieldProps = {
 interface InputFieldProps {
   field: FieldProps;
   formData: any;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const InputField: React.FunctionComponent<InputFieldProps> = ({ field, formData, handleInputChange }) => {

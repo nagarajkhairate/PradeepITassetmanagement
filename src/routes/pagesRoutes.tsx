@@ -21,7 +21,7 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import CategorySetup from '../pages/Setup/SetupCategory/CategorySetup';
 import CategorySub from '../pages/Setup/SubCategory/CategorySub';
 import SetupDept from '../pages/Setup/Departments/SetupDept';
-import SetupCompInfo from '../pages/Setup/CompInfoemation/SetupCompInfo';
+import SetupCompInfo from '../pages/Setup/CompInformation/SetupCompInfo';
 
 export const pagesRoutes: any[] = [
   {
