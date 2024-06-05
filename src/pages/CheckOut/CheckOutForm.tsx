@@ -13,6 +13,7 @@ import {
   Textarea,
   FormLabel,
 } from "@mui/joy";
+import AppView from "../../components/Common/AppView";
 
 interface CheckOutFormProps {
   selectedAssets: {
@@ -61,18 +62,32 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
 
 
   return (
+    <AppView>
     <Box
-      sx={{
-        borderRadius: "16px",
-        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-        background: "#ffffff",
-        padding: "20px",
-        flexGrow: 1,
-        marginLeft: "52px",
-        marginTop: "22px",
-        width: { xs: "100%", sm: "90%", md: "1100px" },
-        height: "auto",
-      }}
+    sx={{
+      borderRadius: '16px',
+      boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+      background: '#FFF',
+      flexGrow: 1,
+      marginTop: { xs: '10px', sm: '22px' },
+      height: 'auto',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      p:4,
+    }}
+
+      // sx={{
+      //   borderRadius: "16px",
+      //   boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+      //   background: "#ffffff",
+      //   padding: "20px",
+      //   flexGrow: 1,
+      //   marginLeft: "52px",
+      //   marginTop: "22px",
+      //   width: { xs: "100%", sm: "90%", md: "1100px" },
+      //   height: "auto",
+      // }}
     >
       <Typography component="h2" sx={{ mb: 2 }}>
         Assets Pending Check-Out
@@ -324,6 +339,7 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
         </Box>
       </Box>
     </Box>
+    </AppView>
   );
 };
 
