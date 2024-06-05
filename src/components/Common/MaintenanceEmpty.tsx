@@ -1,7 +1,7 @@
 import { Box } from '@mui/joy'
 import Img from '../../Assets/Maintainance.png'
 
-export function Image() {
+export function MaintenanceEmpty() {
   return (
     <Box
       sx={{
@@ -14,6 +14,7 @@ export function Image() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+
       }}
     >
       <Box
@@ -37,4 +38,4 @@ export function Image() {
   )
 }
 
-export default Image
+export default MaintenanceEmpty
