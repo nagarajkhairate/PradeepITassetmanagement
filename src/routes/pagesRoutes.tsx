@@ -30,6 +30,7 @@ import SetupCompInfo from '../pages/Setup/CompInformation/SetupCompInfo'
 import MaintenanceOverdue from '../pages/Maintenance/MaintenanceOverdue'
 import WarrantyExpiring from '../pages/Maintenance/WarrantyExpiring'
 import AssetsPastDue from '../pages/Maintenance/AssetsPastDue'
+import AssetForm from '../pages/Setup/CustomizeForm/AssetForm'
 
 export const pagesRoutes: any[] = [
   {
@@ -47,35 +48,35 @@ export const pagesRoutes: any[] = [
     state: 'alerts',
     children: [
       {
-        name: 'Maintenances Due',
+        pageName: 'Maintenances Due',
         index: true,
         path: '/alerts/maintenances-due',
         state: 'alerts',
         element: <MaintenancesDue />,
       },
       {
-        name: 'Maintenances Over Due',
+        pageName: 'Maintenances Over Due',
         index: true,
         path: '/alerts/maintenances-over-due',
         state: 'alerts',
         element: <MaintenanceOverdue />,
       },
       {
-        name: 'Leases Expiring',
+        pageName: 'Leases Expiring',
         index: true,
         path: '/alerts/leases-expiring',
         state: 'alerts',
         element: <LeasesExpiring />,
       },
       {
-        name: 'Warranty Expiring',
+        pageName: 'Warranty Expiring',
         index: true,
         path: '/alerts/warranty-expiring',
         state: 'alerts',
         element: <WarrantyExpiring />,
       },
       {
-        name: 'Assets Past Due',
+        pageName: 'Assets Past Due',
         index: true,
         path: '/alerts/assets-past-due',
         state: 'alerts',
@@ -91,7 +92,7 @@ export const pagesRoutes: any[] = [
     children: [
       {
         index: true,
-        name: 'List of assets',
+        pageName: 'List of assets',
         path: '/assets/list-of-assets',
         element: <ListOfAssets />,
         state: 'assets',
@@ -99,7 +100,7 @@ export const pagesRoutes: any[] = [
       },
       {
         index: true,
-        name: 'Add an Asset',
+        pageName: 'Add an Asset',
         path: '/assets/add-an-asset',
         element: <AddAnAsset />,
         state: 'assets',
@@ -107,7 +108,7 @@ export const pagesRoutes: any[] = [
       },
       {
         index: true,
-        name: 'Check out',
+        pageName: 'Check out',
         path: '/assets/checkout',
         element: <CheckOut />,
         state: 'assets',
@@ -115,16 +116,16 @@ export const pagesRoutes: any[] = [
       },
       {
         index: true,
-        name: 'Check In',
+        pageName: 'Check In',
         path: '/assets/check-in',
         element: <CheckIn />,
         state: 'assets',
         icon: <Person4Icon />,
       },
-      { index: true, name: 'Lease', path: '/assets/lease', icon: <SendIcon /> },
+      { index: true, pageName: 'Lease', path: '/assets/lease', icon: <SendIcon /> },
       {
         index: true,
-        name: 'Lease Return',
+        pageName: 'Lease Return',
         path: '/assets/lease-return',
         element: <LeaseReturn />,
         state: 'assets',
@@ -132,14 +133,14 @@ export const pagesRoutes: any[] = [
       },
       {
         index: true,
-        name: 'Dispose',
+        pageName: 'Dispose',
         path: '/assets/dispose',
         element: <Dispose />,
         icon: <RecyclingIcon />,
       },
       {
         index: true,
-        name: 'Maintenance',
+        pageName: 'Maintenance',
         path: '/assets/maintenance',
         element: <Dispose />,
         state: 'assets',
@@ -147,14 +148,14 @@ export const pagesRoutes: any[] = [
       },
       {
         index: true,
-        name: 'Move',
+        pageName: 'Move',
         path: '/assets/move',
         state: 'assets',
         icon: <ZoomOutMapIcon />,
       },
       {
         index: true,
-        name: 'Reserve',
+        pageName: 'Reserve',
         path: '/assets/reserve',
         element: <Reserve />,
         state: 'assets',
@@ -199,7 +200,7 @@ export const pagesRoutes: any[] = [
     children: [
       {
         index: true,
-        name: 'Company Info',
+        pageName: 'Company Info',
         path: '/setup/setup-comp-info',
         state: 'assets',
         element: <SetupCompInfo />,
@@ -207,7 +208,7 @@ export const pagesRoutes: any[] = [
       },
       {
         index: true,
-        name: 'Sites',
+        pageName: 'Sites',
         path: '/setup/sites',
         state: 'assets',
         element: <SetupSites />,
@@ -215,7 +216,7 @@ export const pagesRoutes: any[] = [
       },
       {
         index: true,
-        name: 'Location',
+        pageName: 'Location',
         path: '/setup/locationsetup',
         state: 'assets',
         element: <LocationSetup />,
@@ -223,7 +224,7 @@ export const pagesRoutes: any[] = [
       },
       {
         index: true,
-        name: 'Category',
+        pageName: 'Category',
         path: '/setup/categorysetup',
         state: 'assets',
         element: <CategorySetup />,
@@ -231,7 +232,7 @@ export const pagesRoutes: any[] = [
       },
       {
         index: true,
-        name: 'Sub Category',
+        pageName: 'Sub Category',
         path: '/setup/categorysub',
         state: 'assets',
         element: <CategorySub />,
@@ -239,7 +240,7 @@ export const pagesRoutes: any[] = [
       },
       {
         index: true,
-        name: 'Department',
+        pageName: 'Department',
         path: '/setup/departments',
         state: 'assets',
         element: <SetupDept />,
@@ -247,28 +248,77 @@ export const pagesRoutes: any[] = [
       },
       {
         index: true,
-        name: 'Table Options',
+        pageName: 'Table Options',
         path: '/setup/table-options',
         state: 'assets',
         element: <SetupTableOptions />,
         icon: <LocationOnOutlinedIcon />,
       },
+      {
+        id: 8,
 
-      // { name: "Sites", path: "/setup/sites", icon: <AddCircleOutlineIcon /> },
-      // {
-      //   name: "SetupLocation",
-      //   path: "/setup/location-setup",
-      //   element: <PurchaseOrders />,
-      //   icon: <VerifiedUserIcon />,
-      // },
-      // { name: "Databases", path: "/setup/databases", element: <PurchaseOrders />, icon: <SendIcon /> },
-      // { name: "Events", path: "/setup/events",  element: <PurchaseOrders />,icon: <RecyclingIcon /> },
-      // {
-      //   name: "Table Options",
-      //   path: "/setup/table-options",
-      //   element: <PurchaseOrders />,
-      //   icon: <EngineeringIcon />,
-      // },
+        pageName: 'SetUp',
+        path: '/setup',
+        state: 'assets',
+        children: [
+          {
+            index: true,
+            pageName: 'Company Info',
+            path: '/setup/setup-comp-info',
+            state: 'assets',
+            element: <SetupCompInfo />,
+            icon: <FormatListBulletedIcon />,
+          },
+          {
+            index: true,
+            pageName: 'Sites',
+            path: '/setup/sites',
+            state: 'assets',
+            element: <SetupSites />,
+            icon: <LocationOnOutlinedIcon />,
+          },
+          {
+            index: true,
+            pageName: 'Location',
+            path: '/setup/locationsetup',
+            state: 'assets',
+            element: <LocationSetup />,
+            icon: <LocationOnOutlinedIcon />,
+          },
+          {
+            index: true,
+            pageName: 'Category',
+            path: '/setup/categorysetup',
+            state: 'assets',
+            element: <CategorySetup />,
+            icon: <CategoryIcon />,
+          },
+          {
+            index: true,
+            pageName: 'Sub Category',
+            path: '/setup/categorysub',
+            state: 'assets',
+            element: <CategorySub />,
+            icon: <CategoryIcon />,
+          },
+          {
+            index: true,
+            pageName: 'Department',
+            path: '/setup/departments',
+            state: 'assets',
+            element: <SetupDept />,
+            icon: <GridViewIcon />,
+          },
+          {
+            index: true,
+            pageName: 'Table Options',
+            path: '/setup/table-options',
+            state: 'assets',
+            element: <SetupTableOptions />,
+            icon: <LocationOnOutlinedIcon />,
+          },
+        ],
+      },
     ],
   },
   // {

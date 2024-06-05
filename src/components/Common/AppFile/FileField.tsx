@@ -24,7 +24,7 @@ interface InputFieldProps {
   handleInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const InputField: React.FunctionComponent<InputFieldProps> = ({ field, formData, handleInputChange }) => {
+const FileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, handleInputChange }) => {
   return (
     <FormControl>
       <FormLabel>
@@ -43,4 +43,4 @@ const InputField: React.FunctionComponent<InputFieldProps> = ({ field, formData,
   );
 };
 
-export default InputField;
+export default FileField;
