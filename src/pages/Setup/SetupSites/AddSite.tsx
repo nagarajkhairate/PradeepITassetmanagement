@@ -17,7 +17,7 @@ const initialSitesData = {
   aptSuite: "",
   city: "",
   state: "",
-  zip: "",
+  zipCode: "",
   country: "",
 };
 
@@ -67,9 +67,9 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, setSites, sites }) => 
         <Grid  xs={12} md={6}>
         <FormLabel>City</FormLabel>
         <Input placeholder="city" name="city" value={newSite.city} onChange={handleChange} fullWidth sx={{ mb: 2 }} />
+        <FormLabel>Zip Code</FormLabel>
+        <Input placeholder="ZipCode" name="zipCode" value={newSite.zipCode} onChange={handleChange} fullWidth sx={{ mb: 2 }} />
         <FormLabel>State</FormLabel>
-        <Input placeholder="Zip" name="zip" value={newSite.zip} onChange={handleChange} fullWidth sx={{ mb: 2 }} />
-        <FormLabel>Zip</FormLabel>
         <Input placeholder="State" name="state" value={newSite.state} onChange={handleChange} fullWidth sx={{ mb: 2 }} />
         <FormLabel>Country</FormLabel>
         <Select

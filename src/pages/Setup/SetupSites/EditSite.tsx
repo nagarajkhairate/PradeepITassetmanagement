@@ -14,7 +14,7 @@ interface EditSiteProps {
     aptSuite: string;
     city: string;
     state: string;
-    zip: string;
+    zipCode: number;
     country: string;
   };
   sites: {
@@ -25,7 +25,7 @@ interface EditSiteProps {
     aptSuite: string;
     city: string;
     state: string;
-    zip: string;
+    zipCode: number;
     country: string;
   }[];
   setSites: React.Dispatch<React.SetStateAction<any[]>>;
@@ -38,7 +38,7 @@ const initialSitesData = {
   aptSuite: "",
   city: "",
   state: "",
-  zip: "",
+  zipcode: "",
   country: "",
 };
 
@@ -84,6 +84,11 @@ const EditSite: React.FC<EditSiteProps> = ({
     setSites([updatedSites]);
     onClose();
   };
+
+  // const handleEditSite = (site : any) => {
+  //   setSites(site);
+  //   onClose();
+  // };
 
  
   return (
@@ -158,9 +163,9 @@ const EditSite: React.FC<EditSiteProps> = ({
         </FormControl>
         <FormControl sx={{ mb: 2 }}>
         <Input
-          placeholder="Zip"
-          name="zip"
-          value={updatedSite.zip}
+          placeholder="ZipCode"
+          name="zipCode"
+          value={updatedSite.zipCode}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}

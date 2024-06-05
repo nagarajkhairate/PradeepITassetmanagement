@@ -1,4 +1,13 @@
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
+import HealthAndSafetyOutlinedIcon from '@mui/icons-material/HealthAndSafetyOutlined';
+import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
+import SettingsApplicationsOutlinedIcon from '@mui/icons-material/SettingsApplicationsOutlined';
+import NewReleasesOutlinedIcon from '@mui/icons-material/NewReleasesOutlined';
+import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
+import ListOutlinedIcon from '@mui/icons-material/ListOutlined';
+import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
+import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 
 export const TableData = [
     {
@@ -25,7 +34,7 @@ export const TableData = [
         "title": "Insurance",
         "description": "Insurance can be a hassle to manage and remember. Enable this option to allow insurance variables to be allocated to your assets. A blanket insurance can be allocated to multiple assets.",
         "formLabel": "Enable Insurance:",
-        "icon":TuneOutlinedIcon ,
+        "icon":HealthAndSafetyOutlinedIcon ,
         "options": [
             {
                 "label": "Yes",
@@ -44,7 +53,7 @@ export const TableData = [
         "title": "Funding",
         "description": "Activate this feature to add Funding to be used when purchasing assets. This can help if you are a not-for-profit organization and have certain funds for different needs. It can also be used in for-profit companies to allocate a budget for asset purchases.",
         "formLabel": "Enable Funding:",
-        "icon":TuneOutlinedIcon ,
+        "icon":AccountBalanceOutlinedIcon ,
         "options": [
             {
                 "label": "Yes",
@@ -63,7 +72,7 @@ export const TableData = [
         "title": "Maintenances",
         "description": "Enable to view when an asset has been through a maintenance event and the ability to schedule the routine frequency of having that asset checked for repairs.",
         "formLabel": "Enable Asset's Maintenances:",
-        "icon":TuneOutlinedIcon ,
+        "icon":SettingsApplicationsOutlinedIcon ,
         "options": [
             {
                 "label": "Yes",
@@ -82,7 +91,7 @@ export const TableData = [
         "title": "Warranties",
         "description": "Enable the ability to add when an asset’s warranty will expire and be notified of the event.",
         "formLabel": "Enable Asset's Warranty:",
-        "icon": TuneOutlinedIcon,
+        "icon": NewReleasesOutlinedIcon,
         "options": [
             {
                 "label": "Yes",
@@ -101,7 +110,7 @@ export const TableData = [
         "title": "Sub Categories ",
         "description": "Enable the ability to add sub-categories and assign an asset to those sub-categories.",
         "formLabel": "Allocate assets to Sub Categories:",
-        "icon":TuneOutlinedIcon ,
+        "icon":ListAltOutlinedIcon ,
         "options": [
             {
                 "label": "Yes",
@@ -120,7 +129,7 @@ export const TableData = [
         "title": "Departments",
         "description": " Enable the ability to add departments and assign asset to those departments.",
         "formLabel": "Allocate assets to Departments:",
-        "icon":TuneOutlinedIcon ,
+        "icon":ListOutlinedIcon ,
         "options": [
             {
                 "label": "Yes",
@@ -139,7 +148,7 @@ export const TableData = [
         "title": "Audit",
         "description": "Enable the ability to perform audits of assets to ensure they are still in locations/departments that were previously reported and take actions if not",
         "formLabel": "Asset Audit:",
-        "icon": TuneOutlinedIcon,
+        "icon": VerifiedUserOutlinedIcon,
         "options": [
             {
                 "label": "Yes",
@@ -158,7 +167,7 @@ export const TableData = [
         "title": "Multiple Photos of an Asset",
         "description": "Enable to have multiple photos of each asset. Otherwise, only one photo of the asset will be allowed.",
         "formLabel": "Assets Photos",
-        "icon":TuneOutlinedIcon ,
+        "icon":CameraAltOutlinedIcon ,
         "options": [
             {
                 "label": "Yes",
@@ -177,7 +186,7 @@ export const TableData = [
         "title": "Documents",
         "description": "Enable the ability to have various PDF, Word or Excel documents stored with the asset. These can include asset directions, purchase orders or invoices that may be associated with the asset.",
         "formLabel": "Asset Documents",
-        "icon":TuneOutlinedIcon ,
+        "icon":DescriptionOutlinedIcon ,
         "options": [
             {
                 "label": "Yes",
