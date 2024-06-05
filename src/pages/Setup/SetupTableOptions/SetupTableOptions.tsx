@@ -18,6 +18,9 @@ import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
 import { TableData } from "./TableData";
 import NavigateBeforeOutlinedIcon from "@mui/icons-material/NavigateBeforeOutlined";
 import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined";
+import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 
 const DepreciationOptions = {
   "id": 1,
@@ -25,7 +28,7 @@ const DepreciationOptions = {
   "description":
     "Depreciation is used to expense the cost of your assets over their useful life...",
   "formLabel": "Asset Depreciation",
-  "icon": TuneOutlinedIcon,
+  "icon": CalendarMonthOutlinedIcon,
   "options": [
     { "name": "assetDepreciation", "value": "Yes", "label": "Yes" },
     { "name": "assetDepreciation", "value": "No", "label": "No" },
@@ -41,14 +44,14 @@ const DepreciationOptions = {
 };
 
 const LinkingOptions = {
-  id: 2,
-  title: "Linking",
-  description: "Enable or disable the linking of assets...",
-  formLabel: "Enable Linking",
-  icon:TuneOutlinedIcon ,
-  options: [
-    { name: "enableLinking", value: "Yes", label: "Yes" },
-    { name: "enableLinking", value: "No", label: "No" },
+  "id": 2,
+  "title": "Linking of Assets",
+  "description": "Enable or disable the linking of assets...",
+  "formLabel": "Enable Linking",
+  "icon": CalendarMonthOutlinedIcon,
+  "options": [
+    { "name": "enableLinking", "value": "Yes", "label": "Yes" },
+    { "name": "enableLinking", "value": "No", "label": "No" },
   ],
 };
 
@@ -155,14 +158,14 @@ const SetupTableOptions: React.FC = ({}) => {
           }}
         >
           <Box
-            component={TuneOutlinedIcon}
+            component={TableChartOutlinedIcon}
             color="#FBC21E"
             sx={{
               fontSize: { xs: "24px", md: "30px" },
               marginRight: "10px",
             }}
           />
-          Step 3- Table Options
+          Table Options
         </Typography>
       </Box>
 
@@ -370,9 +373,9 @@ const SetupTableOptions: React.FC = ({}) => {
                         marginTop: "10px",
                       }}
                     >
-                        <div style={{ width: 25, height: 25, color: "#FBC21E" }}>
+                        {/* <div style={{ width: 25, height: 25, color: "#FBC21E" }}>
                       <LinkingOptions.icon  />
-                      </div>
+                      </div> */}
                       <span style={{ marginLeft: "8px" }}>
                         {LinkingOptions.title}
                       </span>
@@ -422,11 +425,15 @@ const SetupTableOptions: React.FC = ({}) => {
                         <FormControl component="fieldset">
                           <Box marginBottom={"10px"}>
                             <Checkbox />
-                            <TuneOutlinedIcon   /> Check-out
+                            <HowToRegOutlinedIcon   /> Check-out
                           </Box>
                           <Box marginBottom={"10px"}>
                             <Checkbox />
-                            <TuneOutlinedIcon  /> Lease
+                            <CalendarMonthOutlinedIcon  /> Reservation
+                          </Box>
+                          <Box marginBottom={"10px"}>
+                            <Checkbox />
+                            <CalendarMonthOutlinedIcon  /> Lease
                             assets
                           </Box>
                           <Box marginBottom={"10px"}>
