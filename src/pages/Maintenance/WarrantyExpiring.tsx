@@ -25,7 +25,7 @@ const VisuallyHiddenInput = styled("input")`
   width: 1px;
 `;
 
-export function Warranty() {
+export function WarrantyExpiring () {
   return (
     <>
       <div style={{ width: "100%", background: "#f9f9f9" }}>
@@ -228,4 +228,4 @@ export function Warranty() {
   );
 }
 
-export default Warranty;
+export default WarrantyExpiring;
