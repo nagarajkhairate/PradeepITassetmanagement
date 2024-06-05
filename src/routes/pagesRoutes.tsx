@@ -24,6 +24,8 @@ import SetupDept from '../pages/Setup/Departments/SetupDept';
 import SetupCompInfo from '../pages/Setup/CompInfoemation/SetupCompInfo';
 import CategoryIcon from '@mui/icons-material/Category';
 import GridViewIcon from '@mui/icons-material/GridView';
+import SetupTableOptions from '../pages/Setup/SetupTableOptions/SetupTableOptions';
+import SetupSites from '../pages/Setup/SetupSites/SetupSites';
 
 export const pagesRoutes: any[] = [
   {
@@ -161,6 +163,14 @@ export const pagesRoutes: any[] = [
       },
       {
         index: true,
+        name: "Sites",
+        path: "/setup/sites",
+        state: 'assets',
+        element: <SetupSites />,
+        icon: <LocationOnOutlinedIcon />,
+      },
+      {
+        index: true,
         name: "Location",
         path: "/setup/locationsetup",
         state: 'assets',
@@ -191,6 +201,15 @@ export const pagesRoutes: any[] = [
         element: <SetupDept />,
         icon: <GridViewIcon />,
       },
+      {
+        index: true,
+        name: "Table Options",
+        path: "/setup/table-options",
+        state: 'assets',
+        element: <SetupTableOptions />,
+        icon: <LocationOnOutlinedIcon />,
+      },
+     
       // { name: "Sites", path: "/setup/sites", icon: <AddCircleOutlineIcon /> },
       // {
       //   name: "SetupLocation",

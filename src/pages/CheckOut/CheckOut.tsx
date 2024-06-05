@@ -3,6 +3,9 @@ import { Typography, Box, Button, Grid, Checkbox, Modal, Input, Table } from "@m
 import SearchIcon from "../../Assets/search.svg";
 import EmptyContainer from "../../components/Common/EmptyContainer";
 import CheckOutForm from "./CheckOutForm";
+import MaintenanceEmpty from '../../components/Common/MaintenanceEmpty'
+import AppView from "../../components/Common/AppView";
+
 
 const assets = [
   {
@@ -68,35 +71,24 @@ const CheckOut: React.FC = () => {
   const selectedAssetData = assets.filter(asset => selectedAssets.includes(asset.id));
   
   return (
-    <Box>
+    <AppView>
+        
   <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        margin: { xs: "16px", sm: "36px", md: "52px" },  // Adjusted margin for different screen sizes
-        flexDirection: { xs: "column", md: "row" },
-        alignItems: 'center', // Ensure alignment in column layout
-      }}
+     sx={{
+      display: 'flex',
+      alignItems: 'center',
+      flexDirection: { md: 'row', xs: 'column' },
+      justifyContent: { xs: 'center', md: 'space-between' },
+      gap: '5px',
+    }}
     >
-      <Typography
-        level="h3"
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          fontSize: { xs: "1.5rem", sm: "2rem", md: "2.0rem" }, 
-          marginBottom: { xs: "16px", md: "0" },  // Add bottom margin for small screens
-        }}
-      >
+    <Typography level="h4">
         Check-Out
       </Typography>
-      
-      <Button
+       <Button
         onClick={handleOpen}
         sx={{
-          backgroundColor: "#13B457",
-          width: { xs: "100%", sm: "50%", md: "180px" },
-          height: { xs: "40px", sm: "50px", md: "40px" }, 
-          fontSize: { xs: "1rem", sm: "1.25rem", md: "1rem" },  
+          backgroundColor: "#13B457", 
           color: "white",
           "&:hover": { backgroundColor: "darkgreen" },
         }}
@@ -104,13 +96,7 @@ const CheckOut: React.FC = () => {
         + Select Assets
       </Button>
     </Box>
-    
-      {selectedAssetData.length > 0 ? (
-        <CheckOutForm selectedAssets={selectedAssetData} />
-      ) : (
-        <EmptyContainer title="Keep track of your assets within your organization and create an even more detailed history of them."/>
-      )}
-         
+      
       <Modal open={open} onClose={handleClose}>
         <Box sx={{ background: '#fff', padding: 3, borderRadius: "16px", margin: "auto", marginTop: "5%", width: "50%" }}>
           <Typography level="h4" sx={{ marginBottom: 2 }}>Select Assets</Typography>
@@ -179,7 +165,17 @@ const CheckOut: React.FC = () => {
           </Box>
         </Box>
       </Modal>
-    </Box>
+     
+
+      {selectedAssetData.length > 0 ? (
+        <CheckOutForm selectedAssets={selectedAssetData} />
+      ) : (
+        <Box>
+        <MaintenanceEmpty />
+      </Box>
+      )}
+ 
+    </AppView>
   );
 };
 

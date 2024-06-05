@@ -20,7 +20,7 @@ type FieldProps = {
 interface InputFieldProps {
   field: FieldProps;
   formData: any;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const InputField: React.FunctionComponent<InputFieldProps> = ({ field, formData, handleInputChange }) => {
@@ -31,9 +31,10 @@ const InputField: React.FunctionComponent<InputFieldProps> = ({ field, formData,
       </FormLabel>
       <Input
         placeholder={field.title}
-        value={formData[field.value]} 
+        value={formData[field.value] || ''} 
         name={field.value} 
-        onChange={handleInputChange} // Pass field.value to handleInputChange
+        type='text'
+        onChange={handleInputChange}
         required={field.required}
       />
       <FormHelperText>This is a helper text.</FormHelperText>
