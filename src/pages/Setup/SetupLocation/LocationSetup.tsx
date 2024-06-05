@@ -1,6 +1,6 @@
 import Modal from "@mui/joy/Modal";
 import * as React from "react";
-import { Box, ButtonGroup, Divider, Grid, Sheet } from "@mui/joy";
+import { Box,  Divider, Sheet } from "@mui/joy";
 import Typography from "@mui/joy/Typography";
 import PlaylistAddCheckOutlinedIcon from "@mui/icons-material/PlaylistAddCheckOutlined";
 import Button from "@mui/joy/Button";
@@ -14,11 +14,13 @@ import SetupPopup from "./SetupPopup";
 import PublishOutlinedIcon from "@mui/icons-material/PublishOutlined";
 import Buttons from "../../../components/Common/Buttons";
 import SignpostOutlinedIcon from "@mui/icons-material/SignpostOutlined";
+import AppView from "../../../components/Common/AppView";
+import NavigateBeforeOutlinedIcon from "@mui/icons-material/NavigateBeforeOutlined";
+import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined";
 
-
-const initialData={
+const initialData = {
   locationData: ["Banglore"],
-} 
+};
 
 
 console.log(JSON.stringify(initialData));
@@ -30,7 +32,9 @@ const LocationSetup: React.FunctionComponent = ({}) => {
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
   const [editOpen, setEditOpen] = useState(false);
   const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
-  const [location, setLocation] = useState<{ locationData: string[] }>(initialData);
+  const [location, setLocation] = useState<{ locationData: string[] }>(
+    initialData
+  );
   const [selectedValue, setSelectedValue] = useState<string | "">("");
 
   const handleAddSkill = (e: React.FormEvent<HTMLFormElement>) => {
@@ -128,7 +132,6 @@ const LocationSetup: React.FunctionComponent = ({}) => {
     }
   };
 
-
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setSelectedValue(event.target.value as string);
   };
@@ -140,335 +143,426 @@ const LocationSetup: React.FunctionComponent = ({}) => {
   // console.log(JSON.stringify(companyFormData))
 
   return (
-    <div style={{ width: "100%", background: "#f9f9f9" }}>
+    <AppView>
       <Typography level="h4" style={{ display: "flex", alignItems: "center" }}>
         <SignpostOutlinedIcon
-          style={{ fontSize: "1.4rem", color: "#d32f2f", marginLeft: "3rem" }}
+          style={{ fontSize: "1.4rem", color: "#d32f2f",  }}
         />
         Locations
       </Typography>
 
-      <div style={{ width: "100%", background: "#f9f9f9" }}>
-        <div style={{ margin: "10px" }}>
+      <Box
+        sx={{
+          borderRadius: "none",
+          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+          background: "#ffffff",
+          gap:'5px',
+          
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: 'center',
+            flexDirection: { xs: "column", md: "row" },
+            justifyContent: { xs: 'center', md: 'space-between' },
+            gap: 2,
+            mb: 2,
+          }}
+        >
           <Box
             sx={{
-              borderRadius: "none",
-              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-              background: "#ffffff",
-              margin: {
-                xs: "4px",
-                md: "52px",
-              },
+              textAlign: { xs: "center", md: "left" },
             }}
           >
-            <Box
-              fontSize="h5.fontSize"
-              component="div"
-              overflow="hidden"
-              textOverflow="ellipsis"
-              // height={70}
+            <Typography
+              sx={{
+                fontFamily: "Poppins",
+                fontSize: "20px",
+                fontWeight: 500,
+                lineHeight: "30px",
+                textAlign: { xs: "center", md: "left" },
+                whiteSpace: "nowrap",
+              }}
             >
-              </Box>
+              <PlaylistAddCheckOutlinedIcon
+                style={{ fontSize: "1.4rem", color: "#d32f2f",  alignItems: "center"  }}
+              />
+              List of Locations
+            </Typography>
+          </Box>
 
-              <Box
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { md: 'row', xs: 'column' },
+              gap: 2,
+              // marginTop: "10px",
+            }}
+          >
+            <Button
+              autoFocus
+              variant="solid"
+              sx={{
+                background: "#388e3c",
+                borderRadius: '15px',
+                color: "white",   
+              }}
+              component="label"
+              onClick={handleClickOpen}
+            >
+              <AddIcon /> Add New Location
+            </Button>
+
+            <Modal
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              aria-labelledby="responsive-dialog-title"
+              aria-describedby="modal-desc"
+              open={open}
+              onClose={handleClose}
+            >
+              <Sheet
+                variant="outlined"
                 sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  mb: 2,
+                  // maxWidth: 500,
+                  borderRadius: "md",
+                  p: 3,
+                  boxShadow: "lg",
                 }}
               >
-                <Box
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: { xs: "column", md: "row" },
-                    gap: 2,
-                    alignItems: "center",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: { xs: "100%", md: "auto" },
-                      textAlign: { xs: "center", md: "left" },
-                    }}
+                <div>
+                  <Typography
+                    id="responsive-dialog-title"
+                    component="h2"
+                    level="h4"
+                    textColor="inherit"
+                    fontWeight="lg"
+                    mb={1}
                   >
-                    <Typography
-                      sx={{
-                        fontFamily: "Poppins",
-                        fontSize: "20px",
-                        fontWeight: 500,
-                        lineHeight: "30px",
-                        textAlign: { xs: "center", md: "left" },
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      <PlaylistAddCheckOutlinedIcon
-                        style={{ fontSize: "1.4rem", color: "#d32f2f" }}
-                      />
-                      List of Locations
-                    </Typography>
-                  </Box>
-
-                  <Box
-                    // sx={{ paddingLeft: { xs: "10%", md: "30%", marginLeft:"25%" } }}
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-
-                      flexDirection: { xs: "column", md: "row" },
-                      justifyContent: { xs: "center", md: "flex-end" },
-                      gap: 2,
-                      marginTop: "20px",
-                    }}
-                  >
-                    {/* <Box> */}
-                      <Button
-                        autoFocus
-                        variant="solid"
+                    {"Add an Location"}
+                  </Typography>
+                  <Divider />
+                  <Box sx={{ marginBottom: "10px" }}>
+                    <form onSubmit={handleAddSkill}>
+                      <FormControl
                         sx={{
-                          background: "#388e3c",
-                          color: "white",
-                          width: { xs: "100%", md: "auto" },
-                        }}
-                        component="label"
-                        onClick={handleClickOpen}
-                      >
-                        <AddIcon /> Add New Location
-                      </Button>
-                    {/* </Box> */}
-                    <Modal
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                      aria-labelledby="responsive-dialog-title"
-                      aria-describedby="modal-desc"
-                      open={open}
-                      onClose={handleClose}
-                    >
-                      <Sheet
-                        variant="outlined"
-                        sx={{
-                          maxWidth: 500,
-                          borderRadius: "md",
-                          p: 3,
-                          boxShadow: "lg",
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
                         }}
                       >
-                        <div>
-                          <Typography
-                            id="responsive-dialog-title"
-                            component="h2"
-                            level="h4"
-                            textColor="inherit"
-                            fontWeight="lg"
-                            mb={1}
-                          >
-                            {"Add an Location"}
-                          </Typography>
-                          <Divider />
-                          <Box sx={{ marginBottom: "10px" }}>
-                            <form onSubmit={handleAddSkill}>
-                              <FormControl
-                                sx={{
-                                  display: "flex",
-                                  flexDirection: "row",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <FormLabel
-                                  sx={{
-                                    paddingTop: "30px",
-                                    marginLeft: "20px",
-                                  }}
-                                >
-                                  Site*
-                                </FormLabel>
-                                <Select
-                                  placeholder="Select Location"
-                                  sx={{
-                                    // width: 240,
-                                    marginLeft: "45px",
-                                    width: "50%",
-                                    marginBottom: "30px",
-                                    marginTop: "25px",
-                                  }}
-                                  // required
-                                ></Select>
-                              </FormControl>
-                              <FormControl
-                                sx={{
-                                  display: "flex",
-                                  flexDirection: "row",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <FormLabel
-                                  sx={{
-                                    paddingTop: "5px",
-                                    marginLeft: "20px",
-                                  }}
-                                >
-                                  Location*
-                                </FormLabel>
-                                <Input
-                                  variant="outlined"
-                                  type="text"
-                                  id="skill"
-                                  name="skill"
-                                  required
-                                  sx={{
-                                    marginLeft: "15px",
-                                    width: "50%",
-                                    marginBottom: "10px",
-                                    // marginTop: '20px'
-                                  }}
-                                />
-                              </FormControl>
-                              <Divider />
-                              <Button
-                                autoFocus
-                                type="submit"
-                                variant="solid"
-                                sx={{
-                                  background: "#fdd835",
-                                  color: "black",
-                                  marginTop: "25px",
-                                  marginLeft: "40%",
-                                }}
-                              >
-                                Add
-                              </Button>
-                              <Button
-                                type="button"
-                                onClick={handleClose}
-                                variant="solid"
-                                autoFocus
-                                sx={{
-                                  background: "black",
-                                  color: "white",
-                                  marginTop: "20px",
-                                  marginLeft: "30px",
-                                }}
-                              >
-                                Cancel
-                              </Button>
-                            </form>
-                          </Box>
-                        </div>
-                      </Sheet>
-                    </Modal>
-
-                    {/* <Box> */}
+                        <FormLabel
+                          sx={{
+                            paddingTop: "30px",
+                            marginLeft: "20px",
+                          }}
+                        >
+                          Site*
+                        </FormLabel>
+                        <Select
+                          placeholder="Select Location"
+                          sx={{
+                            marginLeft: "45px", 
+                            marginBottom: "30px",
+                            marginTop: "25px",
+                          }}
+                          // required
+                        ></Select>
+                      </FormControl>
+                      <FormControl
+                        sx={{
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                        }}
+                      >
+                        <FormLabel
+                          sx={{
+                            paddingTop: "5px",
+                            marginLeft: "20px",
+                          }}
+                        >
+                          Location*
+                        </FormLabel>
+                        <Input
+                          variant="outlined"
+                          type="text"
+                          id="skill"
+                          name="skill"
+                          required
+                          sx={{
+                            marginLeft: "15px",
+                            width: "53%",
+                            marginBottom: "10px",
+                          }}
+                        />
+                      </FormControl>
+                      <Divider />
                       <Button
                         autoFocus
                         type="submit"
                         variant="solid"
                         sx={{
-                          background: "black",
-                          color: "white",
-                          width: { xs: "100%", md: "auto" },
+                          background: "#fdd835",
+                          color: "black",
+                          marginTop: "25px",
+                          marginLeft: "40%",
                         }}
                       >
-                        <PublishOutlinedIcon />
-                        Import Locations
+                        Add
                       </Button>
-                    {/* </Box> */}
+                      <Button
+                        type="button"
+                        onClick={handleClose}
+                        variant="solid"
+                        autoFocus
+                        sx={{
+                          background: "black",
+                          color: "white",
+                          marginTop: "20px",
+                          marginLeft: "30px",
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </form>
                   </Box>
-                </Box>
-              </Box>
+                </div>
+              </Sheet>
+            </Modal>
 
-
-            <Divider />
-
-            <Box sx={{ marginTop: "10px", padding: "20px" }}>
-              You may also add Locations. Locations are a subset of Sites. For
-              example, the Site may be a building or address. The Location may
-              be a specific room, office, or floor within the Site. Select a
-              Site and add your list of Locations here.
-            </Box>
-            <Box
-              sx={{ marginTop: "1px", marginBottom: "15px", padding: "20px" }}
+            <Button
+              autoFocus
+              type="submit"
+              variant="solid"
+              sx={{
+                background: "black",
+                borderRadius: '15px',
+                color: "white",
+              }}
             >
-              <FormControl
+              <PublishOutlinedIcon />
+              Import Locations
+            </Button>
+          </Box>
+        </Box>
+
+
+
+        <Divider />
+
+        <Box sx={{ marginTop: "10px", padding: "20px" }}>
+          You may also add Locations. Locations are a subset of Sites. For
+          example, the Site may be a building or address. The Location may be a
+          specific room, office, or floor within the Site. Select a Site and add
+          your list of Locations here.
+        </Box>
+
+        <Box 
+        sx={{ 
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: { md: 'row', xs: 'column' },
+          justifyContent: { xs: 'center', md: 'space-between' },
+          marginTop: "1px", 
+          marginBottom: "15px", 
+          padding: "20px" 
+        }}
+        >
+          <FormControl
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", md: "row" },
+              
+            }}
+          >
+            <FormLabel 
+            sx={{ 
+              
+              marginTop: "6px",
+              mb: { xs: 1, md: 1 } }}>
+              Select a Site:
+            </FormLabel>
+
+            <Select
+              placeholder="Nothing Selected"
+              sx={{
+                marginLeft: { md: "20px" },
+              alignItems:'center',
+                background: "#ff5252",  
+                color: "white",
+                borderRadius: '15px',
+              }}
+              required
+              value={selectedValue}
+              onChange={(event) =>
+                setSelectedValue(
+                  (event?.target as HTMLSelectElement)?.value ?? ""
+                )
+              }
+            >
+              <Option value="Location1">Location1</Option>
+            </Select>
+          </FormControl>
+        </Box>
+
+        <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: { md: 'row', xs: 'column' },
+              justifyContent: { xs: 'center', md: 'space-between' },
+              
+              // marginBottom: "10px",
+              padding: '20px',
+            }}
+          >
+            <FormControl
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+              }}
+            >
+              <Select
+                placeholder="10"
                 sx={{
-                  display: "flex",
-                  // flexDirection: "row",
-                  flexDirection: { xs: "column", md: "row" },
+                  alignItems: 'center',
+                  background: 'none',
+                  color: 'black',
+                  borderRadius: '15px',
+                }}
+                required
+                // value={selectedValue}
+                // onChange={(event) =>
+                //   setSelectedValue(
+                //     (event?.target as HTMLSelectElement)?.value ?? ""
+                //   )
+                // }
+              >
+                <Option value="10">10</Option>
+              </Select>
+
+              <FormLabel
+                sx={{
+                  marginLeft: '10px',
+                  marginTop: '6px',
+                  mb: { xs: 1, md: 1 },
                 }}
               >
-                <FormLabel sx={{ paddingTop: "1px", mb: { xs: 1, md: 0 } }}>
-                  Select a Site:
-                </FormLabel>
-                <Select
-                  placeholder="Nothing Selected"
-                  // sx={{
-                  //   width: 240,
-                  //   marginLeft: "20px",
-                  //   background: "#c62828",
-                  //   color: "white",
-                  // }}
-                  sx={{
-                    width: { md: 140, xs: '100%' },
-                    marginLeft: { md: "20px" },
-                    background: '#ff5252',
-                    color: "white",
-                  }}
-                  required
-                  value={selectedValue}
-                  onChange={(event) =>
-                    setSelectedValue(
-                      (event?.target as HTMLSelectElement)?.value ?? ""
-                    )
-                  }
-                >
-                  <Option value="Location1">Location1</Option>
-                </Select>
-              </FormControl>
-            </Box>
-            {/* <Divider /> */}
-            <SetupPopup
-              location={location}
-              matchedSelected={matchedSelected}
-              handleCheckboxChange={handleCheckboxChange}
-              handleEdit={handleEdit}
-              handleDeleteButton={handleDeleteButton}
-              handleEditClose={handleEditClose}
-              handleEditButton={handleEditButton}
-              editOpen={editOpen}
-              deleteOpen={deleteOpen}
-              setDeleteOpen={setDeleteOpen}
-              handleDeleteSubmit={handleDeleteSubmit}
-              selectedCell={selectedCell}
-              handleDeleteClose={handleDeleteClose}
-              setMatchedSelected={setMatchedSelected}
-            />
+                locations
+              </FormLabel>
+            </FormControl>
+
             <Box
               sx={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: "20px",
+                display: 'flex',
+                flexDirection: { md: 'row' },
+                justifyContent: { xs: 'center', md: 'space-between' },
+                gap: 1,
               }}
             >
               <Button
-                autoFocus
-                variant="solid"
                 sx={{
-                  background: "#FABC1E",
-                  color: "black",
-                  width: { xs: "100%", md: "auto" },
+                  background: '#FDE8BC',
+                  border: '1px solid #C2B083',
+                  color: 'black',
+
+                  '&:hover': {
+                    background: '#FADFB4',
+                  },
                 }}
-                onClick={handleSubmit}
               >
-                Submit
+                <NavigateBeforeOutlinedIcon />
+              </Button>
+              <Button
+                sx={{
+                  background: '#ffffff',
+                  color: 'green',
+                  border: '1px solid green ',
+
+                  '&:hover': {
+                    color: 'white',
+                    background: 'green',
+                  },
+                }}
+              >
+                1
+              </Button>
+              <Button
+                sx={{
+                  background: '#FDE8BC',
+                  border: '1px solid #C2B083',
+                  color: 'black',
+
+                  '&:hover': {
+                    background: '#FADFB4',
+                  },
+                }}
+              >
+                <NavigateNextOutlinedIcon />
               </Button>
             </Box>
           </Box>
-        </div>
-      </div>
-    </div>
+
+
+        {/* <Divider /> */}
+
+        <SetupPopup
+          location={location}
+          matchedSelected={matchedSelected}
+          handleCheckboxChange={handleCheckboxChange}
+          handleEdit={handleEdit}
+          handleDeleteButton={handleDeleteButton}
+          handleEditClose={handleEditClose}
+          handleEditButton={handleEditButton}
+          editOpen={editOpen}
+          deleteOpen={deleteOpen}
+          setDeleteOpen={setDeleteOpen}
+          handleDeleteSubmit={handleDeleteSubmit}
+          selectedCell={selectedCell}
+          handleDeleteClose={handleDeleteClose}
+          setMatchedSelected={setMatchedSelected}
+        />
+        
+        <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: { md: 'row', xs: 'column' },
+          justifyContent: { xs: 'center', md: 'flex-end' },
+          gap: '5px',
+        }}
+       >
+        <Box
+          sx={{
+            display: 'flex',
+          flexDirection: { md: 'row', xs: 'column' },
+            marginTop: "20px",
+          }}
+        >
+          <Button
+             variant="solid"
+             autoFocus
+             sx={{
+               background: '#388e3c',
+               color: 'white',
+               borderRadius: '10px',
+             }}
+            onClick={handleSubmit}
+          >
+            
+            Submit
+          </Button>
+        </Box>
+        </Box>
+      </Box>
+      {/* </div>
+      </div> */}
+    </AppView>
   );
 };
 

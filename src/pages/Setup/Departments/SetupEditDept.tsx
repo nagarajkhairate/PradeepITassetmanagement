@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Stack, Box, Typography, Sheet } from "@mui/joy";
+import { Stack, Box, Typography, Sheet, ListItem } from "@mui/joy";
 import Table from "@mui/joy/Table";
 import Checkbox from "@mui/joy/Checkbox";
 import Button from "@mui/joy/Button";
@@ -10,16 +10,21 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import SetupDept from "./SetUpDept";
+import SetupDept from "./SetupDept";
+
+type Department = {
+  id: number
+  departmentName: string
+}
 
 interface Props {
-  department: string[];
-  onDeptChange: (updateddepartment: string[]) => void;
+  department: Department[];
+  onDeptChange: (updateddepartment: Department[]) => void;
 }
 
 export function SetupEditDept({ department, onDeptChange }: Props) {
   const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
-  const [depart, setDepart] = useState<{ data: string[] }>({ data: [] });
+  const [depart, setDepart] = useState<{ data: Department[] }>({ data: [] });
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
   const [editOpen, setEditOpen] = useState<boolean>(false);
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
@@ -48,10 +53,10 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
 
   const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const custom = (e.target as any).Custom.value;
+    const departmentName = (e.target as any).departmentName.value;
     if (selectedCell !== null) {
       const updatedData = depart.data.map((item, index) =>
-        index === selectedCell ? custom : item
+        index === selectedCell ? {...item, departmentName} : item
       );
       setDepart({ ...depart, data: updatedData });
       handleEditClose();
@@ -103,11 +108,10 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          paddingRight: "40px",
-          marginTop: "60px",
+
         }}
       >
-        <Table borderAxis="both" style={{ width: "100%", borderCollapse: "collapse" }}>
+        <Table borderAxis="both" style={{ borderCollapse: "collapse" }}>
           <thead>
             <tr>
               <th style={{width:30}}>
@@ -140,7 +144,7 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
           </thead>
           <tbody>
               {depart.data && depart.data.map((custom, index) => (
-                <tr key={index}>
+                <tr key={custom.id}>
                   <td>
                     <Checkbox
                       checked={matchedSelected.includes(index)}
@@ -148,7 +152,7 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
                       color="primary"
                     />
                   </td>
-                  <td>{custom}</td>
+                  <td>{custom.departmentName}</td>
 
                   <td>
                     <Button onClick={() => handleEdit()}
@@ -230,11 +234,11 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
               <Input
                 variant="outlined"
                 type="text"
-                id="Custom"
-                name="Custom"
+                id="departmentName"
+                name="departmentName"
                 required
                 sx={{ width: "70%", marginLeft: "10px" }}
-                defaultValue={selectedCell !== null ? depart.data[selectedCell] : ""} // Set default value to the selected cell content
+                defaultValue={selectedCell !== null ? depart.data[selectedCell].departmentName : ""} // Set default value to the selected cell content
               />
             </FormControl>
             <Button
@@ -298,11 +302,11 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
               <Input
                 variant="outlined"
                 type="text"
-                id="Custom"
-                name="Custom"
+                id="departmentName"
+                name="departmentName"
                 required
                 sx={{ width: "92%", marginLeft: "20px" }}
-                defaultValue={selectedCell !== null ? depart.data[selectedCell] : ""} // Set default value to the selected cell content
+                defaultValue={selectedCell !== null ? depart.data[selectedCell].departmentName : ""} // Set default value to the selected cell content
               />
             </FormControl>
             <Button

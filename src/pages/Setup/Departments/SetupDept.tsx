@@ -19,14 +19,22 @@ import SetupEditDept from "./SetupEditDept";
 import PlaylistAddCheckOutlinedIcon from "@mui/icons-material/PlaylistAddCheckOutlined";
 
 
+type Department = {
+  id: number
+  departmentName: string
+}
+
+
+import AppView from "../../../components/Common/AppView";
+
 const SetupDept: React.FunctionComponent = () => {
   const [open, setOpen] = useState<boolean>(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const [dept, setDept] = useState<string>("");
-  const [department, setDepartment] = useState<string[]>([]);
+  const [departmentName, setDepartmentName] = useState<string>("");
+  const [department, setDepartment] = useState<Department[]>([]);
 
-  const handleDeptChange = (updateddepartment: string[]) => {
+  const handleDeptChange = (updateddepartment: Department[]) => {
     setDepartment(updateddepartment);
     console.log("deptartment: ", JSON.stringify(updateddepartment));
   };
@@ -39,71 +47,51 @@ const SetupDept: React.FunctionComponent = () => {
     setOpen(false);
   };
 
-  const handleAdddept = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // const newdept: string = (e.target as any).dept.value;
-    const newdept: string = dept;
-    if (department && Array.isArray(department)) {
-      // Check if department is iterable
-      setDepartment([...department, newdept]);
-    } else {
-      setDepartment([newdept]); // Initialize department if it's not iterable
+
+  const handleAddDepartment = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const newdepartment: Department = {
+      id: department.length ? department[department.length - 1].id + 1 : 1,
+      departmentName: departmentName,
     }
-    // console.log("After Adding dept: ", JSON.stringify(''));
-    handleClose();
-  };
+    setDepartment([...department, newdepartment])
+    setDepartmentName('') // Clear the input field after adding
+    handleClose()
+  }
+
  
 
   return (
-    <div style={{ width: "100%", background: "#f9f9f9" }}>
+    <AppView>
       <Typography level="h4" sx={{ display: "flex", alignItems: "center" }}>
         <SignpostOutlinedIcon
-          style={{ fontSize: "1.4rem", color: "#d32f2f", marginLeft: "3rem" }}
+          style={{ fontSize: "1.4rem", color: "#d32f2f" }}
         />
-        department
+        Department
       </Typography>
 
-      <div style={{ width: "100%", background: "#f9f9f9" }}>
-        <div style={{ margin: "20px" }}>
           <Box
-            sx={{
-              borderRadius: "15px",
-              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-              background: "#ffffff",
-              margin: {
-                xs: "4px",
-                md: "52px",
-              },
-            }}
+           sx={{
+            borderRadius: "10px",
+            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+            background: "#ffffff",
+            gap:'5px',
+            
+          }}
           >
-            <Box
-              fontSize="h5.fontSize"
-              component="div"
-              overflow="hidden"
-              textOverflow="ellipsis"
-            ></Box>
-
-            <Box
-              sx={{
+         
+              <Box
+               sx={{
                 display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
+                alignItems: 'center',
+                flexDirection: { xs: "column", md: "row" },
+                justifyContent: { xs: 'center', md: 'space-between' },
+                gap: 2,
                 mb: 2,
               }}
-            >
-              <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: { xs: "column", md: "row" },
-                  gap: 2,
-                  alignItems: "center",
-                  // mb:2
-                }}
               >
                 <Box
                   sx={{
-                    width: { xs: "100%", md: "auto" },
                     textAlign: { xs: "center", md: "left" },
                   }}
                 >
@@ -120,26 +108,26 @@ const SetupDept: React.FunctionComponent = () => {
                     <PlaylistAddCheckOutlinedIcon
                       style={{ fontSize: "1.4rem", color: "#d32f2f" }}
                     />
-                    List of department
+                    List of Department
                   </Typography>
                 </Box>
 
                 <Box
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: { xs: "column", md: "row" },
-                    justifyContent: { xs: "center", md: "flex-end" },
-                    gap: 2,
-                    marginTop: "20px",
-                  }}
+                sx={{
+                  display: "flex",
+                  flexDirection: { md: 'row', xs: 'column' },
+                  gap: 2,
+                  // marginTop: "10px",
+                }}
                 >
                   <Button
-                    sx={{
-                      background: "#388e3c",
-                      color: "white",
-                      width: { xs: "100%", md: "auto" },
-                    }}
+                     autoFocus
+                     variant="solid"
+                     sx={{
+                       background: "#388e3c",
+                       borderRadius: '15px',
+                       color: "white",   
+                     }}
                     onClick={handleClickOpen}
                   >
                     <AddIcon /> Add New dept
@@ -179,7 +167,7 @@ const SetupDept: React.FunctionComponent = () => {
                         <Divider />
 
                         <Box sx={{ marginBottom: "10px" }}>
-                          <form onSubmit={handleAdddept}>
+                          <form onSubmit={handleAddDepartment}>
                             <FormControl
                               sx={{
                                 display: "flex",
@@ -218,10 +206,10 @@ const SetupDept: React.FunctionComponent = () => {
                                   dept*:
                                 </FormLabel>
                                 <Input
-                                  value={dept}
+                                  value={departmentName}
                                   onChange={(
                                     e: React.ChangeEvent<HTMLInputElement>
-                                  ) => setDept(e.target.value)}
+                                  ) => setDepartmentName(e.target.value)}
                                   placeholder="Type here"
                                   sx={{ marginLeft: "20px", width: "70%", marginTop:'10px', }}
                                 />
@@ -263,130 +251,127 @@ const SetupDept: React.FunctionComponent = () => {
                   </Modal>
 
                   <Button
-                    autoFocus
-                    type="submit"
-                    sx={{
-                      background: "#2196f3",
-                      color: "white",
-                      width: { xs: "100%", md: "auto" },
-                    }}
+                     autoFocus
+                     type="submit"
+                     variant="solid"
+                     sx={{
+                       background: "black",
+                       borderRadius: '15px',
+                       color: "white",
+                     }}
                   >
                     <PublishOutlinedIcon />
                     Import department
                   </Button>
                 </Box>
-              </Box>
             </Box>
 
             <Divider />
 
             <Box>
               <Box sx={{ padding: "20px", marginTop: "10px" }}>
-                Add the type of groups of assets. To start with, commonly used
-                department have already been created for you. Make them as broad
-                or as specific as you want. department can be 'laptops and
-                printers', 'equipment', or 'chairs'. Customize to your
-                particular need.
+              Add departments that own or house the particular assets. Make them as broad or as specific as you want. Departments can be 'Accounting', 'Marketing', or 'Executive'. Customize to your particular need.
               </Box>
 
-              <Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginLeft: "20px",
-                  }}
-                >
-                  <Select
-                    placeholder="10"
-                    value={
-                      department && department.length > 0
-                        ? String(department.length)
-                        : ""
-                    }
-                    onChange={(e: any) => setDepartment(e)}
-                    sx={{
-                      width: 70,
-                      height: 30,
-                      [`& .${selectClasses.indicator}`]: {
-                        transition: "0.2s",
-                        [`&.${selectClasses.expanded}`]: {
-                          transform: "rotate(-180deg)",
-                        },
-                      },
-                      // marginLeft: "20px",
-                      background: "none",
-                      color: "black",
-                    }}
-                    required
-                  >
-                    <Option value="10">10</Option>
-                    <Option value="15">15</Option>
-                    <Option value="20">20</Option>
-                  </Select>
 
-                  <Typography sx={{ marginLeft: "10px", minWidth: "70px" }}>
-                    department
-                  </Typography>
+              <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: { md: 'row', xs: 'column' },
+              justifyContent: { xs: 'center', md: 'space-between' },
+              
+              // marginBottom: "10px",
+              padding: '20px',
+            }}
+          >
+            <FormControl
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+              }}
+            >
+              <Select
+                placeholder="10"
+                sx={{
+                  alignItems: 'center',
+                  background: 'none',
+                  color: 'black',
+                  // borderRadius: '15px',
+                }}
+                required
+                // value={selectedValue}
+                // onChange={(event) =>
+                //   setSelectedValue(
+                //     (event?.target as HTMLSelectElement)?.value ?? ""
+                //   )
+                // }
+              >
+                <Option value="10">10</Option>
+              </Select>
 
-                  <Box
-                    sx={{
-                      // width: "100%",
-                      display: "flex",
-                      // flexDirection: { xs: "column", md: "row" },
-                      // justifyContent: { xs: "center", md: "flex-end" },
-                      gap: 1,
-                      width: { xs: "100%", md: "auto" },
-                      paddingLeft: { xs: "20%", md: "60%" },
-                      
-                    }}
-                  >
-                    <Button
-                      sx={{
-                        
-                        background: "#FDE8BC",
-                        border: "1px solid #C2B083",
-                        color: "black",
+              <FormLabel
+                sx={{
+                  marginLeft: '10px',
+                  marginTop: '6px',
+                  mb: { xs: 1, md: 1 },
+                }}
+              >
+                Department
+              </FormLabel>
+            </FormControl>
 
-                        "&:hover": {
-                          background: "#FADFB4",
-                        },
-                      }}
-                    >
-                      <NavigateBeforeOutlinedIcon />
-                    </Button>
-                    <Button
-                      sx={{
-                        background: "#ffffff",
-                        color: "green",
-                        border: "1px solid green ",
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { md: 'row' },
+                justifyContent: { xs: 'center', md: 'space-between' },
+                gap: 1,
+              }}
+            >
+              <Button
+                sx={{
+                  background: '#FDE8BC',
+                  border: '1px solid #C2B083',
+                  color: 'black',
 
-                        "&:hover": {
-                          color: "white",
-                          background: "green",
-                        },
-                      }}
-                    >
-                      1
-                    </Button>
-                    <Button
-                      sx={{
-                        
-                        background: "#FDE8BC",
-                        border: "1px solid #C2B083",
-                        color: "black",
+                  '&:hover': {
+                    background: '#FADFB4',
+                  },
+                }}
+              >
+                <NavigateBeforeOutlinedIcon />
+              </Button>
+              <Button
+                sx={{
+                  background: '#ffffff',
+                  color: 'green',
+                  border: '1px solid green ',
 
-                        "&:hover": {
-                          background: "#FADFB4",
-                        },
-                      }}
-                    >
-                      <NavigateNextOutlinedIcon />
-                    </Button>
-                  </Box>
-                </Box>
-              </Box>
+                  '&:hover': {
+                    color: 'white',
+                    background: 'green',
+                  },
+                }}
+              >
+                1
+              </Button>
+              <Button
+                sx={{
+                  background: '#FDE8BC',
+                  border: '1px solid #C2B083',
+                  color: 'black',
+
+                  '&:hover': {
+                    background: '#FADFB4',
+                  },
+                }}
+              >
+                <NavigateNextOutlinedIcon />
+              </Button>
             </Box>
+          </Box>
+          </Box>
 
             <Box>
               <SetupEditDept department={department}  onDeptChange={handleDeptChange}/>
@@ -414,9 +399,7 @@ const SetupDept: React.FunctionComponent = () => {
               </Button>
             </Box> */}
           </Box>
-        </div>
-      </div>
-    </div>
+    </AppView>
   );
 };
 

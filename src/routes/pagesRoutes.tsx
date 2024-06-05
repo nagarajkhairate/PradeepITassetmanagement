@@ -21,7 +21,9 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import CategorySetup from '../pages/Setup/SetupCategory/CategorySetup';
 import CategorySub from '../pages/Setup/SubCategory/CategorySub';
 import SetupDept from '../pages/Setup/Departments/SetupDept';
-import SetupCompInfo from '../pages/Setup/CompInformation/SetupCompInfo';
+import SetupCompInfo from '../pages/Setup/CompInfoemation/SetupCompInfo';
+import CategoryIcon from '@mui/icons-material/Category';
+import GridViewIcon from '@mui/icons-material/GridView';
 import SetupTableOptions from '../pages/Setup/SetupTableOptions/SetupTableOptions';
 import SetupSites from '../pages/Setup/SetupSites/SetupSites';
 
@@ -181,7 +183,7 @@ export const pagesRoutes: any[] = [
         path: "/setup/categorysetup",
         state: 'assets',
         element: <CategorySetup />,
-        icon: <LocationOnOutlinedIcon />,
+        icon: <CategoryIcon />,
       },
       {
         index: true,
@@ -189,7 +191,7 @@ export const pagesRoutes: any[] = [
         path: "/setup/categorysub",
         state: 'assets',
         element: <CategorySub />,
-        icon: <LocationOnOutlinedIcon />,
+        icon: <CategoryIcon />,
       },
       {
         index: true,
@@ -197,7 +199,7 @@ export const pagesRoutes: any[] = [
         path: "/setup/departments",
         state: 'assets',
         element: <SetupDept />,
-        icon: <LocationOnOutlinedIcon />,
+        icon: <GridViewIcon />,
       },
       {
         index: true,

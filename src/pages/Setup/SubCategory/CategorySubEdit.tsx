@@ -12,14 +12,21 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import CategorySub from "./CategorySub";
 
+
+type SubCategory = {
+  id: number
+  subCategory: string
+}
+
+
 interface Props {
-  categories: string[];
-  onCategoryChange: (updatedCategories: string[]) => void;
+  categories: SubCategory[];
+  onCategoryChange: (updatedCategories: SubCategory[]) => void;
 }
 
 export function CategorySubEdit({ categories, onCategoryChange }: Props) {
   const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
-  const [lapCat, setLapCat] = useState<{ data: string[] }>({ data: [] });
+  const [lapCat, setLapCat] = useState<{ data: SubCategory[] }>({ data: [] });
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
   const [editOpen, setEditOpen] = useState<boolean>(false);
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
@@ -48,10 +55,10 @@ export function CategorySubEdit({ categories, onCategoryChange }: Props) {
 
   const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const custom = (e.target as any).Custom.value;
+    const subCategory = (e.target as any).subCategory.value;
     if (selectedCell !== null) {
       const updatedData = lapCat.data.map((item, index) =>
-        index === selectedCell ? custom : item
+        index === selectedCell ? {...item, subCategory} : item
       );
       setLapCat({ ...lapCat, data: updatedData });
       handleEditClose();
@@ -103,8 +110,6 @@ export function CategorySubEdit({ categories, onCategoryChange }: Props) {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          paddingRight: "40px",
-          marginTop: "60px",
         }}
       >
         <Table borderAxis="both" style={{ width: "100%", borderCollapse: "collapse" }}>
@@ -140,7 +145,7 @@ export function CategorySubEdit({ categories, onCategoryChange }: Props) {
           </thead>
           <tbody>
               {lapCat.data && lapCat.data.map((custom, index) => (
-                <tr key={index}>
+                <tr key={custom.id}>
                   <td>
                     <Checkbox
                       checked={matchedSelected.includes(index)}
@@ -148,7 +153,7 @@ export function CategorySubEdit({ categories, onCategoryChange }: Props) {
                       color="primary"
                     />
                   </td>
-                  <td>{custom}</td>
+                  <td>{custom.subCategory}</td>
 
                   <td>
                     <Button onClick={() => handleEdit()}
@@ -230,11 +235,11 @@ export function CategorySubEdit({ categories, onCategoryChange }: Props) {
               <Input
                 variant="outlined"
                 type="text"
-                id="Custom"
-                name="Custom"
+                id="subCategory"
+                name="subCategory"
                 required
                 sx={{ width: "70%", marginLeft: "10px" }}
-                defaultValue={selectedCell !== null ? lapCat.data[selectedCell] : ""} // Set default value to the selected cell content
+                defaultValue={selectedCell !== null ? lapCat.data[selectedCell].subCategory : ""} // Set default value to the selected cell content
               />
             </FormControl>
             <Button
@@ -298,11 +303,11 @@ export function CategorySubEdit({ categories, onCategoryChange }: Props) {
               <Input
                 variant="outlined"
                 type="text"
-                id="Custom"
-                name="Custom"
+                id="subCategory"
+                name="subCategory"
                 required
                 sx={{ width: "92%", marginLeft: "20px" }}
-                defaultValue={selectedCell !== null ? lapCat.data[selectedCell] : ""} // Set default value to the selected cell content
+                defaultValue={selectedCell !== null ? lapCat.data[selectedCell].subCategory : ""} // Set default value to the selected cell content
               />
             </FormControl>
             <Button
