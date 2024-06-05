@@ -21,11 +21,11 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import CategorySetup from '../pages/Setup/SetupCategory/CategorySetup';
 import CategorySub from '../pages/Setup/SubCategory/CategorySub';
 import SetupDept from '../pages/Setup/Departments/SetupDept';
-import SetupCompInfo from '../pages/Setup/CompInfoemation/SetupCompInfo';
 import CategoryIcon from '@mui/icons-material/Category';
 import GridViewIcon from '@mui/icons-material/GridView';
 import SetupTableOptions from '../pages/Setup/SetupTableOptions/SetupTableOptions';
 import SetupSites from '../pages/Setup/SetupSites/SetupSites';
+import SetupCompInfo from '../pages/Setup/CompInformation/SetupCompInfo';
 
 export const pagesRoutes: any[] = [
   {
