@@ -7,7 +7,7 @@ interface Props extends FormHTMLAttributes<HTMLFormElement> {
 
 const AppView: FunctionComponent<Props> = ({ children }) => {
   return (
-    <Grid container color="">
+    <Grid container>
       <Box
         component="main"
         className="MainContent"

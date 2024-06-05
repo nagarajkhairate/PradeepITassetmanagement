@@ -8,7 +8,7 @@ import { routes } from "./routes";
 
 const App = () => {
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box>
       
         <Routes>
           {/* <Route path="/login" element={<Login />} />
