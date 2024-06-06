@@ -8,6 +8,7 @@ import {
   ListItemContent,
   Typography,
   Box,
+  Sheet,
 } from "@mui/joy";
 import { Collapse } from "@mui/material";
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
@@ -59,12 +60,11 @@ const SidebarItem = ({ item }: any) => {
     }
 }
   return item && item.path ? (
-    <>
+    <Sheet>
       <ListItemButton
         component={Link}
         to={item.children ? "#" : item.path || "#"}
-        onClick={handleItemClick} // Handle click to toggle expansion
-        color="none"
+        onClick={handleItemClick} 
         sx={{
             mt:"10px", 
           width: "112%",
@@ -73,7 +73,7 @@ const SidebarItem = ({ item }: any) => {
             borderLeft: "5px solid #FABC1E",
           },
           "&:active": {
-            backgroundColor: "#FCEEB0", // Slightly darker color on click
+            backgroundColor: "#FCEEB0", 
           },
         }}
       >
@@ -114,7 +114,6 @@ const SidebarItem = ({ item }: any) => {
               sx={{
                 mb:"8px",
                 pl: 8,
-                width: "112%",
                 cursor: "pointer",
                 "&:hover": {
                   background: "#F8F8F8",
@@ -126,7 +125,6 @@ const SidebarItem = ({ item }: any) => {
             >
             <Link to={child.path} style={{textDecoration:"none",color:"inherit"}}>
               {" "}
-              {/* Adjust padding as needed */}
               <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
                 {child.icon}
                 <Typography> {child.pageName}</Typography>
@@ -136,7 +134,7 @@ const SidebarItem = ({ item }: any) => {
           ))}
         </Collapse>
       )}
-    </>
+    </Sheet>
   ) : null;
 };
 

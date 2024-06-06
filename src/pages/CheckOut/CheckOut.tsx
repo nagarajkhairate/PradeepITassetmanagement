@@ -9,7 +9,6 @@ import {
   Table,
 } from '@mui/joy'
 import SearchIcon from '../../Assets/search.svg'
-import EmptyContainer from '../../components/Common/EmptyContainer'
 import CheckOutForm from './CheckOutForm'
 import MaintenanceEmpty from '../../components/Common/MaintenanceEmpty'
 import AppView from '../../components/Common/AppView'

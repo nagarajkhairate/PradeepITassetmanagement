@@ -31,6 +31,9 @@ import MaintenanceOverdue from '../pages/Maintenance/MaintenanceOverdue'
 import WarrantyExpiring from '../pages/Maintenance/WarrantyExpiring'
 import AssetsPastDue from '../pages/Maintenance/AssetsPastDue'
 import AssetForm from '../pages/Setup/CustomizeForm/AssetForm'
+import Maintenance from '../pages/Maintenance/Maintenance'
+import Lease from '../pages/Lease/Lease'
+import Move from '../pages/Move/Move'
 
 export const pagesRoutes: any[] = [
   {
@@ -122,7 +125,14 @@ export const pagesRoutes: any[] = [
         state: 'assets',
         icon: <Person4Icon />,
       },
-      { index: true, pageName: 'Lease', path: '/assets/lease', icon: <SendIcon /> },
+      {
+        index: true,
+        pageName: 'Lease',
+        path: '/assets/lease',
+        element: <Lease />,
+        state: 'assets',
+        icon: <SendIcon />,
+      },
       {
         index: true,
         pageName: 'Lease Return',
@@ -142,7 +152,7 @@ export const pagesRoutes: any[] = [
         index: true,
         pageName: 'Maintenance',
         path: '/assets/maintenance',
-        element: <Dispose />,
+        element: <Maintenance />,
         state: 'assets',
         icon: <EngineeringIcon />,
       },
@@ -150,6 +160,7 @@ export const pagesRoutes: any[] = [
         index: true,
         pageName: 'Move',
         path: '/assets/move',
+        element: <Move />,
         state: 'assets',
         icon: <ZoomOutMapIcon />,
       },
@@ -217,7 +228,7 @@ export const pagesRoutes: any[] = [
       {
         index: true,
         pageName: 'Location',
-        path: '/setup/locationsetup',
+        path: '/setup/location-setup',
         state: 'assets',
         element: <LocationSetup />,
         icon: <LocationOnOutlinedIcon />,
@@ -225,7 +236,7 @@ export const pagesRoutes: any[] = [
       {
         index: true,
         pageName: 'Category',
-        path: '/setup/categorysetup',
+        path: '/setup/category-setup',
         state: 'assets',
         element: <CategorySetup />,
         icon: <CategoryIcon />,
@@ -233,7 +244,7 @@ export const pagesRoutes: any[] = [
       {
         index: true,
         pageName: 'Sub Category',
-        path: '/setup/categorysub',
+        path: '/setup/category-sub',
         state: 'assets',
         element: <CategorySub />,
         icon: <CategoryIcon />,
@@ -280,7 +291,7 @@ export const pagesRoutes: any[] = [
           {
             index: true,
             pageName: 'Location',
-            path: '/setup/locationsetup',
+            path: '/setup/location-setup',
             state: 'assets',
             element: <LocationSetup />,
             icon: <LocationOnOutlinedIcon />,
