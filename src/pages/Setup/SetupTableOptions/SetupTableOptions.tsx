@@ -29,8 +29,8 @@ const DepreciationOptions = {
   "formLabel": "Asset Depreciation",
   "icon": CalendarMonthOutlinedIcon,
   "options": [
-    { "name": "assetDepreciation", "value": "Yes", "label": "Yes" },
-    { "name": "assetDepreciation", "value": "No", "label": "No" },
+    { "name": "assetDepreciation", "value": "yes", "label": "Yes" },
+    { "name": "assetDepreciation", "value": "no", "label": "No" },
   ],
   "depreciationMethods": [
     "Straight Line",
@@ -49,8 +49,8 @@ const LinkingOptions = {
   "formLabel": "Enable Linking",
   "icon": CalendarMonthOutlinedIcon,
   "options": [
-    { "name": "enableLinking", "value": "Yes", "label": "Yes" },
-    { "name": "enableLinking", "value": "No", "label": "No" },
+    { "name": "enableLinking", "value": "yes", "label": "Yes" },
+    { "name": "enableLinking", "value": "no", "label": "No" },
   ],
 };
 
@@ -58,7 +58,7 @@ const SetupTableOptions: React.FC = ({}) => {
   const [showDepreciationOptions, setShowDepreciationOptions] = useState(false);
   const [depreciationMethod, setDepreciationMethod] = useState("");
   const [calculationFrequency, setCalculationFrequency] = useState("");
-  const [enableLinking, setEnableLinking] = useState("No");
+  const [enableLinking, setEnableLinking] = useState("no");
   const [linkedAssets, setLinkedAssets] = useState({
     checkout: false,
     reservation: false,
@@ -72,19 +72,20 @@ const SetupTableOptions: React.FC = ({}) => {
     auditAssets: false,
   });
   const [companyFormData, setCompanyFormData] = useState<any>({
-    assetDepreciation: "No",
+    assetDepreciation: "no",
     depreciationMethod: "",
     calculationFrequency: "",
-    enableLinking: "No",
+    enableLinking: "no",
   });
 
   const handleDepreciationChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    setShowDepreciationOptions(value === "Yes");
+    setShowDepreciationOptions(value === "yes");
     setCompanyFormData((prevData: any) => ({
       ...prevData,
       assetDepreciation: value,
     }));
+    // console.log("Depreciation option selected:", value);
   };
 
   const handleDepreciationMethodChange = (
@@ -117,8 +118,16 @@ const SetupTableOptions: React.FC = ({}) => {
       })),
       LinkingOfAssets: {
         enableLinking: enableLinking,
-        linkedAssets: {
-          checkout: linkedAssets.checkout,
+      },
+    };
+
+    if (companyFormData.assetDepreciation === "yes") {
+      formData.DepreciationOptions.depreciationMethod = depreciationMethod;
+      formData.DepreciationOptions.calculationFrequency = calculationFrequency;
+    }
+    if (enableLinking === "yes") {
+      formData.LinkingOfAssets.linkedAssets = {
+        checkout: linkedAssets.checkout,
           reservation: linkedAssets.reservation,
           leaseAssets: linkedAssets.leaseAssets,
           lostFoundAssets: linkedAssets.lostFoundAssets,
@@ -128,13 +137,7 @@ const SetupTableOptions: React.FC = ({}) => {
           donateAssets: linkedAssets.donateAssets,
           sellAssets: linkedAssets.sellAssets,
           auditAssets: linkedAssets.auditAssets,
-        },
-      },
-    };
-
-    if (companyFormData.assetDepreciation === "Yes") {
-      formData.DepreciationOptions.depreciationMethod = depreciationMethod;
-      formData.DepreciationOptions.calculationFrequency = calculationFrequency;
+      };
     }
     console.log(JSON.stringify(formData, null, 2));
   };
@@ -391,7 +394,7 @@ const SetupTableOptions: React.FC = ({}) => {
                         <FormLabel>{LinkingOptions.formLabel}</FormLabel>
                       </Box>
                       <RadioGroup
-                        defaultValue="No"
+                        defaultValue="no"
                         value={enableLinking}
                         onChange={handleEnableLinkingChange}
                         sx={{
@@ -413,7 +416,7 @@ const SetupTableOptions: React.FC = ({}) => {
                       </RadioGroup>
                     </FormControl>
                     </Box>
-                    {enableLinking === "Yes" && (
+                    {enableLinking === "yes" && (
                       <Box>
                         <Typography>
                           When you define linked assets, you can mark them
@@ -421,6 +424,7 @@ const SetupTableOptions: React.FC = ({}) => {
                         </Typography>
                         <FormControl component="fieldset">
                        
+                        {/* {Object.keys(linkedAssets).map((key) => ( */}
                           <Box >
                             <Box  marginBottom={"10px"}>
                             <Checkbox 
