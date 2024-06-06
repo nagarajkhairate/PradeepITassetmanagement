@@ -85,19 +85,23 @@ export const MaintenancesDue: React.FC = () => {
         </Box>
       </Box>
 
+      
+
       <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          flexDirection: { md: 'row', xs: 'column' },
-          justifyContent: 'space-between',
-        }}
+         sx={{
+          gap:{md:"1px",xs:"3px"},
+         display:"flex" , 
+         alignItems: 'center',
+         flexDirection: { md: 'row', xs: 'column' },
+         justifyContent: 'space-between',
+         mt:2
+            }}
       >
         <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
+          // sx={{
+          //   display: 'flex',
+          //   alignItems: 'center',
+          // }}
         >
           <Select
             placeholder="Maintenance Due"
@@ -118,11 +122,13 @@ export const MaintenancesDue: React.FC = () => {
             <Option value="term 3">term 3</Option>
             <Option value="term 4">term 4</Option>
           </Select>
+        </Box>
+        <Box>
           <Select
             placeholder="10"
             indicator={<KeyboardArrowDown />}
             sx={{
-              width: 75,
+              // width: 75,
               [`& .${selectClasses.indicator}`]: {
                 transition: '0.2s',
                 [`&.${selectClasses.expanded}`]: {
@@ -139,16 +145,28 @@ export const MaintenancesDue: React.FC = () => {
         </Box>
 
         <Typography
+          // sx={{
+          //   maxWidth: 450,
+          //   fontFamily: 'Poppins, sans-serif',
+          //   fontStyle: 'italic',
+            
+          // }}
+          // color="danger"
+
           sx={{
             maxWidth: 450,
             fontFamily: 'Poppins, sans-serif',
             fontStyle: 'italic',
             marginTop: '2px',
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'flex-end ',
+            // mt:4
           }}
           color="danger"
         >
           Assets with a maintenance due date within the last 7 days (determined
-          by overdue time) or in the near future (set by lead time).
+          by overdue time) or in the near future.
         </Typography>
       </Box>
 

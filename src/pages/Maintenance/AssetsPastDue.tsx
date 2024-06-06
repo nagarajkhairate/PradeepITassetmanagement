@@ -1,58 +1,24 @@
-import { Box, Button, ButtonGroup, Grid, Typography } from "@mui/joy";
-import { styled } from "@mui/joy";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import Image from "../../components/Common/MaintenanceEmpty";
-import Select, { selectClasses } from "@mui/joy/Select";
-import Option from "@mui/joy/Option";
-import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
-import MarkunreadOutlinedIcon from "@mui/icons-material/MarkunreadOutlined";
-import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
-
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-
-const VisuallyHiddenInput = styled("input")`
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  white-space: nowrap;
-  width: 1px;
-`;
+import { Box, Button, ButtonGroup, Grid, Typography } from '@mui/joy'
+import { styled } from '@mui/joy'
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined'
+import Image from '../../components/Common/MaintenanceEmpty'
+import MarkunreadOutlinedIcon from '@mui/icons-material/MarkunreadOutlined'
+import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined'
+import AppView from '../../components/Common/AppView'
 
 export const AssetsPastDue: React.FC = () => {
   return (
-    <>
-      <div style={{ width: "100%", background: "#f9f9f9" }}>
-        <div style={{ marginLeft: "52px"}}>
-          <Box
-            sx={{
-              mt: "40px",
-              width: "100%",
-              display: "flex",
-              justifyContent: "space-between",
-              flexDirection: { xs: "column", md: "row" },
-            }}
-          >
-            <Box sx={{ padding: { xs: 2, md: 4 } }}>
+    <AppView>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: { md: 'row', xs: 'column' },
+          justifyContent: { xs: 'center', md: 'space-between' },
+          gap: '5px',
+        }}
+      >
+        {/* <Box sx={{ padding: { xs: 2, md: 4 } }}>
               <Box
                 sx={{
                   display: "flex",
@@ -60,121 +26,124 @@ export const AssetsPastDue: React.FC = () => {
                   flexDirection: { xs: "column", md: "row" },
                   mb: 2,
                 }}
-              >
-                <Typography
-                  sx={{
-                    fontFamily: "Poppins",
-                    fontSize: { xs: "24px", md: "32px" },
-                    fontWeight: 500,
-                    lineHeight: { xs: "36px", md: "48px" },
-                    textAlign: { xs: "center", md: "left" },
-                    width: { xs: "100%", md: "auto" },
-                  }}
-                >
-                  Report
-                </Typography>
-                <Typography
-                  sx={{
-                    fontFamily: "Poppins",
-                    fontSize: { xs: "14px", md: "18px" },
-                    fontWeight: 400,
-                    lineHeight: { xs: "22px", md: "27px" },
-                    textAlign: { xs: "center", md: "left" },
-                    width: { xs: "100%", md: "auto" },
-                    mt: { xs: 1, md: 0 },
-                    ml: { md: 2 },
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  Checkout by Past Due
-                </Typography>
-                <Box
-                  sx={{
-                    width: "100%",
-                    // marginRight:'5%',
-                    display: { md: "flex", xs: "flex" },
-                    justifyContent:'flex-end',
-                    flexDirection: { md: "row", xs: "column" },
-                    gap: "5px",
-                  }}
-                >
-                  <Button
-                    variant="solid"
-                    sx={{
-                      background: "#388e3c",
-                      color: "white",
-                      marginRight: { xs: 1, md: 2 },
-                      width: { xs: "100%", md: "auto" },
-                    }}
-                    component="label"
-                  >
-                    <MarkunreadOutlinedIcon />
-                    Automated Report
-                    <VisuallyHiddenInput type="file" />
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="solid"
-                    sx={{
-                      background: "black",
-                      color: "white",
-                      width: { xs: "100%", md: "auto" },
-                    }}
-                  >
-                    <SettingsOutlinedIcon />
-                    SetUp
-                  </Button>
-                </Box>
-              </Box>
+              > */}
+        <Typography
+          sx={{
+            fontFamily: 'Poppins',
+            fontSize: { xs: '24px', md: '32px' },
+            fontWeight: 500,
+            lineHeight: { xs: '36px', md: '48px' },
+            textAlign: { xs: 'center', md: 'left' },
+            width: { xs: '100%', md: 'auto' },
+          }}
+        >
+          Report
+        </Typography>
+        <Typography
+          sx={{
+            fontFamily: 'Poppins',
+            fontSize: { xs: '14px', md: '18px' },
+            fontWeight: 400,
+            lineHeight: { xs: '22px', md: '27px' },
+            textAlign: { xs: 'center', md: 'left' },
+            // width: { xs: "100%", md: "auto" },
+            mt: { xs: 1, md: 0 },
+            ml: { md: 2 },
+            whiteSpace: 'nowrap',
+          }}
+        >
+          Checkout by Past Due
+        </Typography>
+        <Box
+          // sx={{
+          //   width: "100%",
+          //   // marginRight:'5%',
+          //   display: { md: "flex", xs: "flex" },
+          //   justifyContent:'flex-end',
+          //   flexDirection: { md: "row", xs: "column" },
+          //   gap: "5px",
+          // }}
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            flexDirection: { md: 'row', xs: 'column' },
+            gap: '5px',
+          }}
+        >
+          <Button
+            variant="solid"
+            sx={{
+              background: '#388e3c',
+              color: 'white',
+              marginRight: { xs: 1, md: 2 },
+              width: { xs: '100%', md: 'auto' },
+            }}
+            component="label"
+          >
+            <MarkunreadOutlinedIcon />
+            Automated Report
+          </Button>
 
+          <Button
+            type="button"
+            variant="solid"
+            sx={{
+              background: 'black',
+              color: 'white',
+              width: { xs: '100%', md: 'auto' },
+            }}
+          >
+            <SettingsOutlinedIcon />
+            SetUp
+          </Button>
+        </Box>
+      </Box>
 
-              <Box
-                // sx={{ display: "flex", justifyContent: "center", mb: 4 }}
-                sx={{
-                    width: "100%",
-                    // marginRight:'10%',
-                    display: { md: "flex", xs: "flex" },
-                    justifyContent:'flex-end',
-                    flexDirection: { md: "row", xs: "column" },
-                    gap: "5px",
-                  }}
-              >
-                <Button
-                  variant="solid"
-                  sx={{
-                    background: "#388e3c",
-                    color: "white",
-                    marginRight: { xs: 1, md: 2 },
-                    width: { xs: "100%", md: "auto" },
-                  }}
-                  component="label"
-                >
-                  Export
-                  <VisuallyHiddenInput type="file" />
-                </Button>
-                <Button
-                  type="button"
-                  variant="solid"
-                  sx={{
-                    background: "black",
-                    color: "white",
-                    width: { xs: "100%", md: "auto" },
-                  }}
-                >
-                  <PrintOutlinedIcon />
-                  Print
-                </Button>
-              </Box>
+      <Box
+        // sx={{ display: "flex", justifyContent: "center", mb: 4 }}
+        sx={{
+          //     width: "100%",
+          //     // marginRight:'10%',
+          display: 'flex',
+          justifyContent: { md: 'flex-end', xs: 'center' },
+          flexDirection: { md: 'row', xs: 'column' },
+          alignItems: 'center',
+          gap: '5px',
+        }}
+      >
+        <Button
+          variant="solid"
+          sx={{
+            background: '#388e3c',
+            color: 'white',
+            marginRight: { xs: 1, md: 2 },
+            width: { xs: '100%', md: 'auto' },
+          }}
+          component="label"
+        >
+          Export
+        </Button>
+        <Button
+          type="button"
+          variant="solid"
+          sx={{
+            background: 'black',
+            color: 'white',
+            width: { xs: '100%', md: 'auto' },
+          }}
+        >
+          <PrintOutlinedIcon />
+          Print
+        </Button>
+      </Box>
 
-              <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <Image />
-              </Box>
-            </Box>
-          </Box>
-        </div>
-      </div>
-    </>
-  );
-};
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Image />
+      </Box>
+      {/* </Box> */}
+      {/* </Box> */}
+    </AppView>
+  )
+}
 
-export default AssetsPastDue;
+export default AssetsPastDue

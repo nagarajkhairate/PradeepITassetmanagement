@@ -1,231 +1,188 @@
-import {
-  Box,
-  Button,
-  Typography,
-} from "@mui/joy";
-import { styled } from "@mui/joy";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import Image from "../../components/Common/MaintenanceEmpty";
-import Select, { selectClasses } from "@mui/joy/Select";
-import Option from "@mui/joy/Option";
-import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
-import Table from "@mui/joy/Table";
-import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
+import { Box, Button, Typography } from '@mui/joy'
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined'
+import Image from '../../components/Common/MaintenanceEmpty'
+import Select, { selectClasses } from '@mui/joy/Select'
+import Option from '@mui/joy/Option'
+import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown'
+import Table from '@mui/joy/Table'
+import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined'
+import AppView from '../../components/Common/AppView'
 
-
-const VisuallyHiddenInput = styled("input")`
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  white-space: nowrap;
-  width: 1px;
-`;
-
-export function WarrantyExpiring () {
+export function WarrantyExpiring() {
   return (
-    <>
-      <div style={{ width: "100%", background: "#f9f9f9" }}>
-        <div style={{ margin: "52px" }}>
-          <Box
+    <AppView>
+      <Typography level="h4">Warranty</Typography>
+
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: { md: 'row', xs: 'column' },
+          justifyContent: { xs: 'center', md: 'space-between' },
+          gap: '5px',
+        }}
+      >
+        <Box 
+        sx={{
+          display: 'flex',
+          flexDirection: { md: 'row', xs: 'column' },
+        }}
+        >
+        <Button
+          type="button"
+          variant="solid"
+          autoFocus
+          sx={{
+            background: '#1CCAB8',
+            color: 'white',
+            borderRadius: '15px',
+          }}
+        >
+          <SettingsOutlinedIcon />
+          Search Criteria
+        </Button>
+        </Box>
+
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { md: 'row', xs: 'column' },
+            gap: '5px',
+          }}
+        >
+          <Button
+            variant="solid"
+            autoFocus
+            size="sm"
             sx={{
-              mt: "40px",
-              width: "100%",
-              display: "flex",
-              justifyContent: "space-between",
-              flexDirection: { xs: "column", md: "row" },
+              background: '#388e3c',
+              color: 'white',
+              borderRadius: '15px',
             }}
           >
-            <Box>
-              <Typography level="h4">Warranty</Typography>
-
-              <Box
-                sx={{
-                  display: "flex",
-                  width: "100%",
-                  alignItems: "center",
-                  marginTop: "60px",
-                  // marginLeft: "5%",
-                  flexDirection: { md: "row", xs: "column" },
-                  gap: { md: "100px", xs: "5px" },
-                }}
-              >
-                <Box sx={{width:"100%"}}>
+            <CloudUploadOutlinedIcon />
+            Export to Excel
+          </Button>
+          <Button
+            variant="solid"
+            autoFocus
+            sx={{
+              background: '#2196f3',
+              color: 'white',
+              borderRadius: '15px',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            <CloudUploadOutlinedIcon />
+            Import Maintenance
+          </Button>
           <Button
             type="button"
             variant="solid"
             autoFocus
             sx={{
-              background: "#1CCAB8",
-              color: "white",
-              borderRadius: "15px"
-              ,width:{md:"150px",xs:"90%"}
+              background: 'black',
+              color: 'white',
+              borderRadius: '15px',
             }}
-            >
+          >
             <SettingsOutlinedIcon />
-            Search Criteria
+            Setup Column
           </Button>
-            </Box>
+        </Box>
+      </Box>
 
-                <Box
-                  sx={{
-                    width: "100%",
-                    display: { md: "flex", xs: "flex" },
-                    flexDirection: { md: "row", xs: "column" },
-                    gap: "5px",
-                  }}
-                >
-                  <Button
-                    variant="solid"
-                    autoFocus
-                    size="sm"
-                    sx={{
-                      background: "#388e3c",
-                      color: "white",
-                      borderRadius: "15px",
-                      width: { md: "150px", xs: "90%" },
-          
-                    }}
-                  >
-                     <CloudUploadOutlinedIcon />
-                    Export
-                    <VisuallyHiddenInput type="file" />
-                  </Button>
-                  <Button
-                    variant="solid"
-                    autoFocus
-                    sx={{
-                      background: "#2196f3",
-                      color: "white",
-                      borderRadius: "15px",
-                      width: { md: "180px", xs: "90%" },
-                      whiteSpace:'nowrap'
-                    }}
-                    
-                  >
-                    <CloudUploadOutlinedIcon />
-                    Import Maintenance
-                    <VisuallyHiddenInput type="file" />
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="solid"
-                    autoFocus
-                    sx={{
-                      background: "black",
-                      color: "white",
-                      borderRadius: "15px",
-                      width: { md: "150px", xs: "90%" },
-                    }}
-                  >
-                    <SettingsOutlinedIcon />
-                    Setup Column
-                  </Button>
-                </Box>
-              </Box>
+      <Box
+        sx={{
+          gap:{md:"1px",xs:"3px"},
+         display:"flex" , 
+         alignItems: 'center',
+         flexDirection: { md: 'row', xs: 'column' },
+         justifyContent: 'space-between',
+         mt:2
+            }}
+      >
+        <Box
+        >
+          <Select
+            placeholder="Warranties Expiring"
+            indicator={<KeyboardArrowDown />}
+            sx={{
+              [`& .${selectClasses.indicator}`]: {
+                transition: '0.2s',
+                [`&.${selectClasses.expanded}`]: {
+                  transform: 'rotate(-180deg)',
+                },
+              },
+              borderRadius: '15px',
+            }}
+          >
+            <Option value="dog">Dog</Option>
+            <Option value="cat">Cat</Option>
+            <Option value="fish">Fish</Option>
+            <Option value="bird">Bird</Option>
+          </Select>
+        </Box>
 
-              <Box
-                sx={{
-                  gap: { md: "50px", xs: "5px" },
-                  width: "100%",
-                  marginRight: { md: "10%", xs: "0" },
-                  display: "flex",
-                  
-                  flexDirection: { md: "row", xs: "column" },
-                }}
-              >
-                <Box>
-                  <Select
-                    placeholder="Warranties Expiring"
-                    indicator={<KeyboardArrowDown />}
-                    sx={{
-                      width: { md: 200, xs: "90%" },
-                      [`& .${selectClasses.indicator}`]: {
-                        transition: "0.2s",
-                        [`&.${selectClasses.expanded}`]: {
-                          transform: "rotate(-180deg)",
-                        },
-                      },
-                      mt:4,
-                      // marginTop: { md: "10%", xs: "5px" },
-                      borderRadius: "15px",
-                    }}
-                  >
-                    <Option value="dog">Dog</Option>
-                    <Option value="cat">Cat</Option>
-                    <Option value="fish">Fish</Option>
-                    <Option value="bird">Bird</Option>
-                  </Select>
-                </Box>
+        <Box>
+          <Select
+            placeholder="10"
+            indicator={<KeyboardArrowDown />}
+            sx={{
+              [`& .${selectClasses.indicator}`]: {
+                transition: '0.2s',
+                [`&.${selectClasses.expanded}`]: {
+                  transform: 'rotate(-180deg)',
+                },
+              },
+              borderRadius: '15px',
+            }}
+          >
+            <Option value="10">10</Option>
+            <Option value="15">15</Option>
+            <Option value="20">20</Option>
+          </Select>
+        </Box>
 
-                <Box sx={{ mt: 1 }}>
-                  <Select
-                    placeholder="10"
-                    indicator={<KeyboardArrowDown />}
-                    sx={{
-                      width: { md: 100, xs: "90%" },
-                      [`& .${selectClasses.indicator}`]: {
-                        transition: "0.2s",
-                        [`&.${selectClasses.expanded}`]: {
-                          transform: "rotate(-180deg)",
-                        },
-                      },
-                      marginTop: { md: "34%", xs: "10px" },
-                      borderRadius: "15px",
-                    }}
-                  >
-                    <Option value="10">10</Option>
-                    <Option value="15">15</Option>
-                    <Option value="20">20</Option>
-                  </Select>
-                </Box>
+        <Typography
+          sx={{
+            maxWidth: 450,
+            fontFamily: 'Poppins, sans-serif',
+            fontStyle: 'italic',
+            marginTop: '2px',
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'flex-end ',
+          }}
+          color="danger"
+        >
+          Link warranties to specific assets by choosing view next to the
+          warranty you wish to edit. then, add the required information.
+        </Typography>
+        {/* </Box> */}
+      </Box>
 
-                <Box
-                  sx={{
-                    
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    alignItems: "flex-end ",
-                    color: "danger",
-                    fontFamily: "Poppins, sans-serif",
-                    fontStyle: "italic",
-                    marginTop: "2px",
-                  }}
-                >
-                  Link warranties to specific assets by choosing view next to
-                  the warranty you wish to edit. then, add the required
-                  information.
-                </Box>
-              </Box>
+      <Box>
+        <Table hoverRow>
+          <thead>
+            <tr>
+              <th style={{ width: '10%' }}>Active</th>
+              <th>Asset Tag Id</th>
+              <th>Description</th>
+              <th>Length(month)</th>
+              <th>Expires</th>
+              <th>Notes</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+        </Table>
+      </Box>
 
-              <Box>
-                <Table hoverRow>
-                  <thead>
-                    <tr style={{ width: "104px" }}>
-                      <th style={{ width: "10%" }}>Active</th>
-                      <th>Asset Tag Id</th>
-                      <th>Description</th>
-                      <th>Length(month)</th>
-                      <th>Expires</th>
-                      <th>Notes</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                </Table>
-              </Box>
-
-              <Box>
-                <Image />
-              </Box>
-            </Box>
-          </Box>
-        </div>
-      </div>
-    </>
-  );
+      <Box>
+        <Image />
+      </Box>
+    </AppView>
+  )
 }
 
-export default WarrantyExpiring;
+export default WarrantyExpiring
