@@ -60,6 +60,17 @@ const SetupTableOptions: React.FC = ({}) => {
   const [depreciationMethod, setDepreciationMethod] = useState("");
   const [calculationFrequency, setCalculationFrequency] = useState("");
   const [enableLinking, setEnableLinking] = useState("No");
+  const [linkedAssets, setLinkedAssets] = useState({
+    checkout: false,
+    leaseAssets: false,
+    lostFoundAssets: false,
+    repairAssets: false,
+    brokenAssets: false,
+    disposeAssets: false,
+    donateAssets: false,
+    sellAssets: false,
+    auditAssets: false,
+  });
   const [companyFormData, setCompanyFormData] = useState<any>({
     assetDepreciation: "No",
     depreciationMethod: "",
@@ -115,18 +126,28 @@ const SetupTableOptions: React.FC = ({}) => {
       formData.DepreciationOptions.calculationFrequency = calculationFrequency;
     }
     if (enableLinking === "Yes") {
-      formData.LinkingOfAssets.linkedAssets = {
-        checkout: false,
-        leaseAssets: false,
-        lostFoundAssets: false,
-        repairAssets: false,
-        brokenAssets: false,
-        disposeAssets: false,
-        donateAssets: false,
-        sellAssets: false,
-        auditAssets: false,
-      };
-    }
+        formData.LinkingOfAssets.linkedAssets = Object.keys(linkedAssets).reduce(
+            (result, key) => {
+              if (linkedAssets[key as keyof typeof linkedAssets]) {
+                result[key] = true;
+              }
+              return result;
+            },
+            {} as { [key: string]: boolean }
+          );
+        }
+    //   formData.LinkingOfAssets.linkedAssets = {
+    //     checkout: false,
+    //     leaseAssets: false,
+    //     lostFoundAssets: false,
+    //     repairAssets: false,
+    //     brokenAssets: false,
+    //     disposeAssets: false,
+    //     donateAssets: false,
+    //     sellAssets: false,
+    //     auditAssets: false,
+    //   };
+    // }
     console.log(JSON.stringify(formData, null, 2));
   };
 
@@ -141,6 +162,15 @@ const SetupTableOptions: React.FC = ({}) => {
       [name]: value,
     }));
   };
+
+  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = event.target;
+    setLinkedAssets((prev) => ({
+      ...prev,
+      [name]: checked,
+    }));
+  };
+
 
   return (
     <>
@@ -373,9 +403,6 @@ const SetupTableOptions: React.FC = ({}) => {
                         marginTop: "10px",
                       }}
                     >
-                        {/* <div style={{ width: 25, height: 25, color: "#FBC21E" }}>
-                      <LinkingOptions.icon  />
-                      </div> */}
                       <span style={{ marginLeft: "8px" }}>
                         {LinkingOptions.title}
                       </span>
@@ -423,8 +450,12 @@ const SetupTableOptions: React.FC = ({}) => {
                           Transact as a whole...
                         </Typography>
                         <FormControl component="fieldset">
+                       
+                       
                           <Box marginBottom={"10px"}>
-                            <Checkbox />
+                            <Checkbox 
+                            onChange={handleCheckboxChange}
+                            />
                             <HowToRegOutlinedIcon   /> Check-out
                           </Box>
                           <Box marginBottom={"10px"}>
@@ -433,13 +464,11 @@ const SetupTableOptions: React.FC = ({}) => {
                           </Box>
                           <Box marginBottom={"10px"}>
                             <Checkbox />
-                            <CalendarMonthOutlinedIcon  /> Lease
-                            assets
+                            <CalendarMonthOutlinedIcon  /> Lease assets
                           </Box>
                           <Box marginBottom={"10px"}>
                             <Checkbox />
-                            <TuneOutlinedIcon  /> Lost/Found'
-                            assets
+                            <TuneOutlinedIcon  /> Lost/Found'assets
                           </Box>
                           <Box marginBottom={"10px"}>
                             <Checkbox />

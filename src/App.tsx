@@ -15,9 +15,10 @@ const App = () => {
         <Route path="/" element={<MainLayout />}>
           {routes}
         </Route>
+
       </Routes>
     </Box>
   )
 }
-
 export default App
+
