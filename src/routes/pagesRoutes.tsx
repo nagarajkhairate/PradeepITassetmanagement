@@ -34,6 +34,7 @@ import AssetForm from '../pages/Setup/CustomizeForm/AssetForm'
 import Maintenance from '../pages/Maintenance/Maintenance'
 import Lease from '../pages/Lease/Lease'
 import Move from '../pages/Move/Move'
+import EditAssets from '../pages/Assets/EditAssets'
 
 export const pagesRoutes: any[] = [
   {
@@ -106,6 +107,14 @@ export const pagesRoutes: any[] = [
         pageName: 'Add an Asset',
         path: '/assets/add-an-asset',
         element: <AddAnAsset />,
+        state: 'assets',
+        icon: <AddCircleOutlineIcon />,
+      },
+      {
+        index: true,
+        pageName: 'Edit an Asset',
+        path: '/assets/edit-an-asset',
+        element: <EditAssets />,
         state: 'assets',
         icon: <AddCircleOutlineIcon />,
       },
