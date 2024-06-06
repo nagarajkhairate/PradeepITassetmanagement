@@ -112,11 +112,9 @@ const CheckOut: React.FC = () => {
       {selectedAssetData.length > 0 ? (
         <CheckOutForm selectedAssets={selectedAssetData} />
       ) : (
-     <Box>
-      <MaintenanceEmpty />
-     </Box>
-          
-   
+        <Box>
+          <MaintenanceEmpty />
+        </Box>
       )}
 
       <Modal open={open} onClose={handleClose}>
