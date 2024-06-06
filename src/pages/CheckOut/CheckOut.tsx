@@ -7,11 +7,13 @@ import {
   Modal,
   Input,
   Table,
+  Sheet,
 } from '@mui/joy'
 import SearchIcon from '../../Assets/search.svg'
 import CheckOutForm from './CheckOutForm'
 import MaintenanceEmpty from '../../components/Common/MaintenanceEmpty'
 import AppView from '../../components/Common/AppView'
+import AppButton from '../../components/Common/AppButton'
 
 const assets = [
   {
@@ -31,6 +33,36 @@ const assets = [
     assignedTo: 'Kavita G',
     site: 'Hubli',
     location: 'Gokul RD',
+    leaseTo: '',
+  },
+  {
+    id: 'BBC-BLR-BKS - 1001',
+    description:
+      '12th Gen, Intel Core i3-N305 Processor 1.8 GHz (6MB Cache, up to 3.8 GHz turbo boost, 8 cores, 8 threads)',
+    status: 'Checked Out',
+    assignedTo: 'Kavita G',
+    site: 'Hubli',
+    location: 'Gokul RD',
+    leaseTo: '',
+  },
+  {
+    id: 'BBC-BLR-BKS - 1001',
+    description:
+      '12th Gen, Intel Core i3-N305 Processor 1.8 GHz (6MB Cache, up to 3.8 GHz turbo boost, 8 cores, 8 threads)',
+    status: 'Checked Out',
+    assignedTo: 'Kavita G',
+    site: 'Hubli',
+    location: 'Gokul RD',
+    leaseTo: '',
+  },
+  {
+    id: 'BBC-BLR-BKS-1002',
+    description:
+      '12th Gen, Intel Core i3-N305 Processor 8/18 GHz (8MB Cache, up to 3.8 GHz Turbo boost, 8 cores, 8 threads)',
+    status: 'Checked Out',
+    assignedTo: 'Shruti K',
+    site: 'Bagalkot',
+    location: 'Old Bagalkot',
     leaseTo: '',
   },
   {
@@ -116,15 +148,17 @@ const CheckOut: React.FC = () => {
         </Box>
       )}
 
-      <Modal open={open} onClose={handleClose}>
+      <Modal open={open} onClose={handleClose} sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
         <Box
           sx={{
             background: '#fff',
-            padding: 3,
-            borderRadius: '16px',
-            margin: 'auto',
-            marginTop: '5%',
-            width: '50%',
+            padding: 2,
+            borderRadius: '10px',
+            width: '80%'
           }}
         >
           <Typography level="h4" sx={{ marginBottom: 2 }}>
@@ -146,10 +180,10 @@ const CheckOut: React.FC = () => {
               sx={{
                 width: '300px',
                 paddingLeft: '40px',
-                height: '30px',
+                height: '20px',
                 borderColor: '#7676764D',
                 lineHeight: '24px',
-                fontSize: '12px',
+                fontSize: '10px',
                 border: '1px solid #7676764D',
               }}
             />
@@ -160,35 +194,56 @@ const CheckOut: React.FC = () => {
               sx={{
                 position: 'absolute',
                 left: '10px',
-                width: '20px',
                 height: '20px',
               }}
             />
           </Box>
-          <Box>
+          <Sheet
+        
+        sx={{ 
+          width: '100%',
+          borderRadius: 'sm',
+          flexShrink: 1,
+          height: '70vh',
+          overflow: 'auto',
+          '&::-webkit-scrollbar': {
+            width: '6px', 
+          },
+          '&::-webkit-scrollbar-track': {
+            background: '#f1f1f1', 
+          },
+          '&::-webkit-scrollbar-thumb': {
+            background: '#888', 
+            borderRadius: '10px', 
+          },
+          '&::-webkit-scrollbar-thumb:hover': {
+            background: '#555', 
+          },
+        }}
+      >
             <Table
-              sx={{
-                marginBottom: 2,
-                fontWeight: 'bold',
-                border: '1px solid #f2f2f2',
-                width: '100%',
-              }}
+              aria-labelledby="tableTitle"
+          stickyHeader
+        
+          sx={{
+            fontSize: '10px',
+            border: '1px solid #f2f2f2',
+          }}
             >
               <thead>
                 <tr>
                   <th
                     style={{
-                      padding: '8px',
+                      width: 20,
                       border: '1px solid #f2f2f2',
-                      width: '20px',
                       background: '#fff8e6',
                     }}
                   >
-                    <Checkbox />
+                    <Checkbox size="sm" />
                   </th>
                   <th
                     style={{
-                      padding: '8px',
+                      
                       border: '1px solid #f2f2f2',
                       background: '#fff8e6',
                     }}
@@ -197,7 +252,7 @@ const CheckOut: React.FC = () => {
                   </th>
                   <th
                     style={{
-                      padding: '8px',
+                      
                       border: '1px solid #f2f2f2',
                       background: '#fff8e6',
                     }}
@@ -206,7 +261,6 @@ const CheckOut: React.FC = () => {
                   </th>
                   <th
                     style={{
-                      padding: '8px',
                       border: '1px solid #f2f2f2',
                       background: '#fff8e6',
                     }}
@@ -215,7 +269,6 @@ const CheckOut: React.FC = () => {
                   </th>
                   <th
                     style={{
-                      padding: '8px',
                       border: '1px solid #f2f2f2',
                       background: '#fff8e6',
                     }}
@@ -224,7 +277,7 @@ const CheckOut: React.FC = () => {
                   </th>
                   <th
                     style={{
-                      padding: '8px',
+                      
                       border: '1px solid #f2f2f2',
                       background: '#fff8e6',
                     }}
@@ -233,7 +286,7 @@ const CheckOut: React.FC = () => {
                   </th>
                   <th
                     style={{
-                      padding: '8px',
+                      
                       border: '1px solid #f2f2f2',
                       background: '#fff8e6',
                     }}
@@ -242,59 +295,64 @@ const CheckOut: React.FC = () => {
                   </th>
                 </tr>
               </thead>
+              <tbody>
+                {filteredAssets.map((asset, index) => (
+                  <tr key={index}>
+                    <td
+                      style={{
+                        
+                        border: '1px solid #f2f2f2',
+                        
+                      }}
+                      color="#FFFFFF33"
+                    >
+                      <Checkbox
+                      size="sm"
+                        checked={selectedAssets.includes(asset.id)}
+                        onChange={() => handleCheckboxChange(asset.id)}
+                      />
+                    </td>
+                    <td
+                      style={{  border: '1px solid #f2f2f2' }}
+                      color="#4880FF"
+                    >
+                      {asset.id}
+                    </td>
+                    <td style={{  border: '1px solid #f2f2f2' }}>
+                      {asset.description}
+                    </td>
+                    <td
+                      style={{  border: '1px solid #f2f2f2' }}
+                      color="#13B457"
+                    >
+                      {asset.status}
+                    </td>
+                    <td style={{  border: '1px solid #f2f2f2' }}>
+                      {asset.assignedTo}
+                    </td>
+                    <td style={{  border: '1px solid #f2f2f2' }}>
+                      {asset.site}
+                    </td>
+                    <td style={{  border: '1px solid #f2f2f2' }}>
+                      {asset.location}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
             </Table>
-            {filteredAssets.map((asset, index) => (
-              <tr key={index}>
-                <td
-                  style={{
-                    padding: '8px',
-                    border: '1px solid #f2f2f2',
-                    width: '20px',
-                  }}
-                  color="#FFFFFF33"
-                >
-                  <Checkbox
-                    checked={selectedAssets.includes(asset.id)}
-                    onChange={() => handleCheckboxChange(asset.id)}
-                  />
-                </td>
-                <td
-                  style={{ padding: '8px', border: '1px solid #f2f2f2' }}
-                  color="#4880FF"
-                >
-                  {asset.id}
-                </td>
-                <td style={{ padding: '8px', border: '1px solid #f2f2f2' }}>
-                  {asset.description}
-                </td>
-                <td
-                  style={{ padding: '8px', border: '1px solid #f2f2f2' }}
-                  color="#13B457"
-                >
-                  {asset.status}
-                </td>
-                <td style={{ padding: '8px', border: '1px solid #f2f2f2' }}>
-                  {asset.assignedTo}
-                </td>
-                <td style={{ padding: '8px', border: '1px solid #f2f2f2' }}>
-                  {asset.site}
-                </td>
-                <td style={{ padding: '8px', border: '1px solid #f2f2f2' }}>
-                  {asset.location}
-                </td>
-              </tr>
-            ))}
-          </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button
+          </Sheet>
+          <Box sx={{ display: 'flex', mt: 2, justifyContent: 'flex-end' }}>
+            <AppButton
+            
               onClick={handleClose}
-              sx={{ marginRight: 2, background: '#000000', width: '100px' }}
+            
+              size='sm'
             >
               Cancel
-            </Button>
-            <Button onClick={handleAddToList} sx={{ background: '#FBC21E' }}>
+            </AppButton>
+            <AppButton onClick={handleAddToList} size='sm'>
               Add to List
-            </Button>
+            </AppButton>
           </Box>
         </Box>
       </Modal>

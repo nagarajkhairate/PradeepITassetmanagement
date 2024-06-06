@@ -67,7 +67,6 @@ const SidebarItem = ({ item }: any) => {
         onClick={handleItemClick} 
         sx={{
             mt:"10px", 
-          width: "112%",
           "&:hover": {
             background: "#FEF8E8",
             borderLeft: "5px solid #FABC1E",
@@ -84,7 +83,7 @@ const SidebarItem = ({ item }: any) => {
             gap: "20px",
             justifyContent: "flex-start",
             alignItems: "center",
-            width: "100%",
+            
             cursor: "pointer",
             paddingLeft: "15px",
             position: "relative",
