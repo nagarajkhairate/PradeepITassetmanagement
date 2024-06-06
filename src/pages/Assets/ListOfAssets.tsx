@@ -2,19 +2,19 @@ import React, { useState, useEffect } from "react";
 import { Typography, Box, Button, Select, Checkbox } from "@mui/joy";
 import Table from "@mui/joy/Table";
 import SearchIcon from '@mui/icons-material/Search';
-import UploadFileIcon from '@mui/icons-material/UploadFile';
-import SettingsIcon from '@mui/icons-material/Settings';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { useMediaQuery } from "@mui/material"; 
 import { useTheme } from "@mui/material/styles";
 import ListOfAssetsCard from "./ListOfAssetsCard";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { fetch_listAssets } from "../../Redux/features/assetSlice";
-
+import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { Link } from "react-router-dom";
-import { RootState } from "../../Redux/store";
+import AppView from "../../components/Common/AppView";
 
 const data1 = [
   {
@@ -39,31 +39,33 @@ const data1 = [
     SerialNo: "8CG3250PAR",
     AssignedTo: "Riya V",
   },
-];
+]
 
 const ListOfAssets = () => {
+  const getAsset = useSelector(
+    (state: RootState) => state.assets.data
+  );
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
-  const [listData, setListData] = useState(data1);
+  const [listData, setListData] = useState(getAsset);
   // const allAssetdata = useSelector((state:any)=>state.assets.data || []);
   // console.log("allassets",allAssetdata)
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const { data, loading, error } = useSelector(
-    (state: RootState) => state.assets
-  );
-  // console.log(data);
-  // console.log(loading);
-  // console.log(error);
+
 
   useEffect(() => {
     dispatch(fetch_listAssets());
   }, [dispatch]);
 
+  useEffect(() => {
+    setListData(getAsset);
+  }, [getAsset]);
+
+
   return (
-    <>
-      <div style={{ width: "100%", background: "#f9f9f9" }}>
-        <div style={{ marginLeft: "52px",paddingTop:"30px" }}>
+    <AppView>
+
           <Typography level="h3">List Of Assets</Typography>
           <Box
             sx={{
@@ -98,7 +100,7 @@ const ListOfAssets = () => {
                   }}
                 >
                   <Typography sx={{ color: "white" }}>
-                    <SearchIcon  />
+                    <SearchIcon size={23} />
                   </Typography>
                   <Typography
                     sx={{
@@ -140,7 +142,7 @@ const ListOfAssets = () => {
                   }}
                 >
                   <Typography sx={{ color: "white" }}>
-                    <UploadFileIcon  />
+                    <FileUploadIcon size={23} />
                   </Typography>
                   <Typography
                     sx={{
@@ -177,7 +179,7 @@ const ListOfAssets = () => {
                   }}
                 >
                   <Typography sx={{ color: "white" }}>
-                    <SettingsIcon  />
+                    <SettingsRoundedIcon size={23} />
                   </Typography>
 
                   <Typography
@@ -308,26 +310,25 @@ const ListOfAssets = () => {
                     boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
                   }}
                 >
-                  {listData.map((item, index) => (
-                     
-                    <tr key={index}>
+                  {listData.map((item:any) => (  
+                    <tr key={item.id}>
                       <td>
                         <Checkbox />
                       </td>
-                      <td>{item.AssetTagID}</td>
-                      <td>{item.Description}</td>
-                      <td>{item.Brand}</td>
-                      <td>{item.PurchaseDate}</td>
-                      <td>{item.Cost}</td>
-                      <td>{item.Status}</td>
-                      <td>{item.SerialNo}</td>
+                      <td>{item.asset_tag_id}</td>
+                      <td>{item.description}</td>
+                      <td>{item.brand}</td>
+                      <td>{item.purchase_date}</td>
+                      <td>{item.cost}</td>
+                      <td>{item.status}</td>
+                      <td>{item.serial_number}</td>
                       <td>{item.AssignedTo}</td>
                       <td style={{ cursor: "pointer" }}>
                         <Link
-                          to={`/assets/editasset`}
+                          to={`/assets/editasset/${item.id}`}
                           style={{ color: "inherit" }}
                         >
-                          <VisibilityIcon />
+                          <RemoveRedEyeIcon size={20} />
                         </Link>
                       </td>
                     </tr>
@@ -336,9 +337,9 @@ const ListOfAssets = () => {
               </Table>
             </Box>
           )}
-        </div>
-      </div>
-    </>
+
+
+    </AppView>
   );
 };
 

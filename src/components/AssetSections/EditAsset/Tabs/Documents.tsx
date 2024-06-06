@@ -1,15 +1,14 @@
 import React from "react";
 import { useState } from "react";
 import { Box, Typography, Button, Table, Divider, } from "@mui/joy";
-import { AiOutlinePlus } from "react-icons/ai";
-import {
-  AiOutlineFileText,
-  AiOutlineCalendar,
-  AiOutlineUser,
-  AiOutlineFile,
-  AiOutlineEdit,
-} from "react-icons/ai";
-import { AiOutlineArrowUp, AiOutlineArrowDown } from "react-icons/ai";
+import AddIcon from '@mui/icons-material/Add';
+import DescriptionIcon from '@mui/icons-material/Description';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import PersonIcon from '@mui/icons-material/Person';
+import EditIcon from '@mui/icons-material/Edit';
 import { useTheme,useMediaQuery } from "@mui/material/";
 
 // Define a type for your document
@@ -98,7 +97,7 @@ const Documents = (props: any) => {
               },
             }}
           >
-            <AiOutlinePlus size={23} />
+            <AddIcon size={23} />
             Add New
           </Button>
         </Box>
@@ -200,52 +199,52 @@ const Documents = (props: any) => {
             <tr>
               <th
               onClick={() => sortDocuments("description")}>
-                <AiOutlineFileText /> Description{" "}
+                <DescriptionIcon /> Description{" "}
                 {sortField === "description" &&
                   (sortDirection === "asc" ? (
-                    <AiOutlineArrowUp />
+                    <ArrowUpwardIcon />
                   ) : (
-                    <AiOutlineArrowDown />
+                    <ArrowDownwardIcon />
                   ))}
               </th>
               <th onClick={() => sortDocuments("fileType")}>
-                <AiOutlineFile /> File Type{" "}
+                <InsertDriveFileIcon /> File Type{" "}
                 {sortField === "fileType" &&
                   (sortDirection === "asc" ? (
-                    <AiOutlineArrowUp />
+                    <ArrowUpwardIcon />
                   ) : (
-                    <AiOutlineArrowDown />
+                    <ArrowDownwardIcon />
                   ))}
               </th>
               <th onClick={() => sortDocuments("fileName")}>
-                <AiOutlineFileText /> File Name{" "}
+                <DescriptionIcon /> File Name{" "}
                 {sortField === "fileName" &&
                   (sortDirection === "asc" ? (
-                    <AiOutlineArrowUp />
+                    <ArrowUpwardIcon />
                   ) : (
-                    <AiOutlineArrowDown />
+                    <ArrowDownwardIcon />
                   ))}
               </th>
               <th onClick={() => sortDocuments("uploadDate")}>
-                <AiOutlineCalendar /> Upload Date{" "}
+                <CalendarTodayIcon /> Upload Date{" "}
                 {sortField === "uploadDate" &&
                   (sortDirection === "asc" ? (
-                    <AiOutlineArrowUp />
+                    <ArrowUpwardIcon />
                   ) : (
-                    <AiOutlineArrowDown />
+                    <ArrowDownwardIcon />
                   ))}
               </th>
               <th onClick={() => sortDocuments("uploadBy")}>
-                <AiOutlineUser /> Upload By{" "}
+                <PersonIcon /> Upload By{" "}
                 {sortField === "uploadBy" &&
                   (sortDirection === "asc" ? (
-                    <AiOutlineArrowUp />
+                    <ArrowUpwardIcon />
                   ) : (
-                    <AiOutlineArrowDown />
+                    <ArrowDownwardIcon />
                   ))}
               </th>
               <th>
-                <AiOutlineEdit /> Action
+                <EditIcon /> Action
               </th>
             </tr>
           </thead>

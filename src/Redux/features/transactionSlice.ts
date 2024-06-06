@@ -4,7 +4,7 @@ import axios from "axios";
 interface Transaction{
   data:any[];
   loading:boolean;
-  error:string|null;
+  error:string|null; 
 }
 
 const initialState:Transaction={

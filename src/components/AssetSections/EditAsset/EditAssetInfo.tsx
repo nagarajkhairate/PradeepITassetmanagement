@@ -13,20 +13,20 @@ import {
   MenuItem,
 } from "@mui/material";
 
-import { AiOutlinePrinter } from "react-icons/ai";
-import { BiSolidPencil } from "react-icons/bi";
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-import { LuUser2 } from "react-icons/lu";
-import { CiPaperplane } from "react-icons/ci";
-import { BiDislike } from "react-icons/bi";
-import { FiTool } from "react-icons/fi";
-import { PiLinkBreak } from "react-icons/pi";
-import { PiRecycle } from "react-icons/pi";
-import { IoIosHeartEmpty } from "react-icons/io";
-import { MdOutlineSell } from "react-icons/md";
-import { MdDeleteOutline } from "react-icons/md";
-import { MdOutlineEmail } from "react-icons/md";
-import { MdContentCopy } from "react-icons/md";
+import PrintIcon from '@mui/icons-material/Print';
+import EditIcon from '@mui/icons-material/Edit';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import PersonIcon from '@mui/icons-material/Person';
+import SendIcon from '@mui/icons-material/Send';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import BuildIcon from '@mui/icons-material/Build';
+import BrokenImageIcon from '@mui/icons-material/BrokenImage';
+import RecyclingIcon from '@mui/icons-material/Recycling';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import SellIcon from '@mui/icons-material/Sell';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EmailIcon from '@mui/icons-material/Email';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckOutDialog from "./Check Out/CheckOutDialog";
 
 interface Asset {
@@ -123,7 +123,7 @@ const EditAssetInfo: React.FC = (props: any) => {
             }}
           >
             {" "}
-            <AiOutlinePrinter size={23} /> Print
+            <PrintIcon size={23} /> Print
           </Button>
           <Button
             sx={{
@@ -135,7 +135,7 @@ const EditAssetInfo: React.FC = (props: any) => {
             }}
           >
             {" "}
-            <BiSolidPencil size={23} /> Edit Asset
+            <EditIcon size={23} /> Edit Asset
           </Button>
           <Dropdown>
             <MenuButton
@@ -148,44 +148,44 @@ const EditAssetInfo: React.FC = (props: any) => {
                 color: "#ffffff",
               }}
             >
-            More Action <MdOutlineKeyboardArrowDown size={23} />{" "}
+            More Action <KeyboardArrowDownIcon size={23} />{" "}
             </MenuButton>
             <Menu>
               <MenuItem onClick={openPopUp}>
-                <LuUser2 />
+                <PersonIcon />
                 Check Out
               </MenuItem>
               <MenuItem>
-                <CiPaperplane /> Lease
+                <SendIcon /> Lease
               </MenuItem>
               <MenuItem>
-                <BiDislike /> Lost/Minning
+                <ThumbDownIcon /> Lost/Minning
               </MenuItem>
               <MenuItem>
-                <FiTool /> Repair
-              </MenuItem>
-              <Divider></Divider>
-              <MenuItem>
-                <PiLinkBreak /> Broken
-              </MenuItem>
-              <MenuItem>
-                <PiRecycle /> Dispose
-              </MenuItem>
-              <MenuItem>
-                <IoIosHeartEmpty /> Donate
-              </MenuItem>
-              <MenuItem>
-                <MdOutlineSell /> Sell
+                <BuildIcon /> Repair
               </MenuItem>
               <Divider></Divider>
               <MenuItem>
-                <MdDeleteOutline /> Delete
+                <BrokenImageIcon /> Broken
               </MenuItem>
               <MenuItem>
-                <MdOutlineEmail /> Email
+                <RecyclingIcon /> Dispose
               </MenuItem>
               <MenuItem>
-                <MdContentCopy /> Replicate
+                <FavoriteIcon /> Donate
+              </MenuItem>
+              <MenuItem>
+                <SellIcon /> Sell
+              </MenuItem>
+              <Divider></Divider>
+              <MenuItem>
+                <DeleteIcon /> Delete
+              </MenuItem>
+              <MenuItem>
+                <EmailIcon /> Email
+              </MenuItem>
+              <MenuItem>
+                <ContentCopyIcon /> Replicate
               </MenuItem>
             </Menu>
           </Dropdown>

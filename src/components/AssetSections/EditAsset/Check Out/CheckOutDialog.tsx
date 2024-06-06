@@ -17,12 +17,11 @@ import {
   IconButton,
   MenuItem,
 } from "@mui/material";
-
-import { AiOutlineClose } from "react-icons/ai";
+import CloseIcon from '@mui/icons-material/Close';
 import EmployeeDialog from "./EmployeeDialog";
 import ClientDialog from "./ClientDialog";
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { RootState } from "../../../../Redux/features/store";
+import { RootState } from "../../../../Redux/store";
 import { useDispatch } from "react-redux";
 import { post_check_out } from "../../../../Redux/features/transactionSlice";
 
@@ -199,7 +198,7 @@ const CheckOutDialog = (props: any) => {
           >
             <Typography>Check Out</Typography>
             <IconButton onClick={props.closePopUp}>
-              <AiOutlineClose />
+              <CloseIcon />
             </IconButton>
           </Box>
         </DialogTitle>
