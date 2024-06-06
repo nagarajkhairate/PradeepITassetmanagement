@@ -23,10 +23,11 @@ interface CheckOutFormProps {
     assignedTo: string;
     site: string;
     location: string;
+    leaseTo: string;
   }[];
 }
 
-const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
+const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets}) => {
   const [formData, setFormData] = useState({
     id: "",
     assigned_to: "",
@@ -108,6 +109,7 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
             <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Assigned to</th>
             <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Site</th>
             <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Location</th>
+            <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Lease To</th>
           </tr>
         </thead>
 
@@ -121,6 +123,7 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
               <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.assignedTo}</td>
               <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.site}</td>
               <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.location}</td>
+              <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.leaseTo}</td>
             </tr>
           ))}
         </tbody>

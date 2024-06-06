@@ -23,7 +23,7 @@ const assets = [
     assignedTo: 'Sanjana H',
     site: 'Hubli',
     location: 'Gokul RD/hubli',
-    leaseTo: '',
+    leaseTo: 'abcd',
   },
   {
     id: 'BBC-BLR-BKS - 1001',
@@ -33,7 +33,7 @@ const assets = [
     assignedTo: 'Kavita G',
     site: 'Hubli',
     location: 'Gokul RD',
-    leaseTo: '',
+    leaseTo: 'efgh',
   },
   {
     id: 'BBC-BLR-BKS - 1001',
@@ -43,7 +43,7 @@ const assets = [
     assignedTo: 'Kavita G',
     site: 'Hubli',
     location: 'Gokul RD',
-    leaseTo: '',
+    leaseTo: 'hijk',
   },
   {
     id: 'BBC-BLR-BKS - 1001',
@@ -53,7 +53,7 @@ const assets = [
     assignedTo: 'Kavita G',
     site: 'Hubli',
     location: 'Gokul RD',
-    leaseTo: '',
+    leaseTo: 'lmno',
   },
   {
     id: 'BBC-BLR-BKS-1002',
@@ -63,7 +63,7 @@ const assets = [
     assignedTo: 'Shruti K',
     site: 'Bagalkot',
     location: 'Old Bagalkot',
-    leaseTo: '',
+    leaseTo: 'pqrs',
   },
   {
     id: 'BBC-BLR-BKS-1002',
@@ -73,7 +73,7 @@ const assets = [
     assignedTo: 'Shruti K',
     site: 'Bagalkot',
     location: 'Old Bagalkot',
-    leaseTo: '',
+    leaseTo: 'tuvw',
   },
 ]
 
@@ -90,7 +90,7 @@ const CheckOut: React.FC = () => {
     setSearchKeyword(event.target.value)
   }
 
-  const handleCheckboxChange = (id: string) => {
+  const handleCheckboxChange = (id: string) => {  
     setSelectedAssets((prevSelectedAssets) =>
       prevSelectedAssets.includes(id)
         ? prevSelectedAssets.filter((assetId) => assetId !== id)
@@ -107,6 +107,7 @@ const CheckOut: React.FC = () => {
     )
     handleClose()
   }
+  
 
   const filteredAssets = assets.filter((asset) =>
     asset.description.toLowerCase().includes(searchKeyword.toLowerCase()),
@@ -293,6 +294,15 @@ const CheckOut: React.FC = () => {
                   >
                     Location
                   </th>
+                  <th
+                    style={{
+                      
+                      border: '1px solid #f2f2f2',
+                      background: '#fff8e6',
+                    }}
+                  >
+                    Lease To
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -335,6 +345,9 @@ const CheckOut: React.FC = () => {
                     </td>
                     <td style={{  border: '1px solid #f2f2f2' }}>
                       {asset.location}
+                    </td>
+                    <td style={{  border: '1px solid #f2f2f2' }}>
+                      {asset.leaseTo}
                     </td>
                   </tr>
                 ))}
