@@ -69,6 +69,7 @@ const CategorySetup: React.FunctionComponent = () => {
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
           gap: '5px',
+          p:2
         }}
       >
         <Box

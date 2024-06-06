@@ -144,7 +144,7 @@ export function CategorySubEdit({ categories, onCategoryChange }: Props) {
             </tr>
           </thead>
           <tbody>
-              {lapCat.data && lapCat.data.map((custom, index) => (
+              {lapCat.data.length > 0 ? lapCat.data.map((custom, index) => (
                 <tr key={custom.id}>
                   <td>
                     <Checkbox
@@ -162,7 +162,7 @@ export function CategorySubEdit({ categories, onCategoryChange }: Props) {
                       color: "green",
                       display:'flex',
                       justifyContent:'flex-end',
-                      marginLeft:'60%',
+                      marginLeft:'none',
                       border: "1px solid green ",
                       borderRadius: "15px",
                       "&:hover": {
@@ -183,7 +183,7 @@ export function CategorySubEdit({ categories, onCategoryChange }: Props) {
                       color: '#d32f2f',
                       display:'flex',
                       justifyContent:'flex-end',
-                      marginLeft:'60%',
+                      marginLeft:'none',
                       border: "1px solid red ",
                       borderRadius: "15px",
                       "&:hover": {
@@ -197,7 +197,7 @@ export function CategorySubEdit({ categories, onCategoryChange }: Props) {
                     </Button>
                   </td>
                 </tr>
-              ))}
+              )):<tr><td colSpan={4} style={{ textAlign: 'center'}}>Add Sub Category</td></tr>}
             
           </tbody>
         </Table>
@@ -239,7 +239,7 @@ export function CategorySubEdit({ categories, onCategoryChange }: Props) {
                 name="subCategory"
                 required
                 sx={{ width: "70%", marginLeft: "10px" }}
-                defaultValue={selectedCell !== null ? lapCat.data[selectedCell].subCategory : ""} // Set default value to the selected cell content
+                // defaultValue={selectedCell !== null ? lapCat.data[selectedCell].subCategory : ""} // Set default value to the selected cell content
               />
             </FormControl>
             <Button
@@ -300,15 +300,15 @@ export function CategorySubEdit({ categories, onCategoryChange }: Props) {
           <form onSubmit={handleDeleteSubmit}>
             <FormControl sx={{ display: "flex", flexDirection: "column", justifyContent: "space-evenly" }}>
               <Box sx={{ marginBottom: "20px", padding: "20px" }}>Are you sure you want to delete this Category?</Box>
-              <Input
+              {/* <Input
                 variant="outlined"
                 type="text"
                 id="subCategory"
                 name="subCategory"
                 required
                 sx={{ width: "92%", marginLeft: "20px" }}
-                defaultValue={selectedCell !== null ? lapCat.data[selectedCell].subCategory : ""} // Set default value to the selected cell content
-              />
+                // defaultValue={selectedCell !== null ? lapCat.data[selectedCell].subCategory : ""} // Set default value to the selected cell content
+              /> */}
             </FormControl>
             <Button
               autoFocus

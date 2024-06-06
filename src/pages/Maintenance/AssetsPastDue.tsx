@@ -18,15 +18,14 @@ export const AssetsPastDue: React.FC = () => {
           gap: '5px',
         }}
       >
-        {/* <Box sx={{ padding: { xs: 2, md: 4 } }}>
-              <Box
+         <Box
                 sx={{
                   display: "flex",
                   alignItems: "center",
                   flexDirection: { xs: "column", md: "row" },
                   mb: 2,
                 }}
-              > */}
+              >
         <Typography
           sx={{
             fontFamily: 'Poppins',
@@ -47,13 +46,14 @@ export const AssetsPastDue: React.FC = () => {
             lineHeight: { xs: '22px', md: '27px' },
             textAlign: { xs: 'center', md: 'left' },
             // width: { xs: "100%", md: "auto" },
-            mt: { xs: 1, md: 0 },
+            mt: { xs: 1, md: 1 },
             ml: { md: 2 },
             whiteSpace: 'nowrap',
           }}
         >
           Checkout by Past Due
         </Typography>
+        </Box>
         <Box
           // sx={{
           //   width: "100%",
@@ -76,7 +76,8 @@ export const AssetsPastDue: React.FC = () => {
               background: '#388e3c',
               color: 'white',
               marginRight: { xs: 1, md: 2 },
-              width: { xs: '100%', md: 'auto' },
+              borderRadius:'15px'
+              // width: { xs: '100%', md: 'auto' },
             }}
             component="label"
           >
@@ -90,7 +91,8 @@ export const AssetsPastDue: React.FC = () => {
             sx={{
               background: 'black',
               color: 'white',
-              width: { xs: '100%', md: 'auto' },
+              borderRadius:'15px'
+              // width: { xs: '100%', md: 'auto' },
             }}
           >
             <SettingsOutlinedIcon />
@@ -109,6 +111,7 @@ export const AssetsPastDue: React.FC = () => {
           flexDirection: { md: 'row', xs: 'column' },
           alignItems: 'center',
           gap: '5px',
+          borderRadius:'15px'
         }}
       >
         <Button
@@ -117,7 +120,8 @@ export const AssetsPastDue: React.FC = () => {
             background: '#388e3c',
             color: 'white',
             marginRight: { xs: 1, md: 2 },
-            width: { xs: '100%', md: 'auto' },
+            borderRadius:'15px'
+            // width: { xs: '100%', md: 'auto' },
           }}
           component="label"
         >
@@ -129,7 +133,8 @@ export const AssetsPastDue: React.FC = () => {
           sx={{
             background: 'black',
             color: 'white',
-            width: { xs: '100%', md: 'auto' },
+            borderRadius:'15px'
+            // width: { xs: '100%', md: 'auto' },
           }}
         >
           <PrintOutlinedIcon />
