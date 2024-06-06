@@ -129,7 +129,7 @@ const SidebarItem = ({ item }: any) => {
               {/* Adjust padding as needed */}
               <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
                 {child.icon}
-                <Typography> {child.name}</Typography>
+                <Typography> {child.pageName}</Typography>
               </Box>
             </Link>
             </ListItem>
