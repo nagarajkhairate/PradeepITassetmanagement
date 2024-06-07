@@ -1,170 +1,85 @@
-import Modal from "@mui/joy/Modal";
-import * as React from "react";
-import { Box,  Divider, Sheet } from "@mui/joy";
-import Typography from "@mui/joy/Typography";
-import PlaylistAddCheckOutlinedIcon from "@mui/icons-material/PlaylistAddCheckOutlined";
-import Button from "@mui/joy/Button";
-import Input from "@mui/joy/Input";
-import { FormControl, FormLabel } from "@mui/joy";
-import { Select, Option } from "@mui/joy";
-import { useState, useEffect } from "react";
-import { useTheme } from "@mui/joy/styles";
-import AddIcon from "@mui/icons-material/Add";
-import SetupPopup from "./SetupPopup";
-import PublishOutlinedIcon from "@mui/icons-material/PublishOutlined";
-import Buttons from "../../../components/Common/Buttons";
-import SignpostOutlinedIcon from "@mui/icons-material/SignpostOutlined";
-import AppView from "../../../components/Common/AppView";
-import NavigateBeforeOutlinedIcon from "@mui/icons-material/NavigateBeforeOutlined";
-import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined";
+import React from 'react'
+import { Box, Sheet, selectClasses } from '@mui/joy'
+import { Typography, Divider } from '@mui/joy'
+import Button from '@mui/joy/Button'
+import { FormControl, FormLabel } from '@mui/joy'
+import AddIcon from '@mui/icons-material/Add'
+import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
+import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
+import Input from '@mui/joy/Input'
+import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
+import { useTheme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { Select, Option } from '@mui/joy'
+import Modal from '@mui/joy/Modal'
+import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
+import { useState } from 'react'
+import LocationSetupEdit from './LocationSetupEdit'
+import PlaylistAddCheckOutlinedIcon from '@mui/icons-material/PlaylistAddCheckOutlined'
+import AppView from '../../../components/Common/AppView'
+import { KeyboardArrowDown } from '@mui/icons-material'
 
-const initialData = {
-  locationData: ["Banglore"],
-};
+type Location = {
+  id: number
+  location: string
+}
 
+const LocationSetup: React.FunctionComponent = () => {
+  const [open, setOpen] = useState<boolean>(false)
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
+  const [location, setLocation] = useState<string>('')
+  const [locationName, setLocationName] = useState<Location[]>([])
 
-console.log(JSON.stringify(initialData));
-
-const LocationSetup: React.FunctionComponent = ({}) => {
-  const [open, setOpen] = useState(false);
-  const theme = useTheme();
-  const [deleteOpen, setDeleteOpen] = useState(false);
-  const [selectedCell, setSelectedCell] = useState<number | null>(null);
-  const [editOpen, setEditOpen] = useState(false);
-  const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
-  const [location, setLocation] = useState<{ locationData: string[] }>(
-    initialData
-  );
-  const [selectedValue, setSelectedValue] = useState<string | "">("");
-
-  const handleAddSkill = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const skillElement = (e.target as HTMLFormElement).elements.namedItem(
-      "skill"
-    );
-    const custom =
-      skillElement instanceof HTMLInputElement ? skillElement.value : "";
-    addSkill(custom);
-  };
-
-  const addSkill = (custom: string) => {
-    setLocation({
-      ...location,
-      locationData: [...location.locationData, custom],
-    });
-    // console.log("After Adding Location: ", JSON.stringify(location));
-    handleClose();
-  };
+  const handleLocationChange = (updatedData: Location[]) => {
+    setLocationName(updatedData)
+    console.log('location: ', JSON.stringify(updatedData))
+  }
 
   const handleClickOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   const handleClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
-  const handleClickEditOpen = () => {
-    setEditOpen(true);
-  };
-
-  const handleEditClose = () => {
-    setEditOpen(false);
-    setSelectedCell(null);
-  };
-
-  const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const Custom = (e.target as HTMLFormElement).Custom.value;
-    if (selectedCell !== null) {
-      const updatedData = location.locationData.map((item, index) =>
-        index === selectedCell ? Custom : item
-      );
-      setLocation({ ...location, locationData: updatedData });
-      // console.log("After Editing Location: ", JSON.stringify(location));
-      handleEditClose();
+  const handleAddLocation = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const newLocation: Location = {
+      id: locationName.length
+        ? locationName[locationName.length - 1].id + 1
+        : 1,
+      location: location,
     }
-    // console.log(Custom);
-  };
-
-  const handleCheckboxChange = (index: number) => {
-    setMatchedSelected((prevSelected) =>
-      prevSelected.includes(index)
-        ? prevSelected.filter((item) => item !== index)
-        : [...prevSelected, index]
-    );
-    setSelectedCell(index);
-  };
-
-  const handleDeleteButton = () => {
-    if (selectedCell !== null) {
-      handleDeleteOpen();
-    }
-  };
-
-  const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const updatedData = location.locationData.filter(
-      (_, index) => index !== selectedCell
-    );
-    setLocation({ ...location, locationData: updatedData });
-    // console.log("After Deleting Location: ", JSON.stringify(location));
-    setMatchedSelected([]);
-    setDeleteOpen(false);
-  };
-
-  const handleDeleteOpen = () => {
-    setDeleteOpen(true);
-  };
-
-  const handleDeleteClose = () => {
-    setDeleteOpen(false);
-    setMatchedSelected([]);
-  };
-
-  useEffect(() => {
-    setLocation(initialData);
-  }, []);
-
-  const handleEdit = () => {
-    if (selectedCell !== null) {
-      handleClickEditOpen();
-    }
-  };
-
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setSelectedValue(event.target.value as string);
-  };
-
-  const handleSubmit = () => {
-    console.log("location: ", JSON.stringify(location));
-  };
-
-  // console.log(JSON.stringify(companyFormData))
+    setLocationName([...locationName, newLocation])
+    setLocation('') // Clear the input field after adding
+    handleClose()
+  }
 
   return (
     <AppView>
-      <Typography level="h4" style={{ display: "flex", alignItems: "center" }}>
+      <Typography level="h4" sx={{ display: 'flex', alignItems: 'center' }}>
         <SignpostOutlinedIcon
-          style={{ fontSize: "1.4rem", color: "#d32f2f",  }}
+          style={{ fontSize: '1.4rem', color: '#d32f2f' }}
         />
         Locations
       </Typography>
 
       <Box
         sx={{
-          borderRadius: "none",
-          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-          background: "#ffffff",
-          gap:'5px',
-          
+          borderRadius: 'none',
+          boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+          background: '#ffffff',
+          gap: '5px',
+          p: 2,
         }}
       >
         <Box
           sx={{
-            display: "flex",
+            display: 'flex',
             alignItems: 'center',
-            flexDirection: { xs: "column", md: "row" },
+            flexDirection: { xs: 'column', md: 'row' },
             justifyContent: { xs: 'center', md: 'space-between' },
             gap: 2,
             mb: 2,
@@ -172,41 +87,40 @@ const LocationSetup: React.FunctionComponent = ({}) => {
         >
           <Box
             sx={{
-              textAlign: { xs: "center", md: "left" },
+              textAlign: { xs: 'center', md: 'left' },
             }}
           >
             <Typography
               sx={{
-                fontFamily: "Poppins",
-                fontSize: "20px",
+                fontFamily: 'Poppins',
+                fontSize: '20px',
                 fontWeight: 500,
-                lineHeight: "30px",
-                textAlign: { xs: "center", md: "left" },
-                whiteSpace: "nowrap",
+                lineHeight: '30px',
+                textAlign: { xs: 'center', md: 'left' },
+                whiteSpace: 'nowrap',
               }}
             >
               <PlaylistAddCheckOutlinedIcon
-                style={{ fontSize: "1.4rem", color: "#d32f2f",  alignItems: "center"  }}
+                style={{ fontSize: '1.4rem', color: '#d32f2f' }}
               />
-              List of Locations
+              List of Location
             </Typography>
           </Box>
 
           <Box
             sx={{
-              display: "flex",
+              display: 'flex',
               flexDirection: { md: 'row', xs: 'column' },
               gap: 2,
-              // marginTop: "10px",
             }}
           >
             <Button
               autoFocus
               variant="solid"
               sx={{
-                background: "#388e3c",
+                background: '#388e3c',
                 borderRadius: '15px',
-                color: "white",   
+                color: 'white',
               }}
               component="label"
               onClick={handleClickOpen}
@@ -215,23 +129,23 @@ const LocationSetup: React.FunctionComponent = ({}) => {
             </Button>
 
             <Modal
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
               aria-labelledby="responsive-dialog-title"
               aria-describedby="modal-desc"
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
               open={open}
               onClose={handleClose}
             >
               <Sheet
                 variant="outlined"
                 sx={{
-                  // maxWidth: 500,
-                  borderRadius: "md",
+                  maxWidth: 500,
+                  borderRadius: 'md',
                   p: 3,
-                  boxShadow: "lg",
+                  boxShadow: 'lg',
                 }}
               >
                 <div>
@@ -243,88 +157,129 @@ const LocationSetup: React.FunctionComponent = ({}) => {
                     fontWeight="lg"
                     mb={1}
                   >
-                    {"Add an Location"}
+                    {'Add a Location'}
                   </Typography>
                   <Divider />
-                  <Box sx={{ marginBottom: "10px" }}>
-                    <form onSubmit={handleAddSkill}>
+
+                  <Box sx={{ marginBottom: '10px' }}>
+                    <form onSubmit={handleAddLocation}>
                       <FormControl
                         sx={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
+                          display: 'flex',
+                          flexDirection: 'row',
+                          alignItems: 'center',
                         }}
-                      >
-                        <FormLabel
-                          sx={{
-                            paddingTop: "30px",
-                            marginLeft: "20px",
-                          }}
-                        >
-                          Site*
-                        </FormLabel>
-                        <Select
-                          placeholder="Select Location"
-                          sx={{
-                            marginLeft: "45px", 
-                            marginBottom: "30px",
-                            marginTop: "25px",
-                          }}
-                          // required
-                        ></Select>
-                      </FormControl>
-                      <FormControl
+                      ></FormControl>
+
+                      <Box
                         sx={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
+                          marginTop: '1px',
+                          marginBottom: '15px',
+                          padding: '10px',
                         }}
                       >
-                        <FormLabel
+                        <Typography sx={{ padding: 'none', width: '100%' }}>
+                          Enter the data about your new location in the fields
+                          below and we will add it to your list.
+                        </Typography>
+                        <FormControl
                           sx={{
-                            paddingTop: "5px",
-                            marginLeft: "20px",
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-evenly',
+                            marginTop: '10px',
                           }}
                         >
-                          Location*
-                        </FormLabel>
-                        <Input
-                          variant="outlined"
-                          type="text"
-                          id="skill"
-                          name="skill"
-                          required
+                          <FormLabel
+                            sx={{
+                              paddingTop: '20px',
+                              marginLeft: '20px',
+                            }}
+                          >
+                            Site*:
+                          </FormLabel>
+                          {/* <Input
+                                    value={category}
+                                    onChange={(
+                                      e: React.ChangeEvent<HTMLInputElement>
+                                    ) => setCategory(e.target.value)}
+                                    placeholder="Type here"
+                                    sx={{ marginLeft: "20px", width: "70%", marginTop:'10px', }}
+                                  /> */}
+                          <Select
+                            placeholder="Select Site"
+                            indicator={<KeyboardArrowDown />}
+                            sx={{
+                              width: 240,
+                              [`& .${selectClasses.indicator}`]: {
+                                transition: '0.2s',
+                                [`&.${selectClasses.expanded}`]: {
+                                  transform: 'rotate(-180deg)',
+                                },
+                              },
+                            }}
+                          >
+                            <Option value="india">india</Option>
+                            <Option value="delhi">Delhi</Option>
+                            <Option value="banglore">Banglore</Option>
+                          </Select>
+                        </FormControl>
+
+                        <FormControl
                           sx={{
-                            marginLeft: "15px",
-                            width: "53%",
-                            marginBottom: "10px",
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-evenly',
+                            marginTop: '10px',
                           }}
-                        />
-                      </FormControl>
+                        >
+                          <FormLabel
+                            sx={{
+                              paddingTop: '20px',
+                              marginLeft: 'none',
+                            }}
+                          >
+                            Location*:
+                          </FormLabel>
+                          <Input
+                            value={location}
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>,
+                            ) => setLocation(e.target.value)}
+                            placeholder="Type here"
+                            sx={{
+                              marginLeft: '5px',
+                              width: '50%',
+                              marginTop: '10px',
+                            }}
+                          />
+                        </FormControl>
+                      </Box>
                       <Divider />
+
                       <Button
                         autoFocus
                         type="submit"
                         variant="solid"
                         sx={{
-                          background: "#fdd835",
-                          color: "black",
-                          marginTop: "25px",
-                          marginLeft: "40%",
+                          background: '#fdd835',
+                          color: 'black',
+                          marginTop: '25px',
+                          marginLeft: '40%',
                         }}
                       >
                         Add
                       </Button>
+
                       <Button
                         type="button"
                         onClick={handleClose}
-                        variant="solid"
                         autoFocus
+                        variant="solid"
                         sx={{
-                          background: "black",
-                          color: "white",
-                          marginTop: "20px",
-                          marginLeft: "30px",
+                          background: 'black',
+                          color: 'white',
+                          marginLeft: '50px',
                         }}
                       >
                         Cancel
@@ -340,9 +295,9 @@ const LocationSetup: React.FunctionComponent = ({}) => {
               type="submit"
               variant="solid"
               sx={{
-                background: "black",
+                background: 'black',
                 borderRadius: '15px',
-                color: "white",
+                color: 'white',
               }}
             >
               <PublishOutlinedIcon />
@@ -351,74 +306,73 @@ const LocationSetup: React.FunctionComponent = ({}) => {
           </Box>
         </Box>
 
-
-
         <Divider />
 
-        <Box sx={{ marginTop: "10px", padding: "20px" }}>
-          You may also add Locations. Locations are a subset of Sites. For
-          example, the Site may be a building or address. The Location may be a
-          specific room, office, or floor within the Site. Select a Site and add
-          your list of Locations here.
-        </Box>
+        <Box>
+          <Box sx={{ padding: '10px', marginTop: '10px' }}>
+            You may also add Locations. Locations are a subset of Sites. For
+            example, the Site may be a building or address. The Location may be
+            a specific room, office or floor within the Site. Select a Site and
+            add your list of Locations here.
+          </Box>
 
-        <Box 
-        sx={{ 
-          display: 'flex',
-          alignItems: 'center',
-          flexDirection: { md: 'row', xs: 'column' },
-          justifyContent: { xs: 'center', md: 'space-between' },
-          marginTop: "1px", 
-          marginBottom: "15px", 
-          padding: "20px" 
-        }}
-        >
-          <FormControl
-            sx={{
-              display: "flex",
-              flexDirection: { xs: "column", md: "row" },
-              
-            }}
-          >
-            <FormLabel 
-            sx={{ 
-              
-              marginTop: "6px",
-              mb: { xs: 1, md: 1 } }}>
-              Select a Site:
-            </FormLabel>
-
-            <Select
-              placeholder="Nothing Selected"
-              sx={{
-                marginLeft: { md: "20px" },
-              alignItems:'center',
-                background: "#ff5252",  
-                color: "white",
-                borderRadius: '15px',
-              }}
-              required
-              value={selectedValue}
-              onChange={(event) =>
-                setSelectedValue(
-                  (event?.target as HTMLSelectElement)?.value ?? ""
-                )
-              }
-            >
-              <Option value="Location1">Location1</Option>
-            </Select>
-          </FormControl>
-        </Box>
-
-        <Box
+          <Box
             sx={{
               display: 'flex',
               alignItems: 'center',
               flexDirection: { md: 'row', xs: 'column' },
               justifyContent: { xs: 'center', md: 'space-between' },
-              
-              // marginBottom: "10px",
-              padding: '20px',
+              marginTop: '1px',
+              // marginBottom: '15px',
+              padding: '10px',
+            }}
+          >
+            <FormControl
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+              }}
+            >
+              <FormLabel
+                sx={{
+                  marginTop: '6px',
+                  mb: { xs: 1, md: 1 },              
+                  m:{md:'none'},
+                  
+                }}
+              >
+                Select a Site:
+              </FormLabel>
+
+              <Select
+                placeholder="Nothing Selected"
+                sx={{
+                  marginLeft: { md: '20px' },
+                  alignItems: 'center',
+                  background: '#ff5252',
+                  color: 'white',
+                  borderRadius: '15px',
+                }}
+                required
+                // value={selectedValue}
+                // onChange={(event) =>
+                //   setSelectedValue(
+                //     (event?.target as HTMLSelectElement)?.value ?? ""
+                //   )
+                // }
+              >
+                <Option value="Location1">Location1</Option>
+              </Select>
+            </FormControl>
+          </Box>
+
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: { md: 'row', xs: 'column' },
+              justifyContent: { xs: 'center', md: 'space-between' },
+              padding: '10px',
             }}
           >
             <FormControl
@@ -430,18 +384,13 @@ const LocationSetup: React.FunctionComponent = ({}) => {
               <Select
                 placeholder="10"
                 sx={{
+                  // marginLeft: { md: '20px' },
                   alignItems: 'center',
                   background: 'none',
                   color: 'black',
                   borderRadius: '15px',
                 }}
                 required
-                // value={selectedValue}
-                // onChange={(event) =>
-                //   setSelectedValue(
-                //     (event?.target as HTMLSelectElement)?.value ?? ""
-                //   )
-                // }
               >
                 <Option value="10">10</Option>
               </Select>
@@ -507,63 +456,18 @@ const LocationSetup: React.FunctionComponent = ({}) => {
               </Button>
             </Box>
           </Box>
-
-
-        {/* <Divider /> */}
-
-        <SetupPopup
-          location={location}
-          matchedSelected={matchedSelected}
-          handleCheckboxChange={handleCheckboxChange}
-          handleEdit={handleEdit}
-          handleDeleteButton={handleDeleteButton}
-          handleEditClose={handleEditClose}
-          handleEditButton={handleEditButton}
-          editOpen={editOpen}
-          deleteOpen={deleteOpen}
-          setDeleteOpen={setDeleteOpen}
-          handleDeleteSubmit={handleDeleteSubmit}
-          selectedCell={selectedCell}
-          handleDeleteClose={handleDeleteClose}
-          setMatchedSelected={setMatchedSelected}
-        />
-        
-        <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          flexDirection: { md: 'row', xs: 'column' },
-          justifyContent: { xs: 'center', md: 'flex-end' },
-          gap: '5px',
-        }}
-       >
-        <Box
-          sx={{
-            display: 'flex',
-          flexDirection: { md: 'row', xs: 'column' },
-            marginTop: "20px",
-          }}
-        >
-          <Button
-             variant="solid"
-             autoFocus
-             sx={{
-               background: '#388e3c',
-               color: 'white',
-               borderRadius: '10px',
-             }}
-            onClick={handleSubmit}
-          >
-            
-            Submit
-          </Button>
         </Box>
+
+        <Box>
+          <LocationSetupEdit
+            locationName={locationName}
+            onLocationChange={handleLocationChange}
+          />
         </Box>
+        <Divider />
       </Box>
-      {/* </div>
-      </div> */}
     </AppView>
-  );
-};
+  )
+}
 
-export default LocationSetup;
+export default LocationSetup

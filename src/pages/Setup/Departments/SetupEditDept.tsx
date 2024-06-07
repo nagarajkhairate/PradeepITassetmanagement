@@ -143,7 +143,7 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
             </tr>
           </thead>
           <tbody>
-              {depart.data && depart.data.map((custom, index) => (
+              {depart.data.length > 0 ? depart.data.map((custom, index) => (
                 <tr key={custom.id}>
                   <td>
                     <Checkbox
@@ -161,7 +161,7 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
                       color: "green",
                       display:'flex',
                       justifyContent:'flex-end',
-                      marginLeft:'60%',
+                      marginLeft:'none',
                       border: "1px solid green ",
                       borderRadius: "15px",
                       "&:hover": {
@@ -171,7 +171,9 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
                       },
                     }}
                     >
-                      <EditOutlinedIcon />Edit
+                      <EditOutlinedIcon sx={{
+                        fontSize:'15px'
+                      }}/>Edit
                     </Button>
                   </td>
 
@@ -182,7 +184,7 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
                       color: '#d32f2f',
                       display:'flex',
                       justifyContent:'flex-end',
-                      marginLeft:'60%',
+                      marginLeft:'none',
                       border: "1px solid red ",
                       borderRadius: "15px",
                       "&:hover": {
@@ -192,11 +194,15 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
                       },
                     }}
                     >
-                      <DeleteForeverIcon />Delete
+                      <DeleteForeverIcon 
+                      sx={{
+                        fontSize:'15px'
+                      }}
+                      />Delete
                     </Button>
                   </td>
                 </tr>
-              ))}
+              )): <tr><td colSpan={4} style={{ textAlign: 'center' }}>Add the Data</td></tr>}
             
           </tbody>
         </Table>
@@ -238,7 +244,7 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
                 name="departmentName"
                 required
                 sx={{ width: "70%", marginLeft: "10px" }}
-                defaultValue={selectedCell !== null ? depart.data[selectedCell].departmentName : ""} // Set default value to the selected cell content
+                // defaultValue={selectedCell !== null ? depart.data[selectedCell].departmentName : ""} // Set default value to the selected cell content
               />
             </FormControl>
             <Button
@@ -299,15 +305,15 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
           <form onSubmit={handleDeleteSubmit}>
             <FormControl sx={{ display: "flex", flexDirection: "column", justifyContent: "space-evenly" }}>
               <Box sx={{ marginBottom: "20px", padding: "20px" }}>Are you sure you want to delete this Department?</Box>
-              <Input
+              {/* <Input
                 variant="outlined"
                 type="text"
                 id="departmentName"
                 name="departmentName"
                 required
                 sx={{ width: "92%", marginLeft: "20px" }}
-                defaultValue={selectedCell !== null ? depart.data[selectedCell].departmentName : ""} // Set default value to the selected cell content
-              />
+                // defaultValue={selectedCell !== null ? depart.data[selectedCell].departmentName : ""} // Set default value to the selected cell content
+              /> */}
             </FormControl>
             <Button
               autoFocus

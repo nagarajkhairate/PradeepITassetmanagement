@@ -131,10 +131,10 @@ export const MaintenanceOverdue: React.FC = () => {
                 
               }}
             >
-              <Option value="dog">Dog</Option>
-              <Option value="cat">Cat</Option>
-              <Option value="fish">Fish</Option>
-              <Option value="bird">Bird</Option>
+              <Option value="term1">Term 1</Option>
+              <Option value="term2">Term 2</Option>
+              <Option value="term3">Term 3</Option>
+              <Option value="term4">Term 4</Option>
             </Select>
           </Box>
 

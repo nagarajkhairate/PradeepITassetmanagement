@@ -119,10 +119,9 @@ export function WarrantyExpiring() {
               borderRadius: '15px',
             }}
           >
-            <Option value="dog">Dog</Option>
-            <Option value="cat">Cat</Option>
-            <Option value="fish">Fish</Option>
-            <Option value="bird">Bird</Option>
+            <Option value="warranty1">Warranty 1</Option>
+            <Option value="warranty2">Warranty 2</Option>
+
           </Select>
         </Box>
 

@@ -72,7 +72,7 @@ const CategorySub: React.FunctionComponent = () => {
               boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
               background: "#ffffff",
               gap:'5px',
-              
+              p:1
             }}
           >
 
@@ -158,7 +158,7 @@ const CategorySub: React.FunctionComponent = () => {
                           fontWeight="lg"
                           mb={1}
                         >
-                          {"Add a Category"}
+                          {"Add a Sub Category"}
                         </Typography>
                         <Divider />
 

@@ -10,21 +10,21 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
-import CategorySetup from './CategorySetup'
+import LocationSetup from './LocationSetup'
 
-type Category = {
+type Location = {
   id: number
-  categoryName: string
+  location: string
 }
 
 interface Props {
-  categories: Category[]
-  onCategoryChange: (updatedCategories: Category[]) => void
+  locationName: Location[]
+  onLocationChange: (updatedData: Location[]) => void
 }
 
-export function CategorySetupEdit({ categories, onCategoryChange }: Props) {
+export function LocationSetupEdit({ locationName, onLocationChange }: Props) {
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
-  const [lapCat, setLapCat] = useState<{ categoryData: Category[] }>({categoryData: [],})
+  const [locData, setLocData] = useState<{ locationData: Location[] }>({locationData: [],})
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
   const [editOpen, setEditOpen] = useState<boolean>(false)
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
@@ -53,32 +53,32 @@ export function CategorySetupEdit({ categories, onCategoryChange }: Props) {
 
   const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const categoryName = (e.target as any).categoryName.value
+    const location = (e.target as any).location.value
     if (selectedCell !== null) {
-      const updatedData = lapCat.categoryData.map((item, index) =>
-        index === selectedCell ? { ...item, categoryName } : item,
+      const updatedData = locData.locationData.map((item, index) =>
+        index === selectedCell ? { ...item, location } : item,
       )
-      setLapCat({ ...lapCat, categoryData: updatedData })
+      setLocData({ ...locData, locationData: updatedData })
       handleEditClose()
-      onCategoryChange(updatedData)
+      onLocationChange(updatedData)
     }
+  }
+
+  const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const updatedData = locData.locationData.filter(
+      (_, index) => index !== selectedCell,
+    )
+    setLocData({ ...locData, locationData: updatedData })
+    setMatchedSelected([])
+    setDeleteOpen(false)
+    onLocationChange(updatedData)
   }
 
   const handleDeleteButton = () => {
     if (selectedCell !== null) {
       handleDeleteOpen()
     }
-  }
-
-  const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const updatedData = lapCat.categoryData.filter(
-      (_, index) => index !== selectedCell,
-    )
-    setLapCat({ ...lapCat, categoryData: updatedData })
-    // setMatchedSelected([])
-    setDeleteOpen(false)
-    onCategoryChange(updatedData)
   }
 
   const handleDeleteOpen = () => {
@@ -91,8 +91,8 @@ export function CategorySetupEdit({ categories, onCategoryChange }: Props) {
   }
 
   useEffect(() => {
-    setLapCat({ categoryData: categories })
-  }, [categories])
+    setLocData({ locationData: locationName })
+  }, [locationName])
 
   const handleEdit = () => {
     if (selectedCell !== null) {
@@ -110,7 +110,7 @@ export function CategorySetupEdit({ categories, onCategoryChange }: Props) {
           justifyContent: 'space-between',
         }}
       >
-        <Table borderAxis="both" style={{ borderCollapse: 'collapse' }}>
+<Table borderAxis="both" style={{ borderCollapse: 'collapse' }}>
           <thead>
             <tr>
               <th style={{ width: 30 }}>
@@ -118,93 +118,98 @@ export function CategorySetupEdit({ categories, onCategoryChange }: Props) {
                   size="sm"
                   indeterminate={
                     matchedSelected.length > 0 &&
-                    matchedSelected.length < lapCat.categoryData.length
+                    matchedSelected.length < locData.locationData.length
                   }
                   checked={
                     matchedSelected.length > 0 &&
-                    matchedSelected.length === lapCat.categoryData.length
+                    matchedSelected.length === locData.locationData.length
                   }
                   onChange={(event) => {
                     const isChecked = event.target.checked
                     setMatchedSelected(
                       isChecked
-                        ? lapCat.categoryData.map((_, index) => index)
+                        ? locData.locationData.map((_, index) => index)
                         : [],
                     )
                   }}
                   color={
                     matchedSelected.length > 0 &&
-                    matchedSelected.length === lapCat.categoryData.length
+                    matchedSelected.length === locData.locationData.length
                       ? 'primary'
                       : undefined
                   }
                   sx={{ verticalAlign: 'text-bottom' }}
                 />
               </th>
-              <th>Category</th>
+              <th>Location</th>
               <th>Edit</th>
               <th>Delete</th>
             </tr>
           </thead>
-          <tbody>
-            {lapCat.categoryData.length >0 ? lapCat.categoryData.map((custom, index) => (
-                <tr key={custom.id}>
-                  <td>
-                    <Checkbox
-                      checked={matchedSelected.includes(index)}
-                      onChange={() => handleCheckboxChange(index)}
-                      color="primary"
-                    />
-                  </td>
-                  <td>{custom.categoryName}</td>
-
-                  <td>
-                    <Button
-                      onClick={() => handleEdit()}
-                      sx={{
-                        background: '#ffffff',
-                        color: 'green',
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                        marginLeft: 'none',
-                        border: '1px solid green ',
-                        borderRadius: '15px',
-                        '&:hover': {
-                          color: 'white',
-                          background: 'green',
-                        },
-                      }}
-                    >
-                      <EditOutlinedIcon />
-                      Edit
-                    </Button>
-                  </td>
-
-                  <td>
-                    <Button
-                      onClick={() => handleDeleteButton()}
-                      sx={{
-                        background: '#ffffff',
-                        color: '#d32f2f',
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                        marginLeft: 'none',
-                        border: '1px solid red ',
-                        borderRadius: '15px',
-                        '&:hover': {
-                          color: 'white',
-                          background: '#d32f2f',
-                        },
-                      }}
-                    >
-                      <DeleteForeverIcon />
-                      Delete
-                    </Button>
-                  </td>
-                </tr>
-              )): <tr><td colSpan={4} style={{ textAlign: 'center' }}>Add the Category</td></tr>}
-          </tbody>
+              <tbody>
+              {locData.locationData.length > 0 ? locData.locationData.map((custom, index) => (
+                    <tr key={custom.id}>
+                      <td>
+                        <Checkbox
+                          checked={matchedSelected.includes(index)}
+                          onChange={() => handleCheckboxChange(index)}
+                          color="primary"
+                        />
+                      </td>
+                      <td>{custom.location}</td>
+    
+                      <td>
+                        <Button
+                          onClick={() => handleEdit()}
+                          sx={{
+                            background: '#ffffff',
+                            color: 'green',
+                            display: 'flex',
+                            justifyContent: {md:'flex-end', xs:'center'},
+                            marginLeft: 'none',
+                            border: '1px solid green ',
+                            borderRadius: '13px',
+                            '&:hover': {
+                              color: 'white',
+                              background: 'green',
+                            },
+                          }}
+                        >
+                          <EditOutlinedIcon />
+                          Edit
+                        </Button>
+                      </td>
+    
+                      <td>
+                        <Button
+                          onClick={() => handleDeleteButton()}
+                          sx={{
+                            background: '#ffffff',
+                            color: '#d32f2f',
+                            display: 'flex',
+                            justifyContent: {md:'flex-end',xs:'center'},
+                            marginLeft: 'none',
+                            border: '1px solid red ',
+                            borderRadius: '13px',
+                            '&:hover': {
+                              color: 'white',
+                              background: '#d32f2f',
+                            },
+                          }}
+                        >
+                          <DeleteForeverIcon />
+                          Delete
+                        </Button>
+                      </td>
+                    </tr>
+                     )): <tr ><td colSpan={4} style={{ textAlign: 'center' }}>No Data Found</td></tr> }
+              </tbody>
+               
+                
+       
         </Table>
+      
+        
 
         <Modal
           open={editOpen}
@@ -247,18 +252,18 @@ export function CategorySetupEdit({ categories, onCategoryChange }: Props) {
                   }}
                 >
                   <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
-                    Category*
+                    Location*
                   </FormLabel>
                   <Input
                     variant="outlined"
                     type="text"
-                    id="categoryName"
-                    name="categoryName"
+                    id="location"
+                    name="location"
                     required
                     sx={{ width: '70%', marginLeft: '10px' }}
                     // defaultValue={
                     //   selectedCell !== null
-                    //     ? lapCat.categoryData[selectedCell].categoryName
+                    //     ? locData.locationData[selectedCell].location
                     //     : ''
                     // }
                   />
@@ -336,20 +341,19 @@ export function CategorySetupEdit({ categories, onCategoryChange }: Props) {
                   }}
                 >
                   <Box sx={{ marginBottom: '20px', padding: '20px' }}>
-                    Are you sure you want to delete this Category?
+                    Are you sure you want to delete this Location?
                   </Box>
                   {/* <Input
                     variant="outlined"
-                    type="text"
-                    id="categoryName"
-                    name="categoryName"
+                    // type="text"
+                    // id="location"
+                    // name="location"
                     required
                     sx={{ width: '92%', marginLeft: '20px' }}
-                    // defaultValue={
-                    //   selectedCell !== null
-                    //     ? lapCat.categoryData[selectedCell].categoryName
-                    //     : ''
-                    // }
+                    defaultValue={
+                      selectedCell !== null
+                        ? locData.locationData[selectedCell].location: ''
+                    }
                   /> */}
                 </FormControl>
                 <Button
@@ -389,4 +393,21 @@ export function CategorySetupEdit({ categories, onCategoryChange }: Props) {
   )
 }
 
-export default CategorySetupEdit
+export default LocationSetupEdit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
