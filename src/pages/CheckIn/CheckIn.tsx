@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Typography, Box, Button, Grid, Checkbox, Modal, Input, Table } from "@mui/joy";
+import { Typography, Box, Button, Grid, Checkbox, Modal, Input, Table, Sheet } from "@mui/joy";
 import SearchIcon from "../../Assets/search.svg";
-import EmptyContainer from "../../components/Common/EmptyContainer";
 import CheckInForm from "./CheckInForm";
+import AppView from "../../components/Common/AppView";
+import MaintenanceEmpty from "../../components/Common/MaintenanceEmpty";
+import AppButton from "../../components/Common/AppButton";
 
 const assets = [
   {
@@ -68,37 +70,24 @@ const CheckIn: React.FC = () => {
   const selectedAssetData = assets.filter(asset => selectedAssets.includes(asset.id));
 
   return (
-    <Box>
+    <AppView>
      <Box
-      sx={{
+       sx={{
         display: 'flex',
-        justifyContent: 'space-between',
-        margin: { xs: "16px", sm: "36px", md: "52px" },  // Adjusted margin for different screen sizes
-        flexDirection: { xs: "column", md: "row" },
-        alignItems: 'center', // Ensure alignment in column layout
+        alignItems: 'center',
+        flexDirection: { md: 'row', xs: 'column' },
+        justifyContent: { xs: 'center', md: 'space-between' },
+        gap: '5px',
       }}
     >
-      <Typography
-        level="h3"
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          fontSize: { xs: "1.5rem", sm: "2rem", md: "2.0rem" }, 
-          marginBottom: { xs: "16px", md: "0" },  // Add bottom margin for small screens
-        }}
-      >
-        Check-In
-      </Typography>
+      <Typography level="h4">Check-In</Typography>
       
       <Button
         onClick={handleOpen}
         sx={{
-          backgroundColor: "#13B457",
-          width: { xs: "100%", sm: "50%", md: "180px" },
-          height: { xs: "40px", sm: "50px", md: "40px" }, 
-          fontSize: { xs: "1rem", sm: "1.25rem", md: "1rem" },  
-          color: "white",
-          "&:hover": { backgroundColor: "darkgreen" },
+          backgroundColor: '#13B457',
+          color: 'white',
+          '&:hover': { backgroundColor: 'darkgreen' },
         }}
       >
         + Select Assets
@@ -108,11 +97,26 @@ const CheckIn: React.FC = () => {
       {selectedAssetData.length > 0 ? (
         <CheckInForm selectedAssets={selectedAssetData} />
       ) : (
-        <EmptyContainer title="Keep track of your assets within your organization and create an even more detailed history of them."/>
-      )}
+<Box>
+          <MaintenanceEmpty />
+        </Box>     
+       )}
 
-      <Modal open={open} onClose={handleClose}>
-        <Box sx={{ background: '#fff', padding: 3, borderRadius: "16px", margin: "auto", marginTop: "5%", width: "50%" }}>
+      <Modal open={open} onClose={handleClose}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+      >
+        <Box 
+        sx={{ 
+          background: '#fff', 
+          padding: 2, 
+          borderRadius: "10px",
+           width: "80%" 
+          }}
+          >
           <Typography level="h4" sx={{ marginBottom: 2 }}>Select Assets</Typography>
           <Box sx={{ position: "relative", display: "flex", alignItems: "center", marginRight: "20px", marginBottom: "20px" }}>
             <Input
@@ -122,10 +126,10 @@ const CheckIn: React.FC = () => {
               sx={{
                 width: "300px",
                 paddingLeft: "40px",
-                height: "30px",
+                height: "20px",
                 borderColor: "#7676764D",
                 lineHeight: "24px",
-                fontSize: '12px',
+                fontSize: '10px',
                 border: "1px solid #7676764D"
               }}
             />
@@ -136,30 +140,59 @@ const CheckIn: React.FC = () => {
               sx={{
                 position: "absolute",
                 left: "10px",
-                width: "20px",
                 height: "20px"
               }}
             />
           </Box>
-          <Box>
-            <Table sx={{ marginBottom: 2, fontWeight: 'bold', border: "1px solid #f2f2f2", width: "100%" }}>
+          <Sheet
+           sx={{ 
+            width: '100%',
+            borderRadius: 'sm',
+            flexShrink: 1,
+            height: '70vh',
+            overflow: 'auto',
+            '&::-webkit-scrollbar': {
+              width: '6px', 
+            },
+            '&::-webkit-scrollbar-track': {
+              background: '#f1f1f1', 
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: '#888', 
+              borderRadius: '10px', 
+            },
+            '&::-webkit-scrollbar-thumb:hover': {
+              background: '#555', 
+            },
+          }}
+          >
+            <Table   
+            aria-labelledby="tableTitle"
+            stickyHeader
+            
+            sx={{
+            fontSize: '10px',
+            border: '1px solid #f2f2f2',
+          }}
+          >
             <thead>
         <tr>
-            <th style={{ padding: "8px", border: "1px solid #f2f2f2", width:"20px",background: "#fff8e6" }}><Checkbox /></th>
-            <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Asset Tag ID</th>
-            <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Description</th>
-            <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Status</th>
-            <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Assigned to</th>
-            <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Site</th>
-            <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Location</th>
+            <th style={{  border: "1px solid #f2f2f2", width:20,background: "#fff8e6" }}><Checkbox  size="sm"/></th>
+            <th style={{  border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Asset Tag ID</th>
+            <th style={{  border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Description</th>
+            <th style={{  border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Status</th>
+            <th style={{  border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Assigned to</th>
+            <th style={{  border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Site</th>
+            <th style={{  border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Location</th>
+            <th style={{  border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Lease To</th>
           </tr>
         </thead>
-
-            </Table>
-            {filteredAssets.map((asset, index) => (
+        <tbody>
+        {filteredAssets.map((asset, index) => (
               <tr key={index}>
-                <td  style={{ padding: "8px", border: "1px solid #f2f2f2" , width:"20px"}} color="#FFFFFF33">
+                <td  style={{ border: "1px solid #f2f2f2"}} color="#FFFFFF33">
                   <Checkbox
+                  size="sm"
                     checked={selectedAssets.includes(asset.id)}
                     onChange={() => handleCheckboxChange(asset.id)}
                   />
@@ -170,17 +203,21 @@ const CheckIn: React.FC = () => {
                 <td  style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.assignedTo}</td>
                 <td  style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.site}</td>
                 <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.location}</td>
+                <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.leaseTo}</td>
               </tr>
             ))}
-          </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button onClick={handleClose} sx={{ marginRight: 2, background: "#000000", width: "100px" }}>Cancel</Button>
-            <Button onClick={handleAddToList} sx={{ background: "#FBC21E" }}>Add to List</Button>
+        </tbody>
+            </Table>
+            </Sheet>
+            
+          <Box sx={{ display: 'flex',mt:2, justifyContent: 'flex-end' }}>
+            <AppButton onClick={handleClose} size="sm">Cancel</AppButton>
+            <AppButton onClick={handleAddToList} size="sm">Add to List</AppButton>
           </Box>
         </Box>
       </Modal>
-    </Box>
-  );
-};
+    </AppView>
+  )
+}
 
 export default CheckIn;
