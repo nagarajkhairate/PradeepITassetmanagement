@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import { Button } from '@mui/joy';
-import { AiOutlinePlus } from 'react-icons/ai';
+import AddIcon from '@mui/icons-material/Add';
  
 interface FileUploadProps {
   onFileSelect: (file: File, fileUrl: string) => void; // Callback to pass the selected file back to the parent component
@@ -35,7 +35,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect }) => {
           },
         }}
       >
-        <AiOutlinePlus size={23} />
+        <AddIcon size={23} />
         Add Photo
       </Button>
       <input

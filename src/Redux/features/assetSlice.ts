@@ -102,7 +102,7 @@ const initialState:Assets={
 
 export const fetch_listAssets = createAsyncThunk('listAssets/fetch_listAssets',async()=>{
   // const response = await axios.get("https://jsonplaceholder.typicode.com/users")
-  const response = await axios.get("")
+  const response = await axios.get("http://127.0.0.1:8000/api/asset")
   return response.data
 })
 
@@ -112,10 +112,26 @@ export const fetch_listAssets = createAsyncThunk('listAssets/fetch_listAssets',a
 //   return response.data
 // })
 
-export const updateAsset = createAsyncThunk('assets/fetch_Assets', async(editAssetData)=>{
-  const response = await axios.put(`https://jsonplaceholder.typicode.com/users/${editAssetData.id}`, editAssetData)
+
+// export const updateAsset = createAsyncThunk('assets/fetch_Assets', async(id)=>{
+//   const response = await axios.put(`http://127.0.0.1:8000/api/asset/${id}`)
+//   console.log("respone update___--",response)
+//   return response.data
+// })
+
+export const updateAsset = createAsyncThunk('assets/updateAsset', async(editAssetData)=>{
+  console.log("editasetdata----",editAssetData)
+  const response = await axios.put(`http://127.0.0.1:8000/api/asset/${editAssetData.id}`, editAssetData)
+  console.log("respone update___--",JSON.stringify(response));
+
   return response.data
 })
+
+
+export const fetchAssetById = createAsyncThunk('assets/fetchAssetById', async (id: string) => {
+  const response = await axios.get(`http://127.0.0.1:8000/api/asset/${id}`);
+  return response.data;
+}); 
 
 // export const loadFunc = (data)=> { axios.post('https://jsonplaceholder.typicode.com/users', data).then((datares)=>{
 //   console.log("data", JSON.stringify(datares));
@@ -126,39 +142,14 @@ export const updateAsset = createAsyncThunk('assets/fetch_Assets', async(editAss
  export const reducerone = createAsyncThunk('asset/post_Assets',async(PostData)=>{
   console.log("submitData called----");
   try {
-    // const postdata = 
-    // {
-    //   "id": 1,
-    //   "name": "Leanne Graham",
-    //   "username": "Bret",
-    //   "email": "Sincere@april.biz",
-    //   "address": {
-    //     "street": "Kulas Light",
-    //     "suite": "Apt. 556",
-    //     "city": "Gwenborough",
-    //     "zipcode": "92998-3874",
-    //     "geo": {
-    //       "lat": "-37.3159",
-    //       "lng": "81.1496"
-    //     }
-    //   },
-    //   "phone": "1-770-736-8031 x56442",
-    //   "website": "hildegard.org",
-    //   "company": {
-    //     "name": "Romaguera-Crona",
-    //     "catchPhrase": "Multi-layered client-server neural-net",
-    //     "bs": "harness real-time e-markets"
-    //   }
-    // }
-    // const response = await axios.post("https://jsonplaceholder.typicode.com/users",PostData)
-    // console.log("res--- ", JSON.stringify(response));
-    // return response.data;
+    const response = await axios.post("http://127.0.0.1:8000/api/asset",PostData)
+    console.log("Asset res--- ", JSON.stringify(response));
+    return response.data;
     return PostData
     console.log("addanasset",JSON.stringify(PostData))
   } catch (error) {
    console.log("Error: ", error);
   }
-
 })
 
  export const assetsSlice = createSlice({
@@ -202,6 +193,7 @@ export const updateAsset = createAsyncThunk('assets/fetch_Assets', async(editAss
       state.data = [],
       state.error = action.error.message || 'Failed to fetch Assets'
     })
+    
     // builder.addCase(reducerone.fulfilled,(state,action:any)=>{
     //   console.log("fullfilled---");
     //   state.loading = false,
@@ -213,14 +205,26 @@ export const updateAsset = createAsyncThunk('assets/fetch_Assets', async(editAss
     // })
 
     builder.addCase(reducerone.fulfilled, (state, action) => {
-        // state.data.push(action.payload);
+        state.data.push(action.payload);
       })
+      builder.addCase(fetchAssetById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.selectedAsset = action.payload;
+        state.error = '';
+      });
 
-    // builder.addCase(updateAsset.fulfilled, (state, action) => {
-    //   state.loading = false;
-    //   state.data = action.payload;
-    //   state.error = "";
-    // });
+      
+    builder.addCase(updateAsset.fulfilled, (state, action) => {
+      state.loading = false;
+      let data = action.payload;
+      const ind = state.data.findIndex((item)=>item.id === data.id);
+      console.log("data=", JSON.stringify(state.data));
+      if(ind>0){
+        state.data[ind] = data; 
+      }
+      console.log("ff = ", JSON.stringify(state.data));
+      state.error = "";
+    });
   }
 })
 

@@ -6,7 +6,7 @@ import {
   Divider,
 
 } from "@mui/joy";
-import { AiOutlinePlus } from "react-icons/ai";
+import AddIcon from '@mui/icons-material/Add';
 
 
 const Maintenance = (props:any) => {
@@ -38,7 +38,7 @@ const Maintenance = (props:any) => {
                       },
                     }}
                   >
-                    <AiOutlinePlus size={23} />
+                    <AddIcon size={23} />
                     Add New
                   </Button>
                 </Box>

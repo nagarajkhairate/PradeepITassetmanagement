@@ -12,7 +12,7 @@ export const store = configureStore({
     appState: appStateReducer,
     assets:assetsReducer,
     transactions:transactionsReducer,
-    addEmployeesReducer:addEmployeesReducer,
+    employees:addEmployeesReducer,
     client:clientReducer,
   }
 })

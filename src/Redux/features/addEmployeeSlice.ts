@@ -14,7 +14,7 @@ const initialState:addEmployee={
 }
 
 export const fetch_employee = createAsyncThunk('addEmployee/fetch_employee',async()=>{
-  const response = await axios.get("")
+  const response = await axios.get("http://127.0.0.1:8000/api/employees")
   return response.data
 })
 
@@ -25,7 +25,7 @@ export const update_employee = createAsyncThunk('addEmployee/update_employee',as
 
 export const post_add_Employee = createAsyncThunk('addEmployee/post_addEmployee', async (PostData) => {
   try {
-    const response = await axios.post("https://jsonplaceholder.typicode.com/users", PostData);
+    const response = await axios.post("http://127.0.0.1:8000/api/employees/", PostData);
     console.log('ResponsePost:', response.data);
     return response.data;
   } catch (error) {
@@ -38,7 +38,6 @@ export const addEmployeeSlice = createSlice({
   name:"addEmployees",
   initialState,
   reducers: {
-    
   },
   extraReducers:(builder)=>{
     builder.addCase(fetch_employee.pending,(state)=>{
@@ -56,7 +55,7 @@ export const addEmployeeSlice = createSlice({
       state.data = []
     })
     builder.addCase(post_add_Employee.fulfilled,(state,action)=>{
-      //state.data.push(action.payload)
+      state.data.push(action.payload)
     })
     builder.addCase(update_employee.fulfilled,(state,action)=>{
       state.loading = false;
