@@ -59,7 +59,7 @@ const LocationSetup: React.FunctionComponent = () => {
 
   return (
     <AppView>
-      <Typography level="h4" sx={{ display: 'flex', alignItems: 'center' }}>
+      <Typography level="h4" sx={{ display: 'flex', alignItems: 'center', gap:1 }}>
         <SignpostOutlinedIcon
           style={{ fontSize: '1.4rem', color: '#d32f2f' }}
         />
@@ -98,10 +98,11 @@ const LocationSetup: React.FunctionComponent = () => {
                 lineHeight: '30px',
                 textAlign: { xs: 'center', md: 'left' },
                 whiteSpace: 'nowrap',
+                mt:0
               }}
             >
               <PlaylistAddCheckOutlinedIcon
-                style={{ fontSize: '1.4rem', color: '#d32f2f' }}
+                style={{ fontSize: '1.4rem', color: '#d32f2f', }}
               />
               List of Location
             </Typography>
@@ -419,7 +420,7 @@ const LocationSetup: React.FunctionComponent = () => {
                   background: '#FDE8BC',
                   border: '1px solid #C2B083',
                   color: 'black',
-
+                  
                   '&:hover': {
                     background: '#FADFB4',
                   },

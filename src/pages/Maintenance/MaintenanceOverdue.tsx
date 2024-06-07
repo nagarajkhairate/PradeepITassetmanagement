@@ -113,7 +113,9 @@ export const MaintenanceOverdue: React.FC = () => {
           sx={{
             display: 'flex',
             alignItems: 'center',
-            gap:'5px'
+            gap:2,
+         flexDirection: { md: 'row', xs: 'column' },
+         justifyContent: 'space-between',
           }}
           >
             <Select
@@ -136,9 +138,9 @@ export const MaintenanceOverdue: React.FC = () => {
               <Option value="term3">Term 3</Option>
               <Option value="term4">Term 4</Option>
             </Select>
-          </Box>
+          
 
-          <Box>
+          
             <Select
               placeholder="10"
               indicator={<KeyboardArrowDown />}

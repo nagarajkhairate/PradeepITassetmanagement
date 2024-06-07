@@ -363,7 +363,7 @@ export function LocationSetupEdit({ locationName, onLocationChange }: Props) {
                   sx={{
                     background: '#fdd835',
                     color: 'black',
-                    marginTop: '25px',
+                    // marginTop: '25px',
                     marginLeft: '40%',
                   }}
                 >
@@ -378,7 +378,7 @@ export function LocationSetupEdit({ locationName, onLocationChange }: Props) {
                   sx={{
                     background: 'black',
                     color: 'white',
-                    marginTop: '25px',
+                    // marginTop: '25px',
                     marginLeft: '10px',
                   }}
                 >
