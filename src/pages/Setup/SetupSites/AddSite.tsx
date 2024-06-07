@@ -47,11 +47,12 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, setSites, sites }) => 
     onClose();
   };
 
-  return (
+  return (  
     <Modal open={open} onClose={onClose}>
       <Box sx={modalStyle}>
         <Typography level="h4" sx={{ mb: 2 }}>Add New Site</Typography>
         <Divider/>
+       
         <Typography sx={{mb: 2}}>Enter the data about your new site in the fields below and we will add it to your list.</Typography>
         <Grid container spacing={2}>
         <Grid  xs={12} md={6}>
@@ -87,10 +88,12 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, setSites, sites }) => 
         </Select>
         </Grid>
         </Grid>
-
+      
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+      
           <Button onClick={onClose} sx={{ mr: 1 }}>Cancel</Button>
           <Button onClick={handleAddSite}>Add Site</Button>
+       
         </Box>
       </Box>
     </Modal>
@@ -104,8 +107,10 @@ const modalStyle = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 500,
   bgcolor: 'white',
   p: 4,
   borderRadius: 10,
+  maxWidth:"600px",
+  maxHeight: '90vh', 
+  overflowY: 'auto'
 };

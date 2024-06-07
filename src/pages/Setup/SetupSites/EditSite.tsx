@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Box, Typography, Input, Button, FormControl } from "@mui/joy";
+import { Modal, Box, Typography, Input, Button, FormControl, FormLabel, Grid, Divider } from "@mui/joy";
 
 interface EditSiteProps {
   fullScreen: boolean;
@@ -98,10 +98,12 @@ const EditSite: React.FC<EditSiteProps> = ({
         <Typography level="h4" sx={{ mb: 2 }}>
           Edit Site
         </Typography>
-
+        <Divider/>
         <form onSubmit={handleEditSite}>
-
+        <Grid container spacing={2}>
+          <Grid  xs={12} md={6}>
           <FormControl sx={{ mb: 2 }}>
+          <FormLabel>Site</FormLabel>
         <Input
           placeholder="Site Name"
           name="sitename"
@@ -112,6 +114,7 @@ const EditSite: React.FC<EditSiteProps> = ({
         />
          </FormControl>
 <FormControl sx={{ mb: 2 }}>
+<FormLabel>Description</FormLabel>
         <Input
           placeholder="Description"
           name="description"
@@ -122,6 +125,7 @@ const EditSite: React.FC<EditSiteProps> = ({
         />
          </FormControl>
          <FormControl sx={{ mb: 2 }}>
+         <FormLabel>Description</FormLabel>
         <Input
           placeholder="Address"
           name="address"
@@ -132,6 +136,7 @@ const EditSite: React.FC<EditSiteProps> = ({
         />
          </FormControl>
          <FormControl sx={{ mb: 2 }}>
+         <FormLabel>Description</FormLabel>
         <Input
           placeholder="Apt. / Suite"
           name="aptSuite"
@@ -141,7 +146,10 @@ const EditSite: React.FC<EditSiteProps> = ({
           sx={{ mb: 2 }}
         />
          </FormControl>
+         </Grid>
+         <Grid  xs={12} md={6}>
          <FormControl sx={{ mb: 2 }}>
+         <FormLabel>Description</FormLabel>
         <Input
           placeholder="City"
           name="city"
@@ -152,6 +160,7 @@ const EditSite: React.FC<EditSiteProps> = ({
         />
          </FormControl>
          <FormControl sx={{ mb: 2 }}>
+         <FormLabel>Description</FormLabel>
         <Input
           placeholder="State"
           name="state"
@@ -162,6 +171,7 @@ const EditSite: React.FC<EditSiteProps> = ({
         />
         </FormControl>
         <FormControl sx={{ mb: 2 }}>
+        <FormLabel>Description</FormLabel>
         <Input
           placeholder="ZipCode"
           name="zipCode"
@@ -172,6 +182,7 @@ const EditSite: React.FC<EditSiteProps> = ({
         />
         </FormControl>
         <FormControl sx={{ mb: 2 }}>
+        <FormLabel>Description</FormLabel>
         <Input
           placeholder="Country"
           name="country"
@@ -181,6 +192,8 @@ const EditSite: React.FC<EditSiteProps> = ({
           sx={{ mb: 2 }}
         />
         </FormControl>
+        </Grid>
+        </Grid>
         <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
           <Button onClick={onClose} sx={{ mr: 1 }}>
             Cancel
@@ -204,8 +217,10 @@ const modalStyle = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "#f9f9f9",
+  bgcolor: "White",
   p: 4,
   borderRadius: 10,
+  maxWidth:"600px",
+  maxHeight: '90vh', 
+  overflowY: 'auto'
 };

@@ -16,6 +16,7 @@ import AddSite from './AddSite'
 import DeleteSite from './DeleteSite'
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
 import AppView from '../../../components/Common/AppView'
+import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
 
 const initialSites = [
   {
@@ -169,8 +170,9 @@ const SetupSites: React.FC = ({}) => {
                     sx={{
                       backgroundColor: 'green',
                       color: 'white',
-                      fontSize: '10px',
+                      fontSize: '15px',
                       padding: '10px',
+                      borderRadius: '15px',
                       width: { xs: '100%', sm: 'auto', md: '150px' },
                       height: '40px',
                       '&:hover': {
@@ -179,19 +181,20 @@ const SetupSites: React.FC = ({}) => {
                     }}
                     onClick={() => setOpen(true)}
                   >
-                    <AddIcon sx={{ mr: 1, fontSize: '10px' }} />
+                    <AddIcon sx={{ mr: 1, fontSize: '20px' }} />
                     Add New Site
                   </Button>
 
                   <Button
                     sx={{
-                      fontSize: '10px',
+                      fontSize: '15px',
                       width: { xs: '100%', sm: 'auto', md: '150px' },
                       marginRight: '10px',
                       height: '40px',
+                      borderRadius: '15px',
                     }}
                   >
-                    <TuneOutlinedIcon style={{ marginRight: '8px' }} />
+                    <PublishOutlinedIcon style={{ marginRight: '8px', fontSize: '20px' }} />
                     Import Sites
                   </Button>
                 </ButtonGroup>
@@ -216,14 +219,14 @@ const SetupSites: React.FC = ({}) => {
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
-              paddingRight: '40px',
-              marginTop: '60px',
+              p:2
             }}
           >
-            <Box sx={{width: "100%", overflow: "auto" }}>
+            <Box sx={{ overflowX: "auto" }}>
             <Table
               borderAxis="both"
-              style={{  borderCollapse: 'collapse' }}
+              
+              style={{  borderCollapse: 'collapse', border:"1px solid grey"}}
             >
               <thead>
                 <tr>
@@ -264,7 +267,7 @@ const SetupSites: React.FC = ({}) => {
                 </tr>
               </thead>
               <tbody>
-                {sites.map((site, index) => (
+                {sites.length > 0? sites.map((site, index) => (
                   <tr key={site.id}>
                     <td>
                       <Checkbox
@@ -303,7 +306,11 @@ const SetupSites: React.FC = ({}) => {
                       </Button>
                     </td>
                   </tr>
-                ))}
+                )) : 
+                  <tr>
+                    <td colSpan={11} style={{textAlign:'center'}}>Add New Site</td>
+                  </tr>
+                }
               </tbody>
             </Table>
             </Box>
