@@ -7,6 +7,7 @@ import { ThunkDispatch } from "@reduxjs/toolkit";
 import EditAssetInfo from "../../components/AssetSections/EditAsset/EditAssetInfo";
 import EditAssetDetails from "../../components/AssetSections/EditAsset/EditAssetDetails";
 import { Typography } from '@mui/joy';
+import AppView from "../../components/Common/AppView";
 
 const EditAssets: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -52,9 +53,8 @@ const EditAssets: React.FC = () => {
   };
 
   return (
-    <>
-      <div style={{ width: "100%", background: "#f9f9f9" }}>
-        <div style={{ margin: " 0px 52px 0 65px", paddingTop: "30px" }}>
+    <AppView>
+
           <Typography level="h3">Asset View</Typography>
           <EditAssetInfo
             assetInfo={editAssetData}
@@ -64,9 +64,7 @@ const EditAssets: React.FC = () => {
             assetDetails={editAssetData?.assetDetails || {}}
             dataUpdater={dataUpdater}
           />
-        </div>
-      </div>
-    </>
+    </AppView>
   );
 };
 
