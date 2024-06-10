@@ -17,6 +17,9 @@ import DeleteSite from './DeleteSite'
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
 import AppView from '../../../components/Common/AppView'
 import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
+import { UseSelector, useDispatch, useSelector } from 'react-redux'
+import addSitesSlice from '../../../Redux/features/addSitesSlice';
+
 
 export interface Site {
   // id: number
@@ -30,6 +33,13 @@ export interface Site {
   country: string
 }
 
+interface SitesState {
+  data: Site[];
+  selectedCustomer: any; // Adjust the type as necessary
+  loading: boolean;
+  error: any; // Adjust the type as necessary
+}
+
 const SetupSites: React.FC = ({}) => {
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
@@ -41,6 +51,9 @@ const SetupSites: React.FC = ({}) => {
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
   const [sites, setSites] = useState<Site[]>([])
+
+  const users = useSelector((state: { users: SitesState }) => state.users);
+  console.log(users);
 
   const handleDeleteClick =(site: Site) => {
     setSelectedSite(site)
@@ -73,12 +86,15 @@ const SetupSites: React.FC = ({}) => {
   const handleEditClick = (site: Site) => {
     setSelectedSite(site)
     setEditOpen(true)
+   
   }
 
   const FlexBox = styled(Box)({
     display: 'flex',
     alignItems: 'center',
   })
+
+
 
   console.log(JSON.stringify(sites))
 

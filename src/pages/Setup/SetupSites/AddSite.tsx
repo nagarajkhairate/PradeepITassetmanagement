@@ -1,28 +1,52 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Box, Button, Input, Modal, Option, Select, Typography , FormLabel, FormControl, Grid, Divider } from "@mui/joy";
-
+import { addSites } from '../../../Redux/features/addSitesSlice'
+import {  useDispatch, useSelector } from 'react-redux'
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { RootState } from "../../../Redux/store";
 
 interface AddSiteProps {
   open: boolean;
   onClose: () => void;
-  setSites: React.Dispatch<React.SetStateAction<any[]>>;
-  sites: any[];
+  setSites: React.Dispatch<React.SetStateAction<Site[]>>;
+  sites: Site[];
 }
 
-const initialSiteData = {
+interface Site {
+  siteName: string;
+  description: string;
+  address: string;
+  aptSuite: string;
+  city: string;
+  state: string;
+  zipCode: number;
+  country: string;
+}
+
+interface SitesState {
+  data: Site[];
+  selectedSites: any; 
+  loading: boolean;
+  error: any; 
+}
+
+const initialSiteData: Site = {
   siteName: "",
   description: "",
   address: "",
   aptSuite: "",
   city: "",
   state: "",
-  zipCode: "",
+  zipCode: 0,
   country: "",
 };
 
 const AddSite: React.FC<AddSiteProps> = ({ open, onClose, setSites, sites }) => {
   const [newSite, setNewSite] = useState(initialSiteData);
   const [newCountry, setNewCountry] = useState(initialSiteData);
+
+  const users=useSelector((state: { users: SitesState }) =>state.users);
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
   const handleSelectChange = (
     event: React.SyntheticEvent<Element, Event> | null,
@@ -40,14 +64,17 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, setSites, sites }) => 
     setNewSite((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleAddSite = () => {
+  const handleAddSite = async () => { 
+    console.log('dgdfgdf')
     setSites((prevSites) => [...prevSites, newSite])
     setNewSite(initialSiteData); 
-    // const newSiteWithId = { ...newSite};
-    // setSites([...sites, newSiteWithId]);
-    onClose();
+   
+    await dispatch(addSites(newSite));
+    console.log('dgdfgdf')
+    // onClose();
   };
 
+ 
   return (  
     <Modal open={open} onClose={onClose}>
       <Box sx={modalStyle}>
