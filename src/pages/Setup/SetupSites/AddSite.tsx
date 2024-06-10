@@ -10,7 +10,6 @@ interface AddSiteProps {
 }
 
 const initialSitesData = {
-  id: "",
   sitename: "", 
   description: "",
   address: "",

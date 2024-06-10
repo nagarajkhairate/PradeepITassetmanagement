@@ -18,22 +18,22 @@ import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
 import AppView from '../../../components/Common/AppView'
 import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
 
-const initialSites = [
-  {
-    id: 1,
-    sitename: 'swde',
-    description: 'wsedf',
-    address: '234frd',
-    aptSuite: 'swed',
-    city: 'sedr',
-    state: 'sw3',
-    zipCode: 3532532,
-    country: 'Bahrain',
-  },
-]
+// const initialSites = [
+//   {
+//     id: 1,
+//     sitename: 'swde',
+//     description: 'wsedf',
+//     address: '234frd',
+//     aptSuite: 'swed',
+//     city: 'sedr',
+//     state: 'sw3',
+//     zipCode: 3532532,
+//     country: 'Bahrain',
+//   },
+// ]
 
-interface Site {
-  id: number
+export interface Site {
+  // id: number
   sitename: string
   description: string
   address: string
@@ -54,18 +54,20 @@ const SetupSites: React.FC = ({}) => {
   const [selectedSite, setSelectedSite] = useState<any>(null)
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
-  const [sites, setSites] = useState(initialSites)
+  const [sites, setSites] = useState<Site[]>([])
 
-  const handleDeleteClick = (site: any) => {
+  const handleDeleteClick =(site: Site) => {
     setSelectedSite(site)
     setDeleteOpen(true)
   }
 
   const handleDelete = () => {
-    const updatedSites = sites.filter((site) => site.id !== selectedSite.id)
+    if (selectedSite) {
+    const updatedSites = sites.filter((site) => site!== selectedSite)
     setSites(updatedSites)
     setDeleteOpen(false)
     setSelectedSite(null)
+    }
   }
 
   const handleDeleteClose = () => {
@@ -82,7 +84,7 @@ const SetupSites: React.FC = ({}) => {
     setSelectedCell(index)
   }
 
-  const handleEditClick = (site: any) => {
+  const handleEditClick = (site: Site) => {
     setSelectedSite(site)
     setEditOpen(true)
   }
@@ -268,7 +270,7 @@ const SetupSites: React.FC = ({}) => {
               </thead>
               <tbody>
                 {sites.length > 0? sites.map((site, index) => (
-                  <tr key={site.id}>
+                  <tr key={index}>
                     <td>
                       <Checkbox
                         size="sm"
@@ -289,7 +291,7 @@ const SetupSites: React.FC = ({}) => {
                       <div>
                         <Button
                           aria-label="edit"
-                          key={site.id}
+                          // key={site.id}
                           onClick={() => handleEditClick(site)}
                         >
                           <EditIcon fontSize="small" />
@@ -299,7 +301,7 @@ const SetupSites: React.FC = ({}) => {
                     <td>
                       <Button
                         aria-label="delete"
-                        key={site.id}
+                        // key={site.id}
                         onClick={() => handleDeleteClick(site)}
                       >
                         <DeleteIcon fontSize="small" />
@@ -324,16 +326,19 @@ const SetupSites: React.FC = ({}) => {
         sites={sites}
       />
 
-      {selectedSite && (
-        <EditSite
-          open={isEditOpen}
-          onClose={() => setEditOpen(false)}
-          site={selectedSite}
-          sites={sites}
-          setSites={setSites}
-          fullScreen={fullScreen}
-        />
-      )}
+<EditSite
+        open={isEditOpen}
+        onClose={() => setEditOpen(false)}
+        site={selectedSite}
+        onSave={(updatedSite: Site) => {
+          const updatedSites = sites.map((site) =>
+            site === selectedSite ? updatedSite : site
+          )
+          setSites(updatedSites)
+          setEditOpen(false)
+          setSelectedSite(null)
+        }}
+      />
 
       <DeleteSite
         deleteOpen={deleteOpen}

@@ -1,71 +1,70 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Box, Typography, Input, Button, FormControl, FormLabel, Grid, Divider } from "@mui/joy";
+import {Site} from './SetupSites'
 
 interface EditSiteProps {
-  fullScreen: boolean;
-  open: boolean;
-  onClose: () => void;
-
-  site: {
-    id: number;
-    sitename: string;
-    description: string;
-    address: string;
-    aptSuite: string;
-    city: string;
-    state: string;
-    zipCode: number;
-    country: string;
-  };
-  sites: {
-    id: number;
-    sitename: string;
-    description: string;
-    address: string;
-    aptSuite: string;
-    city: string;
-    state: string;
-    zipCode: number;
-    country: string;
-  }[];
-  setSites: React.Dispatch<React.SetStateAction<any[]>>;
+  open: boolean
+  onClose: () => void
+  site: Site | null
+  onSave: (updatedSite: Site) => void
 }
-const initialSitesData = {
-  id: "",
-  sitename: "", 
-  description: "",
-  address: "",
-  aptSuite: "",
-  city: "",
-  state: "",
-  zipcode: "",
-  country: "",
-};
 
-const EditSite: React.FC<EditSiteProps> = ({
-    open,
-    onClose,
-    site,
-    sites,
-    setSites,
-}) => {
-    const [updatedSite, setUpdatedSite] = useState(site);
-    const [newSite, setNewSite] = useState(initialSitesData);
+//   site: {
+//     id: number;
+//     sitename: string;
+//     description: string;
+//     address: string;
+//     aptSuite: string;
+//     city: string;
+//     state: string;
+//     zipCode: number;
+//     country: string;
+//   };
+//   sites: {
+//     id: number;
+//     sitename: string;
+//     description: string;
+//     address: string;
+//     aptSuite: string;
+//     city: string;
+//     state: string;
+//     zipCode: number;
+//     country: string;
+//   }[];
+//   setSites: React.Dispatch<React.SetStateAction<any[]>>;
+// }
+// const initialSitesData = {
+//   sitename: "", 
+//   description: "",
+//   address: "",
+//   aptSuite: "",
+//   city: "",
+//   state: "",
+//   zipCode: "",
+//   country: "",
+// };
 
-    useEffect(() => {
-        if (site) {
-          setUpdatedSite(site);
+const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
+  const [editedSite, setEditedSite] = useState<Site | null>(site)
+
+  React.useEffect(() => {
+    setEditedSite(site)
+  }, [site])
+
+      const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (editedSite) {
+          setEditedSite({
+            ...editedSite,
+            [event.target.name]: event.target.value,
+          })
         }
-      }, [site]);
+      }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUpdatedSite((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
+      const handleSave = () => {
+        if (editedSite) {
+          onSave(editedSite)
+        }
+      }
   // const handleEditSite = (e: React.FormEvent<HTMLFormElement>) => {
   //   e.preventDefault();
   //   const updatedSites = sites.map((s) =>
@@ -79,11 +78,11 @@ const EditSite: React.FC<EditSiteProps> = ({
   //   return null; 
   // }
 
-  const handleEditSite = () => {
-    const updatedSites = { ...updatedSite};
-    setSites([updatedSites]);
-    onClose();
-  };
+  // const handleEditSite = () => {
+  //   const updatedSites = { ...updatedSite};
+  //   setSites([updatedSites]);
+  //   onClose();
+  // }
 
   // const handleEditSite = (site : any) => {
   //   setSites(site);
@@ -99,15 +98,17 @@ const EditSite: React.FC<EditSiteProps> = ({
           Edit Site
         </Typography>
         <Divider/>
-        <form onSubmit={handleEditSite}>
+        {editedSite && (
+        <form onSubmit={handleSave}>
         <Grid container spacing={2}>
           <Grid  xs={12} md={6}>
           <FormControl sx={{ mb: 2 }}>
           <FormLabel>Site</FormLabel>
+          
         <Input
           placeholder="Site Name"
           name="sitename"
-          value={updatedSite.sitename}
+          value={editedSite.sitename}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}
@@ -118,7 +119,7 @@ const EditSite: React.FC<EditSiteProps> = ({
         <Input
           placeholder="Description"
           name="description"
-          value={updatedSite.description}
+          value={editedSite.description}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}
@@ -129,7 +130,7 @@ const EditSite: React.FC<EditSiteProps> = ({
         <Input
           placeholder="Address"
           name="address"
-          value={updatedSite.address}
+          value={editedSite.address}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}
@@ -140,7 +141,7 @@ const EditSite: React.FC<EditSiteProps> = ({
         <Input
           placeholder="Apt. / Suite"
           name="aptSuite"
-          value={updatedSite.aptSuite}
+          value={editedSite.aptSuite}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}
@@ -153,7 +154,7 @@ const EditSite: React.FC<EditSiteProps> = ({
         <Input
           placeholder="City"
           name="city"
-          value={updatedSite.city}
+          value={editedSite.city}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}
@@ -164,18 +165,19 @@ const EditSite: React.FC<EditSiteProps> = ({
         <Input
           placeholder="State"
           name="state"
-          value={updatedSite.state}
+          value={editedSite.state}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}
         />
+       
         </FormControl>
         <FormControl sx={{ mb: 2 }}>
         <FormLabel>Description</FormLabel>
         <Input
           placeholder="ZipCode"
           name="zipCode"
-          value={updatedSite.zipCode}
+          value={editedSite.zipCode}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}
@@ -186,25 +188,29 @@ const EditSite: React.FC<EditSiteProps> = ({
         <Input
           placeholder="Country"
           name="country"
-          value={updatedSite.country}
+          value={editedSite.country}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}
         />
         </FormControl>
+        
         </Grid>
         </Grid>
+    
         <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
           <Button onClick={onClose} sx={{ mr: 1 }}>
             Cancel
           </Button>
           <Button 
           type="Submit"
+          onClick={handleSave}
            >
             Update
             </Button>
         </Box>
         </form>
+          )}
       </Box>
     </Modal>
   );
