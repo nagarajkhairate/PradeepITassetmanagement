@@ -1,5 +1,7 @@
 import React from 'react'
 import { Box, Sheet, selectClasses } from '@mui/joy'
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../../../Redux/store'
 import { Typography, Divider } from '@mui/joy'
 import Button from '@mui/joy/Button'
 import { FormControl, FormLabel } from '@mui/joy'
@@ -18,6 +20,7 @@ import LocationSetupEdit from './LocationSetupEdit'
 import PlaylistAddCheckOutlinedIcon from '@mui/icons-material/PlaylistAddCheckOutlined'
 import AppView from '../../../components/Common/AppView'
 import { KeyboardArrowDown } from '@mui/icons-material'
+import {addLocation} from '../../../Redux/features/LocationSlice'
 
 type Location = {
   id: number
@@ -30,6 +33,9 @@ const LocationSetup: React.FunctionComponent = () => {
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [location, setLocation] = useState<string>('')
   const [locationName, setLocationName] = useState<Location[]>([])
+
+  const locations = useSelector((state: RootState) => state.locations)
+const dispatch = useDispatch<AppDispatch>()
 
   const handleLocationChange = (updatedData: Location[]) => {
     setLocationName(updatedData)
@@ -55,6 +61,8 @@ const LocationSetup: React.FunctionComponent = () => {
     setLocationName([...locationName, newLocation])
     setLocation('') // Clear the input field after adding
     handleClose()
+    dispatch(addLocation(newLocation))
+    // console.log(newLocation)
   }
 
   return (

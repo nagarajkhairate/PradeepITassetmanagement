@@ -11,6 +11,11 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
 import LocationSetup from './LocationSetup'
+import { useSelector, useDispatch } from 'react-redux';
+
+import { AppDispatch, RootState } from '../../../Redux/store'
+import { updateLocation } from '../../../Redux/features/LocationSlice'
+
 
 type Location = {
   id: number
@@ -30,6 +35,10 @@ export function LocationSetupEdit({ locationName, onLocationChange }: Props) {
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
+
+  const locations = useSelector((state: RootState) => state.locations)
+const dispatch = useDispatch<AppDispatch>()
+
 
   const handleCheckboxChange = (index: number) => {
     setMatchedSelected((prevSelected) =>
@@ -60,6 +69,7 @@ export function LocationSetupEdit({ locationName, onLocationChange }: Props) {
       )
       setLocData({ ...locData, locationData: updatedData })
       handleEditClose()
+      dispatch(updateLocation(location))
       onLocationChange(updatedData)
     }
   }
