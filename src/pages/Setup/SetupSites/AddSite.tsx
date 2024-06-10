@@ -9,8 +9,8 @@ interface AddSiteProps {
   sites: any[];
 }
 
-const initialSitesData = {
-  sitename: "", 
+const initialSiteData = {
+  siteName: "",
   description: "",
   address: "",
   aptSuite: "",
@@ -21,8 +21,8 @@ const initialSitesData = {
 };
 
 const AddSite: React.FC<AddSiteProps> = ({ open, onClose, setSites, sites }) => {
-  const [newSite, setNewSite] = useState(initialSitesData);
-  const [newCountry, setNewCountry] = useState(initialSitesData);
+  const [newSite, setNewSite] = useState(initialSiteData);
+  const [newCountry, setNewCountry] = useState(initialSiteData);
 
   const handleSelectChange = (
     event: React.SyntheticEvent<Element, Event> | null,
@@ -41,8 +41,10 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, setSites, sites }) => 
   };
 
   const handleAddSite = () => {
-    const newSiteWithId = { ...newSite};
-    setSites([...sites, newSiteWithId]);
+    setSites((prevSites) => [...prevSites, newSite])
+    setNewSite(initialSiteData); 
+    // const newSiteWithId = { ...newSite};
+    // setSites([...sites, newSiteWithId]);
     onClose();
   };
 
@@ -56,7 +58,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, setSites, sites }) => 
         <Grid container spacing={2}>
         <Grid  xs={12} md={6}>
         <FormLabel>Site</FormLabel>
-        <Input placeholder="Select Site" name="sitename" value={newSite.sitename} onChange={handleChange} fullWidth sx={{ mb: 2 }} />
+        <Input placeholder="Select Site" name="siteName" value={newSite.siteName} onChange={handleChange} fullWidth sx={{ mb: 2 }} />
         <FormLabel>Description</FormLabel>
         <Input placeholder="Description" name="description" value={newSite.description} onChange={handleChange} fullWidth sx={{ mb: 2 }} />
         <FormLabel>Address</FormLabel>

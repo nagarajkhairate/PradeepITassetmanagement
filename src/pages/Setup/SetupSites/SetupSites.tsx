@@ -18,23 +18,9 @@ import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
 import AppView from '../../../components/Common/AppView'
 import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
 
-// const initialSites = [
-//   {
-//     id: 1,
-//     sitename: 'swde',
-//     description: 'wsedf',
-//     address: '234frd',
-//     aptSuite: 'swed',
-//     city: 'sedr',
-//     state: 'sw3',
-//     zipCode: 3532532,
-//     country: 'Bahrain',
-//   },
-// ]
-
 export interface Site {
   // id: number
-  sitename: string
+  siteName: string
   description: string
   address: string
   aptSuite: string
@@ -279,7 +265,7 @@ const SetupSites: React.FC = ({}) => {
                         color="primary"
                       />
                     </td>
-                    <td>{site.sitename}</td>
+                    <td>{site.siteName}</td>
                     <td>{site.description}</td>
                     <td>{site.address}</td>
                     <td>{site.aptSuite}</td>
@@ -291,7 +277,6 @@ const SetupSites: React.FC = ({}) => {
                       <div>
                         <Button
                           aria-label="edit"
-                          // key={site.id}
                           onClick={() => handleEditClick(site)}
                         >
                           <EditIcon fontSize="small" />
@@ -301,7 +286,6 @@ const SetupSites: React.FC = ({}) => {
                     <td>
                       <Button
                         aria-label="delete"
-                        // key={site.id}
                         onClick={() => handleDeleteClick(site)}
                       >
                         <DeleteIcon fontSize="small" />
@@ -310,7 +294,7 @@ const SetupSites: React.FC = ({}) => {
                   </tr>
                 )) : 
                   <tr>
-                    <td colSpan={11} style={{textAlign:'center'}}>Add New Site</td>
+                    <td colSpan={11} style={{textAlign:'center'}}>No Data Found</td>
                   </tr>
                 }
               </tbody>

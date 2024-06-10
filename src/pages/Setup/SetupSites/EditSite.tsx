@@ -107,8 +107,8 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
           
         <Input
           placeholder="Site Name"
-          name="sitename"
-          value={editedSite.sitename}
+          name="siteName"
+          value={editedSite.siteName}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}
