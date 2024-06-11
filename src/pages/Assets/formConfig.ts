@@ -11,6 +11,7 @@ export interface FormFieldConfig {
       sm:string,
       md: number;
       lg?:number;
+      xl?:number;
 
     };
   };
@@ -60,11 +61,11 @@ export const formConfig: FormFieldConfig[] = [
       borderRadius: "15px",
       padding: "12.25px",
       width: {
-        xs: "100%",
-        sm:"100%",
-        md: 530,
-        lg:1100,
-
+        xs: "100%", // 0
+        sm: "100%",  // 600
+        md: 530,   // 900
+        lg: 800, // 1200
+        xl:1100, // 1536
       }
     }
   },

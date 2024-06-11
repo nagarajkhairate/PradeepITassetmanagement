@@ -131,7 +131,8 @@ const AddAnAsset: React.FC = () => {
       >
         <Box sx={{ paddingBottom: "30px" }}>
           <Box>
-            <Grid container spacing={1} sx={{ padding: "20px",display:"flex",flexDirection: { xs: "column", md: "row" }, }} >
+            <Grid container spacing={1} sx={{ padding: "20px",
+             display:"flex",flexDirection: { xs: "column", md: "row" },}} >
               <Grid xs={12}>
                 <Typography
                   sx={{ fontWeight: "bold", mb: 0, paddingLeft: "32px" }}
@@ -140,7 +141,7 @@ const AddAnAsset: React.FC = () => {
                 </Typography>
               </Grid>
               {formConfig.slice(0,10).map((field: FormFieldConfig) => (
-                <Grid key={field.label} sx={{ paddingLeft: "32px" }}  >
+                <Grid key={field.label} sx={{ paddingLeft: "32px", }}>
                   <Typography
                     level="body-xs"
                     sx={{ color: "#767676", mt: "8px", mb: "5px" }}
@@ -148,10 +149,10 @@ const AddAnAsset: React.FC = () => {
                     {field.label}
                   </Typography>
                   {field.type === "select" ? (
-                    <Select
-                      value={formData[field.stateKey] as string}
-                      onChange={(e, newValue) => handleSelectChange(e, newValue, field.stateKey)}
-                      sx={field.sx}
+                    <Select 
+                    value={formData[field.stateKey] as string}
+                    onChange={(e, newValue) => handleSelectChange(e, newValue, field.stateKey)}
+                    sx={field.sx}
                     >
                       {field.options?.map((option) => (
                         <Option key={option.value} value={option.value}>
@@ -160,12 +161,14 @@ const AddAnAsset: React.FC = () => {
                       ))}
                     </Select>
                   ) : (
+                    <Box>
                     <Input
                       value={formData[field.stateKey] as string}
                       onChange={(e) => handleInputChange(e, field.stateKey)}
                       {...field}
                       sx={field.sx}
-                    />
+                      />
+                      </Box>
                     )}
 
                   {validationMessages[field.validationMessageKey] && (
@@ -212,11 +215,11 @@ const AddAnAsset: React.FC = () => {
                         </Option>
                       ))}
                     </Select>
-                 
+
                   <Button
                       sx={{
                         ml:{md:4,xs:"0"},
-                        width: "163px",
+                        width: "150px",
                         fontSize: "20px",
                         borderRadius: "15px",
                         background: "#E4E4E4",
