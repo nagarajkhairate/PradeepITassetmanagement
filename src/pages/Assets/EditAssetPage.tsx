@@ -23,7 +23,7 @@
 // import LocationDialog from "../../components/AssetSections/EditAsset/AddAssetSection/LocationDialog";
 // import { updateAsset } from "../../Redux/features/assetSlice";
 // import { useParams } from "react-router-dom";
-
+ 
 // const TypographyLabel: React.FC<{ title: string }> = ({ title }) => (
 //   <Typography level="body-xs" sx={{ mt: 1, color: "#767676", mb: "5px" }}>
 //     {title}

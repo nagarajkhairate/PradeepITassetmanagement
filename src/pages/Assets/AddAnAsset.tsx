@@ -13,6 +13,10 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AppView from "../../components/Common/AppView";
+import { RootState } from "../../Redux/store";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+import { reducerone } from "../../Redux/features/assetSlice";
 
 interface FormData {
   [key: string]: string | File[];
@@ -23,6 +27,8 @@ interface ValidationMessages {
 }
 
 const AddAnAsset: React.FC = () => {
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+
   // Initialize state dynamically based on formConfig
   const initialFormData = formConfig.reduce<FormData>((acc, field) => {
     acc[field.stateKey] = "";
@@ -89,7 +95,7 @@ const AddAnAsset: React.FC = () => {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Perform validation
     const newValidationMessages: ValidationMessages = {};
     formConfig.forEach((field) => {
@@ -114,6 +120,15 @@ const AddAnAsset: React.FC = () => {
     }, {} as { [key: string]: string | string[] });
 
     console.log("Form Data JSON:", jsonData);
+
+    try {
+      await dispatch(reducerone(formData));
+      console.log("Form submitted successfully");
+      // window.location.reload();
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+
   };
 
   return (
