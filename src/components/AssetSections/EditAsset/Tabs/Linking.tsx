@@ -15,8 +15,8 @@ import {
   DialogContent,
   IconButton,
 } from "@mui/material";
-import { BsLink45Deg } from "react-icons/bs";
-import { AiOutlineClose } from "react-icons/ai";
+import CloseIcon from '@mui/icons-material/Close';
+import LinkIcon from '@mui/icons-material/Link';
 import { SelectChangeEvent } from '@mui/material/Select';
 
 
@@ -93,7 +93,7 @@ const Linking = (props:any) => {
                   }}
                 >
                   {" "}
-                  <BsLink45Deg size={23} /> Link Parent Asset
+                  <LinkIcon size={23} /> Link Parent Asset
                 </Button>
                 <Dialog open={open} onClose={closePopUp} fullWidth>
                   <DialogTitle>
@@ -108,7 +108,7 @@ const Linking = (props:any) => {
                         Link as Asset as Parent
                       </Typography>
                       <IconButton onClick={closePopUp}>
-                        <AiOutlineClose />
+                        <CloseIcon />
                       </IconButton>
                     </Box>
                   </DialogTitle>
@@ -207,7 +207,7 @@ const Linking = (props:any) => {
                     },
                   }}
                 >
-                  <BsLink45Deg size={23} /> Link Child Asset
+                  <LinkIcon size={23} /> Link Child Asset
                 </Button>
                 <Dialog open={open} onClose={closePopUp} fullWidth>
                   <DialogTitle>
@@ -222,7 +222,7 @@ const Linking = (props:any) => {
                         Link as Asset as Child
                       </Typography>
                       <IconButton onClick={closePopUp}>
-                        <AiOutlineClose />
+                        <CloseIcon />
                       </IconButton>
                     </Box>
                   </DialogTitle>

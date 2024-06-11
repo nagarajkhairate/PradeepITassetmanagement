@@ -1,242 +1,196 @@
-import React from "react";
-import {
-  Box,
-  Button,
-  Typography,
-} from "@mui/joy";
-import { styled } from "@mui/joy";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import Image from "../../components/Common/MaintenanceEmpty";
-import Select, { selectClasses } from "@mui/joy/Select";
-import Option from "@mui/joy/Option";
-import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
-import Table from "@mui/joy/Table";
-import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
-
-
-
-
-// Styled component for visually hidden input
-const VisuallyHiddenInput = styled("input")`
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  white-space: nowrap;
-  width: 1px;
-`;
+import React from 'react'
+import { Box, Button, Typography } from '@mui/joy'
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined'
+import MaintenanceEmpty from '../../components/Common/MaintenanceEmpty'
+import Select, { selectClasses } from '@mui/joy/Select'
+import Option from '@mui/joy/Option'
+import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown'
+import Table from '@mui/joy/Table'
+import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined'
+import AppView from '../../components/Common/AppView'
 
 export const MaintenancesDue: React.FC = () => {
   return (
-    <>
+    <AppView>
+      <Typography level="h4">Maintenance</Typography>
 
-<div style={{ width: "100%", background: "#f9f9f9" }}>
-        <div style={{ margin: "52px" }}>
-          <Box
-            sx={{
-              mt: "30px",
-              width: "100%",
-              display: "flex",
-              justifyContent: "space-between",
-              flexDirection: { xs: "column", md: "row" },
-            }}
-          >
-          
-        <Box>
-          <Typography
-            level="h4"
-          >
-            Maintenance
-          </Typography>
-
-
-          <Box
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: { md: 'row', xs: 'column' },
+          justifyContent: { xs: 'center', md: 'space-between' },
+          gap: '5px',
+        }}
+      >
+        <Button
+          type="button"
+          variant="solid"
+          autoFocus
           sx={{
-            display: "flex",
-            width:"100%",
-            alignItems: "center",
-            marginTop: "40px",
-            flexDirection: { md: "row", xs: "column" },
-            gap:{md:"20px",xs:"5px"}
+            background: '#1CCAB8',
+            color: 'white',
+            borderRadius: '15px',
           }}
         >
-          <Box sx={{width:"100%"}}>
+          <SettingsOutlinedIcon />
+          Search Criteria
+        </Button>
+
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { md: 'row', xs: 'column' },
+            gap: '5px',
+          }}
+        >
+          <Button
+            variant="solid"
+            autoFocus
+            sx={{
+              background: '#388e3c',
+              color: 'white',
+              borderRadius: '15px',
+            }}
+          >
+            <CloudUploadOutlinedIcon />
+            Export to Excel
+          </Button>
+          <Button
+            variant="solid"
+            autoFocus
+            sx={{
+              background: '#2196f3',
+              color: 'white',
+              borderRadius: '15px',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            <CloudUploadOutlinedIcon />
+            Import Maintenance
+          </Button>
           <Button
             type="button"
             variant="solid"
             autoFocus
             sx={{
-              background: "#1CCAB8",
-              color: "white",
-              borderRadius: "15px"
-              ,width:{md:"150px",xs:"90%"}
+              background: 'black',
+              color: 'white',
+              borderRadius: '15px',
             }}
-            >
+          >
             <SettingsOutlinedIcon />
-            Search Criteria
+            Setup Column
           </Button>
-            </Box>
-
-          <Box 
-          sx={{
-            width:"100%",
-              // marginRight: "10%" , 
-              display:{md:"flex",xs:"flex"} , flexDirection:{md:"row",xs:"column"},gap:"5px" }}>
-              <Button
-                variant="solid"
-                autoFocus
-                sx={{
-                  background: "#388e3c",
-                  color: "white",
-                  borderRadius: "15px",
-                  width:{md:"160px",xs:"90%"}
-                }}
-               
-              >
-                 <CloudUploadOutlinedIcon />
-                Export to Excel
-                <VisuallyHiddenInput type="file" />
-              </Button>
-              <Button
-                variant="solid"
-                autoFocus
-                sx={{
-                  background: "#2196f3",
-                  color: "white",
-                  borderRadius: "15px",
-                  whiteSpace:'nowrap',
-                  width:{md:"180px",xs:"90%"}
-                  
-                }}
-              >
-                <CloudUploadOutlinedIcon />
-                Import Maintenance
-                <VisuallyHiddenInput type="file" />
-              </Button>
-              <Button
-                type="button"
-                variant="solid"
-                autoFocus
-                sx={{
-                  background: "black",
-                  color: "white",
-                  borderRadius: "15px"
-                  ,width:{md:"160px",xs:"90%"}
-                }}
-                >
-                <SettingsOutlinedIcon />
-                Setup Column
-              </Button>
-          </Box>
         </Box>
+      </Box>
 
+      
 
-
-
-        
-        <Box sx={{ gap:{md:"50px",xs:"5px"},
-          width:"100%",
-          marginRight: { md: '10%', xs: '0' }, display:"flex" , flexDirection:{md:"row",xs:"column"},
-             }}
+      <Box
+         sx={{
+          gap:{md:"1px",xs:"3px"},
+         display:"flex" , 
+         alignItems: 'center',
+         flexDirection: { md: 'row', xs: 'column' },
+         justifyContent: 'space-between',
+         mt:2
+            }}
+      >
+        <Box
+          // sx={{
+          //   display: 'flex',
+          //   alignItems: 'center',
+          // }}
         >
-          <Box>
-            <Select
-              placeholder="Maintenance Due"
-              indicator={<KeyboardArrowDown />}
-              sx={{
-                width: { md: 200, xs: '90%' },
-                [`& .${selectClasses.indicator}`]: {
-                  transition: "0.2s",
-                  [`&.${selectClasses.expanded}`]: {
-                    transform: "rotate(-180deg)",
-                  },
+          <Select
+            placeholder="Maintenance Due"
+            indicator={<KeyboardArrowDown />}
+            sx={{
+              [`& .${selectClasses.indicator}`]: {
+                transition: '0.2s',
+                [`&.${selectClasses.expanded}`]: {
+                  transform: 'rotate(-180deg)',
                 },
-                marginTop: { md: '20%', xs: '10px' },
-                borderRadius: "15px",
-                
-              }}
-            >
-              <Option value="dog">Dog</Option>
-              <Option value="cat">Cat</Option>
-              <Option value="fish">Fish</Option>
-              <Option value="bird">Bird</Option>
-            </Select>
-          </Box>
+              },
 
-          <Box>
-            <Select
-              placeholder="10"
-              indicator={<KeyboardArrowDown />}
-              sx={{
-                width: { md: 130, xs: '90%' },
-                [`& .${selectClasses.indicator}`]: {
-                  transition: "0.2s",
-                  [`&.${selectClasses.expanded}`]: {
-                    transform: "rotate(-180deg)",
-                  },
+              borderRadius: '15px',
+            }}
+          >
+            <Option value="term 1">term 1</Option>
+            <Option value="term 2">term 2</Option>
+            <Option value="term 3">term 3</Option>
+            <Option value="term 4">term 4</Option>
+          </Select>
+        </Box>
+        <Box>
+          <Select
+            placeholder="10"
+            indicator={<KeyboardArrowDown />}
+            sx={{
+              // width: 75,
+              [`& .${selectClasses.indicator}`]: {
+                transition: '0.2s',
+                [`&.${selectClasses.expanded}`]: {
+                  transform: 'rotate(-180deg)',
                 },
-                marginTop: { md: '34%', xs: '10px' },
-                borderRadius: "15px",
-              
-              }}
-            >
-              <Option value="10">10</Option>
-              <Option value="15">15</Option>
-              <Option value="20">20</Option>
-            </Select>
-          </Box>
+              },
+              borderRadius: '15px',
+            }}
+          >
+            <Option value="10">10</Option>
+            <Option value="15">15</Option>
+            <Option value="20">20</Option>
+          </Select>
+        </Box>
 
-         
-            <Box
-              sx={{
-                // marginRight: "18%",
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "flex-end ",
-                color: "danger",
-                fontFamily: "Poppins, sans-serif",
-                fontStyle: "italic",
-                marginTop:'2px'
-              }}
-            >
-             
-                
-        Assets that are more than 7 days overdue for maintenance (as indicated by overdue time)
-                  
+        <Typography
+          // sx={{
+          //   maxWidth: 450,
+          //   fontFamily: 'Poppins, sans-serif',
+          //   fontStyle: 'italic',
             
+          // }}
+          // color="danger"
 
-          </Box>
-        </Box>
-
-        <Box>
-          <Table hoverRow>
-            <thead style={{background:"#959595"}}>
-              <tr>
-                <th style={{ width: "10%" }}>Status</th>
-                <th>Expires</th>
-                <th>Asset Tag Id</th>
-                <th>Description</th>
-                <th>Title</th>
-                <th>Maintenance Details</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-          </Table>
-        </Box>
-
-        <Box>
-          <Image />
-        </Box>
+          sx={{
+            maxWidth: 450,
+            fontFamily: 'Poppins, sans-serif',
+            fontStyle: 'italic',
+            marginTop: '2px',
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'flex-end ',
+            // mt:4
+          }}
+          color="danger"
+        >
+          Assets with a maintenance due date within the last 7 days (determined
+          by overdue time) or in the near future.
+        </Typography>
       </Box>
+
+      <Box>
+        <Table hoverRow>
+          <thead style={{ background: '#959595' }}>
+            <tr>
+              <th style={{ width: '10%' }}>Status</th>
+              <th>Expires</th>
+              <th>Asset Tag Id</th>
+              <th>Description</th>
+              <th>Title</th>
+              <th>Maintenance Details</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+        </Table>
       </Box>
-            </div>
-            </div>
 
-    </>
-  );
-};
+      <Box>
+        <MaintenanceEmpty />
+      </Box>
+    </AppView>
+  )
+}
 
-export default MaintenancesDue;
+export default MaintenancesDue

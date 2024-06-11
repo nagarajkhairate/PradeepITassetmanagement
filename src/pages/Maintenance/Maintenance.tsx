@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Typography, Box, Button, Grid, Checkbox, Modal, Input, Table } from "@mui/joy";
 import SearchIcon from "../../Assets/search.svg";
 import EmptyContainer from "../../components/Common/EmptyContainer";
+import AppView from "../../components/Common/AppView";
+import MaintenanceEmpty from "../../components/Common/MaintenanceEmpty";
 
 const assets = [
   {
@@ -66,14 +68,16 @@ const Maintenance: React.FC = () => {
 
 
   return (
-    <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', margin: "52px" }}>
-        <Typography
-          level="h3"
-          sx={{ display: "flex", alignItems: "center" }}
+    <AppView>
+      <Box sx={{
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: { md: 'row', xs: 'column' },
+          justifyContent: { xs: 'center', md: 'space-between' },
+          gap: '5px',
+        }}
         >
-          Maintenance
-        </Typography>
+        <Typography level="h4">Maintenance</Typography>
         
         <Button
           onClick={handleOpen}
@@ -87,9 +91,11 @@ const Maintenance: React.FC = () => {
         </Button>
       </Box>
 
-      <EmptyContainer title="Keep track of your assets within your organization and create an even more detailed history of them."
+      <Box>
+      <MaintenanceEmpty
     //    selectedAssets={selectedAssetData}
        />
+       </Box>
       <Modal open={open} onClose={handleClose}>
         <Box sx={{ background: '#fff', padding: 3, borderRadius: "16px", margin: "auto", marginTop: "5%", width: "50%" }}>
           <Typography level="h4" sx={{ marginBottom: 2 }}>Select Assets</Typography>
@@ -158,7 +164,7 @@ const Maintenance: React.FC = () => {
           </Box>
         </Box>
       </Modal>
-    </Box>
+    </AppView>
   );
 };
 

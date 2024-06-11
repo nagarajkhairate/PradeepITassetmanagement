@@ -1,1 +1,0 @@
-# assets-management-service-ui

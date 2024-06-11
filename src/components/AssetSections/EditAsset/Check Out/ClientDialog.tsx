@@ -7,13 +7,13 @@ import {
   DialogContent,
   IconButton,
 } from "@mui/material";
-import { AiOutlineClose } from "react-icons/ai";
+import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { RootState } from "../../../../Redux/Features/store";
+import { RootState } from "../../../../Redux/store";
 import InputField from "../../../Common/Input";
 import SelectField from "../../../Common/Select";
-import {post_add_client} from "../../../../Redux/Features/clientSlice";
+import {post_add_client} from "../../../../Redux/features/clientSlice";
 
 interface ClientData {
   person_name: string;
@@ -159,7 +159,7 @@ const ClientDialog = (props: any) => {
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Typography>Add Client</Typography>
           <IconButton onClick={props.onClose}>
-            <AiOutlineClose />
+            <CloseIcon />
           </IconButton>
         </Box>
       </DialogTitle>

@@ -1,11 +1,10 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+
 module.exports = {
   entry: path.resolve(__dirname, "..", "./src/index.tsx"),
-  resolve: {
-    extensions: [".tsx", ".ts", ".js"],
-  },
+  
   module: {
     rules: [
       {
@@ -31,13 +30,22 @@ module.exports = {
       }
     ],
   },
+  resolve: {
+    extensions: ['.ts', '.tsx','.js', '.jsx'],
+  },
   output:{
-    path: path.resolve(__dirname, '..', './build'),
+    path: path.resolve(__dirname, './../build'),
     filename: 'bundle.js',
+    publicPath: '/',
   },
   plugins: [
     new HtmlWebpackPlugin({
         template:path.resolve(__dirname, '..', './src/index.html')
     })
-  ]
+  ],
+  performance: {
+    hints: false, // or 'warning' or 'error'
+    maxAssetSize: 500000, // adjust this value according to your needs
+    maxEntrypointSize: 500000, // adjust this value according to your needs
+  },
 };

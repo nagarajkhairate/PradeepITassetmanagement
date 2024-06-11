@@ -8,18 +8,20 @@ import {
   ListItemContent,
   Typography,
   Box,
+  Sheet,
 } from "@mui/joy";
 import { Collapse } from "@mui/material";
-import { IoIosArrowForward } from "react-icons/io";
-import { LiaPuzzlePieceSolid } from "react-icons/lia";
-import { BiHome } from "react-icons/bi";
-import { AiOutlineFlag } from "react-icons/ai";
-import { CiCircleList } from "react-icons/ci";
-import { PiFileTextLight } from "react-icons/pi"; 
-import { AiOutlineTool } from "react-icons/ai";
-import { IoSettingsOutline } from "react-icons/io5";
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import ExtensionIcon from '@mui/icons-material/Extension';
+import HomeIcon from '@mui/icons-material/Home';
+import FlagIcon from '@mui/icons-material/Flag';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile'; 
+import BuildIcon from '@mui/icons-material/Build';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { useState } from "react";
-import { IoIosArrowDown } from "react-icons/io";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
 
 
 const SidebarItem = ({ item }: any) => {
@@ -29,23 +31,23 @@ const SidebarItem = ({ item }: any) => {
   const getIcon = (pageName: any) => {
     switch (pageName) {
       case "Dashboard":
-        return <BiHome />;
+        return <HomeIcon />;
       case "Alerts":
-        return <AiOutlineFlag />;
+        return <FlagIcon />;
       case "Assets":
-        return <LiaPuzzlePieceSolid />;
+        return <ExtensionIcon />;
       case "Lists":
-        return <CiCircleList />;
+        return <FormatListBulletedIcon />;
       case "Reports":
-        return <PiFileTextLight />;
+        return <InsertDriveFileIcon />;
       case "Tools":
-        return <AiOutlineTool />;
+        return <BuildIcon />;
       case "Advanced":
-        return <LiaPuzzlePieceSolid />;
+        return <ExtensionIcon />;
       case "SetUp":
-        return <IoSettingsOutline />;
+        return <SettingsIcon />;
       case "Help/Support":
-        return <LiaPuzzlePieceSolid />;
+        return <ExtensionIcon />;
     }
   };
 
@@ -58,21 +60,19 @@ const SidebarItem = ({ item }: any) => {
     }
 }
   return item && item.path ? (
-    <>
+    <Sheet>
       <ListItemButton
         component={Link}
         to={item.children ? "#" : item.path || "#"}
-        onClick={handleItemClick} // Handle click to toggle expansion
-        color="none"
+        onClick={handleItemClick} 
         sx={{
             mt:"10px", 
-          width: "112%",
           "&:hover": {
             background: "#FEF8E8",
             borderLeft: "5px solid #FABC1E",
           },
           "&:active": {
-            backgroundColor: "#FCEEB0", // Slightly darker color on click
+            backgroundColor: "#FCEEB0", 
           },
         }}
       >
@@ -83,7 +83,7 @@ const SidebarItem = ({ item }: any) => {
             gap: "20px",
             justifyContent: "flex-start",
             alignItems: "center",
-            width: "100%",
+            
             cursor: "pointer",
             paddingLeft: "15px",
             position: "relative",
@@ -100,7 +100,7 @@ const SidebarItem = ({ item }: any) => {
               level="title-lg"
               sx={{ position: "absolute", right: "1px", paddingTop: "4px" }}
             >
-              {open ? <IoIosArrowDown /> : <IoIosArrowForward />}
+              {open ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
             </Typography>
           )}
         </ListItemContent>
@@ -113,7 +113,6 @@ const SidebarItem = ({ item }: any) => {
               sx={{
                 mb:"8px",
                 pl: 8,
-                width: "112%",
                 cursor: "pointer",
                 "&:hover": {
                   background: "#F8F8F8",
@@ -125,17 +124,16 @@ const SidebarItem = ({ item }: any) => {
             >
             <Link to={child.path} style={{textDecoration:"none",color:"inherit"}}>
               {" "}
-              {/* Adjust padding as needed */}
               <Box sx={{ display: "flex", alignItems: "center", gap: "8px" }}>
                 {child.icon}
-                <Typography> {child.name}</Typography>
+                <Typography> {child.pageName}</Typography>
               </Box>
             </Link>
             </ListItem>
           ))}
         </Collapse>
       )}
-    </>
+    </Sheet>
   ) : null;
 };
 
