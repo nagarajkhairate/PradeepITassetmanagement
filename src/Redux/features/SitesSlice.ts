@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction, createAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
  
 interface SitesState {
@@ -14,11 +14,14 @@ const initialState: SitesState = {
   error: null,
 };
 
+// const customer_id = process.env.CUSTOMER_ID;
+const base_api_key_url = process.env.BASE_API_KEY;
+
 
  
 export const fetchSites = createAsyncThunk('sites/fetchSites', async () => {
   try {
-    const response = await axios.get(`${process.env.REACT_APP_BASE_API_KEY}sites/${process.env.REACT_APP_SITES_ID}/sites}/sites`);
+    const response = await axios.get(`${base_api_key_url}sites/sites}/sites`);
   return response.data;
    
   } catch (error) {
@@ -32,7 +35,7 @@ export const fetchSites = createAsyncThunk('sites/fetchSites', async () => {
 
 export const fetchSitesById = createAsyncThunk('sites/fetchSitesById', async (id: string ) => {
   try {
-    const response = await axios.get(`${process.env.REACT_APP_BASE_API_KEY}sites/${process.env.REACT_APP_SITES_ID}/sites/${id}`);
+    const response = await axios.get(`${base_api_key_url}sites/sites/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -43,28 +46,27 @@ export const fetchSitesById = createAsyncThunk('sites/fetchSitesById', async (id
  
 export const addSites = createAsyncThunk('sites/addSites', async (sites: any) => {
   console.log('asfes')
- const response = await axios.post(`${process.env.REACT_APP_BASE_API_KEY}sites`, sites);
+ const response = await axios.post(`${base_api_key_url}sites`, sites);
  console.log(response)
   return response.data;
 });
  
 export const updateSites = createAsyncThunk('sites/updateSites', async (updatedSites: any) => {
  
-  const response = await axios.put(`${process.env.REACT_APP_BASE_API_KEY}sites/${process.env.REACT_APP_SITES_ID}/sites/${updatedSites.id}`, updatedSites);
+  const response = await axios.put(`${base_api_key_url}/sites/${updatedSites.id}`, updatedSites);
   return response.data;
 });
  
 export const deleteSites = createAsyncThunk('sites/deleteSites', async (id: number) => {
-  await axios.delete(`${process.env.REACT_APP_BASE_API_KEY}sites/${process.env.REACT_APP_SITES_ID}/sites/${id}`);
+  await axios.delete(`${base_api_key_url}/sites/${id}`);
   return id;
 });
  
-const addSitesSlice = createSlice({
+const SitesSlice = createSlice({
   name: 'sites',
   initialState,
   reducers: {
     setSelectedCustomer: (state, action: PayloadAction<number>) => {
-      // Here, action.payload will be of type SitesState | null
       const user = state.data.find((u) => u.id === action.payload);
       state.selectedSites = user || null;
     },
@@ -103,6 +105,6 @@ const addSitesSlice = createSlice({
   },
 });
  
-export const { setSelectedCustomer } = addSitesSlice.actions;
+export const { setSelectedCustomer } = SitesSlice.actions;
  
-export default addSitesSlice.reducer;
+export default SitesSlice.reducer;

@@ -94,14 +94,18 @@ export const MaintenancesDue: React.FC = () => {
          alignItems: 'center',
          flexDirection: { md: 'row', xs: 'column' },
          justifyContent: 'space-between',
-         mt:2
+         mt:2,
+         
             }}
       >
         <Box
-          // sx={{
-          //   display: 'flex',
-          //   alignItems: 'center',
-          // }}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap:2,
+         flexDirection: { md: 'row', xs: 'column' },
+         justifyContent: 'space-between',
+          }}
         >
           <Select
             placeholder="Maintenance Due"
@@ -122,8 +126,7 @@ export const MaintenancesDue: React.FC = () => {
             <Option value="term 3">term 3</Option>
             <Option value="term 4">term 4</Option>
           </Select>
-        </Box>
-        <Box>
+
           <Select
             placeholder="10"
             indicator={<KeyboardArrowDown />}
@@ -142,7 +145,7 @@ export const MaintenancesDue: React.FC = () => {
             <Option value="15">15</Option>
             <Option value="20">20</Option>
           </Select>
-        </Box>
+            </Box>
 
         <Typography
           // sx={{

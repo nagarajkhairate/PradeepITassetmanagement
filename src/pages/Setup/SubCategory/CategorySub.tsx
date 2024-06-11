@@ -35,7 +35,7 @@ const CategorySub: React.FunctionComponent = () => {
 
   const handleCategoryChange = (updatedCategories: SubCategory[]) => {
     setCategories(updatedCategories);
-    console.log("subcategory: ", JSON.stringify(updatedCategories));
+    console.log("subCategory: ", JSON.stringify(updatedCategories));
   };
 
   const handleClickOpen = () => {

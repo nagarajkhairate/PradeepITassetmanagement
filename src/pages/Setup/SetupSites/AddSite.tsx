@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Box, Button, Input, Modal, Option, Select, Typography , FormLabel, FormControl, Grid, Divider } from "@mui/joy";
-import { addSites } from '../../../Redux/features/addSitesSlice'
+import { addSites } from '../../../Redux/features/SitesSlice'
 import {  useDispatch, useSelector } from 'react-redux'
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { RootState } from "../../../Redux/store";

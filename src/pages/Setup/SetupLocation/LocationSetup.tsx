@@ -1,5 +1,7 @@
 import React from 'react'
 import { Box, Sheet, selectClasses } from '@mui/joy'
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../../../Redux/store'
 import { Typography, Divider } from '@mui/joy'
 import Button from '@mui/joy/Button'
 import { FormControl, FormLabel } from '@mui/joy'
@@ -18,6 +20,7 @@ import LocationSetupEdit from './LocationSetupEdit'
 import PlaylistAddCheckOutlinedIcon from '@mui/icons-material/PlaylistAddCheckOutlined'
 import AppView from '../../../components/Common/AppView'
 import { KeyboardArrowDown } from '@mui/icons-material'
+import {addLocation} from '../../../Redux/features/LocationSlice'
 
 type Location = {
   id: number
@@ -30,6 +33,9 @@ const LocationSetup: React.FunctionComponent = () => {
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [location, setLocation] = useState<string>('')
   const [locationName, setLocationName] = useState<Location[]>([])
+
+  const locations = useSelector((state: RootState) => state.locations)
+const dispatch = useDispatch<AppDispatch>()
 
   const handleLocationChange = (updatedData: Location[]) => {
     setLocationName(updatedData)
@@ -55,11 +61,13 @@ const LocationSetup: React.FunctionComponent = () => {
     setLocationName([...locationName, newLocation])
     setLocation('') // Clear the input field after adding
     handleClose()
+    dispatch(addLocation(newLocation))
+    // console.log(newLocation)
   }
 
   return (
     <AppView>
-      <Typography level="h4" sx={{ display: 'flex', alignItems: 'center' }}>
+      <Typography level="h4" sx={{ display: 'flex', alignItems: 'center', gap:1 }}>
         <SignpostOutlinedIcon
           style={{ fontSize: '1.4rem', color: '#d32f2f' }}
         />
@@ -98,10 +106,11 @@ const LocationSetup: React.FunctionComponent = () => {
                 lineHeight: '30px',
                 textAlign: { xs: 'center', md: 'left' },
                 whiteSpace: 'nowrap',
+                mt:0
               }}
             >
               <PlaylistAddCheckOutlinedIcon
-                style={{ fontSize: '1.4rem', color: '#d32f2f' }}
+                style={{ fontSize: '1.4rem', color: '#d32f2f', }}
               />
               List of Location
             </Typography>
@@ -419,7 +428,7 @@ const LocationSetup: React.FunctionComponent = () => {
                   background: '#FDE8BC',
                   border: '1px solid #C2B083',
                   color: 'black',
-
+                  
                   '&:hover': {
                     background: '#FADFB4',
                   },
