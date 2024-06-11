@@ -16,11 +16,11 @@ import {
   MenuItem
 } from "@mui/material";
 
-import { AiOutlineClose } from "react-icons/ai";
+import CloseIcon from '@mui/icons-material/Close';
 
 interface LocationDialogProps {
-  locationOpen: boolean;
-  closeLocation: () => void;
+  open: boolean;
+  onClose: () => void;
 }
 
 const LocationDialog: React.FC<LocationDialogProps> = (props) => {
@@ -36,7 +36,7 @@ const LocationDialog: React.FC<LocationDialogProps> = (props) => {
 
   return (
     <>
-      <Dialog open={props.locationOpen} onClose={props.closeLocation} fullWidth >
+      <Dialog open={props.open} onClose={props.onClose} fullWidth >
         <DialogTitle>
           <Box
             sx={{
@@ -46,8 +46,8 @@ const LocationDialog: React.FC<LocationDialogProps> = (props) => {
             }}
           >
             <Typography>Add a location</Typography>
-            <IconButton onClick={props.closeLocation}>
-              <AiOutlineClose />
+            <IconButton onClick={props.onClose}>
+              <CloseIcon />
             </IconButton>
           </Box>
         </DialogTitle>
@@ -116,7 +116,7 @@ const LocationDialog: React.FC<LocationDialogProps> = (props) => {
               Add
             </Button>
             <Button
-              onClick={props.closeLocation}
+              onClick={props.onClose}
               sx={{
                 background: "white",
                 color: "black",

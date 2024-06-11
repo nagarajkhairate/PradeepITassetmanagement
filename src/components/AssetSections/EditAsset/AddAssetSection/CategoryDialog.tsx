@@ -13,12 +13,12 @@ import {
   DialogContent,
   IconButton,
 } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 
-import { AiOutlineClose } from "react-icons/ai";
 
 interface CategoryDialogProps {
-  categoryOpen: boolean;
-  closeCategory: () => void;
+  open: boolean;
+  onClose: () => void;
 }
 
 const CategoryDialog: React.FC<CategoryDialogProps> = (props) => {
@@ -34,7 +34,7 @@ const CategoryDialog: React.FC<CategoryDialogProps> = (props) => {
 
   return (
     <>
-      <Dialog open={props.categoryOpen} onClose={props.closeCategory} fullWidth >
+      <Dialog open={props.open} onClose={props.onClose} fullWidth >
         <DialogTitle>
           <Box
             sx={{
@@ -44,8 +44,8 @@ const CategoryDialog: React.FC<CategoryDialogProps> = (props) => {
             }}
           >
             <Typography>Add a Category</Typography>
-            <IconButton onClick={props.closeCategory}>
-              <AiOutlineClose />
+            <IconButton onClick={props.onClose}>
+              <CloseIcon />
             </IconButton>
           </Box>
         </DialogTitle>
@@ -95,7 +95,7 @@ const CategoryDialog: React.FC<CategoryDialogProps> = (props) => {
               Add
             </Button>
             <Button
-              onClick={props.closeCategory}
+              onClick={props.onClose}
               sx={{
                 background: "white",
                 color: "black",

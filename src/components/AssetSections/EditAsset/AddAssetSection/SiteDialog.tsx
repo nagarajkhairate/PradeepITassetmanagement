@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent } from "react";
 import {
   Box,
   Typography,
-  Button,
+  Button, 
   Divider,
   Input,
 } from "@mui/joy"; 
@@ -16,11 +16,11 @@ import {
   MenuItem,
 } from "@mui/material";
 
-import { AiOutlineClose } from "react-icons/ai";
+import CloseIcon from '@mui/icons-material/Close';
 
 interface SiteDialogProps {
   open: boolean;
-  closePopUp: () => void;
+  onClose: () => void;
 }
 
 interface FormData {
@@ -73,7 +73,7 @@ const SiteDialog: React.FC<SiteDialogProps> = (props) => {
 
   return (
     <>
-      <Dialog open={props.open} onClose={props.closePopUp} fullWidth >
+      <Dialog open={props.open} onClose={props.onClose} fullWidth >
         <DialogTitle>
           <Box
             sx={{
@@ -83,8 +83,8 @@ const SiteDialog: React.FC<SiteDialogProps> = (props) => {
             }}
           >
             <Typography>Add a Site</Typography>
-            <IconButton onClick={props.closePopUp}>
-              <AiOutlineClose />
+            <IconButton onClick={props.onClose}>
+              <CloseIcon />
             </IconButton>
           </Box>
         </DialogTitle>
@@ -189,7 +189,7 @@ const SiteDialog: React.FC<SiteDialogProps> = (props) => {
               Add
             </Button>
             <Button
-              onClick={props.closePopUp}
+              onClick={props.onClose}
               sx={{
                 background: "white",
                 color: "black",
