@@ -12,9 +12,14 @@ import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
 import { CompanyInfoFields } from './Data';
 import AppForm from '../../../components/Common/AppForm';
 import FieldComponent from '../../../utils/FieldComponent';
+import { RootState } from '../../../Redux/store';
+import { useDispatch } from 'react-redux';
+import { addCompanyInfo } from '../../../Redux/features/CompanyInfoSlice';
+import { ThunkDispatch } from 'redux-thunk';
 
 const SetupCompInfo: React.FC = ({}) => {
   const [formData, setFormData] = useState<{ [key: string]: string | null }>({});
+  const dispatch: ThunkDispatch<RootState, void, any>= useDispatch()
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -28,7 +33,9 @@ const SetupCompInfo: React.FC = ({}) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form Data:", JSON.stringify(formData));
+    dispatch(addCompanyInfo(formData))
   };
+  
 
   return (
     <AppForm onSubmit={handleSubmit}>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchAssetById } from "../../Redux/features/assetSlice";
+import { fetchAssetById } from "../../Redux/features/AssetSlice";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import EditAssetInfo from "../../components/AssetSections/EditAsset/EditAssetInfo";

@@ -23,7 +23,7 @@ import ClientDialog from "./ClientDialog";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { RootState } from "../../../../Redux/store";
 import { useDispatch } from "react-redux";
-import { post_check_out } from "../../../../Redux/features/transactionSlice";
+import { post_check_out } from "../../../../Redux/features/TransactionSlice";
 
 
 // Define a type for the checkout and employee data

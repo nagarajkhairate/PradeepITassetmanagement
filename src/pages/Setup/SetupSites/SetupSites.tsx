@@ -18,7 +18,9 @@ import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
 import AppView from '../../../components/Common/AppView'
 import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
 import { UseSelector, useDispatch, useSelector } from 'react-redux'
-import addSitesSlice from '../../../Redux/features/addSitesSlice';
+import  { fetchSites } from '../../../Redux/features/SitesSlice';
+import { ThunkDispatch } from 'redux-thunk'
+import { RootState } from '../../../Redux/store'
 
 
 export interface Site {
@@ -42,6 +44,7 @@ interface SitesState {
 
 const SetupSites: React.FC = ({}) => {
   const theme = useTheme()
+  const dispatch: ThunkDispatch<RootState, void, any>= useDispatch()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [open, setOpen] = useState(false)
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
@@ -52,8 +55,8 @@ const SetupSites: React.FC = ({}) => {
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
   const [sites, setSites] = useState<Site[]>([])
 
-  const users = useSelector((state: { users: SitesState }) => state.users);
-  console.log(users);
+  const sitess = useSelector((state:RootState) => state.sites.data);
+  console.log(sitess);
 
   const handleDeleteClick =(site: Site) => {
     setSelectedSite(site)
@@ -94,9 +97,11 @@ const SetupSites: React.FC = ({}) => {
     alignItems: 'center',
   })
 
-
-
   console.log(JSON.stringify(sites))
+
+  React.useEffect(()=>{
+    dispatch(fetchSites())
+  },[])
 
   return (
     <AppView>
