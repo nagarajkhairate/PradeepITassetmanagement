@@ -105,6 +105,13 @@ export function WarrantyExpiring() {
             }}
       >
         <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap:2,
+       flexDirection: { md: 'row', xs: 'column' },
+       justifyContent: 'space-between',
+        }}
         >
           <Select
             placeholder="Warranties Expiring"
@@ -123,9 +130,6 @@ export function WarrantyExpiring() {
             <Option value="warranty2">Warranty 2</Option>
 
           </Select>
-        </Box>
-
-        <Box>
           <Select
             placeholder="10"
             indicator={<KeyboardArrowDown />}
