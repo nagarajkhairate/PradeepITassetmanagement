@@ -16,7 +16,6 @@ import AppView from "../../components/Common/AppView";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
-import { reducerone } from "../../Redux/features/assetSlice";
 
 interface FormData {
   [key: string]: string | File[];

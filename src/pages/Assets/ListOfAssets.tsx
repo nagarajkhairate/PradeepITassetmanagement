@@ -10,11 +10,11 @@ import { useTheme } from "@mui/material/styles";
 import ListOfAssetsCard from "./ListOfAssetsCard";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { fetch_listAssets } from "../../Redux/features/AssetSlice";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { Link } from "react-router-dom";
 import AppView from "../../components/Common/AppView";
+import { fetchAssets } from "../../Redux/features/AssetSlice";
 
 const data1 = [
   {
@@ -42,11 +42,11 @@ const data1 = [
 ]
 
 const ListOfAssets = () => {
-  const getAsset = useSelector(
+  const assets = useSelector(
     (state: RootState) => state.assets.data
   );
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
-  const [listData, setListData] = useState(getAsset);
+  const [listData, setListData] = useState(assets);
   // const allAssetdata = useSelector((state:any)=>state.assets.data || []);
   // console.log("allassets",allAssetdata)
   const theme = useTheme();
@@ -55,12 +55,10 @@ const ListOfAssets = () => {
 
 
   useEffect(() => {
-    dispatch(fetch_listAssets());
+    dispatch(fetchAssets());
   }, [dispatch]);
 
-  useEffect(() => {
-    setListData(getAsset);
-  }, [getAsset]);
+
 
 
   return (
@@ -311,7 +309,7 @@ const ListOfAssets = () => {
                     boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
                   }}
                 >
-                  {listData.map((item:any) => (  
+                  {assets.map((item:any) => (  
                     <tr key={item.id}>
                       <td>
                         <Checkbox />

@@ -35,6 +35,7 @@ import Maintenance from '../pages/Maintenance/Maintenance'
 import Lease from '../pages/Lease/Lease'
 import Move from '../pages/Move/Move'
 import EditAssets from '../pages/Assets/EditAssets'
+import EditAssetPage from '../pages/Assets/EditAssetPage'
 
 export const pagesRoutes: any[] = [
   {
@@ -112,9 +113,16 @@ export const pagesRoutes: any[] = [
       },
       {
         index: true,
+        pageName: 'view an Asset',
+        path: '/assets/view-an-asset',
+        element: <EditAssets />,
+        state: 'assets',
+        icon: <AddCircleOutlineIcon />,
+      },{
+        index: true,
         pageName: 'Edit an Asset',
         path: '/assets/edit-an-asset',
-        element: <EditAssets />,
+        element: <EditAssetPage />,
         state: 'assets',
         icon: <AddCircleOutlineIcon />,
       },

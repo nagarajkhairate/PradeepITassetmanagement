@@ -1,149 +1,104 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-
-interface Assets{
-  data:any[];
-  loading:boolean;
-  error:string|null;
-  selectedAsset:any|null;
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import axios from 'axios';
+ 
+interface AssetSliceState {
+  data: any[];
+  selectedCustomer: any | null;
+  loading: boolean;
+  error: string | null;
 }
-
-
-const initialState:Assets={
-  // data:[{...data, keyId: 1}], 
-  data:[],
-  loading:false,
-  error:null,
-  selectedAsset:null,
-}
-
-export const fetch_listAssets = createAsyncThunk('listAssets/fetch_listAssets',async()=>{
-  // const response = await axios.get("https://jsonplaceholder.typicode.com/users")
-  const response = await axios.get("http://127.0.0.1:8000/api/asset")
-  return response.data
-})
-
-// export const fetch_Assets = createAsyncThunk('assets/fetch_Assets', async()=>{
-//   // const response = await axios.get('https://jsonplaceholder.typicode.com/users')
-//   const response = await axios.get('')
-//   return response.data
-// })
-
-
-// export const updateAsset = createAsyncThunk('assets/fetch_Assets', async(id)=>{
-//   const response = await axios.put(`http://127.0.0.1:8000/api/asset/${id}`)
-//   console.log("respone update___--",response)
-//   return response.data
-// })
-
-export const updateAsset = createAsyncThunk('assets/updateAsset', async(editAssetData)=>{
-  console.log("editasetdata----",editAssetData)
-  const response = await axios.put(`http://127.0.0.1:8000/api/asset/${editAssetData.id}`, editAssetData)
-  console.log("respone update___--",JSON.stringify(response));
-
-  return response.data
-})
-
-
-export const fetchAssetById = createAsyncThunk('assets/fetchAssetById', async (id: string) => {
-  const response = await axios.get(`http://127.0.0.1:8000/api/asset/${id}`);
-  return response.data;
-}); 
-
-// export const loadFunc = (data)=> { axios.post('https://jsonplaceholder.typicode.com/users', data).then((datares)=>{
-//   console.log("data", JSON.stringify(datares));
-//   return datares;
-//  }).catch((err)=>{
-//   console.log("err: ", err)
-//  })}
- export const reducerone = createAsyncThunk('asset/post_Assets',async(PostData)=>{
-  console.log("submitData called----");
+ 
+const initialState: AssetSliceState = {
+  data: [],
+  selectedCustomer: null,
+  loading: false,
+  error: null,
+};
+const customer_id = process.env.CUSTOMER_ID;
+const base_api_key_url = process.env.BASE_API_KEY;
+ 
+export const fetchAssets = createAsyncThunk('assets/fetchAssets', async () => {
   try {
-    const response = await axios.post("http://127.0.0.1:8000/api/asset",PostData)
-    console.log("Asset res--- ", JSON.stringify(response));
-    return response.data;
-    return PostData
-    console.log("addanasset",JSON.stringify(PostData))
+    const response = await axios.get(`${base_api_key_url}customers/${customer_id}/clients`);
+  return response.data;
+   
   } catch (error) {
-   console.log("Error: ", error);
+    console.error('Error Message'+ error);
+    throw error;
   }
-})
-
- export const assetsSlice = createSlice({
-  name:"assets",
+ 
+ 
+});
+export const fetchAssetsById = createAsyncThunk('assets/fetchAssetsById', async (id: string ) => {
+  try {
+    const response = await axios.get(`${base_api_key_url}customers/${customer_id}/clients/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error Message'+ error);
+    throw error;
+  }
+ 
+});
+ 
+export const addAssets = createAsyncThunk('assets/addAssets', async (assets: any) => {
+ const response = await axios.post(`${base_api_key_url}customers/${customer_id}/clients`, assets);
+  return response.data;
+});
+ 
+export const updateAssets = createAsyncThunk('assets/updateAssets', async (updatedCustomer: any) => {
+ 
+  const response = await axios.put(`${base_api_key_url}customers/${customer_id}/clients/${updatedCustomer.id}`, updatedCustomer);
+  return response.data;
+});
+ 
+export const deleteAssets = createAsyncThunk('assets/deleteAssets', async (id: number) => {
+  await axios.delete(`${base_api_key_url}customers/${customer_id}/clients/${id}`);
+  return id;
+});
+ 
+const AssetSlice = createSlice({
+  name: 'assets',
   initialState,
-  reducers : {
-    //  submitData : (state, action)=>{
-    //   console.log("action-", action.payload);
-    //   //  const resData = loadFunc( action.payload);
-    //   // state = {...state, dataFromApi: action.payload}
-
-    //   axios.post('https://jsonplaceholder.typicode.com/users', action.payload).then((datares:any)=>{
-    //     console.log("data", JSON.stringify(datares));
-    //     state = {...state, data: [...state.data, {...datares, keyId: state.data.length+1}]}
-    //    }).catch((err)=>{
-    //     console.log("err: ", err)});
-    // },
-    // updateAsset:(state,action)=>{
-    //   axios.put('https://jsonplaceholder.typicode.com/users', action.payload).then((datares:any)=>{
-    //     console.log("data", JSON.stringify(datares));
-    //     state = {...state, data: [datares]}
-    //    }).catch((err)=>{
-    //     console.log("err: ", err)});
-    // }
+  reducers: {
+    setSelectedCustomer: (state, action: PayloadAction<number>) => {
+      const user = state.data.find((u) => u.id === action.payload);
+      state.selectedCustomer = user || null;
+    },
   },
-  extraReducers:(builder)=>{
-    builder.addCase(fetch_listAssets.pending,(state)=>{
-      state.loading = true;
-      state.error = ''
-    })
-    builder.addCase(fetch_listAssets.fulfilled,(state,action)=>{
-      state.loading = false,
-      // state.data = action.payload
-      state.data = action.payload;
-      state.error = '';
-      // console.log("action", JSON.stringify(action.payload));
-      // state = {...state, data: [...state.data, {...action.payload, keyIdFrontEnd: state.data.length+1}]} 
-    });
-    builder.addCase(fetch_listAssets.rejected,(state,action)=>{
-      state.loading = false,
-      state.data = [],
-      state.error = action.error.message || 'Failed to fetch Assets'
-    })
-    
-    // builder.addCase(reducerone.fulfilled,(state,action:any)=>{
-    //   console.log("fullfilled---");
-    //   state.loading = false,
-    //   // state.data = action.payload
-    //   state.error = '',
-    //   // console.log("action", JSON.stringify(action.payload));
-    //   state = {...state, data: [...state.data, {...action.payload, keyIdFrontEnd: state.data.length+1}]} 
-    //   // console.log("state---", JSON.stringify(state.data));
-    // })
-
-    builder.addCase(reducerone.fulfilled, (state, action) => {
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAssets.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAssets.fulfilled, (state, action) => {
+        state.loading = false;
+        state.data = action.payload;
+      })
+      .addCase(fetchAssets.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Failed to fetch assets';
+      })
+      .addCase(fetchAssetsById.fulfilled, (state, action) => {
+        state.loading = false;
         state.data.push(action.payload);
       })
-      builder.addCase(fetchAssetById.fulfilled, (state, action) => {
-        state.loading = false;
-        state.selectedAsset = action.payload;
-        state.error = '';
+      .addCase(addAssets.fulfilled, (state, action) => {
+        state.data.push(action.payload);
+      })
+      .addCase(updateAssets.fulfilled, (state, action) => {
+        const index = state.data.findIndex((u) => u.id === action.payload.id);
+        console.log(index)
+        if (index !== -1) {
+          state.data[index] = action.payload;
+        }
+      })
+      .addCase(deleteAssets.fulfilled, (state, action) => {
+        state.data = state.data.filter((u) => u.id !== action.payload);
       });
-
-      
-    builder.addCase(updateAsset.fulfilled, (state, action) => {
-      state.loading = false;
-      let data = action.payload;
-      const ind = state.data.findIndex((item)=>item.id === data.id);
-      console.log("data=", JSON.stringify(state.data));
-      if(ind>0){
-        state.data[ind] = data; 
-      }
-      console.log("ff = ", JSON.stringify(state.data));
-      state.error = "";
-    });
-  }
-})
-
-// export const {  } = assetsSlice.actions;
-export  default assetsSlice.reducer;
+  },
+});
+ 
+export const { setSelectedCustomer } = AssetSlice.actions;
+ 
+export default AssetSlice.reducer;
