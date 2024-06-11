@@ -36,6 +36,7 @@ import Lease from '../pages/Lease/Lease'
 import Move from '../pages/Move/Move'
 import EditAssets from '../pages/Assets/EditAssets'
 import EditAssetPage from '../pages/Assets/EditAssetPage'
+import PersonsEmployeesForm from '../pages/Setup/CustomizeForm/PersonsEmployeesForm'
 
 export const pagesRoutes: any[] = [
   {
@@ -221,7 +222,6 @@ export const pagesRoutes: any[] = [
   // },
   {
     id: 8,
-
     pageName: 'SetUp',
     path: '/setup',
     state: 'assets',
@@ -283,70 +283,13 @@ export const pagesRoutes: any[] = [
         icon: <LocationOnOutlinedIcon />,
       },
       {
-        id: 8,
-
-        pageName: 'SetUp',
-        path: '/setup',
+        index: true,
+        pageName: 'Customize employee',
+        path: '/setup/customize-employee',
         state: 'assets',
-        children: [
-          {
-            index: true,
-            pageName: 'Company Info',
-            path: '/setup/setup-comp-info',
-            state: 'assets',
-            element: <SetupCompInfo />,
-            icon: <FormatListBulletedIcon />,
-          },
-          {
-            index: true,
-            pageName: 'Sites',
-            path: '/setup/sites',
-            state: 'assets',
-            element: <SetupSites />,
-            icon: <LocationOnOutlinedIcon />,
-          },
-          {
-            index: true,
-            pageName: 'Location',
-            path: '/setup/location-setup',
-            state: 'assets',
-            element: <LocationSetup />,
-            icon: <LocationOnOutlinedIcon />,
-          },
-          {
-            index: true,
-            pageName: 'Category',
-            path: '/setup/categorysetup',
-            state: 'assets',
-            element: <CategorySetup />,
-            icon: <CategoryIcon />,
-          },
-          {
-            index: true,
-            pageName: 'Sub Category',
-            path: '/setup/categorysub',
-            state: 'assets',
-            element: <CategorySub />,
-            icon: <CategoryIcon />,
-          },
-          {
-            index: true,
-            pageName: 'Department',
-            path: '/setup/departments',
-            state: 'assets',
-            element: <SetupDept />,
-            icon: <GridViewIcon />,
-          },
-          {
-            index: true,
-            pageName: 'Table Options',
-            path: '/setup/table-options',
-            state: 'assets',
-            element: <SetupTableOptions />,
-            icon: <LocationOnOutlinedIcon />,
-          },
-        ],
-      },
+        element: <PersonsEmployeesForm />,
+        icon: <FormatListBulletedIcon />,
+      }
     ],
   },
   // {

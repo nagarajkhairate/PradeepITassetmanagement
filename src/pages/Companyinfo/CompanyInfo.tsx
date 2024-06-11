@@ -22,7 +22,7 @@ const CompanyInfo = () => {
 
 
   const tabs = [
-    { label: " Company", icon: <LanguageIcon fontSize="large" /> },
+    { label: "Company", icon: <LanguageIcon fontSize="large" /> },
     { label: "Sites", icon: <LanguageIcon fontSize="large" /> },
     { label: "Locations", icon: <LanguageIcon fontSize="large" /> },
     { label: "Categories", icon: <LanguageIcon fontSize="large" /> },

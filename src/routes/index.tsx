@@ -4,7 +4,7 @@ import PageWrapper from "../components/layout/PageWrapper";
 import { pagesRoutes } from "./pagesRoutes";
 
 const generateRoute = (routes: any[]): ReactNode => {
-  return routes.map((route, index) => (
+  return routes.map((route, idx) => (
     route.index ? (
       <Route
         index
@@ -12,11 +12,12 @@ const generateRoute = (routes: any[]): ReactNode => {
         element={<PageWrapper state={route.state}>
           {route.element}
         </PageWrapper>}
-        key={index}
+        key={idx}
       />
     ) : (
      
         route.children && generateRoute(route.children)
+        
 
     )
   ));
