@@ -16,6 +16,30 @@ import AppView from "../../components/Common/AppView";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
+import CategoryDialog from "../../components/AssetSections/EditAsset/AddAssetSection/CategoryDialog";
+import SiteDialog from "../../components/AssetSections/EditAsset/AddAssetSection/SiteDialog";
+import LocationDialog from "../../components/AssetSections/EditAsset/AddAssetSection/LocationDialog";
+import DepartmentDialog from "../../components/AssetSections/EditAsset/AddAssetSection/DepartmentDialog";
+
+
+const data =[{
+  "id": "9",
+  "asset_name": "MAcbook Air",
+  "asset_tag_id": "Mac1001",
+  "site": "Indore",
+  "description": "Macbook Air M1",
+  "purchase_from": "Bangalore",
+  "purchase_date": "2024-05-28",
+  "brand": "Apple",
+  "cost": "100000.00",
+  "model": "Air M1",
+  "serial_number": "1234567890asdf",
+  "status": "Available",
+  "category": "Laptop",
+  "location": "Indore",
+  "department": "Supplier A",
+  "asset_photo": "/asset_photos/2.jpeg",
+}]
 
 interface FormData {
   [key: string]: string | File[];
@@ -30,13 +54,14 @@ const AddAnAsset: React.FC = () => {
 
   // Initialize state dynamically based on formConfig
   const initialFormData = formConfig.reduce<FormData>((acc, field) => {
-    acc[field.stateKey] = "";
+    acc[field.stateKey] = data[0][field.stateKey] || "";
     return acc;
   }, {});
   
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [validationMessages, setValidationMessages] = useState<ValidationMessages>({});
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([]);
+  const [openDialog, setOpenDialog] = useState<string | null>(null);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -94,6 +119,14 @@ const AddAnAsset: React.FC = () => {
     });
   };
 
+  const handleOpenDialog = (dialogName: string) => {
+    setOpenDialog(dialogName);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(null);
+  };
+
   const handleSubmit = async () => {
     // Perform validation
     const newValidationMessages: ValidationMessages = {};
@@ -121,7 +154,7 @@ const AddAnAsset: React.FC = () => {
     console.log("Form Data JSON:", jsonData);
 
     try {
-      await dispatch(reducerone(formData));
+      // await dispatch(reducerone(formData));
       console.log("Form submitted successfully");
       // window.location.reload();
     } catch (error) {
@@ -155,7 +188,9 @@ const AddAnAsset: React.FC = () => {
                 </Typography>
               </Grid>
               {formConfig.slice(0,10).map((field: FormFieldConfig) => (
-                <Grid key={field.label} sx={{ paddingLeft: "32px", }}>
+                <Grid key={field.label} sx={{ paddingLeft: "32px", }}  xs={12}
+                md={field.stateKey === "description" ? 12 : (field.stateKey === "asset_name" || field.stateKey === "asset_tag_id") ? 6 : 4} 
+                >
                   <Typography
                     level="body-xs"
                     sx={{ color: "#767676", mt: "8px", mb: "5px" }}
@@ -175,14 +210,12 @@ const AddAnAsset: React.FC = () => {
                       ))}
                     </Select>
                   ) : (
-                    <Box>
                     <Input
                       value={formData[field.stateKey] as string}
                       onChange={(e) => handleInputChange(e, field.stateKey)}
                       {...field}
                       sx={field.sx}
                       />
-                      </Box>
                     )}
 
                   {validationMessages[field.validationMessageKey] && (
@@ -243,6 +276,8 @@ const AddAnAsset: React.FC = () => {
                         color: "#767676",
                         mt:{xs:"10px",md:"0"}
                       }}
+                      onClick={() => handleOpenDialog(field.stateKey)}
+
                       >
                       <Typography sx={{ mr: "25px", color: "#767676" }}>
                         <AddIcon />
@@ -417,6 +452,10 @@ const AddAnAsset: React.FC = () => {
           </Box>
         </Box>
       </Box>
+      <SiteDialog open={openDialog === 'site'} onClose={handleCloseDialog}/>
+      <CategoryDialog open={openDialog === 'category'} onClose={handleCloseDialog}/>
+      <LocationDialog open={openDialog === 'location'} onClose={handleCloseDialog}/>
+      <DepartmentDialog open={openDialog === 'department'} onClose={handleCloseDialog}/>
     </AppView>
   );
 };

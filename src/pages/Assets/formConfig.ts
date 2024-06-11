@@ -6,14 +6,13 @@ export interface FormFieldConfig {
   sx: {
     borderRadius: string;
     padding: string;
-    width: {
-      xs: string;
-      sm:string,
-      md: number;
-      lg?:number;
-      xl?:number;
+    width?:{
+      xs:string;
+      sm:string;
+      md:number;
 
-    };
+    
+    }
   };
   options?: { value: string; label: string }[];
 }
@@ -27,13 +26,7 @@ export const formConfig: FormFieldConfig[] = [
     sx: {
       borderRadius: "15px",
       padding: "12.25px",
-      width: {
-        xs: "100%",
-        sm:"100%",
-        md: 530,
-
-
-      }
+    
     }
   },
   {
@@ -44,12 +37,7 @@ export const formConfig: FormFieldConfig[] = [
     sx: {
       borderRadius: "15px",
       padding: "12.25px",
-      width: {
-        xs: "100%",
-        sm:"100%",
-        md: 530,
-
-      }
+     
     }
   },
   {
@@ -60,13 +48,7 @@ export const formConfig: FormFieldConfig[] = [
     sx: {
       borderRadius: "15px",
       padding: "12.25px",
-      width: {
-        xs: "100%", // 0
-        sm: "100%",  // 600
-        md: 530,   // 900
-        lg: 800, // 1200
-        xl:1100, // 1536
-      }
+      
     }
   },
   {
@@ -77,12 +59,7 @@ export const formConfig: FormFieldConfig[] = [
     sx: {
       borderRadius: "15px",
       padding: "12.25px",
-      width: {
-        xs: "100%",
-        sm:"100%",
-        md: 342,
-
-      }
+     
     }
   },
   {
@@ -93,12 +70,7 @@ export const formConfig: FormFieldConfig[] = [
     sx: {
       borderRadius: "15px",
       padding: "12.25px",
-      width: {
-        xs: "100%",
-        sm:"100%",
-        md: 342,
-
-      }
+     
     }
   },
   {
@@ -109,12 +81,7 @@ export const formConfig: FormFieldConfig[] = [
     sx: {
       borderRadius: "15px",
       padding: "12.25px",
-      width: {
-        xs: "100%",
-        sm:"100%",
-        md: 342,
-
-      }
+      
     }
   },
   {
@@ -125,12 +92,7 @@ export const formConfig: FormFieldConfig[] = [
     sx: {
       borderRadius: "15px",
       padding: "12.25px",
-      width: {
-        xs: "100%",
-        sm:"100%",
-        md: 342,
-
-      }
+      
     }
   },
   {
@@ -141,12 +103,7 @@ export const formConfig: FormFieldConfig[] = [
     sx: {
       borderRadius: "15px",
       padding: "12.25px",
-      width: {
-        xs: "100%",
-        sm:"100%",
-        md: 342,
-
-      }
+   
     }
   },
   {
@@ -157,12 +114,6 @@ export const formConfig: FormFieldConfig[] = [
     sx: {
       borderRadius: "15px",
       padding: "12.25px",
-      width: {
-        xs: "100%",
-        sm:"100%",
-        md: 342,
-
-      }
     }
   },
   {
@@ -177,12 +128,6 @@ export const formConfig: FormFieldConfig[] = [
     sx: {
       borderRadius: "15px",
       padding: "12.25px",
-      width: {
-        xs: "100%",
-        sm:"100%",
-        md: 342,
-
-      }
     }
   },
   {
@@ -201,7 +146,7 @@ export const formConfig: FormFieldConfig[] = [
       width: {
         xs: "100%",
         sm:"100%",
-        md: 342,
+        md: 400,
 
       }
     }
@@ -222,7 +167,7 @@ export const formConfig: FormFieldConfig[] = [
       width: {
         xs: "100%",
         sm:"100%",
-        md: 342,
+        md: 400,
 
       }
     }
@@ -243,7 +188,7 @@ export const formConfig: FormFieldConfig[] = [
       width: {
         xs: "100%",
         sm:"100%",
-        md: 342,
+        md: 400,
 
       }
     }
@@ -264,10 +209,11 @@ export const formConfig: FormFieldConfig[] = [
       width: {
         xs: "100%",
         sm:"100%",
-        md: 342,
+        md: 400,
 
       }
     }
+
   },
   {
     label: "Assets Photo",
@@ -277,12 +223,7 @@ export const formConfig: FormFieldConfig[] = [
     sx: {
       borderRadius: "15px",
       padding: "12.25px",
-      width: {
-        xs: "100%",
-        sm:"100%",
-        md: 342,
-
-      }
-    }
+    
   }
+}
 ];

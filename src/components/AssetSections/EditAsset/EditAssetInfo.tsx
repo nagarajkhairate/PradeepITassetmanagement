@@ -242,23 +242,28 @@ const EditAssetInfo: React.FC<AssetInfoProps> = ({ assetInfo, dataUpdater }) => 
               <tbody>
                 <tr>
                   <th scope="row">Asset Tag ID</th>
-                  <td>{assetInfodata?.asset_tag_id}</td>
+                  {/* <td>{assetInfodata?.asset_tag_id}</td> */}
+                  <td>{data[0].asset_tag_id}</td>
                 </tr>
                 <tr>
                   <th scope="row">Purchase Date</th>
-                  <td>{assetInfodata?.purchase_date}</td>
+                  {/* <td>{assetInfodata?.purchase_date}</td> */}
+                  <td>{data[0].purchase_date}</td>
                 </tr>
                 <tr>
                   <th scope="row">Cost</th>
-                  <td>{assetInfodata?.cost}</td>
+                  {/* <td>{assetInfodata?.cost}</td> */}
+                  <td>{data[0].cost}</td>
                 </tr>
                 <tr>
                   <th scope="row">Brand</th>
-                  <td>{assetInfodata?.brand}</td>
+                  {/* <td>{assetInfodata?.brand}</td> */}
+                  <td>{data[0].brand}</td>
                 </tr>
                 <tr>
                   <th scope="row">Model</th>
-                  <td>{assetInfodata?.model}</td>
+                  {/* <td>{assetInfodata?.model}</td> */}
+                  <td>{data[0].model}</td>
                 </tr>
               </tbody>
             </Table>
@@ -274,27 +279,33 @@ const EditAssetInfo: React.FC<AssetInfoProps> = ({ assetInfo, dataUpdater }) => 
               <tbody>
                 <tr>
                   <th scope="row">Site</th>
-                  <td>{assetInfodata?.site}</td>
+                  {/* <td>{assetInfodata?.site}</td> */}
+                  <td>{data[0].site}</td>
                 </tr>
                 <tr>
                   <th scope="row">Location</th>
-                  <td>{assetInfodata?.location}</td>
+                  {/* <td>{assetInfodata?.location}</td> */}
+                  <td>{data[0].location}</td>
                 </tr>
                 <tr>
                   <th scope="row">Category</th>
-                  <td>{assetInfodata?.category}</td>
+                  {/* <td>{assetInfodata?.category}</td> */}
+                  <td>{data[0].category}</td>
                 </tr>
                 <tr>
                   <th scope="row">Department</th>
-                  <td>{assetInfodata?.department}</td>
+                  {/* <td>{assetInfodata?.department}</td> */}
+                  <td>{data[0].department}</td>
                 </tr>
                 <tr>
                   <th scope="row">Assigned To</th>
+                  {/* <td>{assetInfodata?.assignedTo}</td> */}
                   <td>{assetInfodata?.assignedTo}</td>
                 </tr>
                 <tr>
                   <th scope="row">Status</th>
-                  <td>{assetInfodata?.status}</td>
+                  {/* <td>{assetInfodata?.status}</td> */}
+                  <td>{data[0].status}</td>
                 </tr>
               </tbody>
             </Table>

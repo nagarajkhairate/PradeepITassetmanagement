@@ -70,9 +70,11 @@ const ListOfAssets = () => {
               mt: "40px",
               width: "100%",
               display: "flex",
-              justifyContent:{md: "space-between",xs:"center"},
+              // justifyContent:{md: "space-between",xs:"center"},
+              // flexDirection: { xs: "column", md: "row" },
+              justifyContent: isSmallScreen ? "center" : "space-between",
               flexDirection: { xs: "column", md: "row" },
-              ml:{md:"none",xs:"100px"}
+              alignItems: isSmallScreen ? "center" : "flex-start",
             }}
           >
             <Box>
@@ -80,7 +82,8 @@ const ListOfAssets = () => {
                 size="lg"
                 sx={{
                   background: "#1BCAB8",
-                  width: { md: "200px", xs: "50%" },
+                  // width: { md: "200px", xs: "50%" },
+                  width:"200px",
                   borderRadius: "15px",
                   paddingInline: "0px",
                   m: { xs: "10px", md: "none" },
@@ -116,13 +119,20 @@ const ListOfAssets = () => {
                 </Box>
               </Button>
             </Box>
-            <Box>
+            <Box sx={{
+            display: "flex",
+            flexDirection: isSmallScreen ? "column" : "row",
+            alignItems: isSmallScreen ? "center" : "flex-start",
+            justifyContent: isSmallScreen ? "center" : "flex-start",
+            width: isSmallScreen ? "100%" : "auto",
+          }}>
               <Button
                 size="lg"
                 sx={{
                   mr: "20px",
                   background: "#11B456",
-                  width: { md: "200px", xs: "50%" },
+                  // width: { md: "200px", xs: "50%" },
+                  width: "200px",
                   borderRadius: "15px",
                   paddingInline: "0px",
                   m: { xs: "10px", md: "none" },
@@ -159,7 +169,8 @@ const ListOfAssets = () => {
                 size="lg"
                 sx={{
                   background: "#000000",
-                  width: { md: "200px", xs: "50%" },
+                  // width: { md: "200px", xs: "50%" },
+                  width:"200px",
                   borderRadius: "15px",
                   paddingInline: "0px",
                   m: { xs: "10px", md: "none" },
