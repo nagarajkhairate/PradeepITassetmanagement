@@ -1,29 +1,52 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Box, Button, Input, Modal, Option, Select, Typography , FormLabel, FormControl, Grid, Divider } from "@mui/joy";
-
+import { addSites } from '../../../Redux/features/addSitesSlice'
+import {  useDispatch, useSelector } from 'react-redux'
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { RootState } from "../../../Redux/store";
 
 interface AddSiteProps {
   open: boolean;
   onClose: () => void;
-  setSites: React.Dispatch<React.SetStateAction<any[]>>;
-  sites: any[];
+  setSites: React.Dispatch<React.SetStateAction<Site[]>>;
+  sites: Site[];
 }
 
-const initialSitesData = {
-  id: "",
-  sitename: "", 
+interface Site {
+  siteName: string;
+  description: string;
+  address: string;
+  aptSuite: string;
+  city: string;
+  state: string;
+  zipCode: number;
+  country: string;
+}
+
+interface SitesState {
+  data: Site[];
+  selectedSites: any; 
+  loading: boolean;
+  error: any; 
+}
+
+const initialSiteData: Site = {
+  siteName: "",
   description: "",
   address: "",
   aptSuite: "",
   city: "",
   state: "",
-  zipCode: "",
+  zipCode: 0,
   country: "",
 };
 
 const AddSite: React.FC<AddSiteProps> = ({ open, onClose, setSites, sites }) => {
-  const [newSite, setNewSite] = useState(initialSitesData);
-  const [newCountry, setNewCountry] = useState(initialSitesData);
+  const [newSite, setNewSite] = useState(initialSiteData);
+  const [newCountry, setNewCountry] = useState(initialSiteData);
+
+  const users=useSelector((state: { users: SitesState }) =>state.users);
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
   const handleSelectChange = (
     event: React.SyntheticEvent<Element, Event> | null,
@@ -41,22 +64,28 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, setSites, sites }) => 
     setNewSite((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleAddSite = () => {
-    const newSiteWithId = { ...newSite};
-    setSites([...sites, newSiteWithId]);
-    onClose();
+  const handleAddSite = async () => { 
+    console.log('dgdfgdf')
+    setSites((prevSites) => [...prevSites, newSite])
+    setNewSite(initialSiteData); 
+   
+    await dispatch(addSites(newSite));
+    console.log('dgdfgdf')
+    // onClose();
   };
 
-  return (
+ 
+  return (  
     <Modal open={open} onClose={onClose}>
       <Box sx={modalStyle}>
         <Typography level="h4" sx={{ mb: 2 }}>Add New Site</Typography>
         <Divider/>
+       
         <Typography sx={{mb: 2}}>Enter the data about your new site in the fields below and we will add it to your list.</Typography>
         <Grid container spacing={2}>
         <Grid  xs={12} md={6}>
         <FormLabel>Site</FormLabel>
-        <Input placeholder="Select Site" name="sitename" value={newSite.sitename} onChange={handleChange} fullWidth sx={{ mb: 2 }} />
+        <Input placeholder="Select Site" name="siteName" value={newSite.siteName} onChange={handleChange} fullWidth sx={{ mb: 2 }} />
         <FormLabel>Description</FormLabel>
         <Input placeholder="Description" name="description" value={newSite.description} onChange={handleChange} fullWidth sx={{ mb: 2 }} />
         <FormLabel>Address</FormLabel>
@@ -87,10 +116,12 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, setSites, sites }) => 
         </Select>
         </Grid>
         </Grid>
-
+      
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+      
           <Button onClick={onClose} sx={{ mr: 1 }}>Cancel</Button>
           <Button onClick={handleAddSite}>Add Site</Button>
+       
         </Box>
       </Box>
     </Modal>
@@ -104,8 +135,10 @@ const modalStyle = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 500,
   bgcolor: 'white',
   p: 4,
   borderRadius: 10,
+  maxWidth:"600px",
+  maxHeight: '90vh', 
+  overflowY: 'auto'
 };

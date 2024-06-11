@@ -16,24 +16,14 @@ import AddSite from './AddSite'
 import DeleteSite from './DeleteSite'
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
 import AppView from '../../../components/Common/AppView'
+import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
+import { UseSelector, useDispatch, useSelector } from 'react-redux'
+import addSitesSlice from '../../../Redux/features/addSitesSlice';
 
-const initialSites = [
-  {
-    id: 1,
-    sitename: 'swde',
-    description: 'wsedf',
-    address: '234frd',
-    aptSuite: 'swed',
-    city: 'sedr',
-    state: 'sw3',
-    zipCode: 3532532,
-    country: 'Bahrain',
-  },
-]
 
-interface Site {
-  id: number
-  sitename: string
+export interface Site {
+  // id: number
+  siteName: string
   description: string
   address: string
   aptSuite: string
@@ -41,6 +31,13 @@ interface Site {
   state: string
   zipCode: number
   country: string
+}
+
+interface SitesState {
+  data: Site[];
+  selectedCustomer: any; // Adjust the type as necessary
+  loading: boolean;
+  error: any; // Adjust the type as necessary
 }
 
 const SetupSites: React.FC = ({}) => {
@@ -53,18 +50,23 @@ const SetupSites: React.FC = ({}) => {
   const [selectedSite, setSelectedSite] = useState<any>(null)
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
-  const [sites, setSites] = useState(initialSites)
+  const [sites, setSites] = useState<Site[]>([])
 
-  const handleDeleteClick = (site: any) => {
+  const users = useSelector((state: { users: SitesState }) => state.users);
+  console.log(users);
+
+  const handleDeleteClick =(site: Site) => {
     setSelectedSite(site)
     setDeleteOpen(true)
   }
 
   const handleDelete = () => {
-    const updatedSites = sites.filter((site) => site.id !== selectedSite.id)
+    if (selectedSite) {
+    const updatedSites = sites.filter((site) => site!== selectedSite)
     setSites(updatedSites)
     setDeleteOpen(false)
     setSelectedSite(null)
+    }
   }
 
   const handleDeleteClose = () => {
@@ -81,15 +83,18 @@ const SetupSites: React.FC = ({}) => {
     setSelectedCell(index)
   }
 
-  const handleEditClick = (site: any) => {
+  const handleEditClick = (site: Site) => {
     setSelectedSite(site)
     setEditOpen(true)
+   
   }
 
   const FlexBox = styled(Box)({
     display: 'flex',
     alignItems: 'center',
   })
+
+
 
   console.log(JSON.stringify(sites))
 
@@ -169,8 +174,9 @@ const SetupSites: React.FC = ({}) => {
                     sx={{
                       backgroundColor: 'green',
                       color: 'white',
-                      fontSize: '10px',
+                      fontSize: '15px',
                       padding: '10px',
+                      borderRadius: '15px',
                       width: { xs: '100%', sm: 'auto', md: '150px' },
                       height: '40px',
                       '&:hover': {
@@ -179,19 +185,20 @@ const SetupSites: React.FC = ({}) => {
                     }}
                     onClick={() => setOpen(true)}
                   >
-                    <AddIcon sx={{ mr: 1, fontSize: '10px' }} />
+                    <AddIcon sx={{ mr: 1, fontSize: '20px' }} />
                     Add New Site
                   </Button>
 
                   <Button
                     sx={{
-                      fontSize: '10px',
+                      fontSize: '15px',
                       width: { xs: '100%', sm: 'auto', md: '150px' },
                       marginRight: '10px',
                       height: '40px',
+                      borderRadius: '15px',
                     }}
                   >
-                    <TuneOutlinedIcon style={{ marginRight: '8px' }} />
+                    <PublishOutlinedIcon style={{ marginRight: '8px', fontSize: '20px' }} />
                     Import Sites
                   </Button>
                 </ButtonGroup>
@@ -216,14 +223,14 @@ const SetupSites: React.FC = ({}) => {
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
-              paddingRight: '40px',
-              marginTop: '60px',
+              p:2
             }}
           >
-            <Box sx={{width: "100%", overflow: "auto" }}>
+            <Box sx={{ overflowX: "auto" }}>
             <Table
               borderAxis="both"
-              style={{  borderCollapse: 'collapse' }}
+              
+              style={{  borderCollapse: 'collapse', border:"1px solid grey"}}
             >
               <thead>
                 <tr>
@@ -264,8 +271,8 @@ const SetupSites: React.FC = ({}) => {
                 </tr>
               </thead>
               <tbody>
-                {sites.map((site, index) => (
-                  <tr key={site.id}>
+                {sites.length > 0? sites.map((site, index) => (
+                  <tr key={index}>
                     <td>
                       <Checkbox
                         size="sm"
@@ -274,7 +281,7 @@ const SetupSites: React.FC = ({}) => {
                         color="primary"
                       />
                     </td>
-                    <td>{site.sitename}</td>
+                    <td>{site.siteName}</td>
                     <td>{site.description}</td>
                     <td>{site.address}</td>
                     <td>{site.aptSuite}</td>
@@ -286,7 +293,6 @@ const SetupSites: React.FC = ({}) => {
                       <div>
                         <Button
                           aria-label="edit"
-                          key={site.id}
                           onClick={() => handleEditClick(site)}
                         >
                           <EditIcon fontSize="small" />
@@ -296,14 +302,17 @@ const SetupSites: React.FC = ({}) => {
                     <td>
                       <Button
                         aria-label="delete"
-                        key={site.id}
                         onClick={() => handleDeleteClick(site)}
                       >
                         <DeleteIcon fontSize="small" />
                       </Button>
                     </td>
                   </tr>
-                ))}
+                )) : 
+                  <tr>
+                    <td colSpan={11} style={{textAlign:'center'}}>No Data Found</td>
+                  </tr>
+                }
               </tbody>
             </Table>
             </Box>
@@ -317,16 +326,19 @@ const SetupSites: React.FC = ({}) => {
         sites={sites}
       />
 
-      {selectedSite && (
-        <EditSite
-          open={isEditOpen}
-          onClose={() => setEditOpen(false)}
-          site={selectedSite}
-          sites={sites}
-          setSites={setSites}
-          fullScreen={fullScreen}
-        />
-      )}
+<EditSite
+        open={isEditOpen}
+        onClose={() => setEditOpen(false)}
+        site={selectedSite}
+        onSave={(updatedSite: Site) => {
+          const updatedSites = sites.map((site) =>
+            site === selectedSite ? updatedSite : site
+          )
+          setSites(updatedSites)
+          setEditOpen(false)
+          setSelectedSite(null)
+        }}
+      />
 
       <DeleteSite
         deleteOpen={deleteOpen}
