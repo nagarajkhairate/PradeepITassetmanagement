@@ -54,7 +54,7 @@ const EditAssets: React.FC = () => {
 
   return (
     <AppView>
-
+      
           <Typography level="h3">Asset View</Typography>
           <EditAssetInfo
             assetInfo={editAssetData}

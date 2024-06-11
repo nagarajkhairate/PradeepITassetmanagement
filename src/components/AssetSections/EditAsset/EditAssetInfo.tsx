@@ -29,8 +29,44 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EmailIcon from '@mui/icons-material/Email';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckOutDialog from "./Check Out/CheckOutDialog";
-
 import { Link } from "react-router-dom";
+
+const data=[{
+  "id": 15,
+  "asset_name": "gfdhgdgh",
+  "asset_tag_id": null,
+  "description": "sdf",
+  "purchase_from": "asdf",
+  "purchase_date": "2022-12-12",
+  "brand": "asdf",
+  "model": "asdf23",
+  "serial_number": "sdfj3",
+  "cost": "234.00",
+  "site": ",kadsf",
+  "location": "asdf",
+  "department": "asdlfk",
+  "category": "asdf",
+  "asset_photo": "/asset_photos/1955991501_Abhishek_0RmhR95.jpg",
+  "status": "df"
+},
+{
+  "id": 14,
+  "asset_name": "kj,asdf",
+  "asset_tag_id": "asdkf",
+  "description": "kasdfklasdf",
+  "purchase_from": "lkansdf",
+  "purchase_date": "2024-05-11",
+  "brand": "lksdfg",
+  "model": "kdaf",
+  "serial_number": "ksadfkn",
+  "cost": "2345.00",
+  "site": "Delhi",
+  "location": "Delhi",
+  "department": "Supplier A",
+  "category": "Desktop",
+  "asset_photo": "/asset_photos/20220908_161508_dh60Xsd.jpg",
+  "status": "Not Available"
+}]
 
 interface AssetInfoProps {
   assetInfo: any;
@@ -101,7 +137,8 @@ const EditAssetInfo: React.FC<AssetInfoProps> = ({ assetInfo, dataUpdater }) => 
           >
             <PrintIcon size={23} /> Print
           </Button>
-          <Link to={`/assets/edit/${assetInfodata?.id}`} >
+          {/* <Link to={`/assets/edit/${assetInfodata?.id}`} > */}
+          <Link to={`/assets/edit/assetInfodata`} >
           <Button
             sx={{
               background: "#767676",
