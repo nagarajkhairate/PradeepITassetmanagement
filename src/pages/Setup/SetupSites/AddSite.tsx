@@ -71,7 +71,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, setSites, sites }) => 
    
     await dispatch(addSites(newSite));
     console.log('dgdfgdf')
-    // onClose();
+    onClose();
   };
 
  

@@ -24,7 +24,6 @@ import { RootState } from '../../../Redux/store'
 
 
 export interface Site {
-  // id: number
   siteName: string
   description: string
   address: string
@@ -35,12 +34,12 @@ export interface Site {
   country: string
 }
 
-interface SitesState {
-  data: Site[];
-  selectedCustomer: any; // Adjust the type as necessary
-  loading: boolean;
-  error: any; // Adjust the type as necessary
-}
+// interface SitesState {
+//   data: Site[];
+//   selectedCustomer: any; // Adjust the type as necessary
+//   loading: boolean;
+//   error: any; // Adjust the type as necessary
+// }
 
 const SetupSites: React.FC = ({}) => {
   const theme = useTheme()

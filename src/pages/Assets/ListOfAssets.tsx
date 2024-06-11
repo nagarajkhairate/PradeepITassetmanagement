@@ -10,11 +10,11 @@ import { useTheme } from "@mui/material/styles";
 import ListOfAssetsCard from "./ListOfAssetsCard";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { fetch_listAssets } from "../../Redux/features/AssetSlice";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { Link } from "react-router-dom";
 import AppView from "../../components/Common/AppView";
+import { fetchAssets } from "../../Redux/features/AssetSlice";
 
 const data1 = [
   {
@@ -42,11 +42,11 @@ const data1 = [
 ]
 
 const ListOfAssets = () => {
-  const getAsset = useSelector(
+  const assets = useSelector(
     (state: RootState) => state.assets.data
   );
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
-  const [listData, setListData] = useState(getAsset);
+  const [listData, setListData] = useState(assets);
   // const allAssetdata = useSelector((state:any)=>state.assets.data || []);
   // console.log("allassets",allAssetdata)
   const theme = useTheme();
@@ -55,12 +55,10 @@ const ListOfAssets = () => {
 
 
   useEffect(() => {
-    dispatch(fetch_listAssets());
+    dispatch(fetchAssets());
   }, [dispatch]);
 
-  useEffect(() => {
-    setListData(getAsset);
-  }, [getAsset]);
+
 
 
   return (
@@ -72,8 +70,9 @@ const ListOfAssets = () => {
               mt: "40px",
               width: "100%",
               display: "flex",
-              justifyContent: "space-between",
+              justifyContent:{md: "space-between",xs:"center"},
               flexDirection: { xs: "column", md: "row" },
+              ml:{md:"none",xs:"100px"}
             }}
           >
             <Box>
@@ -81,7 +80,7 @@ const ListOfAssets = () => {
                 size="lg"
                 sx={{
                   background: "#1BCAB8",
-                  width: { md: "200px", xs: "100%" },
+                  width: { md: "200px", xs: "50%" },
                   borderRadius: "15px",
                   paddingInline: "0px",
                   m: { xs: "10px", md: "none" },
@@ -123,7 +122,7 @@ const ListOfAssets = () => {
                 sx={{
                   mr: "20px",
                   background: "#11B456",
-                  width: { md: "200px", xs: "100%" },
+                  width: { md: "200px", xs: "50%" },
                   borderRadius: "15px",
                   paddingInline: "0px",
                   m: { xs: "10px", md: "none" },
@@ -160,7 +159,7 @@ const ListOfAssets = () => {
                 size="lg"
                 sx={{
                   background: "#000000",
-                  width: { md: "200px", xs: "100%" },
+                  width: { md: "200px", xs: "50%" },
                   borderRadius: "15px",
                   paddingInline: "0px",
                   m: { xs: "10px", md: "none" },
@@ -310,7 +309,7 @@ const ListOfAssets = () => {
                     boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
                   }}
                 >
-                  {listData.map((item:any) => (  
+                  {assets.map((item:any) => (  
                     <tr key={item.id}>
                       <td>
                         <Checkbox />
@@ -344,3 +343,4 @@ const ListOfAssets = () => {
 };
 
 export default ListOfAssets;
+
