@@ -14,7 +14,8 @@ import LocationSetup from './LocationSetup'
 import { useSelector, useDispatch } from 'react-redux';
 
 import { AppDispatch, RootState } from '../../../Redux/store'
-import { updateLocation } from '../../../Redux/features/LocationSlice'
+import { deleteLocation, updateLocation } from '../../../Redux/features/LocationSlice'
+import { ThunkDispatch } from 'redux-thunk'
 
 
 type Location = {
@@ -28,6 +29,7 @@ interface Props {
 }
 
 export function LocationSetupEdit({ locationName, onLocationChange }: Props) {
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
   const [locData, setLocData] = useState<{ locationData: Location[] }>({locationData: [],})
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
@@ -36,8 +38,9 @@ export function LocationSetupEdit({ locationName, onLocationChange }: Props) {
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
-  const locations = useSelector((state: RootState) => state.locations)
-const dispatch = useDispatch<AppDispatch>()
+  const locations = useSelector((state: RootState) => state.locations.data)
+// const dispatch = useDispatch<AppDispatch>()
+console.log(locations)
 
 
   const handleCheckboxChange = (index: number) => {
@@ -69,20 +72,22 @@ const dispatch = useDispatch<AppDispatch>()
       )
       setLocData({ ...locData, locationData: updatedData })
       handleEditClose()
-      dispatch(updateLocation(location))
+      dispatch(updateLocation(updatedData))
       onLocationChange(updatedData)
     }
   }
 
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const updatedData = locData.locationData.filter(
+    const deleteData = locData.locationData.filter(
       (_, index) => index !== selectedCell,
     )
-    setLocData({ ...locData, locationData: updatedData })
+    setLocData({ ...locData, locationData: deleteData })
     setMatchedSelected([])
     setDeleteOpen(false)
-    onLocationChange(updatedData)
+    // dispatch(deleteLocation())
+    onLocationChange(deleteData)
+  
   }
 
   const handleDeleteButton = () => {
@@ -120,7 +125,7 @@ const dispatch = useDispatch<AppDispatch>()
           justifyContent: 'space-between',
         }}
       >
-<Table borderAxis="both" style={{ borderCollapse: 'collapse' }}>
+      <Table borderAxis="both" style={{ borderCollapse: 'collapse' }}>
           <thead>
             <tr>
               <th style={{ width: 30 }}>
