@@ -37,6 +37,11 @@ import Move from '../pages/Move/Move'
 import EditAssets from '../pages/Assets/EditAssets'
 import EditAssetPage from '../pages/Assets/EditAssetPage'
 import PersonsEmployeesForm from '../pages/Setup/CustomizeForm/PersonsEmployeesForm'
+import CompanyInfo from '../pages/CompanyInfo/CompanyInfo'
+import ContractForm from '../pages/Setup/CustomizeForm/ContractForm'
+import MaintenanceForm from '../pages/Setup/CustomizeForm/MaintenanceForm'
+import CustomerForm from '../pages/Setup/CustomizeForm/CustomerForm'
+import WarrantyForm from '../pages/Setup/CustomizeForm/WarrantyForm'
 
 export const pagesRoutes: any[] = [
   {
@@ -284,13 +289,61 @@ export const pagesRoutes: any[] = [
       },
       {
         index: true,
+        pageName: 'Customize Asset',
+        path: '/setup/customize-asset',
+        state: 'assets',
+        element: <AssetForm />,
+        icon: <FormatListBulletedIcon />,
+      },
+      {
+        index: true,
         pageName: 'Customize employee',
         path: '/setup/customize-employee',
         state: 'assets',
         element: <PersonsEmployeesForm />,
         icon: <FormatListBulletedIcon />,
+      },
+      {
+        index: true,
+        pageName: 'Customize Contract',
+        path: '/setup/customize-contract',
+        state: 'assets',
+        element: <ContractForm />,
+        icon: <FormatListBulletedIcon />,
+      },
+      {
+        index: true,
+        pageName: 'Customize Maintenance',
+        path: '/setup/customize-maintenance',
+        state: 'assets',
+        element: <MaintenanceForm />,
+        icon: <FormatListBulletedIcon />,
+      },
+      {
+        index: true,
+        pageName: 'Customize customer',
+        path: '/setup/customize-customer',
+        state: 'assets',
+        element: <CustomerForm />,
+        icon: <FormatListBulletedIcon />,
+      },
+      {
+        index: true,
+        pageName: 'Customize warranty',
+        path: '/setup/customize-warranty',
+        state: 'assets',
+        element: <WarrantyForm />,
+        icon: <FormatListBulletedIcon />,
       }
     ],
+  },
+  {
+    id: 9,
+    index: true,
+    pageName: 'Company Info',
+    element: <CompanyInfo />,
+    state: 'companyInfo',
+    path: '/company-info',
   },
   // {
   //   id: 9,
