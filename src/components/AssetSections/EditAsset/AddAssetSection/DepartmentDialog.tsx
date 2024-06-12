@@ -14,11 +14,12 @@ import {
   IconButton,
 } from "@mui/material";
 
-import { AiOutlineClose } from "react-icons/ai";
+import CloseIcon from '@mui/icons-material/Close';
+
 
 interface DepartmentDialogProps {
-  departmentOpen: boolean;
-  closeDepartment: () => void;
+  open: boolean;
+  onClose: () => void;
 }
 
 const DepartmentDialog: React.FC<DepartmentDialogProps> = (props) => {
@@ -34,7 +35,7 @@ const DepartmentDialog: React.FC<DepartmentDialogProps> = (props) => {
 
   return (
     <>
-      <Dialog open={props.departmentOpen} onClose={props.closeDepartment} fullWidth >
+      <Dialog open={props.open} onClose={props.onClose} fullWidth >
         <DialogTitle>
           <Box
             sx={{
@@ -44,8 +45,8 @@ const DepartmentDialog: React.FC<DepartmentDialogProps> = (props) => {
             }}
           >
             <Typography>Add a Department</Typography>
-            <IconButton onClick={props.closeDepartment}>
-              <AiOutlineClose />
+            <IconButton onClick={props.onClose}>
+              <CloseIcon />
             </IconButton>
           </Box>
         </DialogTitle>
@@ -95,7 +96,7 @@ const DepartmentDialog: React.FC<DepartmentDialogProps> = (props) => {
               Add
             </Button>
             <Button
-              onClick={props.closeDepartment}
+              onClick={props.onClose}
               sx={{
                 background: "white",
                 color: "black",

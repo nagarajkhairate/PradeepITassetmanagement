@@ -3,12 +3,9 @@ import { Box, Divider, Typography, styled } from "@mui/joy";
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 import Grid from "@mui/joy/Grid";
 import Button from "@mui/joy/Button";
-import { CiBoxList } from "react-icons/ci";
 import ButtonGroup from "@mui/joy/ButtonGroup";
-import { FaLessThan, FaGreaterThan } from "react-icons/fa6";
 import { useState } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useTheme } from "@mui/material/styles";
 import { Stack, Table, Checkbox } from "@mui/joy";
 import EditIcon from "@mui/icons-material/Edit";
@@ -17,6 +14,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddSiteDialog from "./AddSiteDialog";
 import EditSiteDialog from "./EditSiteDialog";
 import DeleteSiteDialog from "./DeleteSiteDialog";
+import AppView from "../../Common/AppView";
+import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
+import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
 
 
 const initialSites = [
@@ -33,8 +33,7 @@ const initialSites = [
   },
 ];
 
-interface Site {
-  id: number;
+export interface Site {
   sitename: string;
   description: string;
   address: string;
@@ -69,17 +68,18 @@ const Sites: React.FC<SiteProps> = ({
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
   const [sites, setSites] = useState(initialSites);
 
-  const handleDeleteClick = (site: any) => {
+  const handleDeleteClick = (site: Site) => {
     setSelectedSite(site);
     setDeleteOpen(true);
   };
 
   const handleDelete = () => {
-    const updatedSites = sites.filter((site) => site.sitename !== selectedSite.name);
-    setSites(updatedSites);
+    
+    if (selectedSite) {
     setDeleteOpen(false);
     setSelectedSite(null);
-  };
+  }
+};
 
   const handleDeleteClose = () => {
     setDeleteOpen(false);
@@ -113,8 +113,8 @@ const Sites: React.FC<SiteProps> = ({
   };
  
   const handleEditClick = (site : Site) => {
-    setSelectedSite(site);
-    setEditDialogOpen(true);
+    setSelectedSite(site)
+    setEditDialogOpen(true)
   };
 
   const handleNextTab = () => {
@@ -137,49 +137,31 @@ const Sites: React.FC<SiteProps> = ({
   console.log(JSON.stringify(sites))
 
   return (
-    <div style={{ width: "100%", background: "#f9f9f9" }}>
-      <FlexBox>
-      <Typography
-      level="h3"
-      sx={{
-        marginLeft: { xs: "10px", md: "50px" },
-        fontSize: { xs: "24px", md: "24px" },
-        marginTop: { xs: "20px", md: "35px" },
-        display: "flex",
-        alignItems: "center",
-        marginBottom: { xs: "-20px", md: "-42px" },
-        paddingBottom: "10px",
-      }}
-    >
-      <Box
-        component={TuneOutlinedIcon}
-        color="#FBC21E"
-        sx={{
-          fontSize: { xs: "24px", md: "30px" },
-          marginRight: "10px"
-        }}
-      />
-      Step 2- Sites
-    </Typography>
-      </FlexBox>
-      <div style={{ margin: "20px" }}>
+    <AppView>
+   
+      <Typography level="h4" style={{ display: 'flex', alignItems: 'center' }}>
+        <RoomOutlinedIcon style={{ fontSize: '1.4rem', color: '#FBC21E' }} />
+       Step- 2 Sites
+      </Typography>
+    
+     
         <Box
-          sx={{
-            borderRadius: "16px",
-            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-            background: "#ffffff",
-            margin: {
-              xs: "4px",
-              md: "52px",
-            },
+           sx={{
+            borderRadius: 'none',
+            boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+            background: '#ffffff',
+            gap: '5px',
           }}
         >
           <Box
-            fontSize="h5.fontSize"
-            component="div"
-            overflow="hidden"
-            textOverflow="ellipsis"
-            height={70}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: { xs: 'column', md: 'row' },
+              justifyContent: { xs: 'center', md: 'space-between' },
+              gap: 2,
+              mb: 2,
+            }}
           >
  
             <Grid
@@ -188,37 +170,55 @@ const Sites: React.FC<SiteProps> = ({
               sx={{ flexGrow: 1, paddingTop: "20px", paddingBottom: "10px" }}
             >
               <Grid xs={4}>
-                <Box>
+                <Box   sx={{
+                  textAlign: { xs: 'center', md: 'left' },
+                }}
+                >
                   <Typography
                     level="h4"
                     sx={{
-                      display: "flex",
-                      fontSize: "25px",
-                      alignItems: "center",
-                      marginBottom: "0px",
-                      marginLeft: "15px",
+                      fontFamily: 'Poppins',
+                      fontSize: '20px',
+                      fontWeight: 500,
+                      lineHeight: '30px',
+                      textAlign: { xs: 'center', md: 'left' },
+                      whiteSpace: 'nowrap',
                     }}
                   >
-                    <CiBoxList size={30} color="#FBC21E" />
-                    List of Sites
-                  </Typography>
+                    <TuneOutlinedIcon
+                    style={{
+                      fontSize: '1.4rem',
+                      color: '#FBC21E',
+                      alignItems: 'center',
+                    }}
+                  />
+                  List of Sites
+                </Typography>
                 </Box>
               </Grid>
 
               <Grid xs={12} sm={8} >
                 <React.Fragment>
                   <ButtonGroup aria-label="button group"
-       sx={{ display: 'flex', justifyContent: { xs: 'flex-start', sm: 'flex-end' }, flexDirection: { xs: 'column', sm: 'row' }, alignItems: 'center', gap: '1rem', marginLeft: { xs: '15px', sm: '0' }, marginTop: { xs: '10px', sm: '0' } }}
-        >
+sx={{
+  display: 'flex',
+  justifyContent: { xs: 'flex-start', sm: 'flex-end' },
+  flexDirection: { xs: 'column', sm: 'row' },
+  alignItems: 'center',
+  gap: '1rem',
+  marginLeft: { xs: '15px', sm: '0' },
+  marginTop: { xs: '10px', sm: '0' },
+}}        >
                   
                     <Button
                     sx={{
                       backgroundColor: 'green',
                       color: 'white',
-                      fontSize: '10px',
-                      padding:"10px",
-                      width: { xs: '100%', sm: 'auto' , md:"150px"},
-                      height: '40px', 
+                      fontSize: '15px',
+                      padding: '10px',
+                      borderRadius: '15px',
+                      width: { xs: '100%', sm: 'auto', md: '150px' },
+                      height: '40px',
                       '&:hover': {
                         backgroundColor: 'darkgreen',
                       },
@@ -229,13 +229,14 @@ const Sites: React.FC<SiteProps> = ({
                       Add New Site
                     </Button>
 
-                    <Button sx={{
-            fontSize: '10px',
-            width: { xs: '100%', sm: 'auto', md:"150px" },
-            marginRight:"10px",
-            height: '40px',
-          }}>
-                      <AiOutlineCloudUpload style={{ marginRight: '8px' }} />
+                    <Button  sx={{
+                      fontSize: '15px',
+                      width: { xs: '100%', sm: 'auto', md: '150px' },
+                      marginRight: '10px',
+                      height: '40px',
+                      borderRadius: '15px',
+                    }}>
+                      <PublishOutlinedIcon style={{ marginRight: '8px', fontSize: '20px' }} />
                       Import Sites
                     </Button>
                   </ButtonGroup>
@@ -254,23 +255,22 @@ const Sites: React.FC<SiteProps> = ({
           <Divider />
 
           <Box>
-            <Stack
-              direction={{ xs: "column", sm: "row" }}
-              spacing={{ xs: 1, sm: 2, md: 2 }}
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                paddingRight: "40px",
-                marginTop: "60px",
-              }}
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            spacing={{ xs: 1, sm: 2, md: 2 }}
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              p:2
+            }}
             >
               <Table
                 borderAxis="both"
-                style={{ width: "100%", borderCollapse: "collapse" }}
+                style={{ borderCollapse: "collapse",border:"1px solid grey"} }
               >
                 <thead>
                   <tr>
-                    <th style={{ width: 30 }}>
+                    <th style={{ width: 30, background: '#fff8e6' }}>
                       <Checkbox
                         size="sm"
                         indeterminate={
@@ -296,21 +296,21 @@ const Sites: React.FC<SiteProps> = ({
                         }}
                       />
                     </th>
-                    <th>Site</th>
-                    <th>Description</th>
-                    <th>Address</th>
-                    <th>Apt. / Suite</th>
-                    <th>City</th>
-                    <th>State</th>
-                    <th>Zip</th>
-                    <th>Country</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th  style={{ background: '#fff8e6' }}>Site</th>
+                  <th style={{ background: '#fff8e6' }}>Description</th>
+                  <th style={{ background: '#fff8e6' }}>Address</th>
+                  <th style={{ background: '#fff8e6' }}>Apt. / Suite</th>
+                  <th style={{ background: '#fff8e6' }}>City</th>
+                  <th style={{ background: '#fff8e6' }}>State</th>
+                  <th style={{ background: '#fff8e6' }}>Zip Code</th>
+                  <th style={{ background: '#fff8e6' }}>Country</th>
+                  <th style={{ background: '#fff8e6' }}>Edit</th>
+                  <th style={{ background: '#fff8e6' }}> Delete</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {sites && sites.map((site, index) => (
-                    <tr key={site.id}>
+                  {sites.length > 0?  sites.map((site, index) => (
+                    <tr key={index}>
                       <td>
                         <Checkbox
                           size="sm"
@@ -333,7 +333,7 @@ const Sites: React.FC<SiteProps> = ({
                         <div >
                         <Button
                           aria-label="edit"
-                          key={site.id}
+                         
                           onClick={() => handleEditClick(site)}
                         >
                           <EditIcon fontSize="small" />
@@ -343,14 +343,19 @@ const Sites: React.FC<SiteProps> = ({
                       <td>
                         <Button
                           aria-label="delete"
-                          key={site.id}
+                         
                           onClick={() => handleDeleteClick(site)}
                         >
                           <DeleteIcon fontSize="small" />
                         </Button>
                       </td>
                     </tr>
-                  ))}
+                
+                  )) :
+                  <tr>
+                    <td colSpan={11} style={{textAlign:'center'}}>No Data Found</td>
+                  </tr>
+                }
                 </tbody>
               </Table>
             </Stack>
@@ -359,7 +364,7 @@ const Sites: React.FC<SiteProps> = ({
           <Divider sx={{ marginTop: "30px" }} />
           
 
-            <Grid xs={12} md={4} >
+            <Grid xs={12} sm={12}>
               <React.Fragment>
               <Box sx={{marginTop: "1px", marginBottom: "15px", padding: "20px" }}>
             <ButtonGroup  
@@ -370,7 +375,7 @@ const Sites: React.FC<SiteProps> = ({
               <Button sx={{ fontSize: "15px",  width: { xs: "100%", sm: "150px", md: "125px" } }}
               onClick={handlePrevTab}
               >
-                <FaLessThan />                
+                {/* <FaLessThan />                 */}
                   Back             
               </Button>
               <Button  sx={{
@@ -390,7 +395,7 @@ const Sites: React.FC<SiteProps> = ({
                 >
               
                   Continue
-                <FaGreaterThan />{" "}
+                {/* <FaGreaterThan />{" "} */}
               </Button>
             </ButtonGroup>
             </Box>
@@ -398,7 +403,7 @@ const Sites: React.FC<SiteProps> = ({
             </Grid>
           {/* </Grid> */}
         </Box>
-      </div>
+   
 
       <AddSiteDialog open={open} onClose={() => setOpen(false)} setSites={setSites} sites={sites}/>
 
@@ -421,7 +426,7 @@ const Sites: React.FC<SiteProps> = ({
         handleDelete={handleDelete} 
         handleDeleteClose={handleDeleteClose}
       />
-    </div>
+    </AppView>
   );
 };
 

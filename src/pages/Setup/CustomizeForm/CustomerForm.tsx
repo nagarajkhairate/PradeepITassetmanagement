@@ -1,14 +1,12 @@
-import React, { useState, FormEvent, Fragment } from 'react';
+import React, { useState, FormEvent } from 'react';
+import DragDrop from './DragDrop/DragDrop';
 import AppForm from '../../../components/Common/AppForm';
 import AppButton from '../../../components/Common/AppButton';
 import GroupIcon from '@mui/icons-material/Group';
-import { Box, Button, Typography } from '@mui/joy';
+import { Box, Typography } from '@mui/joy';
 import { DummyData, FormData } from './Data';
-import AssetDragDrop from './DragDrop/AssetDragDrop';
-import AddCategory from '../../../components/Category/AddCategory';
 
-const AssetForm: React.FC = () => {
-  const [open, setOpen] = useState<any>(false);
+const CustomerForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData[]>(DummyData);
 
   const handleSubmit = (event: FormEvent) => {
@@ -20,7 +18,7 @@ const AssetForm: React.FC = () => {
     <Box component="section">
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <GroupIcon />
-        <Typography level="h4">Customize Asset Form</Typography>
+        <Typography level="h4">Customize Customer Form</Typography>
       </Box>
       
       <Box
@@ -40,11 +38,7 @@ const AssetForm: React.FC = () => {
             entered for an individual person/employee. You can move fields to place
             more important items at the top for easy reading.
           </Typography>
-          <AssetDragDrop formData={formData} setFormData={setFormData} />
-          <Button onClick={() => setOpen(true)}>Add Group</Button>
-          {open && <Fragment>
-            <AddCategory open={open} setOpen={setOpen} />
-          </Fragment>}
+          <DragDrop formData={formData} setFormData={setFormData} />
           <AppButton type="submit">Save</AppButton>
         </AppForm>
       </Box>
@@ -52,4 +46,4 @@ const AssetForm: React.FC = () => {
   );
 };
 
-export default AssetForm;
+export default CustomerForm;

@@ -14,8 +14,11 @@ const initialState: SitesState = {
   error: null,
 };
 
+// const customer_id = process.env.CUSTOMER_ID;
 const base_api_key_url = process.env.BASE_API_KEY;
 
+
+ 
 export const fetchSites = createAsyncThunk('sites/fetchSites', async () => {
   try {
     const response = await axios.get(`${base_api_key_url}sites/sites}/sites`);
@@ -25,7 +28,8 @@ export const fetchSites = createAsyncThunk('sites/fetchSites', async () => {
     console.error('Error Message'+ error);
     throw error;
   }
-
+ 
+ 
 });
 
 
@@ -41,6 +45,7 @@ export const fetchSitesById = createAsyncThunk('sites/fetchSitesById', async (id
 });
  
 export const addSites = createAsyncThunk('sites/addSites', async (sites: any) => {
+  console.log('asfes')
  const response = await axios.post(`${base_api_key_url}sites`, sites);
  console.log(response)
   return response.data;

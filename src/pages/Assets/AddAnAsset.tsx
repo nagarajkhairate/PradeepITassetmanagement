@@ -13,6 +13,13 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AppView from "../../components/Common/AppView";
+import { RootState } from "../../Redux/store";
+import { ThunkDispatch } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+import CategoryDialog from "../../components/AssetSections/EditAsset/AddAssetSection/CategoryDialog";
+import SiteDialog from "../../components/AssetSections/EditAsset/AddAssetSection/SiteDialog";
+import LocationDialog from "../../components/AssetSections/EditAsset/AddAssetSection/LocationDialog";
+import DepartmentDialog from "../../components/AssetSections/EditAsset/AddAssetSection/DepartmentDialog";
 
 interface FormData {
   [key: string]: string | File[];
@@ -23,6 +30,8 @@ interface ValidationMessages {
 }
 
 const AddAnAsset: React.FC = () => {
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+
   // Initialize state dynamically based on formConfig
   const initialFormData = formConfig.reduce<FormData>((acc, field) => {
     acc[field.stateKey] = "";
@@ -32,6 +41,8 @@ const AddAnAsset: React.FC = () => {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [validationMessages, setValidationMessages] = useState<ValidationMessages>({});
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([]);
+  const [openDialog, setOpenDialog] = useState<string | null>(null);
+
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -89,7 +100,15 @@ const AddAnAsset: React.FC = () => {
     });
   };
 
-  const handleSubmit = () => {
+  const handleOpenDialog = (dialogName: string) => {
+    setOpenDialog(dialogName);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(null);
+  };
+
+  const handleSubmit = async () => {
     // Perform validation
     const newValidationMessages: ValidationMessages = {};
     formConfig.forEach((field) => {
@@ -114,7 +133,18 @@ const AddAnAsset: React.FC = () => {
     }, {} as { [key: string]: string | string[] });
 
     console.log("Form Data JSON:", jsonData);
+
+    try {
+      await dispatch(reducerone(formData));
+      console.log("Form submitted successfully");
+      // window.location.reload();
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+
   };
+
+
 
   return (
     <AppView >
@@ -131,7 +161,9 @@ const AddAnAsset: React.FC = () => {
       >
         <Box sx={{ paddingBottom: "30px" }}>
           <Box>
-            <Grid container spacing={1} sx={{ padding: "20px",display:"flex",flexDirection: { xs: "column", md: "row" }, }} >
+            <Grid container spacing={1} sx={{ padding: "20px",
+             display:"flex",flexDirection: { xs: "column", md: "row" },
+             }} >
               <Grid xs={12}>
                 <Typography
                   sx={{ fontWeight: "bold", mb: 0, paddingLeft: "32px" }}
@@ -140,7 +172,9 @@ const AddAnAsset: React.FC = () => {
                 </Typography>
               </Grid>
               {formConfig.slice(0,10).map((field: FormFieldConfig) => (
-                <Grid key={field.label} sx={{ paddingLeft: "32px" }}  >
+                <Grid key={field.label} sx={{ paddingLeft: "32px", }}  xs={12}
+                md={field.stateKey === "description" ? 12 : (field.stateKey === "asset_name" || field.stateKey === "asset_tag_id") ? 6 : 4} 
+                >
                   <Typography
                     level="body-xs"
                     sx={{ color: "#767676", mt: "8px", mb: "5px" }}
@@ -148,10 +182,10 @@ const AddAnAsset: React.FC = () => {
                     {field.label}
                   </Typography>
                   {field.type === "select" ? (
-                    <Select
-                      value={formData[field.stateKey] as string}
-                      onChange={(e, newValue) => handleSelectChange(e, newValue, field.stateKey)}
-                      sx={field.sx}
+                    <Select 
+                    value={formData[field.stateKey] as string}
+                    onChange={(e, newValue) => handleSelectChange(e, newValue, field.stateKey)}
+                    sx={field.sx}
                     >
                       {field.options?.map((option) => (
                         <Option key={option.value} value={option.value}>
@@ -160,12 +194,14 @@ const AddAnAsset: React.FC = () => {
                       ))}
                     </Select>
                   ) : (
-                    <Input
+                    <Box>
+                    <Input 
                       value={formData[field.stateKey] as string}
                       onChange={(e) => handleInputChange(e, field.stateKey)}
                       {...field}
                       sx={field.sx}
-                    />
+                      />
+                      </Box>
                     )}
 
                   {validationMessages[field.validationMessageKey] && (
@@ -191,7 +227,7 @@ const AddAnAsset: React.FC = () => {
               <Box>
                 <Grid container spacing={1} sx={{ padding: "20px",display:"flex",flexDirection: { xs: "column", md: "row" }, }}>
                   {formConfig.slice(10,14).map((field)=>(
-                    <Grid key={field.label } sx={{ paddingLeft: "32px",paddingBottom:"20px" }}>
+                    <Grid key={field.label } sx={{ paddingLeft: "32px",paddingBottom:"20px" }}  >
 
                       <Typography
                     level="body-xs"
@@ -199,8 +235,7 @@ const AddAnAsset: React.FC = () => {
                   >
                     {field.label}
                   </Typography>
-                  <Grid container spacing={1} >
-
+                  <Grid container spacing={1}>
                   <Select
                       value={formData[field.stateKey] as string}
                       onChange={(e, newValue) => handleSelectChange(e, newValue, field.stateKey)}
@@ -212,11 +247,12 @@ const AddAnAsset: React.FC = () => {
                         </Option>
                       ))}
                     </Select>
-                 
+                   
+
                   <Button
                       sx={{
                         ml:{md:4,xs:"0"},
-                        width: "163px",
+                        width: "187px",
                         fontSize: "20px",
                         borderRadius: "15px",
                         background: "#E4E4E4",
@@ -226,6 +262,7 @@ const AddAnAsset: React.FC = () => {
                         color: "#767676",
                         mt:{xs:"10px",md:"0"}
                       }}
+                      onClick={() => handleOpenDialog(field.stateKey)}
                       >
                       <Typography sx={{ mr: "25px", color: "#767676" }}>
                         <AddIcon />
@@ -293,7 +330,7 @@ const AddAnAsset: React.FC = () => {
                       "&:hover": {
                         background: "#13B457",
                       },
-                    }}
+                    }}  
                   >
                     <CloudUploadIcon size={23} />
                   </Button>
@@ -400,6 +437,10 @@ const AddAnAsset: React.FC = () => {
           </Box>
         </Box>
       </Box>
+      <SiteDialog open={openDialog === 'site'} onClose={handleCloseDialog}/>
+      <CategoryDialog open={openDialog === 'category'} onClose={handleCloseDialog}/>
+      <LocationDialog open={openDialog === 'location'} onClose={handleCloseDialog}/>
+      <DepartmentDialog open={openDialog === 'department'} onClose={handleCloseDialog}/>
     </AppView>
   );
 };

@@ -10,7 +10,7 @@ import {
   selectClasses,
   Option,
 } from "@mui/joy";
-import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
+
 
 interface TypographyLabelProps {
   title: string;

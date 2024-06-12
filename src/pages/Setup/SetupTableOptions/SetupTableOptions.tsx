@@ -11,7 +11,6 @@ import {
   FormLabel,
   Checkbox,
   Button,
-  ButtonGroup,
   Grid,
 } from "@mui/joy";
 import TuneOutlinedIcon from "@mui/icons-material/TuneOutlined";
@@ -20,6 +19,10 @@ import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import AppView from "../../../components/Common/AppView";
+import { ThunkDispatch } from "redux-thunk";
+import { RootState } from "../../../Redux/store";
+import { useDispatch } from "react-redux";
+import { addoptions } from "../../../Redux/features/TableOptionsSlice";
 
 const DepreciationOptions = {
   "id": 1,
@@ -77,6 +80,7 @@ const SetupTableOptions: React.FC = ({}) => {
     calculationFrequency: "",
     enableLinking: "no",
   });
+  const dispatch: ThunkDispatch<RootState, void, any>= useDispatch()
 
   const handleDepreciationChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -92,7 +96,8 @@ const SetupTableOptions: React.FC = ({}) => {
     event: SyntheticEvent | null,
     newValue: string | null
   ) => {
-    if (newValue !== null) setDepreciationMethod(newValue);
+    if (newValue !== null) 
+      setDepreciationMethod(newValue);
   };
 
   const handleCalculationFrequencyChange = (
@@ -139,6 +144,7 @@ const SetupTableOptions: React.FC = ({}) => {
           auditAssets: linkedAssets.auditAssets,
       };
     }
+    dispatch(addoptions(formData))
     console.log(JSON.stringify(formData, null, 2));
   };
 
@@ -267,11 +273,16 @@ const SetupTableOptions: React.FC = ({}) => {
 
                       {showDepreciationOptions && (
                         <>
+                         <Typography>
+                          Select the default depreciation method to be used for most assets. You still have the option to override and choose another depreciation method when creating assets.
+                        </Typography>
+                        <Box>
                           <FormControl>
                             <FormLabel>Default Depreciation Method</FormLabel>
                             <Select
                               value={depreciationMethod}
                               onChange={handleDepreciationMethodChange}
+                              placeholder="Straight Line"
                             >
                               {DepreciationOptions.depreciationMethods.map(
                                 (method) => (
@@ -282,11 +293,13 @@ const SetupTableOptions: React.FC = ({}) => {
                               )}
                             </Select>
                           </FormControl>
+                          </Box>
                           <FormControl>
                             <FormLabel>Calculation Frequency</FormLabel>
                             <Select
                               value={calculationFrequency}
                               onChange={handleCalculationFrequencyChange}
+                              placeholder="Yearly"
                             >
                               {DepreciationOptions.calculationFrequencies.map(
                                 (frequency) => (
@@ -424,7 +437,6 @@ const SetupTableOptions: React.FC = ({}) => {
                         </Typography>
                         <FormControl component="fieldset">
                        
-                        {/* {Object.keys(linkedAssets).map((key) => ( */}
                           <Box >
                             <Box  marginBottom={"10px"}>
                             <Checkbox 

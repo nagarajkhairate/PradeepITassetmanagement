@@ -11,13 +11,13 @@ import {
   Grid,
   ButtonGroup,
 } from "@mui/joy";
-import { VscSettings } from "react-icons/vsc";
+// import { VscSettings } from "react-icons/vsc";
 import SendTwoToneIcon from "@mui/icons-material/SendTwoTone";
 import ThumbDownAltOutlinedIcon from "@mui/icons-material/ThumbDownAltOutlined";
 import ConstructionOutlinedIcon from "@mui/icons-material/ConstructionOutlined";
-import { PiLinkBreakLight } from "react-icons/pi";
-import { PiRecycleLight } from "react-icons/pi";
-import { FaRegHeart } from "react-icons/fa";
+// import { PiLinkBreakLight } from "react-icons/pi";
+// import { PiRecycleLight } from "react-icons/pi";
+// import { FaRegHeart } from "react-icons/fa";
 import GavelOutlinedIcon from "@mui/icons-material/GavelOutlined";
 import Buttonss from "./Buttonss";
 import HowToRegOutlinedIcon from "@mui/icons-material/HowToRegOutlined";
@@ -175,7 +175,9 @@ const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
         <div style={{ margin: "52px" }}>
           <Typography level="h3">
             {" "}
-            <VscSettings size={23} /> Step 7 - Event Options
+            {/* <VscSettings size={23} /> */}
+             Step 7 - Event Options
+
           </Typography>
           <Box
             sx={{
@@ -362,7 +364,8 @@ const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
             >
               <Box>
                 <Typography level="body-sm">
-                  <PiLinkBreakLight /> Broken assets:
+                  {/* <PiLinkBreakLight />  */}
+                  Broken assets:
                 </Typography>
               </Box>
               <AssetRadioGroup
@@ -393,7 +396,8 @@ const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
             >
               <Box>
                 <Typography level="body-sm">
-                  <PiRecycleLight /> Dispose assets:
+                  {/* <PiRecycleLight />  */}
+                  Dispose assets:
                 </Typography>
               </Box>
               <AssetRadioGroup
@@ -424,7 +428,8 @@ const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
             >
               <Box>
                 <Typography level="body-sm">
-                  <FaRegHeart /> Donate assets:
+                  {/* <FaRegHeart />  */}
+                  Donate assets:
                 </Typography>
               </Box>
               <AssetRadioGroup

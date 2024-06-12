@@ -7,7 +7,7 @@ import appStateReducer from "./features/StateSlice"
 import locationReducer from './features/LocationSlice';
 import companyInfoReducer from './features/CompanyInfoSlice';
 import SitesReducer from './features/SitesSlice';
-
+import TableOptionsReducer from './features/TableOptionsSlice';
 
 export const store = configureStore({
   reducer:{
@@ -18,7 +18,8 @@ export const store = configureStore({
     client:clientReducer,
     locations: locationReducer,
     sites: SitesReducer,
-    companyInfo: companyInfoReducer
+    companyInfo: companyInfoReducer,
+    tableOptions: TableOptionsReducer,
   }
 })
 

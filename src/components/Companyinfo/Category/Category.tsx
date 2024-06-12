@@ -1,13 +1,13 @@
 import React from "react";
 import { Box, Sheet } from "@mui/joy";
 import { Typography, Divider } from "@mui/joy";
-import { SlEqualizer } from "react-icons/sl";
-import { CiGlobe } from "react-icons/ci";
+// import { SlEqualizer } from "react-icons/sl";
+// import { CiGlobe } from "react-icons/ci";
 import Button from "@mui/joy/Button";
 import ButtonGroup from "@mui/joy/ButtonGroup";
 import { FormControl, FormLabel } from "@mui/joy";
 import Grid from "@mui/joy/Grid";
-import { LiaListUlSolid } from "react-icons/lia";
+// import { LiaListUlSolid } from "react-icons/lia";
 import AddIcon from "@mui/icons-material/Add";
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined';
@@ -87,9 +87,9 @@ const Category: React.FunctionComponent<CategoryProps > = (
   return (
     <div style={{ width: "100%", background: "#f9f9f9" }}>
       <Typography level="h3" sx={{ display: "flex", alignItems: "center" }}>
-        <SlEqualizer
-          style={{ fontSize: 23, color: "red", marginRight: "5px" }}
-        />{" "}
+        {/* <SlEqualizer */}
+          {/* style={{ fontSize: 23, color: "red", marginRight: "5px" }} */}
+        {/* />{" "} */}
         Step4-Categories
       </Typography>
       <div style={{ margin: "20px" }}>
@@ -105,9 +105,9 @@ const Category: React.FunctionComponent<CategoryProps > = (
           }}
         >
           <Typography>
-            <CiGlobe
-              style={{ fontSize: 23, color: "red", marginRight: "5px" }}
-            />
+            {/* <CiGlobe */}
+              {/* style={{ fontSize: 23, color: "red", marginRight: "5px" }} */}
+            {/* /> */}
             Header
           </Typography>
           <Box
@@ -126,7 +126,7 @@ const Category: React.FunctionComponent<CategoryProps > = (
             >
               <Box>
                 <Typography>
-                  <LiaListUlSolid size={22} color="red" />
+                  {/* <LiaListUlSolid size={22} color="red" /> */}
                   List of Categories
                 </Typography>
               </Box>

@@ -35,6 +35,13 @@ import Maintenance from '../pages/Maintenance/Maintenance'
 import Lease from '../pages/Lease/Lease'
 import Move from '../pages/Move/Move'
 import EditAssets from '../pages/Assets/EditAssets'
+import EditAssetPage from '../pages/Assets/EditAssetPage'
+import PersonsEmployeesForm from '../pages/Setup/CustomizeForm/PersonsEmployeesForm'
+import CompanyInfo from '../pages/CompanyInfo/CompanyInfo'
+import ContractForm from '../pages/Setup/CustomizeForm/ContractForm'
+import MaintenanceForm from '../pages/Setup/CustomizeForm/MaintenanceForm'
+import CustomerForm from '../pages/Setup/CustomizeForm/CustomerForm'
+import WarrantyForm from '../pages/Setup/CustomizeForm/WarrantyForm'
 
 export const pagesRoutes: any[] = [
   {
@@ -112,9 +119,16 @@ export const pagesRoutes: any[] = [
       },
       {
         index: true,
+        pageName: 'view an Asset',
+        path: '/assets/view-an-asset',
+        element: <EditAssets />,
+        state: 'assets',
+        icon: <AddCircleOutlineIcon />,
+      },{
+        index: true,
         pageName: 'Edit an Asset',
         path: '/assets/edit-an-asset',
-        element: <EditAssets />,
+        element: <EditAssetPage />,
         state: 'assets',
         icon: <AddCircleOutlineIcon />,
       },
@@ -213,7 +227,6 @@ export const pagesRoutes: any[] = [
   // },
   {
     id: 8,
-
     pageName: 'SetUp',
     path: '/setup',
     state: 'assets',
@@ -275,71 +288,62 @@ export const pagesRoutes: any[] = [
         icon: <LocationOnOutlinedIcon />,
       },
       {
-        id: 8,
-
-        pageName: 'SetUp',
-        path: '/setup',
+        index: true,
+        pageName: 'Customize Asset',
+        path: '/setup/customize-asset',
         state: 'assets',
-        children: [
-          {
-            index: true,
-            pageName: 'Company Info',
-            path: '/setup/setup-comp-info',
-            state: 'assets',
-            element: <SetupCompInfo />,
-            icon: <FormatListBulletedIcon />,
-          },
-          {
-            index: true,
-            pageName: 'Sites',
-            path: '/setup/sites',
-            state: 'assets',
-            element: <SetupSites />,
-            icon: <LocationOnOutlinedIcon />,
-          },
-          {
-            index: true,
-            pageName: 'Location',
-            path: '/setup/location-setup',
-            state: 'assets',
-            element: <LocationSetup />,
-            icon: <LocationOnOutlinedIcon />,
-          },
-          {
-            index: true,
-            pageName: 'Category',
-            path: '/setup/categorysetup',
-            state: 'assets',
-            element: <CategorySetup />,
-            icon: <CategoryIcon />,
-          },
-          {
-            index: true,
-            pageName: 'Sub Category',
-            path: '/setup/categorysub',
-            state: 'assets',
-            element: <CategorySub />,
-            icon: <CategoryIcon />,
-          },
-          {
-            index: true,
-            pageName: 'Department',
-            path: '/setup/departments',
-            state: 'assets',
-            element: <SetupDept />,
-            icon: <GridViewIcon />,
-          },
-          {
-            index: true,
-            pageName: 'Table Options',
-            path: '/setup/table-options',
-            state: 'assets',
-            element: <SetupTableOptions />,
-            icon: <LocationOnOutlinedIcon />,
-          },
-        ],
+        element: <AssetForm />,
+        icon: <FormatListBulletedIcon />,
       },
+      {
+        index: true,
+        pageName: 'Customize employee',
+        path: '/setup/customize-employee',
+        state: 'assets',
+        element: <PersonsEmployeesForm />,
+        icon: <FormatListBulletedIcon />,
+      },
+      {
+        index: true,
+        pageName: 'Customize Contract',
+        path: '/setup/customize-contract',
+        state: 'assets',
+        element: <ContractForm />,
+        icon: <FormatListBulletedIcon />,
+      },
+      {
+        index: true,
+        pageName: 'Customize Maintenance',
+        path: '/setup/customize-maintenance',
+        state: 'assets',
+        element: <MaintenanceForm />,
+        icon: <FormatListBulletedIcon />,
+      },
+      {
+        index: true,
+        pageName: 'Customize customer',
+        path: '/setup/customize-customer',
+        state: 'assets',
+        element: <CustomerForm />,
+        icon: <FormatListBulletedIcon />,
+      },
+      {
+        index: true,
+        pageName: 'Customize warranty',
+        path: '/setup/customize-warranty',
+        state: 'assets',
+        element: <WarrantyForm />,
+        icon: <FormatListBulletedIcon />,
+      }
     ],
+  },
+  {
+    id: 9,
+    index: true,
+    pageName: 'Company Info',
+    element: <CompanyInfo />,
+    state: 'companyInfo',
+    path: '/company-info',
   },
   // {
   //   id: 9,
