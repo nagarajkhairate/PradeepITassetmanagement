@@ -54,6 +54,12 @@ const EditSiteDialog: React.FC<EditSiteDialogProps> = ({
     }));
   };
 
+  const handleEditSite = () => {
+      const updatedSites = { ...updatedSite};
+      setSites([updatedSites]);
+      onClose();
+    }
+
   const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const updatedSites = sites.map((s) =>
@@ -161,7 +167,7 @@ const EditSiteDialog: React.FC<EditSiteDialogProps> = ({
           <Button onClick={onClose} sx={{ mr: 1 }}>
             Cancel
           </Button>
-          <Button type="submit">Update</Button>
+          <Button type="submit" onClick={handleEditSite}>Update</Button>
         </Box>
         </form>
       </Box>

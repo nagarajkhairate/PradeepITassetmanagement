@@ -1,19 +1,47 @@
 import React, { useState, ChangeEvent, SyntheticEvent } from "react";
 // import { Link } from "react-router-dom";
 import {Box,Typography,Divider,Select,Option,Radio,RadioGroup,FormControl,FormLabel,Checkbox,Button,ButtonGroup, Grid,} from "@mui/joy";
-import { RxCalendar } from "react-icons/rx";
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
-import { MdAddLink } from "react-icons/md";
-// import { FaLessThan, FaGreaterThan } from "react-icons/fa6";
-import { BsBoxArrowInLeft } from "react-icons/bs";
-import { AiOutlineUserSwitch, AiFillDelete, AiFillGift } from "react-icons/ai";
-import { BiPackage, BiSearchAlt2 } from "react-icons/bi";
-import { RiToolsFill, RiAlertFill } from "react-icons/ri";
-import { GiReceiveMoney } from "react-icons/gi";
-import { CompanyInfData } from "./TableInfoData";
+import { TableInfoData } from "./TableInfoData";
 import NavigateBeforeOutlinedIcon from "@mui/icons-material/NavigateBeforeOutlined";
 import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined";
+import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined'
+import AppView from "../../Common/AppView";
 
+const DepreciationOptions = {
+  "id": 1,
+  "title": "Depreciation",
+  "description":
+    "Depreciation is used to expense the cost of your assets over their useful life...",
+  "formLabel": "Asset Depreciation",
+  "icon": CalendarMonthOutlinedIcon,
+  "options": [
+    { "name": "assetDepreciation", "value": "yes", "label": "Yes" },
+    { "name": "assetDepreciation", "value": "no", "label": "No" },
+  ],
+  "depreciationMethods": [
+    "Straight Line",
+    "Declining Balance",
+    "Double Declining",
+    "Balance",
+    "150% Declining Balance",
+  ],
+  "calculationFrequencies": ["Yearly", "Monthly", "Quarterly"],
+};
+
+const LinkingOptions = {
+  "id": 2,
+  "title": "Linking of Assets",
+  "description": "Enable or disable the linking of assets...",
+  "formLabel": "Enable Linking",
+  "icon": CalendarMonthOutlinedIcon,
+  "options": [
+    { "name": "enableLinking", "value": "yes", "label": "Yes" },
+    { "name": "enableLinking", "value": "no", "label": "No" },
+  ],
+};
 interface TableProps {
   companyFormData: any;
   setCompanyFormData: any;
@@ -27,11 +55,28 @@ const TableOptions: React.FC<TableProps> = ({
   activeTab,
   setActiveTab,
 }) => {
-  const [showDepreciationOptions, setShowDepreciationOptions] =
-    useState<boolean>(false);
-  const [depreciationMethod, setDepreciationMethod] = useState<string>("");
-  const [calculationFrequency, setCalculationFrequency] = useState<string>("");
-  const [enableLinking, setEnableLinking] = useState<string>("No");
+  const [showDepreciationOptions, setShowDepreciationOptions] = useState(false);
+  const [depreciationMethod, setDepreciationMethod] = useState("");
+  const [calculationFrequency, setCalculationFrequency] = useState("");
+  const [enableLinking, setEnableLinking] = useState("no");
+  const [linkedAssets, setLinkedAssets] = useState({
+    checkout: false,
+    reservation: false,
+    leaseAssets: false,
+    lostFoundAssets: false,
+    repairAssets: false,
+    brokenAssets: false,
+    disposeAssets: false,
+    donateAssets: false,
+    sellAssets: false,
+    auditAssets: false,
+  });
+  const [formDataState, setFormDataState] = useState<any>({
+    assetDepreciation: "no",
+    depreciationMethod: "",
+    calculationFrequency: "",
+    enableLinking: "no",
+  });
   const [selectedOptions, setSelectedOptions] = useState<{
     [key: string]: string;
   }>({});
@@ -39,8 +84,11 @@ const TableOptions: React.FC<TableProps> = ({
  
   const handleDepreciationChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    setShowDepreciationOptions(value === "Yes");
-    setCompanyFormData((prevState: any) => ({ ...prevState, assetDepreciation: value }));
+    setShowDepreciationOptions(value === "yes");
+    setFormDataState((prevData: any) => ({
+      ...prevData,
+      assetDepreciation: value,
+    }));
   };
   
   const handleDepreciationMethodChange = (
@@ -49,7 +97,6 @@ const TableOptions: React.FC<TableProps> = ({
   ) => {
     if (newValue !== null) {
       setDepreciationMethod(newValue);
-      setCompanyFormData((prevState :any) => ({ ...prevState, depreciationMethod: newValue }));
     }
   };
 
@@ -59,28 +106,74 @@ const TableOptions: React.FC<TableProps> = ({
   ) => {
     if (newValue !== null)
       { setCalculationFrequency(newValue);
-    setCompanyFormData((prevState :any) => ({ ...prevState, calculationFrequency: newValue }));
     }
   };
 
   const handleEnableLinkingChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setEnableLinking(value);
-    setCompanyFormData((prevState: any) => ({ ...prevState, enableLinking: value }));
   };
 
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setCompanyFormData((prevState: any) => ({
+    setLinkedAssets((prevState: any) => ({
       ...prevState,
       [name]: value,
     }));
   };
+  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = event.target;
+    setLinkedAssets((prev) => ({
+      ...prev,
+      [name]: checked,
+    }));
+  };
 
+      const buildFormData = () => {
+        const formData : any = {
+         
+          DepreciationOptions: {
+            assetDepreciation: formDataState.assetDepreciation,
+          },
+          TableInfoData: TableInfoData.map((item) => ({
+            title: item.title,
+            selectedOption: formDataState[item.title],
+          })),
+          LinkingOfAssets: {
+            enableLinking: enableLinking,
+          },
+        
+      };
+    
+        if (formDataState.assetDepreciation === "yes") {
+          formData.DepreciationOptions.depreciationMethod = depreciationMethod;
+          formData.DepreciationOptions.calculationFrequency = calculationFrequency;
+        }
+        
+        if (enableLinking === "yes") {
+          formData.LinkingOfAssets.linkedAssets = {
+            checkout: linkedAssets.checkout,
+            reservation: linkedAssets.reservation,
+            leaseAssets: linkedAssets.leaseAssets,
+            lostFoundAssets: linkedAssets.lostFoundAssets,
+            repairAssets: linkedAssets.repairAssets,
+            brokenAssets: linkedAssets.brokenAssets,
+            disposeAssets: linkedAssets.disposeAssets,
+            donateAssets: linkedAssets.donateAssets,
+            sellAssets: linkedAssets.sellAssets,
+            auditAssets: linkedAssets.auditAssets,
+          };
+        }
+    
+        return formData;
+      };
+    
 
-  const handleNextTab = () => {
-    console.log("Form Data:", companyFormData);
-    setActiveTab(activeTab + 1); // Update this to navigate to the next tab
+ const handleNextTab = () => {
+    const formData = buildFormData();
+    console.log(JSON.stringify(companyFormData, null, 2));
+    console.log(JSON.stringify(formData, null, 2));
+    setActiveTab(activeTab + 1);
   };
 
   const handlePrevTab = () => {
@@ -88,45 +181,24 @@ const TableOptions: React.FC<TableProps> = ({
 };
 
   return (
-    <>
-      <Box >
-      <Typography
-      level="h3"
-      sx={{
-        marginLeft: { xs: "10px", md: "50px" },
-        fontSize: { xs: "24px", md: "24px" },
-        marginTop: { xs: "20px", md: "35px" },
-        display: "flex",
-        alignItems: "center",
-        marginBottom: { xs: "-20px", md: "-42px" },
-        paddingBottom: "10px",
-      }}
-    >
-      <Box
-        component={TuneOutlinedIcon}
-        color="#FBC21E"
-        sx={{
-          fontSize: { xs: "24px", md: "30px" },
-          marginRight: "10px"
-        }}
-      />
-      Step 3- Table Options
-    </Typography>
+    <AppView>
+      <Box sx={{boxSizing:"border-box"}}>
+      <Typography level="h4" style={{ display: 'flex', alignItems: 'center' }}>
+        <TableChartOutlinedIcon style={{ fontSize: '1.4rem', color: '#FBC21E' }} />
+        Table-Options
+      </Typography>
       </Box>
 
       <div>
         <Box
           sx={{
-            borderRadius: "16px",
-            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-            background: "#ffffff",
-            margin: {
-              xs: "4px",
-              md: "52px",
-            },
+            borderRadius: 'none',
+            boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+            background: '#ffffff',
+            gap: '5px',
           }}
         >
-          <Box >
+          <Box>
             <Box
               component="section"
               sx={{
@@ -145,7 +217,9 @@ const TableOptions: React.FC<TableProps> = ({
                     },
                   }}
                 >
-                  <b>AssetTiger</b> lets you decide how comprehensive you want your system. Use these Options to fashion your ideal asset tracking and create more reports.
+                  <b>AssetTiger</b> lets you decide how comprehensive you want
+                  your system. Use these Options to fashion your ideal asset
+                  tracking and create more reports.
                 </Typography>
 
                 <Box>
@@ -159,48 +233,60 @@ const TableOptions: React.FC<TableProps> = ({
                     }}
                   >
                     <div style={{ width: 25, height: 25, color: "#FBC21E" }}>
-                      <RxCalendar />
+                      <DepreciationOptions.icon />
                     </div>
 
-                    <span style={{ marginLeft: "8px" }}>Depreciation</span>
+                    <span style={{ marginLeft: "8px" }}>
+                      {DepreciationOptions.title}
+                    </span>
+
                   </Typography>
-                  <Typography>
-                    Depreciation is used to expense the cost of your assets over their useful life. If you would like to track the depreciation of assets, select <b>Yes</b> and define your default depreciation method and calculation frequency.
-                  </Typography>
+                  <Typography>{DepreciationOptions.description} </Typography>
                   <Box sx={{ marginLeft: "150px" }}>
                     <Box>
                       <FormControl
-                        sx={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-                        }}
+                       sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginBottom:"10px"
+                      }}
                       >
                         <Box>
-                          <FormLabel> Asset Depreciation: </FormLabel>
+                        <FormLabel>
+                            {" "}
+                            {DepreciationOptions.formLabel}
+                          </FormLabel>
                         </Box>
                         <RadioGroup
                           defaultValue="outlined"
                           onChange={handleDepreciationChange}
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            ml: 2,
+                            gap: 2,
+                          }}
                         >
+                            {DepreciationOptions.options.map((option) => (
                           <Box>
                             <Radio
-                              value="Yes"
-                              label="Yes"
-                              variant="outlined"
-                              sx={{ mr: "10px" }}
+                              key={option.value}
+                              value={option.value}
+                              label={option.label}
                             />
-                            <Radio value="No" label="No" variant="outlined" />
                           </Box>
+                            ))}
                         </RadioGroup>
                       </FormControl>
+
                       {showDepreciationOptions && (
                         <>
                          <Typography>
                           Select the default depreciation method to be used for most assets. You still have the option to override and choose another depreciation method when creating assets.
                         </Typography>
                           <Box>
-                            <FormControl sx={{ width: "50%" }}>
+                            <FormControl >
                               <FormLabel>Default Depreciation Method</FormLabel>
                               <Select
                               defaultValue=""
@@ -208,30 +294,35 @@ const TableOptions: React.FC<TableProps> = ({
                               onChange={handleDepreciationMethodChange}
                               placeholder="Straight Line"
                             >
-                              <Option value="Straight Line">Straight Line</Option>
-                              <Option value="Declining-Balance">Declining Balance</Option>
-                              <Option value="Double Declining">Double Declining</Option>
-                              <Option value="Balance">Balance</Option>
-                              <Option value="150% Declining Balance">150% Declining Balance</Option>
+                              {DepreciationOptions.depreciationMethods.map(
+                                (method) => (
+                                  <Option key={method} value={method}>
+                                    {method}
+                                  </Option>
+                                )
+                              )}
                             </Select>
                             </FormControl>
                           </Box>
-                          <Box>
-                            <FormControl sx={{ width: "50%" }}>
+                         
+                            <FormControl>
                               <FormLabel>Calculation Frequency</FormLabel>
                               <Select
-                                defaultValue=""
+                              
                                 value={calculationFrequency}
                                 onChange={handleCalculationFrequencyChange}
-                                // label="Calculation Frequency"
                                 placeholder="Yearly"
                               >
-                                <Option value="Yearly">Yearly</Option>
-                                <Option value="monthly">Monthly</Option>
-                                <Option value="quarterly">Quarterly</Option>
+                                {DepreciationOptions.calculationFrequencies.map(
+                                (frequency) => (
+                                  <Option key={frequency} value={frequency}>
+                                    {frequency}
+                                  </Option>
+                                )
+                              )}
                               </Select>
                             </FormControl>
-                          </Box>
+                      
                         </>
                       )}
                     </Box>
@@ -239,8 +330,8 @@ const TableOptions: React.FC<TableProps> = ({
 
                   <Divider />
 
-                  {CompanyInfData &&
-                    CompanyInfData.map((item) => (
+                  {TableInfoData &&
+                    TableInfoData.map((item) => (
                       <div key={item.id}>
                         <Typography
                           level="h4"
@@ -251,38 +342,43 @@ const TableOptions: React.FC<TableProps> = ({
                             marginTop: "10px",
                           }}
                         >
-                          <item.icon size={25} color="#FBC21E" />
+                         <div style={{ width: 25, height: 25, color: "#FBC21E" }}>
+                          <item.icon />
+                          </div>
                           <span style={{ marginLeft: "8px" }}>{item.title}</span>
                         </Typography>
                         <Typography>{item.description}</Typography>
 
-                        <Box sx={{ marginLeft: "150px" }}>
+                        <Box>
                           <FormControl
                             sx={{
                               display: "flex",
                               flexDirection: "row",
                               alignItems: "center",
+                              marginBottom:"10px"
                             }}
                           >
                             <Box>
                             <FormLabel>{item.formLabel}</FormLabel>
                             </Box>
-                            <RadioGroup defaultValue="No"
-                            sx={{ display: "flex", flexDirection: "row", ml: 2 }}
+                            <RadioGroup  name={item.title}
+                              onChange={handleOptionChange}
+                              sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                ml: 2,
+                                gap: 2,
+                              }}
                             >
-                              <Box>
-                                {item.options.map((option) => (
+                              {item.options.map((opt) => (
+                                <Box>
                                   <Radio
-                                    key={option.value}
-                                    value={option.value}
-                                    name={option.name}
-                                    label={option.label}
-                                    sx={{ mr: "10px" }}
-                                    checked={companyFormData[option.name] === option.value}
-                                    onChange={handleOptionChange}
+                                    key={opt.value}
+                                    value={opt.value}
+                                    label={opt.label}
                                   />
-                                ))}
-                              </Box>
+                                </Box>
+                              ))}
                             </RadioGroup>
                           </FormControl>
                         </Box>
@@ -302,87 +398,125 @@ const TableOptions: React.FC<TableProps> = ({
                         marginTop: "10px",
                       }}
                     >
-                      <MdAddLink size={25} color="#FBC21E" />
-                      <span style={{ marginLeft: "8px" }}>Linking of Assets</span>
+                     
+                     <span style={{ marginLeft: "8px" }}>
+                        {LinkingOptions.title}
+                      </span>
                     </Typography>
-                    <Typography>
-                      Enable the ability to link assets to have a parent-child relationship. To assign multiple assets that are related to each other and/or function as a whole, assign one asset as the parent, the rest of them as the children, and the group will stay linked. You can either have these assets function as one unit or have them associated but able to move independently.
-                    </Typography>
+                    <Typography>{LinkingOptions.description} </Typography>
 
-                    <Box sx={{ marginLeft: "150px" }}>
+                    <Box>
                       <FormControl
                         sx={{
                           display: "flex",
                           flexDirection: "row",
                           alignItems: "center",
+                          marginBottom:"10px"
                         }}
                       >
                         <Box>
-                          <FormLabel>Enable Linking of Assets.</FormLabel>
+                        <FormLabel>{LinkingOptions.formLabel}</FormLabel>
                           </Box>
                         <RadioGroup
-                          defaultValue="No"
+                          defaultValue="no"
                           value={enableLinking}
                           onChange={handleEnableLinkingChange}
-                          sx={{ display: "flex", flexDirection: "row", ml: 2 }}
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            ml: 2,
+                            gap: 2,
+                          }}
                         >
+                          {LinkingOptions.options.map((option) => (
                           <Box>
                             <Radio
-                              value="Yes"
-                              label="Yes"
-                              sx={{ mr: "10px" }}
+                              key={option.value}
+                              value={option.value}
+                              label={option.label}
                             />
-                            <Radio value="No" label="No" variant="outlined" />
+                           
                           </Box>
+                            ))}
                         </RadioGroup>
                       </FormControl>
                     </Box>
 
-                    {enableLinking === "Yes" && (
+                    {enableLinking === "yes" && (
                       <Box>
                         <Typography>
-                          When you define linked assets, you can mark them Transact as a whole, which groups these assets and make them function as one unit. Select the events that are performed on a group of linked assets as one unit:
-                        </Typography>
+                        When you define linked assets, you can mark them
+                        Transact as a whole...
+                         </Typography>
+
                         <FormControl component="fieldset">
+                          <Box>
                           <Box marginBottom={"10px"}>
-                            <Checkbox />
-                            <BsBoxArrowInLeft size={20} color="#FBC21E" /> Check-out
+                            <Checkbox 
+                            name="checkout"
+                            onChange={handleCheckboxChange}
+                            />
+                            <HowToRegOutlinedIcon  /> Check-out
                           </Box>
                           <Box marginBottom={"10px"}>
-                            <Checkbox />
-                            <AiOutlineUserSwitch size={20} color="#FBC21E" /> Lease
+                            <Checkbox
+                              name="reservation"
+                              onChange={handleCheckboxChange}
+                            />
+                            <CalendarMonthOutlinedIcon  /> Reservation
+                          </Box>
+                          <Box marginBottom={"10px"}>
+                            <Checkbox 
+                            name="leaseAssets"
+                            onChange={handleCheckboxChange}/>
+                            <CalendarMonthOutlinedIcon  /> Lease assets
+                         
+                          </Box>
+                          <Box marginBottom={"10px"}>
+                            <Checkbox 
+                            name="lostFoundAssets"
+                            onChange={handleCheckboxChange}/>
+                            <TuneOutlinedIcon  /> Lost/Found'assets
+                           
+                          </Box>
+                          <Box marginBottom={"10px"}>
+                            <Checkbox 
+                             name="repairAssets"
+                             onChange={handleCheckboxChange}/>
+                            <TuneOutlinedIcon  /> Repair assets
+                          </Box>
+                          <Box marginBottom={"10px"}>
+                            <Checkbox 
+                            name="brokenAssets"
+                            onChange={handleCheckboxChange}/>
+                            <TuneOutlinedIcon  /> Broken assets
+                          </Box>
+                          <Box marginBottom={"10px"}>
+                            <Checkbox 
+                            name="disposeAssets"
+                            onChange={handleCheckboxChange}/>
+                            <TuneOutlinedIcon  /> Dispose
                             assets
                           </Box>
                           <Box marginBottom={"10px"}>
-                            <Checkbox />
-                            <BiPackage size={20} color="#FBC21E" /> Lost/Found
+                            <Checkbox
+                            name="donateAssets"
+                            onChange={handleCheckboxChange} />
+                            <TuneOutlinedIcon  /> Donate
                             assets
                           </Box>
                           <Box marginBottom={"10px"}>
-                            <Checkbox />
-                            <RiToolsFill size={20} color="#FBC21E" /> Repair assets
+                            <Checkbox
+                            name="sellAssets" 
+                            onChange={handleCheckboxChange}/>
+                            <TuneOutlinedIcon  /> Sell assets
                           </Box>
                           <Box marginBottom={"10px"}>
-                            <Checkbox />
-                            <RiAlertFill size={20} color="#FBC21E" /> Broken assets
+                            <Checkbox 
+                            name="auditAssets"
+                            onChange={handleCheckboxChange}/>
+                            <TuneOutlinedIcon  /> Audit assets
                           </Box>
-                          <Box marginBottom={"10px"}>
-                            <Checkbox />
-                            <AiFillDelete size={20} color="#FBC21E" /> Dispose
-                            assets
-                          </Box>
-                          <Box marginBottom={"10px"}>
-                            <Checkbox />
-                            <GiReceiveMoney size={20} color="#FBC21E" /> Donate
-                            assets
-                          </Box>
-                          <Box marginBottom={"10px"}>
-                            <Checkbox />
-                            <AiFillGift size={20} color="#FBC21E" /> Sell assets
-                          </Box>
-                          <Box marginBottom={"10px"}>
-                            <Checkbox />
-                            <BiSearchAlt2 size={20} color="#FBC21E" /> Audit assets
                           </Box>
                         </FormControl>
                       </Box>
@@ -391,7 +525,7 @@ const TableOptions: React.FC<TableProps> = ({
 
                   <Divider />
 
-                  <Grid xs={12} md={4}>
+                  <Grid xs={12} md={12}>
               <React.Fragment>
                 <Box
                   sx={{
@@ -460,7 +594,7 @@ const TableOptions: React.FC<TableProps> = ({
           </Box>
         </Box>
       </div>
-    </>
+    </AppView>
   );
 };
 export default TableOptions;

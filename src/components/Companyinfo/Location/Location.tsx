@@ -2,9 +2,9 @@ import Modal from "@mui/joy/Modal";
 import * as React from "react";
 import { Box, Divider, Sheet } from "@mui/joy";
 import Typography from "@mui/joy/Typography";
-import { SlEqualizer } from "react-icons/sl";
+// import { SlEqualizer } from "react-icons/sl";
 import Grid from "@mui/joy/Grid";
-import { LiaListUlSolid } from "react-icons/lia";
+// import { LiaListUlSolid } from "react-icons/lia";
 import Button from "@mui/joy/Button";
 import ButtonGroup from "@mui/joy/ButtonGroup";
 import Input from "@mui/joy/Input";
@@ -158,9 +158,9 @@ const Location: React.FunctionComponent<LocationProps> = ({
   return (
     <div style={{ width: "100%", background: "#f9f9f9" }}>
       <Typography level="h4" style={{ display: "flex", alignItems: "center" }}>
-        <SlEqualizer
+        {/* <SlEqualizer
           style={{ fontSize: "0.8rem", color: "red", marginRight: "1rem" }}
-        />
+        /> */}
         Step3-Locations
       </Typography>
       <div style={{ margin: "10px" }}>
@@ -190,7 +190,7 @@ const Location: React.FunctionComponent<LocationProps> = ({
             >
               <Box>
                 <Typography level="h4">
-                  <LiaListUlSolid style={{ fontSize: 18, color: "red" }} />
+                  {/* <LiaListUlSolid style={{ fontSize: 18, color: "red" }} /> */}
                   List of Locations
                 </Typography>
               </Box>

@@ -8,8 +8,9 @@ import { RootState } from "../../../Redux/store";
 interface AddSiteProps {
   open: boolean;
   onClose: () => void;
-  setSites: React.Dispatch<React.SetStateAction<Site[]>>;
-  sites: Site[];
+  onSave: (site: Site) => void
+  // setSites: React.Dispatch<React.SetStateAction<Site[]>>;
+  // sites: Site[];
 }
 
 interface Site {
@@ -41,8 +42,8 @@ const initialSiteData: Site = {
   country: "",
 };
 
-const AddSite: React.FC<AddSiteProps> = ({ open, onClose, setSites, sites }) => {
-  const [newSite, setNewSite] = useState(initialSiteData);
+const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
+  const [newSite, setNewSite] = useState<Site>(initialSiteData);
   const [newCountry, setNewCountry] = useState(initialSiteData);
 
   const users=useSelector((state: { users: SitesState }) =>state.users);
@@ -64,13 +65,10 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, setSites, sites }) => 
     setNewSite((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleAddSite = async () => { 
-    console.log('dgdfgdf')
-    setSites((prevSites) => [...prevSites, newSite])
-    setNewSite(initialSiteData); 
-   
-    await dispatch(addSites(newSite));
-    console.log('dgdfgdf')
+  const handleAddSite = async () => {
+    onSave(newSite);
+    await dispatch(addSites(newSite)); 
+    setNewSite(initialSiteData);
     onClose();
   };
 

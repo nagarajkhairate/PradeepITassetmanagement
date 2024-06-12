@@ -35,16 +35,16 @@ interface EditSiteProps {
 //   }[];
 //   setSites: React.Dispatch<React.SetStateAction<any[]>>;
 // }
-// const initialSitesData = {
-//   sitename: "", 
-//   description: "",
-//   address: "",
-//   aptSuite: "",
-//   city: "",
-//   state: "",
-//   zipCode: "",
-//   country: "",
-// };
+const initialSitesData = {
+  sitename: "", 
+  description: "",
+  address: "",
+  aptSuite: "",
+  city: "",
+  state: "",
+  zipCode: "",
+  country: "",
+};
 
 const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
   const [editedSite, setEditedSite] = useState<Site | null>(site)

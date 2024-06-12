@@ -17,11 +17,10 @@ import DeleteSite from './DeleteSite'
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
 import AppView from '../../../components/Common/AppView'
 import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
-import { UseSelector, useDispatch, useSelector } from 'react-redux'
-import  { fetchSites } from '../../../Redux/features/SitesSlice';
+import { useDispatch, useSelector } from 'react-redux'
+import  { addSites, deleteSites, fetchSites, updateSites } from '../../../Redux/features/SitesSlice';
 import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../../Redux/store'
-
 
 export interface Site {
   siteName: string
@@ -34,13 +33,6 @@ export interface Site {
   country: string
 }
 
-// interface SitesState {
-//   data: Site[];
-//   selectedCustomer: any; // Adjust the type as necessary
-//   loading: boolean;
-//   error: any; // Adjust the type as necessary
-// }
-
 const SetupSites: React.FC = ({}) => {
   const theme = useTheme()
   const dispatch: ThunkDispatch<RootState, void, any>= useDispatch()
@@ -52,10 +44,14 @@ const SetupSites: React.FC = ({}) => {
   const [selectedSite, setSelectedSite] = useState<any>(null)
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
-  const [sites, setSites] = useState<Site[]>([])
+  // const [sites, setSites] = useState<Site[]>([])
 
   const sitess = useSelector((state:RootState) => state.sites.data);
+  const loading = useSelector((state: RootState) => state.sites.loading);
+  const error = useSelector((state: RootState) => state.sites.error);
   console.log(sitess);
+  console.log(loading);
+  console.log(error);
 
   const handleDeleteClick =(site: Site) => {
     setSelectedSite(site)
@@ -64,8 +60,9 @@ const SetupSites: React.FC = ({}) => {
 
   const handleDelete = () => {
     if (selectedSite) {
-    const updatedSites = sites.filter((site) => site!== selectedSite)
-    setSites(updatedSites)
+    // const updatedSites = sites.filter((site) => site!== selectedSite)
+    // setSites(updatedSites)
+    dispatch(deleteSites(selectedSite));
     setDeleteOpen(false)
     setSelectedSite(null)
     }
@@ -86,6 +83,7 @@ const SetupSites: React.FC = ({}) => {
   }
 
   const handleEditClick = (site: Site) => {
+    dispatch(updateSites(selectedSite))
     setSelectedSite(site)
     setEditOpen(true)
    
@@ -96,11 +94,11 @@ const SetupSites: React.FC = ({}) => {
     alignItems: 'center',
   })
 
-  console.log(JSON.stringify(sites))
+  // console.log(JSON.stringify(sitess))
 
   React.useEffect(()=>{
     dispatch(fetchSites())
-  },[])
+  },[dispatch])
 
   return (
     <AppView>
@@ -243,20 +241,20 @@ const SetupSites: React.FC = ({}) => {
                       size="sm"
                       indeterminate={
                         matchedSelected.length > 0 &&
-                        matchedSelected.length < sites.length
+                        matchedSelected.length < sitess.length
                       }
                       checked={
                         matchedSelected.length > 0 &&
-                        matchedSelected.length === sites.length
+                        matchedSelected.length === sitess.length
                       }
                       onChange={() => {
                         if (
                           matchedSelected.length > 0 &&
-                          matchedSelected.length === sites.length
+                          matchedSelected.length === sitess.length
                         ) {
                           setMatchedSelected([])
                         } else {
-                          const newSelecteds = sites.map((_, index) => index)
+                          const newSelecteds = sitess.map((_, index) => index)
                           setMatchedSelected(newSelecteds)
                         }
                       }}
@@ -275,7 +273,7 @@ const SetupSites: React.FC = ({}) => {
                 </tr>
               </thead>
               <tbody>
-                {sites.length > 0? sites.map((site, index) => (
+                {sitess.length > 0? sitess.map((site, index) => (
                   <tr key={index}>
                     <td>
                       <Checkbox
@@ -326,8 +324,9 @@ const SetupSites: React.FC = ({}) => {
       <AddSite
         open={open}
         onClose={() => setOpen(false)}
-        setSites={setSites}
-        sites={sites}
+        onSave={(newSite: Site) => {
+          setOpen(false);
+        }}
       />
 
 <EditSite
@@ -335,10 +334,10 @@ const SetupSites: React.FC = ({}) => {
         onClose={() => setEditOpen(false)}
         site={selectedSite}
         onSave={(updatedSite: Site) => {
-          const updatedSites = sites.map((site) =>
+          const updatedSites = sitess.map((site) =>
             site === selectedSite ? updatedSite : site
           )
-          setSites(updatedSites)
+          // setSites(updatedSites)
           setEditOpen(false)
           setSelectedSite(null)
         }}
