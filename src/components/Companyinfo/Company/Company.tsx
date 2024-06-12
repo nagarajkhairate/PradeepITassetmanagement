@@ -7,9 +7,10 @@ import Input from "@mui/joy/Input";
 import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import Button from "@mui/joy/Button";
-import { TbMathGreater } from "react-icons/tb";
+import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
 import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
 import { currencySymbols, months, timezones } from "./Companyinfodata";
+import AppView from "../../Common/AppView";
 
 const CustomInputLabel = styled("label")({
   display: "flex",
@@ -285,44 +286,20 @@ const Company: React.FC<CompanyProps> = ({
 
   console.log("Form Data:", companyFormData); 
   return (
-    <>
-      <Box sx={{ mb: "10px" }}>
-        <FlexBox>
-        <Typography
-      level="h3"
-      sx={{
-        marginLeft: { xs: "10px", md: "50px" },
-        fontSize: { xs: "24px", md: "24px" },
-        marginTop: { xs: "20px", md: "35px" },
-        display: "flex",
-        alignItems: "center",
-        marginBottom: { xs: "-20px", md: "-42px" },
-        paddingBottom: "10px",
-      }}
-    >
-      <Box
-        component={TuneOutlinedIcon}
-        color="#FABC1E"
-        sx={{
-          fontSize: { xs: "24px", md: "30px" },
-          marginRight: "10px"
-        }}
-      />
-      Step 1- Company Information
-    </Typography>
-        </FlexBox>
-      </Box>
-
-      <div style={{ margin: "20px" }} >
+    <AppView>
+   
+    <Typography level="h4" style={{ display: 'flex', alignItems: 'center' }}>
+        <RoomOutlinedIcon style={{ fontSize: '1.4rem', color: '#FBC21E' }} />
+        step 1- Company Information
+      </Typography>
+    
+    
         <Box
           sx={{
-            borderRadius: "16px",
-            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-            background: "#ffffff",
-            margin: {
-              xs: "4px",
-              md: "52px",
-            },
+            borderRadius: 'none',
+            boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+            background: '#ffffff',
+            gap: '5px',
           }}
         >
           <Box component="section" sx={{ p: 2, border: "10px" }}>
@@ -826,15 +803,12 @@ const Company: React.FC<CompanyProps> = ({
                   onClick={handleNextTab}
                 >
                     Continue
-                  <TbMathGreater />
                 </Button>
-
               </Box>
             </form>
           </Box>
         </Box>
-      </div>
-    </>
+    </AppView>
   );
 };
 

@@ -1,5 +1,5 @@
 import { Typography, Radio, RadioGroup, Divider, Grid } from "@mui/joy";
-import { AiFillDatabase } from "react-icons/ai";
+// import { AiFillDatabase } from "react-icons/ai";
 import ButtonGroup from "@mui/joy/ButtonGroup";
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/joy";
@@ -292,7 +292,7 @@ const DataBase: React.FunctionComponent<DataBaseProps >  = ({
           >
             <Box sx={{ ml: "20px", p: "10px" }}>
               <Typography>
-                <AiFillDatabase color="brown" />
+                {/* <AiFillDatabase color="brown" /> */}
                 Asset Database Fields
               </Typography>
             </Box>
