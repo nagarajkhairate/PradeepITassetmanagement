@@ -134,7 +134,8 @@ const Sites: React.FC<SiteProps> = ({
     alignItems: "center",
   });
 
-  console.log(JSON.stringify(sites))
+  // console.log(JSON.stringify(sites))
+  console.log('sites: ', JSON.stringify(sites))
 
   return (
     <AppView>

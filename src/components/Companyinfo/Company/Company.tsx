@@ -123,6 +123,7 @@ const Company: React.FC<CompanyProps> = ({
 
   const handleNextTab = () => {
     setActiveTab(activeTab + 1); // Update this to navigate to the next tab
+    console.log("companyInfo:", companyFormData); 
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -284,7 +285,7 @@ const Company: React.FC<CompanyProps> = ({
     // }
   };
 
-  console.log("Form Data:", companyFormData); 
+  // console.log("Form Data:", companyFormData); 
   return (
     <AppView>
    
