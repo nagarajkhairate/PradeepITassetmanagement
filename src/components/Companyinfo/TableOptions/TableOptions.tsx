@@ -168,7 +168,6 @@ const TableOptions: React.FC<TableProps> = ({
         return formData;
       };
     
-
  const handleNextTab = () => {
     const formData = buildFormData();
     console.log(JSON.stringify(companyFormData, null, 2));
@@ -178,7 +177,7 @@ const TableOptions: React.FC<TableProps> = ({
 
   const handlePrevTab = () => {
     setActiveTab(activeTab - 1);
-};
+}; 
 
   return (
     <AppView>

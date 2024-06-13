@@ -1,77 +1,71 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Box, Typography, Input, Button, FormControl } from "@mui/joy";
+import { Site } from "./Sites";
 
 interface EditSiteDialogProps {
-  fullScreen: boolean;
-  open: boolean;
-  onClose: () => void;
+  open: boolean
+  onClose: () => void
+  site: Site | null
+  onSave: (updatedSite: Site) => void
 
-  site: {
-    id: number;
-    sitename: string;
-    description: string;
-    address: string;
-    aptSuite: string;
-    city: string;
-    state: string;
-    zip: string;
-    country: string;
-  };
-  sites: {
-    id: number;
-    sitename: string;
-    description: string;
-    address: string;
-    aptSuite: string;
-    city: string;
-    state: string;
-    zip: string;
-    country: string;
-  }[];
-  setSites: React.Dispatch<React.SetStateAction<any[]>>;
+//   site: {
+//     id: number;
+//     sitename: string;
+//     description: string;
+//     address: string;
+//     aptSuite: string;
+//     city: string;
+//     state: string;
+//     zip: string;
+//     country: string;
+//   };
+//   sites: {
+//     id: number;
+//     sitename: string;
+//     description: string;
+//     address: string;
+//     aptSuite: string;
+//     city: string;
+//     state: string;
+//     zip: string;
+//     country: string;
+//   }[];
+//   setSites: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
-const EditSiteDialog: React.FC<EditSiteDialogProps> = ({
-    open,
-    onClose,
-    site,
-    sites,
-    setSites,
-}) => {
-    const [updatedSite, setUpdatedSite] = useState(site);
+const EditSiteDialog: React.FC<EditSiteDialogProps> = ({ open, onClose, site, onSave }) => {
+    const [editedSite, setEditedSite] = useState<Site | null>(site)
 
-    useEffect(() => {
-        if (site) {
-          setUpdatedSite(site);
-        }
-      }, [site]);
+    React.useEffect(() => {
+      setEditedSite(site)
+    }, [site])
+   
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setUpdatedSite((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleEditSite = () => {
-      const updatedSites = { ...updatedSite};
-      setSites([updatedSites]);
-      onClose();
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (editedSite) {
+        setEditedSite({
+          ...editedSite,
+          [event.target.name]: event.target.value,
+        })
+      }
     }
 
-  const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const updatedSites = sites.map((s) =>
-      s.id === updatedSite.id ? updatedSite : s
-    );
-    setSites(updatedSites);
-    onClose();
-  };
+  // const handleEditSite = () => {
+  //     const updatedSites = { ...updatedSite};
+  //     setSites([updatedSites]);
+  //     onClose();
+  //   }
 
-  if (!updatedSite) {
-    return null; 
-  }
+    const handleSave = () => {
+      if (editedSite) {
+        onSave(editedSite)
+        onClose();
+      }
+    }
+
+  // if (!updatedSite) {
+  //   return null; 
+  // }
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -80,14 +74,14 @@ const EditSiteDialog: React.FC<EditSiteDialogProps> = ({
         <Typography level="h4" sx={{ mb: 2 }}>
           Edit Site
         </Typography>
-
+        {editedSite && (
         <form onSubmit={handleSave}>
 
           <FormControl sx={{ mb: 2 }}>
         <Input
           placeholder="Site Name"
           name="sitename"
-          value={updatedSite.sitename}
+          value={editedSite.sitename}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}
@@ -97,7 +91,7 @@ const EditSiteDialog: React.FC<EditSiteDialogProps> = ({
         <Input
           placeholder="Description"
           name="description"
-          value={updatedSite.description}
+          value={editedSite.description}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}
@@ -107,7 +101,7 @@ const EditSiteDialog: React.FC<EditSiteDialogProps> = ({
         <Input
           placeholder="Address"
           name="address"
-          value={updatedSite.address}
+          value={editedSite.address}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}
@@ -117,7 +111,7 @@ const EditSiteDialog: React.FC<EditSiteDialogProps> = ({
         <Input
           placeholder="Apt. / Suite"
           name="aptSuite"
-          value={updatedSite.aptSuite}
+          value={editedSite.aptSuite}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}
@@ -127,7 +121,7 @@ const EditSiteDialog: React.FC<EditSiteDialogProps> = ({
         <Input
           placeholder="City"
           name="city"
-          value={updatedSite.city}
+          value={editedSite.city}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}
@@ -137,7 +131,7 @@ const EditSiteDialog: React.FC<EditSiteDialogProps> = ({
         <Input
           placeholder="State"
           name="state"
-          value={updatedSite.state}
+          value={editedSite.state}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}
@@ -147,7 +141,7 @@ const EditSiteDialog: React.FC<EditSiteDialogProps> = ({
         <Input
           placeholder="Zip"
           name="zip"
-          value={updatedSite.zip}
+          value={editedSite.zip}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}
@@ -157,7 +151,7 @@ const EditSiteDialog: React.FC<EditSiteDialogProps> = ({
         <Input
           placeholder="Country"
           name="country"
-          value={updatedSite.country}
+          value={editedSite.country}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}
@@ -167,9 +161,10 @@ const EditSiteDialog: React.FC<EditSiteDialogProps> = ({
           <Button onClick={onClose} sx={{ mr: 1 }}>
             Cancel
           </Button>
-          <Button type="submit" onClick={handleEditSite}>Update</Button>
+          <Button type="submit" onClick={handleSave}>Update</Button>
         </Box>
         </form>
+        )}
       </Box>
     </Modal>
   );

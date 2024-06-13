@@ -19,20 +19,6 @@ import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
 import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
 
 
-const initialSites = [
-  {
-    id: 1,
-    sitename: "swde",
-    description: "wsedf",
-    address: "234frd",
-    aptSuite: "swed",
-    city: "sedr",
-    state: "sw3",
-    zip: "341234",
-    country: "Bahrain",
-  },
-];
-
 export interface Site {
   sitename: string;
   description: string;
@@ -66,35 +52,36 @@ const Sites: React.FC<SiteProps> = ({
   const [selectedSite, setSelectedSite] = useState<any>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
-  const [sites, setSites] = useState(initialSites);
+  const [sites, setSites] = useState<Site[]>([])
 
-  const handleDeleteClick = (site: Site) => {
-    setSelectedSite(site);
-    setDeleteOpen(true);
-  };
+  const handleDeleteClick =(site: Site) => {
+    setSelectedSite(site)
+    setDeleteOpen(true)
+  }
 
   const handleDelete = () => {
-    
     if (selectedSite) {
-    setDeleteOpen(false);
-    setSelectedSite(null);
+    const updatedSites = sites.filter((site) => site!== selectedSite)
+    setSites(updatedSites)
+    setDeleteOpen(false)
+    setSelectedSite(null)
+    }
   }
-};
 
   const handleDeleteClose = () => {
-    setDeleteOpen(false);
-    setSelectedSite(null);
-  };
+    setDeleteOpen(false)
+    setSelectedSite(null)
+  }
 
 
   const handleCheckboxChange = (index: number) => {
     setMatchedSelected((prevSelected) =>
       prevSelected.includes(index)
         ? prevSelected.filter((item) => item !== index)
-        : [...prevSelected, index]
-    );
-    setSelectedCell(index);
-  };
+        : [...prevSelected, index],
+    )
+    setSelectedCell(index)
+  }
 
   const handleEditOpen = (siteId: number) => {
     // const index = sites.findIndex((site) => site.id === siteId);
@@ -112,10 +99,11 @@ const Sites: React.FC<SiteProps> = ({
     // setDeleteOpen(true);
   };
  
-  const handleEditClick = (site : Site) => {
+  const handleEditClick = (site: Site) => {
     setSelectedSite(site)
     setEditDialogOpen(true)
-  };
+   
+  }
 
   const handleNextTab = () => {
     setCompanyFormData((prevData: any) => ({
@@ -134,7 +122,7 @@ const Sites: React.FC<SiteProps> = ({
     alignItems: "center",
   });
 
-  console.log(JSON.stringify(sites))
+  // console.log(JSON.stringify(sites))
 
   return (
     <AppView>
@@ -408,18 +396,21 @@ sx={{
       <AddSiteDialog open={open} onClose={() => setOpen(false)} setSites={setSites} sites={sites}/>
 
      
-       {selectedSite && (
+      
       <EditSiteDialog
-        fullScreen={fullScreen}
-        open={isEditDialogOpen}
-        onClose={() => setEditDialogOpen(false)}
-        // siteFormData={siteFormData}
-        // setSiteFormData={setSiteFormData}
-        site={selectedSite}
-        sites={sites}
-        setSites={setSites}
+      open={isEditDialogOpen}
+      onClose={() => setEditDialogOpen(false)}
+      site={selectedSite}
+      onSave={(updatedSite: Site) => {
+        const updatedSites = sites.map((site) =>
+          site === selectedSite ? updatedSite : site
+        )
+        setSites(updatedSites)
+        setEditDialogOpen(false)
+        setSelectedSite(null)
+      }}
       />
-       )}
+      
 
       <DeleteSiteDialog
         deleteOpen={deleteOpen} 
