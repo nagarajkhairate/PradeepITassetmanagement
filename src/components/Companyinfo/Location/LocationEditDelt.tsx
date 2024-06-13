@@ -23,10 +23,10 @@ type Location = {
  
 interface Props {
   locationName: Location[]
-  onLocationChange: (updatedData: Location[]) => void
+  // onLocationChange: (updatedData: Location[]) => void
 }
  
-export function LocationEditDelt({ locationName, onLocationChange }: Props) {
+export function LocationEditDelt({ locationName }: Props) {
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
   const [locData, setLocData] = useState<{ locationData: Location[] }>({locationData: [],})
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
@@ -69,7 +69,7 @@ const dispatch = useDispatch<AppDispatch>()
       setLocData({ ...locData, locationData: updatedData })
       handleEditClose()
       dispatch(updateLocation(location))
-      onLocationChange(updatedData)
+      // onLocationChange(updatedData)
     }
   }
  
@@ -81,7 +81,7 @@ const dispatch = useDispatch<AppDispatch>()
     setLocData({ ...locData, locationData: updatedData })
     setMatchedSelected([])
     setDeleteOpen(false)
-    onLocationChange(updatedData)
+    // onLocationChange(updatedData)
   }
  
   const handleDeleteButton = () => {
