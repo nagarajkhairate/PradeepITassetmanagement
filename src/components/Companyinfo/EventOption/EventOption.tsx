@@ -13,9 +13,6 @@ import {
 import SendTwoToneIcon from '@mui/icons-material/SendTwoTone'
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined'
 import ConstructionOutlinedIcon from '@mui/icons-material/ConstructionOutlined'
-// import { PiLinkBreakLight } from "react-icons/pi";
-// import { PiRecycleLight } from "react-icons/pi";
-// import { FaRegHeart } from "react-icons/fa";
 import GavelOutlinedIcon from '@mui/icons-material/GavelOutlined'
 import Buttonss from './Buttonss'
 // import HowToRegOutlinedIcon from "@mui/icons-material/HowToRegOutlined";
@@ -41,38 +38,9 @@ const options = [
   },
 ]
 
-// interface EventSection {
-//   key: string
-//   icon: React.ReactNode
-//   companyFormData: boolean
-//   setupText: string
-// }
-
 interface CustomButtonBoxProps {
   setupCheckoutText: string
   customizeFormText: string
-}
-
-// type companyFormDataState = {
-//   checkout: boolean
-//   lease: boolean
-//   lostFound: boolean
-//   repair: boolean
-//   broken: boolean
-//   dispose: boolean
-//   donate: boolean
-//   sell: boolean
-// }
-
-type companyFormDataState = {
-  checkout: string;
-  lease: string;
-  lostFound: string;
-  repair: string;
-  broken: string;
-  dispose: string;
-  donate: string;
-  sell: string;
 }
 
 interface AssetRadioGroupProps {
@@ -87,36 +55,47 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
   activeTab,
   setActiveTab,
 }) => {
+  const [ eventForm, setEventForm] = useState<any>({});
+
+
   const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
-    setCompanyFormData((prevData: companyFormDataState) => ({ ...prevData, [name]: value }))
+    setEventForm((prevData: any) => ({ ...prevData, [name]: value }))
   }
   // const handleSubmit = () => {
   //   const jsonObject = { companyFormData: companyFormData };
   //   console.log(JSON.stringify(jsonObject, null, 2));
   // };
   const handleSubmit = () => {
-    const eventOptionData = {
-      eventOption: {
-        checkout: companyFormData.checkout || 'No',
-        lease: companyFormData.lease || 'No',
-        lostFound: companyFormData.lostFound || 'No',
-        repair: companyFormData.repair || 'No',
-        broken: companyFormData.broken || 'No',
-        dispose: companyFormData.dispose || 'No',
-        donate: companyFormData.donate || 'No',
-        sell: companyFormData.sell || 'No',
-      } 
-  };
-  const jsonObject = {
-    companyFormData: {
-      ...companyFormData,
-      eventOptionData: eventOptionData,
-    }
-};
-console.log(JSON.stringify(jsonObject, null, 2));
+//     const eventOptionData = {
+      
+//         checkout: companyFormData.checkout || '',
+//         lease: companyFormData.lease || '',
+//         lostFound: companyFormData.lostFound || '',
+//         repair: companyFormData.repair || '',
+//         broken: companyFormData.broken || '',
+//         dispose: companyFormData.dispose || '',
+//         donate: companyFormData.donate || '',
+//         sell: companyFormData.sell || '',
+      
+//   };
+//   const jsonObject = {
+//     companyFormData: {
+//       ...companyFormData,
+//       EventOption:eventForm,
+//     },
+
+   
+//   // console.log(JSON.stringify({ ...companyFormData,eventOption: eventOptionData }));
+// };
+
+setCompanyFormData((prevData:any)=>({
+  ...prevData,
+  eventOption:eventForm,
+}))
+console.log(JSON.stringify(eventForm, null, 2));
   }
-  
+  console.log(JSON.stringify(companyFormData))
 
   const AssetRadioGroup: React.FC<AssetRadioGroupProps> = ({
     name,
@@ -130,23 +109,20 @@ console.log(JSON.stringify(jsonObject, null, 2));
       value={value}
     >
       <Box>
-        {options &&
-          options.map((option, index) => (
-            <Radio
-              name={name}
-              onChange={HandleRadioSelect}
-              key={index}
-              value={option.value}
-              label={option.value}
-              variant="outlined"
-            />
-          ))}
-        {/* <Radio value="Yes" label="Yes" variant="outlined" sx={{ mr: "15px" }} />
-        <Radio value="No" label="No" variant="outlined" /> */}
+        {options.map((option) => (
+          <Radio
+            key={option.id}
+            name={name}
+            onChange={HandleRadioSelect}
+            value={option.value}
+            label={option.value}
+            variant="outlined"
+          />
+        ))}
       </Box>
     </RadioGroup>
-  )
-
+  );
+  
   const CustomButtonBox: React.FC<CustomButtonBoxProps> = ({
     setupCheckoutText,
     customizeFormText,
@@ -248,7 +224,7 @@ console.log(JSON.stringify(jsonObject, null, 2));
           <AssetRadioGroup
             name="checkout"
             onChange={HandleRadioSelect}
-            value={companyFormData.checkout}
+            value={eventForm.checkout}
           />
           <>
             <CustomButtonBox
@@ -287,7 +263,7 @@ console.log(JSON.stringify(jsonObject, null, 2));
           <AssetRadioGroup
             name="lease"
             onChange={HandleRadioSelect}
-            value={companyFormData.lease}
+            value={eventForm.lease}
           />
 
           <>
@@ -326,7 +302,7 @@ console.log(JSON.stringify(jsonObject, null, 2));
           <AssetRadioGroup
             name="lostFound"
             onChange={HandleRadioSelect}
-            value={companyFormData.lostFound}
+            value={eventForm.lostFound}
           />
 
           <>
@@ -367,7 +343,7 @@ console.log(JSON.stringify(jsonObject, null, 2));
           <AssetRadioGroup
             name="repair"
             onChange={HandleRadioSelect}
-            value={companyFormData.repair}
+            value={eventForm.repair}
           />
 
           <CustomButtonBox
@@ -394,7 +370,7 @@ console.log(JSON.stringify(jsonObject, null, 2));
           <AssetRadioGroup
             name="broken"
             onChange={HandleRadioSelect}
-            value={companyFormData.broken}
+            value={eventForm.broken}
           />
 
           <CustomButtonBox
@@ -422,7 +398,7 @@ console.log(JSON.stringify(jsonObject, null, 2));
           <AssetRadioGroup
             name="dispose"
             onChange={HandleRadioSelect}
-            value={companyFormData.dispose}
+            value={eventForm.dispose}
           />
 
           <CustomButtonBox
@@ -450,7 +426,7 @@ console.log(JSON.stringify(jsonObject, null, 2));
           <AssetRadioGroup
             name="donate"
             onChange={HandleRadioSelect}
-            value={companyFormData.donate}
+            value={eventForm.donate}
           />
 
           <CustomButtonBox
@@ -478,7 +454,7 @@ console.log(JSON.stringify(jsonObject, null, 2));
           <AssetRadioGroup
             name="sell"
             onChange={HandleRadioSelect}
-            value={companyFormData.sell}
+            value={eventForm.sell}
           />
 
           <CustomButtonBox

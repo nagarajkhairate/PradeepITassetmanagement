@@ -132,7 +132,7 @@ const tableData = [
   {
     id: 8,
     title: "Serial No",
-    name: "Yes",
+    name: "SerialNo",
     option: [
       {
         id: 1,
@@ -163,22 +163,22 @@ const DataBase: React.FunctionComponent<DataBaseProps> = ({
   setActiveTab,
 }) => {
   const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
-  const [dataBase, setDataBase] = useState<{ data: string[] }>({ data: [] });
+  const [dataBase, setDataBase] = useState<{ data: string[];tableData: any[] }>({ data: [], tableData });
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  // const addCustomField = (custom: string) => {
-  //   setDataBase({ ...dataBase, data: [...dataBase.data, custom] });
-  // };
-
   const addCustomField = (custom: string) => {
-    const updatedDataBase = { ...dataBase, data: [...dataBase.data, custom] };
-    setDataBase(updatedDataBase);
-    console.log(JSON.stringify(updatedDataBase, null, 2)); // Log formatted JSON
+    setDataBase({ ...dataBase, data: [...dataBase.data, custom] });
   };
+
+  // const addCustomField = (custom: string) => {
+  //   const updatedDataBase = { ...dataBase, data: [...dataBase.data, custom] };
+  //   setDataBase(updatedDataBase);
+  //   console.log(JSON.stringify(updatedDataBase, null, 2)); // Log formatted JSON
+  // };
 
   const deleteCustomField = (index: number) => {
     const updatedData = dataBase.data.filter((_, idx) => idx !== index);
@@ -251,10 +251,35 @@ const DataBase: React.FunctionComponent<DataBaseProps> = ({
     setCompanyFormData((prevData: any) => ({ ...prevData, [name]: value }));
   };
 
+  // const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = event.target;
+  //   const updatedTableData = dataBase.tableData.map((item) =>
+  //     item.name === name ? { ...item, selectedOption: value } : item
+  //   );
+  //   setDataBase({ ...dataBase, tableData: updatedTableData });
+  //   setCompanyFormData((prevData: any) => ({ ...prevData, [name]: value }));
+  // };
+
+  // const handleNextTab = () => {
+  //   setCompanyFormData((prevData: any) => ({ ...prevData, dataBase : dataBase}));
+  //   setActiveTab(activeTab + 1); 
+  //   // console.log(JSON.stringify(dataBase));
+  // };
+
   const handleNextTab = () => {
-    setCompanyFormData((prevData: any) => ({ ...prevData, dataBase : dataBase}));
-    setActiveTab(activeTab + 1); 
-    console.log(JSON.stringify(dataBase));
+    // Transforming tableData to the desired format
+    const transformedTableData = dataBase.tableData.reduce((acc, item) => {
+      acc[item.name] = companyFormData[item.name] || "No";
+      return acc;
+    }, {});
+    setCompanyFormData((prevData: any) => ({
+      ...prevData,
+      dataBase: {
+        data: dataBase.data,
+        tableData: [transformedTableData],
+      },
+    }));
+    setActiveTab(activeTab + 1);
   };
 
   const handlePrevTab = () => {
@@ -324,8 +349,7 @@ const DataBase: React.FunctionComponent<DataBaseProps> = ({
                     </tr>
                   </thead>
                   <tbody>
-                    {tableData &&
-                      tableData.map((data, index) => (
+                    {dataBase.tableData.map((data, index) => (
                         <tr key={index}>
                           <td>
                             <Checkbox />
@@ -337,14 +361,13 @@ const DataBase: React.FunctionComponent<DataBaseProps> = ({
                                 defaultValue="outlined"
                                 name="radio-buttons-group"
                               >
-                                {data.option &&
-                                  data.option.map((option, index) => (
+                                {data.option.map((opt:any) => (
                                     <Radio
                                       name={data.name}
                                       onChange={HandleRadioSelect}
-                                      key={index}
-                                      value={option.value}
-                                      label={option.value}
+                                      key={opt.id}
+                                      value={opt.value}
+                                      label={opt.value}
                                       variant="outlined"
                                     />
                                   ))}

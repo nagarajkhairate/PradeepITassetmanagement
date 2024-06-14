@@ -36,7 +36,7 @@ interface LocationProps {
 }
 
 
-const Location: React.FunctionComponent<LocationProps > = (
+const LocationPage: React.FunctionComponent<LocationProps > = (
   {
     companyFormData,
   setCompanyFormData,
@@ -82,14 +82,21 @@ const Location: React.FunctionComponent<LocationProps > = (
   }
 
   const handleNextTab = () => {
-    setCompanyFormData((prevData: any) => ({ ...prevData, location: Location }));
+    setCompanyFormData((prevData: any) => ({...prevData, location:Location }));
     setActiveTab(activeTab + 1); 
   };
+
+  // const handleNextTab = () => {
+  //   setCompanyFormData((prevData: any) => ({
+  //     location:{
+  //  ...locationName }}));
+  //   setActiveTab(activeTab + 1); 
+  // };
 
   const handlePrevTab = () => {
     setActiveTab(activeTab - 1);
 };
-
+// console.log(JSON.stringify(companyFormData))
  
   return (
     <AppView>
@@ -496,7 +503,7 @@ const Location: React.FunctionComponent<LocationProps > = (
         <Box>
           <LocationEditDelt
             locationName={locationName}
-            // onLocationChange={handleLocationChange}
+            onLocationChange={handleLocationChange}
           />
         </Box>
         <Divider />
@@ -534,6 +541,7 @@ const Location: React.FunctionComponent<LocationProps > = (
             }}
             component="label"
               onClick={handleNextTab} 
+             
           >
              Continue
              <NavigateNextOutlinedIcon />{" "}
@@ -544,4 +552,4 @@ const Location: React.FunctionComponent<LocationProps > = (
   )
 }
  
-export default Location
+export default LocationPage

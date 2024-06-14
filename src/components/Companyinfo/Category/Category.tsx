@@ -65,7 +65,8 @@ const Category: React.FunctionComponent<CategoryProps > = (
     }
     setCategories([...categories, newCategory])
     setCategoryName('') // Clear the input field after adding
-    // console.log(newCategory)
+    console.log(newCategory)
+  
     handleClose()
   }
 

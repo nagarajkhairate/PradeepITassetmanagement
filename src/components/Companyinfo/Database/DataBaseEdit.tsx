@@ -13,6 +13,16 @@ const initialDatabase = [
       required: "swed",
     },
   ];
+
+  const addCustomField = (custom: { 
+    fieldName: string; 
+    dataType: string; 
+    category: string; 
+    required: string; 
+  }) => {
+    // Your implementation logic here
+  };
+  
    
   interface dataItem {
     id:1,
