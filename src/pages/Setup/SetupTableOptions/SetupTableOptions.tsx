@@ -540,6 +540,7 @@ const SetupTableOptions: React.FC = ({}) => {
                           }}>
                             Cancel
                           </Button>
+                          
                           <Button
                            onClick={handleSubmit}
                             sx={{
