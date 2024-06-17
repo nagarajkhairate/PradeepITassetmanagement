@@ -228,7 +228,7 @@ const SetupSites: React.FC = ({}) => {
               p:2
             }}
           >
-            <Box sx={{ overflowX: "auto" }}>
+            <Box sx={{ overflow: "auto" }}>
             <Table
               borderAxis="both"
               
