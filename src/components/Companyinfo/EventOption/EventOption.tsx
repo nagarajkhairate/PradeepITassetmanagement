@@ -55,45 +55,18 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
   activeTab,
   setActiveTab,
 }) => {
-  const [ eventForm, setEventForm] = useState<any>({});
-
+  const [eventForm, setEventForm] = useState<any>({})
 
   const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setEventForm((prevData: any) => ({ ...prevData, [name]: value }))
   }
-  // const handleSubmit = () => {
-  //   const jsonObject = { companyFormData: companyFormData };
-  //   console.log(JSON.stringify(jsonObject, null, 2));
-  // };
   const handleSubmit = () => {
-//     const eventOptionData = {
-      
-//         checkout: companyFormData.checkout || '',
-//         lease: companyFormData.lease || '',
-//         lostFound: companyFormData.lostFound || '',
-//         repair: companyFormData.repair || '',
-//         broken: companyFormData.broken || '',
-//         dispose: companyFormData.dispose || '',
-//         donate: companyFormData.donate || '',
-//         sell: companyFormData.sell || '',
-      
-//   };
-//   const jsonObject = {
-//     companyFormData: {
-//       ...companyFormData,
-//       EventOption:eventForm,
-//     },
-
-   
-//   // console.log(JSON.stringify({ ...companyFormData,eventOption: eventOptionData }));
-// };
-
-setCompanyFormData((prevData:any)=>({
-  ...prevData,
-  eventOption:eventForm,
-}))
-console.log(JSON.stringify(eventForm, null, 2));
+    setCompanyFormData((prevData: any) => ({
+      ...prevData,
+      eventOption: eventForm,
+    }))
+    console.log(JSON.stringify(eventForm, null, 2))
   }
   console.log(JSON.stringify(companyFormData))
 
@@ -121,8 +94,8 @@ console.log(JSON.stringify(eventForm, null, 2));
         ))}
       </Box>
     </RadioGroup>
-  );
-  
+  )
+
   const CustomButtonBox: React.FC<CustomButtonBoxProps> = ({
     setupCheckoutText,
     customizeFormText,
@@ -470,7 +443,7 @@ console.log(JSON.stringify(eventForm, null, 2));
             flexDirection: { xs: 'column', md: 'row' },
             justifyContent: { xs: 'center', md: 'flex-end' },
             gap: 1,
-            mt:2
+            mt: 2,
           }}
         >
           <Button

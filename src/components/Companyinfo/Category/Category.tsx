@@ -43,6 +43,7 @@ const Category: React.FunctionComponent<CategoryProps > = (
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [categoryName, setCategoryName] = useState<string>('')
   const [categories, setCategories] = useState<Category[]>([])
+  
 
   const handleCategoryChange = (updatedCategories: Category[]) => {
     setCategories(updatedCategories)
@@ -66,19 +67,22 @@ const Category: React.FunctionComponent<CategoryProps > = (
     setCategories([...categories, newCategory])
     setCategoryName('') // Clear the input field after adding
     console.log(newCategory)
-  
     handleClose()
   }
 
 
   const handleNextTab = () => {
-        setCompanyFormData((prevData: any) => ({ ...prevData, category: Category }));
+        setCompanyFormData((prevData: any) => ({ ...prevData, categories: categories }));
         setActiveTab(activeTab + 1); 
+        console.log(JSON.stringify(categories, null, 2))
       };
     
       const handlePrevTab = () => {
         setActiveTab(activeTab - 1);
     };
+
+   
+    console.log(JSON.stringify(companyFormData))
     
 
   return (

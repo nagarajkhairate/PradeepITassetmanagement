@@ -82,9 +82,12 @@ const LocationPage: React.FunctionComponent<LocationProps > = (
   }
 
   const handleNextTab = () => {
-    setCompanyFormData((prevData: any) => ({...prevData, location:Location }));
+    setCompanyFormData((prevData: any) => ({...prevData, locationName:locationName }));
     setActiveTab(activeTab + 1); 
+    console.log(JSON.stringify(locationName, null, 2))
   };
+
+  console.log(JSON.stringify(companyFormData))
 
   // const handleNextTab = () => {
   //   setCompanyFormData((prevData: any) => ({
