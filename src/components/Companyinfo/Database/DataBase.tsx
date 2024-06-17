@@ -16,7 +16,7 @@ import DataBaseEdit from "./DataBaseEdit";
 import AppView from "../../Common/AppView";
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 
-const tableData = [
+const dataBaseTable = [
   {
     id: 1,
     title: "Asset Tag ID",
@@ -24,7 +24,7 @@ const tableData = [
     option: [
       {
         id: 1,
-        value: "Yes",
+        value: "yes",
       },
     ],
     description:
@@ -38,7 +38,7 @@ const tableData = [
     option: [
       {
         id: 1,
-        value: "Yes",
+        value: "yes",
       },
     ],
     description: "Description of the asset.",
@@ -51,11 +51,11 @@ const tableData = [
     option: [
       {
         id: 1,
-        value: "Yes",
+        value: "yes",
       },
       {
         id: 2,
-        value: "No",
+        value: "no",
       },
     ],
     description: "Date asset was purchased",
@@ -68,11 +68,11 @@ const tableData = [
     option: [
       {
         id: 1,
-        value: "Yes",
+        value: "yes",
       },
       {
         id: 2,
-        value: "No",
+        value: "no",
       },
     ],
     description: "Cost of the asset",
@@ -85,11 +85,11 @@ const tableData = [
     option: [
       {
         id: 1,
-        value: "Yes",
+        value: "yes",
       },
       {
         id: 2,
-        value: "No",
+        value: "no",
       },
     ],
     description: "Vendor/Supplier name",
@@ -102,11 +102,11 @@ const tableData = [
     option: [
       {
         id: 1,
-        value: "Yes",
+        value: "yes",
       },
       {
         id: 2,
-        value: "No",
+        value: "no",
       },
     ],
     description: "Manufacturer of the asset",
@@ -119,11 +119,11 @@ const tableData = [
     option: [
       {
         id: 1,
-        value: "Yes",
+        value: "yes",
       },
       {
         id: 2,
-        value: "No",
+        value: "no",
       },
     ],
     description: "Model name of the asset",
@@ -136,11 +136,11 @@ const tableData = [
     option: [
       {
         id: 1,
-        value: "Yes",
+        value: "yes",
       },
       {
         id: 2,
-        value: "No",
+        value: "no",
       },
     ],
     description: "Manufacturer's serial number",
@@ -163,12 +163,13 @@ const DataBase: React.FunctionComponent<DataBaseProps> = ({
   setActiveTab,
 }) => {
   const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
-  const [dataBase, setDataBase] = useState<{ data: string[];tableData: any[] }>({ data: [], tableData });
+  const [dataBase, setDataBase] = useState<{ data: string[];dataBaseTable: any[] }>({ data: [], dataBaseTable });
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const [eventForm, setEventForm] = useState<any>({})
 
   const addCustomField = (custom: string) => {
     setDataBase({ ...dataBase, data: [...dataBase.data, custom] });
@@ -253,10 +254,10 @@ const DataBase: React.FunctionComponent<DataBaseProps> = ({
 
   // const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
   //   const { name, value } = event.target;
-  //   const updatedTableData = dataBase.tableData.map((item) =>
+  //   const updatedTableData = dataBase.dataBaseTable.map((item) =>
   //     item.name === name ? { ...item, selectedOption: value } : item
   //   );
-  //   setDataBase({ ...dataBase, tableData: updatedTableData });
+  //   setDataBase({ ...dataBase, dataBaseTable: updatedTableData });
   //   setCompanyFormData((prevData: any) => ({ ...prevData, [name]: value }));
   // };
 
@@ -267,20 +268,24 @@ const DataBase: React.FunctionComponent<DataBaseProps> = ({
   // };
 
   const handleNextTab = () => {
-    // Transforming tableData to the desired format
-    const transformedTableData = dataBase.tableData.reduce((acc, item) => {
-      acc[item.name] = companyFormData[item.name] || "No";
+    const transformedTableData = dataBase.dataBaseTable.reduce((acc, item) => {
+      acc[item.name] = companyFormData[item.name] || "no";
       return acc;
     }, {});
     setCompanyFormData((prevData: any) => ({
       ...prevData,
       dataBase: {
         data: dataBase.data,
-        tableData: [transformedTableData],
+        dataBaseTable: transformedTableData,
       },
-    }));
+    }
+
+      ));
+      console.log(JSON.stringify(dataBase, null, 2))
     setActiveTab(activeTab + 1);
   };
+  console.log(JSON.stringify(companyFormData))
+
 
   const handlePrevTab = () => {
     setActiveTab(activeTab - 1);
@@ -349,7 +354,7 @@ const DataBase: React.FunctionComponent<DataBaseProps> = ({
                     </tr>
                   </thead>
                   <tbody>
-                    {dataBase.tableData.map((data, index) => (
+                    {dataBase.dataBaseTable.map((data, index) => (
                         <tr key={index}>
                           <td>
                             <Checkbox />
