@@ -23,7 +23,7 @@ const handleInputValue = (
     field,
     formData,
     handleInputChange,
-    handleSelectChange,
+    handleSelectChange: handleSelectChange || (() => {}),
     mode,
   }
   switch (field.dataType) {
@@ -49,6 +49,7 @@ const FieldComponent: FunctionComponent<PageSectionProps> = ({
   handleSelectChange,
   mode,
 }) => {
+  
   return (
     <Box
       component="div"

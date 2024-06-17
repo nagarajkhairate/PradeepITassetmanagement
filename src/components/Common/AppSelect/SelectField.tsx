@@ -24,13 +24,12 @@ const SelectField: FunctionComponent<Props> = ({
   }
   return (
     <FormControl>
-      <FormLabel sx={{ fontSize: '12px' }}>
+      <FormLabel >
         {field.title}{field.isRequired && <span style={{ color:"red"}}>*</span>}:
       </FormLabel>
       <Select
         placeholder= {field.title}
         value={controlledValue}
-        size="sm"
         sx={{ minWidth: 235 }}
         onChange={handleSelect}
         disabled={mode ==='view'? true: false}
