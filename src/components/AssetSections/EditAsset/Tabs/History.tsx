@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { Box, Typography, Table, Divider } from "@mui/joy";
 import { useTheme,useMediaQuery } from "@mui/material/";
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import PersonIcon from '@mui/icons-material/Person';
+import EditIcon from '@mui/icons-material/Edit';
 
-import {
-  AiOutlineFileText,
-  AiOutlineCalendar,
-  AiOutlineUser, 
-  AiOutlineEdit,
-} from "react-icons/ai";
 
-import { AiOutlineArrowUp, AiOutlineArrowDown } from "react-icons/ai";
 
 type HistoryItem = {
   date: string;
@@ -196,57 +195,57 @@ const History = (props: any) => {
           <thead>
             <tr>
               <th onClick={() => sortHistory("date")}>
-                <AiOutlineCalendar /> Date
+                <CalendarTodayIcon /> Date
                 {historySortField === "date" &&
                   (historySortDirection === "asc" ? (
-                    <AiOutlineArrowUp />
+                    <ArrowUpwardIcon />
                   ) : (
-                    <AiOutlineArrowDown />
+                    <ArrowDownwardIcon />
                   ))}
               </th>
               <th onClick={() => sortHistory("event")} style={{ width: "7%" }}>
-                <AiOutlineFileText /> Event
+                <InsertDriveFileIcon /> Event
                 {historySortField === "event" &&
                   (historySortDirection === "asc" ? (
-                    <AiOutlineArrowUp />
+                    <ArrowUpwardIcon />
                   ) : (
-                    <AiOutlineArrowDown />
+                    <ArrowDownwardIcon />
                   ))}
               </th>
               <th onClick={() => sortHistory("field")} style={{ width: "8%" }}>
-                <AiOutlineEdit /> Field
+                <EditIcon /> Field
                 {historySortField === "field" &&
                   (historySortDirection === "asc" ? (
-                    <AiOutlineArrowUp />
+                    <ArrowUpwardIcon />
                   ) : (
-                    <AiOutlineArrowDown />
+                    <ArrowDownwardIcon />
                   ))}
               </th>
               <th onClick={() => sortHistory("changedFrom")}>
                 Changed from
                 {historySortField === "changedFrom" &&
                   (historySortDirection === "asc" ? (
-                    <AiOutlineArrowUp />
+                    <ArrowUpwardIcon />
                   ) : (
-                    <AiOutlineArrowDown />
+                    <ArrowDownwardIcon />
                   ))}
               </th>
               <th onClick={() => sortHistory("changedTo")}>
                 Changed to
                 {historySortField === "changedTo" &&
                   (historySortDirection === "asc" ? (
-                    <AiOutlineArrowUp />
+                    <ArrowUpwardIcon />
                   ) : (
-                    <AiOutlineArrowDown />
+                    <ArrowDownwardIcon />
                   ))}
               </th>
               <th onClick={() => sortHistory("actionBy")}>
-                <AiOutlineUser /> Action by
+                <PersonIcon /> Action by
                 {historySortField === "actionBy" &&
                   (historySortDirection === "asc" ? (
-                    <AiOutlineArrowUp />
+                    <ArrowUpwardIcon />
                   ) : (
-                    <AiOutlineArrowDown />
+                    <ArrowDownwardIcon />
                   ))}
               </th>
             </tr>

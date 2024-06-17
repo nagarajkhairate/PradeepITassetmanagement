@@ -6,7 +6,7 @@ import {
   Divider,
 
 } from "@mui/joy"; 
-import { AiOutlinePlus } from "react-icons/ai";
+import AddIcon from '@mui/icons-material/Add';
 const Warranty = (props:any) => {
   const [warrantyData,setWarrantyData] = useState(props.assetDetail || {})
   const warrantyUpdater = ()=>{
@@ -37,7 +37,7 @@ const Warranty = (props:any) => {
                       },
                     }}
                   >
-                    <AiOutlinePlus size={23} />
+                    <AddIcon size={23} />
                     Add New
                   </Button>
                 </Box>

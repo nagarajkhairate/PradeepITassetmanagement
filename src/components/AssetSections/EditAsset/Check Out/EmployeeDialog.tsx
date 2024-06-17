@@ -10,11 +10,11 @@ import {
   MenuItem,
 } from "@mui/material";
 
-import { AiOutlineClose } from "react-icons/ai";
-import { RootState } from "../../../../Redux/Features/store";
+import CloseIcon from '@mui/icons-material/Close';
+import { RootState } from "../../../../Redux/store";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { post_add_Employee } from "../../../../Redux/Features/addEmployeeSlice";
+import { post_add_Employee } from "../../../../Redux/features/EmployeeSlice";
 
 interface EmployeeData {
   emp_name: string;
@@ -104,6 +104,19 @@ const EmployeeDialog = (props: any) => {
       dispatch(post_add_Employee(employee))
       
       // Reset form and errors if needed
+      setEmployee({
+        emp_name: "",
+        title: "",
+        phone: "",
+        email: "",
+        emp_site: "",
+        emp_location: "",
+        emp_department: "",
+        notes: "",
+      });
+      
+      // Optionally reset errors as well
+      setErrors({});
     }
   };
 
@@ -120,7 +133,7 @@ const EmployeeDialog = (props: any) => {
           >
             <Typography>Add an Person/Employee</Typography>
             <IconButton onClick={props.onClose}>
-              <AiOutlineClose />
+              <CloseIcon />
             </IconButton>
           </Box>
         </DialogTitle>
@@ -376,9 +389,8 @@ const EmployeeDialog = (props: any) => {
               </Typography>
             )}
           </Box>
-          <Divider></Divider>
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{border:"1px solid #E0E1E3"}}>
           <Button
             sx={{
               background: "rgb(245,193,67)",
