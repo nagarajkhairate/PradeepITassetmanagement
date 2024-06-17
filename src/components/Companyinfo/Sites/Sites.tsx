@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Box, Divider, Typography, styled } from '@mui/joy'
+import { Box, Divider, FormControl, FormLabel, Select, Typography, styled, Option} from '@mui/joy'
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 import Grid from '@mui/joy/Grid'
 import Button from '@mui/joy/Button'
@@ -17,6 +17,10 @@ import DeleteSiteDialog from './DeleteSiteDialog'
 import AppView from '../../Common/AppView'
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
 import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
+import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
+import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 
 export interface Site {
   sitename: string
@@ -82,14 +86,6 @@ const Sites: React.FC<SiteProps> = ({
   }
 
   const handleEditOpen = (siteId: number) => {
-    // const index = sites.findIndex((site) => site.id === siteId);
-    // if (index !== -1) {
-    //   setSelectedCell(index);
-    //   setSiteFormData({
-    //     ...sites[index],
-    //   });
-    //   setEditOpen(true);
-    // }
   }
 
   const handleDeleteOpen = (siteId: number) => {
@@ -193,39 +189,34 @@ const Sites: React.FC<SiteProps> = ({
                     marginTop: { xs: '10px', sm: '0' },
                   }}
                 >
-                  <Button
-                    sx={{
-                      backgroundColor: 'green',
-                      color: 'white',
-                      fontSize: '15px',
-                      padding: '10px',
-                      borderRadius: '15px',
-                      width: { xs: '100%', sm: 'auto', md: '150px' },
-                      height: '40px',
-                      '&:hover': {
-                        backgroundColor: 'darkgreen',
-                      },
-                    }}
-                    onClick={() => setOpen(true)}
-                  >
-                    <AddIcon sx={{ mr: 1, fontSize: '10px' }} />
-                    Add New Site
-                  </Button>
+                
+            <Button
+              autoFocus
+              variant="solid"
+              sx={{
+                background: '#388e3c',
+                borderRadius: '15px',
+                color: 'white',
+              }}
+              component="label"
+              onClick={() => setOpen(true)}
+            >
+              <AddIcon /> Add New Site
+            </Button>
 
                   <Button
-                    sx={{
-                      fontSize: '15px',
-                      width: { xs: '100%', sm: 'auto', md: '150px' },
-                      marginRight: '10px',
-                      height: '40px',
-                      borderRadius: '15px',
-                    }}
-                  >
-                    <PublishOutlinedIcon
-                      style={{ marginRight: '8px', fontSize: '20px' }}
-                    />
-                    Import Sites
-                  </Button>
+              autoFocus
+              type="submit"
+              variant="solid"
+              sx={{
+                background: 'black',
+                borderRadius: '15px',
+                color: 'white',
+              }}
+            >
+              <PublishOutlinedIcon />
+              Import sites
+            </Button>
                 </ButtonGroup>
               </React.Fragment>
             </Grid>
@@ -240,6 +231,99 @@ const Sites: React.FC<SiteProps> = ({
           each asset.
         </Box>
         <Divider />
+ 
+        <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: { md: 'row', xs: 'column' },
+              justifyContent: { xs: 'center', md: 'space-between' },
+              padding: '10px',
+            }}
+          >
+            <FormControl
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+              }}
+            >
+              <Select
+                placeholder="10"
+                sx={{
+                  // marginLeft: { md: '20px' },
+                  alignItems: 'center',
+                  background: 'none',
+                  color: 'black',
+                  borderRadius: '15px',
+                }}
+                required
+              >
+                <Option value="10">10</Option>
+                <Option value="9">9</Option>
+                <Option value="8">8</Option>
+              </Select>
+ 
+              <FormLabel
+                sx={{
+                  marginLeft: '10px',
+                  marginTop: '6px',
+                  mb: { xs: 1, md: 1 },
+                }}
+              >
+                Sites
+              </FormLabel>
+            </FormControl>
+ 
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { md: 'row' },
+                justifyContent: { xs: 'center', md: 'space-between' },
+                gap: 1,
+              }}
+            >
+              <Button
+                sx={{
+                  background: '#FDE8BC',
+                  border: '1px solid #C2B083',
+                  color: 'black',
+                 
+                  '&:hover': {
+                    background: '#FADFB4',
+                  },
+                }}
+              >
+                <NavigateBeforeOutlinedIcon />
+              </Button>
+              <Button
+                sx={{
+                  background: '#ffffff',
+                  color: 'green',
+                  border: '1px solid green ',
+ 
+                  '&:hover': {
+                    color: 'white',
+                    background: 'green',
+                  },
+                }}
+              >
+                1
+              </Button>
+              <Button
+                sx={{
+                  background: '#FDE8BC',
+                  border: '1px solid #C2B083',
+                  color: 'black',
+ 
+                  '&:hover': {
+                    background: '#FADFB4',
+                  },
+                }}
+              >
+                <NavigateNextOutlinedIcon />
+              </Button>
+            </Box>
+          </Box>
 
         <Box>
           <Stack
@@ -251,9 +335,14 @@ const Sites: React.FC<SiteProps> = ({
               p: 2,
             }}
           >
+            <Box   sx={{
+    overflowX: 'auto', // Enable horizontal scrolling
+    fontSize: '14px',
+    whiteSpace: 'nowrap', // Prevent table from wrapping text within cells
+  }}>
             <Table
               borderAxis="both"
-              style={{ borderCollapse: 'collapse', border: '1px solid grey' }}
+              style={{ borderCollapse: 'collapse', border: '1px solid grey', minWidth: '900px' }}
             >
               <thead>
                 <tr>
@@ -316,19 +405,51 @@ const Sites: React.FC<SiteProps> = ({
                       <td>
                         <div>
                           <Button
-                            aria-label="edit"
+                            
                             onClick={() => handleEditClick(site)}
+                            sx={{
+                              fontWeight:"400",
+                              fontSize:'14px',
+                              background: '#ffffff',
+                              color: 'green',
+                              display: 'flex',
+                              justifyContent: {md:'flex-end', xs:'center'},
+                              marginLeft: 'none',
+                              border: '1px solid green ',
+                              borderRadius: '13px',
+                              '&:hover': {
+                                color: 'white',
+                                background: 'green',
+                              },
+                            }}
                           >
-                            <EditIcon fontSize="small" />
+                          <EditOutlinedIcon sx={{fontSize:'18px'}}/>
+                          Edit
                           </Button>
                         </div>
                       </td>
                       <td>
                         <Button
-                          aria-label="delete"
+                          
                           onClick={() => handleDeleteClick(site)}
+                          sx={{
+                            fontWeight:"400",
+                            fontSize:'14px',
+                            background: '#ffffff',
+                            color: '#d32f2f',
+                            display: 'flex',
+                            justifyContent: {md:'flex-end',xs:'center'},
+                            marginLeft: 'none',
+                            border: '1px solid red ',
+                            borderRadius: '13px',
+                            '&:hover': {
+                              color: 'white',
+                              background: '#d32f2f',
+                            },
+                          }}
                         >
-                          <DeleteIcon fontSize="small" />
+                          <DeleteForeverIcon sx={{fontSize:'18px'}}/>
+                          Delete
                         </Button>
                       </td>
                     </tr>
@@ -342,52 +463,54 @@ const Sites: React.FC<SiteProps> = ({
                 )}
               </tbody>
             </Table>
+            </Box>
+            
           </Stack>
         </Box>
 
-        <Divider sx={{ marginTop: '30px' }} />
+        {/* <Divider sx={{ marginTop: '30px' }} /> */}
 
         <Grid xs={12} sm={12}>
           <React.Fragment>
-            <Box
-              sx={{ marginTop: '1px', marginBottom: '15px', padding: '20px' }}
-            >
-              <ButtonGroup
-                spacing="1rem"
-                aria-label="spacing button group"
-                sx={{ marginLeft: '80%' }}
-              >
-                <Button
-                  sx={{
-                    fontSize: '15px',
-                    width: { xs: '100%', sm: '150px', md: '125px' },
-                  }}
-                  onClick={handlePrevTab}
-                >
-                  {/* <FaLessThan />                 */}
-                  Back
-                </Button>
-                <Button
-                  sx={{
-                    background: '#FABC1E',
-                    width: { xs: '100%', sm: '150px', md: '100px' },
+          <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
+            justifyContent: { xs: 'center', md: 'flex-end' },
+            gap: 2,
+          }}
+        >
+         
+          <Button
+            variant="solid"
+            sx={{
+              background: '#388e3c',
+              color: 'white',
+              borderRadius:'15px'
+            }}
+            component="label"
+            onClick={handlePrevTab}
+          >
+            <NavigateBeforeOutlinedIcon />
+                
+                Back
+          </Button>
+          <Button
+            variant="solid"
+            sx={{
+              background: "#fdd835",
+              color: 'white',
+              borderRadius:'15px'
+            }}
+            component="label"
+              onClick={handleNextTab} 
+             
+          >
+             Continue
+             <NavigateNextOutlinedIcon />
+          </Button>
+          </Box>
 
-                    height: '30px',
-                    color: 'black',
-                    '&:hover': {
-                      backgroundColor: '#d79918',
-                    },
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                  onClick={handleNextTab}
-                >
-                  Continue
-                  {/* <FaGreaterThan />{" "} */}
-                </Button>
-              </ButtonGroup>
-            </Box>
           </React.Fragment>
         </Grid>
         {/* </Grid> */}
