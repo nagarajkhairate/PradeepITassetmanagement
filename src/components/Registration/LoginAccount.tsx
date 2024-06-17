@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { Box, Typography, Button, Input, FormLabel } from "@mui/joy";
+import { Link } from "react-router-dom";
 
 const LoginAccount: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -88,7 +89,7 @@ const LoginAccount: React.FC = () => {
                   justifyContent: "space-around",
                 }}
               >
-                <Typography>Create an account</Typography>
+               <Link to='/createAccount'> <Typography> Create an account</Typography></Link>
                 <Button
                   type="submit"
                   size="lg"

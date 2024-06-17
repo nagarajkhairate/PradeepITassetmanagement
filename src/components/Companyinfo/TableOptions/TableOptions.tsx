@@ -83,6 +83,9 @@ const TableOptions: React.FC<TableProps> = ({
  
   const handleDepreciationChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
+    setSelectedOptions((prevData: any) => ({
+      ...prevData,
+        }));
     setShowDepreciationOptions(value === "yes");
     setFormDataState((prevData: any) => ({
       ...prevData,
@@ -115,6 +118,10 @@ const TableOptions: React.FC<TableProps> = ({
 
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+    setFormDataState((prevState: any) => ({
+      ...prevState,
+      [name]: value,
+    }));
     setLinkedAssets((prevState: any) => ({
       ...prevState,
       [name]: value,
@@ -148,6 +155,9 @@ const TableOptions: React.FC<TableProps> = ({
           formData.DepreciationOptions.depreciationMethod = depreciationMethod;
           formData.DepreciationOptions.calculationFrequency = calculationFrequency;
         }
+        if (formDataState.TableInfoData === "yes") {
+
+        }
         
         if (enableLinking === "yes") {
           formData.LinkingOfAssets.linkedAssets = {
@@ -169,6 +179,9 @@ const TableOptions: React.FC<TableProps> = ({
     
  const handleNextTab = () => {
   const formData = buildFormData();
+  setSelectedOptions((prevData: any) => ({
+    ...prevData,
+      }));
   setCompanyFormData((prev: any) => ({
     ...prev,
     TableOptions: formData,
