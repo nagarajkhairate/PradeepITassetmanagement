@@ -42,10 +42,27 @@ import ContractForm from '../pages/Setup/CustomizeForm/ContractForm'
 import MaintenanceForm from '../pages/Setup/CustomizeForm/MaintenanceForm'
 import CustomerForm from '../pages/Setup/CustomizeForm/CustomerForm'
 import WarrantyForm from '../pages/Setup/CustomizeForm/WarrantyForm'
+import LoginAccount from '../components/Registration/LoginAccount'
+import CreateAccount from '../components/Registration/CreateAccount'
 
 export const pagesRoutes: any[] = [
   {
     id: 1,
+    index: true,
+    pageName: 'Login',
+    element: <LoginAccount />,
+    state: 'login',
+    path: '/login',
+  },
+    {
+      id: 2,
+      index: true,
+      pageName: 'createAccount',
+      element: <CreateAccount />,
+      state: 'createAccount',
+      path: '/createAccount',
+    },{
+    id: 3,
     index: true,
     pageName: 'Dashboard',
     element: <Dashboard />,
@@ -53,7 +70,7 @@ export const pagesRoutes: any[] = [
     path: '/dashboard',
   },
   {
-    id: 2,
+    id: 4,
     pageName: 'Alerts',
     path: '/alerts',
     state: 'alerts',
@@ -96,7 +113,7 @@ export const pagesRoutes: any[] = [
     ],
   },
   {
-    id: 3,
+    id: 5,
     pageName: 'Assets',
     path: '/assets',
     state: 'assets',
@@ -226,7 +243,7 @@ export const pagesRoutes: any[] = [
   //   path: "/advanced",
   // },
   {
-    id: 8,
+    id: 6,
     pageName: 'SetUp',
     path: '/setup',
     state: 'assets',

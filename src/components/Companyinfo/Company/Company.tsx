@@ -1,51 +1,16 @@
 import React, { useState, useRef, ChangeEvent } from "react";
 import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined';
-import { Box, Typography, styled, Divider} from "@mui/joy";
+import { Box, Typography, styled, Divider, Grid} from "@mui/joy";
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined';
-import Input from "@mui/joy/Input";
-import Select from "@mui/joy/Select";
-import Option from "@mui/joy/Option";
 import Button from "@mui/joy/Button";
-import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
+import { CompanyInfoFields } from '../../../pages/Setup/CompInformation/Data'
+import AppForm from '../../../components/Common/AppForm';
 import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
-import { currencySymbols, months, timezones } from "./Companyinfodata";
+import FieldComponent from '../../../utils/FieldComponent';
 import AppView from "../../Common/AppView";
 
-const CustomInputLabel = styled("label")({
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "center", 
-});
-
-const CenteredForms = styled(Box)({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-});
-
-const CustomInput = styled("input")({
-  display: "none",
-});
-
-const DropZone = styled("div")({
-  border: "2px solid #ccc",
-  padding: "20px",
-  textAlign: "center",
-  background: "#f0f0f0",
-  cursor: "pointer",
-  "&:hover": {
-    backgroundColor: "#d9d9d9", //darker shade of gray
-  },
-});
-
-const FlexBox = styled(Box)({
-  display: "flex",
-  alignItems: "center",
-});
-
-interface FormData {
+export interface FormData {
   companyName: string;
   country: string;
   address: string;
@@ -76,32 +41,9 @@ const Company: React.FC<CompanyProps> = ({
   activeTab,
   setActiveTab,
 }) => {
-  // const [companyFormData, setFormData] = useState<FormData>({
-  //   companyName: "",
-  //   country: "",
-  //   address: "",
-  //   aptSuite: "",
-  //   city: "",
-  //   state: "",
-  //   postalCode: 0,
-  //   timezone: "",
-  //   currency: "",
-  //   date: new Date(),
-  //   month: "",
-  //   financialDays: 0,
-  //   logo: "",
-  // });
-  const [selectedDate, setSelectedDate] = useState<string>("");
+  const [formData, setFormData] = useState<{ [key: string]: string | null }>({});
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [selectedTimezone, setSelectedTimezone] = useState<string>("");
-  const [selectedFinancialDays, setSelectedFinancialDays] = useState<number>(0);
-  const [selectedMonth, setSelectedMonth] = useState<string | "">("");
-  const [selectedCurrency, setSelectedCurrency] = useState<string>("");
-  const [selectedCountry, setSelectedCountry] = useState<string>("");
-  const [selectedState, setSelectedState] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  // const [activeTab, setActiveTab] = React.useState(0);
-
  
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -122,7 +64,13 @@ const Company: React.FC<CompanyProps> = ({
   };
 
   const handleNextTab = () => {
-    setActiveTab(activeTab + 1); // Update this to navigate to the next tab
+
+    setCompanyFormData((prevData: any) => ({
+      company:{ ...prevData,
+        company: Company,}
+     
+    }));
+    setActiveTab(activeTab + 1); 
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -153,104 +101,10 @@ const Company: React.FC<CompanyProps> = ({
     }));
   };
 
-  const handleMonthChange = (
-    event: React.SyntheticEvent | null,
-    newValue: string | null
-  ) => {
-    if (newValue !== null) {
-      setCompanyFormData((prevData:any) => ({
-        ...prevData,
-        month: newValue,
-      }));
-      setSelectedMonth(newValue);
-    }
+  const handleSelectChange = (name: string, value: string | null) => {
+    setCompanyFormData((prevData:any) => ({ ...prevData, [name]: value }));
   };
 
-  const handleFinancialDaysChange = (
-    event: React.SyntheticEvent | null,
-    newValue: number | null
-  ) => {
-    if (newValue !== null) {
-      setCompanyFormData((prevData:any) => ({
-        ...prevData,
-        financialDays: newValue,
-      }));
-      setSelectedFinancialDays(newValue);
-    }
-  };
-  // Generate serial numbers from 1 to a specified maximum (e.g., 100)
-  const maxSerialNumber = 100;
-  const serialNumbers = Array.from(
-    { length: maxSerialNumber },
-    (_, index) => index + 1
-  );
-
-  const handleCurrencyChange = (
-    event: React.SyntheticEvent | null,
-    newValue: string | null
-  ) => {
-    if (newValue !== null) {
-      setCompanyFormData((prevData:any) => ({
-        ...prevData,
-        currency: newValue,
-      }));
-      setSelectedCurrency(newValue);
-    }
-  };
-
-  const handleTimezoneChange = (
-    event: React.SyntheticEvent | null,
-    newValue: string | null
-  ) => {
-    if (newValue !== null) {
-      setCompanyFormData((prevData:any) => ({
-        ...prevData,
-        timezone: newValue,
-      }));
-      setSelectedTimezone(newValue);
-    }
-  };
-
-  const handleDateChange = (date: string) => {
-    setSelectedDate(date);
-  };
-
-  // Handle country change
-  const handleCountryChange = (
-    event: React.SyntheticEvent | null,
-    newValue: string | null
-  ) => {
-
-    setCompanyFormData((prevData:any) => ({
-      ...prevData,
-      country: newValue!,
-    }));
-  };
-
-  const handleStateChange = (
-    event: React.SyntheticEvent | null,
-    newValue: string | null
-  ) => {
-    setCompanyFormData((prevData:any) => ({
-      ...prevData,
-      state: newValue!,
-    }));
-  };
-
-  const DatePicker: React.FC<{
-    value: string;
-    onChange: (date: string) => void;
-  }> = ({ value, onChange }) => {
-    return (
-      <Input
-        type="date"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        required
-        sx={{ width: { md: "500px", xs: "100%" } }}
-      />
-    );
-  };
   const validateForm = (companyFormData: FormData) => {
    
     const isValid =
@@ -275,24 +129,16 @@ const Company: React.FC<CompanyProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(JSON.stringify(companyFormData));
-    // if (validateForm(formData)) {
-    //   console.log("Form submitted:", formData);
-    //   window.location.href = "/Sites";
-    // } else {
-    //   alert("Please fill in all required fields.");
-    // }
   };
 
-  console.log("Form Data:", companyFormData); 
+
   return (
     <AppView>
-   
-    <Typography level="h4" style={{ display: 'flex', alignItems: 'center' }}>
-        <RoomOutlinedIcon style={{ fontSize: '1.4rem', color: '#FBC21E' }} />
-        step 1- Company Information
+   <AppForm onSubmit={handleNextTab}>
+   <Typography level="h4">
+        <Box component={TuneOutlinedIcon} color="#FABC1E" />
+       Step 1 - Company Information
       </Typography>
-    
     
         <Box
           sx={{
@@ -302,420 +148,87 @@ const Company: React.FC<CompanyProps> = ({
             gap: '5px',
           }}
         >
-          <Box component="section" sx={{ p: 2, border: "10px" }}>
-            <form>
-              <Box
-              >
-                <div>
-                  <Typography
-                    level="h4"
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "0px",
-                      marginTop: "10px",
-                    }}
-                  >
-                    <ContactMailOutlinedIcon  /><span>Company Details.</span>
-                    
-                  </Typography>
-                  <Typography level="body-sm">
-                    Provide the name and site of the main office.
-                  </Typography>
-                </div>
+            <Grid container spacing={2}>
+          <Grid xs={12}>
+            <Typography
+              level="h4"
+              sx={{ display: 'flex', alignItems: 'center' }}
+            >
+              <ContactMailOutlinedIcon  style={{ color: '#FBC21E' }}/>
+              Company Details
+            </Typography>
+            <Typography level="body-xs">Provide the name and site of the main office.</Typography>
+          </Grid>
+          {CompanyInfoFields &&
+            CompanyInfoFields.slice(0, 7).map((field, index) => (
+              <Grid md={8} xs={12} sm={8} key={index} sx={ {justifyContent: 'center' , marginLeft:'20%'}}>
+                <FieldComponent 
+                  field={field}
+                  formData={companyFormData}
+                  handleInputChange={handleInputChange} 
+                  handleSelectChange={handleSelectChange}
+                />
+              </Grid>
+            ))}
+          </Grid>
 
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "10px",
-                    width: { md: "100%", xs: "100%" },
-                    justifyContent: "center",
-                    marginBottom: "10px",
-                    // paddingLeft:{md:"28%",xs:"0"}
-                  }}
-                >
-                  {/* Company Name */}
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "100%",
-                      flexDirection: { xs: "column", md: "row" },
-                    }}
-                  >
-                    <label
-                      htmlFor="companyName"
-                      style={{ width: "150px", marginRight: "10px" }}
-                    >
-                      Company <span style={{ color: "red" }}>*</span>
-                    </label>
-                    <Input
-                      placeholder="Type in here..."
-                      type="text"
-                      id="companyName"
-                      name="companyName"
-                      value={companyFormData.companyName}
-                      onChange={handleInputChange}
-                      required
-                      sx={{ width: { md: "500px", xs: "100%" } }}
-                    />
-                  </Box>
+          <Divider sx={{ my: 3 }} />
 
-                  {/* Country */}
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "100%",
-                      flexDirection: { xs: "column", md: "row" },
-                    }}
-                  >
-                    <label
-                      htmlFor="country"
-                      style={{ width: "150px", marginRight: "10px" }}
-                    >
-                      Country <span style={{ color: "red" }}>*</span>
-                    </label>
-                    <Select
-                      id="country"                     
-                      onChange={handleCountryChange}
-                      value={companyFormData.country}               
-                      placeholder="Select country..."
-                      sx={{ width: { md: "500px", xs: "100%" } }}
-                    >
-                      <Option value="" disabled>
-                        Select country...
-                      </Option>
-                      <Option value="India">India</Option>
-                      <Option value="China">China</Option>
-                    </Select>
-                  </Box>
-
-                  {/* Address */}
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "100%",
-                      flexDirection: { xs: "column", md: "row" },
-                    }}
-                  >
-                    <label
-                      htmlFor="address"
-                      style={{ width: "150px", marginRight: "10px" }}
-                    >
-                      Address <span style={{ color: "red" }}>*</span>
-                    </label>
-                    <Input
-                      placeholder="Type in here..."
-                      type="text"
-                      id="address"
-                      name="address"
-                      value={companyFormData.address}
-                      onChange={handleInputChange}
-                      required
-                      sx={{ width: { md: "500px", xs: "100%" } }}
-                    />
-                  </Box>
-
-                  {/* Apt./Suite */}
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "100%",
-                      flexDirection: { xs: "column", md: "row" },
-                    }}
-                  >
-                    <label
-                      htmlFor="aptSuite"
-                      style={{ width: "150px", marginRight: "10px" }}
-                    >
-                      Apt./Suite
-                    </label>
-                    <Input
-                      placeholder="Type in here..."
-                      type="text"
-                      id="aptSuite"
-                      name="aptSuite"
-                      value={companyFormData.aptSuite}
-                      onChange={handleInputChange}
-                      sx={{ width: { md: "500px", xs: "100%" } }}
-                    />
-                  </Box>
-
-                  {/* City */}
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "100%",
-                      flexDirection: { xs: "column", md: "row" },
-                    }}
-                  >
-                    <label
-                      htmlFor="city"
-                      style={{ width: "150px", marginRight: "10px" }}
-                    >
-                      City <span style={{ color: "red" }}>*</span>
-                    </label>
-                    <Input
-                      placeholder="Type in here..."
-                      type="text"
-                      id="city"
-                      name="city"
-                      value={companyFormData.city}
-                      onChange={handleInputChange}
-                      required
-                      sx={{ width: { md: "500px", xs: "100%" } }}
-                    />
-                  </Box>
-
-                  {/* State */}
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "100%",
-                      flexDirection: { md: "row", xs: "column" },
-                    }}
-                  >
-                    <label
-                      htmlFor="state"
-                      style={{ width: "150px", marginRight: "10px" }}
-                    >
-                      State <span style={{ color: "red" }}>*</span>
-                    </label>
-                    <Select
-                      id="state"
-                      value={companyFormData.state}
-                      onChange={handleStateChange}
-                      placeholder="Select state..."
-                      sx={{ width: { md: "500px", xs: "100%" } }}
-                    >
-                      <Option value="" disabled>
-                        Select state...
-                      </Option>
-                      <Option value="Karnataka">Karnataka</Option>
-                      <Option value="Goa">Goa</Option>
-                      <Option value="Delhi">Delhi</Option>
-                      <Option value="Kerala">Kerala</Option>
-                    </Select>
-                  </Box>
-
-                  {/* Postal Code */}
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "100%",
-                      flexDirection: { md: "row", xs: "column" },
-                    }}
-                  >
-                    <label
-                      htmlFor="postalCode"
-                      style={{ width: "150px", marginRight: "10px" }}
-                    >
-                      Postal Code <span style={{ color: "red" }}>*</span>
-                    </label>
-                    <Input
-                      placeholder="Type in here..."
-                      type="text"
-                      id="postalCode"
-                      name="postalCode"
-                      value={companyFormData.postalCode}
-                      onChange={handleInputChange}
-                      required
-                      sx={{ width: { md: "500px", xs: "100%" } }}
-                    />
-                  </Box>
-                </Box>
-                {/* </Box> */}
-
-                <Divider />
-
-                <Box>
-                  <div>
-                    <Typography
-                      level="h4"
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "0px",
-                        marginTop: "10px",
-                      }}
-                    >
-                      <CurrencyExchangeOutlinedIcon  />
-                      Timezone and Currency Details.
-                    </Typography>
-                    <Typography level="body-sm">
-                      Adjust the settings to fit your company's local timezone,
-                      currency, and date format.
-                    </Typography>
-                  </div>
-                  <CenteredForms>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "10px",
-                        width: { md: "640px", xs: "100%" },
-                        marginBottom: "10px",
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          display: "flex",
-                          width: "100%",
-                          flexDirection: { md: "row", xs: "column" },
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <CustomInputLabel htmlFor="timezone">
-                          Timezone{" "}
-                          <span style={{ color: "red", marginLeft: "4px" }}>
-                            *
-                          </span>
-                        </CustomInputLabel>
-
-                        <Select
-                          id="timezone"
-                          name="timezone"
-                          value={selectedTimezone}
-                          onChange={handleTimezoneChange}
-                          required
-                          sx={{ width: { md: "500px", xs: "100%" } }}
-                          placeholder="(GMT -5:00) Eastern Time (US & Canada)"
-                        >
-                          <Option value="" disabled>
-                            Select timezone...
-                          </Option>
-                          {timezones.map((timezone, index) => (
-                            <Option key={index} value={timezone.value}>
-                              {timezone.label}
-                            </Option>
-                          ))}
-                        </Select>
-                      </Box>
-
-                      <Box
-                        sx={{
-                          display: "flex",
-                          width: "100%",
-                          flexDirection: { md: "row", xs: "column" },
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <CustomInputLabel htmlFor="currency">
-                          Currency Symbol{" "}
-                          <span style={{ color: "red", marginLeft: "4px" }}>
-                            *
-                          </span>
-                        </CustomInputLabel>
-                        <Select
-                          id="currency"
-                          value={selectedCurrency}
-                          onChange={handleCurrencyChange}
-                          required
-                          sx={{ width: { md: "500px", xs: "100%" } }}
-                          placeholder="United States Dollar (USD $)"
-                        >
-                          <Option value="" disabled>
-                            Select currency symbol...
-                          </Option>
-                          {currencySymbols.map((currency, index) => (
-                            <Option key={index} value={currency.value}>
-                              {currency.label}
-                            </Option>
-                          ))}
-                        </Select>
-                      </Box>
-
-                      <Box
-                        sx={{
-                          display: "flex",
-                          width: "100%",
-                          flexDirection: { md: "row", xs: "column" },
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <CustomInputLabel htmlFor="date">
-                          Date format{" "}
-                          <span style={{ color: "red", marginLeft: "4px" }}>
-                            *
-                          </span>
-                        </CustomInputLabel>
-                        <DatePicker
-                          value={selectedDate}
-                          onChange={handleDateChange}
-                        />
-                      </Box>
-
-                      <Box
-                        sx={{
-                          display: "flex",
-                          width: "100%",
-                          flexDirection: { md: "row", xs: "column" },
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <CustomInputLabel htmlFor="financialYear">
-                          Financial Year begins on{" "}
-                          <span style={{ color: "red", marginLeft: "4px" }}>
-                            *
-                          </span>
-                        </CustomInputLabel>
-                        <Select
-                          id="month"
-                          name="month"
-                          value={selectedMonth}
-                          onChange={handleMonthChange}
-                          sx={{ width: "250px" }}
-                          placeholder="January"
-                        >
-                          <Option value="" disabled>
-                            Month
-                          </Option>
-                          {months.map((month) => (
-                            <Option key={month.value} value={month.value}>
-                              {month.label}
-                            </Option>
-                          ))}
-                        </Select>
-                        <Select
-                          id="financialDays"
-                          name="financialDays"
-                          onChange={handleFinancialDaysChange}
-                          value={companyFormData.financialDays}
-                          sx={{ width: "80px" }}
-                          placeholder="1"
-                        >
-                          <Option value="" disabled>
-                            1
-                          </Option>
-                          {serialNumbers.map((number) => (
-                            <Option key={number} value={number}>
-                              {number}
-                            </Option>
-                          ))}
-                        </Select>
-                      </Box>
+          <Grid container spacing={2}>
+        <Grid xs={12} marginRight="80px">
+            <Typography
+              level="h4"
+              sx={{ display: 'flex', alignItems: 'center' }}
+            >
+              <CurrencyExchangeOutlinedIcon  style={{ color: '#FBC21E' }}/>
+              Timezone & Currency
+            </Typography>
+            <Typography level="body-xs">Adjust the settings to fit your company’s local timezone, currency, and date format.</Typography>
+          </Grid>
+          {CompanyInfoFields &&
+            CompanyInfoFields.slice(7, 12).map((field, index) => (
+              <Grid key={index} md={8} xs={8} sm={8} sx={{  justifyContent: 'center',marginLeft:'20%' }}>
                 
-                    </Box>
-                  </CenteredForms>
-                </Box>
+                <FieldComponent 
+                field={field}
+                  formData={companyFormData}
+                  handleInputChange={handleInputChange} 
+                  handleSelectChange={handleSelectChange}
+                  />
+              </Grid>
+            ))}
+        </Grid>
 
-                <Divider />
+        <Divider sx={{ my: 3 }} />
 
-                <Box>
+        <Grid container spacing={2}>
+        <Grid xs={12}>
+            <Typography
+              level="h4"
+              sx={{ display: 'flex', alignItems: 'center' }}
+            >
+              <CollectionsOutlinedIcon style={{ color: '#FBC21E' }} />
+              Company Logo
+            </Typography>
+            <Typography level="body-xs">Upload your organization’s logo to make this space your own.</Typography>
+          </Grid>
+          {CompanyInfoFields &&
+            CompanyInfoFields.slice(12, 13).map((field, index) => (
+              <Grid key={index} md={8} xs={8} sm={8} sx={{  justifyContent: 'center',marginLeft:'20%' }}>
+                
+                <FieldComponent 
+                field={field}
+                  formData={companyFormData}
+                  handleInputChange={handleInputChange} 
+                  handleSelectChange={handleSelectChange}
+                  
+                  />
+              </Grid> 
+            ))}
+        </Grid>
+
+                
+                {/* <Box>
                 <div>
     <Typography
       level="h4"
@@ -782,34 +295,31 @@ const Company: React.FC<CompanyProps> = ({
       only (JPG, GIF, PNG) are allowed.
     </label>
   </div>
-                </Box>
-                <Divider />
-
-                <Button                 
-                  sx={{
-                    background: "#FABC1E",
-                    width: { xs: "100%", sm: "150px", md: "125px" },
-                    height: "30px",
-                    marginLeft: { xs: "0", md: "auto" },
-                    marginTop: { xs: "10px", md: "0" },
-                    color: "black",
-                    "&:hover": {
-                      backgroundColor: "#d79918",
-                    },
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                  onClick={handleNextTab}
-                >
-                    Continue
-                </Button>
-              </Box>
-            </form>
-          </Box>
+                </Box> */}
+                <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
+            justifyContent: 'center',
+            marginBottom: '10px',
+          }}
+        >
         </Box>
+        <Divider sx={{ my: 3 }} />
+        <Button onClick={handleNextTab} sx={{ backgroundColor: '#FABC1E', '&:hover': { backgroundColor: '#e0a800' } }}>Continue</Button>
+       
+      </Box>
+             
+           
+      
+   </AppForm>
+    
     </AppView>
   );
 };
 
 export default Company;
+
+
+

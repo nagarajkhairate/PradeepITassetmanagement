@@ -1,5 +1,4 @@
 import React, { useState, ChangeEvent, SyntheticEvent } from "react";
-// import { Link } from "react-router-dom";
 import {Box,Typography,Divider,Select,Option,Radio,RadioGroup,FormControl,FormLabel,Checkbox,Button,ButtonGroup, Grid,} from "@mui/joy";
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 import { TableInfoData } from "./TableInfoData";
@@ -84,6 +83,9 @@ const TableOptions: React.FC<TableProps> = ({
  
   const handleDepreciationChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
+    setSelectedOptions((prevData: any) => ({
+      ...prevData,
+        }));
     setShowDepreciationOptions(value === "yes");
     setFormDataState((prevData: any) => ({
       ...prevData,
@@ -116,6 +118,10 @@ const TableOptions: React.FC<TableProps> = ({
 
   const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+    setFormDataState((prevState: any) => ({
+      ...prevState,
+      [name]: value,
+    }));
     setLinkedAssets((prevState: any) => ({
       ...prevState,
       [name]: value,
@@ -149,6 +155,9 @@ const TableOptions: React.FC<TableProps> = ({
           formData.DepreciationOptions.depreciationMethod = depreciationMethod;
           formData.DepreciationOptions.calculationFrequency = calculationFrequency;
         }
+        if (formDataState.TableInfoData === "yes") {
+
+        }
         
         if (enableLinking === "yes") {
           formData.LinkingOfAssets.linkedAssets = {
@@ -168,18 +177,24 @@ const TableOptions: React.FC<TableProps> = ({
         return formData;
       };
     
-
  const handleNextTab = () => {
-    const formData = buildFormData();
-    console.log(JSON.stringify(companyFormData, null, 2));
-    console.log(JSON.stringify(formData, null, 2));
-    setActiveTab(activeTab + 1);
-  };
+  const formData = buildFormData();
+  setSelectedOptions((prevData: any) => ({
+    ...prevData,
+      }));
+  setCompanyFormData((prev: any) => ({
+    ...prev,
+    TableOptions: formData,
+  }));
+  setActiveTab(activeTab + 1);
+};
 
   const handlePrevTab = () => {
     setActiveTab(activeTab - 1);
-};
+}; 
 
+    // console.log(JSON.stringify(companyFormData, null, 2));
+    // console.log(JSON.stringify(formData, null, 2));
   return (
     <AppView>
       <Box sx={{boxSizing:"border-box"}}>
@@ -242,7 +257,7 @@ const TableOptions: React.FC<TableProps> = ({
 
                   </Typography>
                   <Typography>{DepreciationOptions.description} </Typography>
-                  <Box sx={{ marginLeft: "150px" }}>
+                  <Box >
                     <Box>
                       <FormControl
                        sx={{
@@ -253,8 +268,7 @@ const TableOptions: React.FC<TableProps> = ({
                       }}
                       >
                         <Box>
-                        <FormLabel>
-                            {" "}
+                        <FormLabel>  
                             {DepreciationOptions.formLabel}
                           </FormLabel>
                         </Box>
@@ -528,36 +542,38 @@ const TableOptions: React.FC<TableProps> = ({
                   <Grid xs={12} md={12}>
               <React.Fragment>
                 <Box
-                  sx={{
-                    marginTop: "1px",
-                    marginBottom: "15px",
-                    padding: "20px",
+                 sx={{
+                  marginTop:"20px",
+                  display: 'flex',
+                  flexDirection: { md: 'row', xs: 'column' },
+                  justifyContent: { xs: 'center', md: "flex-end" },
                   }}
                 >
-                  <ButtonGroup
-                    spacing="1rem"
-                    aria-label="spacing button group"
-                    sx={{ paddingLeft: "70%",marginRigth: "80%"}}
-                  >
-                    <Button sx={{ fontSize: "15px" }} onClick={handlePrevTab}>
+                    <Button 
+                    onClick={handlePrevTab}
+                      sx={{
+                        background:"White",
+                        borderBlock:"black",
+                       color: "black",
+                       "&:hover": { background: "#d9d9d9" },
+                      }}
+                      >
                       <NavigateBeforeOutlinedIcon />
                       Back
                     </Button>
-                    <Button
-                      sx={{
-                        fontSize: "15px",
-                        ml: "10px",
-                        background: "#FABC1E",
-                        color: "black",
 
-                        "&:hover": { background: "#E1A91B" },
-                      }}
-                      onClick={handleNextTab}
+                    <Button
+                     onClick={handleNextTab}
+                     sx={{
+                      background: "#FABC1E",
+                      color: "black",
+                      "&:hover": { background: "#E1A91B" },
+                    }}
                     >
                       Continue
                       <NavigateNextOutlinedIcon />{" "}
                     </Button>
-                  </ButtonGroup>
+               
                 </Box>
               </React.Fragment>
             </Grid>

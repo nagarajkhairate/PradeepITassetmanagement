@@ -11,6 +11,11 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
 import CategorySetup from './CategorySetup'
+import CategoryDelete from './CategoryDelete'
+import { ThunkDispatch } from 'redux-thunk'
+import { RootState } from '../../../Redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteCategory, updateCategory } from '../../../Redux/features/CategorySlice'
 
 type Category = {
   id: number
@@ -23,6 +28,7 @@ interface Props {
 }
 
 export function CategorySetupEdit({ categories, onCategoryChange }: Props) {
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
   const [lapCat, setLapCat] = useState<{ categoryData: Category[] }>({categoryData: [],})
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
@@ -30,6 +36,10 @@ export function CategorySetupEdit({ categories, onCategoryChange }: Props) {
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
+
+  const category = useSelector((state: RootState) => state.category.data)
+  // const dispatch = useDispatch<AppDispatch>()
+  console.log(category)
 
   const handleCheckboxChange = (index: number) => {
     setMatchedSelected((prevSelected) =>
@@ -59,6 +69,8 @@ export function CategorySetupEdit({ categories, onCategoryChange }: Props) {
         index === selectedCell ? { ...item, categoryName } : item,
       )
       setLapCat({ ...lapCat, categoryData: updatedData })
+      dispatch(updateCategory(categoryName))
+    console.log(categoryName)
       handleEditClose()
       onCategoryChange(updatedData)
     }
@@ -72,6 +84,7 @@ export function CategorySetupEdit({ categories, onCategoryChange }: Props) {
 
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (selectedCell !== null) {
     const updatedData = lapCat.categoryData.filter(
       (_, index) => index !== selectedCell,
     )
@@ -79,6 +92,7 @@ export function CategorySetupEdit({ categories, onCategoryChange }: Props) {
     // setMatchedSelected([])
     setDeleteOpen(false)
     onCategoryChange(updatedData)
+  }
   }
 
   const handleDeleteOpen = () => {
@@ -94,7 +108,7 @@ export function CategorySetupEdit({ categories, onCategoryChange }: Props) {
     setLapCat({ categoryData: categories })
   }, [categories])
 
-  const handleEdit = () => {
+  const handleEdit = (index:number) => {
     if (selectedCell !== null) {
       handleClickEditOpen()
     }
@@ -160,7 +174,7 @@ export function CategorySetupEdit({ categories, onCategoryChange }: Props) {
 
                   <td>
                     <Button
-                      onClick={() => handleEdit()}
+                      onClick={() => handleEdit}
                       sx={{
                         background: '#ffffff',
                         color: 'green',
@@ -295,95 +309,13 @@ export function CategorySetupEdit({ categories, onCategoryChange }: Props) {
           </Sheet>
         </Modal>
 
-        <Modal
+
+        <CategoryDelete
           open={deleteOpen}
-          onClose={handleDeleteClose}
-          aria-labelledby="responsive-dialog-title"
-          aria-describedby="modal-desc"
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Sheet
-            variant="outlined"
-            sx={{
-              maxWidth: 500,
-              borderRadius: 'md',
-              p: 3,
-              boxShadow: 'lg',
-            }}
-          >
-            <div>
-              <Typography
-                id="responsive-dialog-title"
-                component="h2"
-                level="h4"
-                textColor="inherit"
-                fontWeight="lg"
-                mb={1}
-              >
-                {'Delete Customs here'}
-              </Typography>
+          handleDeleteClose={handleDeleteClose}
+          handleDeleteSubmit={handleDeleteSubmit}
+        />
 
-              <form onSubmit={handleDeleteSubmit}>
-                <FormControl
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-evenly',
-                  }}
-                >
-                  <Box sx={{ marginBottom: '20px', padding: '20px' }}>
-                    Are you sure you want to delete this Category?
-                  </Box>
-                  {/* <Input
-                    variant="outlined"
-                    type="text"
-                    id="categoryName"
-                    name="categoryName"
-                    required
-                    sx={{ width: '92%', marginLeft: '20px' }}
-                    // defaultValue={
-                    //   selectedCell !== null
-                    //     ? lapCat.categoryData[selectedCell].categoryName
-                    //     : ''
-                    // }
-                  /> */}
-                </FormControl>
-                <Button
-                  autoFocus
-                  type="submit"
-                  variant="solid"
-                  sx={{
-                    background: '#fdd835',
-                    color: 'black',
-                    marginTop: '25px',
-                    marginLeft: '40%',
-                  }}
-                >
-                  Confirm Delete
-                </Button>
-
-                <Button
-                  type="button"
-                  onClick={handleDeleteClose}
-                  autoFocus
-                  variant="solid"
-                  sx={{
-                    background: 'black',
-                    color: 'white',
-                    marginTop: '25px',
-                    marginLeft: '10px',
-                  }}
-                >
-                  Cancel
-                </Button>
-              </form>
-            </div>
-          </Sheet>
-        </Modal>
       </Stack>
     </>
   )

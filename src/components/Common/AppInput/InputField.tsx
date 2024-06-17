@@ -38,7 +38,7 @@ const InputField: React.FunctionComponent<InputFieldProps> = ({ field, formData,
         onChange={handleInputChange}
         required={field.required}
       />
-      <FormHelperText>This is a helper text.</FormHelperText>
+      {/* <FormHelperText>This is a helper text.</FormHelperText> */}
     </FormControl>
   );
 };

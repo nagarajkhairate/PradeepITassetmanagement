@@ -6,16 +6,26 @@ import { ChangeEvent, useState } from "react";
 
 const initialDatabase = [
     {
-     
+     id:1,
       fieldName: "swde",
       dataType: "wsedf",
       Category: "234frd",
       required: "swed",
     },
   ];
+
+  const addCustomField = (custom: { 
+    fieldName: string; 
+    dataType: string; 
+    category: string; 
+    required: string; 
+  }) => {
+    // Your implementation logic here
+  };
+  
    
   interface dataItem {
-   
+    id:1,
     fieldName: string;
     dataType: string;
     category: string;
@@ -107,20 +117,12 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
       const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Access the value of the 'Custom' field from the form
     const custom = formData.custom;
-
-    // Check if a cell is selected
     if (selectedCell !== null) {
-        // Update the data in the database
         const updatedData = dataBase.data.map((item, index) =>
             index === selectedCell ? { ...item, fieldName: custom } : item
         );
-
-        // Update the state with the updated database
         setDataBase({ ...dataBase, data: updatedData });
-
-        // Close the edit modal
         handleEditClose();
     }
 };
@@ -132,14 +134,15 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
-                  paddingRight: "40px",
-                  marginTop: "60px",
+                  mt:2,
                   overflowX: "auto",
                 }}
               >
                 <Table
                   borderAxis="both"
-                  style={{ width: "100%", minWidth: "300px" }}
+                  sx={{
+                    mt:'10px'
+                  }}
                 >
                   <thead>
                     <tr>
@@ -195,13 +198,42 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
                         <td>{item.required}</td>
                         <td>{item.category}</td>
                         <td>
-                          <Button onClick={handleEdit}>
+                          <Button 
+                          sx={{
+                            background: '#ffffff',
+                            color: 'green',
+                            display: 'flex',
+                            justifyContent: {md:'flex-start', xs:'center'},
+                            marginLeft: 'none',
+                            // border: '1px solid green ',
+                            // borderRadius: '13px',
+                            '&:hover': {
+                              color: 'white',
+                              background: 'green',
+                              
+                            },
+                          }}
+                          onClick={handleEdit}>
                             <EditOutlinedIcon />
                             Edit
                           </Button>
                         </td>
                         <td>
-                          <Button onClick={handleDeleteButton}>
+                          <Button 
+                          sx={{
+                            background: '#ffffff',
+                            color: '#d32f2f',
+                            display: 'flex',
+                            justifyContent: {md:'flex-start',xs:'center'},
+                            marginLeft: 'none',
+                            // border: '1px solid red ',
+                            // borderRadius: '13px',
+                            '&:hover': {
+                              color: 'white',
+                              background: '#d32f2f',
+                            },
+                          }}
+                          onClick={handleDeleteButton}>
                             <DeleteForeverIcon />
                             Delete
                           </Button>
