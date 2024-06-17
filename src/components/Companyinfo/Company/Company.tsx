@@ -64,6 +64,7 @@ const Company: React.FC<CompanyProps> = ({
   };
 
   const handleNextTab = () => {
+
     setCompanyFormData((prevData: any) => ({
       company:{ ...prevData,
         company: Company,}
@@ -130,7 +131,7 @@ const Company: React.FC<CompanyProps> = ({
     e.preventDefault();
   };
 
-  console.log(JSON.stringify(companyFormData))
+
   return (
     <AppView>
    <AppForm onSubmit={handleNextTab}>

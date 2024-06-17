@@ -9,7 +9,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Company from "../../components/Companyinfo/Company/Company";
 import Sites from "../../components/Companyinfo/Sites/Sites";
 import TableOptions from "../../components/Companyinfo/TableOptions/TableOptions";
-import Location from "../../components/Companyinfo/Location/Location";
+import LocationPage from "../../components/Companyinfo/Location/Location";
 import Category from "../../components/Companyinfo/Category/Category";
 import DataBase from "../../components/Companyinfo/Database/DataBase";
 import EventOption from "../../components/Companyinfo/EventOption/EventOption";
@@ -27,8 +27,8 @@ const CompanyInfo = () => {
     { label: "Locations", icon: <LanguageIcon fontSize="large" /> },
     { label: "Categories", icon: <LanguageIcon fontSize="large" /> },
     { label: "Database", icon: <LanguageIcon fontSize="large" /> },
-    { label: "Table Options", icon: <LanguageIcon fontSize="large" /> },
-    { label: "Event Options", icon: <LanguageIcon fontSize="large" /> },
+    { label: "TableOptions", icon: <LanguageIcon fontSize="large" /> },
+    { label: "EventOptions", icon: <LanguageIcon fontSize="large" /> },
   ];
 
   return (
@@ -96,7 +96,7 @@ const CompanyInfo = () => {
             />
           </TabPanel>
           <TabPanel value={2}>
-            <Location
+            <LocationPage
               companyFormData={companyFormData}
               setCompanyFormData={setCompanyFormData}
               activeTab={activeTab}
@@ -113,6 +113,7 @@ const CompanyInfo = () => {
           </TabPanel>
           <TabPanel value={4}>
           <DataBase
+          id={1}
               companyFormData={companyFormData}
               setCompanyFormData={setCompanyFormData}
               activeTab={activeTab}

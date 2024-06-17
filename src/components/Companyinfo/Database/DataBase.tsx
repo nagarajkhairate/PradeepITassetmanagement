@@ -13,17 +13,14 @@ import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined';
 import DataBaseAdd from "./DataBaseAdd";
 import DataBaseEdit from "./DataBaseEdit";
-
-const initialData = {
-  data: ["Buldings", "computer Equipments", "transfer"],
-};
+import AppView from "../../Common/AppView";
+import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 
 const tableData = [
   {
     id: 1,
     title: "Asset Tag ID",
     name: "assetId",
-
     option: [
       {
         id: 1,
@@ -44,11 +41,9 @@ const tableData = [
         value: "Yes",
       },
     ],
-
     description: "Description of the asset.",
     example: "HP - Envy Desktop - 12GB Memory - 2TB Hard Drive",
   },
-
   {
     id: 3,
     title: "Purchase Date",
@@ -63,11 +58,9 @@ const tableData = [
         value: "No",
       },
     ],
-
     description: "Date asset was purchased",
     example: "08/22/2014",
   },
-
   {
     id: 4,
     title: "Cost",
@@ -85,7 +78,6 @@ const tableData = [
     description: "Cost of the asset",
     example: "Bs225.75",
   },
-
   {
     id: 5,
     title: "Purchased From",
@@ -140,7 +132,7 @@ const tableData = [
   {
     id: 8,
     title: "Serial No",
-    name: "Yes",
+    name: "SerialNo",
     option: [
       {
         id: 1,
@@ -161,26 +153,32 @@ interface DataBaseProps {
   setCompanyFormData: any;
   activeTab: number;
   setActiveTab: (tab: number) => void;
+  id:number
 }
 
-const DataBase: React.FunctionComponent<DataBaseProps >  = ({
+const DataBase: React.FunctionComponent<DataBaseProps> = ({
   companyFormData,
   setCompanyFormData,
   activeTab,
   setActiveTab,
 }) => {
   const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
-  const [dataBase, setDataBase] = useState<{ data: string[] }>(initialData);
+  const [dataBase, setDataBase] = useState<{ data: string[];tableData: any[] }>({ data: [], tableData });
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-  // const [formData, setFormData] = useState([]);
 
   const addCustomField = (custom: string) => {
     setDataBase({ ...dataBase, data: [...dataBase.data, custom] });
   };
+
+  // const addCustomField = (custom: string) => {
+  //   const updatedDataBase = { ...dataBase, data: [...dataBase.data, custom] };
+  //   setDataBase(updatedDataBase);
+  //   console.log(JSON.stringify(updatedDataBase, null, 2)); // Log formatted JSON
+  // };
 
   const deleteCustomField = (index: number) => {
     const updatedData = dataBase.data.filter((_, idx) => idx !== index);
@@ -242,10 +240,6 @@ const DataBase: React.FunctionComponent<DataBaseProps >  = ({
     setMatchedSelected([]);
   };
 
-  useEffect(() => {
-    setDataBase(initialData);
-  }, []);
-
   const handleEdit = () => {
     if (selectedCell !== null) {
       handleClickEditOpen();
@@ -257,48 +251,83 @@ const DataBase: React.FunctionComponent<DataBaseProps >  = ({
     setCompanyFormData((prevData: any) => ({ ...prevData, [name]: value }));
   };
 
-  // const handleContinue = () => {
-  //   setFormData((prevData) => ({ ...prevData, ...dataBase }));
+  // const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = event.target;
+  //   const updatedTableData = dataBase.tableData.map((item) =>
+  //     item.name === name ? { ...item, selectedOption: value } : item
+  //   );
+  //   setDataBase({ ...dataBase, tableData: updatedTableData });
+  //   setCompanyFormData((prevData: any) => ({ ...prevData, [name]: value }));
+  // };
 
-  //   console.log(JSON.stringify(formData));
-  //   console.log(JSON.stringify(dataBase));
+  // const handleNextTab = () => {
+  //   setCompanyFormData((prevData: any) => ({ ...prevData, dataBase : dataBase}));
+  //   setActiveTab(activeTab + 1); 
+  //   // console.log(JSON.stringify(dataBase));
   // };
 
   const handleNextTab = () => {
-    setCompanyFormData((prevData: any) => ({ ...prevData, dataBase : dataBase}));
-    setActiveTab(activeTab + 1); 
-    console.log(JSON.stringify(dataBase));
+    // Transforming tableData to the desired format
+    const transformedTableData = dataBase.tableData.reduce((acc, item) => {
+      acc[item.name] = companyFormData[item.name] || "No";
+      return acc;
+    }, {});
+    setCompanyFormData((prevData: any) => ({
+      ...prevData,
+      dataBase: {
+        data: dataBase.data,
+        tableData: [transformedTableData],
+      },
+    }));
+    setActiveTab(activeTab + 1);
   };
 
   const handlePrevTab = () => {
     setActiveTab(activeTab - 1);
 };
 
+
+
   return (
-    <>
-      <div style={{ width: "100%", background: "#f9f9f9" }}>
-        <div style={{ margin: "52px" }}>
+    <AppView>
+      <Typography
+        level="h4"
+        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+      >
+        <SignpostOutlinedIcon
+          style={{ fontSize: '1.4rem', color: '#d32f2f' }}
+        />
+        Database
+      </Typography>
+
           <Box
             sx={{
-              borderRadius: "16px",
-              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-              background: "#ffffff",
-              margin: {
-                xs: "8px",
-                md: "52px",
-              },
-              p: "20px",
+              borderRadius: 'none',
+              boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+              background: '#ffffff',
+              gap: '5px',
+              p: 2,
             }}
           >
-            <Box sx={{ ml: "20px", p: "10px" }}>
-              <Typography>
-                {/* <AiFillDatabase color="brown" /> */}
-                Asset Database Fields
-              </Typography>
+            <Box 
+            sx={{
+              textAlign: { xs: 'center', md: 'left' },
+            }}
+            >
+            <Typography
+        level="h4"
+        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+      >
+       Asset Database Fields
+      </Typography>
             </Box>
-
-            <Box sx={{ ml: "20px", py: "10px" }}>
-              <Box>
+            
+            <Box sx={{
+              textAlign: { xs: 'center', md: 'left',  },
+            }}>
+              <Box
+              sx={{mt:3}}
+              >
                 <Typography level="body-xs">
                   Fill in the appropriate fields for your assets. Asset Tag ID
                   and Asset Description are the only required fields. Check the
@@ -307,7 +336,7 @@ const DataBase: React.FunctionComponent<DataBaseProps >  = ({
               </Box>
 
               <Box sx={{ mt: "10px", overflowX: "auto" }}>
-                <Table borderAxis="both" style={{ width: "100%" }}>
+                <Table borderAxis="both" >
                   <thead>
                     <tr>
                       <th style={{ width: 30 }}>
@@ -320,8 +349,7 @@ const DataBase: React.FunctionComponent<DataBaseProps >  = ({
                     </tr>
                   </thead>
                   <tbody>
-                    {tableData &&
-                      tableData.map((data, index) => (
+                    {dataBase.tableData.map((data, index) => (
                         <tr key={index}>
                           <td>
                             <Checkbox />
@@ -333,14 +361,13 @@ const DataBase: React.FunctionComponent<DataBaseProps >  = ({
                                 defaultValue="outlined"
                                 name="radio-buttons-group"
                               >
-                                {data.option &&
-                                  data.option.map((option, index) => (
+                                {data.option.map((opt:any) => (
                                     <Radio
                                       name={data.name}
                                       onChange={HandleRadioSelect}
-                                      key={index}
-                                      value={option.value}
-                                      label={option.value}
+                                      key={opt.id}
+                                      value={opt.value}
+                                      label={opt.value}
                                       variant="outlined"
                                     />
                                   ))}
@@ -375,7 +402,6 @@ const DataBase: React.FunctionComponent<DataBaseProps >  = ({
   setActiveTab={setActiveTab} 
 />
 
-
               <DataBaseEdit
                 matchedSelected={matchedSelected}
                 setMatchedSelected={setMatchedSelected}
@@ -400,36 +426,47 @@ const DataBase: React.FunctionComponent<DataBaseProps >  = ({
 
             <Divider sx={{ marginTop: "3%" }} />
 
-            <Grid xs={12} md={4} >
-              <React.Fragment>
-              <Box sx={{marginTop: "1px", marginBottom: "15px", padding: "20px" }}>
-            <ButtonGroup  
-              spacing="1rem"
-              aria-label="spacing button group"
-              sx={{ paddingLeft: "84%" }}
-            >
-              <Button sx={{ fontSize: "15px" }}
-              onClick={handlePrevTab}
-              >
-                <NavigateBeforeOutlinedIcon />
+            <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: { md: 'row', xs: 'column' },
+              justifyContent: { xs: 'center', md: 'flex-end' },
+              gap: '5px',
+              mt:4
+            }}
+        >
+         
+          <Button
+            variant="solid"
+            sx={{
+              background: '#388e3c',
+              color: 'white',
+              borderRadius:'15px'
+            }}
+            component="label"
+            onClick={handlePrevTab}
+          >
+            <NavigateBeforeOutlinedIcon />
                 
-                  Back
-              
-              </Button>
-              <Button sx={{ background: "#fdd835", fontSize: "15px" }}
-              onClick={handleNextTab}
-              >
-                  Continue
-                <NavigateNextOutlinedIcon />{" "}
-              </Button>
-            </ButtonGroup>
-            </Box>
-              </React.Fragment>
-            </Grid>
+                Back
+          </Button>
+          <Button
+            variant="solid"
+            sx={{
+              background: "#fdd835",
+              color: 'white',
+              borderRadius:'15px'
+            }}
+            component="label"
+              onClick={handleNextTab} 
+          >
+             Continue
+             <NavigateNextOutlinedIcon />{" "}
+          </Button>
           </Box>
-        </div>
-      </div>
-    </>
+          </Box>
+    </AppView>
   );
 };
 

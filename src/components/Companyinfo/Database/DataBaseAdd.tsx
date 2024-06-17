@@ -21,6 +21,7 @@ interface DataAddProps {
   setDataBase: React.Dispatch<React.SetStateAction<{ data: string[] }>>;
   addCustomField: (custom: string) => void;
   deleteCustomField: (index: number) => void;
+  id:number
 }
 
 const DataBaseAdd: React.FC<DataAddProps> = ({
@@ -32,10 +33,12 @@ const DataBaseAdd: React.FC<DataAddProps> = ({
   const [open, setOpen] = useState(false);
   
   const [formData, setFormData] = useState({
+  
     custom: "",
     dataType: "",
-    dataRequired: false,
     selectedCategories: "",
+    dataRequired: '',
+    
   });
 
   const handleClickOpen = () => {
@@ -65,7 +68,7 @@ const DataBaseAdd: React.FC<DataAddProps> = ({
     setFormData({
       custom: "",
       dataType: "",
-      dataRequired: false,
+      dataRequired: '',
       selectedCategories: "",
     });
   };
@@ -90,19 +93,26 @@ const DataBaseAdd: React.FC<DataAddProps> = ({
   //   // setCompanyFormData((prevState: any) => ({ ...prevState, assetDepreciation: value }));
   // };
 
-  console.log(JSON.stringify(formData))
+  // console.log(JSON.stringify(formData))
+  // console.log("tableAdd:", formData); 
 
   return (
-    <Grid container spacing={8} columns={16} sx={{ flexGrow: 1 }}>
-      <Grid xs={8}>
-        <React.Fragment>
+    <Box
+    sx={{
+      display: 'flex',
+      alignItems: 'center',
+      flexDirection: { md: 'row', xs: 'column' },
+      justifyContent: { xs: 'center', md: 'space-between' },
+      gap: '5px',
+    }}
+          >
           <Button
             onClick={handleClickOpen}
             sx={{
               marginTop: "25px",
-              marginLeft: "10%",
               background: "green",
               color: "white",
+              borderRadius:'15px',
             }}
           >
             <AddIcon />
@@ -254,9 +264,8 @@ const DataBaseAdd: React.FC<DataAddProps> = ({
               </div>
             </Sheet>
           </Modal>
-        </React.Fragment>
-      </Grid>
-    </Grid>
+          </Box>
+ 
   );
 };
 

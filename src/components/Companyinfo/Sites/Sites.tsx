@@ -119,7 +119,6 @@ const Sites: React.FC<SiteProps> = ({
     alignItems: 'center',
   })
 
-  console.log(JSON.stringify(companyFormData))
 
   return (
     <AppView>
