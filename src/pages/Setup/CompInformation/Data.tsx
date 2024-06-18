@@ -25,7 +25,7 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 1,
     title: 'Company name',
-    value: 'company',
+    value: 'companyName',
     required: true,
     sequence: 1,
     className: { sm: 12, md: 6, lg: 6 },
