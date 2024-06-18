@@ -228,7 +228,7 @@ const SetupSites: React.FC = ({}) => {
               p:2
             }}
           >
-            <Box sx={{ overflow: "auto" }}>
+            <Box sx={{ overflow: "auto", fontSize: '14px' }}>
             <Table
               borderAxis="both"
               
@@ -296,8 +296,23 @@ const SetupSites: React.FC = ({}) => {
                         <Button
                           aria-label="edit"
                           onClick={() => handleEditClick(site)}
+                          sx={{
+                            fontSize:'12px',
+                            background: '#ffffff',
+                            color: 'green',
+                            display: 'flex',
+                            justifyContent: {md:'flex-end', xs:'center'},
+                            marginLeft: 'none',
+                            border: '1px solid green ',
+                            borderRadius: '13px',
+                            '&:hover': {
+                              color: 'white',
+                              background: 'green',
+                            },
+                          }}
                         >
-                          <EditIcon fontSize="small" />
+                          <EditIcon  sx={{fontSize:'12px'}}/>
+                          Edit
                         </Button>
                       </div>
                     </td>
@@ -305,8 +320,23 @@ const SetupSites: React.FC = ({}) => {
                       <Button
                         aria-label="delete"
                         onClick={() => handleDeleteClick(site)}
+                        sx={{
+                          fontSize:'12px',
+                          background: '#ffffff',
+                          color: '#d32f2f',
+                          display: 'flex',
+                          justifyContent: {md:'flex-end',xs:'center'},
+                          marginLeft: 'none',
+                          border: '1px solid red ',
+                          borderRadius: '13px',
+                          '&:hover': {
+                            color: 'white',
+                            background: '#d32f2f',
+                          },
+                        }}
                       >
-                        <DeleteIcon fontSize="small" />
+                        <DeleteIcon  sx={{fontSize:'12px'}} />
+                        Delete
                       </Button>
                     </td>
                   </tr>
