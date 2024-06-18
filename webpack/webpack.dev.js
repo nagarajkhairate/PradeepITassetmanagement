@@ -10,9 +10,8 @@ module.exports ={
     devtool: 'cheap-module-source-map',
     plugins: [
         new webpack.DefinePlugin({
-            'process.env.BASE_API_KEY': JSON.stringify('http://localhost:8080/api/'),
-            'process.env.BASE_UI_FIELDS_API': JSON.stringify('http://localhost:8081/'),
-            'process.env.CUSTOMER_ID': JSON.stringify('1')
+            'process.env.BASE_API_KEY': JSON.stringify('http://localhost:8000/api/'),
+            'process.env.TENANT_ID': JSON.stringify('1')
         }),
         new ReactRefreshWebpackPlugin(),
     ]

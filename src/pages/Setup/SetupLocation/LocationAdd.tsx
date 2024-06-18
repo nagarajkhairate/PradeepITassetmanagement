@@ -3,6 +3,10 @@ import { Box, Button, Divider, FormControl, FormLabel, Input, Modal, Option, Sel
 import React, { useState } from 'react'
 import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
 import AddIcon from '@mui/icons-material/Add'
+import { RootState } from '../../../Redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { ThunkDispatch } from 'redux-thunk'
+import { fetchSites } from '../../../Redux/features/SitesSlice'
 
 
 interface LocationAddProps {
@@ -18,7 +22,8 @@ interface LocationAddProps {
 
   }:LocationAddProps) => {
     const [open, setOpen] = useState<boolean>(false)
-
+    const sites = useSelector((state:RootState) => state.sites.data);
+    const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
     const handleClickOpen = () => {
         setOpen(true)
       }
@@ -27,7 +32,9 @@ interface LocationAddProps {
         setOpen(false)
       }
 
-      
+      React.useEffect(()=>{
+        dispatch(fetchSites())
+      },[dispatch])
       
 
   return (
@@ -136,9 +143,11 @@ interface LocationAddProps {
                               },
                             }}
                           >
-                            <Option value="india">india</Option>
-                            <Option value="delhi">Delhi</Option>
-                            <Option value="banglore">Banglore</Option>
+                            {sites && sites.map((site)=>(
+                              <Option key={site.id} value={site.id}>{site.siteName}</Option>
+                            ))}
+                            
+                            
                           </Select>
                         </FormControl>
 
