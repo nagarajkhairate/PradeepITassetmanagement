@@ -1,10 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
  
-interface Category {
-    id: number;
-    category: string;
-  }
+
   interface CategoryState {
     data: any[];
     selectedCategory: any | null;
@@ -20,12 +17,12 @@ interface Category {
   };
  
 const base_api_key_url = process.env.BASE_API_KEY;
-
+const TENANT_ID = process.env.TENANT_ID;
 
  
 export const fetchCategory = createAsyncThunk('category/fetchCategory', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}category/category}/category`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/category`);
   return response.data;
    
   } catch (error) {
@@ -39,7 +36,7 @@ export const fetchCategory = createAsyncThunk('category/fetchCategory', async ()
 
 export const fetchCategoryById = createAsyncThunk('category/fetchCategoryById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}category/category/${id}`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/category/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -50,20 +47,20 @@ export const fetchCategoryById = createAsyncThunk('category/fetchCategoryById', 
  
 export const addCategory = createAsyncThunk('category/addCategory', async (category: any) => {
   console.log('asfes')
- const response = await axios.post(`${base_api_key_url}category`, category);
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/category/`, category);
  console.log(response)
   return response.data;
 });
  
 export const updateCategory = createAsyncThunk('category/updateCategory', async (updatedCategory: any) => {
  
-  const response = await axios.put(`${base_api_key_url}/category/${updatedCategory.id}`, updatedCategory);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/category/${updatedCategory.id}`, updatedCategory);
   
   return response.data;
 });
  
 export const deleteCategory = createAsyncThunk('category/deleteCategory', async (id: number) => {
-  await axios.delete(`${base_api_key_url}/category/${id}`);
+  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/category/${id}`);
   return id;
 });
 

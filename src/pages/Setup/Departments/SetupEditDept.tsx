@@ -11,6 +11,11 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import SetupDept from "./SetupDept";
+import SetupDeleteDept from "./SetupDeleteDept";
+import { ThunkDispatch } from "redux-thunk";
+import { RootState } from "../../../Redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { updateDepartment } from "../../../Redux/features/DepartmentSlice";
 
 type Department = {
   id: number
@@ -30,6 +35,11 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+
+  const departments = useSelector((state: RootState) => state.departments.data)
+// const dispatch = useDispatch<AppDispatch>()
+console.log(departments)
 
   const handleCheckboxChange = (index: number) => {
     setMatchedSelected((prevSelected) =>
@@ -60,6 +70,7 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
       );
       setDepart({ ...depart, data: updatedData });
       handleEditClose();
+      dispatch(updateDepartment(updatedData))
       onDeptChange(updatedData);
     }
   };
@@ -276,7 +287,7 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
           </Sheet>
         </Modal>
 
-        <Modal
+        {/* <Modal
           
           open={deleteOpen}
           onClose={handleDeleteClose}
@@ -305,15 +316,7 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
           <form onSubmit={handleDeleteSubmit}>
             <FormControl sx={{ display: "flex", flexDirection: "column", justifyContent: "space-evenly" }}>
               <Box sx={{ marginBottom: "20px", padding: "20px" }}>Are you sure you want to delete this Department?</Box>
-              {/* <Input
-                variant="outlined"
-                type="text"
-                id="departmentName"
-                name="departmentName"
-                required
-                sx={{ width: "92%", marginLeft: "20px" }}
-                // defaultValue={selectedCell !== null ? depart.data[selectedCell].departmentName : ""} // Set default value to the selected cell content
-              /> */}
+             
             </FormControl>
             <Button
               autoFocus
@@ -342,7 +345,13 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
           </form>
           </div>
           </Sheet>
-        </Modal>
+        </Modal> */}
+
+<SetupDeleteDept
+          open={deleteOpen}
+          handleDeleteClose={handleDeleteClose}
+          handleDeleteSubmit={handleDeleteSubmit}
+        />
       </Stack>
     </>
   );

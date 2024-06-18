@@ -20,12 +20,12 @@ interface Location {
   };
  
 const base_api_key_url = process.env.BASE_API_KEY;
-
+const TENANT_ID = process.env.TENANT_ID;
 
  
 export const fetchLocation = createAsyncThunk('locations/fetchLocation', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}locations/locations}/locations`);
+    const response = await axios.get(`${base_api_key_url}tenant/TENANT_ID}/locations`);
   return response.data;
    
   } catch (error) {
@@ -39,7 +39,7 @@ export const fetchLocation = createAsyncThunk('locations/fetchLocation', async (
 
 export const fetchLocationById = createAsyncThunk('Locations/fetchLocationById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}locations/locations/${id}`);
+    const response = await axios.get(`${base_api_key_url}tenant/TENANT_ID/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -49,21 +49,21 @@ export const fetchLocationById = createAsyncThunk('Locations/fetchLocationById',
 });
  
 export const addLocation = createAsyncThunk('locations/addLocation', async (locations: any) => {
-  console.log('asfes')
- const response = await axios.post(`${base_api_key_url}locations`, locations);
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/locations/`, locations);
  console.log(response)
   return response.data;
 });
- 
+
+
 export const updateLocation = createAsyncThunk('locations/updateLocation', async (updatedLocation: any) => {
  
-  const response = await axios.put(`${base_api_key_url}/locations/${updatedLocation.id}`, updatedLocation);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/locations/${updatedLocation.id}`, updatedLocation);
   
   return response.data;
 });
  
 export const deleteLocation = createAsyncThunk('locations/deleteLocation', async (id: number) => {
-  await axios.delete(`${base_api_key_url}/locations/${id}`);
+  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/locations/${id}`);
   return id;
 });
 
