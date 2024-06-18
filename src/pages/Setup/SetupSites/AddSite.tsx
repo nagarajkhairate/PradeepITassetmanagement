@@ -67,9 +67,11 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
 
   const handleAddSite = async () => {
     onSave(newSite);
+
+    console.log(JSON.stringify(newSite))
     await dispatch(addSites(newSite)); 
     setNewSite(initialSiteData);
-    onClose();
+    // onClose();
   };
 
  

@@ -18,9 +18,9 @@ import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
 import AppView from '../../../components/Common/AppView'
 import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
 import { useDispatch, useSelector } from 'react-redux'
-import  { addSites, deleteSites, fetchSites, updateSites } from '../../../Redux/features/SitesSlice';
 import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../../Redux/store'
+import { deleteSites, fetchSites, updateSites } from '../../../Redux/features/SitesSlice'
 
 export interface Site {
   siteName: string
@@ -46,10 +46,10 @@ const SetupSites: React.FC = ({}) => {
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
   // const [sites, setSites] = useState<Site[]>([])
 
-  const sitess = useSelector((state:RootState) => state.sites.data);
+  const sites = useSelector((state:RootState) => state.sites.data);
   const loading = useSelector((state: RootState) => state.sites.loading);
   const error = useSelector((state: RootState) => state.sites.error);
-  console.log(sitess);
+  console.log(sites);
   console.log(loading);
   console.log(error);
 
@@ -94,7 +94,6 @@ const SetupSites: React.FC = ({}) => {
     alignItems: 'center',
   })
 
-  // console.log(JSON.stringify(sitess))
 
   React.useEffect(()=>{
     dispatch(fetchSites())
@@ -241,20 +240,20 @@ const SetupSites: React.FC = ({}) => {
                       size="sm"
                       indeterminate={
                         matchedSelected.length > 0 &&
-                        matchedSelected.length < sitess.length
+                        matchedSelected.length < sites.length
                       }
                       checked={
                         matchedSelected.length > 0 &&
-                        matchedSelected.length === sitess.length
+                        matchedSelected.length === sites.length
                       }
                       onChange={() => {
                         if (
                           matchedSelected.length > 0 &&
-                          matchedSelected.length === sitess.length
+                          matchedSelected.length === sites.length
                         ) {
                           setMatchedSelected([])
                         } else {
-                          const newSelecteds = sitess.map((_, index) => index)
+                          const newSelecteds = sites.map((_, index) => index)
                           setMatchedSelected(newSelecteds)
                         }
                       }}
@@ -273,7 +272,7 @@ const SetupSites: React.FC = ({}) => {
                 </tr>
               </thead>
               <tbody>
-                {sitess.length > 0? sitess.map((site, index) => (
+                {sites.length > 0? sites.map((site, index) => (
                   <tr key={index}>
                     <td>
                       <Checkbox
@@ -334,7 +333,7 @@ const SetupSites: React.FC = ({}) => {
         onClose={() => setEditOpen(false)}
         site={selectedSite}
         onSave={(updatedSite: Site) => {
-          const updatedSites = sitess.map((site) =>
+          const updatedSites = sites.map((site) =>
             site === selectedSite ? updatedSite : site
           )
           // setSites(updatedSites)

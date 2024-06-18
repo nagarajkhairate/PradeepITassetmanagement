@@ -14,12 +14,12 @@ const initialState: CompanyInfoState = {
   loading: false,
   error: null,
 };
-const customer_id = process.env.CUSTOMER_ID;
+const TENANT_ID = process.env.TENANT_ID;
 const base_api_key_url = process.env.BASE_API_KEY;
  
 export const fetchCompanyInfo = createAsyncThunk('companyInfo/fetchCompanyInfo', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}customers/${customer_id}/clients`);
+    const response = await axios.get(`${base_api_key_url}customers/${TENANT_ID}/clients`);
   return response.data;
    
   } catch (error) {
@@ -31,7 +31,7 @@ export const fetchCompanyInfo = createAsyncThunk('companyInfo/fetchCompanyInfo',
 });
 export const fetchCompanyInfoById = createAsyncThunk('companyInfo/fetchCompanyInfoById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}customers/${customer_id}/clients/${id}`);
+    const response = await axios.get(`${base_api_key_url}customers/${TENANT_ID}/clients/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -41,18 +41,18 @@ export const fetchCompanyInfoById = createAsyncThunk('companyInfo/fetchCompanyIn
 });
  
 export const addCompanyInfo = createAsyncThunk('companyInfo/addCompanyInfo', async (companyInfo: any) => {
- const response = await axios.post(`${base_api_key_url}customers/${customer_id}/clients`, companyInfo);
+ const response = await axios.post(`${base_api_key_url}customers/${TENANT_ID}/clients`, companyInfo);
   return response.data;
 });
  
 export const updateCompanyInfo = createAsyncThunk('companyInfo/updateCompanyInfo', async (updatedCustomer: any) => {
  
-  const response = await axios.put(`${base_api_key_url}customers/${customer_id}/clients/${updatedCustomer.id}`, updatedCustomer);
+  const response = await axios.put(`${base_api_key_url}customers/${TENANT_ID}/clients/${updatedCustomer.id}`, updatedCustomer);
   return response.data;
 });
  
 export const deleteCompanyInfo = createAsyncThunk('companyInfo/deleteCompanyInfo', async (id: number) => {
-  await axios.delete(`${base_api_key_url}customers/${customer_id}/clients/${id}`);
+  await axios.delete(`${base_api_key_url}customers/${TENANT_ID}/clients/${id}`);
   return id;
 });
  
