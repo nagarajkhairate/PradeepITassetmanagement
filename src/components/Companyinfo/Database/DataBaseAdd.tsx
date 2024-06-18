@@ -60,7 +60,7 @@ const DataBaseAdd: React.FC<DataAddProps> = ({
           fieldName: formData.custom,
           dataType: formData.dataType,
           category: formData.selectedCategories,
-          required: formData.dataRequired ? "Yes" : "No",
+          required: formData.dataRequired,
         },
       ],
     }));
@@ -73,10 +73,11 @@ const DataBaseAdd: React.FC<DataAddProps> = ({
     });
   };
 
+ 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, type } = e.target;
-    const val =  value;
-    setFormData((prevData) => ({ ...prevData, [name]: val }));
+    const { name, value} = e.target;
+    // const val =  value;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleSelectChange = (
@@ -201,16 +202,17 @@ const DataBaseAdd: React.FC<DataAddProps> = ({
                     value={formData.dataRequired.toString()} onChange={handleChange}>
                       <Box>
                         <Radio
-                          value="true"
+                          value="yes"
                           label="Yes"
                           variant="outlined"
                           sx={{ paddingTop: "30px", marginLeft: "50px" }}
                         />
                         <Radio
-                          value="false"
-                          label="No"
+                          value="optional"
+                          label="Optional"
                           variant="outlined"
                           sx={{ paddingTop: "30px", marginLeft: "10px" }}
+                          
                         />
                       </Box>
                     </RadioGroup>
@@ -226,12 +228,12 @@ const DataBaseAdd: React.FC<DataAddProps> = ({
                         >
                           <Box>
                             <Radio
-                              value="Yes"
+                              value="All Categories"
                               label="All Categories"
                               variant="outlined"
                               sx={{ paddingTop: "20px", marginLeft: "160px" }}
                             />
-                            <Radio value="No" label="Limited Categories" variant="outlined" sx={{ paddingTop: "30px", marginLeft: "20px" }}/>
+                            <Radio value="Limited Categories" label="Limited Categories" variant="outlined" sx={{ paddingTop: "30px", marginLeft: "20px" }}/>
                            
                           </Box>
                           </RadioGroup>

@@ -10,35 +10,35 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
-import { useSelector, useDispatch } from 'react-redux';
- 
+import { useSelector, useDispatch } from 'react-redux'
+
 import { AppDispatch, RootState } from '../../../Redux/store'
 import { updateLocation } from '../../../Redux/features/LocationSlice'
- 
- 
+
 type Location = {
   id: number
   location: string
 }
- 
+
 interface Props {
   locationName: Location[]
   onLocationChange: (updatedData: Location[]) => void
 }
- 
+
 export function LocationEditDelt({ locationName, onLocationChange }: Props) {
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
-  const [locData, setLocData] = useState<{ locationData: Location[] }>({locationData: [],})
+  const [locData, setLocData] = useState<{ locationData: Location[] }>({
+    locationData: [],
+  })
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
   const [editOpen, setEditOpen] = useState<boolean>(false)
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
- 
+
   const locations = useSelector((state: RootState) => state.locations)
-const dispatch = useDispatch<AppDispatch>()
- 
- 
+  const dispatch = useDispatch<AppDispatch>()
+
   const handleCheckboxChange = (index: number) => {
     setMatchedSelected((prevSelected) =>
       prevSelected.includes(index)
@@ -47,18 +47,18 @@ const dispatch = useDispatch<AppDispatch>()
     )
     setSelectedCell(index)
   }
- 
+
   const handleClickEditOpen = () => {
     setEditOpen(true)
   }
- 
+
   const handleEditClose = () => {
     setEditOpen(false)
     setSelectedCell(null)
- 
+
     // console.log(JSON.stringify(editOpen))
   }
- 
+
   const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const location = (e.target as any).location.value
@@ -72,7 +72,7 @@ const dispatch = useDispatch<AppDispatch>()
       onLocationChange(updatedData)
     }
   }
- 
+
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const updatedData = locData.locationData.filter(
@@ -83,32 +83,32 @@ const dispatch = useDispatch<AppDispatch>()
     setDeleteOpen(false)
     // onLocationChange(updatedData)
   }
- 
+
   const handleDeleteButton = () => {
     if (selectedCell !== null) {
       handleDeleteOpen()
     }
   }
- 
+
   const handleDeleteOpen = () => {
     setDeleteOpen(true)
   }
- 
+
   const handleDeleteClose = () => {
     setDeleteOpen(false)
     setMatchedSelected([])
   }
- 
+
   useEffect(() => {
     setLocData({ locationData: locationName })
   }, [locationName])
- 
+
   const handleEdit = () => {
     if (selectedCell !== null) {
       handleClickEditOpen()
     }
   }
- 
+
   return (
     <>
       <Stack
@@ -119,107 +119,117 @@ const dispatch = useDispatch<AppDispatch>()
           justifyContent: 'space-between',
         }}
       >
-<Table borderAxis="both" style={{ borderCollapse: 'collapse' }}>
-          <thead>
-            <tr>
-              <th style={{ width: 30 }}>
-                <Checkbox
-                  size="sm"
-                  indeterminate={
-                    matchedSelected.length > 0 &&
-                    matchedSelected.length < locData.locationData.length
-                  }
-                  checked={
-                    matchedSelected.length > 0 &&
-                    matchedSelected.length === locData.locationData.length
-                  }
-                  onChange={(event) => {
-                    const isChecked = event.target.checked
-                    setMatchedSelected(
-                      isChecked
-                        ? locData.locationData.map((_, index) => index)
-                        : [],
-                    )
-                  }}
-                  color={
-                    matchedSelected.length > 0 &&
-                    matchedSelected.length === locData.locationData.length
-                      ? 'primary'
-                      : undefined
-                  }
-                  sx={{ verticalAlign: 'text-bottom' }}
-                />
-              </th>
-              <th>Location</th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-              <tbody>
-              {locData.locationData.length > 0 ? locData.locationData.map((custom, index) => (
-                    <tr key={custom.id}>
-                      <td>
-                        <Checkbox
-                          checked={matchedSelected.includes(index)}
-                          onChange={() => handleCheckboxChange(index)}
-                          color="primary"
-                        />
-                      </td>
-                      <td>{custom.location}</td>
-   
-                      <td>
-                        <Button
-                          onClick={() => handleEdit()}
-                          sx={{
-                            background: '#ffffff',
-                            color: 'green',
-                            display: 'flex',
-                            justifyContent: {md:'flex-end', xs:'center'},
-                            marginLeft: 'none',
-                            border: '1px solid green ',
-                            borderRadius: '13px',
-                            '&:hover': {
-                              color: 'white',
-                              background: 'green',
-                            },
-                          }}
-                        >
-                          <EditOutlinedIcon />
-                          Edit
-                        </Button>
-                      </td>
-   
-                      <td>
-                        <Button
-                          onClick={() => handleDeleteButton()}
-                          sx={{
-                            background: '#ffffff',
-                            color: '#d32f2f',
-                            display: 'flex',
-                            justifyContent: {md:'flex-end',xs:'center'},
-                            marginLeft: 'none',
-                            border: '1px solid red ',
-                            borderRadius: '13px',
-                            '&:hover': {
-                              color: 'white',
-                              background: '#d32f2f',
-                            },
-                          }}
-                        >
-                          <DeleteForeverIcon />
-                          Delete
-                        </Button>
-                      </td>
-                    </tr>
-                     )): <tr ><td colSpan={4} style={{ textAlign: 'center' }}>No Data Found</td></tr> }
-              </tbody>
-               
-               
-       
-        </Table>
-     
-       
- 
+        <Box
+        sx={{overflowX:'auto',
+          fontSize:'14px',
+          whiteSpace:'nowrap'
+        }}
+        >
+          <Table borderAxis="both" style={{ borderCollapse: 'collapse', border:'1px solid grey',  }}>
+            <thead>
+              <tr>
+                <th style={{ width: 30 }}>
+                  <Checkbox
+                    size="sm"
+                    indeterminate={
+                      matchedSelected.length > 0 &&
+                      matchedSelected.length < locData.locationData.length
+                    }
+                    checked={
+                      matchedSelected.length > 0 &&
+                      matchedSelected.length === locData.locationData.length
+                    }
+                    onChange={(event) => {
+                      const isChecked = event.target.checked
+                      setMatchedSelected(
+                        isChecked
+                          ? locData.locationData.map((_, index) => index)
+                          : [],
+                      )
+                    }}
+                    color={
+                      matchedSelected.length > 0 &&
+                      matchedSelected.length === locData.locationData.length
+                        ? 'primary'
+                        : undefined
+                    }
+                    sx={{ verticalAlign: 'text-bottom' }}
+                  />
+                </th>
+                <th>Location</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {locData.locationData.length > 0 ? (
+                locData.locationData.map((custom, index) => (
+                  <tr key={custom.id}>
+                    <td>
+                      <Checkbox
+                        checked={matchedSelected.includes(index)}
+                        onChange={() => handleCheckboxChange(index)}
+                        color="primary"
+                      />
+                    </td>
+                    <td>{custom.location}</td>
+
+                    <td>
+                      <Button
+                        onClick={() => handleEdit()}
+                        sx={{
+                          background: '#ffffff',
+                          color: 'green',
+                          display: 'flex',
+                          justifyContent: { md: 'flex-end', xs: 'center' },
+                          marginLeft: 'none',
+                          border: '1px solid green ',
+                          borderRadius: '13px',
+                          '&:hover': {
+                            color: 'white',
+                            background: 'green',
+                          },
+                        }}
+                      >
+                        <EditOutlinedIcon />
+                        Edit
+                      </Button>
+                    </td>
+
+                    <td>
+                      <Button
+                        onClick={() => handleDeleteButton()}
+                        sx={{
+                          background: '#ffffff',
+                          color: '#d32f2f',
+                          display: 'flex',
+                          justifyContent: { md: 'flex-end', xs: 'center' },
+                          marginLeft: 'none',
+                          border: '1px solid red ',
+                          borderRadius: '13px',
+                          '&:hover': {
+                            color: 'white',
+                            background: '#d32f2f',
+                          },
+                        }}
+                      >
+                        <DeleteForeverIcon />
+                        Delete
+                      </Button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={4} style={{ textAlign: 'center' }}>
+                    No Data Found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </Box>
+
         <Modal
           open={editOpen}
           onClose={handleEditClose}
@@ -251,7 +261,7 @@ const dispatch = useDispatch<AppDispatch>()
               >
                 {'Edit the Customs here'}
               </Typography>
- 
+
               <form onSubmit={handleEditButton}>
                 <FormControl
                   sx={{
@@ -290,7 +300,7 @@ const dispatch = useDispatch<AppDispatch>()
                 >
                   Update
                 </Button>
- 
+
                 <Button
                   type="button"
                   onClick={handleEditClose}
@@ -308,7 +318,7 @@ const dispatch = useDispatch<AppDispatch>()
             </div>
           </Sheet>
         </Modal>
- 
+
         <Modal
           open={deleteOpen}
           onClose={handleDeleteClose}
@@ -340,7 +350,7 @@ const dispatch = useDispatch<AppDispatch>()
               >
                 {'Delete Customs here'}
               </Typography>
- 
+
               <form onSubmit={handleDeleteSubmit}>
                 <FormControl
                   sx={{
@@ -378,7 +388,7 @@ const dispatch = useDispatch<AppDispatch>()
                 >
                   Confirm Delete
                 </Button>
- 
+
                 <Button
                   type="button"
                   onClick={handleDeleteClose}
@@ -401,5 +411,5 @@ const dispatch = useDispatch<AppDispatch>()
     </>
   )
 }
- 
+
 export default LocationEditDelt

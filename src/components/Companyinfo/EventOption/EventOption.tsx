@@ -30,11 +30,11 @@ interface EventOptionProps {
 const options = [
   {
     id: 1,
-    value: 'Yes',
+    value: 'yes',
   },
   {
     id: 2,
-    value: 'No',
+    value: 'no',
   },
 ]
 
@@ -127,7 +127,7 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
               borderRadius: '15px',
               '&:hover': {
                 color: 'white',
-                background: 'green',
+                background: 'green',  
               },
             }}
           >
@@ -219,8 +219,9 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
         </Box>
         <Divider></Divider>
         <Box
-          sx={{
+           sx={{
             display: 'flex',
+
             flexDirection: { md: 'row', xs: 'column' },
             gap: { md: 'none', xs: '10px' },
             justifyContent: 'space-around',
