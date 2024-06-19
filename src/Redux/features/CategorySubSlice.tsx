@@ -1,10 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
  
-interface SubCategory {
-    id: number;
-    subCategories: string;
-  }
+
   interface SubCategoryState {
     data: any[];
     selectedSubCategory: any | null;
@@ -23,9 +20,9 @@ const base_api_key_url = process.env.BASE_API_KEY;
 const TENANT_ID = process.env.TENANT_ID;
 
  
-export const fetchSubCategory = createAsyncThunk('subCategories/fetchSubCategory', async () => {
+export const fetchSubCategories = createAsyncThunk('subCategories/fetchSubCategories', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/subCategories`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/sub-categories`);
   return response.data;
    
   } catch (error) {
@@ -37,9 +34,9 @@ export const fetchSubCategory = createAsyncThunk('subCategories/fetchSubCategory
 });
 
 
-export const fetchSubCategoryById = createAsyncThunk('subCategory/fetchSubCategoryById', async (id: string ) => {
+export const fetchSubCategoryById = createAsyncThunk('subCategories/fetchSubCategoryById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/subCategories/${id}`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/sub-categories/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -48,22 +45,21 @@ export const fetchSubCategoryById = createAsyncThunk('subCategory/fetchSubCatego
  
 });
  
-export const addSubCategory = createAsyncThunk('subCategories/addSubCategory', async (subCategories: any) => {
-  console.log('asfes')
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/subCategories/`, subCategories);
+export const addSubCategories = createAsyncThunk('subCategories/addSubCategories', async (subCategories: any) => {
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/sub-categories`, subCategories);
  console.log(response)
   return response.data;
 });
  
-export const updateSubCategory = createAsyncThunk('subCategories/updateSubCategory', async (updatedSubCategory: any) => {
+export const updateSubCategories = createAsyncThunk('subCategories/updateSubCategories', async (updatedSubCategory: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/subCategories/${updatedSubCategory.id}`, updatedSubCategory);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/sub-categories/${updatedSubCategory.id}`, updatedSubCategory);
   
   return response.data;
 });
  
-export const deleteSubCategory = createAsyncThunk('subCategories/deleteSubCategory', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/subCategories/${id}`);
+export const deleteSubCategories = createAsyncThunk('subCategories/deleteSubCategories', async (id: number) => {
+  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/sub-categories/${id}`);
   return id;
 });
 
@@ -78,15 +74,15 @@ const subCategorySlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchSubCategory.pending, (state) => {
+      .addCase(fetchSubCategories.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchSubCategory.fulfilled, (state, action) => {
+      .addCase(fetchSubCategories.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload;
       })
-      .addCase(fetchSubCategory.rejected, (state, action) => {
+      .addCase(fetchSubCategories.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Failed to fetch client';
       })
@@ -94,17 +90,17 @@ const subCategorySlice = createSlice({
         state.loading = false;
         state.data.push(action.payload);
       })
-      .addCase(addSubCategory.fulfilled, (state, action) => {
+      .addCase(addSubCategories.fulfilled, (state, action) => {
         state.data.push(action.payload);
       })
-      .addCase(updateSubCategory.fulfilled, (state, action) => {
+      .addCase(updateSubCategories.fulfilled, (state, action) => {
         const index = state.data.findIndex((u) => u.id === action.payload.id);
         console.log(index)
         if (index !== -1) {
           state.data[index] = action.payload;
         }
       })
-      .addCase(deleteSubCategory.fulfilled, (state, action) => {
+      .addCase(deleteSubCategories.fulfilled, (state, action) => {
         state.data = state.data.filter((u) => u.id !== action.payload);
       });
   },

@@ -17,7 +17,7 @@ interface LocationAddProps {
 
   }
 
-  const LocationAdd: React.FC<LocationAddProps> = ({open, setOpen}) => {
+  const AddLocation: React.FC<LocationAddProps> = ({open, setOpen}) => {
     const [locationForm, setLocationForm] = useState()
     const sites = useSelector((state:RootState) => state.sites.data);
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -206,4 +206,4 @@ interface LocationAddProps {
   )
 }
 
-export default LocationAdd
+export default AddLocation

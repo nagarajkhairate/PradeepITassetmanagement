@@ -1,22 +1,21 @@
-import { Box, Button, Divider, FormControl, FormLabel, Input, Modal, Sheet, Typography } from "@mui/joy"
-import { ThunkDispatch } from "redux-thunk"
-import { RootState } from "../../../Redux/store"
-import { useDispatch } from "react-redux"
+import { Box, Button, Divider, FormControl, FormLabel, Input, Modal, Sheet, Typography } from '@mui/joy'
+import React from 'react'
 
 
-interface SetupAddDeptProps {
+interface CategoryAddProps {
     open: boolean
     handleClose: () => void
-    departmentName: string
-    setDepartmentName: React.Dispatch<React.SetStateAction<string>>
-    handleAddDepartment: (e: React.FormEvent<HTMLFormElement>) => void
+    categoryName: string
+    setCategoryName: React.Dispatch<React.SetStateAction<string>>
+    handleAddCategory: (e: React.FormEvent<HTMLFormElement>) => void
 
   }
 
-const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({ open, handleClose, departmentName, setDepartmentName, handleAddDepartment }) => {
-  
-return(
-<Modal
+  const AddCategory: React.FunctionComponent<CategoryAddProps> = ({ open, handleClose, categoryName, setCategoryName, handleAddCategory }) => {
+
+
+  return (
+    <Modal
               aria-labelledby="responsive-dialog-title"
               aria-describedby="modal-desc"
               sx={{
@@ -30,8 +29,8 @@ return(
               <Sheet
                 variant="outlined"
                 sx={{
-                  maxWidth: 500,
                   borderRadius: 'md',
+                  maxWidth: 500,
                   p: 3,
                   boxShadow: 'lg',
                 }}
@@ -45,12 +44,12 @@ return(
                     fontWeight="lg"
                     mb={1}
                   >
-                    {'Add a dept'}
+                    {'Add a Category'}
                   </Typography>
                   <Divider />
 
                   <Box sx={{ marginBottom: '10px' }}>
-                    <form onSubmit={handleAddDepartment}>
+                    <form onSubmit={handleAddCategory}>
                       <FormControl
                         sx={{
                           display: 'flex',
@@ -67,8 +66,8 @@ return(
                         }}
                       >
                         <Typography sx={{ padding: 'none', width: '100%' }}>
-                          If you want to add a new dept of assets, you’re in the
-                          right spot. Add a dept for computer equipment,
+                          If you want to add a new category of assets, you’re in
+                          the right spot. Add a category for computer equipment,
                           wireless keyboards, or any assets you’re working with.
                         </Typography>
                         <FormControl
@@ -85,13 +84,13 @@ return(
                               marginLeft: '20px',
                             }}
                           >
-                            dept*:
+                            Category*:
                           </FormLabel>
                           <Input
-                            value={departmentName}
+                            value={categoryName}
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>,
-                            ) => setDepartmentName(e.target.value)}
+                            ) => setCategoryName(e.target.value)}
                             placeholder="Type here"
                             sx={{
                               marginLeft: '20px',
@@ -135,6 +134,7 @@ return(
                 </div>
               </Sheet>
             </Modal>
-)
+  )
 }
-export default SetupAddDept
+
+export default AddCategory

@@ -1,10 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
  
-interface Location {
-    id: number;
-    locations: string;
-  }
+
   interface LocationState {
     data: any[];
     selectedLocation: any | null;
@@ -23,9 +20,9 @@ const base_api_key_url = process.env.BASE_API_KEY;
 const TENANT_ID = process.env.TENANT_ID;
 
  
-export const fetchLocation = createAsyncThunk('locations/fetchLocation', async () => {
+export const fetchLocation = createAsyncThunk('location/fetchLocation', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/TENANT_ID}/locations`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/location`);
   return response.data;
    
   } catch (error) {
@@ -37,9 +34,9 @@ export const fetchLocation = createAsyncThunk('locations/fetchLocation', async (
 });
 
 
-export const fetchLocationById = createAsyncThunk('Locations/fetchLocationById', async (id: string ) => {
+export const fetchLocationById = createAsyncThunk('location/fetchLocationById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/TENANT_ID/${id}`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/location/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -48,32 +45,32 @@ export const fetchLocationById = createAsyncThunk('Locations/fetchLocationById',
  
 });
  
-export const addLocation = createAsyncThunk('locations/addLocation', async (locations: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/locations/`, locations);
+export const addLocation = createAsyncThunk('location/addLocation', async (location: any) => {
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/location`, location);
  console.log(response)
   return response.data;
 });
 
 
-export const updateLocation = createAsyncThunk('locations/updateLocation', async (updatedLocation: any) => {
+export const updateLocation = createAsyncThunk('location/updateLocation', async (updatedLocation: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/locations/${updatedLocation.id}`, updatedLocation);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/location/${updatedLocation.id}`, updatedLocation);
   
   return response.data;
 });
  
-export const deleteLocation = createAsyncThunk('locations/deleteLocation', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/locations/${id}`);
+export const deleteLocation = createAsyncThunk('location/deleteLocation', async (id: number) => {
+  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/location/${id}`);
   return id;
 });
 
 const locationSlice = createSlice({
-  name: 'locations',
+  name: 'location',
   initialState,
   reducers: {
     setSelectedCustomer: (state, action: PayloadAction<number>) => {
-      const  locations = state.data.find((u) => u.id === action.payload);
-      state.selectedLocation = locations || null;
+      const  location = state.data.find((u) => u.id === action.payload);
+      state.selectedLocation = location || null;
     },
   },
   extraReducers: (builder) => {
