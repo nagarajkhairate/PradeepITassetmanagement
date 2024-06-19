@@ -336,9 +336,9 @@ const Sites: React.FC<SiteProps> = ({
             }}
           >
             <Box   sx={{
-    overflowX: 'auto', // Enable horizontal scrolling
+    overflowX: 'auto', 
     fontSize: '14px',
-    whiteSpace: 'nowrap', // Prevent table from wrapping text within cells
+    whiteSpace: 'nowrap', 
   }}>
             <Table
               borderAxis="both"

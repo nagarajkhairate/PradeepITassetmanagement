@@ -1,5 +1,8 @@
 import React from "react";
 import { Modal, Box, Typography, Button } from "@mui/joy";
+import { useDispatch } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { RootState } from "../../../Redux/store";
 
 interface DeleteSiteProps {
     deleteOpen: boolean;
@@ -8,6 +11,8 @@ interface DeleteSiteProps {
 }
 
 const DeleteSite: React.FC<DeleteSiteProps> = ({ deleteOpen, handleDelete, handleDeleteClose }) => {
+    const dispatch:ThunkDispatch<RootState, void, any> = useDispatch()
+    
     return (
         <Modal open={deleteOpen} onClose={handleDeleteClose}>
             <Box sx={modalStyle}>

@@ -21,8 +21,8 @@ import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import AppView from "../../../components/Common/AppView";
 import { ThunkDispatch } from "redux-thunk";
 import { RootState } from "../../../Redux/store";
-import { useDispatch } from "react-redux";
-import { addoptions } from "../../../Redux/features/TableOptionsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addoptions, fetchOptions, fetchOptionsById } from "../../../Redux/features/TableOptionsSlice";
 
 const DepreciationOptions = {
   "id": 1,
@@ -80,7 +80,9 @@ const SetupTableOptions: React.FC = ({}) => {
     calculationFrequency: "",
     enableLinking: "no",
   });
+  const tableOptions = useSelector((state: RootState) => state.tableOptions);
   const dispatch: ThunkDispatch<RootState, void, any>= useDispatch()
+
 
   const handleDepreciationChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -89,7 +91,6 @@ const SetupTableOptions: React.FC = ({}) => {
       ...prevData,
       assetDepreciation: value,
     }));
-    // console.log("Depreciation option selected:", value);
   };
 
   const handleDepreciationMethodChange = (
@@ -112,6 +113,8 @@ const SetupTableOptions: React.FC = ({}) => {
   }>({});
 
   const handleSubmit = () => {
+
+    
     const formData: any = {
       DepreciationOptions: {
         assetDepreciation: companyFormData.assetDepreciation,
@@ -144,6 +147,7 @@ const SetupTableOptions: React.FC = ({}) => {
           auditAssets: linkedAssets.auditAssets,
       };
     }
+
     dispatch(addoptions(formData))
     console.log(JSON.stringify(formData, null, 2));
   };
@@ -167,6 +171,11 @@ const SetupTableOptions: React.FC = ({}) => {
       [name]: checked,
     }));
   };
+
+  React.useEffect(()=>{
+    dispatch(fetchOptions())
+  },[dispatch])
+  
 
 
   return (

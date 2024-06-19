@@ -15,10 +15,11 @@ const initialState: TableOptionsState = {
 };
 
 const base_api_key_url = process.env.BASE_API_KEY;
+const TENANT_ID = process.env.TENANT_ID;
 
 export const fetchOptions = createAsyncThunk('options/fetchOptions', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}options/options}/options`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/tableOptions`);
   return response.data;
    
   } catch (error) {
@@ -31,7 +32,7 @@ export const fetchOptions = createAsyncThunk('options/fetchOptions', async () =>
 
 export const fetchOptionsById = createAsyncThunk('options/fetchOptionsById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}options/options/${id}`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/tableOptions/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -41,19 +42,19 @@ export const fetchOptionsById = createAsyncThunk('options/fetchOptionsById', asy
 });
  
 export const addoptions = createAsyncThunk('options/addoptions', async (options: any) => {
- const response = await axios.post(`${base_api_key_url}options`, options);
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/tableOptions/`, options);
  console.log(response)
   return response.data;
 });
  
 export const updateoptions = createAsyncThunk('options/updateoptions', async (updatedoptions: any) => {
  
-  const response = await axios.put(`${base_api_key_url}/options/${updatedoptions.id}`, updatedoptions);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/tableOptions/${updatedoptions.id}`, updatedoptions);
   return response.data;
 });
  
 export const deleteoptions = createAsyncThunk('options/deleteoptions', async (id: number) => {
-  await axios.delete(`${base_api_key_url}/options/${id}`);
+  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/tableOptions/${id}`);
   return id;
 });
  

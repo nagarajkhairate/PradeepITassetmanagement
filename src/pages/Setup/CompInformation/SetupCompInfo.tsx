@@ -33,10 +33,10 @@ const SetupCompInfo: React.FC = ({}) => {
   };
 
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form Data:", JSON.stringify(formData));
-    dispatch(addCompanyInfo(formData))
+  await dispatch(addCompanyInfo(formData))
   };
 
   console.log("Form Data:", JSON.stringify(formData));
