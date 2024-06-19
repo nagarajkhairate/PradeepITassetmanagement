@@ -3,21 +3,32 @@ import { Box, Button, Divider, FormControl, FormLabel, Input, Modal, Option, Sel
 import React, { useState } from 'react'
 import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
 import AddIcon from '@mui/icons-material/Add'
+import { RootState } from '../../../Redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { ThunkDispatch } from 'redux-thunk'
+import { fetchSites } from '../../../Redux/features/SitesSlice'
 
 
 interface LocationAddProps {
     location: string
     setLocation: React.Dispatch<React.SetStateAction<string>>
     handleAddLocation: (e: React.FormEvent<HTMLFormElement>) => void
+    onChange?: (
+      event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element> | React.FocusEvent<Element, Element> | null,
+      value: {} | null
+    ) => void;
   }
 
   const LocationAdd: React.FC<LocationAddProps> = ({
     location,
     setLocation,
     handleAddLocation,
+    onChange
 
   }:LocationAddProps) => {
     const [open, setOpen] = useState<boolean>(false)
+    const sites = useSelector((state:RootState) => state.sites.data);
+    const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
     const handleClickOpen = () => {
         setOpen(true)
@@ -27,8 +38,20 @@ interface LocationAddProps {
         setOpen(false)
       }
 
+      React.useEffect(()=>{
+        dispatch(fetchSites())
+      },[dispatch])
       
-      
+      // const [site, setSite]=useState<{ [key:string]:string  | null}>({})
+
+      const handleChange = (
+        event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element> | React.FocusEvent<Element, Element> | null,
+        value: {} | null
+      ) => {
+        if (onChange) {
+          onChange(event, value);
+        }
+      };
 
   return (
     <Box
@@ -124,6 +147,7 @@ interface LocationAddProps {
                           </FormLabel>
                           
                           <Select
+                           onChange={(event,value) => handleChange(event, value)}
                             placeholder="Select Site"
                             indicator={<KeyboardArrowDown />}
                             sx={{
@@ -136,9 +160,11 @@ interface LocationAddProps {
                               },
                             }}
                           >
-                            <Option value="india">india</Option>
-                            <Option value="delhi">Delhi</Option>
-                            <Option value="banglore">Banglore</Option>
+                            {sites && sites.map((site)=>(
+                              <Option key={site.id} value={site.id}>{site.siteName}</Option>
+                            ))}
+                            
+                            
                           </Select>
                         </FormControl>
 

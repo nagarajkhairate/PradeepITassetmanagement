@@ -11,6 +11,11 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import CategorySub from "./CategorySub";
+import CategorySubDelete from "./CategorySubDelete";
+import { ThunkDispatch } from "redux-thunk";
+import { RootState } from "../../../Redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { updateSubCategory } from "../../../Redux/features/CategorySubSlice";
 
 
 type SubCategory = {
@@ -32,6 +37,11 @@ export function CategorySubEdit({ categories, onCategoryChange }: Props) {
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+
+  const subCategories = useSelector((state: RootState) => state.subCategories.data)
+// const dispatch = useDispatch<AppDispatch>()
+console.log(subCategories)
 
   const handleCheckboxChange = (index: number) => {
     setMatchedSelected((prevSelected) =>
@@ -62,6 +72,7 @@ export function CategorySubEdit({ categories, onCategoryChange }: Props) {
       );
       setLapCat({ ...lapCat, data: updatedData });
       handleEditClose();
+      dispatch(updateSubCategory(updatedData))
       onCategoryChange(updatedData);
     }
   };
@@ -271,7 +282,7 @@ export function CategorySubEdit({ categories, onCategoryChange }: Props) {
           </Sheet>
         </Modal>
 
-        <Modal
+        {/* <Modal
           
           open={deleteOpen}
           onClose={handleDeleteClose}
@@ -300,15 +311,6 @@ export function CategorySubEdit({ categories, onCategoryChange }: Props) {
           <form onSubmit={handleDeleteSubmit}>
             <FormControl sx={{ display: "flex", flexDirection: "column", justifyContent: "space-evenly" }}>
               <Box sx={{ marginBottom: "20px", padding: "20px" }}>Are you sure you want to delete this Category?</Box>
-              {/* <Input
-                variant="outlined"
-                type="text"
-                id="subCategory"
-                name="subCategory"
-                required
-                sx={{ width: "92%", marginLeft: "20px" }}
-                // defaultValue={selectedCell !== null ? lapCat.data[selectedCell].subCategory : ""} // Set default value to the selected cell content
-              /> */}
             </FormControl>
             <Button
               autoFocus
@@ -337,7 +339,13 @@ export function CategorySubEdit({ categories, onCategoryChange }: Props) {
           </form>
           </div>
           </Sheet>
-        </Modal>
+        </Modal> */}
+
+<CategorySubDelete
+          open={deleteOpen}
+          handleDeleteClose={handleDeleteClose}
+          handleDeleteSubmit={handleDeleteSubmit}
+        />
       </Stack>
     </>
   );

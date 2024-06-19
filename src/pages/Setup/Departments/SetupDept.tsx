@@ -24,13 +24,23 @@ type Department = {
 }
 
 import AppView from '../../../components/Common/AppView'
+import SetupAddDept from './SetupAddDept'
+import { ThunkDispatch } from 'redux-thunk'
+import { RootState } from '../../../Redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { addDepartment, fetchDepartment } from '../../../Redux/features/DepartmentSlice'
 
 const SetupDept: React.FunctionComponent = () => {
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [open, setOpen] = useState<boolean>(false)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [departmentName, setDepartmentName] = useState<string>('')
   const [department, setDepartment] = useState<Department[]>([])
+  
+  const departments = useSelector((state: RootState) => state.departments.data)
+  // const dispatch = useDispatch<AppDispatch>()
+  console.log(departments)
 
   const handleDeptChange = (updateddepartment: Department[]) => {
     setDepartment(updateddepartment)
@@ -52,10 +62,14 @@ const SetupDept: React.FunctionComponent = () => {
       departmentName: departmentName,
     }
     setDepartment([...department, newdepartment])
+    dispatch(addDepartment(newdepartment))
     setDepartmentName('') // Clear the input field after adding
     handleClose()
   }
 
+  React.useEffect(() => {
+    dispatch(fetchDepartment())
+  }, [])
   return (
     <AppView>
       <Typography level="h4" sx={{ display: 'flex', alignItems: 'center' }}>
@@ -127,7 +141,7 @@ const SetupDept: React.FunctionComponent = () => {
               <AddIcon /> Add New dept
             </Button>
 
-            <Modal
+            {/* <Modal
               aria-labelledby="responsive-dialog-title"
               aria-describedby="modal-desc"
               sx={{
@@ -245,7 +259,7 @@ const SetupDept: React.FunctionComponent = () => {
                   </Box>
                 </div>
               </Sheet>
-            </Modal>
+            </Modal> */}
 
             <Button
               autoFocus
@@ -400,6 +414,15 @@ const SetupDept: React.FunctionComponent = () => {
                 Submit
               </Button>
             </Box> */}
+
+            
+          <SetupAddDept
+        open={open}
+        handleClose={handleClose}
+        departmentName={departmentName}
+        setDepartmentName={setDepartmentName}
+        handleAddDepartment={handleAddDepartment}
+        />
       </Box>
     </AppView>
   )

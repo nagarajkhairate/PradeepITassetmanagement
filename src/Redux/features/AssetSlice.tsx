@@ -14,12 +14,12 @@ const initialState: AssetSliceState = {
   loading: false,
   error: null,
 };
-const customer_id = process.env.CUSTOMER_ID;
+const TENANT_ID = process.env.TENANT_ID;
 const base_api_key_url = process.env.BASE_API_KEY;
  
 export const fetchAssets = createAsyncThunk('assets/fetchAssets', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}customers/${customer_id}/clients`);
+    const response = await axios.get(`${base_api_key_url}customers/${TENANT_ID}/clients`);
   return response.data;
    
   } catch (error) {
@@ -31,7 +31,7 @@ export const fetchAssets = createAsyncThunk('assets/fetchAssets', async () => {
 });
 export const fetchAssetsById = createAsyncThunk('assets/fetchAssetsById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}customers/${customer_id}/clients/${id}`);
+    const response = await axios.get(`${base_api_key_url}customers/${TENANT_ID}/clients/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -41,18 +41,18 @@ export const fetchAssetsById = createAsyncThunk('assets/fetchAssetsById', async 
 });
  
 export const addAssets = createAsyncThunk('assets/addAssets', async (assets: any) => {
- const response = await axios.post(`${base_api_key_url}customers/${customer_id}/clients`, assets);
+ const response = await axios.post(`${base_api_key_url}customers/${TENANT_ID}/clients`, assets);
   return response.data;
 });
  
 export const updateAssets = createAsyncThunk('assets/updateAssets', async (updatedCustomer: any) => {
  
-  const response = await axios.put(`${base_api_key_url}customers/${customer_id}/clients/${updatedCustomer.id}`, updatedCustomer);
+  const response = await axios.put(`${base_api_key_url}customers/${TENANT_ID}/clients/${updatedCustomer.id}`, updatedCustomer);
   return response.data;
 });
  
 export const deleteAssets = createAsyncThunk('assets/deleteAssets', async (id: number) => {
-  await axios.delete(`${base_api_key_url}customers/${customer_id}/clients/${id}`);
+  await axios.delete(`${base_api_key_url}customers/${TENANT_ID}/clients/${id}`);
   return id;
 });
  

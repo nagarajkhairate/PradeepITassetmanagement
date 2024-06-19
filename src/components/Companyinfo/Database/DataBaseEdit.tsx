@@ -176,15 +176,16 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
                       </th>
                       <th>Field Name</th>
                       <th>Data Type</th>
-                      <th>Category</th>
                       <th>Required</th>
+                      <th>Category</th>
                       <th>Edit</th>
                       <th>Delete</th>
  
                     </tr>
                   </thead>
                   <tbody>
-                    {dataBase.data.map((item, index) => (
+                    {dataBase.data.length > 0 ? (
+                    dataBase.data.map((item, index) => (
                       <tr key={index}>
                         <td>
                           <Checkbox
@@ -239,10 +240,16 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
                           </Button>
                         </td>
                       </tr>
-                    ))}
+                    ))
+                  ):(
+                <tr>
+                  <td colSpan={7} style={{ textAlign: 'center' }}>
+                    No Data Found
+                  </td>
+                </tr>
+              )}
                   </tbody>
                 </Table>
- 
  
  
                 <Modal

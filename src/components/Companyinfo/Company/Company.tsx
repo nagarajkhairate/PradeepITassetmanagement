@@ -9,6 +9,7 @@ import AppForm from '../../../components/Common/AppForm';
 import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
 import FieldComponent from '../../../utils/FieldComponent';
 import AppView from "../../Common/AppView";
+import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 
 export interface FormData {
   companyName: string;
@@ -307,8 +308,29 @@ const Company: React.FC<CompanyProps> = ({
         >
         </Box>
         <Divider sx={{ my: 3 }} />
-        <Button onClick={handleNextTab} sx={{ backgroundColor: '#FABC1E', '&:hover': { backgroundColor: '#e0a800' } }}>Continue</Button>
-       
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
+            justifyContent: { xs: 'center', md: 'flex-end' },
+            gap: 2,
+          }}
+        >
+        <Button
+            variant="solid"
+            sx={{
+              background: "#fdd835",
+              color: 'white',
+              borderRadius:'15px'
+            }}
+            component="label"
+              onClick={handleNextTab} 
+             
+          >
+             Continue
+             <NavigateNextOutlinedIcon />
+          </Button>
+          </Box>
       </Box>
              
            
