@@ -5,7 +5,6 @@ import { useState } from "react"
 interface Location {
     id: number;
     name: string;
-    // Add other properties as needed
   }
 
 interface LocationDeleteProps {

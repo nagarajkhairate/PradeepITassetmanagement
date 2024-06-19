@@ -7,6 +7,7 @@ import appStateReducer from "./features/StateSlice"
 import locationReducer from './features/LocationSlice';
 import categoryReducer from './features/CategorySlice'
 import subCategoryReducer from './features/CategorySubSlice'
+import departmentNameReducer from './features/DepartmentSlice'
 import companyInfoReducer from './features/CompanyInfoSlice';
 import SitesReducer from './features/SitesSlice';
 import TableOptionsReducer from './features/TableOptionsSlice';
@@ -20,7 +21,8 @@ export const store = configureStore({
     client:clientReducer,
     locations: locationReducer,
     category:categoryReducer,
-    subCategory:subCategoryReducer,
+    subCategories:subCategoryReducer,
+    departments:departmentNameReducer,
     sites: SitesReducer,
     companyInfo: companyInfoReducer,
     tableOptions: TableOptionsReducer,

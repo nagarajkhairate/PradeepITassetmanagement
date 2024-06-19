@@ -3,7 +3,7 @@ import axios from 'axios';
  
 interface SubCategory {
     id: number;
-    subCategory: string;
+    subCategories: string;
   }
   interface SubCategoryState {
     data: any[];
@@ -20,12 +20,12 @@ interface SubCategory {
   };
  
 const base_api_key_url = process.env.BASE_API_KEY;
-
+const TENANT_ID = process.env.TENANT_ID;
 
  
-export const fetchSubCategory = createAsyncThunk('subCategory/fetchSubCategory', async () => {
+export const fetchSubCategory = createAsyncThunk('subCategories/fetchSubCategory', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}subCategory/subCategory}/subCategory`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/subCategories`);
   return response.data;
    
   } catch (error) {
@@ -39,7 +39,7 @@ export const fetchSubCategory = createAsyncThunk('subCategory/fetchSubCategory',
 
 export const fetchSubCategoryById = createAsyncThunk('subCategory/fetchSubCategoryById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}subCategory/subCategory/${id}`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/subCategories/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -48,32 +48,32 @@ export const fetchSubCategoryById = createAsyncThunk('subCategory/fetchSubCatego
  
 });
  
-export const addSubCategory = createAsyncThunk('subCategory/addSubCategory', async (subCategory: any) => {
+export const addSubCategory = createAsyncThunk('subCategories/addSubCategory', async (subCategories: any) => {
   console.log('asfes')
- const response = await axios.post(`${base_api_key_url}subCategory`, subCategory);
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/subCategories/`, subCategories);
  console.log(response)
   return response.data;
 });
  
-export const updateSubCategory = createAsyncThunk('subCategory/updateSubCategory', async (updatedSubCategory: any) => {
+export const updateSubCategory = createAsyncThunk('subCategories/updateSubCategory', async (updatedSubCategory: any) => {
  
-  const response = await axios.put(`${base_api_key_url}/subCategory/${updatedSubCategory.id}`, updatedSubCategory);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/subCategories/${updatedSubCategory.id}`, updatedSubCategory);
   
   return response.data;
 });
  
-export const deleteSubCategory = createAsyncThunk('subCategory/deleteSubCategory', async (id: number) => {
-  await axios.delete(`${base_api_key_url}/subCategory/${id}`);
+export const deleteSubCategory = createAsyncThunk('subCategories/deleteSubCategory', async (id: number) => {
+  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/subCategories/${id}`);
   return id;
 });
 
 const subCategorySlice = createSlice({
-  name: 'subCategory',
+  name: 'subCategories',
   initialState,
   reducers: {
     setSelectedCustomer: (state, action: PayloadAction<number>) => {
-      const category = state.data.find((u) => u.id === action.payload);
-      state.selectedSubCategory = category || null;
+      const subCategories = state.data.find((u) => u.id === action.payload);
+      state.selectedSubCategory = subCategories || null;
     },
   },
   extraReducers: (builder) => {
