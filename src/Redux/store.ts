@@ -11,6 +11,8 @@ import departmentNameReducer from './features/DepartmentSlice'
 import companyInfoReducer from './features/CompanyInfoSlice';
 import SitesReducer from './features/SitesSlice';
 import TableOptionsReducer from './features/TableOptionsSlice';
+import AuthReducer from './features/AuthSlice';
+import AccountReducer from './features/AccountSlice';
 
 export const store = configureStore({
   reducer:{
@@ -26,6 +28,8 @@ export const store = configureStore({
     sites: SitesReducer,
     companyInfo: companyInfoReducer,
     tableOptions: TableOptionsReducer,
+    login:AuthReducer,
+    createAccount:AccountReducer
   }
 })
 

@@ -95,7 +95,7 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
                   />
                 </FormControl>
                 <FormControl sx={{ mb: 2 }}>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Address</FormLabel>
                   <Input
                     placeholder="Address"
                     name="address"
@@ -106,7 +106,7 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
                   />
                 </FormControl>
                 <FormControl sx={{ mb: 2 }}>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Apt. / Suite</FormLabel>
                   <Input
                     placeholder="Apt. / Suite"
                     name="aptSuite"
@@ -119,7 +119,7 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
               </Grid>
               <Grid xs={12} md={6}>
                 <FormControl sx={{ mb: 2 }}>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>City</FormLabel>
                   <Input
                     placeholder="City"
                     name="city"
@@ -130,7 +130,7 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
                   />
                 </FormControl>
                 <FormControl sx={{ mb: 2 }}>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>State</FormLabel>
                   <Input
                     placeholder="State"
                     name="state"
@@ -141,7 +141,7 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
                   />
                 </FormControl>
                 <FormControl sx={{ mb: 2 }}>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Zip Code</FormLabel>
                   <Input
                     placeholder="ZipCode"
                     name="zipCode"
@@ -152,7 +152,7 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
                   />
                 </FormControl>
                 <FormControl sx={{ mb: 2 }}>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Country</FormLabel>
                   <Input
                     placeholder="Country"
                     name="country"
