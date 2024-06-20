@@ -26,10 +26,12 @@ type Location = {
 
 interface Props {
   locationName: Location[]
-  onLocationChange: (updatedData: Location[]) => void
+  // onLocationChange: (updatedData: Location[]) => void
 }
 
-export function LocationSetupEdit({ locationName, onLocationChange }: Props) {
+export function LocationSetupEdit({ locationName, 
+  // onLocationChange 
+}: Props) {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
   const [locData, setLocData] = useState<{ locationData: Location[] }>({locationData: [],})
@@ -42,6 +44,7 @@ export function LocationSetupEdit({ locationName, onLocationChange }: Props) {
   const locations = useSelector((state: RootState) => state.locations.data)
 // const dispatch = useDispatch<AppDispatch>()
 console.log(locations)
+const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
 
 
   const handleCheckboxChange = (index: number) => {
@@ -64,32 +67,54 @@ console.log(locations)
     // console.log(JSON.stringify(editOpen))
   }
 
+  // const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   const location = (e.target as any).location.value
+  //   if (selectedCell !== null) {
+  //     const updatedData = locData.locationData.map((item, index) =>
+  //       index === selectedCell ? { ...item, location } : item,
+  //     )
+  //     setLocData({ ...locData, locationData: updatedData })
+  //     handleEditClose()
+  //     dispatch(updateLocation(updatedData))
+  //     // onLocationChange(updatedData)
+  //   }
+  // }
   const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const location = (e.target as any).location.value
-    if (selectedCell !== null) {
-      const updatedData = locData.locationData.map((item, index) =>
-        index === selectedCell ? { ...item, location } : item,
-      )
-      setLocData({ ...locData, locationData: updatedData })
+    if (selectedLocation !== null) {
+      const location = (e.target as any).location.value
+      const updatedCategory = { ...selectedLocation, location }
+      dispatch(updateLocation(updatedCategory))
       handleEditClose()
-      dispatch(updateLocation(updatedData))
-      onLocationChange(updatedData)
     }
   }
 
+  // const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   const deleteData = locData.locationData.filter(
+  //     (_, index) => index !== selectedCell,
+  //   )
+  //   setLocData({ ...locData, locationData: deleteData })
+  //   setMatchedSelected([])
+  //   setDeleteOpen(false)
+  //   // dispatch(deleteLocation())
+  //   // onLocationChange(deleteData)
+  
+  // }
+
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const deleteData = locData.locationData.filter(
-      (_, index) => index !== selectedCell,
-    )
-    setLocData({ ...locData, locationData: deleteData })
-    setMatchedSelected([])
-    setDeleteOpen(false)
-    // dispatch(deleteLocation())
-    onLocationChange(deleteData)
-  
+    if (selectedCell !== null) {
+      dispatch(deleteLocation(locations[selectedCell].id))
+      setDeleteOpen(false)
+      setSelectedCell(null)
+      setMatchedSelected((prevSelected) =>
+        prevSelected.filter((item) => item !== selectedCell),
+      )
+    }
   }
+
 
   const handleDeleteButton = () => {
     if (selectedCell !== null) {
@@ -107,8 +132,8 @@ console.log(locations)
   }
 
   useEffect(() => {
-    setLocData({ locationData: locationName })
-  }, [locationName])
+    setSelectedCell(null)
+  }, [locations])
 
   const handleEdit = () => {
     if (selectedCell !== null) {
@@ -134,23 +159,23 @@ console.log(locations)
                   size="sm"
                   indeterminate={
                     matchedSelected.length > 0 &&
-                    matchedSelected.length < locData.locationData.length
+                    matchedSelected.length < locations.length
                   }
                   checked={
                     matchedSelected.length > 0 &&
-                    matchedSelected.length === locData.locationData.length
+                    matchedSelected.length === locations.length
                   }
                   onChange={(event) => {
                     const isChecked = event.target.checked
                     setMatchedSelected(
                       isChecked
-                        ? locData.locationData.map((_, index) => index)
+                        ? locations.map((_, index) => index)
                         : [],
                     )
                   }}
                   color={
                     matchedSelected.length > 0 &&
-                    matchedSelected.length === locData.locationData.length
+                    matchedSelected.length === locations.length
                       ? 'primary'
                       : undefined
                   }
@@ -163,7 +188,7 @@ console.log(locations)
             </tr>
           </thead>
               <tbody>
-              {locData.locationData.length > 0 ? locData.locationData.map((custom, index) => (
+              {locations.length > 0 ? locations.map((custom, index) => (
                     <tr key={custom.id}>
                       <td>
                         <Checkbox
@@ -277,6 +302,7 @@ console.log(locations)
                     name="location"
                     required
                     sx={{ width: '70%', marginLeft: '10px' }}
+                    defaultValue={selectedLocation ? selectedLocation.location : ''}
                     // defaultValue={
                     //   selectedCell !== null
                     //     ? locData.locationData[selectedCell].location

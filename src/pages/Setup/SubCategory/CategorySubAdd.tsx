@@ -1,34 +1,71 @@
 import { KeyboardArrowDown } from "@mui/icons-material"
 import { Box, Button, Divider, FormControl, FormLabel, Input, Modal, Option, Select, Sheet, Typography, selectClasses } from "@mui/joy"
 import { RootState } from "../../../Redux/store"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { ThunkDispatch } from "redux-thunk"
+import React, { useState } from "react"
+import { fetchCategory } from "../../../Redux/features/CategorySlice"
+import AppForm from "../../../components/Common/AppForm"
+import { addSubCategories } from "../../../Redux/features/CategorySubSlice"
+
 
 interface CategorySubAddProps {
-    open: boolean
-    handleClose: () => void
-    subCategory: string
-    setSubCategory: React.Dispatch<React.SetStateAction<string>>
-    handleAddCategory: (e: React.FormEvent<HTMLFormElement>) => void
+    // open: boolean
+    // handleClose: () => void
+    // subCategory: string
+    // setSubCategory: React.Dispatch<React.SetStateAction<string>>
+    // handleAddCategory: (e: React.FormEvent<HTMLFormElement>) => void
+    open:any,
+    setOpen:any
 
   }
 
-const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, handleClose, subCategory, setSubCategory, handleAddCategory }) => {
+const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, setOpen
+  //  handleClose, subCategory, setSubCategory, handleAddCategory
+   }) => {
 
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+    const [subForm, setSubForm] = useState()
+    const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+    const categories = useSelector((state: RootState) => state.category.data)
+
+    
+
+
+    const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      console.log(JSON.stringify(subForm))
+      dispatch(addSubCategories(subForm))
+      setOpen()
+      }
+
+      const HandleInputChange= (e: React.ChangeEvent<HTMLInputElement>)=>{
+        const { name, value} = e.target
+        setSubForm((prevData:any)=>({
+          ...prevData,
+          [name]:value
+        })
+          
+        )
+      }
+
+      const handleSelectChange = (
+        event: React.SyntheticEvent | null,
+        newValue: string | null,
+      ) => {
+        setSubForm((prevData:any)=>({
+          ...prevData,
+          categoryId:newValue
+        })
+          
+        )
+      }
+
+    React.useEffect(()=>{
+      dispatch(fetchCategory())
+    },[dispatch])
 
   return (
-    <Modal
-    aria-labelledby="responsive-dialog-title"
-    aria-describedby="modal-desc"
-    sx={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    }}
-    open={open}
-    onClose={handleClose}
-  >
+   
     <Sheet
       variant="outlined"
       sx={{
@@ -52,7 +89,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, ha
         <Divider />
 
         <Box sx={{ marginBottom: "10px" }}>
-          <form onSubmit={handleAddCategory}>
+          <AppForm onSubmit={handleAddCategory}>
             <FormControl
               sx={{
                 display: "flex",
@@ -91,15 +128,8 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, ha
                 >
                   Category*:
                 </FormLabel>
-                {/* <Input
-                    value={category}
-                    onChange={(
-                      e: React.ChangeEvent<HTMLInputElement>
-                    ) => setCategory(e.target.value)}
-                    placeholder="Type here"
-                    sx={{ marginLeft: "20px", width: "70%", marginTop:'10px', }}
-                  /> */}
                 <Select
+                 onChange={handleSelectChange}
                   placeholder="Select a Category"
                   indicator={<KeyboardArrowDown />}
                   sx={{
@@ -112,10 +142,9 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, ha
                     },
                   }}
                 >
-                  <Option value="buildings">Buildings</Option>
-                  <Option value="computer">Computer</Option>
-                  <Option value="equipment">Equipment</Option>
-                  <Option value="vehicles">Vehicles</Option>
+                  {categories && categories.map((category)=>(
+                              <Option key={category.id} value={category.id}>{category.categoryName}</Option>
+                            ))}
                 </Select>
               </FormControl>
 
@@ -136,10 +165,8 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, ha
                   Sub Category*:
                 </FormLabel>
                 <Input
-                  value={subCategory}
-                  onChange={(
-                    e: React.ChangeEvent<HTMLInputElement>
-                  ) => setSubCategory(e.target.value)}
+                  name='category'
+                  onChange={HandleInputChange}
                   placeholder="Type here"
                   sx={{
                     marginLeft: "10px",
@@ -167,7 +194,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, ha
 
             <Button
               type="button"
-              onClick={handleClose}
+              onClick={setOpen}
               autoFocus
               variant="solid"
               sx={{
@@ -178,11 +205,10 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, ha
             >
               Cancel
             </Button>
-          </form>
+          </AppForm>
         </Box>
       </div>
     </Sheet>
-  </Modal>
 )
 }
 

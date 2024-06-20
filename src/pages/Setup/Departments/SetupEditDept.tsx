@@ -15,7 +15,7 @@ import SetupDeleteDept from "./SetupDeleteDept";
 import { ThunkDispatch } from "redux-thunk";
 import { RootState } from "../../../Redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { updateDepartment } from "../../../Redux/features/DepartmentSlice";
+import { deleteDepartment, updateDepartment } from "../../../Redux/features/DepartmentSlice";
 
 type Department = {
   id: number
@@ -23,11 +23,14 @@ type Department = {
 }
 
 interface Props {
-  department: Department[];
-  onDeptChange: (updateddepartment: Department[]) => void;
+  department1: Department[];
+  // onDeptChange: (updateddepartment: Department[]) => void;
 }
 
-export function SetupEditDept({ department, onDeptChange }: Props) {
+export function SetupEditDept({ department1, 
+  // onDeptChange 
+}: Props) {
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
   const [depart, setDepart] = useState<{ data: Department[] }>({ data: [] });
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
@@ -35,11 +38,12 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+ 
 
   const departments = useSelector((state: RootState) => state.departments.data)
 // const dispatch = useDispatch<AppDispatch>()
 console.log(departments)
+const selectedDepartment = selectedCell !== null ? departments[selectedCell] : null
 
   const handleCheckboxChange = (index: number) => {
     setMatchedSelected((prevSelected) =>
@@ -61,19 +65,30 @@ console.log(departments)
     // console.log(JSON.stringify(editOpen))
   };
 
+  // const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   const departmentName = (e.target as any).departmentName.value;
+  //   if (selectedCell !== null) {
+  //     const updatedData = depart.data.map((item, index) =>
+  //       index === selectedCell ? {...item, departmentName} : item
+  //     );
+  //     setDepart({ ...depart, data: updatedData });
+  //     handleEditClose();
+  //     dispatch(updateDepartment(updatedData))
+  //     // onDeptChange(updatedData);
+  //   }
+  // };
+
+  
   const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const departmentName = (e.target as any).departmentName.value;
-    if (selectedCell !== null) {
-      const updatedData = depart.data.map((item, index) =>
-        index === selectedCell ? {...item, departmentName} : item
-      );
-      setDepart({ ...depart, data: updatedData });
-      handleEditClose();
-      dispatch(updateDepartment(updatedData))
-      onDeptChange(updatedData);
+    e.preventDefault()
+    if (selectedDepartment !== null) {
+      const departmentName = (e.target as any).departmentName.value
+      const updatedCategory = { ...selectedDepartment, departmentName }
+      dispatch(updateDepartment(updatedCategory))
+      handleEditClose()
     }
-  };
+  }
 
   const handleDeleteButton = () => {
     if (selectedCell !== null) {
@@ -81,14 +96,26 @@ console.log(departments)
     }
   };
 
+  // const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   const updatedData = depart.data.filter((_, index) => index !== selectedCell);
+  //   setDepart({ ...depart, data: updatedData });
+  //   setMatchedSelected([]);
+  //   setDeleteOpen(false); // Close the delete dialog after deletion
+  //   // onDeptChange(updatedData);
+  // };
+
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const updatedData = depart.data.filter((_, index) => index !== selectedCell);
-    setDepart({ ...depart, data: updatedData });
-    setMatchedSelected([]);
-    setDeleteOpen(false); // Close the delete dialog after deletion
-    onDeptChange(updatedData);
-  };
+    e.preventDefault()
+    if (selectedCell !== null) {
+      dispatch(deleteDepartment(departments[selectedCell].id))
+      setDeleteOpen(false)
+      setSelectedCell(null)
+      setMatchedSelected((prevSelected) =>
+        prevSelected.filter((item) => item !== selectedCell),
+      )
+    }
+  }
 
   const handleDeleteOpen = () => {
     setDeleteOpen(true);
@@ -100,8 +127,8 @@ console.log(departments)
   };
 
   useEffect(() => {
-    setDepart({ data: department });
-  }, [department]);
+    setSelectedCell(null);
+  }, [departments]);
 
   const handleEdit = () => {
     if (selectedCell !== null) {
@@ -129,19 +156,19 @@ console.log(departments)
                 <Checkbox
                   size="sm"
                   indeterminate={
-                    matchedSelected.length > 0 && matchedSelected.length < depart.data.length
+                    matchedSelected.length > 0 && matchedSelected.length < departments.length
                   }
                   checked={
-                    matchedSelected.length > 0 && matchedSelected.length === depart.data.length
+                    matchedSelected.length > 0 && matchedSelected.length === departments.length
                   }
                   onChange={(event) => {
                     const isChecked = event.target.checked;
                     setMatchedSelected(
-                      isChecked ? depart.data.map((_, index) => index) : []
+                      isChecked ? departments.map((_, index) => index) : []
                     );
                   }}
                   color={
-                    matchedSelected.length > 0 && matchedSelected.length === depart.data.length
+                    matchedSelected.length > 0 && matchedSelected.length === departments.length
                       ? "primary"
                       : undefined
                   }
@@ -154,7 +181,7 @@ console.log(departments)
             </tr>
           </thead>
           <tbody>
-              {depart.data.length > 0 ? depart.data.map((custom, index) => (
+              {departments.length > 0 ? departments.map((custom, index) => (
                 <tr key={custom.id}>
                   <td>
                     <Checkbox
@@ -255,6 +282,7 @@ console.log(departments)
                 name="departmentName"
                 required
                 sx={{ width: "70%", marginLeft: "10px" }}
+                defaultValue={selectedDepartment ? selectedDepartment.departmentName : ''}
                 // defaultValue={selectedCell !== null ? depart.data[selectedCell].departmentName : ""} // Set default value to the selected cell content
               />
             </FormControl>

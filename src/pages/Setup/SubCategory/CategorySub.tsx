@@ -23,7 +23,8 @@ import CategorySubAdd from "./CategorySubAdd";
 import { ThunkDispatch } from "redux-thunk";
 import { RootState } from "../../../Redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { addSubCategory, fetchSubCategory } from "../../../Redux/features/CategorySubSlice";
+import { fetchSubCategories } from "../../../Redux/features/CategorySubSlice";
+
 
 type SubCategory = {
   id: number
@@ -33,44 +34,44 @@ type SubCategory = {
 
 const CategorySub: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [subCategory, setSubCategory] = useState<string>("");
-  const [categories, setCategories] = useState<SubCategory[]>([]);
+  // const [categories, setCategories] = useState<SubCategory[]>([]);
 
   const subCategories = useSelector((state: RootState) => state.subCategories.data)
   // const dispatch = useDispatch<AppDispatch>()
   console.log(subCategories)
 
   const handleCategoryChange = (updatedCategories: SubCategory[]) => {
-    setCategories(updatedCategories);
+    // setCategories(updatedCategories);
     console.log("subCategory: ", JSON.stringify(updatedCategories));
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
-  const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const newCategory: SubCategory = {
-      id: categories.length ? categories[categories.length - 1].id + 1 : 1,
-      subCategory: subCategory,
-    }
-    setCategories([...categories, newCategory])
-    dispatch(addSubCategory(newCategory))
-    setSubCategory('') // Clear the input field after adding
-    handleClose()
-  }
+  // const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   const newCategory: SubCategory = {
+  //     id: subCategories.length ? subCategories[subCategories.length - 1].id + 1 : 1,
+  //     subCategory: subCategory,
+  //   }
+  //   // setCategories([...categories, newCategory])
+  //   dispatch(addSubCategory(newCategory))
+  //   setSubCategory('') // Clear the input field after adding
+  //   // handleClose()
+  // }
 
   
   React.useEffect(() => {
-    dispatch(fetchSubCategory())
+    dispatch(fetchSubCategories())
   }, [])
 
   return (
@@ -140,10 +141,31 @@ const CategorySub: React.FunctionComponent = () => {
                       borderRadius: '15px',
                       color: "white",   
                     }}
-                    onClick={handleClickOpen}
+                    onClick={()=>setOpen(true)}
                   >
                     <AddIcon /> Add New Sub Category
                   </Button>
+                  {open && <Modal
+              aria-labelledby="responsive-dialog-title"
+              aria-describedby="modal-desc"
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              open={open}
+              onClose={setOpen}
+            >
+                  <CategorySubAdd
+                   open={open}
+                   setOpen={setOpen}
+        // open={open}
+        // handleClose={handleClose}
+        // subCategory={subCategory}
+        // setSubCategory={setSubCategory}
+        // handleAddCategory={handleAddCategory}
+      />
+      </Modal>}
 
                   <Button
                     autoFocus
@@ -213,7 +235,7 @@ const CategorySub: React.FunctionComponent = () => {
               //   )
               // }
             >
-              <Option value="Location1">Location1</Option>
+              <Option value="category">Category</Option>
             </Select>
           </FormControl>
         </Box>
@@ -319,20 +341,14 @@ const CategorySub: React.FunctionComponent = () => {
 
             <Box>
               <CategorySubEdit
-                categories={categories}
-                onCategoryChange={handleCategoryChange}
+                categories1={subCategories}
+                // onCategoryChange={handleCategoryChange}
               />
             </Box>
             <Divider />
           </Box>
 
-          <CategorySubAdd
-        open={open}
-        handleClose={handleClose}
-        subCategory={subCategory}
-        setSubCategory={setSubCategory}
-        handleAddCategory={handleAddCategory}
-      />
+        
     </AppView>
   );
 };

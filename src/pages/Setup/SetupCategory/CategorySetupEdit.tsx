@@ -36,13 +36,16 @@ export function CategorySetupEdit({ categories1,
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
   const [editOpen, setEditOpen] = useState<boolean>(false)
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
+  
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
   const categories = useSelector((state: RootState) => state.category.data)
   // const dispatch = useDispatch<AppDispatch>()
   console.log(categories)
+  const selectedCategory = selectedCell !== null ? categories[selectedCell] : null
 
+  
   const handleCheckboxChange = (index: number) => {
     setMatchedSelected((prevSelected) =>
       prevSelected.includes(index)
@@ -63,18 +66,28 @@ export function CategorySetupEdit({ categories1,
     // console.log(JSON.stringify(editOpen))
   }
 
+  // const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   const categoryName = (e.target as any).categoryName.value
+  //   if (selectedCell !== null) {
+  //     const updatedData = categories.map((item, index) =>
+  //       index === selectedCell ? { ...item, categoryName } : item,
+  //     )
+  //     // setLapCat({ ...lapCat, categoryData: updatedData })
+  //     dispatch(updateCategory(updatedData))
+  //   console.log(categoryName)
+  //     handleEditClose()
+  //     // onCategoryChange(updatedData)
+  //   }
+  // }
+
   const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const categoryName = (e.target as any).categoryName.value
-    if (selectedCell !== null) {
-      const updatedData = categories.map((item, index) =>
-        index === selectedCell ? { ...item, categoryName } : item,
-      )
-      // setLapCat({ ...lapCat, categoryData: updatedData })
-      dispatch(updateCategory(updatedData))
-    console.log(categoryName)
+    if (selectedCategory !== null) {
+      const categoryName = (e.target as any).categoryName.value
+      const updatedCategory = { ...selectedCategory, categoryName }
+      dispatch(updateCategory(updatedCategory))
       handleEditClose()
-      // onCategoryChange(updatedData)
     }
   }
 
@@ -84,18 +97,30 @@ export function CategorySetupEdit({ categories1,
     }
   }
 
+  // const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   if (selectedCell !== null) {
+  //   const updatedData = categories.filter(
+  //     (_, index) => index !== selectedCell,
+  //   )
+  //   // setLapCat({ ...lapCat, categoryData: updatedData })
+  //   // setMatchedSelected([])
+  //   dispatch(deleteCategory(selectedCell))
+  //   setDeleteOpen(false)
+  //   // onCategoryChange(updatedData)
+  // }
+  // }
+
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (selectedCell !== null) {
-    const updatedData = categories.filter(
-      (_, index) => index !== selectedCell,
-    )
-    // setLapCat({ ...lapCat, categoryData: updatedData })
-    // setMatchedSelected([])
-    dispatch(deleteCategory(selectedCell))
-    setDeleteOpen(false)
-    // onCategoryChange(updatedData)
-  }
+      dispatch(deleteCategory(categories[selectedCell].id))
+      setDeleteOpen(false)
+      setSelectedCell(null)
+      setMatchedSelected((prevSelected) =>
+        prevSelected.filter((item) => item !== selectedCell),
+      )
+    }
   }
 
   const handleDeleteOpen = () => {
@@ -203,7 +228,7 @@ export function CategorySetupEdit({ categories1,
 
                   <td>
                     <Button
-                      onClick={() => handleDeleteButton()}
+                      onClick={handleDeleteButton}
                       sx={{
                         background: '#ffffff',
                         color: '#d32f2f',
@@ -277,6 +302,7 @@ export function CategorySetupEdit({ categories1,
                     name="categoryName"
                     required
                     sx={{ width: '70%', marginLeft: '10px' }}
+                    defaultValue={selectedCategory ? selectedCategory.categoryName : ''}
                     // defaultValue={
                     //   selectedCell !== null
                     //     ? lapCat.categoryData[selectedCell].categoryName

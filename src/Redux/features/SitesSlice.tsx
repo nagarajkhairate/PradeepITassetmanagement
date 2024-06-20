@@ -42,13 +42,13 @@ export const fetchSitesById = createAsyncThunk('sites/fetchSitesById', async (id
 });
  
 export const addSites = createAsyncThunk('sites/addSites', async (sites: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/site`, sites);
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/site/`, sites);
   return response.data;
 });
  
 export const updateSites = createAsyncThunk('sites/updateSites', async (updatedSites: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/site/${updatedSites.id}/`, updatedSites);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/site/${updatedSites.id}`, updatedSites);
   return response.data;
 });
  

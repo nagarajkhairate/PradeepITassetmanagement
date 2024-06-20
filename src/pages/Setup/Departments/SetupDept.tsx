@@ -36,14 +36,14 @@ const SetupDept: React.FunctionComponent = () => {
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [departmentName, setDepartmentName] = useState<string>('')
-  const [department, setDepartment] = useState<Department[]>([])
+  // const [department, setDepartment] = useState<Department[]>([])
   
   const departments = useSelector((state: RootState) => state.departments.data)
   // const dispatch = useDispatch<AppDispatch>()
   console.log(departments)
 
   const handleDeptChange = (updateddepartment: Department[]) => {
-    setDepartment(updateddepartment)
+    // setDepartment(updateddepartment)
     console.log('deptartment: ', JSON.stringify(updateddepartment))
   }
 
@@ -58,13 +58,14 @@ const SetupDept: React.FunctionComponent = () => {
   const handleAddDepartment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const newdepartment: Department = {
-      id: department.length ? department[department.length - 1].id + 1 : 1,
+      id: departments.length ? departments[departments.length - 1].id + 1 : 1,
       departmentName: departmentName,
     }
-    setDepartment([...department, newdepartment])
+    // setDepartment([...department, newdepartment])
     dispatch(addDepartment(newdepartment))
     setDepartmentName('') // Clear the input field after adding
     handleClose()
+    console.log(newdepartment)
   }
 
   React.useEffect(() => {
@@ -313,12 +314,6 @@ const SetupDept: React.FunctionComponent = () => {
                   // borderRadius: '15px',
                 }}
                 required
-                // value={selectedValue}
-                // onChange={(event) =>
-                //   setSelectedValue(
-                //     (event?.target as HTMLSelectElement)?.value ?? ""
-                //   )
-                // }
               >
                 <Option value="10">10</Option>
               </Select>
@@ -388,8 +383,8 @@ const SetupDept: React.FunctionComponent = () => {
 
         <Box>
           <SetupEditDept
-            department={department}
-            onDeptChange={handleDeptChange}
+            department1={departments}
+            // onDeptChange={handleDeptChange}
           />
         </Box>
         <Divider />

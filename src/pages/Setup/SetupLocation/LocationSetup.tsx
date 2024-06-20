@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box} from '@mui/joy'
+import { Box, Modal } from '@mui/joy'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../../Redux/store'
 import { Typography, Divider } from '@mui/joy'
@@ -21,19 +21,18 @@ import {
 } from '../../../Redux/features/LocationSlice'
 import { ThunkDispatch } from 'redux-thunk'
 import LocationAdd from './LocationAdd'
+import AddIcon from '@mui/icons-material/Add'
+import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
 // import { LocationDelete } from './LocationDelete'
-
 
 type Location = {
   id: number
   location: string
 }
 
-
-
 const LocationSetup: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const [open, setOpen] = useState<boolean>(false)
+  const [open, setOpen] = useState(false)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [location, setLocation] = useState<string>('')
@@ -48,26 +47,7 @@ const LocationSetup: React.FunctionComponent = () => {
     console.log('location: ', JSON.stringify(updatedData))
   }
 
-  const handleClickOpen = () => {
-    setOpen(true)
-  }
 
-  const handleClose = () => {
-    setOpen(false)
-  }
-
-  const handleAddLocation = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const newLocation: Location = {
-      id: locations.length ? locations[locations.length - 1].id + 1 : 1,
-      location: location,
-    }
-    // setLocationName([...locationName, newLocation])
-    setLocation('') 
-    handleClose()
-    dispatch(addLocation(newLocation))
-    console.log(newLocation)
-  }
 
   React.useEffect(() => {
     dispatch(fetchLocation())
@@ -127,11 +107,57 @@ const LocationSetup: React.FunctionComponent = () => {
             </Typography>
           </Box>
 
-          <LocationAdd
-            location={location}
-            setLocation={setLocation}
-            handleAddLocation={handleAddLocation}
-          />
+          <Box
+           sx={{
+            display: 'flex',
+            flexDirection: { md: 'row', xs: 'column' },
+            gap: 2,
+          }}
+          >
+          <Button
+            autoFocus
+            variant="solid"
+            sx={{
+              background: '#388e3c',
+              borderRadius: '15px',
+              color: 'white',
+            }}
+            component="label"
+            onClick={() => setOpen(true)}
+          >
+            <AddIcon /> Add New Location
+          </Button>
+          <Button
+              autoFocus
+              type="submit"
+              variant="solid"
+              sx={{
+                background: 'black',
+                borderRadius: '15px',
+                color: 'white',
+              }}
+            >
+              <PublishOutlinedIcon />
+              Import Locations
+            </Button>
+          </Box>
+
+          {open && <Modal
+              aria-labelledby="responsive-dialog-title"
+              aria-describedby="modal-desc"
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              open={open}
+              onClose={setOpen}
+            ><LocationAdd
+            open={open}
+              setOpen={setOpen}
+            />
+            </Modal>}
+        
         </Box>
 
         <Divider />
@@ -282,9 +308,8 @@ const LocationSetup: React.FunctionComponent = () => {
         <Box>
           <LocationSetupEdit
             locationName={locations}
-            onLocationChange={handleLocationChange}
-            
-          /> 
+            // onLocationChange={handleLocationChange}
+          />
         </Box>
         <Divider />
       </Box>
@@ -293,11 +318,6 @@ const LocationSetup: React.FunctionComponent = () => {
 }
 
 export default LocationSetup
-
-
-
-
-
 
 // import React from 'react'
 // import { Box} from '@mui/joy'
@@ -324,13 +344,10 @@ export default LocationSetup
 // import LocationAdd from './LocationAdd'
 // // import { LocationDelete } from './LocationDelete'
 
-
 // type Location = {
 //   id: number
 //   location: string
 // }
-
-
 
 // const LocationSetup: React.FunctionComponent = () => {
 //   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -586,8 +603,8 @@ export default LocationSetup
 //           <LocationSetupEdit
 //             locationName={locationName}
 //             onLocationChange={handleLocationChange}
-            
-//           /> 
+
+//           />
 //         </Box>
 //         <Divider />
 //       </Box>
