@@ -44,6 +44,8 @@ import CustomerForm from '../pages/Setup/CustomizeForm/CustomerForm'
 import WarrantyForm from '../pages/Setup/CustomizeForm/WarrantyForm'
 import LoginAccount from '../components/Registration/LoginAccount'
 import CreateAccount from '../components/Registration/CreateAccount'
+import DataBases from '../pages/Setup/DataBase/DataBases'
+import DataBasesEmp from '../pages/Setup/DataBase/DataBaseEmployee/DataBaseEmp'
 
 export const pagesRoutes: any[] = [
   {
@@ -296,6 +298,25 @@ export const pagesRoutes: any[] = [
         element: <SetupDept />,
         icon: <GridViewIcon />,
       },
+
+      {
+        index: true,
+        pageName: 'DataBases',
+        path: '/setup/data-bases',
+        state: 'assets',
+        element: <DataBases />,
+        icon: <GridViewIcon />,
+      },
+
+      {
+        index: true,
+        pageName: 'DataBasesEmployee',
+        path: '/setup/data-bases-employee',
+        state: 'assets',
+        element: <DataBasesEmp />,
+        icon: <GridViewIcon />,
+      },
+
       {
         index: true,
         pageName: 'Table Options',
