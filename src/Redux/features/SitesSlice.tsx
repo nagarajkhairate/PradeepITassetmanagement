@@ -14,28 +14,25 @@ const initialState: SitesState = {
   error: null,
 };
 
-// const customer_id = process.env.CUSTOMER_ID;
 const base_api_key_url = process.env.BASE_API_KEY;
+const TENANT_ID = process.env.TENANT_ID;
 
-
- 
 export const fetchSites = createAsyncThunk('sites/fetchSites', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}sites/sites}/sites`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/site`);
   return response.data;
    
   } catch (error) {
     console.error('Error Message'+ error);
     throw error;
   }
- 
- 
+
 });
 
 
 export const fetchSitesById = createAsyncThunk('sites/fetchSitesById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}sites/sites/${id}`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/site/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -45,20 +42,18 @@ export const fetchSitesById = createAsyncThunk('sites/fetchSitesById', async (id
 });
  
 export const addSites = createAsyncThunk('sites/addSites', async (sites: any) => {
-  console.log('asfes')
- const response = await axios.post(`${base_api_key_url}sites`, sites);
- console.log(response)
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/site/`, sites);
   return response.data;
 });
  
 export const updateSites = createAsyncThunk('sites/updateSites', async (updatedSites: any) => {
  
-  const response = await axios.put(`${base_api_key_url}/sites/${updatedSites.id}`, updatedSites);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/site/${updatedSites.id}`, updatedSites);
   return response.data;
 });
  
 export const deleteSites = createAsyncThunk('sites/deleteSites', async (id: number) => {
-  await axios.delete(`${base_api_key_url}/sites/${id}`);
+  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/site/${id}`);
   return id;
 });
  

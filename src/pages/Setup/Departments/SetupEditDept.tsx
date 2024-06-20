@@ -11,6 +11,11 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import SetupDept from "./SetupDept";
+import SetupDeleteDept from "./SetupDeleteDept";
+import { ThunkDispatch } from "redux-thunk";
+import { RootState } from "../../../Redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteDepartment, updateDepartment } from "../../../Redux/features/DepartmentSlice";
 
 type Department = {
   id: number
@@ -18,11 +23,14 @@ type Department = {
 }
 
 interface Props {
-  department: Department[];
-  onDeptChange: (updateddepartment: Department[]) => void;
+  department1: Department[];
+  // onDeptChange: (updateddepartment: Department[]) => void;
 }
 
-export function SetupEditDept({ department, onDeptChange }: Props) {
+export function SetupEditDept({ department1, 
+  // onDeptChange 
+}: Props) {
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
   const [depart, setDepart] = useState<{ data: Department[] }>({ data: [] });
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
@@ -30,6 +38,12 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+ 
+
+  const departments = useSelector((state: RootState) => state.departments.data)
+// const dispatch = useDispatch<AppDispatch>()
+console.log(departments)
+const selectedDepartment = selectedCell !== null ? departments[selectedCell] : null
 
   const handleCheckboxChange = (index: number) => {
     setMatchedSelected((prevSelected) =>
@@ -51,18 +65,30 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
     // console.log(JSON.stringify(editOpen))
   };
 
+  // const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   const departmentName = (e.target as any).departmentName.value;
+  //   if (selectedCell !== null) {
+  //     const updatedData = depart.data.map((item, index) =>
+  //       index === selectedCell ? {...item, departmentName} : item
+  //     );
+  //     setDepart({ ...depart, data: updatedData });
+  //     handleEditClose();
+  //     dispatch(updateDepartment(updatedData))
+  //     // onDeptChange(updatedData);
+  //   }
+  // };
+
+  
   const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const departmentName = (e.target as any).departmentName.value;
-    if (selectedCell !== null) {
-      const updatedData = depart.data.map((item, index) =>
-        index === selectedCell ? {...item, departmentName} : item
-      );
-      setDepart({ ...depart, data: updatedData });
-      handleEditClose();
-      onDeptChange(updatedData);
+    e.preventDefault()
+    if (selectedDepartment !== null) {
+      const departmentName = (e.target as any).departmentName.value
+      const updatedCategory = { ...selectedDepartment, departmentName }
+      dispatch(updateDepartment(updatedCategory))
+      handleEditClose()
     }
-  };
+  }
 
   const handleDeleteButton = () => {
     if (selectedCell !== null) {
@@ -70,14 +96,26 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
     }
   };
 
+  // const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   const updatedData = depart.data.filter((_, index) => index !== selectedCell);
+  //   setDepart({ ...depart, data: updatedData });
+  //   setMatchedSelected([]);
+  //   setDeleteOpen(false); // Close the delete dialog after deletion
+  //   // onDeptChange(updatedData);
+  // };
+
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const updatedData = depart.data.filter((_, index) => index !== selectedCell);
-    setDepart({ ...depart, data: updatedData });
-    setMatchedSelected([]);
-    setDeleteOpen(false); // Close the delete dialog after deletion
-    onDeptChange(updatedData);
-  };
+    e.preventDefault()
+    if (selectedCell !== null) {
+      dispatch(deleteDepartment(departments[selectedCell].id))
+      setDeleteOpen(false)
+      setSelectedCell(null)
+      setMatchedSelected((prevSelected) =>
+        prevSelected.filter((item) => item !== selectedCell),
+      )
+    }
+  }
 
   const handleDeleteOpen = () => {
     setDeleteOpen(true);
@@ -89,8 +127,8 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
   };
 
   useEffect(() => {
-    setDepart({ data: department });
-  }, [department]);
+    setSelectedCell(null);
+  }, [departments]);
 
   const handleEdit = () => {
     if (selectedCell !== null) {
@@ -118,19 +156,19 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
                 <Checkbox
                   size="sm"
                   indeterminate={
-                    matchedSelected.length > 0 && matchedSelected.length < depart.data.length
+                    matchedSelected.length > 0 && matchedSelected.length < departments.length
                   }
                   checked={
-                    matchedSelected.length > 0 && matchedSelected.length === depart.data.length
+                    matchedSelected.length > 0 && matchedSelected.length === departments.length
                   }
                   onChange={(event) => {
                     const isChecked = event.target.checked;
                     setMatchedSelected(
-                      isChecked ? depart.data.map((_, index) => index) : []
+                      isChecked ? departments.map((_, index) => index) : []
                     );
                   }}
                   color={
-                    matchedSelected.length > 0 && matchedSelected.length === depart.data.length
+                    matchedSelected.length > 0 && matchedSelected.length === departments.length
                       ? "primary"
                       : undefined
                   }
@@ -143,7 +181,7 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
             </tr>
           </thead>
           <tbody>
-              {depart.data.length > 0 ? depart.data.map((custom, index) => (
+              {departments.length > 0 ? departments.map((custom, index) => (
                 <tr key={custom.id}>
                   <td>
                     <Checkbox
@@ -244,6 +282,7 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
                 name="departmentName"
                 required
                 sx={{ width: "70%", marginLeft: "10px" }}
+                defaultValue={selectedDepartment ? selectedDepartment.departmentName : ''}
                 // defaultValue={selectedCell !== null ? depart.data[selectedCell].departmentName : ""} // Set default value to the selected cell content
               />
             </FormControl>
@@ -276,7 +315,7 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
           </Sheet>
         </Modal>
 
-        <Modal
+        {/* <Modal
           
           open={deleteOpen}
           onClose={handleDeleteClose}
@@ -305,15 +344,7 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
           <form onSubmit={handleDeleteSubmit}>
             <FormControl sx={{ display: "flex", flexDirection: "column", justifyContent: "space-evenly" }}>
               <Box sx={{ marginBottom: "20px", padding: "20px" }}>Are you sure you want to delete this Department?</Box>
-              {/* <Input
-                variant="outlined"
-                type="text"
-                id="departmentName"
-                name="departmentName"
-                required
-                sx={{ width: "92%", marginLeft: "20px" }}
-                // defaultValue={selectedCell !== null ? depart.data[selectedCell].departmentName : ""} // Set default value to the selected cell content
-              /> */}
+             
             </FormControl>
             <Button
               autoFocus
@@ -342,7 +373,13 @@ export function SetupEditDept({ department, onDeptChange }: Props) {
           </form>
           </div>
           </Sheet>
-        </Modal>
+        </Modal> */}
+
+<SetupDeleteDept
+          open={deleteOpen}
+          handleDeleteClose={handleDeleteClose}
+          handleDeleteSubmit={handleDeleteSubmit}
+        />
       </Stack>
     </>
   );

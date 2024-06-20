@@ -19,7 +19,7 @@ interface LocationDeleteProps {
 
   
 
-  const LocationDelete: React.FunctionComponent<LocationDeleteProps> = (
+  const DeleteLocation: React.FunctionComponent<LocationDeleteProps> = (
     { 
         // locationName,
         selectedCell, 
@@ -152,4 +152,4 @@ interface LocationDeleteProps {
       )
       
 }
-export default LocationDelete
+export default DeleteLocation

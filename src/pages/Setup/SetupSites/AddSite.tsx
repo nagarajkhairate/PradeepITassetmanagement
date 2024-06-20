@@ -9,8 +9,6 @@ interface AddSiteProps {
   open: boolean;
   onClose: () => void;
   onSave: (site: Site) => void
-  // setSites: React.Dispatch<React.SetStateAction<Site[]>>;
-  // sites: Site[];
 }
 
 interface Site {
@@ -44,7 +42,6 @@ const initialSiteData: Site = {
 
 const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
   const [newSite, setNewSite] = useState<Site>(initialSiteData);
-  const [newCountry, setNewCountry] = useState(initialSiteData);
 
   const users=useSelector((state: { users: SitesState }) =>state.users);
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
@@ -67,9 +64,11 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
 
   const handleAddSite = async () => {
     onSave(newSite);
+
+    console.log(JSON.stringify(newSite))
     await dispatch(addSites(newSite)); 
     setNewSite(initialSiteData);
-    onClose();
+    // onClose();
   };
 
  

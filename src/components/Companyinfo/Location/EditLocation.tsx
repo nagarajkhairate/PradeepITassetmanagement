@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react'
 import { Stack, Box, Typography, Sheet } from '@mui/joy'
 import Table from '@mui/joy/Table'
@@ -11,22 +12,26 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
 import { useSelector, useDispatch } from 'react-redux';
- 
+
 import { AppDispatch, RootState } from '../../../Redux/store'
-import { updateLocation } from '../../../Redux/features/LocationSlice'
- 
- 
+import { deleteLocation, updateLocation } from '../../../Redux/features/LocationSlice'
+import { ThunkDispatch } from 'redux-thunk'
+
+
 type Location = {
   id: number
   location: string
 }
- 
+
 interface Props {
   locationName: Location[]
-  onLocationChange: (updatedData: Location[]) => void
+  // onLocationChange: (updatedData: Location[]) => void
 }
- 
-export function LocationEditDelt({ locationName, onLocationChange }: Props) {
+
+export function EditLocation({ locationName, 
+  // onLocationChange 
+}: Props) {
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
   const [locData, setLocData] = useState<{ locationData: Location[] }>({locationData: [],})
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
@@ -34,11 +39,13 @@ export function LocationEditDelt({ locationName, onLocationChange }: Props) {
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
- 
-  const locations = useSelector((state: RootState) => state.locations)
-const dispatch = useDispatch<AppDispatch>()
- 
- 
+
+  const locations = useSelector((state: RootState) => state.locations.data)
+// const dispatch = useDispatch<AppDispatch>()
+console.log(locations)
+const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
+
+
   const handleCheckboxChange = (index: number) => {
     setMatchedSelected((prevSelected) =>
       prevSelected.includes(index)
@@ -47,68 +54,92 @@ const dispatch = useDispatch<AppDispatch>()
     )
     setSelectedCell(index)
   }
- 
+
   const handleClickEditOpen = () => {
     setEditOpen(true)
   }
- 
+
   const handleEditClose = () => {
     setEditOpen(false)
     setSelectedCell(null)
- 
+
     // console.log(JSON.stringify(editOpen))
   }
- 
+
+  // const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   const location = (e.target as any).location.value
+  //   if (selectedCell !== null) {
+  //     const updatedData = locData.locationData.map((item, index) =>
+  //       index === selectedCell ? { ...item, location } : item,
+  //     )
+  //     setLocData({ ...locData, locationData: updatedData })
+  //     handleEditClose()
+  //     dispatch(updateLocation(updatedData))
+  //     // onLocationChange(updatedData)
+  //   }
+  // }
   const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const location = (e.target as any).location.value
-    if (selectedCell !== null) {
-      const updatedData = locData.locationData.map((item, index) =>
-        index === selectedCell ? { ...item, location } : item,
-      )
-      setLocData({ ...locData, locationData: updatedData })
+    if (selectedLocation !== null) {
+      const location = (e.target as any).location.value
+      const updatedCategory = { ...selectedLocation, location }
+      dispatch(updateLocation(updatedCategory))
       handleEditClose()
-      dispatch(updateLocation(location))
-      onLocationChange(updatedData)
     }
   }
- 
+
+  // const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   const deleteData = locData.locationData.filter(
+  //     (_, index) => index !== selectedCell,
+  //   )
+  //   setLocData({ ...locData, locationData: deleteData })
+  //   setMatchedSelected([])
+  //   setDeleteOpen(false)
+  //   // dispatch(deleteLocation())
+  //   // onLocationChange(deleteData)
+  
+  // }
+
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const updatedData = locData.locationData.filter(
-      (_, index) => index !== selectedCell,
-    )
-    setLocData({ ...locData, locationData: updatedData })
-    setMatchedSelected([])
-    setDeleteOpen(false)
-    // onLocationChange(updatedData)
+    if (selectedCell !== null) {
+      dispatch(deleteLocation(locations[selectedCell].id))
+      setDeleteOpen(false)
+      setSelectedCell(null)
+      setMatchedSelected((prevSelected) =>
+        prevSelected.filter((item) => item !== selectedCell),
+      )
+    }
   }
- 
+
+
   const handleDeleteButton = () => {
     if (selectedCell !== null) {
       handleDeleteOpen()
     }
   }
- 
+
   const handleDeleteOpen = () => {
     setDeleteOpen(true)
   }
- 
+
   const handleDeleteClose = () => {
     setDeleteOpen(false)
     setMatchedSelected([])
   }
- 
+
   useEffect(() => {
-    setLocData({ locationData: locationName })
-  }, [locationName])
- 
+    setSelectedCell(null)
+  }, [locations])
+
   const handleEdit = () => {
     if (selectedCell !== null) {
       handleClickEditOpen()
     }
   }
- 
+
   return (
     <>
       <Stack
@@ -119,7 +150,7 @@ const dispatch = useDispatch<AppDispatch>()
           justifyContent: 'space-between',
         }}
       >
-<Table borderAxis="both" style={{ borderCollapse: 'collapse' }}>
+      <Table borderAxis="both" style={{ borderCollapse: 'collapse' }}>
           <thead>
             <tr>
               <th style={{ width: 30 }}>
@@ -127,23 +158,23 @@ const dispatch = useDispatch<AppDispatch>()
                   size="sm"
                   indeterminate={
                     matchedSelected.length > 0 &&
-                    matchedSelected.length < locData.locationData.length
+                    matchedSelected.length < locations.length
                   }
                   checked={
                     matchedSelected.length > 0 &&
-                    matchedSelected.length === locData.locationData.length
+                    matchedSelected.length === locations.length
                   }
                   onChange={(event) => {
                     const isChecked = event.target.checked
                     setMatchedSelected(
                       isChecked
-                        ? locData.locationData.map((_, index) => index)
+                        ? locations.map((_, index) => index)
                         : [],
                     )
                   }}
                   color={
                     matchedSelected.length > 0 &&
-                    matchedSelected.length === locData.locationData.length
+                    matchedSelected.length === locations.length
                       ? 'primary'
                       : undefined
                   }
@@ -156,7 +187,7 @@ const dispatch = useDispatch<AppDispatch>()
             </tr>
           </thead>
               <tbody>
-              {locData.locationData.length > 0 ? locData.locationData.map((custom, index) => (
+              {locations.length > 0 ? locations.map((custom, index) => (
                     <tr key={custom.id}>
                       <td>
                         <Checkbox
@@ -166,7 +197,7 @@ const dispatch = useDispatch<AppDispatch>()
                         />
                       </td>
                       <td>{custom.location}</td>
-   
+    
                       <td>
                         <Button
                           onClick={() => handleEdit()}
@@ -188,7 +219,7 @@ const dispatch = useDispatch<AppDispatch>()
                           Edit
                         </Button>
                       </td>
-   
+    
                       <td>
                         <Button
                           onClick={() => handleDeleteButton()}
@@ -214,12 +245,12 @@ const dispatch = useDispatch<AppDispatch>()
                      )): <tr ><td colSpan={4} style={{ textAlign: 'center' }}>No Data Found</td></tr> }
               </tbody>
                
-               
+                
        
         </Table>
-     
-       
- 
+      
+        
+
         <Modal
           open={editOpen}
           onClose={handleEditClose}
@@ -251,7 +282,7 @@ const dispatch = useDispatch<AppDispatch>()
               >
                 {'Edit the Customs here'}
               </Typography>
- 
+
               <form onSubmit={handleEditButton}>
                 <FormControl
                   sx={{
@@ -270,6 +301,7 @@ const dispatch = useDispatch<AppDispatch>()
                     name="location"
                     required
                     sx={{ width: '70%', marginLeft: '10px' }}
+                    defaultValue={selectedLocation ? selectedLocation.location : ''}
                     // defaultValue={
                     //   selectedCell !== null
                     //     ? locData.locationData[selectedCell].location
@@ -290,7 +322,7 @@ const dispatch = useDispatch<AppDispatch>()
                 >
                   Update
                 </Button>
- 
+
                 <Button
                   type="button"
                   onClick={handleEditClose}
@@ -308,7 +340,7 @@ const dispatch = useDispatch<AppDispatch>()
             </div>
           </Sheet>
         </Modal>
- 
+
         <Modal
           open={deleteOpen}
           onClose={handleDeleteClose}
@@ -340,7 +372,7 @@ const dispatch = useDispatch<AppDispatch>()
               >
                 {'Delete Customs here'}
               </Typography>
- 
+
               <form onSubmit={handleDeleteSubmit}>
                 <FormControl
                   sx={{
@@ -378,7 +410,7 @@ const dispatch = useDispatch<AppDispatch>()
                 >
                   Confirm Delete
                 </Button>
- 
+
                 <Button
                   type="button"
                   onClick={handleDeleteClose}
@@ -401,5 +433,5 @@ const dispatch = useDispatch<AppDispatch>()
     </>
   )
 }
- 
-export default LocationEditDelt
+
+export default EditLocation

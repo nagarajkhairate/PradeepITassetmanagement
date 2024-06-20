@@ -19,6 +19,12 @@ import CategorySubEdit from "./CategorySubEdit";
 import PlaylistAddCheckOutlinedIcon from "@mui/icons-material/PlaylistAddCheckOutlined";
 import { KeyboardArrowDown } from "@mui/icons-material";
 import AppView from "../../../components/Common/AppView";
+import CategorySubAdd from "./CategorySubAdd";
+import { ThunkDispatch } from "redux-thunk";
+import { RootState } from "../../../Redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSubCategories } from "../../../Redux/features/CategorySubSlice";
+
 
 type SubCategory = {
   id: number
@@ -27,35 +33,46 @@ type SubCategory = {
 
 
 const CategorySub: React.FunctionComponent = () => {
-  const [open, setOpen] = useState<boolean>(false);
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [subCategory, setSubCategory] = useState<string>("");
-  const [categories, setCategories] = useState<SubCategory[]>([]);
+  // const [categories, setCategories] = useState<SubCategory[]>([]);
+
+  const subCategories = useSelector((state: RootState) => state.subCategories.data)
+  // const dispatch = useDispatch<AppDispatch>()
+  console.log(subCategories)
 
   const handleCategoryChange = (updatedCategories: SubCategory[]) => {
-    setCategories(updatedCategories);
+    // setCategories(updatedCategories);
     console.log("subCategory: ", JSON.stringify(updatedCategories));
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
-  const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const newCategory: SubCategory = {
-      id: categories.length ? categories[categories.length - 1].id + 1 : 1,
-      subCategory: subCategory,
-    }
-    setCategories([...categories, newCategory])
-    setSubCategory('') // Clear the input field after adding
-    handleClose()
-  }
+  // const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   const newCategory: SubCategory = {
+  //     id: subCategories.length ? subCategories[subCategories.length - 1].id + 1 : 1,
+  //     subCategory: subCategory,
+  //   }
+  //   // setCategories([...categories, newCategory])
+  //   dispatch(addSubCategory(newCategory))
+  //   setSubCategory('') // Clear the input field after adding
+  //   // handleClose()
+  // }
+
+  
+  React.useEffect(() => {
+    dispatch(fetchSubCategories())
+  }, [])
 
   return (
     <AppView>
@@ -124,176 +141,31 @@ const CategorySub: React.FunctionComponent = () => {
                       borderRadius: '15px',
                       color: "white",   
                     }}
-                    onClick={handleClickOpen}
+                    onClick={()=>setOpen(true)}
                   >
                     <AddIcon /> Add New Sub Category
                   </Button>
-
-                  <Modal
-                    aria-labelledby="responsive-dialog-title"
-                    aria-describedby="modal-desc"
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                    open={open}
-                    onClose={handleClose}
-                  >
-                    <Sheet
-                      variant="outlined"
-                      sx={{
-                        maxWidth: 500,
-                        borderRadius: "md",
-                        p: 3,
-                        boxShadow: "lg",
-                      }}
-                    >
-                      <div>
-                        <Typography
-                          id="responsive-dialog-title"
-                          component="h2"
-                          level="h4"
-                          textColor="inherit"
-                          fontWeight="lg"
-                          mb={1}
-                        >
-                          {"Add a Sub Category"}
-                        </Typography>
-                        <Divider />
-
-                        <Box sx={{ marginBottom: "10px" }}>
-                          <form onSubmit={handleAddCategory}>
-                            <FormControl
-                              sx={{
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
-                              }}
-                            ></FormControl>
-
-                            <Box
-                              sx={{
-                                marginTop: "1px",
-                                marginBottom: "15px",
-                                padding: "10px",
-                              }}
-                            >
-                              <Typography
-                                sx={{ padding: "none", width: "100%" }}
-                              >
-                                Enter the data about your new sub category in
-                                the fields below and we will add it to your
-                                list.
-                              </Typography>
-                              <FormControl
-                                sx={{
-                                  display: "flex",
-                                  flexDirection: "row",
-                                  justifyContent: "space-evenly",
-                                  marginTop: "10px",
-                                }}
-                              >
-                                <FormLabel
-                                  sx={{
-                                    paddingTop: "20px",
-                                    marginLeft: "20px",
-                                  }}
-                                >
-                                  Category*:
-                                </FormLabel>
-                                {/* <Input
-                                    value={category}
-                                    onChange={(
-                                      e: React.ChangeEvent<HTMLInputElement>
-                                    ) => setCategory(e.target.value)}
-                                    placeholder="Type here"
-                                    sx={{ marginLeft: "20px", width: "70%", marginTop:'10px', }}
-                                  /> */}
-                                <Select
-                                  placeholder="Select a Category"
-                                  indicator={<KeyboardArrowDown />}
-                                  sx={{
-                                    width: 240,
-                                    [`& .${selectClasses.indicator}`]: {
-                                      transition: "0.2s",
-                                      [`&.${selectClasses.expanded}`]: {
-                                        transform: "rotate(-180deg)",
-                                      },
-                                    },
-                                  }}
-                                >
-                                  <Option value="buildings">Buildings</Option>
-                                  <Option value="computer">Computer</Option>
-                                  <Option value="equipment">Equipment</Option>
-                                  <Option value="vehicles">Vehicles</Option>
-                                </Select>
-                              </FormControl>
-
-                              <FormControl
-                                sx={{
-                                  display: "flex",
-                                  flexDirection: "row",
-                                  justifyContent: "space-evenly",
-                                  marginTop: "10px",
-                                }}
-                              >
-                                <FormLabel
-                                  sx={{
-                                    paddingTop: "20px",
-                                    marginLeft: "none",
-                                  }}
-                                >
-                                  Sub Category*:
-                                </FormLabel>
-                                <Input
-                                  value={subCategory}
-                                  onChange={(
-                                    e: React.ChangeEvent<HTMLInputElement>
-                                  ) => setSubCategory(e.target.value)}
-                                  placeholder="Type here"
-                                  sx={{
-                                    marginLeft: "10px",
-                                    width: "50%",
-                                    marginTop: "10px",
-                                  }}
-                                />
-                              </FormControl>
-                            </Box>
-                            <Divider />
-
-                            <Button
-                              autoFocus
-                              type="submit"
-                              variant="solid"
-                              sx={{
-                                background: "#fdd835",
-                                color: "black",
-                                marginTop: "25px",
-                                marginLeft: "40%",
-                              }}
-                            >
-                              Add
-                            </Button>
-
-                            <Button
-                              type="button"
-                              onClick={handleClose}
-                              autoFocus
-                              variant="solid"
-                              sx={{
-                                background: "black",
-                                color: "white",
-                                marginLeft: "50px",
-                              }}
-                            >
-                              Cancel
-                            </Button>
-                          </form>
-                        </Box>
-                      </div>
-                    </Sheet>
-                  </Modal>
+                  {open && <Modal
+              aria-labelledby="responsive-dialog-title"
+              aria-describedby="modal-desc"
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              open={open}
+              onClose={setOpen}
+            >
+                  <CategorySubAdd
+                   open={open}
+                   setOpen={setOpen}
+        // open={open}
+        // handleClose={handleClose}
+        // subCategory={subCategory}
+        // setSubCategory={setSubCategory}
+        // handleAddCategory={handleAddCategory}
+      />
+      </Modal>}
 
                   <Button
                     autoFocus
@@ -363,7 +235,7 @@ const CategorySub: React.FunctionComponent = () => {
               //   )
               // }
             >
-              <Option value="Location1">Location1</Option>
+              <Option value="category">Category</Option>
             </Select>
           </FormControl>
         </Box>
@@ -469,13 +341,14 @@ const CategorySub: React.FunctionComponent = () => {
 
             <Box>
               <CategorySubEdit
-                categories={categories}
-                onCategoryChange={handleCategoryChange}
+                categories1={subCategories}
+                // onCategoryChange={handleCategoryChange}
               />
             </Box>
             <Divider />
           </Box>
 
+        
     </AppView>
   );
 };

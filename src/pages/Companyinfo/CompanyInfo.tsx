@@ -13,6 +13,7 @@ import LocationPage from "../../components/Companyinfo/Location/Location";
 import Category from "../../components/Companyinfo/Category/Category";
 import DataBase from "../../components/Companyinfo/Database/DataBase";
 import EventOption from "../../components/Companyinfo/EventOption/EventOption";
+import AppView from "../../components/Common/AppView";
 
 const CompanyInfo = () => {
   const [companyFormData, setCompanyFormData] = React.useState({});
@@ -32,7 +33,7 @@ const CompanyInfo = () => {
   ];
 
   return (
-    <Box>
+    <AppView>
       <Box
         sx={{
           display: "flex",
@@ -53,17 +54,6 @@ const CompanyInfo = () => {
             {tabs.map((tab, index) => (
               <Tab
                 key={index}
-                // disabled={index > activeTab}
-                // sx={{
-                //   display: "flex",
-                //   flexDirection: { xs: "row", sm: "row", md: "column" },
-                //   alignItems: "center",
-                //   minWidth: "auto",
-                //   padding: "8px",
-                //   color: activeTab === index ? "red" : "inherit",
-                //   width: { xs: "100%", sm: "100%", md: "auto" },
-                //   marginBottom: { xs: "8px", sm: "8px", md: "0" },
-                // }}
               >
                 <IconButton>
                   {React.cloneElement(tab.icon, {
@@ -147,7 +137,7 @@ const CompanyInfo = () => {
         >
         </Box>
       </Box>
-    </Box>
+    </AppView>
   );
 };
 
