@@ -16,30 +16,31 @@ import {
   Typography,
 } from "@mui/joy";
 import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../../Redux/store";
+// import { RootState } from "../../../Redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { addDataBase } from "../../../Redux/features/DataBaseSlice";
+// import { addDataBase } from "../../../Redux/features/DataBaseSlice";
 
 interface DataAddProps {
   dataBases: { data: string[] };
-  setDataBases: React.Dispatch<React.SetStateAction<{ data: string[] }>>;
-  addCustomField: (custom: string) => void;
+  setDataBases: React.Dispatch<React.SetStateAction<{ data: any[] }>>;
+  addCustomField: (custom: any) => void;
   deleteCustomField: (index: number) => void;
   id:number
 }
 
-const DataBaseAdd: React.FC<DataAddProps> = ({
+const AddDataBaseEmp: React.FC<DataAddProps> = ({
   dataBases,
   setDataBases,
   addCustomField,
   deleteCustomField,
+  id
 }: DataAddProps) => {
   const [open, setOpen] = useState(false);
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+//   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
-  const dataBase = useSelector((state: RootState) => state.dataBase.data)
-  // const dispatch = useDispatch<AppDispatch>()
-  console.log(dataBase)
+//   const dataBase = useSelector((state: RootState) => state.dataBase.data)
+//   // const dispatch = useDispatch<AppDispatch>()
+//   console.log(dataBase)
   
   const [formData, setFormData] = useState({
   
@@ -73,7 +74,7 @@ const DataBaseAdd: React.FC<DataAddProps> = ({
         },
       ],
     }));
-    dispatch(addDataBase(formData))
+    // dispatch(addDataBase(formData))
     handleClose();
     setFormData({
       custom: "",
@@ -281,4 +282,4 @@ const DataBaseAdd: React.FC<DataAddProps> = ({
   );
 };
 
-export default DataBaseAdd;
+export default AddDataBaseEmp;

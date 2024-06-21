@@ -58,7 +58,7 @@ interface DataProps {
  
  
  
-const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
+const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
     setMatchedSelected,
     dataBases,
     setDataBases,
@@ -479,4 +479,4 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
               </Stack>
     )
 }
-export default DataBaseEdit;
+export default EditDataBase;
