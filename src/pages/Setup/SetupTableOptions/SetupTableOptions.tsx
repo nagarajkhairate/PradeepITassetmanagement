@@ -113,8 +113,6 @@ const SetupTableOptions: React.FC = ({}) => {
   }>({});
 
   const handleSubmit = () => {
-
-    
     const formData: any = {
       DepreciationOptions: {
         assetDepreciation: companyFormData.assetDepreciation,

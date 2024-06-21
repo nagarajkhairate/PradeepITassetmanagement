@@ -42,7 +42,7 @@ export const fetchOptionsById = createAsyncThunk('options/fetchOptionsById', asy
 });
  
 export const addoptions = createAsyncThunk('options/addoptions', async (options: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/tableOptions/`, options);
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/tableOptions`, options);
  console.log(response)
   return response.data;
 });

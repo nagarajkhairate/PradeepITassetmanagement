@@ -28,10 +28,11 @@ interface InputFieldProps {
 
 const FileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, handleInputChange }) => {
   const [imagePreview, setImagePreview] = React.useState<string | null>(null);
+  const [file, setFile] = React.useState<File | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    
   const file = e.target.files?.[0];
-  
   if (file) {  
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -46,6 +47,7 @@ const FileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, 
   }
 };
 
+
 const handleDelete = () => {
   setImagePreview(null);
 };
@@ -57,7 +59,7 @@ const handleDelete = () => {
       </FormLabel>
       <Input
         placeholder={field.title}
-        value={formData[field.value] || ''} 
+        // value={formData[field.value] || ''} 
         name={field.value} 
         type={field.dataType} 
         onChange={handleFileChange}
