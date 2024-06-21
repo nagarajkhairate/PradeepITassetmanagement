@@ -46,6 +46,7 @@ import LoginAccount from '../components/Registration/LoginAccount'
 import CreateAccount from '../components/Registration/CreateAccount'
 import DataBases from '../pages/Setup/DataBase/DataBases'
 import DataBasesEmp from '../pages/Setup/DataBase/DataBaseEmployee/DataBaseEmp'
+import Event from '../pages/Setup/SetupEventOption/Event'
 
 export const pagesRoutes: any[] = [
   {
@@ -315,6 +316,15 @@ export const pagesRoutes: any[] = [
         state: 'assets',
         element: <DataBasesEmp />,
         icon: <GridViewIcon />,
+      },
+
+      {
+        index: true,
+        pageName: 'Events',
+        path: '/setup/events',
+        state: 'assets',
+        element: <Event/>,
+        icon: <LocationOnOutlinedIcon />,
       },
 
       {

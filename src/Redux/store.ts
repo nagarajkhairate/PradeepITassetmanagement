@@ -9,6 +9,7 @@ import categoryReducer from './features/CategorySlice'
 import subCategoryReducer from './features/CategorySubSlice'
 import departmentNameReducer from './features/DepartmentSlice'
 import dataBaseReducer from "./features/DataBaseSlice"
+import eventsReducer from "./features/EventsSlice"
 import companyInfoReducer from './features/CompanyInfoSlice';
 import SitesReducer from './features/SitesSlice';
 import TableOptionsReducer from './features/TableOptionsSlice';
@@ -25,6 +26,7 @@ export const store = configureStore({
     subCategories:subCategoryReducer,
     departments:departmentNameReducer,
     dataBase:dataBaseReducer,
+    events:eventsReducer,
     sites: SitesReducer,
     companyInfo: companyInfoReducer,
     tableOptions: TableOptionsReducer,
