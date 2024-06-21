@@ -21,15 +21,19 @@ import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import { deleteSites, fetchSites, updateSites } from '../../../Redux/features/SitesSlice'
+import { ThunkDispatch } from 'redux-thunk'
+import { RootState } from '../../../Redux/store'
+import { useDispatch, useSelector } from 'react-redux'
 
 export interface Site {
-  sitename: string
+  siteName: string
   description: string
   address: string
   aptSuite: string
   city: string
   state: string
-  zip: string
+  zipCode: number
   country: string
 }
 
@@ -47,6 +51,7 @@ const Sites: React.FC<SiteProps> = ({
   setActiveTab,
 }) => {
   const theme = useTheme()
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [open, setOpen] = useState(false)
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
@@ -55,7 +60,9 @@ const Sites: React.FC<SiteProps> = ({
   const [selectedSite, setSelectedSite] = useState<any>(null)
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
-  const [sites, setSites] = useState<Site[]>([])
+  // const [sites, setSites] = useState<Site[]>([])
+
+  const sites = useSelector((state: RootState) => state.sites.data)
 
   const handleDeleteClick = (site: Site) => {
     setSelectedSite(site)
@@ -65,7 +72,7 @@ const Sites: React.FC<SiteProps> = ({
   const handleDelete = () => {
     if (selectedSite) {
       const updatedSites = sites.filter((site) => site !== selectedSite)
-      setSites(updatedSites)
+      dispatch(deleteSites(selectedSite))
       setDeleteOpen(false)
       setSelectedSite(null)
     }
@@ -85,15 +92,8 @@ const Sites: React.FC<SiteProps> = ({
     setSelectedCell(index)
   }
 
-  const handleEditOpen = (siteId: number) => {
-  }
-
-  const handleDeleteOpen = (siteId: number) => {
-    // setSelectedCell(sites.findIndex((site) => site.id === siteId));
-    // setDeleteOpen(true);
-  }
-
   const handleEditClick = (site: Site) => {
+    dispatch(updateSites(selectedSite))
     setSelectedSite(site)
     setEditDialogOpen(true)
   }
@@ -114,6 +114,10 @@ const Sites: React.FC<SiteProps> = ({
     display: 'flex',
     alignItems: 'center',
   })
+
+  React.useEffect(() => {
+    dispatch(fetchSites())
+  }, [dispatch])
 
 
   return (
@@ -394,13 +398,13 @@ const Sites: React.FC<SiteProps> = ({
                           color="primary"
                         />
                       </td>
-                      <td>{site.sitename}</td>
+                      <td>{site.siteName}</td>
                       <td>{site.description}</td>
                       <td>{site.address}</td>
                       <td>{site.aptSuite}</td>
                       <td>{site.city}</td>
                       <td>{site.state}</td>
-                      <td>{site.zip}</td>
+                      <td>{site.zipCode}</td>
                       <td>{site.country}</td>
                       <td>
                         <div>
@@ -519,8 +523,9 @@ const Sites: React.FC<SiteProps> = ({
       <AddSiteDialog
         open={open}
         onClose={() => setOpen(false)}
-        setSites={setSites}
-        sites={sites}
+        onSave={(newSite: Site) => {
+          setOpen(false)
+        }}
       />
 
       <EditSiteDialog
@@ -531,7 +536,7 @@ const Sites: React.FC<SiteProps> = ({
           const updatedSites = sites.map((site) =>
             site === selectedSite ? updatedSite : site,
           )
-          setSites(updatedSites)
+          // setSites(updatedSites)
           setEditDialogOpen(false)
           setSelectedSite(null)
         }}

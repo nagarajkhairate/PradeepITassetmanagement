@@ -6,6 +6,7 @@ interface CompanyInfoState {
   selectedCustomer: any | null;
   loading: boolean;
   error: string | null;
+  activeTab: number;
 }
  
 const initialState: CompanyInfoState = {
@@ -13,6 +14,7 @@ const initialState: CompanyInfoState = {
   selectedCustomer: null,
   loading: false,
   error: null,
+  activeTab: 0,
 };
 const TENANT_ID = process.env.TENANT_ID;
 const base_api_key_url = process.env.BASE_API_KEY;
@@ -65,6 +67,9 @@ const CompanyInfoSlice = createSlice({
       const user = state.data.find((u) => u.id === action.payload);
       state.selectedCustomer = user || null;
     },
+    setActiveTab1: (state, action: PayloadAction<number>) => {
+      state.activeTab = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -100,6 +105,6 @@ const CompanyInfoSlice = createSlice({
   },
 });
  
-export const { setSelectedCustomer } = CompanyInfoSlice.actions;
+export const { setSelectedCustomer , setActiveTab1 } = CompanyInfoSlice.actions;
  
 export default CompanyInfoSlice.reducer;

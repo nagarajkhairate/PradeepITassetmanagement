@@ -54,16 +54,7 @@ const SetupCompInfo: React.FC = ({}) => {
     const form = new FormData();
     form.append('file', file);
 
-    // const form = new FormData();
-    // for (const key in formData) {
-    //   if (formData.hasOwnProperty(key)) {
-    //     form.append(key, formData[key] as string);
-    //   }
-    // }
-    // if (file) {
-    //   form.append('companyLogo', file);
-    // }
-    // console.log("Form Data:", JSON.stringify(formData));
+
   await dispatch(addCompanyInfo(formData))
   };
 

@@ -13,6 +13,7 @@ import SitesReducer from './features/SitesSlice';
 import TableOptionsReducer from './features/TableOptionsSlice';
 import AuthReducer from './features/AuthSlice';
 import AccountReducer from './features/AccountSlice';
+import TabsReducer from './features/TabsSlice';
 
 export const store = configureStore({
   reducer:{
@@ -29,7 +30,8 @@ export const store = configureStore({
     companyInfo: companyInfoReducer,
     tableOptions: TableOptionsReducer,
     login:AuthReducer,
-    createAccount:AccountReducer
+    createAccount:AccountReducer,
+    tabs:TabsReducer
   }
 })
 

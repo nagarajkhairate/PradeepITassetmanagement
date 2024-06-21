@@ -24,7 +24,7 @@ import { RootState } from "../../../Redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { addoptions, fetchOptions, fetchOptionsById } from "../../../Redux/features/TableOptionsSlice";
 
-const DepreciationOptions = {
+const depreciationOptions = {
   "id": 1,
   "title": "Depreciation",
   "description":
@@ -114,25 +114,25 @@ const SetupTableOptions: React.FC = ({}) => {
 
   const handleSubmit = () => {
     const formData: any = {
-      DepreciationOptions: {
+      depreciationOptions: {
         assetDepreciation: companyFormData.assetDepreciation,
       },
      
-      TableData: TableData.map((item) => ({
+      tableData: TableData.map((item) => ({
         title: item.title,
         selectedOption: companyFormData[item.title],
       })),
-      LinkingOfAssets: {
+      linkingOfAssets: {
         enableLinking: enableLinking,
       },
     };
 
     if (companyFormData.assetDepreciation === "yes") {
-      formData.DepreciationOptions.depreciationMethod = depreciationMethod;
-      formData.DepreciationOptions.calculationFrequency = calculationFrequency;
+      formData.depreciationOptions.depreciationMethod = depreciationMethod;
+      formData.depreciationOptions.calculationFrequency = calculationFrequency;
     }
     if (enableLinking === "yes") {
-      formData.LinkingOfAssets.linkedAssets = {
+      formData.linkingOfAssets.linkedAssets = {
         checkout: linkedAssets.checkout,
           reservation: linkedAssets.reservation,
           leaseAssets: linkedAssets.leaseAssets,
@@ -229,14 +229,14 @@ const SetupTableOptions: React.FC = ({}) => {
                     }}
                   >
                     <div style={{ width: 25, height: 25, color: "#FBC21E" }}>
-                      <DepreciationOptions.icon />
+                      <depreciationOptions.icon />
                     </div>
 
                     <span style={{ marginLeft: "8px" }}>
-                      {DepreciationOptions.title}
+                      {depreciationOptions.title}
                     </span>
                   </Typography>
-                  <Typography>{DepreciationOptions.description} </Typography>
+                  <Typography>{depreciationOptions.description} </Typography>
                   <Box >
                     
                     <Box>
@@ -251,7 +251,7 @@ const SetupTableOptions: React.FC = ({}) => {
                         <Box>
                           <FormLabel>
                             {" "}
-                            {DepreciationOptions.formLabel}
+                            {depreciationOptions.formLabel}
                           </FormLabel>
                         </Box>
                         <RadioGroup
@@ -264,7 +264,7 @@ const SetupTableOptions: React.FC = ({}) => {
                             gap: 2,
                           }}
                         >
-                          {DepreciationOptions.options.map((option) => (
+                          {depreciationOptions.options.map((option) => (
                             <Box>
                               <Radio
                                 key={option.value}
@@ -291,7 +291,7 @@ const SetupTableOptions: React.FC = ({}) => {
                               onChange={handleDepreciationMethodChange}
                               placeholder="Straight Line"
                             >
-                              {DepreciationOptions.depreciationMethods.map(
+                              {depreciationOptions.depreciationMethods.map(
                                 (method) => (
                                   <Option key={method} value={method}>
                                     {method}
@@ -308,7 +308,7 @@ const SetupTableOptions: React.FC = ({}) => {
                               onChange={handleCalculationFrequencyChange}
                               placeholder="Yearly"
                             >
-                              {DepreciationOptions.calculationFrequencies.map(
+                              {depreciationOptions.calculationFrequencies.map(
                                 (frequency) => (
                                   <Option key={frequency} value={frequency}>
                                     {frequency}
