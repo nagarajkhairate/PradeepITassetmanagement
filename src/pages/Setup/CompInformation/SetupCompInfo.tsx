@@ -15,32 +15,53 @@ import AppForm from '../../../components/Common/AppForm';
 import FieldComponent from '../../../utils/FieldComponent';
 import { RootState } from '../../../Redux/store';
 import { useDispatch } from 'react-redux';
-import { addCompanyInfo } from '../../../Redux/features/CompanyInfoSlice';
+import { addCompanyInfo, fetchCompanyInfo } from '../../../Redux/features/CompanyInfoSlice';
 import { ThunkDispatch } from 'redux-thunk';
-import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 
 const SetupCompInfo: React.FC = ({}) => {
   const [formData, setFormData] = useState<{ [key: string]: string | null }>({});
+  const [file, setFile] = useState<File | null>(null);
   const dispatch: ThunkDispatch<RootState, void, any>= useDispatch()
+  const base_api_key_url = process.env.BASE_API_KEY;
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+    const { name, value , files } = event.target;
+  //   if (files && files[0]){
+  //     setFile(files[0]);
+  //   } else {
+  //     setFormData((prevData) => ({ ...prevData, [name]: value }));
+  //   }
+  // };
+    if (files && files[0]){
+    const file = files[0];
+    const filePath = `/company_information_logos/${file.name}`;
+    setFormData((prevData) => ({ ...prevData, [name]: filePath }));
+    setFile(file); 
+  } else {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+  }
   };
+
 
   const handleSelectChange = (name: string, value: string | null) => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form Data:", JSON.stringify(formData));
+    if (!file) return;
+
+    const form = new FormData();
+    form.append('file', file);
+
+
   await dispatch(addCompanyInfo(formData))
   };
 
   console.log("Form Data:", JSON.stringify(formData));
-
+  React.useEffect(() => {
+    dispatch(fetchCompanyInfo())
+  }, [dispatch])
 
   return (
     <AppForm onSubmit={handleSubmit}>

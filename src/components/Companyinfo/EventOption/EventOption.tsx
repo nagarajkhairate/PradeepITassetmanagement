@@ -20,6 +20,13 @@ import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlin
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import AppView from '../../Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
+import { ThunkDispatch } from 'redux-thunk'
+import { RootState } from '../../../Redux/store'
+import { useDispatch } from 'react-redux'
+import { addoptions, fetchOptions } from '../../../Redux/features/TabsSlice'
+
+
+
 
 interface EventOptionProps {
   companyFormData: any
@@ -27,6 +34,10 @@ interface EventOptionProps {
   activeTab: number
   setActiveTab: (tab: number) => void
 }
+
+
+
+
 const options = [
   {
     id: 1,
@@ -56,12 +67,14 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
   setActiveTab,
 }) => {
   const [eventForm, setEventForm] = useState<any>({})
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
   const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setEventForm((prevData: any) => ({ ...prevData, [name]: value }))
   }
   const handleSubmit = () => {
+    dispatch(addoptions(companyFormData)); 
     setCompanyFormData((prevData: any) => ({
       ...prevData,
       eventOption: eventForm,

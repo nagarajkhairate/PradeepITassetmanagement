@@ -22,12 +22,12 @@ interface Site {
   country: string;
 }
 
-interface SitesState {
-  data: Site[];
-  selectedSites: any; 
-  loading: boolean;
-  error: any; 
-}
+// interface SitesState {
+//   data: Site[];
+//   selectedSites: any; 
+//   loading: boolean;
+//   error: any; 
+// }
 
 const initialSiteData: Site = {
   siteName: "",
@@ -43,7 +43,7 @@ const initialSiteData: Site = {
 const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
   const [newSite, setNewSite] = useState<Site>(initialSiteData);
 
-  const users=useSelector((state: { users: SitesState }) =>state.users);
+  // const users=useSelector((state: { users: SitesState }) =>state.users);
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
   const handleSelectChange = (

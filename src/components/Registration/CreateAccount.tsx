@@ -1,23 +1,30 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { Box, Typography, Button, Divider, Input, Checkbox, FormLabel } from "@mui/joy";
+import { useDispatch, useSelector } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { RootState } from "../../Redux/store";
+import { createAccount } from "../../Redux/features/AccountSlice";
+import AppForm from "../Common/AppForm";
 
 interface FormData {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
-  confirmPassword: string;
-  agreeToTerms: boolean;
+  reTypeYourPassword: string;
+  termsPrivacyPolicy: boolean;
 }
 
 const CreateAccount: React.FC = () => {
+  const dispatch: ThunkDispatch<RootState,void, any> = useDispatch();
+  // const authState = useSelector((state: RootState) => state.auth);
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    confirmPassword: "",
-    agreeToTerms: false,
+    reTypeYourPassword: "",
+    termsPrivacyPolicy: false,
   });
 
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true);
@@ -32,24 +39,25 @@ const CreateAccount: React.FC = () => {
       ...prevData,
       [name]: newValue,
     }));
-     // Check if passwords match when either password or confirm password changes
-    if (name === "password" || name === "confirmPassword") {
+    
+    if (name === "password" || name === "reTypeYourPassword") {
     setPasswordsMatch(formData.password === newValue);
   }
-  if(name==='agreeToTerms'){
-    setTerms(formData.agreeToTerms===newValue)
+  if(name==='termsPrivacyPolicy'){
+    setTerms(formData.termsPrivacyPolicy===newValue)
   }
 };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitted(true);
-  console.log(formData);
-  if (!formData.agreeToTerms) {
-    // Display error message or take other action
-    console.log("Please agree to terms");
-  }
-    console.log(formData);
+    if (!formData.termsPrivacyPolicy) {
+      console.log("Please agree to terms");
+      return;
+    }
+    if (passwordsMatch) {
+      dispatch(createAccount(formData));
+    }
   }
 
   return (
@@ -64,7 +72,7 @@ const CreateAccount: React.FC = () => {
             alignItems: "center",
           }}
         >
-          <form onSubmit={handleSubmit}>
+          <AppForm onSubmit={handleSubmit}>
             <Box
               sx={{
                 display: "flex",
@@ -136,13 +144,13 @@ const CreateAccount: React.FC = () => {
               </Box>
 
               <Box>
-                <FormLabel htmlFor="confirmPassword" sx={{ml:"10px"}}>Re-type Your Password</FormLabel>
+                <FormLabel htmlFor="reTypeYourPassword" sx={{ml:"10px"}}>Re-type Your Password</FormLabel>
                 <Input
                   type="password"
-                  name="confirmPassword"
-                  id="confirmPassword"
+                  name="reTypeYourPassword"
+                  id="reTypeYourPassword"
                   placeholder="Re-type Your Password"
-                  value={formData.confirmPassword}
+                  value={formData.reTypeYourPassword}
                   onChange={handleChange}
                   sx={{ width: "350px", m: "10px", borderRadius: "15px" }}
                 />
@@ -151,13 +159,13 @@ const CreateAccount: React.FC = () => {
 
               <Box sx={{ display: "flex", gap: "10px",mr:"30px" }}>
                 <Checkbox
-                  name="agreeToTerms"
-                  checked={formData.agreeToTerms}
+                  name="termsPrivacyPolicy"
+                  checked={formData.termsPrivacyPolicy}
                   onChange={handleChange}
                   />
                   <Typography>I Agree to the Terms & Privacy Policy .</Typography>
               </Box>
-                {submitted && !formData.agreeToTerms && <span style={{ color: 'red', fontSize: '12px', marginLeft: '10px' }}>Please agree to 'Terms of Service' and 'Privacy Policy'.</span>}
+                {submitted && !formData.termsPrivacyPolicy && <span style={{ color: 'red', fontSize: '12px', marginLeft: '10px' }}>Please agree to 'Terms of Service' and 'Privacy Policy'.</span>}
               <Divider />
               <Box sx={{ display: "flex", width: "100%", justifyContent: "flex-end" }}>
                 <Button
@@ -193,7 +201,7 @@ const CreateAccount: React.FC = () => {
                 </Button>
               </Box>
             </Box>
-          </form>
+          </AppForm>
         </Box>
       </div>
     </>

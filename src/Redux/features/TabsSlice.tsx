@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
  
-interface TableOptionsState {
+interface TabsState {
   data: any[];
   selectedOption: any | null;
   loading: boolean;
   error: string | null;
 }
-const initialState: TableOptionsState = {
+const initialState: TabsState = {
   data: [],
   selectedOption: null,
   loading: false,
@@ -19,7 +19,7 @@ const TENANT_ID = process.env.TENANT_ID;
 
 export const fetchOptions = createAsyncThunk('options/fetchOptions', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/table-options`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/tabs`);
   return response.data;
    
   } catch (error) {
@@ -32,7 +32,7 @@ export const fetchOptions = createAsyncThunk('options/fetchOptions', async () =>
 
 export const fetchOptionsById = createAsyncThunk('options/fetchOptionsById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/table-options/${id}`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/tabs/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -42,23 +42,23 @@ export const fetchOptionsById = createAsyncThunk('options/fetchOptionsById', asy
 });
  
 export const addoptions = createAsyncThunk('options/addoptions', async (options: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/table-options`, options);
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/tabs`, options);
  console.log(response)
   return response.data;
 });
  
 export const updateoptions = createAsyncThunk('options/updateoptions', async (updatedoptions: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/table-options/${updatedoptions.id}`, updatedoptions);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/tabs/${updatedoptions.id}`, updatedoptions);
   return response.data;
 });
  
 export const deleteoptions = createAsyncThunk('options/deleteoptions', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/table-options/${id}`);
+  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/tabs/${id}`);
   return id;
 });
  
-const TableOptionsSlice = createSlice({
+const TabsSlice = createSlice({
   name: 'options',
   initialState,
   reducers: {
@@ -101,6 +101,6 @@ const TableOptionsSlice = createSlice({
   },
 });
  
-export const { setSelectedCustomer } = TableOptionsSlice.actions;
+export const { setSelectedCustomer } = TabsSlice.actions;
  
-export default TableOptionsSlice.reducer;
+export default TabsSlice.reducer;

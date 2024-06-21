@@ -14,13 +14,19 @@ import Category from "../../components/Companyinfo/Category/Category";
 import DataBase from "../../components/Companyinfo/Database/DataBase";
 import EventOption from "../../components/Companyinfo/EventOption/EventOption";
 import AppView from "../../components/Common/AppView";
+import { fetchOptions } from "../../Redux/features/TabsSlice";
+import { ThunkDispatch } from "redux-thunk";
+import { RootState } from "../../Redux/store";
+import { useDispatch, useSelector } from "react-redux";
 
 const CompanyInfo = () => {
   const [companyFormData, setCompanyFormData] = React.useState({});
-  const [siteFormData, setSiteFormData] = React.useState({});
-  const [tableFormData, setTableFormData] = React.useState({});
   const [activeTab, setActiveTab] = React.useState(0);
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
+  React.useEffect(() => {
+    dispatch(fetchOptions())
+  }, [dispatch])
 
   const tabs = [
     { label: "Company", icon: <LanguageIcon fontSize="large" /> },
@@ -54,6 +60,7 @@ const CompanyInfo = () => {
             {tabs.map((tab, index) => (
               <Tab
                 key={index}
+                onClick={() => setActiveTab(index)}
               >
                 <IconButton>
                   {React.cloneElement(tab.icon, {

@@ -42,9 +42,9 @@ const Company: React.FC<CompanyProps> = ({
   activeTab,
   setActiveTab,
 }) => {
-  const [formData, setFormData] = useState<{ [key: string]: string | null }>({});
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  
  
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -143,10 +143,10 @@ const Company: React.FC<CompanyProps> = ({
     
         <Box
           sx={{
-            borderRadius: 'none',
+            borderRadius: '16px',
             boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
             background: '#ffffff',
-            gap: '5px',
+            padding: 5,
           }}
         >
             <Grid container spacing={2}>
