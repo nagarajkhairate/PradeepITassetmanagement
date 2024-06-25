@@ -19,52 +19,57 @@ import { addCompanyInfo, fetchCompanyInfo } from '../../../Redux/features/Compan
 import { ThunkDispatch } from 'redux-thunk';
 
 const SetupCompInfo: React.FC = ({}) => {
-  const [formData, setFormData] = useState<{ [key: string]: string | null }>({});
+  const [formData, setFormData] = useState<{ [key: string]: string |File| null }>({});
   const [file, setFile] = useState<File | null>(null);
   const dispatch: ThunkDispatch<RootState, void, any>= useDispatch()
-  const base_api_key_url = process.env.BASE_API_KEY;
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value , files } = event.target;
-  //   if (files && files[0]){
-  //     setFile(files[0]);
-  //   } else {
-  //     setFormData((prevData) => ({ ...prevData, [name]: value }));
-  //   }
-  // };
-    if (files && files[0]){
-    const file = files[0];
-    const filePath = `/company_information_logos/${file.name}`;
-    setFormData((prevData) => ({ ...prevData, [name]: filePath }));
-    setFile(file); 
-  } else {
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  }
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData:any) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
-
-
+  
   const handleSelectChange = (name: string, value: string | null) => {
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    setFormData((prevData:any) => ({ ...prevData, [name]: value }));
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+    if (files && files.length > 0) {
+      const file = files[0];
+      setFile(file); 
+      setFormData((prevData: any) => ({
+        ...prevData,
+        [name]: file.name
+      }));
+    }
+  };
+  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!file) return;
-
-    const form = new FormData();
-    form.append('file', file);
-
-
-  await dispatch(addCompanyInfo(formData))
+    const formDataToSend = new FormData();
+    for (const key in formData) {
+      if (formData[key] !== null) {
+        if (key === 'companyLogo' && file) {
+          formDataToSend.append(key, file);
+        } else {
+          formDataToSend.append(key, formData[key] as string);
+        }
+      }
+    }
+    await dispatch(addCompanyInfo(formDataToSend));
   };
 
   console.log("Form Data:", JSON.stringify(formData));
+  
   React.useEffect(() => {
     dispatch(fetchCompanyInfo())
   }, [dispatch])
 
   return (
-    <AppForm onSubmit={handleSubmit}>
+    <AppForm onSubmit={handleSubmit} encType="multipart/form-data">
       <Typography level="h4">
         <Box component={TuneOutlinedIcon} color="#FABC1E" />
         Company Information
@@ -147,9 +152,7 @@ const SetupCompInfo: React.FC = ({}) => {
                 <FieldComponent 
                 field={field}
                   formData={formData}
-                  handleInputChange={handleInputChange} 
-                  handleSelectChange={handleSelectChange}
-                  
+                  handleFileChange={handleFileChange}
                   />
               </Grid> 
             ))}
@@ -168,7 +171,6 @@ const SetupCompInfo: React.FC = ({}) => {
         </Box>
         <Divider sx={{ my: 3 }} />
         <Button type='submit'  sx={{ backgroundColor: '#FABC1E', '&:hover': { backgroundColor: '#e0a800' } }}>Submit</Button>
-       
       </Box>
     </AppForm>
   );

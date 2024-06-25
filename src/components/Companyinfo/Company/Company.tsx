@@ -10,6 +10,10 @@ import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
 import FieldComponent from '../../../utils/FieldComponent';
 import AppView from "../../Common/AppView";
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
+import { addCompanyInfo } from "../../../Redux/features/CompanyInfoSlice";
+import { ThunkDispatch } from "redux-thunk";
+import { RootState } from "../../../Redux/store";
+import { useDispatch } from "react-redux";
 
 export interface FormData {
   companyName: string;
@@ -27,8 +31,6 @@ export interface FormData {
   logo: string;
 }
 
-type FileInputChangeHandler = (file: File | null) => void;
-
 interface CompanyProps {
   companyFormData: any;
   setCompanyFormData: any;
@@ -44,34 +46,41 @@ const Company: React.FC<CompanyProps> = ({
 }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const dispatch: ThunkDispatch<RootState, void, any>= useDispatch()
   
  
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+    if (files && files.length > 0) {
+      const file = files[0];
+      setFile(file); 
+      setCompanyFormData((prevData: any) => ({
+        ...prevData,
+        [name]: file.name
+      }));
     }
-
-
-    setCompanyFormData((prevData : any)  => ({
-      ...prevData,
-      logo: file || null,
-    }));
   };
 
-  const handleNextTab = () => {
-
+  const handleNextTab = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const companyFormDataToSend = new FormData();
+    for (const key in companyFormData) {
+      if (companyFormData[key] !== null) {
+        if (key === 'companyLogo' && file) {
+          companyFormDataToSend.append(key, file);
+        } else {
+          companyFormDataToSend.append(key, companyFormData[key] as string);
+        }
+      }
+    }
     setCompanyFormData((prevData: any) => ({
       company:{ ...prevData,
         company: Company,}
      
     }));
     setActiveTab(activeTab + 1); 
+    await dispatch(addCompanyInfo(companyFormDataToSend));
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -128,14 +137,10 @@ const Company: React.FC<CompanyProps> = ({
     return isValid;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-  };
-
 
   return (
     <AppView>
-   <AppForm onSubmit={handleNextTab}>
+   <AppForm onSubmit={handleNextTab} encType="multipart/form-data">
    <Typography level="h4">
         <Box component={TuneOutlinedIcon} color="#FABC1E" />
        Step 1 - Company Information
@@ -146,10 +151,10 @@ const Company: React.FC<CompanyProps> = ({
             borderRadius: '16px',
             boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
             background: '#ffffff',
-            padding: 5,
+            padding: 2,
           }}
         >
-            <Grid container spacing={2}>
+            <Grid container spacing={1}>
           <Grid xs={12}>
             <Typography
               level="h4"
@@ -162,7 +167,7 @@ const Company: React.FC<CompanyProps> = ({
           </Grid>
           {CompanyInfoFields &&
             CompanyInfoFields.slice(0, 7).map((field, index) => (
-              <Grid md={8} xs={12} sm={8} key={index} sx={ {justifyContent: 'center' , marginLeft:'20%'}}>
+              <Grid md={8} xs={12} sm={8} key={index} sx={ {justifyContent: 'center' , marginLeft:'10%'}}>
                 <FieldComponent 
                   field={field}
                   formData={companyFormData}
@@ -175,7 +180,7 @@ const Company: React.FC<CompanyProps> = ({
 
           <Divider sx={{ my: 3 }} />
 
-          <Grid container spacing={2}>
+          <Grid container spacing={1}>
         <Grid xs={12} marginRight="80px">
             <Typography
               level="h4"
@@ -188,7 +193,7 @@ const Company: React.FC<CompanyProps> = ({
           </Grid>
           {CompanyInfoFields &&
             CompanyInfoFields.slice(7, 12).map((field, index) => (
-              <Grid key={index} md={8} xs={8} sm={8} sx={{  justifyContent: 'center',marginLeft:'20%' }}>
+              <Grid key={index} md={8} xs={8} sm={8} sx={{  justifyContent: 'center',marginLeft:'10%' }}>
                 
                 <FieldComponent 
                 field={field}
@@ -202,7 +207,7 @@ const Company: React.FC<CompanyProps> = ({
 
         <Divider sx={{ my: 3 }} />
 
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
         <Grid xs={12}>
             <Typography
               level="h4"
@@ -215,19 +220,16 @@ const Company: React.FC<CompanyProps> = ({
           </Grid>
           {CompanyInfoFields &&
             CompanyInfoFields.slice(12, 13).map((field, index) => (
-              <Grid key={index} md={8} xs={8} sm={8} sx={{  justifyContent: 'center',marginLeft:'20%' }}>
+              <Grid key={index} md={8} xs={8} sm={8} sx={{  justifyContent: 'center',marginLeft:'10%' }}>
                 
                 <FieldComponent 
                 field={field}
                   formData={companyFormData}
-                  handleInputChange={handleInputChange} 
-                  handleSelectChange={handleSelectChange}
-                  
+                  handleFileChange={handleFileChange}
                   />
               </Grid> 
             ))}
         </Grid>
-
                 
                 {/* <Box>
                 <div>
@@ -325,19 +327,14 @@ const Company: React.FC<CompanyProps> = ({
             }}
             component="label"
               onClick={handleNextTab} 
-             
           >
              Continue
              <NavigateNextOutlinedIcon />
           </Button>
           </Box>
       </Box>
-             
-           
-      
    </AppForm>
-    
-    </AppView>
+   </AppView>
   );
 };
 

@@ -23,16 +23,17 @@ type FieldProps = {
 interface InputFieldProps {
   field: FieldProps;
   formData: any;
-  handleInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleFileChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const FileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, handleInputChange }) => {
+const FileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, handleFileChange }) => {
   const [imagePreview, setImagePreview] = React.useState<string | null>(null);
   const [file, setFile] = React.useState<File | null>(null);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     
   const file = e.target.files?.[0];
+  console.log(file)
   if (file) {  
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -41,11 +42,12 @@ const FileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, 
     };
     reader.readAsDataURL(file);
 
-    if (handleInputChange) {
-      handleInputChange(e);
+    if (handleFileChange) {
+      handleFileChange(e);
     }
   }
 };
+
 
 
 const handleDelete = () => {
@@ -61,8 +63,8 @@ const handleDelete = () => {
         placeholder={field.title}
         // value={formData[field.value] || ''} 
         name={field.value} 
-        type={field.dataType} 
-        onChange={handleFileChange}
+        type="file" 
+        onChange={onFileChange}
         required={field.required}
         style={{ display: imagePreview ? 'none' : 'block' }}
       />  
