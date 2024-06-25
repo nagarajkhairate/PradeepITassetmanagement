@@ -24,6 +24,7 @@ import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../../Redux/store'
 import { useDispatch } from 'react-redux'
 import { addoptions, fetchOptions } from '../../../Redux/features/TabsSlice'
+import AppForm from '../../Common/AppForm'
 
 
 
@@ -74,11 +75,11 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
     setEventForm((prevData: any) => ({ ...prevData, [name]: value }))
   }
   const handleSubmit = () => {
-    dispatch(addoptions(companyFormData)); 
     setCompanyFormData((prevData: any) => ({
       ...prevData,
       eventOption: eventForm,
     }))
+    dispatch(addoptions(companyFormData)); 
     console.log(JSON.stringify(eventForm, null, 2))
   }
   console.log(JSON.stringify(companyFormData))
@@ -160,6 +161,7 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
   }
 
   return (
+    <AppForm onSubmit={handleSubmit}>
     <AppView>
       <Typography
         level="h4"
@@ -490,6 +492,7 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
         </Box>
       </Box>
     </AppView>
+    </AppForm>
   )
 }
 
