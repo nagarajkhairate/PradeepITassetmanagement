@@ -20,9 +20,9 @@ const base_api_key_url = process.env.BASE_API_KEY;
 const TENANT_ID = process.env.TENANT_ID;
 
  
-export const fetchDataBase = createAsyncThunk('data-base/fetchDataBase', async () => {
+export const fetchDataBase = createAsyncThunk('dataBase/fetchDataBase', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/data-base`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/asset-mappings`);
   return response.data;
    
   } catch (error) {
@@ -34,9 +34,9 @@ export const fetchDataBase = createAsyncThunk('data-base/fetchDataBase', async (
 });
 
 
-export const fetchDataBaseById = createAsyncThunk('data-base/fetchDataBaseById', async (id: string ) => {
+export const fetchDataBaseById = createAsyncThunk('dataBase/fetchDataBaseById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/data-base/${id}`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/asset-mappings/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -45,21 +45,21 @@ export const fetchDataBaseById = createAsyncThunk('data-base/fetchDataBaseById',
  
 });
  
-export const addDataBase = createAsyncThunk('data-base/addDataBase', async (dataBase: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/data-base`, dataBase);
+export const addDataBase = createAsyncThunk('dataBase/addDataBase', async (dataBase: any) => {
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/asset-mappings`, dataBase);
  console.log(response)
   return response.data;
 });
  
-export const updateDataBase = createAsyncThunk('data-base/updateDataBase', async (updatedDataBase: any) => {
+export const updateDataBase = createAsyncThunk('dataBase/updateDataBase', async (updatedDataBase: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/data-base/${updatedDataBase.id}`, updatedDataBase);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/asset-mappings/${updatedDataBase.id}`, updatedDataBase);
   
   return response.data;
 });
  
-export const deleteDataBase = createAsyncThunk('data-base/deleteDataBase', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/data-base/${id}`);
+export const deleteDataBase = createAsyncThunk('dataBase/deleteDataBase', async (id: number) => {
+  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/asset-mappings/${id}`);
   return id;
 });
 

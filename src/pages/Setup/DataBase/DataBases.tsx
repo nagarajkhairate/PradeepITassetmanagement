@@ -17,8 +17,9 @@ import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../../Redux/store'
 import { useDispatch, useSelector } from 'react-redux'
+import { fetchDataBase } from '../../../Redux/features/DataBaseSlice'
 
-const dataBaseTable = [
+const customDefaultFields = [
   {
     id: 1,
     visible: true,
@@ -171,27 +172,18 @@ const dataBaseTable = [
 const DataBases: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
-  // const [dataBases, setDataBases] = useState<{
-  //   data: any[]
-  //   dataBaseTable: any
-  // }>({
-  //   data: [],
-  //   dataBaseTable: dataBaseTable.reduce((acc, item) => {
-  //     acc[item.name] = ''
-  //     return acc;
-  //   }, {}),
-  // })
-  // const [dataBases, setDataBases] = useState({
-  //   data: [],
-  //   dataBaseTable: dataBaseTable.map((item) => ({
-  //     ...item,
-  //     visible: item.option.length ? item.option[0].value : 'no',
-  //   })),
-  // });
+
+  const dataBase = useSelector((state: RootState) => state.dataBase.data)
+  // const dispatch = useDispatch<AppDispatch>()
+  console.log(dataBase)
+
+  React.useEffect(() => {
+    dispatch(fetchDataBase())
+  }, [])
 
   const [dataBases, setDataBases] = useState({
-    data: [],
-    dataBaseTable: dataBaseTable.map(item => ({
+    customAssetFields: [],
+    customDefaultFields: customDefaultFields.map(item => ({
       id: item.id,
       visible:item.visible,
       fieldName: item.fieldName,
@@ -206,9 +198,7 @@ const DataBases: React.FunctionComponent = () => {
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [eventForm, setEventForm] = useState<any>({})
 
-  const dataBase = useSelector((state: RootState) => state.dataBase.data)
-  // const dispatch = useDispatch<AppDispatch>()
-  console.log(dataBase)
+ 
 
   // const addCustomField = (custom: string) => {
   //   setDataBases((prevData) => ({
@@ -218,8 +208,8 @@ const DataBases: React.FunctionComponent = () => {
   // }
 
   const deleteCustomField = (index: number) => {
-    const updatedData = dataBases.data.filter((_, idx) => idx !== index)
-    setDataBases((prevData) => ({ ...prevData, data: updatedData }))
+    const updatedData = dataBases.customAssetFields.filter((_, idx) => idx !== index)
+    setDataBases((prevData) => ({ ...prevData, customAssetFields: updatedData }))
   }
 
   const handleClickEditOpen = () => {
@@ -235,7 +225,7 @@ const DataBases: React.FunctionComponent = () => {
     e.preventDefault()
     const Custom = (e.target as HTMLFormElement).Custom.value
     if (selectedCell !== null) {
-      const updatedData = dataBases.data.map((item, index) =>
+      const updatedData = dataBases.customAssetFields.map((item, index) =>
         index === selectedCell ? Custom : item,
       )
       // setDataBases((prevData) => ({ ...prevData, data: updatedData }))
@@ -254,7 +244,7 @@ const DataBases: React.FunctionComponent = () => {
   const handleCheckboxChange = (index: number) => {
     setDataBases(prevData => ({
       ...prevData,
-      dataBaseTable: prevData.dataBaseTable.map((item, i) =>
+      customDefaultFields: prevData.customDefaultFields.map((item, i) =>
         i === index ? { ...item, visible: !item.visible } : item,
       ),
     }));
@@ -268,11 +258,11 @@ const DataBases: React.FunctionComponent = () => {
 
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const updatedData = dataBases.data.filter(
+    const updatedData = dataBases.customAssetFields.filter(
       (_, index) => index !== selectedCell,
     )
     // setDataBases((prevData) => ({ ...prevData, data: updatedData }));
-    setDataBases({ ...dataBases, data: updatedData })
+    setDataBases({ ...dataBases, customAssetFields: updatedData })
     setMatchedSelected([])
     setDeleteOpen(false)
   }
@@ -296,7 +286,7 @@ const DataBases: React.FunctionComponent = () => {
     const { value } = event.target;
     setDataBases((prevData) => ({
       ...prevData,
-      dataBaseTable: prevData.dataBaseTable.map((item, i) =>
+      customDefaultFields: prevData.customDefaultFields.map((item, i) =>
         i === index ? { ...item, required: value } : item
       ),
     }));
@@ -305,7 +295,7 @@ const DataBases: React.FunctionComponent = () => {
   console.log(JSON.stringify(dataBases, null, 2))
   
   const generateJson = () => {
-    const jsonData = dataBases.dataBaseTable.map(item => ({
+    const jsonData = dataBases.customDefaultFields.map(item => ({
       id: item.id,
       visible:item.visible,
       fieldName: item.fieldName,
@@ -376,7 +366,7 @@ const DataBases: React.FunctionComponent = () => {
                 </tr>
               </thead>
               <tbody>
-                {dataBaseTable.map((data, index) => (
+                {customDefaultFields.map((data, index) => (
                   <tr key={index}>
                     <td>
                       <Checkbox

@@ -8,7 +8,7 @@ const initialDatabase = [
     {
      id:1,
       fieldName: "swde",
-      dataType: "wsedf",
+      componentsId: "wsedf",
       Category: "234frd",
       required: "swed",
     },
@@ -16,7 +16,7 @@ const initialDatabase = [
 
   const addCustomField = (custom: { 
     fieldName: string; 
-    dataType: string; 
+    componentsId: string; 
     category: string; 
     required: string; 
   }) => {
@@ -27,7 +27,7 @@ const initialDatabase = [
   interface dataItem {
     id:1,
     fieldName: string;
-    dataType: string;
+    componentsId: string;
     category: string;
     required: boolean;
   }
@@ -37,8 +37,8 @@ const initialDatabase = [
 interface DataProps {
     matchedSelected: number[];
     setMatchedSelected: React.Dispatch<React.SetStateAction<number[]>>;
-    dataBases: { data: dataItem[] };
-    setDataBases: React.Dispatch<React.SetStateAction<{ data: dataItem[] }>>;
+    dataBases: { customAssetFields: dataItem[] };
+    setDataBases: React.Dispatch<React.SetStateAction<{ customAssetFields: dataItem[] }>>;
     
     editOpen: boolean;
     setEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -80,7 +80,7 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
  
     const [formData, setFormData] = useState({
         custom: "",
-        dataType: "",
+        componentsId: "",
         dataRequired: false,
         selectedCategories: "",
       });
@@ -101,7 +101,7 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
         event: React.SyntheticEvent | null,
         newValue: string | null
       ) => {
-        setFormData((prevData) => ({ ...prevData, dataType: newValue || "" }));
+        setFormData((prevData) => ({ ...prevData, componentsId: newValue || "" }));
       };
 
       const handleClickEditOpen = () => {
@@ -119,10 +119,10 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
 
     const custom = formData.custom;
     if (selectedCell !== null) {
-        const updatedData = dataBases.data.map((item, index) =>
+        const updatedData = dataBases.customAssetFields.map((item, index) =>
             index === selectedCell ? { ...item, fieldName: custom } : item
         );
-        setDataBases({ ...dataBases, data: updatedData });
+        setDataBases({ ...dataBases, customAssetFields: updatedData });
         handleEditClose();
     }
 };
@@ -151,23 +151,23 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
                           size="sm"
                           indeterminate={
                             matchedSelected.length > 0 &&
-                            matchedSelected.length < dataBases.data.length
+                            matchedSelected.length < dataBases.customAssetFields.length
                           }
                           checked={
                             matchedSelected.length > 0 &&
-                            matchedSelected.length === dataBases.data.length
+                            matchedSelected.length === dataBases.customAssetFields.length
                           }
                           onChange={(event) => {
                             const isChecked = event.target.checked;
                             setMatchedSelected(
                               isChecked
-                                ? dataBases.data.map((_, index) => index)
+                                ? dataBases.customAssetFields.map((_, index) => index)
                                 : []
                             );
                           }}
                           color={
                             matchedSelected.length > 0 &&
-                            matchedSelected.length === dataBases.data.length
+                            matchedSelected.length === dataBases.customAssetFields.length
                               ? "primary"
                               : undefined
                           }
@@ -184,8 +184,8 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
                     </tr>
                   </thead>
                   <tbody>
-                    {dataBases.data.length > 0 ? (
-                    dataBases.data.map((item, index) => (
+                    {dataBases.customAssetFields.length > 0 ? (
+                    dataBases.customAssetFields.map((item, index) => (
                       <tr key={index}>
                         <td>
                           <Checkbox
@@ -195,7 +195,7 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
                           />
                         </td>
                         <td>{item.fieldName}</td>
-                        <td>{item.dataType}</td>
+                        <td>{item.componentsId}</td>
                         <td>{item.required}</td>
                         <td>{item.category}</td>
                         <td>
@@ -316,7 +316,7 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
                            
                             <Select placeholder="Select Data Types"
                             sx={{ width: "50%", marginLeft: "60px" }}
-                            value={formData.dataType}
+                            value={formData.componentsId}
                         onChange={handleSelectChange}
                             >
                              <Option value="checkbox List">Checkbox List</Option>

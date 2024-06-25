@@ -17,6 +17,7 @@ import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../../Redux/store'
 import { useDispatch, useSelector } from 'react-redux'
+import { fetchDataBase } from '../../../Redux/features/DataBaseSlice'
 
 interface DataBaseProps {
   companyFormData: any
@@ -26,7 +27,7 @@ interface DataBaseProps {
   id: number
 }
 
-const dataBaseTable = [
+const customDefaultFields = [
   {
     id: 1,
     visible: true,
@@ -186,8 +187,8 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
   const [dataBases, setDataBases] = useState({
-    data: [],
-    dataBaseTable: dataBaseTable.map((item) => ({
+    customAssetFields: [],
+    customDefaultFields: customDefaultFields.map((item) => ({
       id: item.id,
       visible: item.visible,
       fieldName: item.fieldName,
@@ -205,6 +206,10 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
   const dataBase = useSelector((state: RootState) => state.dataBase.data)
   console.log(dataBase)
 
+  React.useEffect(() => {
+    dispatch(fetchDataBase())
+  }, [])
+
   // const addCustomField = (custom: string) => {
   //   setDataBases((prevData) => ({
   //     ...prevData,
@@ -213,8 +218,8 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
   // }
 
   const deleteCustomField = (index: number) => {
-    const updatedData = dataBases.data.filter((_, idx) => idx !== index)
-    setDataBases((prevData) => ({ ...prevData, data: updatedData }))
+    const updatedData = dataBases.customAssetFields.filter((_, idx) => idx !== index)
+    setDataBases((prevData) => ({ ...prevData, customAssetFields: updatedData }))
   }
 
   const handleClickEditOpen = () => {
@@ -230,7 +235,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
     e.preventDefault()
     const Custom = (e.target as HTMLFormElement).Custom.value
     if (selectedCell !== null) {
-      const updatedData = dataBases.data.map((item, index) =>
+      const updatedData = dataBases.customAssetFields.map((item, index) =>
         index === selectedCell ? Custom : item,
       )
       // setDataBases((prevData) => ({ ...prevData, data: updatedData }))
@@ -240,7 +245,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
   const handleCheckboxChange = (index: number) => {
     setDataBases((prevData) => ({
       ...prevData,
-      dataBaseTable: prevData.dataBaseTable.map((item, i) =>
+      customDefaultFields: prevData.customDefaultFields.map((item, i) =>
         i === index ? { ...item, visible: !item.visible } : item,
       ),
     }))
@@ -254,10 +259,10 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
 
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const updatedData = dataBases.data.filter(
+    const updatedData = dataBases.customAssetFields.filter(
       (_, index) => index !== selectedCell,
     )
-    setDataBases({ ...dataBases, data: updatedData })
+    setDataBases({ ...dataBases, customAssetFields: updatedData })
     setMatchedSelected([])
     setDeleteOpen(false)
   }
@@ -284,7 +289,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
     const { value } = event.target
     setDataBases((prevData) => ({
       ...prevData,
-      dataBaseTable: prevData.dataBaseTable.map((item, i) =>
+      customDefaultFields: prevData.customDefaultFields.map((item, i) =>
         i === index ? { ...item, required: value } : item,
       ),
     }))
@@ -293,7 +298,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
   console.log(JSON.stringify(dataBases, null, 2))
 
   const generateJson = () => {
-    const jsonData = dataBases.dataBaseTable.map((item) => ({
+    const jsonData = dataBases.customDefaultFields.map((item) => ({
       id: item.id,
       visible: item.visible,
       fieldName: item.fieldName,
@@ -305,7 +310,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
 
   const handleNextTab = () => {
     // Extracting only the necessary fields from dataBaseTable in dataBases
-    const transformedTableData = dataBases.dataBaseTable.map((item) => ({
+    const transformedTableData = dataBases.customDefaultFields.map((item) => ({
       id: item.id,
       visible: item.visible,
       fieldName: item.fieldName,
@@ -316,8 +321,8 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
     setCompanyFormData((prevData: any) => ({
       ...prevData,
       dataBases: {
-        data: dataBases.data, // Assuming dataBases.data is handled separately
-        dataBaseTable: transformedTableData,
+        customAssetFields: dataBases.customAssetFields, // Assuming dataBases.data is handled separately
+        customDefaultFields: transformedTableData,
       },
     }))
 
@@ -390,7 +395,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
                 </tr>
               </thead>
               <tbody>
-                {dataBaseTable.map((data, index) => (
+                {customDefaultFields.map((data, index) => (
                   <tr key={index}>
                     <td>
                       <Checkbox

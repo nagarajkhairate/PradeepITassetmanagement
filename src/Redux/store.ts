@@ -16,6 +16,7 @@ import TableOptionsReducer from './features/TableOptionsSlice';
 import AuthReducer from './features/AuthSlice';
 import AccountReducer from './features/AccountSlice';
 import TabsReducer from './features/TabsSlice';
+import componentsReducer from "./features/ComponentsIdSlice"
 
 export const store = configureStore({
   reducer:{
@@ -24,7 +25,7 @@ export const store = configureStore({
     transactions:transactionsReducer,
     employees:addEmployeesReducer,
     client:clientReducer,
-    locations: locationReducer,
+    location: locationReducer,
     category:categoryReducer,
     subCategories:subCategoryReducer,
     departments:departmentNameReducer,
@@ -35,7 +36,8 @@ export const store = configureStore({
     tableOptions: TableOptionsReducer,
     login:AuthReducer,
     createAccount:AccountReducer,
-    tabs:TabsReducer
+    tabs:TabsReducer,
+    components:componentsReducer
   }
 })
 
