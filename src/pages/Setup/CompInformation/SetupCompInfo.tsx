@@ -21,14 +21,21 @@ import { ThunkDispatch } from 'redux-thunk';
 const SetupCompInfo: React.FC = ({}) => {
   const [formData, setFormData] = useState<{ [key: string]: string |File| null }>({});
   const [file, setFile] = useState<File | null>(null);
+  const [open, setOpen] = useState(false)
   const dispatch: ThunkDispatch<RootState, void, any>= useDispatch()
 
+  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData:any) => ({
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const handleCancel = () => {
+    setFormData({});
+    setFile(null);
   };
   
   const handleSelectChange = (name: string, value: string | null) => {
@@ -85,43 +92,43 @@ const SetupCompInfo: React.FC = ({}) => {
       >
         <Grid container spacing={2}>
           <Grid xs={12}>
-            <Typography
-              level="h4"
-              sx={{ display: 'flex', alignItems: 'center' }}
-            >
-              <ContactMailOutlinedIcon  style={{ color: '#FBC21E' }}/>
-              Company Details
-            </Typography>
-            <Typography level="body-xs">Provide the name and site of the main office.</Typography>
+          <Typography level="h4" sx={{ display: 'flex', alignItems: 'center' }}>
+  <ContactMailOutlinedIcon style={{ color: '#FBC21E'  }} />
+  <Box component="span" sx={{ marginLeft: 1, fontSize:"16px" }}>Company Details</Box>
+</Typography>
+            <Typography sx={{fontSize:"14px"}}>Provide the name and site of the main office.</Typography>
           </Grid>
           
           {CompanyInfoFields &&
             CompanyInfoFields.slice(0, 7).map((field, index) => (
-              <Grid md={8} xs={12} sm={8} key={index} sx={ {justifyContent: 'center' , marginLeft:'20%'}}>
+              <Grid md={8} xs={12} sm={8} key={index} sx={ {justifyContent: 'center' , marginLeft:'10%',fontSize:"14px" }}>
                 <FieldComponent 
                   field={field}
                   formData={formData}
                   handleInputChange={handleInputChange} 
                   handleSelectChange={handleSelectChange}
                 />
+                
               </Grid>
             ))}
         </Grid>
         <Divider sx={{ my: 3 }} />
         <Grid container spacing={2}>
-        <Grid xs={12} marginRight="80px">
+        <Grid xs={12} >
             <Typography
               level="h4"
               sx={{ display: 'flex', alignItems: 'center' }}
             >
-              <CurrencyExchangeOutlinedIcon  style={{ color: '#FBC21E' }}/>
-              Timezone & Currency
+              <Box  sx={{ display: 'flex' }}> <CurrencyExchangeOutlinedIcon  style={{ color: '#FBC21E' }}/>
+              <Box component="span" sx={{ marginLeft: 1,fontSize:"16px" }}>Timezone & Currency</Box>
+              </Box>
+              
             </Typography>
-            <Typography level="body-xs">Adjust the settings to fit your company’s local timezone, currency, and date format.</Typography>
+            <Typography sx={{fontSize:"14px"}}>Adjust your company’s local timezone, currency, and date format.</Typography>
           </Grid>
           {CompanyInfoFields &&
             CompanyInfoFields.slice(7, 12).map((field, index) => (
-              <Grid key={index} md={8} xs={8} sm={8} sx={{  justifyContent: 'center',marginLeft:'20%' }}>
+              <Grid key={index} md={8} xs={8} sm={8} sx={{  justifyContent: 'center',marginLeft:'10%' ,fontSize:"14px" }}>
                 
                 <FieldComponent 
                 field={field}
@@ -141,13 +148,13 @@ const SetupCompInfo: React.FC = ({}) => {
               sx={{ display: 'flex', alignItems: 'center' }}
             >
               <CollectionsOutlinedIcon style={{ color: '#FBC21E' }} />
-              Company Logo
+               <Box component="span" sx={{ marginLeft: 1 , fontSize:"16px"}}>Company Logo</Box>
             </Typography>
-            <Typography level="body-xs">Upload your organization’s logo to make this space your own.</Typography>
+            <Typography sx={{fontSize:"14px"}}>Upload your organization’s logo to make this space your own.</Typography>
           </Grid>
           {CompanyInfoFields &&
             CompanyInfoFields.slice(12, 13).map((field, index) => (
-              <Grid key={index} md={8} xs={8} sm={8} sx={{  justifyContent: 'center',marginLeft:'20%' }}>
+              <Grid key={index} md={8} xs={8} sm={8} sx={{  justifyContent: 'center',marginLeft:'10%', fontSize:"14px"  }}>
                 
                 <FieldComponent 
                 field={field}
@@ -160,6 +167,7 @@ const SetupCompInfo: React.FC = ({}) => {
        
 
         <Box
+        
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -167,10 +175,23 @@ const SetupCompInfo: React.FC = ({}) => {
             justifyContent: 'center',
             marginBottom: '10px',
           }}
+          
         >
-        </Box>
+       </Box>
         <Divider sx={{ my: 3 }} />
-        <Button type='submit'  sx={{ backgroundColor: '#FABC1E', '&:hover': { backgroundColor: '#e0a800' } }}>Submit</Button>
+        <Box
+          sx={{
+            display: 'flex',
+            // justifyContent: 'space-between',
+          }}
+        >
+           <Button onClick={handleCancel} sx={{ backgroundColor: '#E0E0E0', '&:hover': { backgroundColor: '#BDBDBD' } }}>
+            Cancel
+          </Button>
+          <Button type="submit" sx={{ backgroundColor: '#FABC1E', '&:hover': { backgroundColor: '#e0a800' } }}>
+            Submit
+          </Button>
+        </Box>
       </Box>
     </AppForm>
   );

@@ -140,12 +140,12 @@ const Company: React.FC<CompanyProps> = ({
 
   return (
     <AppView>
-   <AppForm onSubmit={handleNextTab} encType="multipart/form-data">
-   <Typography level="h4">
-        <Box component={TuneOutlinedIcon} color="#FABC1E" />
-       Step 1 - Company Information
+        <Typography
+        sx={{ display: 'flex', alignItems: 'center', fontSize:"16px" }} >
+        <Box component={TuneOutlinedIcon} color='#FBC21E' />
+      <strong>Step 1 - Company Information</strong> 
       </Typography>
-    
+   <AppForm onSubmit={handleNextTab} encType="multipart/form-data">
         <Box
           sx={{
             borderRadius: '16px',
@@ -154,20 +154,20 @@ const Company: React.FC<CompanyProps> = ({
             padding: 2,
           }}
         >
-            <Grid container spacing={1}>
+            <Grid container spacing={2}>
           <Grid xs={12}>
             <Typography
-              level="h4"
-              sx={{ display: 'flex', alignItems: 'center' }}
+              
+              sx={{ display: 'flex', alignItems: 'center', fontSize:"16px" }}
             >
               <ContactMailOutlinedIcon  style={{ color: '#FBC21E' }}/>
-              Company Details
+              <Box component="span" sx={{ marginLeft: 1, fontSize:"16px" }}><strong>Company Details</strong></Box>
             </Typography>
-            <Typography level="body-xs">Provide the name and site of the main office.</Typography>
+            <Typography sx={{fontSize:"14px"}}>Provide the name and site of the main office.</Typography>
           </Grid>
           {CompanyInfoFields &&
             CompanyInfoFields.slice(0, 7).map((field, index) => (
-              <Grid md={8} xs={12} sm={8} key={index} sx={ {justifyContent: 'center' , marginLeft:'10%'}}>
+              <Grid md={8} xs={12} sm={8} key={index} sx={ {justifyContent: 'center' , marginLeft:'10%',fontSize:"14px"}}>
                 <FieldComponent 
                   field={field}
                   formData={companyFormData}
@@ -180,20 +180,19 @@ const Company: React.FC<CompanyProps> = ({
 
           <Divider sx={{ my: 3 }} />
 
-          <Grid container spacing={1}>
-        <Grid xs={12} marginRight="80px">
+          <Grid container spacing={2}>
+        <Grid xs={12}>
             <Typography
-              level="h4"
               sx={{ display: 'flex', alignItems: 'center' }}
             >
               <CurrencyExchangeOutlinedIcon  style={{ color: '#FBC21E' }}/>
-              Timezone & Currency
+              <Box component="span" sx={{ marginLeft: 1,fontSize:"16px" }}><strong>Timezone & Currency</strong></Box>
             </Typography>
-            <Typography level="body-xs">Adjust the settings to fit your company’s local timezone, currency, and date format.</Typography>
+            <Typography sx={{fontSize:"14px"}}>Adjust the settings to fit your company’s local timezone, currency, and date format.</Typography>
           </Grid>
           {CompanyInfoFields &&
             CompanyInfoFields.slice(7, 12).map((field, index) => (
-              <Grid key={index} md={8} xs={8} sm={8} sx={{  justifyContent: 'center',marginLeft:'10%' }}>
+              <Grid key={index} md={8} xs={8} sm={8} sx={{  justifyContent: 'center',marginLeft:'10%',fontSize:"14px" }}>
                 
                 <FieldComponent 
                 field={field}
@@ -207,20 +206,20 @@ const Company: React.FC<CompanyProps> = ({
 
         <Divider sx={{ my: 3 }} />
 
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
         <Grid xs={12}>
             <Typography
               level="h4"
               sx={{ display: 'flex', alignItems: 'center' }}
             >
               <CollectionsOutlinedIcon style={{ color: '#FBC21E' }} />
-              Company Logo
-            </Typography>
-            <Typography level="body-xs">Upload your organization’s logo to make this space your own.</Typography>
+              <Box component="span" sx={{ marginLeft: 1 , fontSize:"16px"}}><strong>Company Logo</strong></Box>
+              </Typography>
+            <Typography sx={{fontSize:"14px"}}>Upload your organization’s logo to make this space your own.</Typography>
           </Grid>
           {CompanyInfoFields &&
             CompanyInfoFields.slice(12, 13).map((field, index) => (
-              <Grid key={index} md={8} xs={8} sm={8} sx={{  justifyContent: 'center',marginLeft:'10%' }}>
+              <Grid key={index} md={8} xs={8} sm={8} sx={{  justifyContent: 'center',marginLeft:'10%',fontSize:"14px" }}>
                 
                 <FieldComponent 
                 field={field}

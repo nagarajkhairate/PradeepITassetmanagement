@@ -60,7 +60,7 @@ const handleDelete = () => {
         {field.title} <span>{field.required && '*'}</span>:
       </FormLabel>
       <Input
-        placeholder={field.title}
+        // placeholder={field.title}
         // value={formData[field.value] || ''} 
         name={field.value} 
         type="file" 
@@ -69,8 +69,8 @@ const handleDelete = () => {
         style={{ display: imagePreview ? 'none' : 'block' }}
       />  
        {imagePreview && (
-        <div style={{ marginTop: '10px', position: 'relative' }}>
-          <img src={imagePreview} alt="Preview" style={{ height: "100px", width: "auto" }} />  
+        <div >
+          <img src={imagePreview} alt="Preview" style={{ height: "100px" }} />  
           <IconButton
             onClick={handleDelete}
             sx={{ position: 'relative', color: 'black' }}
@@ -79,7 +79,7 @@ const handleDelete = () => {
           </IconButton>
         </div> 
       )} 
-       <Typography level="body-xs">Only (JPG, GIF, PNG) Allowed</Typography> 
+       <Typography sx={{fontSize:"14px"}} >Only (<strong>JPG, GIF, PNG</strong>) Allowed</Typography> 
       <FormHelperText>This is a helper text.</FormHelperText>
     </FormControl>
   );
