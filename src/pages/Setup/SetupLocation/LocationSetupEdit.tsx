@@ -21,7 +21,7 @@ import { ThunkDispatch } from 'redux-thunk'
 
 type Location = {
   id: number
-  location: string
+  locations: string
 }
 
 interface Props {
@@ -41,10 +41,10 @@ export function LocationSetupEdit({ locationName,
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
-  const locations = useSelector((state: RootState) => state.locations.data)
+  const location = useSelector((state: RootState) => state.location.data)
 // const dispatch = useDispatch<AppDispatch>()
-console.log(locations)
-const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
+console.log(location)
+const selectedLocation = selectedCell !== null ? location[selectedCell] : null
 
 
   const handleCheckboxChange = (index: number) => {
@@ -106,7 +106,7 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (selectedCell !== null) {
-      dispatch(deleteLocation(locations[selectedCell].id))
+      dispatch(deleteLocation(location[selectedCell].id))
       setDeleteOpen(false)
       setSelectedCell(null)
       setMatchedSelected((prevSelected) =>
@@ -133,7 +133,7 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
 
   useEffect(() => {
     setSelectedCell(null)
-  }, [locations])
+  }, [location])
 
   const handleEdit = () => {
     if (selectedCell !== null) {
@@ -159,23 +159,23 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
                   size="sm"
                   indeterminate={
                     matchedSelected.length > 0 &&
-                    matchedSelected.length < locations.length
+                    matchedSelected.length < location.length
                   }
                   checked={
                     matchedSelected.length > 0 &&
-                    matchedSelected.length === locations.length
+                    matchedSelected.length === location.length
                   }
                   onChange={(event) => {
                     const isChecked = event.target.checked
                     setMatchedSelected(
                       isChecked
-                        ? locations.map((_, index) => index)
+                        ? location.map((_, index) => index)
                         : [],
                     )
                   }}
                   color={
                     matchedSelected.length > 0 &&
-                    matchedSelected.length === locations.length
+                    matchedSelected.length === location.length
                       ? 'primary'
                       : undefined
                   }
@@ -188,7 +188,7 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
             </tr>
           </thead>
               <tbody>
-              {locations.length > 0 ? locations.map((custom, index) => (
+              {location.length > 0 ? location.map((custom, index) => (
                     <tr key={custom.id}>
                       <td>
                         <Checkbox

@@ -142,8 +142,8 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, se
                     },
                   }}
                 >
-                  {categories && categories.map((category)=>(
-                              <Option key={category.id} value={category.id}>{category.categoryName}</Option>
+                  {categories && categories.map((subCategory)=>(
+                              <Option key={subCategory.id} value={subCategory.id}>{subCategory.categoryName}</Option>
                             ))}
                 </Select>
               </FormControl>
@@ -165,7 +165,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, se
                   Sub Category*:
                 </FormLabel>
                 <Input
-                  name='category'
+                  name='subCategory'
                   onChange={HandleInputChange}
                   placeholder="Type here"
                   sx={{

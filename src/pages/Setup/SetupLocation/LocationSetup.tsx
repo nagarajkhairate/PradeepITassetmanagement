@@ -27,7 +27,7 @@ import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
 
 type Location = {
   id: number
-  location: string
+  locations: string
 }
 
 const LocationSetup: React.FunctionComponent = () => {
@@ -35,12 +35,12 @@ const LocationSetup: React.FunctionComponent = () => {
   const [open, setOpen] = useState(false)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
-  const [location, setLocation] = useState<string>('')
+  const [locations, setLocations] = useState<string>('')
   // const [locationName, setLocationName] = useState<Location[]>([])
 
-  const locations = useSelector((state: RootState) => state.locations.data)
+  const location = useSelector((state: RootState) => state.location.data)
   // const dispatch = useDispatch<AppDispatch>()
-  console.log(locations)
+  console.log(location)
 
   const handleLocationChange = (updatedData: Location[]) => {
     // setLocationName(updatedData)
@@ -307,7 +307,7 @@ const LocationSetup: React.FunctionComponent = () => {
 
         <Box>
           <LocationSetupEdit
-            locationName={locations}
+            locationName={location}
             // onLocationChange={handleLocationChange}
           />
         </Box>

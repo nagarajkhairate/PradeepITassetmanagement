@@ -42,7 +42,7 @@ export const fetchSitesById = createAsyncThunk('sites/fetchSitesById', async (id
 });
  
 export const addSites = createAsyncThunk('sites/addSites', async (sites: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/site/`, sites);
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/site`, sites);
   return response.data;
 });
  
