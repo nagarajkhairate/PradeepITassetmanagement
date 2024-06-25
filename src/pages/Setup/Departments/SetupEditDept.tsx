@@ -51,7 +51,7 @@ const selectedDepartment = selectedCell !== null ? departments[selectedCell] : n
         ? prevSelected.filter((item) => item !== index)
         : [...prevSelected, index]
     );
-    setSelectedCell(index);
+    // setSelectedCell(index);
   };
 
   const handleClickEditOpen = () => {
@@ -90,10 +90,10 @@ const selectedDepartment = selectedCell !== null ? departments[selectedCell] : n
     }
   }
 
-  const handleDeleteButton = () => {
-    if (selectedCell !== null) {
+  const handleDeleteButton = (index:number) => {
+    setSelectedCell(index)
       handleDeleteOpen();
-    }
+    
   };
 
   // const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -130,10 +130,10 @@ const selectedDepartment = selectedCell !== null ? departments[selectedCell] : n
     setSelectedCell(null);
   }, [departments]);
 
-  const handleEdit = () => {
-    if (selectedCell !== null) {
+  const handleEdit = (index:number) => {
+    setSelectedCell(index)
       handleClickEditOpen();
-    }
+    
   };
 
   
@@ -193,7 +193,7 @@ const selectedDepartment = selectedCell !== null ? departments[selectedCell] : n
                   <td>{custom.departmentName}</td>
 
                   <td>
-                    <Button onClick={() => handleEdit()}
+                    <Button onClick={() => handleEdit(index)}
                     sx={{
                       background: "#ffffff",
                       color: "green",
@@ -216,7 +216,7 @@ const selectedDepartment = selectedCell !== null ? departments[selectedCell] : n
                   </td>
 
                   <td>  
-                    <Button onClick={() => handleDeleteButton()}
+                    <Button onClick={() => handleDeleteButton(index)}
                     sx={{
                       background: "#ffffff",
                       color: '#d32f2f',

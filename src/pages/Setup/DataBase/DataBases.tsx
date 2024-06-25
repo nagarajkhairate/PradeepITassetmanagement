@@ -312,7 +312,7 @@ const DataBases: React.FunctionComponent = () => {
         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
       >
         <SignpostOutlinedIcon
-          style={{ fontSize: '1.4rem', color: '#d32f2f' }}
+          style={{ fontSize: '1.4rem', color: '#FBC21E' }}
         />
         Database
       </Typography>
@@ -360,7 +360,7 @@ const DataBases: React.FunctionComponent = () => {
                     <Checkbox />
                   </th>
                   <th style={{ minWidth: 180 }}>Field Name</th>
-                  <th style={{ minWidth: 200 }}>Date Required</th>
+                  <th style={{ minWidth: 200 }}>Data Required</th>
                   <th style={{ minWidth: 400 }}>Description</th>
                   <th style={{ minWidth: 150 }}>Example</th>
                 </tr>
@@ -407,8 +407,15 @@ const DataBases: React.FunctionComponent = () => {
           </Box>
         </Box>
 
-        <b>Asset Custom Fields</b>
-        <Box sx={{ marginBottom: '2px' }}>
+        <Typography
+         level="h4"
+         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+        >
+        <SignpostOutlinedIcon
+          style={{ fontSize: '1.4rem', color: '#FBC21E' }}
+        />
+          Asset Custom Fields</Typography>
+        <Box>
           Add custom fields to join the standard fields that we provided. Feel
           free to get creative.
         </Box>

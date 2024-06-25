@@ -108,7 +108,7 @@ return (
                 <AppForm onSubmit={handleAddSkill}>
                   <FormControl>
                     <FormLabel sx={{ paddingTop: "30px", marginLeft: "20px" }}>
-                      Custom Field Label*
+                      Custom Field Label*:
                       <Input
                         variant="outlined"
                         type="text"
@@ -117,17 +117,17 @@ return (
                         value={formData.custom}
                         onChange={handleChange}
                         required
-                        sx={{ width: "43%", marginLeft: "10px" }}
+                        sx={{ width: "45%", marginLeft: "20px" }}
                       />
                     </FormLabel>
                   </FormControl>
 
                   <FormControl>
                     <FormLabel sx={{ paddingTop: "30px", marginLeft: "20px" }}>
-                      Data Types*
+                      Data Types*:
                       <Select
                         placeholder="Select Data Types"
-                        sx={{ width: "50%", marginLeft: "60px" }}
+                        sx={{ width: "50%", marginLeft: "70px" }}
                         name="dataType"
                         value={formData.componentsId}
                         onChange={handleSelectChange}
@@ -146,8 +146,8 @@ return (
                       alignItems: "center",
                     }}
                   >
-                    <FormLabel sx={{ paddingTop: "30px", marginLeft: "20px" }}>
-                      Data Required
+                    <FormLabel sx={{ paddingTop: "36px", marginLeft: "20px" }}>
+                      Data Required:
                     </FormLabel>
                     <RadioGroup name="dataRequired" 
                     value={formData.dataRequired.toString()} onChange={handleChange}>
@@ -156,7 +156,7 @@ return (
                           value="yes"
                           label="Yes"
                           variant="outlined"
-                          sx={{ paddingTop: "30px", marginLeft: "50px" }}
+                          sx={{ paddingTop: "10px", marginLeft: "55px" }}
                         />
                         <Radio
                           value="optional"
@@ -170,8 +170,12 @@ return (
                   </FormControl>
 
                    <Box>
-                          <FormLabel sx={{ paddingTop: "40px", marginLeft: "20px" }}> Selected Categories</FormLabel>
-                          <FormLabel sx={{ marginLeft: "165px", paddingBottom:'30px' }}> Is this field visible to assets of selective 'Categories'?</FormLabel>
+                   <FormLabel sx={{ paddingTop: "25px", marginLeft: "20px" }}>
+  Selected <span style={{ marginRight: "8px" }}>Categories:</span> 
+  <span style={{ marginLeft: "10px" }}>Is this field visible to assets of selective 'Categories'?</span>
+</FormLabel>
+                
+                          {/* <FormLabel sx={{ marginLeft: "168px",paddingTop: "5px" }}> Is this field visible to assets of selective 'Categories'?</FormLabel> */}
                           <RadioGroup
                            name="selectedCategories" value={formData.selectedCategories.toString()}
                           
@@ -182,9 +186,9 @@ return (
                               value="All Categories"
                               label="All Categories"
                               variant="outlined"
-                              sx={{ paddingTop: "20px", marginLeft: "160px" }}
+                              sx={{ paddingTop: "20px", marginLeft: "165px" }}
                             />
-                            <Radio value="Limited Categories" label="Limited Categories" variant="outlined" sx={{ paddingTop: "30px", marginLeft: "20px" }}/>
+                            <Radio value="Limited Categories" label="Limited Categories" variant="outlined" sx={{ paddingTop: "20px", marginLeft: "15px" }}/>
                            
                           </Box>
                           </RadioGroup>

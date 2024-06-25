@@ -22,7 +22,7 @@ const TENANT_ID = process.env.TENANT_ID;
  
 export const fetchSubCategories = createAsyncThunk('subCategories/fetchSubCategories', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/subCategories`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/sub-categories`);
   return response.data;
    
   } catch (error) {
@@ -36,7 +36,7 @@ export const fetchSubCategories = createAsyncThunk('subCategories/fetchSubCatego
 
 export const fetchSubCategoryById = createAsyncThunk('subCategories/fetchSubCategoryById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/subCategoriess/${id}`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/sub-categories/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -46,20 +46,20 @@ export const fetchSubCategoryById = createAsyncThunk('subCategories/fetchSubCate
 });
  
 export const addSubCategories = createAsyncThunk('subCategories/addSubCategories', async (subCategories: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/subCategories`, subCategories);
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/sub-categories`, subCategories);
  console.log(response)
   return response.data;
 });
  
 export const updateSubCategories = createAsyncThunk('subCategories/updateSubCategories', async (updatedSubCategory: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/subCategories/${updatedSubCategory.id}`, updatedSubCategory);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/sub-categories/${updatedSubCategory.id}`, updatedSubCategory);
   
   return response.data;
 });
  
 export const deleteSubCategories = createAsyncThunk('subCategories/deleteSubCategories', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/subCategories/${id}`);
+  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/sub-categories/${id}`);
   return id;
 });
 

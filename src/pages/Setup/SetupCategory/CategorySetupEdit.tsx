@@ -52,7 +52,6 @@ export function CategorySetupEdit({ categories1,
         ? prevSelected.filter((item) => item !== index)
         : [...prevSelected, index],
     )
-    setSelectedCell(index)
   }
 
   const handleClickEditOpen = () => {
@@ -91,10 +90,10 @@ export function CategorySetupEdit({ categories1,
     }
   }
 
-  const handleDeleteButton = () => {
-    if (selectedCell !== null) {
+  const handleDeleteButton = (index:number) => {
+    setSelectedCell(index)
       handleDeleteOpen()
-    }
+    
   }
 
   // const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -140,10 +139,10 @@ export function CategorySetupEdit({ categories1,
     setSelectedCell(null)
   }, [categories])
 
-  const handleEdit = () => {
-    if (selectedCell !== null) {
+  const handleEdit = (index:number) => {
+    setSelectedCell(index)
       handleClickEditOpen()
-    }
+    
   }
 
   return (
@@ -206,7 +205,7 @@ export function CategorySetupEdit({ categories1,
 
                   <td>
                     <Button
-                      onClick={handleEdit}
+                      onClick={()=>handleEdit(index)}
                       sx={{
                         background: '#ffffff',
                         color: 'green',
@@ -228,7 +227,7 @@ export function CategorySetupEdit({ categories1,
 
                   <td>
                     <Button
-                      onClick={handleDeleteButton}
+                      onClick={()=>handleDeleteButton(index)}
                       sx={{
                         background: '#ffffff',
                         color: '#d32f2f',

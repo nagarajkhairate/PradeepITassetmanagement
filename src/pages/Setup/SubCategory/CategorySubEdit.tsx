@@ -54,7 +54,6 @@ const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] 
         ? prevSelected.filter((item) => item !== index)
         : [...prevSelected, index]
     );
-    setSelectedCell(index);
   };
 
   const handleClickEditOpen = () => {
@@ -92,10 +91,10 @@ const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] 
     }
   }
 
-  const handleDeleteButton = () => {
-    if (selectedCell !== null) {
+  const handleDeleteButton = (index:number) => {
+    setSelectedCell(index)
       handleDeleteOpen();
-    }
+    
   };
 
   // const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -132,10 +131,10 @@ const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] 
     setSelectedCell(null);
   }, [subCategories]);
 
-  const handleEdit = () => {
-    if (selectedCell !== null) {
+  const handleEdit = (index:number) => {
+    setSelectedCell(index)
       handleClickEditOpen();
-    }
+    
   };
 
   
@@ -194,7 +193,7 @@ const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] 
                   <td>{custom.subCategory}</td>
 
                   <td>
-                    <Button onClick={ handleEdit}
+                    <Button onClick={()=> handleEdit(index)}
                      sx={{
                       background: "#ffffff",
                       color: "green",
@@ -215,7 +214,7 @@ const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] 
                   </td>
 
                   <td>  
-                    <Button onClick={handleDeleteButton}
+                    <Button onClick={()=>handleDeleteButton(index)}
                      sx={{
                       background: "#ffffff",
                       color: '#d32f2f',
