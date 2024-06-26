@@ -25,6 +25,7 @@ import { deleteSites, fetchSites, updateSites } from '../../../Redux/features/Si
 import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../../Redux/store'
 import { useDispatch, useSelector } from 'react-redux'
+import AppForm from '../../Common/AppForm'
 
 export interface Site {
   siteName: string
@@ -122,11 +123,11 @@ const Sites: React.FC<SiteProps> = ({
 
   return (
     <AppView>
-      <Typography level="h4" style={{ display: 'flex', alignItems: 'center' }}>
-        <RoomOutlinedIcon style={{ fontSize: '1.4rem', color: '#FBC21E' }} />
-        Step- 2 Sites
+       <Typography level="h4" style={{ display: 'flex', alignItems: 'center' }}>
+        <RoomOutlinedIcon style={{ fontSize: '16px', color: '#FBC21E' }} />
+        <strong>Step- 2 Sites</strong>
       </Typography>
-
+    <AppForm onSubmit={handleNextTab}>
       <Box
         sx={{
           borderRadius: 'none',
@@ -142,7 +143,7 @@ const Sites: React.FC<SiteProps> = ({
             flexDirection: { xs: 'column', md: 'row' },
             justifyContent: { xs: 'center', md: 'space-between' },
             gap: 2,
-            mb: 2,
+            mb: 1,
           }}
         >
           <Grid
@@ -159,8 +160,7 @@ const Sites: React.FC<SiteProps> = ({
                 <Typography
                   level="h4"
                   sx={{
-                    fontFamily: 'Poppins',
-                    fontSize: '20px',
+                    fontSize: '16px',
                     fontWeight: 500,
                     lineHeight: '30px',
                     textAlign: { xs: 'center', md: 'left' },
@@ -168,13 +168,14 @@ const Sites: React.FC<SiteProps> = ({
                   }}
                 >
                   <TuneOutlinedIcon
-                    style={{
-                      fontSize: '1.4rem',
+                    sx={{
+                      fontSize: '16px',
                       color: '#FBC21E',
                       alignItems: 'center',
                     }}
                   />
-                  List of Sites
+                  <strong>List of Sites</strong>
+                  
                 </Typography>
               </Box>
             </Grid>
@@ -225,13 +226,14 @@ const Sites: React.FC<SiteProps> = ({
               </React.Fragment>
             </Grid>
           </Grid>
-          <Divider />
+         
         </Box>
-        <Box sx={{ marginTop: '20px', padding: '20px', fontSize: '18px' }}>
-          <b>AssetTiger</b> allows you to enter multiple <b>Sites</b>. For
-          example, the <b>Site</b> may be a building or address. This means that
+        <Divider />
+        <Box sx={{ marginTop: '20px', padding: '20px', fontSize: '14px' }}>
+          <strong>AssetTiger</strong> allows you to enter multiple <strong>Sites</strong>. For
+          example, the <strong>Site</strong> may be a building or address. This means that
           you can better track each asset that is assigned to a given{' '}
-          <b>Site</b>. A detailed <b>Site</b> makes it easy to find and count
+          <strong>Site</strong>. A detailed <strong>Site</strong> makes it easy to find and count
           each asset.
         </Box>
         <Divider />
@@ -251,31 +253,6 @@ const Sites: React.FC<SiteProps> = ({
                 flexDirection: { xs: 'column', md: 'row' },
               }}
             >
-              <Select
-                placeholder="10"
-                sx={{
-                  // marginLeft: { md: '20px' },
-                  alignItems: 'center',
-                  background: 'none',
-                  color: 'black',
-                  borderRadius: '15px',
-                }}
-                required
-              >
-                <Option value="10">10</Option>
-                <Option value="9">9</Option>
-                <Option value="8">8</Option>
-              </Select>
- 
-              <FormLabel
-                sx={{
-                  marginLeft: '10px',
-                  marginTop: '6px',
-                  mb: { xs: 1, md: 1 },
-                }}
-              >
-                Sites
-              </FormLabel>
             </FormControl>
  
             <Box
@@ -318,7 +295,6 @@ const Sites: React.FC<SiteProps> = ({
                   background: '#FDE8BC',
                   border: '1px solid #C2B083',
                   color: 'black',
- 
                   '&:hover': {
                     background: '#FADFB4',
                   },
@@ -425,9 +401,10 @@ const Sites: React.FC<SiteProps> = ({
                                 color: 'white',
                                 background: 'green',
                               },
+                              padding:".25rem .55rem"
                             }}
                           >
-                          <EditOutlinedIcon sx={{fontSize:'18px'}}/>
+                          <EditOutlinedIcon sx={{fontSize:'14px'}}/>
                           Edit
                           </Button>
                         </div>
@@ -450,9 +427,10 @@ const Sites: React.FC<SiteProps> = ({
                               color: 'white',
                               background: '#d32f2f',
                             },
+                             padding:".25rem .55rem"
                           }}
                         >
-                          <DeleteForeverIcon sx={{fontSize:'18px'}}/>
+                          <DeleteForeverIcon sx={{fontSize:'14px'}}/>
                           Delete
                         </Button>
                       </td>
@@ -482,6 +460,7 @@ const Sites: React.FC<SiteProps> = ({
             flexDirection: { xs: 'column', md: 'row' },
             justifyContent: { xs: 'center', md: 'flex-end' },
             gap: 2,
+            padding:"2rem 2.5rem",
           }}
         >
          
@@ -507,7 +486,7 @@ const Sites: React.FC<SiteProps> = ({
               borderRadius:'15px'
             }}
             component="label"
-              onClick={handleNextTab} 
+            onClick={handleNextTab}
              
           >
              Continue
@@ -547,6 +526,7 @@ const Sites: React.FC<SiteProps> = ({
         handleDelete={handleDelete}
         handleDeleteClose={handleDeleteClose}
       />
+       </AppForm>
     </AppView>
   )
 }
