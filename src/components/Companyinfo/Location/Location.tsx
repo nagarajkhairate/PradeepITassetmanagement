@@ -50,7 +50,7 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
   const [location, setLocation] = useState<string>('')
   // const [locationName, setLocationName] = useState<Location[]>([])
 
-  const locations = useSelector((state: RootState) => state.locations.data)
+  const locations = useSelector((state: RootState) => state.location.data)
   // const dispatch = useDispatch<AppDispatch>()
   console.log(locations)
 
@@ -84,7 +84,7 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
         <SignpostOutlinedIcon
           style={{ fontSize: '1.4rem', color: '#d32f2f' }}
         />
-        Locations
+        Step-3 Locations
       </Typography>
 
       <Box
@@ -93,7 +93,7 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
           gap: '5px',
-          p: 2,
+          p: 1,
         }}
       >
         <Box
@@ -194,26 +194,32 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
 
           <Box
             sx={{
+              textAlign: { xs: 'center', md: 'left' },
+            }}
+          >
+          <Box
+            sx={{
               display: 'flex',
               alignItems: 'center',
               flexDirection: { md: 'row', xs: 'column' },
               justifyContent: { xs: 'center', md: 'space-between' },
               marginTop: '1px',
-              // marginBottom: '15px',
               padding: '10px',
+              m: { md: 'none', xs:'center' },
             }}
           >
             <FormControl
               sx={{
                 display: 'flex',
                 flexDirection: { xs: 'column', md: 'row' },
+                m: { md: 'none', xs:'center' },
               }}
             >
               <FormLabel
                 sx={{
                   marginTop: '6px',
                   mb: { xs: 1, md: 1 },
-                  m: { md: 'none' },
+                  m: { md: 'none', xs:'center' },
                 }}
               >
                 Select a Site:
@@ -234,6 +240,7 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
               </Select>
             </FormControl>
           </Box>
+          </Box>
 
           <Box
             sx={{
@@ -253,7 +260,6 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
               <Select
                 placeholder="10"
                 sx={{
-                  // marginLeft: { md: '20px' },
                   alignItems: 'center',
                   background: 'none',
                   color: 'black',
@@ -330,7 +336,6 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
         <Box>
           <EditLocation
             locationName={locations}
-            // onLocationChange={handleLocationChange}
           />
         </Box>
         <Divider />
@@ -344,6 +349,7 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
     flexDirection: { xs: 'column', md: 'row' },
     justifyContent: { xs: 'center', md: 'flex-end' },
     gap: 2,
+    marginTop:'20px'
   }}
 >
  
@@ -352,7 +358,8 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
     sx={{
       background: '#388e3c',
       color: 'white',
-      borderRadius:'15px'
+      borderRadius:'15px',
+      
     }}
     component="label"
     onClick={handlePrevTab}
@@ -364,8 +371,9 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
   <Button
     variant="solid"
     sx={{
-      background: "#fdd835",
-      color: 'white',
+      background: "#FABC1E",
+      color: "black",
+      "&:hover": { background: "#E1A91B" },
       borderRadius:'15px'
     }}
     component="label"

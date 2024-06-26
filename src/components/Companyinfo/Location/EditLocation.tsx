@@ -16,6 +16,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from '../../../Redux/store'
 import { deleteLocation, updateLocation } from '../../../Redux/features/LocationSlice'
 import { ThunkDispatch } from 'redux-thunk'
+import AppForm from '../../Common/AppForm'
 
 
 type Location = {
@@ -29,7 +30,6 @@ interface Props {
 }
 
 export function EditLocation({ locationName, 
-  // onLocationChange 
 }: Props) {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
@@ -40,8 +40,7 @@ export function EditLocation({ locationName,
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
-  const locations = useSelector((state: RootState) => state.locations.data)
-// const dispatch = useDispatch<AppDispatch>()
+  const locations = useSelector((state: RootState) => state.location.data)
 console.log(locations)
 const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
 
@@ -52,7 +51,7 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
         ? prevSelected.filter((item) => item !== index)
         : [...prevSelected, index],
     )
-    setSelectedCell(index)
+    // setSelectedCell(index)
   }
 
   const handleClickEditOpen = () => {
@@ -62,23 +61,8 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
   const handleEditClose = () => {
     setEditOpen(false)
     setSelectedCell(null)
-
-    // console.log(JSON.stringify(editOpen))
   }
 
-  // const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault()
-  //   const location = (e.target as any).location.value
-  //   if (selectedCell !== null) {
-  //     const updatedData = locData.locationData.map((item, index) =>
-  //       index === selectedCell ? { ...item, location } : item,
-  //     )
-  //     setLocData({ ...locData, locationData: updatedData })
-  //     handleEditClose()
-  //     dispatch(updateLocation(updatedData))
-  //     // onLocationChange(updatedData)
-  //   }
-  // }
   const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (selectedLocation !== null) {
@@ -115,10 +99,9 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
   }
 
 
-  const handleDeleteButton = () => {
-    if (selectedCell !== null) {
-      handleDeleteOpen()
-    }
+  const handleDeleteButton = (index:number) => {
+    setSelectedCell(index)
+    handleDeleteOpen()
   }
 
   const handleDeleteOpen = () => {
@@ -134,10 +117,9 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
     setSelectedCell(null)
   }, [locations])
 
-  const handleEdit = () => {
-    if (selectedCell !== null) {
-      handleClickEditOpen()
-    }
+  const handleEdit = (index:number) => {
+    setSelectedCell(index)
+    handleClickEditOpen()
   }
 
   return (
@@ -150,10 +132,17 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
           justifyContent: 'space-between',
         }}
       >
-      <Table borderAxis="both" style={{ borderCollapse: 'collapse' }}>
+          <Box   sx={{
+    overflowX: 'auto', 
+    fontSize: '14px',
+    whiteSpace: 'nowrap', 
+  }}>   
+      <Table 
+      borderAxis="both" style={{ borderCollapse: 'collapse' }}
+      >
           <thead>
             <tr>
-              <th style={{ width: 30 }}>
+              <th style={{ width: 30, background: '#fff8e6' }}>
                 <Checkbox
                   size="sm"
                   indeterminate={
@@ -164,26 +153,37 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
                     matchedSelected.length > 0 &&
                     matchedSelected.length === locations.length
                   }
-                  onChange={(event) => {
-                    const isChecked = event.target.checked
-                    setMatchedSelected(
-                      isChecked
-                        ? locations.map((_, index) => index)
-                        : [],
-                    )
+                  // onChange={(event) => {
+                  //   const isChecked = event.target.checked
+                  //   setMatchedSelected(
+                  //     isChecked
+                  //       ? locations.map((_, index) => index)
+                  //       : [],
+                  //   )
+                  // }}
+                  // color={
+                  //   matchedSelected.length > 0 &&
+                  //   matchedSelected.length === locations.length
+                  //     ? 'primary'
+                  //     : undefined
+                  // }
+                  onChange={() => {
+                    if (
+                      matchedSelected.length > 0 &&
+                      matchedSelected.length === locations.length
+                    ) {
+                      setMatchedSelected([])
+                    } else {
+                      const newSelecteds = locations.map((_, index) => index)
+                      setMatchedSelected(newSelecteds)
+                    }
                   }}
-                  color={
-                    matchedSelected.length > 0 &&
-                    matchedSelected.length === locations.length
-                      ? 'primary'
-                      : undefined
-                  }
                   sx={{ verticalAlign: 'text-bottom' }}
                 />
               </th>
-              <th>Location</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              <th style={{ background: '#fff8e6' }}>Location</th>
+              <th style={{ background: '#fff8e6' }}>Edit</th>
+              <th style={{ background: '#fff8e6' }}>Delete</th>
             </tr>
           </thead>
               <tbody>
@@ -200,12 +200,16 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
     
                       <td>
                         <Button
-                          onClick={() => handleEdit()}
+                          onClick={() => handleEdit(index)}
                           sx={{
+                            fontSize: '13px',
                             background: '#ffffff',
                             color: 'green',
                             display: 'flex',
-                            justifyContent: {md:'flex-end', xs:'center'},
+                            justifyContent: {
+                              md: 'flex-end',
+                              xs: 'center',
+                            },
                             marginLeft: 'none',
                             border: '1px solid green ',
                             borderRadius: '13px',
@@ -213,21 +217,24 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
                               color: 'white',
                               background: 'green',
                             },
+                            padding: ".25rem .55rem"
                           }}
                         >
-                          <EditOutlinedIcon />
+                          <EditOutlinedIcon sx={{fontSize:'18px'}}/>
                           Edit
                         </Button>
                       </td>
     
                       <td>
                         <Button
-                          onClick={() => handleDeleteButton()}
+                          onClick={() => handleDeleteButton(index)}
                           sx={{
+                            fontSize: '13px',
                             background: '#ffffff',
                             color: '#d32f2f',
                             display: 'flex',
-                            justifyContent: {md:'flex-end',xs:'center'},
+                            justifyContent: { md: 'flex-end', xs: 'center' },
+                            
                             marginLeft: 'none',
                             border: '1px solid red ',
                             borderRadius: '13px',
@@ -235,20 +242,18 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
                               color: 'white',
                               background: '#d32f2f',
                             },
+                            padding: ".5rem .15rem"
                           }}
                         >
-                          <DeleteForeverIcon />
+                          <DeleteForeverIcon sx={{fontSize:'18px'}}/>
                           Delete
                         </Button>
                       </td>
                     </tr>
                      )): <tr ><td colSpan={4} style={{ textAlign: 'center' }}>No Data Found</td></tr> }
               </tbody>
-               
-                
-       
         </Table>
-      
+      </Box>
         
 
         <Modal
@@ -283,7 +288,7 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
                 {'Edit the Customs here'}
               </Typography>
 
-              <form onSubmit={handleEditButton}>
+              <AppForm onSubmit={handleEditButton}>
                 <FormControl
                   sx={{
                     display: 'flex',
@@ -336,7 +341,7 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
                 >
                   Cancel
                 </Button>
-              </form>
+              </AppForm>
             </div>
           </Sheet>
         </Modal>
@@ -373,7 +378,7 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
                 {'Delete Customs here'}
               </Typography>
 
-              <form onSubmit={handleDeleteSubmit}>
+              <AppForm onSubmit={handleDeleteSubmit}>
                 <FormControl
                   sx={{
                     display: 'flex',
@@ -425,7 +430,7 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
                 >
                   Cancel
                 </Button>
-              </form>
+              </AppForm>
             </div>
           </Sheet>
         </Modal>
