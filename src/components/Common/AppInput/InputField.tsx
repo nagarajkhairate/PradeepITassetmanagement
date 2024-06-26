@@ -31,7 +31,7 @@ const InputField: React.FunctionComponent<InputFieldProps> = ({ field, formData,
         {field.title} <span>{field.required && '*'}</span>:
       </FormLabel>
       <Input
-        placeholder={field.title}
+        // placeholder={field.title}
         value={formData[field.value] || ''} 
         name={field.value} 
         type={field.dataType} 

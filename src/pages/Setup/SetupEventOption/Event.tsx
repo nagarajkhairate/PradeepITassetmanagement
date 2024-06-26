@@ -14,30 +14,14 @@ import SendTwoToneIcon from '@mui/icons-material/SendTwoTone'
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined'
 import ConstructionOutlinedIcon from '@mui/icons-material/ConstructionOutlined'
 import GavelOutlinedIcon from '@mui/icons-material/GavelOutlined'
-import Buttonss from './Buttonss'
 // import HowToRegOutlinedIcon from "@mui/icons-material/HowToRegOutlined";
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
-import AppView from '../../Common/AppView'
+import AppView from '../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../../Redux/store'
 import { useDispatch } from 'react-redux'
-import { addoptions, fetchOptions } from '../../../Redux/features/TabsSlice'
-import AppForm from '../../Common/AppForm'
-
-
-
-
-interface EventOptionProps {
-  companyFormData: any
-  setCompanyFormData: any
-  activeTab: number
-  setActiveTab: (tab: number) => void
-}
-
-
-
 
 const options = [
   {
@@ -61,28 +45,22 @@ interface AssetRadioGroupProps {
   value: string
 }
 
-const EventOption: React.FunctionComponent<EventOptionProps> = ({
-  companyFormData,
-  setCompanyFormData,
-  activeTab,
-  setActiveTab,
-}) => {
-  const [eventForm, setEventForm] = useState<any>({})
+const Event: React.FunctionComponent= () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const [eventForm, setEventForm] = useState<any>({})
 
   const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setEventForm((prevData: any) => ({ ...prevData, [name]: value }))
   }
   const handleSubmit = () => {
-    setCompanyFormData((prevData: any) => ({
-      ...prevData,
-      eventOption: eventForm,
-    }))
-    dispatch(addoptions(companyFormData)); 
+    // setCompanyFormData((prevData: any) => ({
+    //   ...prevData,
+    //   eventOption: eventForm,
+    // }))
     console.log(JSON.stringify(eventForm, null, 2))
   }
-  console.log(JSON.stringify(companyFormData))
+
 
   const AssetRadioGroup: React.FC<AssetRadioGroupProps> = ({
     name,
@@ -152,16 +130,8 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
     )
   }
 
-  // const handleNextTab = () => {
-  //   setActiveTab(activeTab + 1);
-  // };
-
-  const handlePrevTab = () => {
-    setActiveTab(activeTab - 1)
-  }
 
   return (
-    <AppForm onSubmit={handleSubmit}>
     <AppView>
       <Typography
         level="h4"
@@ -470,7 +440,6 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
               // borderRadius: '15px',
             }}
             component="label"
-            onClick={handlePrevTab}
           >
             <NavigateBeforeOutlinedIcon />
             Cancel
@@ -492,8 +461,7 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
         </Box>
       </Box>
     </AppView>
-    </AppForm>
   )
 }
 
-export default EventOption
+export default Event

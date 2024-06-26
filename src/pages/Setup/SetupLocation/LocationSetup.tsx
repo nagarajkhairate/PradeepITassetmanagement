@@ -27,7 +27,7 @@ import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
 
 type Location = {
   id: number
-  location: string
+  locations: string
 }
 
 const LocationSetup: React.FunctionComponent = () => {
@@ -35,12 +35,12 @@ const LocationSetup: React.FunctionComponent = () => {
   const [open, setOpen] = useState(false)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
-  const [location, setLocation] = useState<string>('')
+  const [locations, setLocations] = useState<string>('')
   // const [locationName, setLocationName] = useState<Location[]>([])
 
-  const locations = useSelector((state: RootState) => state.locations.data)
+  const location = useSelector((state: RootState) => state.location.data)
   // const dispatch = useDispatch<AppDispatch>()
-  console.log(locations)
+  console.log(location)
 
   const handleLocationChange = (updatedData: Location[]) => {
     // setLocationName(updatedData)
@@ -57,10 +57,10 @@ const LocationSetup: React.FunctionComponent = () => {
     <AppView>
       <Typography
         level="h4"
-        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+        sx={{ display: 'flex', alignItems: 'center', gap: 1, fontFamily:'sans-serif' }}
       >
         <SignpostOutlinedIcon
-          style={{ fontSize: '1.4rem', color: '#d32f2f' }}
+          style={{ fontSize: '1.4rem', color: '#FBC12E' }}
         />
         Locations
       </Typography>
@@ -71,7 +71,7 @@ const LocationSetup: React.FunctionComponent = () => {
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
           gap: '5px',
-          p: 2,
+          p: 1,
         }}
       >
         <Box
@@ -81,7 +81,7 @@ const LocationSetup: React.FunctionComponent = () => {
             flexDirection: { xs: 'column', md: 'row' },
             justifyContent: { xs: 'center', md: 'space-between' },
             gap: 2,
-            mb: 2,
+            mb: 1,
           }}
         >
           <Box
@@ -91,7 +91,7 @@ const LocationSetup: React.FunctionComponent = () => {
           >
             <Typography
               sx={{
-                fontFamily: 'Poppins',
+                // fontFamily: 'Poppins',
                 fontSize: '20px',
                 fontWeight: 500,
                 lineHeight: '30px',
@@ -101,7 +101,7 @@ const LocationSetup: React.FunctionComponent = () => {
               }}
             >
               <PlaylistAddCheckOutlinedIcon
-                style={{ fontSize: '1.4rem', color: '#d32f2f' }}
+                style={{ fontSize: '1.4rem', color: '#FBC12E' }}
               />
               List of Location
             </Typography>
@@ -164,10 +164,12 @@ const LocationSetup: React.FunctionComponent = () => {
 
         <Box>
           <Box sx={{ padding: '10px', marginTop: '10px' }}>
+            <Typography>
             You may also add Locations. Locations are a subset of Sites. For
             example, the Site may be a building or address. The Location may be
             a specific room, office or floor within the Site. Select a Site and
             add your list of Locations here.
+            </Typography>
           </Box>
 
           <Box
@@ -193,8 +195,8 @@ const LocationSetup: React.FunctionComponent = () => {
                   mb: { xs: 1, md: 1 },
                   m: { md: 'none' },
                 }}
-              >
-                Select a Site:
+              ><Typography>Select a Site:</Typography>
+                
               </FormLabel>
 
               <Select
@@ -218,46 +220,17 @@ const LocationSetup: React.FunctionComponent = () => {
               display: 'flex',
               alignItems: 'center',
               flexDirection: { md: 'row', xs: 'column' },
-              justifyContent: { xs: 'center', md: 'space-between' },
+              justifyContent: { xs: 'center', md: 'flex-end' },
               padding: '10px',
             }}
           >
-            <FormControl
-              sx={{
-                display: 'flex',
-                flexDirection: { xs: 'column', md: 'row' },
-              }}
-            >
-              <Select
-                placeholder="10"
-                sx={{
-                  // marginLeft: { md: '20px' },
-                  alignItems: 'center',
-                  background: 'none',
-                  color: 'black',
-                  borderRadius: '15px',
-                }}
-                required
-              >
-                <Option value="10">10</Option>
-              </Select>
-
-              <FormLabel
-                sx={{
-                  marginLeft: '10px',
-                  marginTop: '6px',
-                  mb: { xs: 1, md: 1 },
-                }}
-              >
-                locations
-              </FormLabel>
-            </FormControl>
+            
 
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: { md: 'row' },
-                justifyContent: { xs: 'center', md: 'space-between' },
+                justifyContent: { xs: 'center', md: 'flex-end' },
                 gap: 1,
               }}
             >
@@ -307,7 +280,7 @@ const LocationSetup: React.FunctionComponent = () => {
 
         <Box>
           <LocationSetupEdit
-            locationName={locations}
+            locationName={location}
             // onLocationChange={handleLocationChange}
           />
         </Box>

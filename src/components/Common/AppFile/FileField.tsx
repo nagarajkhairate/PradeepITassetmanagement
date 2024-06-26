@@ -23,15 +23,17 @@ type FieldProps = {
 interface InputFieldProps {
   field: FieldProps;
   formData: any;
-  handleInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleFileChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const FileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, handleInputChange }) => {
+const FileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, handleFileChange }) => {
   const [imagePreview, setImagePreview] = React.useState<string | null>(null);
+  const [file, setFile] = React.useState<File | null>(null);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    
   const file = e.target.files?.[0];
-  
+  console.log(file)
   if (file) {  
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -40,11 +42,13 @@ const FileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, 
     };
     reader.readAsDataURL(file);
 
-    if (handleInputChange) {
-      handleInputChange(e);
+    if (handleFileChange) {
+      handleFileChange(e);
     }
   }
 };
+
+
 
 const handleDelete = () => {
   setImagePreview(null);
@@ -56,17 +60,17 @@ const handleDelete = () => {
         {field.title} <span>{field.required && '*'}</span>:
       </FormLabel>
       <Input
-        placeholder={field.title}
-        value={formData[field.value] || ''} 
+        // placeholder={field.title}
+        // value={formData[field.value] || ''} 
         name={field.value} 
-        type={field.dataType} 
-        onChange={handleFileChange}
+        type="file" 
+        onChange={onFileChange}
         required={field.required}
         style={{ display: imagePreview ? 'none' : 'block' }}
       />  
        {imagePreview && (
-        <div style={{ marginTop: '10px', position: 'relative' }}>
-          <img src={imagePreview} alt="Preview" style={{ height: "100px", width: "auto" }} />  
+        <div >
+          <img src={imagePreview} alt="Preview" style={{ height: "100px" }} />  
           <IconButton
             onClick={handleDelete}
             sx={{ position: 'relative', color: 'black' }}
@@ -75,7 +79,7 @@ const handleDelete = () => {
           </IconButton>
         </div> 
       )} 
-       <Typography level="body-xs">Only (JPG, GIF, PNG) Allowed</Typography> 
+       <Typography sx={{fontSize:"14px"}} >Only (<strong>JPG, GIF, PNG</strong>) Allowed</Typography> 
       <FormHelperText>This is a helper text.</FormHelperText>
     </FormControl>
   );

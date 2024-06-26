@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Box, Typography, Input, Button, FormControl } from "@mui/joy";
 import { Site } from "./Sites";
+import { updateSites } from "../../../Redux/features/SitesSlice";
+import { ThunkDispatch } from "redux-thunk";
+import { RootState } from "../../../Redux/store";
+import { useDispatch } from "react-redux";
+import AppForm from "../../Common/AppForm";
 
 interface EditSiteDialogProps {
   open: boolean
@@ -8,33 +13,11 @@ interface EditSiteDialogProps {
   site: Site | null
   onSave: (updatedSite: Site) => void
 
-//   site: {
-//     id: number;
-//     sitename: string;
-//     description: string;
-//     address: string;
-//     aptSuite: string;
-//     city: string;
-//     state: string;
-//     zip: string;
-//     country: string;
-//   };
-//   sites: {
-//     id: number;
-//     sitename: string;
-//     description: string;
-//     address: string;
-//     aptSuite: string;
-//     city: string;
-//     state: string;
-//     zip: string;
-//     country: string;
-//   }[];
-//   setSites: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 const EditSiteDialog: React.FC<EditSiteDialogProps> = ({ open, onClose, site, onSave }) => {
     const [editedSite, setEditedSite] = useState<Site | null>(site)
+    const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
     React.useEffect(() => {
       setEditedSite(site)
@@ -50,22 +33,12 @@ const EditSiteDialog: React.FC<EditSiteDialogProps> = ({ open, onClose, site, on
       }
     }
 
-  // const handleEditSite = () => {
-  //     const updatedSites = { ...updatedSite};
-  //     setSites([updatedSites]);
-  //     onClose();
-  //   }
-
-    const handleSave = () => {
-      if (editedSite) {
-        onSave(editedSite)
-        onClose();
-      }
+    const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      await dispatch(updateSites(editedSite))
+      onClose()
     }
 
-  // if (!updatedSite) {
-  //   return null; 
-  // }
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -75,13 +48,13 @@ const EditSiteDialog: React.FC<EditSiteDialogProps> = ({ open, onClose, site, on
           Edit Site
         </Typography>
         {editedSite && (
-        <form onSubmit={handleSave}>
+        <AppForm onSubmit={handleSave}>
 
           <FormControl sx={{ mb: 2 }}>
         <Input
           placeholder="Site Name"
-          name="sitename"
-          value={editedSite.sitename}
+          name="siteName"
+          value={editedSite.siteName}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}
@@ -139,9 +112,9 @@ const EditSiteDialog: React.FC<EditSiteDialogProps> = ({ open, onClose, site, on
         </FormControl>
         <FormControl sx={{ mb: 2 }}>
         <Input
-          placeholder="Zip"
-          name="zip"
-          value={editedSite.zip}
+          placeholder="Zip Code"
+          name="zipCode"
+          value={editedSite.zipCode}
           onChange={handleChange}
           fullWidth
           sx={{ mb: 2 }}
@@ -161,9 +134,9 @@ const EditSiteDialog: React.FC<EditSiteDialogProps> = ({ open, onClose, site, on
           <Button onClick={onClose} sx={{ mr: 1 }}>
             Cancel
           </Button>
-          <Button type="submit" onClick={handleSave}>Update</Button>
+          <Button type="submit">Update</Button>
         </Box>
-        </form>
+        </AppForm>
         )}
       </Box>
     </Modal>

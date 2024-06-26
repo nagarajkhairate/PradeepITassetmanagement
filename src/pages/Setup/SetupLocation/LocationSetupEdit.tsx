@@ -21,7 +21,7 @@ import { ThunkDispatch } from 'redux-thunk'
 
 type Location = {
   id: number
-  location: string
+  locations: string
 }
 
 interface Props {
@@ -41,10 +41,10 @@ export function LocationSetupEdit({ locationName,
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
-  const locations = useSelector((state: RootState) => state.locations.data)
+  const location = useSelector((state: RootState) => state.location.data)
 // const dispatch = useDispatch<AppDispatch>()
-console.log(locations)
-const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
+console.log(location)
+const selectedLocation = selectedCell !== null ? location[selectedCell] : null
 
 
   const handleCheckboxChange = (index: number) => {
@@ -53,7 +53,7 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
         ? prevSelected.filter((item) => item !== index)
         : [...prevSelected, index],
     )
-    setSelectedCell(index)
+
   }
 
   const handleClickEditOpen = () => {
@@ -106,7 +106,7 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (selectedCell !== null) {
-      dispatch(deleteLocation(locations[selectedCell].id))
+      dispatch(deleteLocation(location[selectedCell].id))
       setDeleteOpen(false)
       setSelectedCell(null)
       setMatchedSelected((prevSelected) =>
@@ -116,10 +116,10 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
   }
 
 
-  const handleDeleteButton = () => {
-    if (selectedCell !== null) {
+  const handleDeleteButton = (index:number) => {
+    setSelectedCell(index)
       handleDeleteOpen()
-    }
+    
   }
 
   const handleDeleteOpen = () => {
@@ -133,12 +133,12 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
 
   useEffect(() => {
     setSelectedCell(null)
-  }, [locations])
+  }, [location])
 
-  const handleEdit = () => {
-    if (selectedCell !== null) {
+  const handleEdit = (index:number) => {
+    setSelectedCell(index)
       handleClickEditOpen()
-    }
+    
   }
 
   return (
@@ -154,41 +154,41 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
       <Table borderAxis="both" style={{ borderCollapse: 'collapse' }}>
           <thead>
             <tr>
-              <th style={{ width: 30 }}>
+              <th style={{ width: 30,background: '#fff8e6'  }}>
                 <Checkbox
                   size="sm"
                   indeterminate={
                     matchedSelected.length > 0 &&
-                    matchedSelected.length < locations.length
+                    matchedSelected.length < location.length
                   }
                   checked={
                     matchedSelected.length > 0 &&
-                    matchedSelected.length === locations.length
+                    matchedSelected.length === location.length
                   }
                   onChange={(event) => {
                     const isChecked = event.target.checked
                     setMatchedSelected(
                       isChecked
-                        ? locations.map((_, index) => index)
+                        ? location.map((_, index) => index)
                         : [],
                     )
                   }}
                   color={
                     matchedSelected.length > 0 &&
-                    matchedSelected.length === locations.length
+                    matchedSelected.length === location.length
                       ? 'primary'
                       : undefined
                   }
                   sx={{ verticalAlign: 'text-bottom' }}
                 />
               </th>
-              <th>Location</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              <th style={{ background: '#fff8e6' }}>Location</th>
+              <th style={{ background: '#fff8e6' }}>Edit</th>
+              <th style={{ background: '#fff8e6' }}>Delete</th>
             </tr>
           </thead>
               <tbody>
-              {locations.length > 0 ? locations.map((custom, index) => (
+              {location.length > 0 ? location.map((custom, index) => (
                     <tr key={custom.id}>
                       <td>
                         <Checkbox
@@ -201,12 +201,16 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
     
                       <td>
                         <Button
-                          onClick={() => handleEdit()}
+                          onClick={() => handleEdit(index)}
                           sx={{
+                            fontSize: '13px',
                             background: '#ffffff',
                             color: 'green',
                             display: 'flex',
-                            justifyContent: {md:'flex-end', xs:'center'},
+                            justifyContent: {
+                              md: 'flex-end',
+                              xs: 'center',
+                            },
                             marginLeft: 'none',
                             border: '1px solid green ',
                             borderRadius: '13px',
@@ -214,21 +218,25 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
                               color: 'white',
                               background: 'green',
                             },
+                            padding: ".25rem .55rem"
                           }}
+                          
                         >
-                          <EditOutlinedIcon />
+                          <EditOutlinedIcon sx={{ fontSize: '15px' }}/>
                           Edit
                         </Button>
                       </td>
     
                       <td>
                         <Button
-                          onClick={() => handleDeleteButton()}
+                          onClick={() => handleDeleteButton(index)}
                           sx={{
+                            fontSize: '13px',
                             background: '#ffffff',
                             color: '#d32f2f',
                             display: 'flex',
-                            justifyContent: {md:'flex-end',xs:'center'},
+                            justifyContent: { md: 'flex-end', xs: 'center' },
+                            
                             marginLeft: 'none',
                             border: '1px solid red ',
                             borderRadius: '13px',
@@ -236,9 +244,10 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
                               color: 'white',
                               background: '#d32f2f',
                             },
+                            padding: ".5rem .15rem"
                           }}
-                        >
-                          <DeleteForeverIcon />
+                        > 
+                          <DeleteForeverIcon sx={{ fontSize: '15px' }}/>
                           Delete
                         </Button>
                       </td>

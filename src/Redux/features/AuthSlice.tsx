@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
  
-interface SitesState {
+interface AuthState {
   data: any[];
   selectedSites: any | null;
   loading: boolean;
   error: string | null;
 }
-const initialState: SitesState = {
+const initialState: AuthState = {
   data: [],
   selectedSites: null,
   loading: false,
@@ -26,7 +26,6 @@ export const fetchSites = createAsyncThunk('sites/fetchSites', async () => {
     console.error('Error Message'+ error);
     throw error;
   }
-
 });
 
 
@@ -41,14 +40,14 @@ export const fetchSitesById = createAsyncThunk('sites/fetchSitesById', async (id
  
 });
  
-export const addSites = createAsyncThunk('sites/addSites', async (sites: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/site`, sites);
+export const loginAccount = createAsyncThunk('tenant/login', async (account: any) => {
+ const response = await axios.post(`${base_api_key_url}tenant/login`, account);
   return response.data;
 });
  
 export const updateSites = createAsyncThunk('sites/updateSites', async (updatedSites: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/site/${updatedSites.id}`, updatedSites);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/site/${updatedSites.id}/`, updatedSites);
   return response.data;
 });
  
@@ -57,8 +56,8 @@ export const deleteSites = createAsyncThunk('sites/deleteSites', async (id: numb
   return id;
 });
  
-const SitesSlice = createSlice({
-  name: 'sites',
+const AuthSlice = createSlice({
+  name: 'login',
   initialState,
   reducers: {
     setSelectedCustomer: (state, action: PayloadAction<number>) => {
@@ -84,7 +83,7 @@ const SitesSlice = createSlice({
         state.loading = false;
         state.data.push(action.payload);
       })
-      .addCase(addSites.fulfilled, (state, action) => {
+      .addCase(loginAccount.fulfilled, (state, action) => {
         state.data.push(action.payload);
       })
       .addCase(updateSites.fulfilled, (state, action) => {
@@ -100,6 +99,6 @@ const SitesSlice = createSlice({
   },
 });
  
-export const { setSelectedCustomer } = SitesSlice.actions;
+export const { setSelectedCustomer } = AuthSlice.actions;
  
-export default SitesSlice.reducer;
+export default AuthSlice.reducer;

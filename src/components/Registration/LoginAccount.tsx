@@ -1,12 +1,20 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { Box, Typography, Button, Input, FormLabel } from "@mui/joy";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "../../Redux/store";
+import  { loginAccount } from '../../Redux/features/AuthSlice';
+import { ThunkDispatch } from "redux-thunk";
+import AppForm from "../Common/AppForm";
 
 const LoginAccount: React.FC = () => {
+  const dispatch: ThunkDispatch<RootState,void, any> = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const [loginSuccess, setLoginSuccess] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -16,10 +24,15 @@ const LoginAccount: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Here you can perform actions like authentication or form validation
-    console.log(formData); // For now, just log the form data
+    try {
+      await dispatch(loginAccount(formData))
+      setLoginSuccess(true); 
+    }catch (error) {
+      console.error("Login failed:", error);
+      setLoginSuccess(false); // Reset login success state if login fails
+    }
   };
 
   return (
@@ -35,7 +48,7 @@ const LoginAccount: React.FC = () => {
             background: "#ffffff",
           }}
         >
-          <form onSubmit={handleSubmit}>
+          <AppForm onSubmit={handleSubmit}>
             <Box
               sx={{
                 display: "flex",
@@ -106,7 +119,7 @@ const LoginAccount: React.FC = () => {
                 </Button>
               </Box>
             </Box>
-          </form>
+          </AppForm>
         </Box>
       </div>
     </>

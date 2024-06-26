@@ -28,9 +28,9 @@ const SelectField: FunctionComponent<Props> = ({
         {field.title}{field.isRequired && <span style={{ color:"red"}}>*</span>}:
       </FormLabel>
       <Select
-        placeholder= {field.title}
+        // placeholder= {field.title}
         value={controlledValue}
-        sx={{ minWidth: 235 }}
+        sx={{ minWidth: 228 }}
         onChange={handleSelect}
         disabled={mode ==='view'? true: false}
         required={field.isRequired}

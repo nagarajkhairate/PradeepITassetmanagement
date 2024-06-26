@@ -58,7 +58,7 @@ interface DataProps {
  
  
  
-const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
+const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
     setMatchedSelected,
     dataBases,
     setDataBases,
@@ -84,7 +84,12 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
         dataRequired: false,
         selectedCategories: "",
       });
-  
+    const [showDepreciationOptions, setShowDepreciationOptions] =useState<boolean>(false);
+    const handleDepreciationChange = (event: ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+      setShowDepreciationOptions(value === "Yes");
+      // setCompanyFormData((prevState: any) => ({ ...prevState, assetDepreciation: value }));
+    };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target;
@@ -133,20 +138,15 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
                   overflowX: "auto",
                 }}
               >
-                  <Box   sx={{
-    overflowX: 'auto', 
-    fontSize: '14px',
-    whiteSpace: 'nowrap', 
-  }}>
                 <Table
                   borderAxis="both"
                   sx={{
-                    mt:'10px', border: '1px solid grey', minWidth: '900px'
+                    mt:'10px'
                   }}
                 >
                   <thead>
                     <tr>
-                      <th style={{ width: 30, background: '#fff8e6' }}>
+                      <th style={{ width: 30 }}>
                         <Checkbox
                           size="sm"
                           indeterminate={
@@ -174,12 +174,12 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
                           sx={{ verticalAlign: "text-bottom" }}
                         />
                       </th>
-                      <th style={{ background: '#fff8e6' }}>Field Name</th>
-                      <th style={{ background: '#fff8e6' }}>Data Type</th>
-                      <th style={{ background: '#fff8e6' }}>Required</th>
-                      <th style={{ background: '#fff8e6' }}>Category</th>
-                      <th style={{ background: '#fff8e6' }}>Edit</th>
-                      <th style={{ background: '#fff8e6' }}>Delete</th>
+                      <th>Field Name</th>
+                      <th>Data Type</th>
+                      <th>Required</th>
+                      <th>Category</th>
+                      <th>Edit</th>
+                      <th>Delete</th>
  
                     </tr>
                   </thead>
@@ -250,7 +250,7 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
               )}
                   </tbody>
                 </Table>
-              </Box>
+ 
  
                 <Modal
                   open={editOpen}
@@ -479,4 +479,4 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
               </Stack>
     )
 }
-export default DataBaseEdit;
+export default EditDataBase;

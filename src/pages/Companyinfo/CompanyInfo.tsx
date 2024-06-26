@@ -14,22 +14,29 @@ import Category from "../../components/Companyinfo/Category/Category";
 import DataBase from "../../components/Companyinfo/Database/DataBase";
 import EventOption from "../../components/Companyinfo/EventOption/EventOption";
 import AppView from "../../components/Common/AppView";
-
+import { fetchOptions } from "../../Redux/features/TabsSlice";
+import { ThunkDispatch } from "redux-thunk";
+import { RootState } from "../../Redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 const CompanyInfo = () => {
   const [companyFormData, setCompanyFormData] = React.useState({});
-  const [siteFormData, setSiteFormData] = React.useState({});
-  const [tableFormData, setTableFormData] = React.useState({});
   const [activeTab, setActiveTab] = React.useState(0);
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
+  React.useEffect(() => {
+    dispatch(fetchOptions())
+  }, [dispatch])
 
   const tabs = [
-    { label: "Company", icon: <LanguageIcon fontSize="large" /> },
-    { label: "Sites", icon: <LanguageIcon fontSize="large" /> },
-    { label: "Locations", icon: <LanguageIcon fontSize="large" /> },
-    { label: "Categories", icon: <LanguageIcon fontSize="large" /> },
-    { label: "Database", icon: <LanguageIcon fontSize="large" /> },
-    { label: "TableOptions", icon: <LanguageIcon fontSize="large" /> },
-    { label: "EventOptions", icon: <LanguageIcon fontSize="large" /> },
+    { label: "1. Company", icon: <LanguageIcon sx={{fontSiz:{xs:"28px",md:"42px"} }}/> },
+    { label: "2. Sites", icon: <RoomOutlinedIcon sx={{fontSiz:{xs:"28px",md:"42px"} }}/> },
+    { label: "3. Locations", icon: <LanguageIcon sx={{fontSiz:{xs:"28px",md:"42px"} }}/> },
+    { label: "4. Categories", icon: <LanguageIcon sx={{fontSiz:{xs:"28px",md:"42px"} }}/> },
+    { label: "5. Database", icon: <LanguageIcon sx={{fontSiz:{xs:"28px",md:"42px"} }}/> },
+    { label: "6. TableOptions", icon: <LanguageIcon sx={{fontSiz:{xs:"28px",md:"42px"} }}/> },
+    { label: "7. EventOptions", icon: <LanguageIcon sx={{fontSiz:{xs:"28px",md:"42px"} }}/> },
   ];
 
   return (
@@ -38,6 +45,7 @@ const CompanyInfo = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
+          justifyContent:"center",
           alignItems: "center",
           width: "100%",
         }}
@@ -46,16 +54,25 @@ const CompanyInfo = () => {
           <TabList
             sx={{
               display: "flex",
-              justifyContent: "space-around",
-              width: "100%",
               flexDirection: { xs: "column", sm: "column", md: "row" },
+              justifyContent:"center",
+              alignItems:"center",
+              width: "100%",
+              padding:{ xs: "14px", sm: "14px", md: "20px" }
             }}
           >
             {tabs.map((tab, index) => (
               <Tab
                 key={index}
+                onClick={() => setActiveTab(index)}
               >
-                <IconButton>
+                <Box
+                sx={{display:"flex",
+                  flexdirection: { md: "column", sm: "column", xs: "row" },
+                  alignItems:"center"
+                 }}>
+                  <Box>
+                  <IconButton>
                   {React.cloneElement(tab.icon, {
                     style: { color: index <= activeTab ? "#FBC21E" : "inherit" },
                   })}
@@ -65,7 +82,27 @@ const CompanyInfo = () => {
                     />
                   )}
                 </IconButton>
-                <Typography level="h4">{tab.label}</Typography>
+                  </Box>
+             <Box>
+             <Typography sx={{fontSize:"15.4px", marginLeft: { xs: "0", md: "0" } }}><strong>{tab.label}</strong></Typography>
+
+             </Box>
+                </Box>
+                {/* <Box
+                sx={{display:"flex",
+                 flexdirection: { md: "column", sm: "column", xs: "row" },
+                 alignItems:"center",
+                 gap:{xs:8 , md:auto},
+                }}
+                >
+                <Typography sx={{fontSize:"15.4px"}}><strong>{tab.label}</strong></Typography>
+                {index < tabs.length - 1 && (
+                <strong><ArrowForwardIosIcon
+                  style={{ fontSize:"10px",marginLeft: '8px', marginRight: '8px' }}
+                />
+                </strong>
+              )}
+              </Box> */}
               </Tab>
             ))}
           </TabList>

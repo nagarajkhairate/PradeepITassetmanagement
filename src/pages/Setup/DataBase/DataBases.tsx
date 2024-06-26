@@ -10,22 +10,14 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
-import DataBaseAdd from './DataBaseAdd'
-import DataBaseEdit from './DataBaseEdit'
+import AddDataBase from './AddDataBase'
+import EditDataBase from './EditDataBase'
 import AppView from '../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../../Redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchDataBase } from '../../../Redux/features/DataBaseSlice'
-
-interface DataBaseProps {
-  companyFormData: any
-  setCompanyFormData: any
-  activeTab: number
-  setActiveTab: (tab: number) => void
-  id: number
-}
 
 const customDefaultFields = [
   {
@@ -177,25 +169,28 @@ const customDefaultFields = [
   },
 ]
 
-const DataBases: React.FunctionComponent<DataBaseProps> = ({
-  companyFormData,
-  setCompanyFormData,
-  activeTab,
-  setActiveTab,
-  id,
-}) => {
+const DataBases: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
+
+  const dataBase = useSelector((state: RootState) => state.dataBase.data)
+  // const dispatch = useDispatch<AppDispatch>()
+  console.log(dataBase)
+
+  React.useEffect(() => {
+    dispatch(fetchDataBase())
+  }, [])
+
   const [dataBases, setDataBases] = useState({
     customAssetFields: [],
-    customDefaultFields: customDefaultFields.map((item) => ({
+    customDefaultFields: customDefaultFields.map(item => ({
       id: item.id,
-      visible: item.visible,
+      visible:item.visible,
       fieldName: item.fieldName,
       required: item.required,
       description: item.description,
     })),
-  })
+  });
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
   const [editOpen, setEditOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
@@ -203,12 +198,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [eventForm, setEventForm] = useState<any>({})
 
-  const dataBase = useSelector((state: RootState) => state.dataBase.data)
-  console.log(dataBase)
-
-  React.useEffect(() => {
-    dispatch(fetchDataBase())
-  }, [])
+ 
 
   // const addCustomField = (custom: string) => {
   //   setDataBases((prevData) => ({
@@ -242,14 +232,23 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
       handleEditClose()
     }
   }
+
+  // const handleCheckboxChange = (index: number) => {
+  //   setMatchedSelected((prevSelected) =>
+  //     prevSelected.includes(index)
+  //       ? prevSelected.filter((item) => item !== index)
+  //       : [...prevSelected, index],
+  //   )
+  //   setSelectedCell(index)
+  // }
   const handleCheckboxChange = (index: number) => {
-    setDataBases((prevData) => ({
+    setDataBases(prevData => ({
       ...prevData,
       customDefaultFields: prevData.customDefaultFields.map((item, i) =>
         i === index ? { ...item, visible: !item.visible } : item,
       ),
-    }))
-  }
+    }));
+  };
 
   const handleDeleteButton = () => {
     if (selectedCell !== null) {
@@ -262,6 +261,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
     const updatedData = dataBases.customAssetFields.filter(
       (_, index) => index !== selectedCell,
     )
+    // setDataBases((prevData) => ({ ...prevData, data: updatedData }));
     setDataBases({ ...dataBases, customAssetFields: updatedData })
     setMatchedSelected([])
     setDeleteOpen(false)
@@ -282,57 +282,28 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
     }
   }
 
-  const HandleRadioSelect = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    index: number,
-  ) => {
-    const { value } = event.target
+  const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const { value } = event.target;
     setDataBases((prevData) => ({
       ...prevData,
       customDefaultFields: prevData.customDefaultFields.map((item, i) =>
-        i === index ? { ...item, required: value } : item,
+        i === index ? { ...item, required: value } : item
       ),
-    }))
-  }
+    }));
+  };
 
   console.log(JSON.stringify(dataBases, null, 2))
-
+  
   const generateJson = () => {
-    const jsonData = dataBases.customDefaultFields.map((item) => ({
+    const jsonData = dataBases.customDefaultFields.map(item => ({
       id: item.id,
-      visible: item.visible,
+      visible:item.visible,
       fieldName: item.fieldName,
       required: item.required,
       description: item.description,
-    }))
-    return JSON.stringify(jsonData, null, 2)
-  }
-
-  const handleNextTab = () => {
-    // Extracting only the necessary fields from dataBaseTable in dataBases
-    const transformedTableData = dataBases.customDefaultFields.map((item) => ({
-      id: item.id,
-      visible: item.visible,
-      fieldName: item.fieldName,
-      required: item.required,
-      description: item.description,
-    }))
-
-    setCompanyFormData((prevData: any) => ({
-      ...prevData,
-      dataBases: {
-        customAssetFields: dataBases.customAssetFields, // Assuming dataBases.data is handled separately
-        customDefaultFields: transformedTableData,
-      },
-    }))
-
-    // Increment the active tab
-    setActiveTab(activeTab + 1)
-  }
-
-  const handlePrevTab = () => {
-    setActiveTab(activeTab - 1)
-  }
+    }));
+    return JSON.stringify(jsonData, null, 2);
+  };
 
   return (
     <AppView>
@@ -341,7 +312,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
       >
         <SignpostOutlinedIcon
-          style={{ fontSize: '1.4rem', color: '#d32f2f' }}
+          style={{ fontSize: '1.4rem', color: '#FBC21E' }}
         />
         Database
       </Typography>
@@ -389,7 +360,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
                     <Checkbox />
                   </th>
                   <th style={{ minWidth: 180 }}>Field Name</th>
-                  <th style={{ minWidth: 200 }}>Date Required</th>
+                  <th style={{ minWidth: 200 }}>Data Required</th>
                   <th style={{ minWidth: 400 }}>Description</th>
                   <th style={{ minWidth: 150 }}>Example</th>
                 </tr>
@@ -399,33 +370,31 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
                   <tr key={index}>
                     <td>
                       <Checkbox
-                        checked={data.visible}
-                        onChange={() => handleCheckboxChange(index)}
+                      checked={data.visible} onChange={() => handleCheckboxChange(index)}
                       />
                     </td>
                     <td>{data.fieldName}</td>
                     <td>
                       {/* {data.required} */}
                       {data.visible && (
-                        <FormControl>
-                          <RadioGroup
-                            defaultValue="outlined"
-                            name="radio-buttons-group"
-                          >
-                            {data.option.map((opt: any) => (
-                              <Radio
-                                name={data.name}
-                                onChange={(event) =>
-                                  HandleRadioSelect(event, index)
-                                }
-                                key={opt.id}
-                                value={opt.value}
-                                label={opt.value}
-                                variant="outlined"
-                              />
-                            ))}
-                          </RadioGroup>
-                        </FormControl>
+                      <FormControl>
+                        <RadioGroup
+                          defaultValue="outlined"
+                          name="radio-buttons-group"
+                          
+                        >
+                          {data.option.map((opt: any) => (
+                            <Radio
+                              name={data.name}
+                              onChange={(event) => HandleRadioSelect(event, index)}
+                              key={opt.id}
+                              value={opt.value}
+                              label={opt.value}
+                              variant="outlined"
+                            />
+                          ))}
+                        </RadioGroup>
+                      </FormControl>
                       )}
                     </td>
                     <td>{data.description}</td>
@@ -438,21 +407,28 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
           </Box>
         </Box>
 
-        <b>Asset Custom Fields</b>
-        <Box sx={{ marginBottom: '2px' }}>
+        <Typography
+         level="h4"
+         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+        >
+        <SignpostOutlinedIcon
+          style={{ fontSize: '1.4rem', color: '#FBC21E' }}
+        />
+          Asset Custom Fields</Typography>
+        <Box>
           Add custom fields to join the standard fields that we provided. Feel
           free to get creative.
         </Box>
 
         <Box>
-          <DataBaseAdd
+          <AddDataBase
             dataBases={dataBases}
             setDataBases={setDataBases}
             // addCustomField={addCustomField}
             deleteCustomField={deleteCustomField}
           />
 
-          <DataBaseEdit
+          <EditDataBase
             matchedSelected={matchedSelected}
             setMatchedSelected={setMatchedSelected}
             dataBases={dataBases}
@@ -494,7 +470,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
               borderRadius: '15px',
             }}
             component="label"
-            onClick={handlePrevTab}
+            // onClick={handlePrevTab}
           >
             <NavigateBeforeOutlinedIcon />
             Back
@@ -507,7 +483,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
               borderRadius: '15px',
             }}
             component="label"
-            onClick={handleNextTab}
+            // onClick={handleNextTab}
           >
             Continue
             <NavigateNextOutlinedIcon />{' '}
