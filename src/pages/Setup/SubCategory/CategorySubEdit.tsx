@@ -27,18 +27,20 @@ type SubCategory = {
 
 interface Props {
   categories1: SubCategory[];
-  // onCategoryChange: (updatedCategories: SubCategory[]) => void;
+  matchedSelected: number[];
+  setMatchedSelected: React.Dispatch<React.SetStateAction<number[]>>;
+  handleDeleteOpen: () => void;
 }
 
 export function CategorySubEdit({ categories1, 
-  // onCategoryChange 
+  matchedSelected,
+  setMatchedSelected,
+  handleDeleteOpen,
 }: Props) {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
   // const [lapCat, setLapCat] = useState<{ data: SubCategory[] }>({ data: [] });
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
   const [editOpen, setEditOpen] = useState<boolean>(false);
-  const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   
@@ -85,10 +87,14 @@ const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] 
     e.preventDefault()
     if (selectedSubCategory !== null) {
       const subCategory = (e.target as any).subCategory.value
-      const updatedCategory = { ...selectedSubCategory, subCategory }
+      const updatedCategory = { ...selectedSubCategory, subCategory:capitalizeWords(subCategory) }
       dispatch(updateSubCategories(updatedCategory))
       handleEditClose()
     }
+  }
+
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase())
   }
 
   const handleDeleteButton = (index:number) => {
@@ -98,34 +104,17 @@ const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] 
   };
 
   // const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   const updatedData = lapCat.data.filter((_, index) => index !== selectedCell);
-  //   setLapCat({ ...lapCat, data: updatedData });
-  //   setMatchedSelected([]);
-  //   setDeleteOpen(false); // Close the delete dialog after deletion
-  //   onCategoryChange(updatedData);
-  // };
+  //   e.preventDefault()
+  //   if (selectedCell !== null) {
+  //     dispatch(deleteSubCategories(subCategories[selectedCell].id))
+  //     setDeleteOpen(false)
+  //     setSelectedCell(null)
+  //     setMatchedSelected((prevSelected) =>
+  //       prevSelected.filter((item) => item !== selectedCell),
+  //     )
+  //   }
+  // }
 
-  const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (selectedCell !== null) {
-      dispatch(deleteSubCategories(subCategories[selectedCell].id))
-      setDeleteOpen(false)
-      setSelectedCell(null)
-      setMatchedSelected((prevSelected) =>
-        prevSelected.filter((item) => item !== selectedCell),
-      )
-    }
-  }
-
-  const handleDeleteOpen = () => {
-    setDeleteOpen(true);
-  };
-
-  const handleDeleteClose = () => {
-    setDeleteOpen(false);
-    setMatchedSelected([]);
-  };
 
   useEffect(() => {
     setSelectedCell(null);
@@ -149,10 +138,27 @@ const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] 
           justifyContent: "space-between",
         }}
       >
-        <Table borderAxis="both" style={{ width: "100%", borderCollapse: "collapse" }}>
+        <Box
+              sx={{
+                overflowX: 'auto',
+                fontSize: '14px',
+                whiteSpace: 'nowrap',
+                borderRadius:'5px'
+              }}
+            >
+        <Table 
+        // borderAxis="both" style={{ width: "100%", borderCollapse: "collapse" }}
+        borderAxis="both" aria-label="basic table" 
+        style={{
+                  borderCollapse: 'collapse',
+                  border: '1px solid grey',
+                  minWidth: '500px',
+                  borderRadius:'5px'
+                }}
+        >
           <thead>
             <tr>
-              <th style={{width:30}}>
+              <th style={{width:30, background: '#fff8e6'}}>
                 <Checkbox
                   size="sm"
                   indeterminate={
@@ -175,9 +181,9 @@ const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] 
                   sx={{ verticalAlign: "text-bottom" }}
                 />
               </th>
-              <th>Sub Category</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              <th style={{ background: '#fff8e6' }}>Sub Category</th>
+              <th style={{ background: '#fff8e6' }}>Edit</th>
+              <th style={{ background: '#fff8e6' }}>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -238,7 +244,7 @@ const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] 
             
           </tbody>
         </Table>
-
+              </Box>
         <Modal
          
           open={editOpen}
@@ -368,11 +374,7 @@ const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] 
           </Sheet>
         </Modal> */}
 
-<CategorySubDelete
-          open={deleteOpen}
-          handleDeleteClose={handleDeleteClose}
-          handleDeleteSubmit={handleDeleteSubmit}
-        />
+
       </Stack>
     </>
   );

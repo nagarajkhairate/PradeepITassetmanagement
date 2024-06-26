@@ -18,7 +18,7 @@ interface LocationAddProps {
   }
 
   const LocationAdd: React.FC<LocationAddProps> = ({open, setOpen}) => {
-    const [locationForm, setLocationForm] = useState()
+    const [locationForm, setLocationForm] =useState<{ [key: string]: any }>({})
     const sites = useSelector((state:RootState) => state.sites.data);
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
@@ -28,14 +28,29 @@ interface LocationAddProps {
         dispatch(fetchSites())
       },[dispatch])
 
+      // const handleAddLocation = (e: React.FormEvent<HTMLFormElement>) => {
+      //   e.preventDefault()
+      //  console.log(JSON.stringify(locationForm))
+      //  dispatch(addLocation(locationForm))
+      //  setOpen()
+      // }
+
       const handleAddLocation = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-       console.log(JSON.stringify(locationForm))
-       dispatch(addLocation(locationForm))
-       setOpen()
-        
+        const capitalizedForm = {
+          ...locationForm,
+          location: capitalizeWords(locationForm.location || '')
+        }
+        console.log(JSON.stringify(capitalizedForm))
+        dispatch(addLocation(capitalizedForm))
+        setOpen(false)
       }
 
+      const capitalizeWords = (str: string) => {
+        return str.replace(/\b\w/g, (char) => char.toUpperCase())
+      }
+
+      
       const HandleInputChange= (e: React.ChangeEvent<HTMLInputElement>)=>{
         const { name, value} = e.target
         setLocationForm((prevData:any)=>({

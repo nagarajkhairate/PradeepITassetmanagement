@@ -24,6 +24,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { RootState } from "../../../Redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSubCategories } from "../../../Redux/features/CategorySubSlice";
+import CategorySubDelete from "./CategorySubDelete";
 
 
 type SubCategory = {
@@ -38,7 +39,7 @@ const CategorySub: React.FunctionComponent = () => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [subCategory, setSubCategory] = useState<string>("");
-  // const [categories, setCategories] = useState<SubCategory[]>([]);
+  const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
 
   const subCategories = useSelector((state: RootState) => state.subCategories.data)
   // const dispatch = useDispatch<AppDispatch>()
@@ -49,27 +50,41 @@ const CategorySub: React.FunctionComponent = () => {
     console.log("subCategory: ", JSON.stringify(updatedCategories));
   };
 
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-  // const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault()
-  //   const newCategory: SubCategory = {
-  //     id: subCategories.length ? subCategories[subCategories.length - 1].id + 1 : 1,
-  //     subCategory: subCategory,
-  //   }
-  //   // setCategories([...categories, newCategory])
-  //   dispatch(addSubCategory(newCategory))
-  //   setSubCategory('') // Clear the input field after adding
-  //   // handleClose()
-  // }
+  const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const newCategory: SubCategory = {
+      id: subCategories.length ? subCategories[subCategories.length - 1].id + 1 : 1,
+      subCategory: capitalizeWords(subCategory),
+    }
+    // setCategories([...categories, newCategory])
+    // dispatch(addSubCategory(newCategory))
+    setSubCategory('') // Clear the input field after adding
+    // handleClose()
+  }
 
-  
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase())
+  }
+
+
+  const handleDeleteOpen = () => {
+    setDeleteOpen(true)
+  }
+  const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
+
+  const handleDeleteClose = () => {
+    setDeleteOpen(false)
+    setMatchedSelected([])
+  }
+
   React.useEffect(() => {
     dispatch(fetchSubCategories())
   }, [])
@@ -166,6 +181,30 @@ const CategorySub: React.FunctionComponent = () => {
         // handleAddCategory={handleAddCategory}
       />
       </Modal>}
+
+      {matchedSelected.length > 0 && (
+          <Button
+            onClick={handleDeleteOpen}
+            autoFocus
+              variant="solid"
+            sx={{
+              fontSize: '13px',
+              // background: '#ffffff',
+              borderRadius: '15px',
+              // color: '#d32f2f',
+              background: '#d32f2f',
+              display: 'flex',
+              justifyContent: { md: 'flex-end', xs: 'center' },
+              marginLeft: 'none',
+              border: '1px solid red',
+              
+              padding: '.5rem .10rem',
+            }}
+          >
+            {/* <DeleteForeverIcon sx={{ fontSize: '15px' }} /> */}
+            Delete Categories
+          </Button>
+        )}
 
                   <Button
                     autoFocus
@@ -342,13 +381,21 @@ const CategorySub: React.FunctionComponent = () => {
             <Box>
               <CategorySubEdit
                 categories1={subCategories}
+                matchedSelected={matchedSelected}
+                setMatchedSelected={setMatchedSelected}
+                handleDeleteOpen={handleDeleteOpen}
                 // onCategoryChange={handleCategoryChange}
               />
             </Box>
             <Divider />
           </Box>
 
-        
+          <CategorySubDelete
+          open={deleteOpen}
+          handleDeleteClose={handleDeleteClose}
+         
+          categories1={subCategories}
+        />
     </AppView>
   );
 };

@@ -9,44 +9,29 @@ interface Location {
 
 interface LocationDeleteProps {
     // locationName: Location[]
-    onLocationChange: (deletedData: Location[]) => void
+    // onLocationChange: (deletedData: Location[]) => void
     setMatchedSelected: React.Dispatch<React.SetStateAction<number[]>>
     setSelectedCell: React.Dispatch<React.SetStateAction<number | null>>
     locDatas: { locationData: Location[] }
     setLocDatas: React.Dispatch<React.SetStateAction<{ locationData: Location[] }>>
     selectedCell: number | null;
+    handleDeleteClose: () => void;
+    open:boolean
   }
 
   
 
   const LocationDelete: React.FunctionComponent<LocationDeleteProps> = (
     { 
-        // locationName,
-        selectedCell, 
-        onLocationChange, 
+      open,  
+      handleDeleteClose,
+      selectedCell, 
+        // onLocationChange, 
         setMatchedSelected, 
         setSelectedCell, 
+       
         locDatas, setLocDatas }) => {
-    const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
-
-
-
-    const handleDeleteOpen = () => {
-        setDeleteOpen(true)
-      }
     
-      const handleDeleteClose = () => {
-        setDeleteOpen(false)
-        setMatchedSelected([])
-        
-      }
-
-      const handleDeleteButton = () => {
-        if (selectedCell !== null) {
-          handleDeleteOpen()
-        }
-      }
-
     const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const deleteData = locDatas.locationData.filter(
@@ -54,15 +39,15 @@ interface LocationDeleteProps {
         )
         setLocDatas({ ...locDatas, locationData: deleteData })
         setMatchedSelected([])
-        setDeleteOpen(false)
+        handleDeleteClose()
         // dispatch(deleteLocation())
-        onLocationChange(deleteData)
+        // onLocationChange(deleteData)
       
       }
 
       return(
         <Modal
-          open={deleteOpen}
+          open={open}
           onClose={handleDeleteClose}
           aria-labelledby="responsive-dialog-title"
           aria-describedby="modal-desc"
