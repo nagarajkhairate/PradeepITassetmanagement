@@ -21,10 +21,10 @@ import { KeyboardArrowDown } from "@mui/icons-material";
 import AppView from "../../../components/Common/AppView";
 import CategorySubAdd from "./CategorySubAdd";
 import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../../Redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSubCategories } from "../../../Redux/features/CategorySubSlice";
 import CategorySubDelete from "./CategorySubDelete";
+import { RootState } from "../../../redux/store";
 
 
 type SubCategory = {
@@ -125,7 +125,7 @@ const CategorySub: React.FunctionComponent = () => {
                 >
                   <Typography
                     sx={{
-                      fontFamily: "Poppins",
+                   
                       fontSize: "20px",
                       fontWeight: 500,
                       lineHeight: "30px",

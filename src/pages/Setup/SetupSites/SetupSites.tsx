@@ -137,7 +137,7 @@ const SetupSites: React.FC = ({}) => {
               >
                 <Typography
                   sx={{
-                    fontFamily: 'Poppins',
+                   
                     fontSize: '20px',
                     fontWeight: 500,
                     lineHeight: '30px',

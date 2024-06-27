@@ -1,7 +1,6 @@
 import React from 'react'
 import { Box, Modal } from '@mui/joy'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../../../Redux/store'
 import { Typography, Divider } from '@mui/joy'
 import Button from '@mui/joy/Button'
 import { FormControl, FormLabel } from '@mui/joy'
@@ -25,6 +24,7 @@ import AddIcon from '@mui/icons-material/Add'
 import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import LocationDelete from './LocationDelete'
+import { RootState } from '../../../redux/store'
 // import { LocationDelete } from './LocationDelete'
 
 type Location = {
@@ -103,7 +103,7 @@ const LocationSetup: React.FunctionComponent = () => {
           >
             <Typography
               sx={{
-                // fontFamily: 'Poppins',
+                
                 fontSize: '20px',
                 fontWeight: 500,
                 lineHeight: '30px',

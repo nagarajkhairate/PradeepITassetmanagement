@@ -2,7 +2,7 @@ import { RouteType } from './config'
 import CompanyInfo from '../pages/Companyinfo/CompanyInfo'
 import { AddAnAsset, Alerts, AssetForm, Assets, AssetsPastDue, CategorySetup, CategorySub, CheckIn, CheckOut, ContractForm, CustomerForm, Dashboard, DataBasesEmp, Dispose, EditAssets, Event, Lease, LeaseReturn, LeasesExpiring, ListOfAssets, LocationSetup, Maintenance, MaintenanceForm, MaintenanceOverdue, MaintenancesDue, Move, PersonsEmployeesForm, Reserve, Setup, SetupCompInfo, SetupDept, SetupSites, SetupTableOptions, WarrantyExpiring, WarrantyForm } from './AllComponents'
 import { ICONS } from '../components/Common/AppIcon/AppIcon'
-
+import DataBases from '../pages/Setup/DataBase/DataBases'
 
 const appRoutes: RouteType[] = [
   {
@@ -245,6 +245,15 @@ const appRoutes: RouteType[] = [
         state: 'department',
         sidebarProps: {
           displayText: 'Department',
+          icon: <ICONS.person />,
+        },
+      },
+      {
+        path: '/setup/data-bases',
+        element: <DataBases />,
+        state: 'DataBasesEmp',
+        sidebarProps: {
+          displayText: 'DataBases',
           icon: <ICONS.person />,
         },
       },

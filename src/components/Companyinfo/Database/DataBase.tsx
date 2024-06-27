@@ -15,10 +15,10 @@ import DataBaseEdit from './DataBaseEdit'
 import AppView from '../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
-import { RootState } from '../../../Redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchDataBase } from '../../../Redux/features/DataBaseSlice'
-
+import { RootState } from '../../../redux/store'
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 interface DataBaseProps {
   companyFormData: any
   setCompanyFormData: any
@@ -341,9 +341,9 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
       >
         <SignpostOutlinedIcon
-          style={{ fontSize: '1.4rem', color: '#d32f2f' }}
+          style={{ fontSize: '1.4rem', color: '#FABC1E' }}
         />
-        Database
+        Step-4 Database
       </Typography>
 
       <Box
@@ -361,11 +361,25 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
           }}
         >
           <Typography
-            level="h4"
-            sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-          >
-            Asset Database Fields
-          </Typography>
+              sx={{
+             
+                fontSize: '20px',
+                fontWeight: 500,
+                lineHeight: '30px',
+                textAlign: { xs: 'center', md: 'left' },
+                whiteSpace: 'nowrap',
+              }}
+            >
+              <TuneOutlinedIcon
+                    sx={{
+                      fontSize: '16px',
+                      color: '#FABC1E',
+                      alignItems: 'center',
+                    }}
+                  />
+              
+              Asset Database Fields
+            </Typography>
         </Box>
 
         <Box
@@ -373,25 +387,27 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
             textAlign: { xs: 'center', md: 'left' },
           }}
         >
-          <Box sx={{ mt: 3 }}>
-            <Typography level="body-xs">
+          <Box sx={{ mt: 2 }}>
+            <Typography>
               Fill in the appropriate fields for your assets. Asset Tag ID and
               Asset Description are the only required fields. Check the boxes
               next to the field names you want to include.
             </Typography>
           </Box>
 
-          <Box sx={{ mt: '10px', overflowX: 'auto' }}>
+          <Box sx={{overflowX: 'auto',
+            fontSize: '14px',
+            whiteSpace: 'nowrap', }}>
             <Table borderAxis="both">
               <thead>
                 <tr>
-                  <th style={{ width: 30 }}>
+                  <th style={{ width: 30, background: '#fff8e6',verticalAlign:'middle' }}>
                     <Checkbox />
                   </th>
-                  <th style={{ minWidth: 180 }}>Field Name</th>
-                  <th style={{ minWidth: 200 }}>Date Required</th>
-                  <th style={{ minWidth: 400 }}>Description</th>
-                  <th style={{ minWidth: 150 }}>Example</th>
+                  <th style={{   background: '#fff8e6', verticalAlign:'middle' }}>Field Name</th>
+                  <th style={{ background: '#fff8e6', verticalAlign:'middle' }}>Date Required</th>
+                  <th style={{ background: '#fff8e6', verticalAlign:'middle' }}>Description</th>
+                  <th style={{  background: '#fff8e6', verticalAlign:'middle' }}>Example</th>
                 </tr>
               </thead>
               <tbody>
@@ -434,8 +450,9 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
                 ))}
               </tbody>
             </Table>
+            </Box>
             <Divider sx={{ my: '30px' }}></Divider>
-          </Box>
+          
         </Box>
 
         <b>Asset Custom Fields</b>
@@ -491,7 +508,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
             sx={{
               background: '#388e3c',
               color: 'white',
-              borderRadius: '15px',
+              borderRadius:'15px'
             }}
             component="label"
             onClick={handlePrevTab}
@@ -502,9 +519,10 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
           <Button
             variant="solid"
             sx={{
-              background: '#fdd835',
-              color: 'white',
-              borderRadius: '15px',
+              background: "#FABC1E",
+              color: "black",
+              "&:hover": { background: "#E1A91B" },
+              borderRadius:'15px'
             }}
             component="label"
             onClick={handleNextTab}

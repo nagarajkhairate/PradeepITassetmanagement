@@ -40,9 +40,6 @@ interface LocationDeleteProps {
         setLocDatas({ ...locDatas, locationData: deleteData })
         setMatchedSelected([])
         handleDeleteClose()
-        // dispatch(deleteLocation())
-        // onLocationChange(deleteData)
-      
       }
 
       return(
@@ -89,18 +86,6 @@ interface LocationDeleteProps {
                   <Box sx={{ marginBottom: '20px', padding: '20px' }}>
                     Are you sure you want to delete this Location?
                   </Box>
-                  {/* <Input
-                    variant="outlined"
-                    // type="text"
-                    // id="location"
-                    // name="location"
-                    required
-                    sx={{ width: '92%', marginLeft: '20px' }}
-                    defaultValue={
-                      selectedCell !== null
-                        ? locData.locationData[selectedCell].location: ''
-                    }
-                  /> */}
                 </FormControl>
                 <Button
                   autoFocus
