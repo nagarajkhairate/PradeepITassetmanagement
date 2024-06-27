@@ -8,27 +8,37 @@ import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined'
 import { CompanyInfoFields } from './Data'
 import AppForm from '../../../components/Common/AppForm'
 import FieldComponent from '../../../utils/FieldComponent'
-import { RootState } from '../../../Redux/store'
 import { useDispatch } from 'react-redux'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-
 import {
   addCompanyInfo,
   fetchCompanyInfo,
 } from '../../../Redux/features/CompanyInfoSlice'
 import { ThunkDispatch } from 'redux-thunk'
+import { RootState } from '../../../redux/store'
 
 const SetupCompInfo: React.FC = ({}) => {
   const [formData, setFormData] = useState<{
     [key: string]: string | File | null
   }>({})
   const [file, setFile] = useState<File | null>(null)
+  const [zipCodeError, setZipCodeError] = useState<string | null>(null)
   const [open, setOpen] = useState(false)
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
+
+    if (name === 'zipCode') {
+      const zipCodeRegex = /^\d*$/
+      if (!zipCodeRegex.test(value)) {
+        setZipCodeError('Zip Code must be numeric')
+        return
+      } else {
+        setZipCodeError(null)
+      }
+    }
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -56,6 +66,15 @@ const SetupCompInfo: React.FC = ({}) => {
     }
   }
 
+  const capitalizeKeys = (data: { [key: string]: any }) => {
+    const result: { [key: string]: any } = {};
+    for (const key in data) {
+      const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
+      result[capitalizedKey] = data[key];
+    }
+    return result;
+  };
+
   const handleEdit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formDataToSend = new FormData()
@@ -74,9 +93,14 @@ const SetupCompInfo: React.FC = ({}) => {
   console.log('Form Data:', JSON.stringify(formData))
 
   React.useEffect(() => {
-    dispatch(fetchCompanyInfo())
-  }, [dispatch])
-
+    const fetchData = async () => {
+      const data = await dispatch(fetchCompanyInfo());
+      const capitalizedData = capitalizeKeys(data);
+      setFormData(capitalizedData);
+    };
+    fetchData();
+  }, [dispatch]);
+  
   return (
     <AppForm onSubmit={handleEdit} encType="multipart/form-data">
       <Typography level="h4">

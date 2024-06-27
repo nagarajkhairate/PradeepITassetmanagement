@@ -28,6 +28,8 @@ interface CheckOutFormProps {
 }
 
 const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets}) => {
+  const [open, setOpen] = useState(false)
+
   const [formData, setFormData] = useState({
     id: "",
     assigned_to: "",
@@ -52,7 +54,12 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets}) => {
       ...formData,
       [name]: type === 'checkbox' ? checked : value
     });
+
+    handleClose()
   };
+
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
   const handleSelectChange = (name: string, newValue: string | null) => {
     setFormData({
@@ -333,7 +340,7 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets}) => {
         </Box>
 
         <Box mt={4} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button variant="plain" color="neutral" sx={{ marginRight: 2 }}>
+          <Button variant="plain" color="neutral" sx={{ marginRight: 2 }} onClick={handleClose}>
             Cancel
           </Button>
           <Button variant="solid" color="primary" onClick={handleFormSubmit}>

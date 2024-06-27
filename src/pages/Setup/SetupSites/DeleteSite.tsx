@@ -2,7 +2,7 @@ import React from "react";
 import { Modal, Box, Typography, Button } from "@mui/joy";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../../Redux/store";
+import { RootState } from "../../../redux/store";
 
 interface DeleteSiteProps {
     deleteOpen: boolean;
@@ -17,7 +17,7 @@ const DeleteSite: React.FC<DeleteSiteProps> = ({ deleteOpen, handleDelete, handl
         <Modal open={deleteOpen} onClose={handleDeleteClose}>
             <Box sx={modalStyle}>
                 <Typography level="h4" sx={{ mb: 2 }}>Confirm Delete</Typography>
-                <Typography sx={{ mb: 3 }}>Are you sure you want to delete this site?</Typography>
+                <Typography sx={{ mb: 3 }}>Are you sure you want to delete this site(s)?</Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button onClick={handleDeleteClose} sx={{ mr: 1 }}>Cancel</Button>
                     <Button onClick={handleDelete} >Delete</Button> 
