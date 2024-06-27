@@ -42,6 +42,7 @@ export function EditLocation({ locationName,
   const [editOpen, setEditOpen] = useState<boolean>(false)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
+  const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
 
   const locations = useSelector((state: RootState) => state.location.data)
 console.log(locations)
@@ -107,9 +108,7 @@ const selectedLocation = selectedCell !== null ? locations[selectedCell] : null
     handleDeleteOpen()
   }
 
-  const handleDeleteOpen = () => {
-    setDeleteOpen(true)
-  }
+  
 
   const handleDeleteClose = () => {
     setDeleteOpen(false)
