@@ -7,7 +7,6 @@ import { RootState } from '../../../redux/store'
 const SidebarItem = ({ item }: any) => {
   const styleConfigs = useColorSelector()
   const { appState } = useSelector((state: RootState) => state.appState)
-  console.log(appState)
   return item.sidebarProps && item.path ? (
     <ListItem sx={{borderLeft: appState === item.state ? "5px solid #FABC1E" : 'unset',}}>
       <ListItemButton

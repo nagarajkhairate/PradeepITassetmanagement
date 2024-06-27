@@ -40,7 +40,6 @@ import EditAssetPage from '../pages/Assets/EditAssetPage'
 import PersonsEmployeesForm from '../pages/Setup/CustomizeForm/PersonsEmployeesForm'
 import ContractForm from '../pages/Setup/CustomizeForm/ContractForm'
 import MaintenanceForm from '../pages/Setup/CustomizeForm/MaintenanceForm'
-import Alerts from '../pages/Alerts/Alerts'
 import Assets from '../pages/Assets/Assets'
 import Setup from '../pages/Setup/Setup'
 import CustomerForm from '../pages/Setup/CustomizeForm/CustomerForm'
@@ -50,6 +49,7 @@ import CreateAccount from '../components/Registration/CreateAccount'
 import DataBases from '../pages/Setup/DataBase/DataBases'
 import DataBasesEmp from '../pages/Setup/DataBase/DataBaseEmployee/DataBaseEmp'
 import Event from '../pages/Setup/SetupEventOption/Event'
+import Alerts from '../pages/Alerts/Alerts'
 
 export {
     FormatListBulletedIcon,
