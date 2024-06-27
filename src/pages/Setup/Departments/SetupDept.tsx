@@ -29,6 +29,7 @@ import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../../Redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { addDepartment, fetchDepartment } from '../../../Redux/features/DepartmentSlice'
+import SetupDeleteDept from './SetupDeleteDept'
 
 const SetupDept: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -36,6 +37,9 @@ const SetupDept: React.FunctionComponent = () => {
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [departmentName, setDepartmentName] = useState<string>('')
+  const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
+  const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
+
   // const [department, setDepartment] = useState<Department[]>([])
   
   const departments = useSelector((state: RootState) => state.departments.data)
@@ -59,7 +63,7 @@ const SetupDept: React.FunctionComponent = () => {
     e.preventDefault()
     const newdepartment: Department = {
       id: departments.length ? departments[departments.length - 1].id + 1 : 1,
-      departmentName: departmentName,
+      departmentName: capitalizeWords(departmentName),
     }
     // setDepartment([...department, newdepartment])
     dispatch(addDepartment(newdepartment))
@@ -67,6 +71,19 @@ const SetupDept: React.FunctionComponent = () => {
     handleClose()
     console.log(newdepartment)
   }
+
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase())
+  }
+
+  const handleDeleteOpen = () => {
+    setDeleteOpen(true);
+  };
+
+  const handleDeleteClose = () => {
+    setDeleteOpen(false);
+    setMatchedSelected([]);
+  };
 
   React.useEffect(() => {
     dispatch(fetchDepartment())
@@ -142,125 +159,29 @@ const SetupDept: React.FunctionComponent = () => {
               <AddIcon /> Add New dept
             </Button>
 
-            {/* <Modal
-              aria-labelledby="responsive-dialog-title"
-              aria-describedby="modal-desc"
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              open={open}
-              onClose={handleClose}
-            >
-              <Sheet
-                variant="outlined"
-                sx={{
-                  maxWidth: 500,
-                  borderRadius: 'md',
-                  p: 3,
-                  boxShadow: 'lg',
-                }}
-              >
-                <div>
-                  <Typography
-                    id="responsive-dialog-title"
-                    component="h2"
-                    level="h4"
-                    textColor="inherit"
-                    fontWeight="lg"
-                    mb={1}
-                  >
-                    {'Add a dept'}
-                  </Typography>
-                  <Divider />
-
-                  <Box sx={{ marginBottom: '10px' }}>
-                    <form onSubmit={handleAddDepartment}>
-                      <FormControl
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                        }}
-                      ></FormControl>
-
-                      <Box
-                        sx={{
-                          marginTop: '1px',
-                          marginBottom: '15px',
-                          padding: '10px',
-                        }}
-                      >
-                        <Typography sx={{ padding: 'none', width: '100%' }}>
-                          If you want to add a new dept of assets, you’re in the
-                          right spot. Add a dept for computer equipment,
-                          wireless keyboards, or any assets you’re working with.
-                        </Typography>
-                        <FormControl
-                          sx={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            justifyContent: 'space-evenly',
-                            marginTop: '10px',
-                          }}
-                        >
-                          <FormLabel
-                            sx={{
-                              paddingTop: '20px',
-                              marginLeft: '20px',
-                            }}
-                          >
-                            dept*:
-                          </FormLabel>
-                          <Input
-                            value={departmentName}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
-                            ) => setDepartmentName(e.target.value)}
-                            placeholder="Type here"
-                            sx={{
-                              marginLeft: '20px',
-                              width: '70%',
-                              marginTop: '10px',
-                            }}
-                          />
-                        </FormControl>
-                      </Box>
-                      <Divider />
-
-                      <Button
-                        autoFocus
-                        type="submit"
-                        variant="solid"
-                        sx={{
-                          background: '#fdd835',
-                          color: 'black',
-                          marginTop: '25px',
-                          marginLeft: '40%',
-                        }}
-                      >
-                        Add
-                      </Button>
-
-                      <Button
-                        type="button"
-                        onClick={handleClose}
-                        autoFocus
-                        variant="solid"
-                        sx={{
-                          background: 'black',
-                          color: 'white',
-                          marginLeft: '50px',
-                        }}
-                      >
-                        Cancel
-                      </Button>
-                    </form>
-                  </Box>
-                </div>
-              </Sheet>
-            </Modal> */}
+            {matchedSelected.length > 0 && (
+          <Button
+            onClick={handleDeleteOpen}
+            autoFocus
+              variant="solid"
+            sx={{
+              fontSize: '13px',
+              // background: '#ffffff',
+              borderRadius: '15px',
+              // color: '#d32f2f',
+              background: '#d32f2f',
+              display: 'flex',
+              justifyContent: { md: 'flex-end', xs: 'center' },
+              marginLeft: 'none',
+              border: '1px solid red',
+              
+              padding: '.5rem .10rem',
+            }}
+          >
+            {/* <DeleteForeverIcon sx={{ fontSize: '15px' }} /> */}
+            Delete Categories
+          </Button>
+        )}
 
             <Button
               autoFocus
@@ -384,7 +305,9 @@ const SetupDept: React.FunctionComponent = () => {
         <Box>
           <SetupEditDept
             department1={departments}
-            // onDeptChange={handleDeptChange}
+            matchedSelected={matchedSelected}
+        setMatchedSelected={setMatchedSelected}
+        handleDeleteOpen={handleDeleteOpen}
           />
         </Box>
         <Divider />
@@ -419,6 +342,12 @@ const SetupDept: React.FunctionComponent = () => {
         handleAddDepartment={handleAddDepartment}
         />
       </Box>
+
+      <SetupDeleteDept
+          open={deleteOpen}
+          handleDeleteClose={handleDeleteClose}
+         
+        />
     </AppView>
   )
 }

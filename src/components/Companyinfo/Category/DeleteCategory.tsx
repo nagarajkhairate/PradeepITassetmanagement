@@ -1,13 +1,28 @@
 import { Box, Button, FormControl, Modal, Sheet, Typography } from '@mui/joy'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 
 interface CategoryDeleteProps{
     open:boolean
     handleDeleteClose:() => void
-    handleDeleteSubmit:(e: React.FormEvent<HTMLFormElement>) => void
+    handleDeleteOpen: () => void;
 }
 
-const DeleteCategory: React.FunctionComponent<CategoryDeleteProps> = ({open, handleDeleteClose, handleDeleteSubmit}) => {
+const DeleteCategory: React.FunctionComponent<CategoryDeleteProps> = ({open, handleDeleteClose,handleDeleteOpen }) => {
+  
+  const dispatch = useDispatch();
+  const selectedCell = 0; 
+
+  
+
+  const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (selectedCell !== null) {
+      // dispatch(deleteCategory(categories[selectedCell].id));
+      handleDeleteClose();
+    }
+  };
+  
   return (
     <Modal
           open={open}

@@ -22,6 +22,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../Redux/store'
 import { ThunkDispatch } from 'redux-thunk'
 import { addCategory, fetchCategory } from '../../../Redux/features/CategorySlice'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import DeleteCategory from './DeleteCategory'
 
 type Category = {
   id: number
@@ -45,6 +47,8 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
 }) => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [open, setOpen] = useState<boolean>(false)
+  const [matchedSelected, setMatchedSelected] = useState<number[]>([])
+  const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [categoryName, setCategoryName] = useState<string>('')
@@ -71,7 +75,7 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
     e.preventDefault()
     const newCategory: Category = {
       id: categories.length ? categories[categories.length - 1].id + 1 : 1,
-      categoryName: categoryName,
+      categoryName: capitalizeWords(categoryName),
     }
     // setCategories([...categories, newCategory])
     setCategoryName('') // Clear the input field after adding
@@ -79,8 +83,17 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
     console.log(newCategory)
     handleClose()
   }
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase())
+  }
+  const handleDeleteOpen = () => {
+    setDeleteOpen(true)
+  }
 
-
+  const handleDeleteClose = () => {
+    setDeleteOpen(false)
+    setMatchedSelected([])
+  }
   
   const handleNextTab = () => {
         setCompanyFormData((prevData: any) => ({ ...prevData, categories: categories }));
@@ -171,6 +184,30 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
             >
               <AddIcon /> Add New Category
             </Button>
+
+            {matchedSelected.length > 0 && (
+          <Button
+            onClick={handleDeleteOpen}
+            autoFocus
+              variant="solid"
+            sx={{
+              fontSize: '13px',
+              // background: '#ffffff',
+              borderRadius: '15px',
+              // color: '#d32f2f',
+              background: '#d32f2f',
+              display: 'flex',
+              justifyContent: { md: 'flex-end', xs: 'center' },
+              marginLeft: 'none',
+              border: '1px solid red',
+              
+              padding: '.5rem .10rem',
+            }}
+          >
+            <DeleteForeverIcon sx={{ fontSize: '15px' }} />
+            Delete Categories
+          </Button>
+        )}
 
             <Button
               autoFocus
@@ -266,7 +303,9 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
         <Box>
           <EditCategory
             categories1={categories}
-            // onCategoryChange={handleCategoryChange}
+            matchedSelected={matchedSelected}
+            setMatchedSelected={setMatchedSelected}
+            handleDeleteOpen={handleDeleteOpen}
           />
         </Box>
         <Divider />
@@ -318,6 +357,12 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
         setCategoryName={setCategoryName}
         handleAddCategory={handleAddCategory}
       />
+
+<DeleteCategory
+        open={deleteOpen} 
+        handleDeleteClose={handleDeleteClose} 
+        handleDeleteOpen={handleDeleteOpen}
+         />
     </AppView>
   )
 }

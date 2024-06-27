@@ -24,18 +24,22 @@ type Department = {
 
 interface Props {
   department1: Department[];
-  // onDeptChange: (updateddepartment: Department[]) => void;
+  matchedSelected: number[];
+  setMatchedSelected: React.Dispatch<React.SetStateAction<number[]>>;
+  handleDeleteOpen: () => void;
 }
 
 export function SetupEditDept({ department1, 
-  // onDeptChange 
+  matchedSelected,
+  setMatchedSelected,
+  handleDeleteOpen, 
 }: Props) {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
+  // const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
   const [depart, setDepart] = useState<{ data: Department[] }>({ data: [] });
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
   const [editOpen, setEditOpen] = useState<boolean>(false);
-  const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
+  // const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
  
@@ -84,10 +88,14 @@ const selectedDepartment = selectedCell !== null ? departments[selectedCell] : n
     e.preventDefault()
     if (selectedDepartment !== null) {
       const departmentName = (e.target as any).departmentName.value
-      const updatedCategory = { ...selectedDepartment, departmentName }
+      const updatedCategory = { ...selectedDepartment, departmentName:capitalizeWords(departmentName) }
       dispatch(updateDepartment(updatedCategory))
       handleEditClose()
     }
+  }
+
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase())
   }
 
   const handleDeleteButton = (index:number) => {
@@ -105,26 +113,16 @@ const selectedDepartment = selectedCell !== null ? departments[selectedCell] : n
   //   // onDeptChange(updatedData);
   // };
 
-  const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (selectedCell !== null) {
-      dispatch(deleteDepartment(departments[selectedCell].id))
-      setDeleteOpen(false)
-      setSelectedCell(null)
-      setMatchedSelected((prevSelected) =>
-        prevSelected.filter((item) => item !== selectedCell),
-      )
-    }
-  }
+  
 
-  const handleDeleteOpen = () => {
-    setDeleteOpen(true);
-  };
+  // const handleDeleteOpen = () => {
+  //   setDeleteOpen(true);
+  // };
 
-  const handleDeleteClose = () => {
-    setDeleteOpen(false);
-    setMatchedSelected([]);
-  };
+  // const handleDeleteClose = () => {
+  //   setDeleteOpen(false);
+  //   setMatchedSelected([]);
+  // };
 
   useEffect(() => {
     setSelectedCell(null);
@@ -375,11 +373,7 @@ const selectedDepartment = selectedCell !== null ? departments[selectedCell] : n
           </Sheet>
         </Modal> */}
 
-<SetupDeleteDept
-          open={deleteOpen}
-          handleDeleteClose={handleDeleteClose}
-          handleDeleteSubmit={handleDeleteSubmit}
-        />
+
       </Stack>
     </>
   );
