@@ -58,7 +58,7 @@ const CompanyInfo = () => {
               justifyContent:"center",
               alignItems:"center",
               width: "100%",
-              padding:{ xs: "14px", sm: "14px", md: "20px" }
+              // padding:{ xs: "14px", sm: "14px", md: "20px" }
             }}
           >
             {tabs.map((tab, index) => (
@@ -78,7 +78,7 @@ const CompanyInfo = () => {
                   })}
                   {index < activeTab && (
                     <CheckCircleIcon
-                      style={{ color: "green", marginLeft: "4px" , fontSize:"small" }}
+                      style={{ color: "green", marginLeft: "4px" , fontSize:"large" }}
                     />
                   )}
                 </IconButton>
@@ -164,7 +164,7 @@ const CompanyInfo = () => {
             />
           </TabPanel>
         </Tabs>
-        <Box
+        {/* <Box
           mt={2}
           sx={{
             display: "flex",
@@ -172,7 +172,7 @@ const CompanyInfo = () => {
             width: "100%",
           }}
         >
-        </Box>
+        </Box> */}
       </Box>
     </AppView>
   );

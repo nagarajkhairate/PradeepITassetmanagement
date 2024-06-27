@@ -11,9 +11,9 @@ import { Stack, Table, Checkbox } from '@mui/joy'
 import EditIcon from '@mui/icons-material/Edit'
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
-import AddSiteDialog from './AddSiteDialog'
-import EditSiteDialog from './EditSiteDialog'
-import DeleteSiteDialog from './DeleteSiteDialog'
+import AddSite from '../../../pages/Setup/SetupSites/AddSite'
+import EditSite from '../../../pages/Setup/SetupSites/EditSite'
+import DeleteSite from '../../../pages/Setup/SetupSites/DeleteSite'
 import AppView from '../../Common/AppView'
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
 import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
@@ -115,11 +115,6 @@ const Sites: React.FC<SiteProps> = ({
     display: 'flex',
     alignItems: 'center',
   })
-
-  React.useEffect(() => {
-    dispatch(fetchSites())
-  }, [dispatch])
-
 
   return (
     <AppView>
@@ -499,7 +494,7 @@ const Sites: React.FC<SiteProps> = ({
         {/* </Grid> */}
       </Box>
 
-      <AddSiteDialog
+      <AddSite
         open={open}
         onClose={() => setOpen(false)}
         onSave={(newSite: Site) => {
@@ -507,7 +502,7 @@ const Sites: React.FC<SiteProps> = ({
         }}
       />
 
-      <EditSiteDialog
+      <EditSite
         open={isEditDialogOpen}
         onClose={() => setEditDialogOpen(false)}
         site={selectedSite}
@@ -521,7 +516,7 @@ const Sites: React.FC<SiteProps> = ({
         }}
       />
 
-      <DeleteSiteDialog
+      <DeleteSite
         deleteOpen={deleteOpen}
         handleDelete={handleDelete}
         handleDeleteClose={handleDeleteClose}

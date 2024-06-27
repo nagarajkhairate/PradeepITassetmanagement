@@ -1,31 +1,32 @@
-interface fieldValue {
-  id: number
-  label: string
-  value: string
-  defaultValue?: any
-  dataType?: string
+interface FieldValue {
+  id: number;
+  label: string;
+  value: string;
+  defaultValue?: any;
+  dataType?: 'text' | 'select' | 'file' | 'number';
 }
 
-type CompanyInfoProps = {
-  id: number
-  title: string
-  value: string
-  required: boolean
-  sequence: number
-  dataType: string
+interface CompanyInfoProps {
+  id: number;
+  title: string;
+  name: string; // Added name property
+  required: boolean;
+  sequence: number;
+  dataType: 'text' | 'select' | 'file' | 'number';
   className: {
-    sm: number
-    md: number
-    lg: number
-  }
-  fieldValue?: fieldValue[]
+    sm: number;
+    md: number;
+    lg: number;
+  };
+  fieldValue?: FieldValue[];
 }
 
 export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 1,
     title: 'Company name',
-    value: 'companyName',
+    // value: 'companyName',
+    name: 'companyName', 
     required: true,
     sequence: 1,
     className: { sm: 12, md: 6, lg: 6 },
@@ -34,7 +35,8 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 2,
     title: 'Country',
-    value: 'country',
+    // value: 'country',
+    name: 'country', 
     required: true,
     sequence: 2,
     className: { sm: 12, md: 6, lg: 6 },
@@ -43,7 +45,8 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 3,
     title: 'Address',
-    value: 'address',
+    // value: 'address',
+    name: 'address', 
     required: true,
     sequence: 3,
     className: { sm: 12, md: 6, lg: 6 },
@@ -52,7 +55,8 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 4,
     title: 'Apt./Suite',
-    value: 'aptSuite',
+    // value: 'aptSuite',
+    name: 'aptSuite', 
     required: true,
     sequence: 4,
     className: { sm: 12, md: 6, lg: 6 },
@@ -61,7 +65,8 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 5,
     title: 'City',
-    value: 'city',
+    // value: 'city',
+    name: 'city', 
     required: true,
     sequence: 5,
     className: { sm: 12, md: 6, lg: 6 },
@@ -70,7 +75,8 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 6,
     title: 'State',
-    value: 'state',
+    // value: 'state',
+    name: 'state', 
     required: true,
     sequence: 6,
     className: { sm: 12, md: 6, lg: 6 },
@@ -79,7 +85,8 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 7,
     title: 'Zip Code',
-    value: 'zipCode',
+    // value: 'zipCode',
+    name: 'zipCode',
     required: true,
     sequence: 7,
     className: { sm: 12, md: 6, lg: 6 },
@@ -88,7 +95,8 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 8,
     title: 'Time Zone',
-    value: 'timeZone',
+    // value: 'timeZone',
+    name: 'timeZone', 
     required: true,
     sequence: 8,
     className: { sm: 12, md: 6, lg: 6 },
@@ -149,7 +157,8 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 9,
     title: 'Currency Symbol',
-    value: 'currencySymbol',
+    // value: 'currencySymbol',
+    name: 'currencySymbol', 
     required: true,
     sequence: 9,
     className: { sm: 12, md: 6, lg: 6 },
@@ -185,7 +194,8 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 10,
     title: 'Date format',
-    value: 'dateFormat',
+    // value: 'dateFormat',
+    name: 'dateFormat', 
     required: false,
     sequence: 10,
     className: { sm: 12, md: 6, lg: 6 },
@@ -199,7 +209,8 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 11,
     title: 'Financial Year begins on Month',
-    value: 'financialMonth',
+    // value: 'financialMonth',
+    name: 'financialMonth', 
     required: true,
     sequence: 11,
     className: { sm: 12, md: 6, lg: 6 },
@@ -222,7 +233,8 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 12,
     title: 'Financial Year begins on Day',
-    value: 'financialDays',
+    // value: 'financialDays',
+    name: 'financialDays', 
     required: true,
     sequence: 12,
     className: { sm: 12, md: 6, lg: 6 },
@@ -264,9 +276,10 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 13,
     title: 'Logo',
-    value: 'companyLogo',
+    // value: 'companyLogo',
+    name: 'companyLogo', 
     required: true,
-    sequence: 12,
+    sequence: 13,
     className: { sm: 12, md: 6, lg: 6 },
     dataType: 'file',
   },
