@@ -2,6 +2,7 @@ import { colors } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 
+
 const useColorSelector = () => {
   const darkMode: boolean = useSelector((state: RootState) => state.mode.value === 'light');
 
@@ -9,7 +10,7 @@ const useColorSelector = () => {
       bg: darkMode ? "#101418" : "#fff", 
       color: darkMode ? "#ccc" : "#000", 
       hoverBg: darkMode ? "#404040" : "#000000", 
-      activeBg: darkMode ? "#000000" : "#404040", 
+      activeBg: darkMode ? "#f3f4f6" : "#404040", 
       headerBg: darkMode ? "#fcd14f" : "#404040" ,
       backgroundColor:darkMode ?  "#f3f4f6" : "" ,
       backgroundColorWhite:darkMode ?  "#FFF" : "" ,

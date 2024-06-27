@@ -29,6 +29,8 @@ const SidebarItemCollapse = ({ item }: Props) => {
       setOpen(true)
     }
   }, [appState, item])
+
+  console.log(appState)
   return item.sidebarProps ? (
     <ListItem nested>
       <ListItemButton onClick={() => setOpen(!open)}>

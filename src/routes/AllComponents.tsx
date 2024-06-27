@@ -40,6 +40,9 @@ import EditAssetPage from '../pages/Assets/EditAssetPage'
 import PersonsEmployeesForm from '../pages/Setup/CustomizeForm/PersonsEmployeesForm'
 import ContractForm from '../pages/Setup/CustomizeForm/ContractForm'
 import MaintenanceForm from '../pages/Setup/CustomizeForm/MaintenanceForm'
+import Alerts from '../pages/Alerts/Alerts'
+import Assets from '../pages/Assets/Assets'
+import Setup from '../pages/Setup/Setup'
 import CustomerForm from '../pages/Setup/CustomizeForm/CustomerForm'
 import WarrantyForm from '../pages/Setup/CustomizeForm/WarrantyForm'
 import LoginAccount from '../components/Registration/LoginAccount'
@@ -59,9 +62,12 @@ export {
     ZoomOutMapIcon,
     CalendarMonthIcon,
     Reserve,
+    Alerts,
     Dispose,
     LeaseReturn,
     CheckIn,
+    Assets,
+    Setup,
     CheckOut,
     AddAnAsset,
     ListOfAssets,

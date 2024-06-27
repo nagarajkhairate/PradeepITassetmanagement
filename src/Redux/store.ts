@@ -4,7 +4,7 @@ import transactionsReducer from "./features/TransactionSlice";
 import addEmployeesReducer from "./features/EmployeeSlice";
 import clientReducer from "./features/clientSlice";
 import appStateReducer from "./features/StateSlice";
-import darkModeReducer from "./features/darkModeSlice";
+import darkModeReducer from "./features/DarkModeSlice"
 import locationReducer from './features/LocationSlice';
 import categoryReducer from './features/CategorySlice'
 import subCategoryReducer from './features/CategorySubSlice'

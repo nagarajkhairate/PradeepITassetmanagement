@@ -1,7 +1,8 @@
 import { RouteType } from './config'
 import CompanyInfo from '../pages/Companyinfo/CompanyInfo'
-import { AddAnAsset, AssetForm, AssetsPastDue, CategorySetup, CategorySub, CheckIn, CheckOut, ContractForm, CustomerForm, Dashboard, DataBasesEmp, Dispose, EditAssets, Event, Lease, LeaseReturn, LeasesExpiring, ListOfAssets, LocationSetup, Maintenance, MaintenanceForm, MaintenanceOverdue, MaintenancesDue, Move, PersonsEmployeesForm, Reserve, SetupCompInfo, SetupDept, SetupSites, SetupTableOptions, WarrantyExpiring, WarrantyForm } from './AllComponents'
+import { AddAnAsset, Alerts, AssetForm, Assets, AssetsPastDue, CategorySetup, CategorySub, CheckIn, CheckOut, ContractForm, CustomerForm, Dashboard, DataBasesEmp, Dispose, EditAssets, Event, Lease, LeaseReturn, LeasesExpiring, ListOfAssets, LocationSetup, Maintenance, MaintenanceForm, MaintenanceOverdue, MaintenancesDue, Move, PersonsEmployeesForm, Reserve, Setup, SetupCompInfo, SetupDept, SetupSites, SetupTableOptions, WarrantyExpiring, WarrantyForm } from './AllComponents'
 import { ICONS } from '../components/Common/AppIcon/AppIcon'
+
 
 const appRoutes: RouteType[] = [
   {
@@ -24,7 +25,7 @@ const appRoutes: RouteType[] = [
   },
   {
     path: '/alerts',
-    element: <MaintenancesDue />,
+    element: <Alerts />,
     state: 'alerts',
     sidebarProps: {
       displayText: 'Alerts',
@@ -34,7 +35,7 @@ const appRoutes: RouteType[] = [
       {
         path: '/alerts/maintenances-due',
         element: <MaintenancesDue />,
-        state: 'maintenancesDue',
+        state: 'alerts',
         sidebarProps: {
           displayText: 'Maintenances Due',
           icon: <ICONS.person />,
@@ -43,7 +44,7 @@ const appRoutes: RouteType[] = [
       {
         path: '/alerts/maintenances-over-due',
         element: <MaintenanceOverdue />,
-        state: 'maintenanceOverdue',
+        state: 'alerts.maintenanceOverdue',
         sidebarProps: {
           displayText: 'Maintenances Over Due',
           icon: <ICONS.person />,
@@ -52,7 +53,7 @@ const appRoutes: RouteType[] = [
       {
         path: '/alerts/leases-expiring',
         element: <LeasesExpiring />,
-        state: 'leasesExpiring',
+        state: 'alerts.leasesExpiring',
         sidebarProps: {
           displayText: 'Leases Expiring',
           icon: <ICONS.person />,
@@ -61,7 +62,7 @@ const appRoutes: RouteType[] = [
       {
         path: '/alerts/warranty-expiring',
         element: <WarrantyExpiring />,
-        state: 'warrantyExpiring',
+        state: 'alerts.warrantyExpiring',
         sidebarProps: {
           displayText: 'Warranty Expiring',
           icon: <ICONS.person />,
@@ -81,7 +82,7 @@ const appRoutes: RouteType[] = [
   },
   {
     path: '/assets',
-    element: <ListOfAssets />,
+    element: <Assets />,
     state: 'assets',
     sidebarProps: {
       displayText: 'Assets',
@@ -186,7 +187,7 @@ const appRoutes: RouteType[] = [
   },
   {
     path: '/setup',
-    element: <MaintenancesDue />,
+    element: <Setup />,
     state: 'setup',
     sidebarProps: {
       displayText: 'Set Up',
@@ -329,7 +330,7 @@ const appRoutes: RouteType[] = [
             },
           },
           {
-            path: '/setup/customize/warranty',
+            path: '/setup/customize-warranty',
             element: <WarrantyForm />,
             state: 'customizeCustomer',
             sidebarProps: {

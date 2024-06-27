@@ -1,12 +1,13 @@
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { RootState } from '../../../redux/store'
 import useColorSelector from '../../../configs/useColorSelector'
 import { IconButton, ListItem, ListItemButton, ListItemContent, Typography } from '@mui/joy'
+import { RootState } from '../../../redux/store'
 
 const SidebarItem = ({ item }: any) => {
   const styleConfigs = useColorSelector()
   const { appState } = useSelector((state: RootState) => state.appState)
+  console.log(appState)
   return item.sidebarProps && item.path ? (
     <ListItem sx={{borderLeft: appState === item.state ? "5px solid #FABC1E" : 'unset',}}>
       <ListItemButton
