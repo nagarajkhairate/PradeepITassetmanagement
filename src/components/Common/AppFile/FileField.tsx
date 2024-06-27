@@ -10,6 +10,7 @@ type FieldProps = {
   id: number;
   title: string;
   dataType: string;
+  name:string;
   value: string;
   required: boolean;
   sequence: number;
@@ -48,8 +49,6 @@ const FileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, 
   }
 };
 
-
-
 const handleDelete = () => {
   setImagePreview(null);
 };
@@ -61,8 +60,8 @@ const handleDelete = () => {
       </FormLabel>
       <Input
         // placeholder={field.title}
-        // value={formData[field.value] || ''} 
-        name={field.value} 
+        // value={formData[field.name] || ''} 
+        name={field.name} 
         type="file" 
         onChange={onFileChange}
         required={field.required}

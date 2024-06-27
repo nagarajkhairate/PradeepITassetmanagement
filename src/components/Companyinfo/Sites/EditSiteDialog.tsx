@@ -39,7 +39,6 @@ const EditSiteDialog: React.FC<EditSiteDialogProps> = ({ open, onClose, site, on
       onClose()
     }
 
-
   return (
     <Modal open={open} onClose={onClose}>
 

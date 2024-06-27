@@ -10,7 +10,7 @@ import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
 import FieldComponent from '../../../utils/FieldComponent';
 import AppView from "../../Common/AppView";
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
-import { addCompanyInfo } from "../../../Redux/features/CompanyInfoSlice";
+import { addCompanyInfo, fetchCompanyInfo } from "../../../Redux/features/CompanyInfoSlice";
 import { ThunkDispatch } from "redux-thunk";
 import { RootState } from "../../../Redux/store";
 import { useDispatch } from "react-redux";
@@ -136,6 +136,10 @@ const Company: React.FC<CompanyProps> = ({
 
     return isValid;
   };
+
+  React.useEffect(() => {
+    dispatch(fetchCompanyInfo())
+  }, [dispatch])
 
 
   return (
