@@ -26,17 +26,20 @@ type Location = {
 
 interface Props {
   locationName: Location[]
-  // onLocationChange: (updatedData: Location[]) => void
+  matchedSelected: number[];
+  setMatchedSelected: React.Dispatch<React.SetStateAction<number[]>>;
+  handleDeleteOpen: () => void;
 }
 
 export function EditLocation({ locationName, 
+  matchedSelected,
+  setMatchedSelected,
+  handleDeleteOpen,
 }: Props) {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const [matchedSelected, setMatchedSelected] = useState<number[]>([])
   const [locData, setLocData] = useState<{ locationData: Location[] }>({locationData: [],})
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
   const [editOpen, setEditOpen] = useState<boolean>(false)
-  const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 

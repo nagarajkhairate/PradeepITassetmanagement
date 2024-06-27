@@ -23,18 +23,23 @@ type Category = {
 
 interface Props {
   categories1: Category[]
-  // onCategoryChange: (updatedCategories: Category[]) => void
+  matchedSelected: number[];
+  setMatchedSelected: React.Dispatch<React.SetStateAction<number[]>>;
+  handleDeleteOpen: () => void;
 }
 
 export function EditCategory({ categories1,
-  //  onCategoryChange
+  matchedSelected,
+  setMatchedSelected,
+  handleDeleteOpen
+  
    }: Props) {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const [matchedSelected, setMatchedSelected] = useState<number[]>([])
+  // const [matchedSelected, setMatchedSelected] = useState<number[]>([])
   // const [lapCat, setLapCat] = useState<{ categoryData: Category[] }>({categoryData: [],})
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
   const [editOpen, setEditOpen] = useState<boolean>(false)
-  const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
+  // const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
   
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
@@ -84,52 +89,22 @@ export function EditCategory({ categories1,
     e.preventDefault()
     if (selectedCategory !== null) {
       const categoryName = (e.target as any).categoryName.value
-      const updatedCategory = { ...selectedCategory, categoryName }
+      const updatedCategory = { ...selectedCategory, categoryName:capitalizeWords(categoryName) }
       dispatch(updateCategory(updatedCategory))
       handleEditClose()
     }
   }
 
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase())
+  }
+  
   const handleDeleteButton = (index:number) => {
     setSelectedCell(index)
       handleDeleteOpen()
     
   }
-
-  // const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault()
-  //   if (selectedCell !== null) {
-  //   const updatedData = categories.filter(
-  //     (_, index) => index !== selectedCell,
-  //   )
-  //   // setLapCat({ ...lapCat, categoryData: updatedData })
-  //   // setMatchedSelected([])
-  //   dispatch(deleteCategory(selectedCell))
-  //   setDeleteOpen(false)
-  //   // onCategoryChange(updatedData)
-  // }
-  // }
-
-  const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (selectedCell !== null) {
-      dispatch(deleteCategory(categories[selectedCell].id))
-      setDeleteOpen(false)
-      setSelectedCell(null)
-      setMatchedSelected((prevSelected) =>
-        prevSelected.filter((item) => item !== selectedCell),
-      )
-    }
-  }
-
-  const handleDeleteOpen = () => {
-    setDeleteOpen(true)
-  }
-
-  const handleDeleteClose = () => {
-    setDeleteOpen(false)
-    setMatchedSelected([])
-  }
+  
 
   // useEffect(() => {
   //   setLapCat({ categoryData: categories })
@@ -342,11 +317,7 @@ export function EditCategory({ categories1,
         </Modal>
 
 
-        <DeleteCategory
-          open={deleteOpen}
-          handleDeleteClose={handleDeleteClose}
-          handleDeleteSubmit={handleDeleteSubmit}
-        />
+      
 
       </Stack>
     </>

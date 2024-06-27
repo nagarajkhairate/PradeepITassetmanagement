@@ -23,6 +23,7 @@ import { ThunkDispatch } from 'redux-thunk'
 import AddLocation from './AddLocation'
 import AddIcon from '@mui/icons-material/Add'
 import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
+import DeleteLocation from './DeleteLocation'
 // import { LocationDelete } from './LocationDelete'
 
 type Location = {
@@ -44,11 +45,12 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
     setActiveTab,
 }) => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const [matchedSelected, setMatchedSelected] = useState<number[]>([])
   const [open, setOpen] = useState(false)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [location, setLocation] = useState<string>('')
-  // const [locationName, setLocationName] = useState<Location[]>([])
+  const [deleteOpen, setDeleteOpen] = useState(false)
 
   const locations = useSelector((state: RootState) => state.location.data)
   // const dispatch = useDispatch<AppDispatch>()
@@ -57,6 +59,16 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
   const handleLocationChange = (updatedData: Location[]) => {
     // setLocationName(updatedData)
     console.log('location: ', JSON.stringify(updatedData))
+  }
+
+  const handleDeleteOpen = () => {
+    setDeleteOpen(true)
+  }
+
+  const handleDeleteClose = () => {
+    setDeleteOpen(false)
+    setMatchedSelected([])
+    
   }
 
   const handleNextTab = () => {
@@ -149,6 +161,31 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
           >
             <AddIcon /> Add New Location
           </Button>
+
+          {matchedSelected.length > 0 && (
+          <Button
+            onClick={handleDeleteOpen}
+            autoFocus
+              variant="solid"
+            sx={{
+              fontSize: '13px',
+              // background: '#ffffff',
+              borderRadius: '15px',
+              // color: '#d32f2f',
+              background: '#d32f2f',
+              display: 'flex',
+              justifyContent: { md: 'flex-end', xs: 'center' },
+              marginLeft: 'none',
+              border: '1px solid red',
+              
+              padding: '.5rem .10rem',
+            }}
+          >
+            {/* <DeleteForeverIcon sx={{ fontSize: '15px' }} /> */}
+            Delete Location
+          </Button>
+        )}
+
           <Button
               autoFocus
               type="submit"
@@ -336,6 +373,9 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
         <Box>
           <EditLocation
             locationName={locations}
+            matchedSelected={matchedSelected}
+        setMatchedSelected={setMatchedSelected}
+        handleDeleteOpen={handleDeleteOpen}
           />
         </Box>
         <Divider />
@@ -385,6 +425,17 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
   </Button>
   </Box>
       </Box>
+
+      <DeleteLocation
+              selectedCell={null}
+              // onLocationChange={handleLocationChange}
+              setMatchedSelected={setMatchedSelected}
+              setSelectedCell={() => {}}
+              locDatas={{ locationData: [] }}
+              setLocDatas={() => { }}
+              handleDeleteClose={handleDeleteClose}
+              open={deleteOpen}
+            />
     </AppView>
   )
 }
