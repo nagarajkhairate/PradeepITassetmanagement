@@ -65,6 +65,7 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
     setDeleteOpen(true)
   }
 
+  
   const handleDeleteClose = () => {
     setDeleteOpen(false)
     setMatchedSelected([])
@@ -426,16 +427,16 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
   </Box>
       </Box>
 
-      <DeleteLocation
+      {/* <DeleteLocation
               selectedCell={null}
               // onLocationChange={handleLocationChange}
               setMatchedSelected={setMatchedSelected}
               setSelectedCell={() => {}}
               locDatas={{ locationData: [] }}
               setLocDatas={() => { }}
-              handleDeleteClose={handleDeleteClose}
-              open={deleteOpen}
-            />
+              // handleDeleteClose={handleDeleteClose}
+              // open={deleteOpen}
+            /> */}
     </AppView>
   )
 }
