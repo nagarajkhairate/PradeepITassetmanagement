@@ -56,6 +56,9 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
     }
   };
 
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase())
+  }
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -63,15 +66,23 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
   };
 
   const handleAddSite = async () => {
-    onSave(newSite);
-
-    console.log(JSON.stringify(newSite))
-    await dispatch(addSites(newSite)); 
+    const capitalizedSite = {
+      ...newSite,
+      siteName: capitalizeWords(newSite.siteName),
+      description: capitalizeWords(newSite.description),
+      address: capitalizeWords(newSite.address),
+      aptSuite: capitalizeWords(newSite.aptSuite),
+      city: capitalizeWords(newSite.city),
+      state: capitalizeWords(newSite.state),
+      country: capitalizeWords(newSite.country),
+    };
+    onSave(capitalizedSite);
+    console.log(JSON.stringify(capitalizedSite))
+    await dispatch(addSites(capitalizedSite)); 
     setNewSite(initialSiteData);
-    // onClose();
+    onClose();
   };
 
- 
   return (  
     <Modal open={open} onClose={onClose}>
       <Box sx={modalStyle}>
