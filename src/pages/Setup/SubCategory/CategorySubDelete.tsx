@@ -4,10 +4,41 @@ import { Box, Button, FormControl, Modal, Sheet, Typography } from "@mui/joy"
 interface CategorySubDeleteProps{
     open:boolean
     handleDeleteClose:() => void
-    handleDeleteSubmit:(e: React.FormEvent<HTMLFormElement>) => void
+    // handleDeleteSubmit:(e: React.FormEvent<HTMLFormElement>) => void
+    categories1:SubCategory[]
 }
 
-const CategorySubDelete: React.FunctionComponent<CategorySubDeleteProps> = ({open, handleDeleteClose, handleDeleteSubmit}) => {
+
+type SubCategory = {
+  id: number
+  subCategory: string
+}
+
+
+const CategorySubDelete: React.FunctionComponent<CategorySubDeleteProps> = ({open, handleDeleteClose,categories1}) => {
+
+  const selectedCell = 0; 
+
+  // const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   if (selectedCell !== null) {
+  //     dispatch(deleteSubCategories(subCategories[selectedCell].id))
+  //     setDeleteOpen(false)
+  //     setSelectedCell(null)
+  //     setMatchedSelected((prevSelected) =>
+  //       prevSelected.filter((item) => item !== selectedCell),
+  //     )
+  //   }
+  // }
+
+  const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (selectedCell !== null) {
+      // dispatch(deleteCategory(categories[selectedCell].id));
+      handleDeleteClose();
+    }
+  };
+
 return(
 <Modal
           

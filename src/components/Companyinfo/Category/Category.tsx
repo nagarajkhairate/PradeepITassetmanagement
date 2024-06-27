@@ -112,11 +112,11 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
 
       <Box
         sx={{
-          borderRadius: 'none',
+          borderRadius: '10px',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
           gap: '5px',
-          p:2
+          p:1
         }}
       >
         <Box
@@ -126,7 +126,7 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
             flexDirection: { xs: 'column', md: 'row' },
             justifyContent: { xs: 'center', md: 'space-between' },
             gap: 2,
-            mb: 2,
+            mb: 1,
           }}
         >
           <Box
@@ -191,11 +191,13 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
         <Divider />
 
         <Box>
-          <Box sx={{ padding: '20px', marginTop: '10px' }}>
+          <Box sx={{  marginTop: '10px' }}>
+            <Typography>
             Add the type of groups of assets. To start with, commonly used
             categories have already been created for you. Make them as broad or
             as specific as you want. Categories can be 'laptops and printers',
             'equipment', or 'chairs'. Customize to your particular need.
+            </Typography>
           </Box>
 
           <Box
@@ -207,37 +209,7 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
               marginTop: '1px',
               padding: '20px',
             }}
-          >
-            <FormControl
-              sx={{
-                display: 'flex',
-                flexDirection: { xs: 'column', md: 'row' },
-              }}
-            >
-              <Select
-                placeholder="10"
-                sx={{
-                  marginLeft: { md: '20px' },
-                  alignItems: 'center',
-                  background: 'none',
-                  color: 'black',
-                  borderRadius: '15px',
-                }}
-                required
-              >
-                <Option value="10">10</Option>
-              </Select>
-
-              <FormLabel
-                sx={{
-                  marginLeft: '10px',
-                  marginTop: '6px',
-                  mb: { xs: 1, md: 1 },
-                }}
-              >
-                Sub Category
-              </FormLabel>
-            </FormControl>
+          >   
 
             <Box
               sx={{

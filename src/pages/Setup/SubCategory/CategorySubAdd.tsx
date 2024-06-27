@@ -24,18 +24,32 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, se
   //  handleClose, subCategory, setSubCategory, handleAddCategory
    }) => {
 
-    const [subForm, setSubForm] = useState()
+    const [subForm, setSubForm] = useState<{ [key: string]: any }>({})
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
     const categories = useSelector((state: RootState) => state.category.data)
 
     
 
 
+    // const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
+    //   e.preventDefault()
+    //   console.log(JSON.stringify(subForm))
+    //   dispatch(addSubCategories(subForm))
+    //   setOpen()
+    //   }
+
     const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault()
-      console.log(JSON.stringify(subForm))
-      dispatch(addSubCategories(subForm))
-      setOpen()
+        e.preventDefault()
+        const capitalizedForm = {
+          ...subForm,
+          location: capitalizeWords(subForm.location || '')
+        }
+        console.log(JSON.stringify(capitalizedForm))
+        dispatch(addSubCategories(capitalizedForm))
+        setOpen(false)
+      }
+      const capitalizeWords = (str: string) => {
+        return str.replace(/\b\w/g, (char) => char.toUpperCase())
       }
 
       const HandleInputChange= (e: React.ChangeEvent<HTMLInputElement>)=>{
