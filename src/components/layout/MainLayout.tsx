@@ -3,7 +3,8 @@ import { Outlet } from 'react-router-dom'
 import { Box } from '@mui/joy'
 import { Toolbar } from '@mui/material'
 import Header from '../../pages/Header/header'
-import Sidebar from '../../pages/Sidebar/sidebar'
+import Sidebar from '../Common/Sidebar/Sidebar'
+
 
 
 const MainLayout = () => {
