@@ -39,13 +39,30 @@ const initialSitesData = {
 
 const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
   const [editedSite, setEditedSite] = useState<Site | null>(site)
+  const [zipCodeError, setZipCodeError] = useState<string | null>(null)
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
   React.useEffect(() => {
     setEditedSite(site)
   }, [site])
 
+
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase())
+  }
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target
+
+    if (name === 'zipCode') {
+      const zipCodeRegex = /^\d*$/
+      if (!zipCodeRegex.test(value)) {
+        setZipCodeError('Zip Code must be numeric')
+        return
+      } else {
+        setZipCodeError(null)
+      }
+    }
     if (editedSite) {
       setEditedSite({
         ...editedSite,
@@ -56,9 +73,22 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    await dispatch(updateSites(editedSite))
+    if (editedSite) {
+      const capitalizedSite = {
+        ...editedSite,
+        siteName: capitalizeWords(editedSite.siteName),
+        description: capitalizeWords(editedSite.description),
+        address: capitalizeWords(editedSite.address),
+        aptSuite: capitalizeWords(editedSite.aptSuite),
+        city: capitalizeWords(editedSite.city),
+        state: capitalizeWords(editedSite.state),
+        country: capitalizeWords(editedSite.country),
+      }
+    await dispatch(updateSites(capitalizedSite))
     onClose()
   }
+  }
+
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -149,6 +179,8 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
                     onChange={handleChange}
                     fullWidth
                     sx={{ mb: 2 }}
+                    error={!!zipCodeError}
+                    helperText={zipCodeError}
                   />
                 </FormControl>
                 <FormControl sx={{ mb: 2 }}>
