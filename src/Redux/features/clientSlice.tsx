@@ -1,14 +1,16 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 interface addClient{
   data:any[];
+  selectedCustomer: any | null;
   loading:boolean;
   error:string|null;
 }
 
 const initialState:addClient={
   data:[],
+  selectedCustomer:  null,
   loading:false,
   error:null,
 }
@@ -34,11 +36,14 @@ export const post_add_client = createAsyncThunk('addClient/post_addClient', asyn
   }
 });
 
-export const clientSlice = createSlice({
+export const ClientSlice = createSlice({
   name:"client",
   initialState,
   reducers: {
-    
+    setSelectedCustomer: (state, action: PayloadAction<number>) => {
+      const user = state.data.find((u) => u.id === action.payload);
+      state.selectedCustomer = user || null;
+    },
   },
   extraReducers:(builder)=>{
     builder.addCase(fetch_client.pending,(state)=>{
@@ -65,4 +70,5 @@ export const clientSlice = createSlice({
     })
   }
 })
-export default clientSlice.reducer
+export const { setSelectedCustomer } = ClientSlice.actions;
+export default ClientSlice.reducer
