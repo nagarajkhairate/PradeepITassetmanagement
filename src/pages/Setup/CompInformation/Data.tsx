@@ -9,7 +9,7 @@ interface FieldValue {
 interface CompanyInfoProps {
   id: number;
   title: string;
-  name: string; // Added name property
+  name: string; 
   required: boolean;
   sequence: number;
   dataType: 'text' | 'select' | 'file' | 'number';

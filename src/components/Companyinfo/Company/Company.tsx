@@ -12,8 +12,8 @@ import AppView from "../../Common/AppView";
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import { addCompanyInfo, fetchCompanyInfo } from "../../../Redux/features/CompanyInfoSlice";
 import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../../Redux/store";
 import { useDispatch } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 export interface FormData {
   companyName: string;
@@ -22,7 +22,7 @@ export interface FormData {
   aptSuite: string;
   city: string;
   state: string;
-  postalCode: number;
+  zipCode: number;
   timezone: string;
   currency: string;
   date: Date;
@@ -46,6 +46,7 @@ const Company: React.FC<CompanyProps> = ({
 }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [zipCodeError, setZipCodeError] = useState<string | null>(null)
   const [file, setFile] = useState<File | null>(null);
   const dispatch: ThunkDispatch<RootState, void, any>= useDispatch()
   
@@ -105,6 +106,16 @@ const Company: React.FC<CompanyProps> = ({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
+    if (name === 'zipCode') {
+      const zipCodeRegex = /^\d*$/
+      if (!zipCodeRegex.test(value)) {
+        setZipCodeError('Zip Code must be numeric')
+        return
+      } else {
+        setZipCodeError(null)
+      }
+    }
     setCompanyFormData((prevData:any) => ({
       ...prevData,
       [name]: value,
@@ -115,32 +126,9 @@ const Company: React.FC<CompanyProps> = ({
     setCompanyFormData((prevData:any) => ({ ...prevData, [name]: value }));
   };
 
-  const validateForm = (companyFormData: FormData) => {
-   
-    const isValid =
-      companyFormData.companyName.trim() !== "" &&
-      companyFormData.country.trim() !== "" &&
-      companyFormData.address.trim() !== "" &&
-      companyFormData.city.trim() !== "" &&
-      companyFormData.state.trim() !== "" &&
-      companyFormData.postalCode !== null &&
-      companyFormData.postalCode > 0 &&
-      companyFormData.timezone.trim() !== "" &&
-      companyFormData.currency.trim() !== "" &&
-      companyFormData.date instanceof Date &&
-      !isNaN(companyFormData.date.getTime()) &&
-      companyFormData.month.trim() !== "" &&
-      companyFormData.financialDays !== null &&
-      companyFormData.financialDays > 0 &&
-      companyFormData.logo !== "";
-
-    return isValid;
-  };
-
   React.useEffect(() => {
     dispatch(fetchCompanyInfo())
   }, [dispatch])
-
 
   return (
     <AppView>
