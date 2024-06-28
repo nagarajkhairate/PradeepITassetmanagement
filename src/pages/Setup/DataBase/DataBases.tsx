@@ -15,9 +15,9 @@ import EditDataBase from './EditDataBase'
 import AppView from '../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
-import { RootState } from '../../../Redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchDataBase } from '../../../Redux/features/DataBaseSlice'
+import { RootState } from '../../../redux/store'
 
 const customDefaultFields = [
   {
@@ -198,14 +198,6 @@ const DataBases: React.FunctionComponent = () => {
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [eventForm, setEventForm] = useState<any>({})
 
- 
-
-  // const addCustomField = (custom: string) => {
-  //   setDataBases((prevData) => ({
-  //     ...prevData,
-  //     data: [...prevData.data, custom],
-  //   }))
-  // }
 
   const deleteCustomField = (index: number) => {
     const updatedData = dataBases.customAssetFields.filter((_, idx) => idx !== index)
@@ -356,13 +348,13 @@ const DataBases: React.FunctionComponent = () => {
             <Table borderAxis="both">
               <thead>
                 <tr>
-                  <th style={{ width: 30 }}>
+                  <th style={{ width: 30,background: '#fff8e6',verticalAlign:'middle' }}>
                     <Checkbox />
                   </th>
-                  <th style={{ minWidth: 180 }}>Field Name</th>
-                  <th style={{ minWidth: 200 }}>Data Required</th>
-                  <th style={{ minWidth: 400 }}>Description</th>
-                  <th style={{ minWidth: 150 }}>Example</th>
+                  <th style={{ background: '#fff8e6', verticalAlign:'middle' }}>Field Name</th>
+                  <th style={{ background: '#fff8e6',verticalAlign:'middle' }}>Data Required</th>
+                  <th style={{ background: '#fff8e6',verticalAlign:'middle' }}>Description</th>
+                  <th style={{ background: '#fff8e6',verticalAlign:'middle' }}>Example</th>
                 </tr>
               </thead>
               <tbody>
@@ -452,7 +444,7 @@ const DataBases: React.FunctionComponent = () => {
 
         <Divider sx={{ marginTop: '3%' }} />
 
-        <Box
+        {/* <Box
           sx={{
             display: 'flex',
             alignItems: 'center',
@@ -488,8 +480,8 @@ const DataBases: React.FunctionComponent = () => {
             Continue
             <NavigateNextOutlinedIcon />{' '}
           </Button>
-        </Box>
-      </Box>
+        </Box>*/}
+      </Box> 
     </AppView>
   )
 }

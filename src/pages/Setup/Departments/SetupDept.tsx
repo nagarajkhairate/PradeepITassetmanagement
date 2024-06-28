@@ -26,10 +26,10 @@ type Department = {
 import AppView from '../../../components/Common/AppView'
 import SetupAddDept from './SetupAddDept'
 import { ThunkDispatch } from 'redux-thunk'
-import { RootState } from '../../../Redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { addDepartment, fetchDepartment } from '../../../Redux/features/DepartmentSlice'
 import SetupDeleteDept from './SetupDeleteDept'
+import { RootState } from '../../../redux/store'
 
 const SetupDept: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -123,7 +123,7 @@ const SetupDept: React.FunctionComponent = () => {
           >
             <Typography
               sx={{
-                fontFamily: 'Poppins',
+               
                 fontSize: '20px',
                 fontWeight: 500,
                 lineHeight: '30px',

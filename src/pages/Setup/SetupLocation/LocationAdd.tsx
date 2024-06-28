@@ -1,14 +1,12 @@
 import { KeyboardArrowDown } from '@mui/icons-material'
 import { Box, Button, Divider, FormControl, FormLabel, Input, Modal, Option, Select, Sheet, Typography, selectClasses } from '@mui/joy'
 import React, { useState } from 'react'
-
-
-import { RootState } from '../../../Redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { ThunkDispatch } from 'redux-thunk'
 import { fetchSites } from '../../../Redux/features/SitesSlice'
 import AppForm from '../../../components/Common/AppForm'
 import { addLocation } from '../../../Redux/features/LocationSlice'
+import { RootState } from '../../../redux/store'
 
 
 interface LocationAddProps {
@@ -22,18 +20,9 @@ interface LocationAddProps {
     const sites = useSelector((state:RootState) => state.sites.data);
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
-
-
       React.useEffect(()=>{
         dispatch(fetchSites())
       },[dispatch])
-
-      // const handleAddLocation = (e: React.FormEvent<HTMLFormElement>) => {
-      //   e.preventDefault()
-      //  console.log(JSON.stringify(locationForm))
-      //  dispatch(addLocation(locationForm))
-      //  setOpen()
-      // }
 
       const handleAddLocation = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()

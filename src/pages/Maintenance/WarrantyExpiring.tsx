@@ -152,7 +152,7 @@ export function WarrantyExpiring() {
         <Typography
           sx={{
             maxWidth: 450,
-            fontFamily: 'Poppins, sans-serif',
+          
             fontStyle: 'italic',
             marginTop: '2px',
             display: 'flex',

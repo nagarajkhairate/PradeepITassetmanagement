@@ -8,61 +8,40 @@ interface Location {
   }
 
 interface LocationDeleteProps {
-    // locationName: Location[]
-    onLocationChange: (deletedData: Location[]) => void
     setMatchedSelected: React.Dispatch<React.SetStateAction<number[]>>
     setSelectedCell: React.Dispatch<React.SetStateAction<number | null>>
     locDatas: { locationData: Location[] }
     setLocDatas: React.Dispatch<React.SetStateAction<{ locationData: Location[] }>>
     selectedCell: number | null;
+    handleDeleteClose: () => void;
+    open:boolean
   }
 
-  
 
   const DeleteLocation: React.FunctionComponent<LocationDeleteProps> = (
     { 
-        // locationName,
+      open,
+      handleDeleteClose,
         selectedCell, 
-        onLocationChange, 
         setMatchedSelected, 
         setSelectedCell, 
         locDatas, setLocDatas }) => {
     const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
 
-
-
-    const handleDeleteOpen = () => {
-        setDeleteOpen(true)
-      }
-    
-      const handleDeleteClose = () => {
-        setDeleteOpen(false)
-        setMatchedSelected([])
-        
-      }
-
-      const handleDeleteButton = () => {
-        if (selectedCell !== null) {
-          handleDeleteOpen()
-        }
-      }
-
-    const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+   
+      const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const deleteData = locDatas.locationData.filter(
           (_, index) => index !== selectedCell,
         )
         setLocDatas({ ...locDatas, locationData: deleteData })
         setMatchedSelected([])
-        setDeleteOpen(false)
-        // dispatch(deleteLocation())
-        onLocationChange(deleteData)
-      
+        handleDeleteClose()
       }
 
       return(
         <Modal
-          open={deleteOpen}
+          open={open}
           onClose={handleDeleteClose}
           aria-labelledby="responsive-dialog-title"
           aria-describedby="modal-desc"
@@ -104,18 +83,6 @@ interface LocationDeleteProps {
                   <Box sx={{ marginBottom: '20px', padding: '20px' }}>
                     Are you sure you want to delete this Location?
                   </Box>
-                  {/* <Input
-                    variant="outlined"
-                    // type="text"
-                    // id="location"
-                    // name="location"
-                    required
-                    sx={{ width: '92%', marginLeft: '20px' }}
-                    defaultValue={
-                      selectedCell !== null
-                        ? locData.locationData[selectedCell].location: ''
-                    }
-                  /> */}
                 </FormControl>
                 <Button
                   autoFocus
@@ -139,7 +106,6 @@ interface LocationDeleteProps {
                   sx={{
                     background: 'black',
                     color: 'white',
-                    // marginTop: '25px',
                     marginLeft: '10px',
                   }}
                 >
@@ -149,7 +115,6 @@ interface LocationDeleteProps {
             </div>
           </Sheet>
         </Modal>
-      )
-      
+      )     
 }
 export default DeleteLocation

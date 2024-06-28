@@ -19,12 +19,12 @@ import PlaylistAddCheckOutlinedIcon from '@mui/icons-material/PlaylistAddCheckOu
 import AppView from '../../../components/Common/AppView'
 import AddCategory from './AddCategory'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../../Redux/store'
 import { ThunkDispatch } from 'redux-thunk'
 import { addCategory, fetchCategory } from '../../../Redux/features/CategorySlice'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import DeleteCategory from './DeleteCategory'
-
+import { RootState } from '../../../redux/store'
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 type Category = {
   id: number
   categoryName: string
@@ -118,7 +118,7 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
     <AppView>
       <Typography level="h4" sx={{ display: 'flex', alignItems: 'center' }}>
         <SignpostOutlinedIcon
-          style={{ fontSize: '1.4rem', color: '#d32f2f' }}
+          style={{ fontSize: '1.4rem', color: '#FABC1E' }}
         />
         Categories
       </Typography>
@@ -149,7 +149,7 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
           >
             <Typography
               sx={{
-                fontFamily: 'Poppins',
+             
                 fontSize: '20px',
                 fontWeight: 500,
                 lineHeight: '30px',
@@ -157,9 +157,14 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
                 whiteSpace: 'nowrap',
               }}
             >
-              <PlaylistAddCheckOutlinedIcon
-                style={{ fontSize: '1.4rem', color: '#d32f2f' }}
-              />
+              <TuneOutlinedIcon
+                    sx={{
+                      fontSize: '16px',
+                      color: '#FABC1E',
+                      alignItems: 'center',
+                    }}
+                  />
+              
               List of Categories
             </Typography>
           </Box>
@@ -242,7 +247,7 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
               display: 'flex',
               alignItems: 'center',
               flexDirection: { md: 'row', xs: 'column' },
-              justifyContent: { xs: 'center', md: 'space-between' },
+              justifyContent: { xs: 'center', md: 'flex-end' },
               marginTop: '1px',
               padding: '20px',
             }}
@@ -317,6 +322,7 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
             flexDirection: { xs: 'column', md: 'row' },
             justifyContent: { xs: 'center', md: 'flex-end' },
             gap: 2,
+            marginTop:'20px'
           }}
         >
          
@@ -335,13 +341,14 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
                 Back
           </Button>
           <Button
-            variant="solid"
-            sx={{
-              background: "#fdd835",
-              color: 'white',
-              borderRadius:'15px'
-            }}
-            component="label"
+             variant="solid"
+             sx={{
+               background: "#FABC1E",
+               color: "black",
+               "&:hover": { background: "#E1A91B" },
+               borderRadius:'15px'
+             }}
+             component="label"
               onClick={handleNextTab} 
           >
              Continue

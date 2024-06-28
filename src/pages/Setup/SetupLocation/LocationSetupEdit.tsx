@@ -13,10 +13,9 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
 import LocationSetup from './LocationSetup'
 import { useSelector, useDispatch } from 'react-redux';
-
-import { AppDispatch, RootState } from '../../../Redux/store'
 import { deleteLocation, updateLocation } from '../../../Redux/features/LocationSlice'
 import { ThunkDispatch } from 'redux-thunk'
+import { RootState } from '../../../redux/store'
 
 
 type Location = {
@@ -29,17 +28,14 @@ interface Props {
   matchedSelected: number[];
   setMatchedSelected: React.Dispatch<React.SetStateAction<number[]>>;
   handleDeleteOpen: () => void;
-  // onLocationChange: (updatedData: Location[]) => void
 }
 
 export function LocationSetupEdit({ locationName,
   matchedSelected,
   setMatchedSelected,
   handleDeleteOpen, 
-  // onLocationChange 
 }: Props) {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  // const [matchedSelected, setMatchedSelected] = useState<number[]>([])
   const [locData, setLocData] = useState<{ locationData: Location[] }>({locationData: [],})
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
   const [editOpen, setEditOpen] = useState<boolean>(false)
@@ -48,10 +44,8 @@ export function LocationSetupEdit({ locationName,
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
   const location = useSelector((state: RootState) => state.location.data)
-// const dispatch = useDispatch<AppDispatch>()
 console.log(location)
 const selectedLocation = selectedCell !== null ? location[selectedCell] : null
-
 
   const handleCheckboxChange = (index: number) => {
     setMatchedSelected((prevSelected) =>
@@ -59,7 +53,6 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
         ? prevSelected.filter((item) => item !== index)
         : [...prevSelected, index],
     )
-
   }
 
   const handleClickEditOpen = () => {
@@ -69,56 +62,20 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
   const handleEditClose = () => {
     setEditOpen(false)
     setSelectedCell(null)
-
-    // console.log(JSON.stringify(editOpen))
   }
 
-  // const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault()
-  //   const location = (e.target as any).location.value
-  //   if (selectedCell !== null) {
-  //     const updatedData = locData.locationData.map((item, index) =>
-  //       index === selectedCell ? { ...item, location } : item,
-  //     )
-  //     setLocData({ ...locData, locationData: updatedData })
-  //     handleEditClose()
-  //     dispatch(updateLocation(updatedData))
-  //     // onLocationChange(updatedData)
-  //   }
-  // }
   const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (selectedLocation !== null) {
       const location = (e.target as any).location.value
-      const updatedCategory = { ...selectedLocation, location }
+      const updatedCategory = { ...selectedLocation, location:capitalizeWords(location) }
       dispatch(updateLocation(updatedCategory))
       handleEditClose()
     }
   }
 
-  // const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault()
-  //   const deleteData = locData.locationData.filter(
-  //     (_, index) => index !== selectedCell,
-  //   )
-  //   setLocData({ ...locData, locationData: deleteData })
-  //   setMatchedSelected([])
-  //   setDeleteOpen(false)
-  //   // dispatch(deleteLocation())
-  //   // onLocationChange(deleteData)
-  
-  // }
-
-  const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (selectedCell !== null) {
-      dispatch(deleteLocation(location[selectedCell].id))
-      setDeleteOpen(false)
-      setSelectedCell(null)
-      setMatchedSelected((prevSelected) =>
-        prevSelected.filter((item) => item !== selectedCell),
-      )
-    }
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase())
   }
 
 
@@ -126,12 +83,6 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
     setSelectedCell(index)
       handleDeleteOpen()
     
-  }
-
-
-  const handleDeleteClose = () => {
-    setDeleteOpen(false)
-    setMatchedSelected([])
   }
 
   useEffect(() => {
@@ -257,10 +208,7 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
                     </tr>
                      )): <tr ><td colSpan={4} style={{ textAlign: 'center' }}>No Data Found</td></tr> }
               </tbody>
-
         </Table>
-      
-        
 
         <Modal
           open={editOpen}
@@ -313,11 +261,6 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
                     required
                     sx={{ width: '70%', marginLeft: '10px' }}
                     defaultValue={selectedLocation ? selectedLocation.location : ''}
-                    // defaultValue={
-                    //   selectedCell !== null
-                    //     ? locData.locationData[selectedCell].location
-                    //     : ''
-                    // }
                   />
                 </FormControl>
                 <Button
@@ -343,95 +286,6 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
                     background: 'black',
                     color: 'white',
                     marginLeft: '50px',
-                  }}
-                >
-                  Cancel
-                </Button>
-              </form>
-            </div>
-          </Sheet>
-        </Modal>
-
-        <Modal
-          open={deleteOpen}
-          onClose={handleDeleteClose}
-          aria-labelledby="responsive-dialog-title"
-          aria-describedby="modal-desc"
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Sheet
-            variant="outlined"
-            sx={{
-              maxWidth: 500,
-              borderRadius: 'md',
-              p: 3,
-              boxShadow: 'lg',
-            }}
-          >
-            <div>
-              <Typography
-                id="responsive-dialog-title"
-                component="h2"
-                level="h4"
-                textColor="inherit"
-                fontWeight="lg"
-                mb={1}
-              >
-                {'Delete Customs here'}
-              </Typography>
-
-              <form onSubmit={handleDeleteSubmit}>
-                <FormControl
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-evenly',
-                  }}
-                >
-                  <Box sx={{ marginBottom: '20px', padding: '20px' }}>
-                    Are you sure you want to delete this Location?
-                  </Box>
-                  {/* <Input
-                    variant="outlined"
-                    // type="text"
-                    // id="location"
-                    // name="location"
-                    required
-                    sx={{ width: '92%', marginLeft: '20px' }}
-                    defaultValue={
-                      selectedCell !== null
-                        ? locData.locationData[selectedCell].location: ''
-                    }
-                  /> */}
-                </FormControl>
-                <Button
-                  autoFocus
-                  type="submit"
-                  variant="solid"
-                  sx={{
-                    background: '#fdd835',
-                    color: 'black',
-                    // marginTop: '25px',
-                    marginLeft: '40%',
-                  }}
-                >
-                  Confirm Delete
-                </Button>
-
-                <Button
-                  type="button"
-                  onClick={handleDeleteClose}
-                  autoFocus
-                  variant="solid"
-                  sx={{
-                    background: 'black',
-                    color: 'white',
-                    // marginTop: '25px',
-                    marginLeft: '10px',
                   }}
                 >
                   Cancel

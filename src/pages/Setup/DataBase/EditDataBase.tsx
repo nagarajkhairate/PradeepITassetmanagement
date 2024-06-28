@@ -146,7 +146,7 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
                 >
                   <thead>
                     <tr>
-                      <th style={{ width: 30 }}>
+                      <th style={{ width: 30,background: '#fff8e6',verticalAlign:'middle' }}>
                         <Checkbox
                           size="sm"
                           indeterminate={
@@ -174,12 +174,12 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
                           sx={{ verticalAlign: "text-bottom" }}
                         />
                       </th>
-                      <th>Field Name</th>
-                      <th>Data Type</th>
-                      <th>Required</th>
-                      <th>Category</th>
-                      <th>Edit</th>
-                      <th>Delete</th>
+                      <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Field Name</th>
+                      <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Data Type</th>
+                      <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Required</th>
+                      <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Category</th>
+                      <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Edit</th>
+                      <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Delete</th>
  
                     </tr>
                   </thead>

@@ -1,11 +1,11 @@
 import { ThunkDispatch } from "redux-thunk";
 import { addDataBase } from "../../../Redux/features/DataBaseSlice";
-import { RootState } from "../../../Redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent,useEffect , useState } from "react";
 import { fetchComponents } from "../../../Redux/features/ComponentsIdSlice";
 import { Box, Button, FormControl, FormLabel, Input, Option, Radio, RadioGroup, Select, Sheet, Typography } from "@mui/joy";
 import AppForm from "../../../components/Common/AppForm";
+import { RootState } from "../../../redux/store";
 
 
 interface DataBaseAddProps {
@@ -61,6 +61,7 @@ const handleAddSkill = (e: React.FormEvent<HTMLFormElement>) => {
     }));
     dispatch(addDataBase(formData))
     handleClose();
+    setOpen(false);
     setFormData({
       custom: "",
       componentsId: "",
@@ -170,7 +171,7 @@ return (
                   </FormControl>
 
                    <Box>
-                   <FormLabel sx={{ paddingTop: "25px", marginLeft: "20px" }}>
+                   <FormLabel sx={{ paddingTop: "25px", marginLeft: "20px",  display:'flex', flexDirection:{md:'flex-end', xs:'flex-end'} }}>
   Selected <span style={{ marginRight: "8px" }}>Categories:</span> 
   <span style={{ marginLeft: "10px" }}>Is this field visible to assets of selective 'Categories'?</span>
 </FormLabel>
@@ -181,12 +182,14 @@ return (
                           
                           onChange={handleChange}
                         >
-                          <Box>
+                          <Box 
+                          sx={{ display:'flex', flexDirection:{md:'flex-end', xs:'center'} }}
+                          >
                             <Radio
                               value="All Categories"
                               label="All Categories"
                               variant="outlined"
-                              sx={{ paddingTop: "20px", marginLeft: "165px" }}
+                              sx={{ paddingTop: "20px", marginLeft: "165px",}}
                             />
                             <Radio value="Limited Categories" label="Limited Categories" variant="outlined" sx={{ paddingTop: "20px", marginLeft: "15px" }}/>
                            

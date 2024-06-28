@@ -162,22 +162,10 @@ export const MaintenanceOverdue: React.FC = () => {
               <Option value="20">20</Option>
             </Select>
           </Box>  
-            {/* <Box
-              sx={{
-                // marginRight: "18%",
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "flex-end ",
-                color: "danger",
-                fontFamily: "Poppins, sans-serif",
-                fontStyle: "italic",
-                marginTop:'2px'
-              }}
-            > */}
+           
         <Typography
         sx={{
           maxWidth: 450,
-          fontFamily: 'Poppins, sans-serif',
           fontStyle: 'italic',
           marginTop: '2px',
         }}
