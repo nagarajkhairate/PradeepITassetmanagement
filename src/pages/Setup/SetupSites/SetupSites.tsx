@@ -27,7 +27,7 @@ import AppView from '../../../components/Common/AppView'
 import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
 import { useDispatch, useSelector } from 'react-redux'
 import { ThunkDispatch } from 'redux-thunk'
-import { RootState } from '../../../Redux/store'
+
 import {
   deleteSites,
   fetchSites,
@@ -35,6 +35,8 @@ import {
 } from '../../../Redux/features/SitesSlice'
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
+import { RootState } from '../../../redux/store'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 
 export interface Site {
   siteName: string
@@ -50,10 +52,8 @@ export interface Site {
 const SetupSites: React.FC = ({}) => {
   const theme = useTheme()
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [open, setOpen] = useState(false)
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
-  const [isAddDialogOpen, setAddDialogOpen] = useState(false)
   const [isEditOpen, setEditOpen] = useState(false)
   const [selectedSite, setSelectedSite] = useState<any>(null)
   const [deleteOpen, setDeleteOpen] = useState(false)
@@ -101,8 +101,8 @@ const SetupSites: React.FC = ({}) => {
   return (
     <AppView>
       <Typography level="h4" style={{ display: 'flex', alignItems: 'center' }}>
-        <RoomOutlinedIcon style={{ fontSize: '1.4rem', color: '#FBC21E' }} />
-        Sites
+        <RoomOutlinedIcon style={{ color: '#FBC21E' }} />
+        <strong>Sites</strong>
       </Typography>
 
       <Box
@@ -121,7 +121,7 @@ const SetupSites: React.FC = ({}) => {
             flexDirection: { xs: 'column', md: 'row' },
             justifyContent: { xs: 'center', md: 'space-between' },
             gap: 2,
-            mb: 2,
+            mb: 1,
           }}
         >
           <Grid
@@ -130,29 +130,30 @@ const SetupSites: React.FC = ({}) => {
             sx={{ flexGrow: 1, paddingTop: '20px', paddingBottom: '10px' }}
           >
             <Grid xs={4}>
+            
               <Box
                 sx={{
                   textAlign: { xs: 'center', md: 'left' },
                 }}
               >
                 <Typography
-                  sx={{
-                    fontFamily: 'Poppins',
-                    fontSize: '20px',
-                    fontWeight: 500,
-                    lineHeight: '30px',
-                    textAlign: { xs: 'center', md: 'left' },
-                    whiteSpace: 'nowrap',
-                  }}
+                sx={{ 
+                  fontsize:"20px", 
+                  display:"flex",
+                  fontWeight: 500,
+                  lineHeight: '30px',
+                  textAlign: { xs: 'center', md: 'left' },
+                  whiteSpace: 'nowrap',
+                  mt:0
+                }}
                 >
                   <TuneOutlinedIcon
-                    style={{
-                      fontSize: '1.4rem',
+                    sx={{
                       color: '#FBC21E',
                       alignItems: 'center',
                     }}
                   />
-                  List of Sites
+                  <strong>List of Sites</strong>
                 </Typography>
               </Box>
             </Grid>
@@ -190,6 +191,28 @@ const SetupSites: React.FC = ({}) => {
                     Add New Site
                   </Button>
 
+
+                  {matchedSelected.length > 0 && (
+          <Button
+          onClick={handleDeleteClick}
+            autoFocus
+              variant="solid"
+            sx={{
+              fontSize: '15px',
+              background: '#d32f2f',
+              width: { xs: '100%', sm: 'auto', md: '150px' },
+              display: 'flex',
+              justifyContent: { md: 'flex-end', xs: 'center' },
+              marginLeft: 'none',
+              border: '1px solid red',
+              padding: '.2rem .5rem',
+              borderRadius: '40px',
+            }}
+          >
+            <DeleteForeverIcon />
+            Delete Site
+          </Button>
+        )}
                   <Button
                     sx={{
                       fontSize: '15px',
@@ -200,7 +223,6 @@ const SetupSites: React.FC = ({}) => {
                     }}
                   >
                     <PublishOutlinedIcon
-                      style={{ marginRight: '8px', fontSize: '20px' }}
                     />
                     Import Sites
                   </Button>
@@ -208,14 +230,17 @@ const SetupSites: React.FC = ({}) => {
               </React.Fragment>
             </Grid>
           </Grid>
-          <Divider />
+        
         </Box>
-        <Box sx={{ marginTop: '20px', padding: '20px', fontSize: '18px' }}>
-          <b>AssetTiger</b> allows you to enter multiple <b>Sites</b>. For
-          example, the <b>Site</b> may be a building or address. This means that
-          you can better track each asset that is assigned to a given{' '}
-          <b>Site</b>. A detailed <b>Site</b> makes it easy to find and count
-          each asset.
+        <Divider />
+        <Box sx={{ marginTop: '20px', padding: '20px', fontSize: '14px' }}>
+          <Typography>
+        <strong>AssetTiger</strong> allows you to enter multiple{' '}
+            <strong>Sites</strong>. For example, the <strong>Site</strong> may
+            be a building or address. This means that you can better track each
+            asset that is assigned to a given <strong>Site</strong>. A detailed{' '}
+            <strong>Site</strong> makes it easy to find and count each asset.
+            </Typography>
         </Box>
         <Divider />
 
@@ -223,14 +248,15 @@ const SetupSites: React.FC = ({}) => {
           sx={{
             display: 'flex',
             alignItems: 'center',
-
-            justifyContent: 'space-between',
+            flexDirection: { md: 'row', xs: 'column' },
+            justifyContent: { xs: 'center', md: 'space-between' },
             padding: '10px',
           }}
         >
           <FormControl
             sx={{
               display: 'flex',
+              flexDirection: { xs: 'column', md: 'row' },
             }}
           >
             <FormLabel
@@ -242,7 +268,7 @@ const SetupSites: React.FC = ({}) => {
             >
               Sites
             </FormLabel>
-            <Select
+            {/* <Select
               placeholder="10"
               sx={{
                 // marginLeft: { md: '20px' },
@@ -252,11 +278,11 @@ const SetupSites: React.FC = ({}) => {
                 borderRadius: '15px',
               }}
               required
-            >
+            > */}
               {/* <Option value="10">10</Option>
                 <Option value="9">9</Option>
                 <Option value="8">8</Option> */}
-            </Select>
+            {/* </Select> */}
           </FormControl>
 
           <Box
@@ -336,7 +362,7 @@ const SetupSites: React.FC = ({}) => {
               >
                 <thead>
                   <tr>
-                    <th style={{ width: 30, background: '#fff8e6' }}>
+                    <th style={{ width: 30, background: '#fff8e6', verticalAlign:"middle"}}>
                       <Checkbox
                         size="sm"
                         indeterminate={
@@ -360,16 +386,16 @@ const SetupSites: React.FC = ({}) => {
                         }}
                       />
                     </th>
-                    <th style={{ background: '#fff8e6' }}>Site</th>
-                    <th style={{ background: '#fff8e6' }}>Description</th>
-                    <th style={{ background: '#fff8e6' }}>Address</th>
-                    <th style={{ background: '#fff8e6' }}>Apt. / Suite</th>
-                    <th style={{ background: '#fff8e6' }}>City</th>
-                    <th style={{ background: '#fff8e6' }}>State</th>
-                    <th style={{ background: '#fff8e6' }}>Zip Code</th>
-                    <th style={{ background: '#fff8e6' }}>Country</th>
-                    <th style={{ background: '#fff8e6' }}>Edit</th>
-                    <th style={{ background: '#fff8e6' }}> Delete</th>
+                    <th style={{ background: '#fff8e6',verticalAlign:"middle", fontSize:"14px"}}>Site</th>
+                    <th style={{ background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Description</th>
+                    <th style={{ background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Address</th>
+                    <th style={{ background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Apt. / Suite</th>
+                    <th style={{ background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>City</th>
+                    <th style={{ background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>State</th>
+                    <th style={{ background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Zip Code</th>
+                    <th style={{ background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Country</th>
+                    <th style={{ background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Edit</th>
+                    <th style={{ background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}> Delete</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -398,7 +424,7 @@ const SetupSites: React.FC = ({}) => {
                               aria-label="edit"
                               onClick={() => handleEditClick(site)}
                               sx={{
-                                fontSize: '12px',
+                                fontSize: '14px',
                                 background: '#ffffff',
                                 color: 'green',
                                 display: 'flex',
@@ -413,9 +439,10 @@ const SetupSites: React.FC = ({}) => {
                                   color: 'white',
                                   background: 'green',
                                 },
+                                padding: '.25rem .55rem',
                               }}
                             >
-                              <EditIcon sx={{ fontSize: '12px' }} />
+                              <EditIcon sx={{ fontSize: '14px' }} />
                               Edit
                             </Button>
                           </div>
@@ -425,7 +452,7 @@ const SetupSites: React.FC = ({}) => {
                             aria-label="delete"
                             onClick={() => handleDeleteClick(site)}
                             sx={{
-                              fontSize: '12px',
+                              fontSize: '14px',
                               background: '#ffffff',
                               color: '#d32f2f',
                               display: 'flex',
@@ -437,9 +464,10 @@ const SetupSites: React.FC = ({}) => {
                                 color: 'white',
                                 background: '#d32f2f',
                               },
+                              padding: '.25rem .55rem',
                             }}
                           >
-                            <DeleteIcon sx={{ fontSize: '12px' }} />
+                            <DeleteIcon sx={{ fontSize: '14px' }} />
                             Delete
                           </Button>
                         </td>
