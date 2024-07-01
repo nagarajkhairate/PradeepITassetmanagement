@@ -85,18 +85,18 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
 
   return (
     <AppView>
-      <Typography
+      {/* <Typography
         level="h4"
         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
       >
-        {/* <SignpostOutlinedIcon style={{ fontSize: , color: '#d32f2f' }}/> */}
+        
         <RoomOutlinedIcon style={{ fontSize: '1.4rem', color: '#FABC1E' }} />
         Step-3 Locations
-      </Typography>
+      </Typography> */}
 
       <Box
         sx={{
-          borderRadius: 'none',
+          borderRadius: '10px',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
           gap: '5px',
@@ -119,6 +119,7 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
             }}
           >
             <Typography
+            level='h4'
               sx={{
                 fontSize: '20px',
                 fontWeight: 500,
@@ -128,12 +129,9 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
                 mt: 0,
               }}
             >
-              {/* <PlaylistAddCheckOutlinedIcon
-                style={{ fontSize: , color: '#d32f2f' }}
-              /> */}
               <TuneOutlinedIcon
                     sx={{
-                      fontSize: '16px',
+                      fontSize: '1.1rem',
                       color: '#FABC1E',
                       alignItems: 'center',
                     }}
@@ -370,7 +368,7 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
     sx={{
       background: '#388e3c',
       color: 'white',
-      borderRadius:'15px',
+      borderRadius:'10px',
       
     }}
     component="label"
@@ -386,7 +384,7 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
       background: "#FABC1E",
       color: "black",
       "&:hover": { background: "#E1A91B" },
-      borderRadius:'15px'
+      borderRadius:'10px'
     }}
     component="label"
       onClick={handleNextTab} 

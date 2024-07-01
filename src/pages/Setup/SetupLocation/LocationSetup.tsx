@@ -14,10 +14,7 @@ import { useState } from 'react'
 import LocationSetupEdit from './LocationSetupEdit'
 import PlaylistAddCheckOutlinedIcon from '@mui/icons-material/PlaylistAddCheckOutlined'
 import AppView from '../../../components/Common/AppView'
-import {
-  addLocation,
-  fetchLocation,
-} from '../../../Redux/features/LocationSlice'
+import {addLocation,fetchLocation,} from '../../../Redux/features/LocationSlice'
 import { ThunkDispatch } from 'redux-thunk'
 import LocationAdd from './LocationAdd'
 import AddIcon from '@mui/icons-material/Add'
@@ -25,7 +22,8 @@ import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import LocationDelete from './LocationDelete'
 import { RootState } from '../../../redux/store'
-// import { LocationDelete } from './LocationDelete'
+import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 
 type Location = {
   id: number
@@ -68,10 +66,10 @@ const LocationSetup: React.FunctionComponent = () => {
   return (
     <AppView>
       <Typography
-        level="h4"
-        sx={{ display: 'flex', alignItems: 'center', gap: 1, fontFamily:'sans-serif' }}
+        level="h3"
+        sx={{ display: 'flex', alignItems: 'center', gap: 1, }}
       >
-        <SignpostOutlinedIcon
+        <RoomOutlinedIcon
           style={{ fontSize: '1.4rem', color: '#FBC12E' }}
         />
         Locations
@@ -79,7 +77,7 @@ const LocationSetup: React.FunctionComponent = () => {
 
       <Box
         sx={{
-          borderRadius: 'none',
+          borderRadius: '10px',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
           gap: '5px',
@@ -102,6 +100,7 @@ const LocationSetup: React.FunctionComponent = () => {
             }}
           >
             <Typography
+            level='h4'
               sx={{
                 
                 fontSize: '20px',
@@ -112,8 +111,8 @@ const LocationSetup: React.FunctionComponent = () => {
                 mt: 0,
               }}
             >
-              <PlaylistAddCheckOutlinedIcon
-                style={{ fontSize: '1.4rem', color: '#FBC12E' }}
+              <TuneOutlinedIcon
+                style={{ fontSize: '1.1rem', color: '#FBC12E' }}
               />
               List of Location
             </Typography>

@@ -189,6 +189,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
   const [dataBases, setDataBases] = useState({
     customAssetFields: [],
     customDefaultFields: customDefaultFields.map((item) => ({
+      ...item,
       id: item.id,
       visible: item.visible,
       fieldName: item.fieldName,
@@ -251,11 +252,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
     }))
   }
 
-  const handleDeleteButton = () => {
-    if (selectedCell !== null) {
-      handleDeleteOpen()
-    }
-  }
+ 
 
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -276,11 +273,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
     setMatchedSelected([])
   }
 
-  const handleEdit = () => {
-    if (selectedCell !== null) {
-      handleClickEditOpen()
-    }
-  }
+ 
 
   const HandleRadioSelect = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -297,16 +290,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
 
   console.log(JSON.stringify(dataBases, null, 2))
 
-  const generateJson = () => {
-    const jsonData = dataBases.customDefaultFields.map((item) => ({
-      id: item.id,
-      visible: item.visible,
-      fieldName: item.fieldName,
-      required: item.required,
-      description: item.description,
-    }))
-    return JSON.stringify(jsonData, null, 2)
-  }
+
 
   const handleNextTab = () => {
     // Extracting only the necessary fields from dataBaseTable in dataBases
@@ -333,10 +317,22 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
   const handlePrevTab = () => {
     setActiveTab(activeTab - 1)
   }
+  const generateJson = () => {
+    const jsonData = dataBases.customDefaultFields.map(({ 
+      id, visible, fieldName, required, description 
+    }) => ({
+      id,
+      visible,
+      fieldName,
+      required,
+      description
+    }));
+    return JSON.stringify(jsonData, null, 2);
+  };
 
   return (
     <AppView>
-      <Typography
+      {/* <Typography
         level="h4"
         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
       >
@@ -344,15 +340,15 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
           style={{ fontSize: '1.4rem', color: '#FABC1E' }}
         />
         Step-4 Database
-      </Typography>
+      </Typography> */}
 
       <Box
         sx={{
-          borderRadius: 'none',
+          borderRadius: '10px',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
           gap: '5px',
-          p: 2,
+          p: 1,
         }}
       >
         <Box
@@ -361,6 +357,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
           }}
         >
           <Typography
+          level='h4'
               sx={{
              
                 fontSize: '20px',
@@ -368,11 +365,12 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
                 lineHeight: '30px',
                 textAlign: { xs: 'center', md: 'left' },
                 whiteSpace: 'nowrap',
+                gap:1
               }}
             >
               <TuneOutlinedIcon
                     sx={{
-                      fontSize: '16px',
+                      fontSize: '1.1rem',
                       color: '#FABC1E',
                       alignItems: 'center',
                     }}
@@ -411,7 +409,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
                 </tr>
               </thead>
               <tbody>
-                {customDefaultFields.map((data, index) => (
+                {dataBases.customDefaultFields.map((data, index) => (
                   <tr key={index}>
                     <td>
                       <Checkbox
@@ -481,9 +479,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
             selectedCell={selectedCell}
             setSelectedCell={setSelectedCell}
             handleCheckboxChange={handleCheckboxChange}
-            handleEdit={handleEdit}
             handleEditButton={handleEditButton}
-            handleDeleteButton={handleDeleteButton}
             handleDeleteSubmit={handleDeleteSubmit}
             handleEditClose={handleEditClose}
             handleDeleteOpen={handleDeleteOpen}
@@ -508,7 +504,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
             sx={{
               background: '#388e3c',
               color: 'white',
-              borderRadius:'15px'
+              borderRadius:'10px'
             }}
             component="label"
             onClick={handlePrevTab}
@@ -522,9 +518,10 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
               background: "#FABC1E",
               color: "black",
               "&:hover": { background: "#E1A91B" },
-              borderRadius:'15px'
+              borderRadius:'10px'
             }}
             component="label"
+            // onClick={handleNextTab}
             onClick={handleNextTab}
           >
             Continue

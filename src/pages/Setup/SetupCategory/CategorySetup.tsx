@@ -19,11 +19,12 @@ import PlaylistAddCheckOutlinedIcon from '@mui/icons-material/PlaylistAddCheckOu
 import AppView from '../../../components/Common/AppView'
 import CategoryAdd from './CategorySetupAdd'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../../Redux/store'
 import { ThunkDispatch } from 'redux-thunk'
 import { addCategory, fetchCategory } from '../../../Redux/features/CategorySlice'
 import CategoryDelete from './CategorySetupDelete'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import { RootState } from '../../../redux/store'
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 
 type Category = {
   id: number
@@ -87,7 +88,7 @@ const CategorySetup: React.FunctionComponent = () => {
 
   return (
     <AppView>
-      <Typography level="h4" sx={{ display: 'flex', alignItems: 'center' }}>
+      <Typography level="h3" sx={{ display: 'flex', alignItems: 'center' }}>
         <SignpostOutlinedIcon
           style={{ fontSize: '1.4rem', color: '#FBC12E' }}
         />
@@ -119,6 +120,7 @@ const CategorySetup: React.FunctionComponent = () => {
             }}
           >
             <Typography
+            level='h4'
               sx={{
                 
                 fontSize: '20px',
@@ -128,8 +130,8 @@ const CategorySetup: React.FunctionComponent = () => {
                 whiteSpace: 'nowrap',
               }}
             >
-              <PlaylistAddCheckOutlinedIcon
-                style={{ fontSize: '1.4rem', color: '#d32f2f' }}
+              <TuneOutlinedIcon
+                style={{ fontSize: '1.1rem', color: '#FBC12E' }}
               />
               List of Categories
             </Typography>

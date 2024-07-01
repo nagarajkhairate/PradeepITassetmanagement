@@ -21,12 +21,10 @@ import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import AppView from '../../Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
-import { RootState } from '../../../Redux/store'
 import { useDispatch } from 'react-redux'
 import { addoptions, fetchOptions } from '../../../Redux/features/TabsSlice'
 import AppForm from '../../Common/AppForm'
-
-
+import { RootState } from '../../../redux/store'
 
 
 interface EventOptionProps {
@@ -163,34 +161,38 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
   return (
     <AppForm onSubmit={handleSubmit}>
     <AppView>
-      <Typography
-        level="h4"
-        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-      >
-        <SignpostOutlinedIcon
-          style={{ fontSize: '1.4rem', color: '#d32f2f' }}
-        />
-        EventOption
-      </Typography>
+      
 
       <Box
         sx={{
-          borderRadius: 'none',
+          borderRadius: '10px',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
           gap: '5px',
-          p: 2,
+          p: 1,
         }}
       >
-        <Box>
-          <Typography level="body-md">Asset-related Events</Typography>
-        </Box>
+        <Typography
+        level="h4"
+        sx={{ display: 'flex', alignItems: 'center',marginBottom:'20px', gap: 1 }}
+      >
+        <SignpostOutlinedIcon
+          style={{ fontSize: '1.4rem', color: '#FBC12E',  }}
+        />
+        EventOption
+      </Typography>
+       
+          <Typography><strong>Asset-related Events</strong></Typography>
+      
 
-        <Box sx={{ ml: '20px', py: '10px' }}>
-          <Typography level="body-sm">
+        
+        
+          <Typography
+          sx={{marginTop:'20px'}}
+          >
             Do you want to register these event for the assets?
           </Typography>
-        </Box>
+        
         <Divider></Divider>
 
         <Box
@@ -204,7 +206,7 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
           }}
         >
           <Box>
-            <Typography level="body-sm">
+            <Typography>
               {/* <HowToRegOutlinedIcon /> */}
               Check-out assets:
             </Typography>
@@ -227,9 +229,9 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
         </Box>
 
         <Box sx={{ ml: { md: '260px', xs: 'none' }, paddingBottom: '20px' }}>
-          <Typography level="body-xs">
+          <Typography>
             Assets are 'checked out' or 'assigned to' individuals. Enter
-            individuals in 'Advanced &gt; Persons/Employee' table.{' '}
+            individuals in 'Advanced; Persons/Employee' table.{' '}
           </Typography>
         </Box>
         <Divider></Divider>
@@ -244,7 +246,7 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
           }}
         >
           <Box>
-            <Typography level="body-sm">
+            <Typography >
               {/* <SendTwoToneIcon /> */}
               Lease assets:
             </Typography>
@@ -267,7 +269,7 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
           </>
         </Box>
         <Box sx={{ ml: { md: '260px', xs: 'none' }, paddingBottom: '20px' }}>
-          <Typography level="body-xs">
+          <Typography>
             Assets are 'leased' or 'rented/loaned' to customers. Maintain a list
             of customers in the 'Advanced &gt; Customers' table.
           </Typography>
@@ -283,7 +285,7 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
           }}
         >
           <Box>
-            <Typography level="body-sm">
+            <Typography>
               {/* <ThumbDownAltOutlinedIcon /> */}
               Lost/Found assets:
             </Typography>
@@ -307,7 +309,7 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
         </Box>
 
         <Box sx={{ ml: { md: '260px', xs: 'none' }, paddingBottom: '20px' }}>
-          <Typography level="body-xs">
+          <Typography>
             Assets are sometimes lost/found to customers. Maintain a list of
             customers in the 'Advanced &gt; Customers' table.
           </Typography>
@@ -324,7 +326,7 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
           }}
         >
           <Box>
-            <Typography level="body-sm">
+            <Typography>
               {/* <ConstructionOutlinedIcon />  */}
               Repair assets:
             </Typography>
@@ -351,7 +353,7 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
           }}
         >
           <Box>
-            <Typography level="body-sm">
+            <Typography>
               {/* <PiLinkBreakLight />  */}
               Broken assets:
             </Typography>
@@ -379,7 +381,7 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
           }}
         >
           <Box>
-            <Typography level="body-sm">
+            <Typography>
               {/* <PiRecycleLight />  */}
               Dispose assets:
             </Typography>
@@ -407,7 +409,7 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
           }}
         >
           <Box>
-            <Typography level="body-sm">
+            <Typography>
               {/* <FaRegHeart />  */}
               Donate assets:
             </Typography>
@@ -435,7 +437,7 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
           }}
         >
           <Box>
-            <Typography level="body-sm">
+            <Typography>
               {/* <GavelOutlinedIcon />  */}
               Sell assets:
             </Typography>
@@ -466,8 +468,8 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
             variant="solid"
             sx={{
               background: '#388e3c',
-              color: 'black',
-              // borderRadius: '15px',
+              color: 'white',
+              borderRadius:'10px'
             }}
             component="label"
             onClick={handlePrevTab}
@@ -481,7 +483,7 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
               background: '#FABC1E',
               color: 'black',
               '&:hover': { background: '#E1A91B' },
-              // borderRadius: '15px',
+              borderRadius: '10px',
             }}
             component="label"
             onClick={handleSubmit}

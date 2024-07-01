@@ -116,12 +116,12 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
 
   return (
     <AppView>
-      <Typography level="h4" sx={{ display: 'flex', alignItems: 'center' }}>
+      {/* <Typography level="h4" sx={{ display: 'flex', alignItems: 'center' }}>
         <SignpostOutlinedIcon
           style={{ fontSize: '1.4rem', color: '#FABC1E' }}
         />
         Categories
-      </Typography>
+      </Typography> */}
 
       <Box
         sx={{
@@ -148,6 +148,7 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
             }}
           >
             <Typography
+            level='h4'
               sx={{
              
                 fontSize: '20px',
@@ -159,7 +160,7 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
             >
               <TuneOutlinedIcon
                     sx={{
-                      fontSize: '16px',
+                      fontSize: '1.1rem',
                       color: '#FABC1E',
                       alignItems: 'center',
                     }}
@@ -331,7 +332,7 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
             sx={{
               background: '#388e3c',
               color: 'white',
-              borderRadius:'15px'
+              borderRadius:'10px'
             }}
             component="label"
             onClick={handlePrevTab}
@@ -346,7 +347,7 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
                background: "#FABC1E",
                color: "black",
                "&:hover": { background: "#E1A91B" },
-               borderRadius:'15px'
+               borderRadius:'10px'
              }}
              component="label"
               onClick={handleNextTab} 
