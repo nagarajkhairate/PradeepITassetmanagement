@@ -20,6 +20,10 @@ interface LocationAddProps {
     const sites = useSelector((state:RootState) => state.sites.data);
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
+    const handleClose = () => {
+      setOpen(false)
+    }
+    
       React.useEffect(()=>{
         dispatch(fetchSites())
       },[dispatch])
@@ -192,7 +196,7 @@ interface LocationAddProps {
 
                       <Button
                         type="button"
-                        onClick={setOpen}
+                        onClick={handleClose}
                         autoFocus
                         variant="solid"
                         sx={{

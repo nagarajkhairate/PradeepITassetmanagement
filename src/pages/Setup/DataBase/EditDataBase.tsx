@@ -47,9 +47,7 @@ interface DataProps {
     selectedCell: number | null;
     setSelectedCell: React.Dispatch<React.SetStateAction<number | null>>;
     handleCheckboxChange: (index: number) => void;
-    handleEdit: () => void;
     handleEditButton: (e: React.FormEvent<HTMLFormElement>) => void;
-    handleDeleteButton: () => void;
     handleDeleteSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     handleEditClose: () => void;
     handleDeleteOpen: () => void;
@@ -69,9 +67,8 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
     selectedCell,
     setSelectedCell,
     handleCheckboxChange,
-    handleEdit,
     // handleEditButton,
-    handleDeleteButton,
+
     handleDeleteSubmit,
     // handleEditClose,
     handleDeleteOpen,
@@ -106,7 +103,13 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
 
       const handleClickEditOpen = () => {
         setEditOpen(true);
+        
       };
+      const handleEdit = (index:number) => {
+        setSelectedCell(index)
+          handleClickEditOpen()
+        
+      }
     
       const handleEditClose = () => {
         setEditOpen(false);
@@ -126,6 +129,13 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
         handleEditClose();
     }
 };
+
+const handleDeleteButton = (index:number) => {
+  setSelectedCell(index)
+    handleDeleteOpen()
+  
+}
+
 
     return(
         <Stack
@@ -214,7 +224,7 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
                               
                             },
                           }}
-                          onClick={handleEdit}>
+                          onClick={()=>handleEdit(index)}>
                             <EditOutlinedIcon />
                             Edit
                           </Button>
@@ -234,7 +244,7 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
                               background: '#d32f2f',
                             },
                           }}
-                          onClick={handleDeleteButton}>
+                          onClick={()=>handleDeleteButton(index)}>
                             <DeleteForeverIcon />
                             Delete
                           </Button>
