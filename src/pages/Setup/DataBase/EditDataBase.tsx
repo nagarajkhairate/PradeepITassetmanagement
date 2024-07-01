@@ -47,9 +47,7 @@ interface DataProps {
     selectedCell: number | null;
     setSelectedCell: React.Dispatch<React.SetStateAction<number | null>>;
     handleCheckboxChange: (index: number) => void;
-    handleEdit: () => void;
     handleEditButton: (e: React.FormEvent<HTMLFormElement>) => void;
-    handleDeleteButton: () => void;
     handleDeleteSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     handleEditClose: () => void;
     handleDeleteOpen: () => void;
@@ -69,9 +67,8 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
     selectedCell,
     setSelectedCell,
     handleCheckboxChange,
-    handleEdit,
     // handleEditButton,
-    handleDeleteButton,
+
     handleDeleteSubmit,
     // handleEditClose,
     handleDeleteOpen,
@@ -106,7 +103,13 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
 
       const handleClickEditOpen = () => {
         setEditOpen(true);
+        
       };
+      const handleEdit = (index:number) => {
+        setSelectedCell(index)
+          handleClickEditOpen()
+        
+      }
     
       const handleEditClose = () => {
         setEditOpen(false);
@@ -127,6 +130,13 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
     }
 };
 
+const handleDeleteButton = (index:number) => {
+  setSelectedCell(index)
+    handleDeleteOpen()
+  
+}
+
+
     return(
         <Stack
                 direction={{ xs: "column", sm: "row" }}
@@ -146,7 +156,7 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
                 >
                   <thead>
                     <tr>
-                      <th style={{ width: 30 }}>
+                      <th style={{ width: 30,background: '#fff8e6',verticalAlign:'middle' }}>
                         <Checkbox
                           size="sm"
                           indeterminate={
@@ -174,12 +184,12 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
                           sx={{ verticalAlign: "text-bottom" }}
                         />
                       </th>
-                      <th>Field Name</th>
-                      <th>Data Type</th>
-                      <th>Required</th>
-                      <th>Category</th>
-                      <th>Edit</th>
-                      <th>Delete</th>
+                      <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Field Name</th>
+                      <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Data Type</th>
+                      <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Required</th>
+                      <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Category</th>
+                      <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Edit</th>
+                      <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Delete</th>
  
                     </tr>
                   </thead>
@@ -214,7 +224,7 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
                               
                             },
                           }}
-                          onClick={handleEdit}>
+                          onClick={()=>handleEdit(index)}>
                             <EditOutlinedIcon />
                             Edit
                           </Button>
@@ -234,7 +244,7 @@ const EditDataBase: React.FC<DataProps>= ({ matchedSelected,
                               background: '#d32f2f',
                             },
                           }}
-                          onClick={handleDeleteButton}>
+                          onClick={()=>handleDeleteButton(index)}>
                             <DeleteForeverIcon />
                             Delete
                           </Button>

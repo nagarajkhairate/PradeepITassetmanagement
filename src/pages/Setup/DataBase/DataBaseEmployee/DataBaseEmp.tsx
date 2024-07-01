@@ -182,7 +182,7 @@ const DataBasesEmp: React.FunctionComponent = (
   const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
   const [dataBases, setDataBases] = useState<{ data: any[];dataBaseTable: any }>({ data: [],
     dataBaseTable: dataBaseTable.reduce((acc, item) => {
-      acc[item.name] = "";
+      // acc[item.name] = "";
       return acc;
     }, {}), });
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
@@ -317,7 +317,7 @@ console.log(JSON.stringify(dataBases, null, 2))
             </Box>
             
             <Box sx={{
-              textAlign: { xs: 'center', md: 'left', fontFamily:'sans-serif', },
+              textAlign: { xs: 'center', md: 'left', },
             }}>
               <Box
               sx={{mt:3}}

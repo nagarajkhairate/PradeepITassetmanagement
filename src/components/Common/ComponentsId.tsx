@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { ThunkDispatch } from 'redux-thunk';
-import { RootState } from '../../Redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchComponents } from '../../Redux/features/ComponentsIdSlice';
+import { RootState } from '../../redux/store';
 
 // Define the type for dropdown options
 type DropdownOption = {

@@ -12,9 +12,9 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
 import DeleteCategory from './DeleteCategory'
 import { ThunkDispatch } from 'redux-thunk'
-import { RootState } from '../../../Redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteCategory, updateCategory } from '../../../Redux/features/CategorySlice'
+import { RootState } from '../../../redux/store'
 
 type Category = {
   id: number
@@ -23,18 +23,23 @@ type Category = {
 
 interface Props {
   categories1: Category[]
-  // onCategoryChange: (updatedCategories: Category[]) => void
+  matchedSelected: number[];
+  setMatchedSelected: React.Dispatch<React.SetStateAction<number[]>>;
+  handleDeleteOpen: () => void;
 }
 
 export function EditCategory({ categories1,
-  //  onCategoryChange
+  matchedSelected,
+  setMatchedSelected,
+  handleDeleteOpen
+  
    }: Props) {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const [matchedSelected, setMatchedSelected] = useState<number[]>([])
+  // const [matchedSelected, setMatchedSelected] = useState<number[]>([])
   // const [lapCat, setLapCat] = useState<{ categoryData: Category[] }>({categoryData: [],})
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
   const [editOpen, setEditOpen] = useState<boolean>(false)
-  const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
+  // const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
   
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
@@ -65,76 +70,26 @@ export function EditCategory({ categories1,
     // console.log(JSON.stringify(editOpen))
   }
 
-  // const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault()
-  //   const categoryName = (e.target as any).categoryName.value
-  //   if (selectedCell !== null) {
-  //     const updatedData = categories.map((item, index) =>
-  //       index === selectedCell ? { ...item, categoryName } : item,
-  //     )
-  //     // setLapCat({ ...lapCat, categoryData: updatedData })
-  //     dispatch(updateCategory(updatedData))
-  //   console.log(categoryName)
-  //     handleEditClose()
-  //     // onCategoryChange(updatedData)
-  //   }
-  // }
-
   const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (selectedCategory !== null) {
       const categoryName = (e.target as any).categoryName.value
-      const updatedCategory = { ...selectedCategory, categoryName }
+      const updatedCategory = { ...selectedCategory, categoryName:capitalizeWords(categoryName) }
       dispatch(updateCategory(updatedCategory))
       handleEditClose()
     }
   }
 
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase())
+  }
+  
   const handleDeleteButton = (index:number) => {
     setSelectedCell(index)
       handleDeleteOpen()
     
   }
-
-  // const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault()
-  //   if (selectedCell !== null) {
-  //   const updatedData = categories.filter(
-  //     (_, index) => index !== selectedCell,
-  //   )
-  //   // setLapCat({ ...lapCat, categoryData: updatedData })
-  //   // setMatchedSelected([])
-  //   dispatch(deleteCategory(selectedCell))
-  //   setDeleteOpen(false)
-  //   // onCategoryChange(updatedData)
-  // }
-  // }
-
-  const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (selectedCell !== null) {
-      dispatch(deleteCategory(categories[selectedCell].id))
-      setDeleteOpen(false)
-      setSelectedCell(null)
-      setMatchedSelected((prevSelected) =>
-        prevSelected.filter((item) => item !== selectedCell),
-      )
-    }
-  }
-
-  const handleDeleteOpen = () => {
-    setDeleteOpen(true)
-  }
-
-  const handleDeleteClose = () => {
-    setDeleteOpen(false)
-    setMatchedSelected([])
-  }
-
-  // useEffect(() => {
-  //   setLapCat({ categoryData: categories })
-  // }, [categories])
-
+  
   useEffect(() => {
     setSelectedCell(null)
   }, [categories])
@@ -155,10 +110,17 @@ export function EditCategory({ categories1,
           justifyContent: 'space-between',
         }}
       >
+         <Box
+          sx={{
+            overflowX: 'auto',
+            fontSize: '14px',
+            whiteSpace: 'nowrap',
+          }}
+        >
         <Table borderAxis="both" style={{ borderCollapse: 'collapse' }}>
           <thead>
             <tr>
-              <th style={{ width: 30 }}>
+              <th style={{ width: 30, background: '#fff8e6',verticalAlign:'middle' }}>
                 <Checkbox
                   size="sm"
                   indeterminate={
@@ -186,9 +148,9 @@ export function EditCategory({ categories1,
                   sx={{ verticalAlign: 'text-bottom' }}
                 />
               </th>
-              <th>Category</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Category</th>
+              <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Edit</th>
+              <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -207,20 +169,25 @@ export function EditCategory({ categories1,
                     <Button
                       onClick={()=>handleEdit(index)}
                       sx={{
+                        fontSize: '13px',
                         background: '#ffffff',
                         color: 'green',
                         display: 'flex',
-                        justifyContent: 'flex-end',
+                        justifyContent: {
+                          md: 'flex-end',
+                          xs: 'center',
+                        },
                         marginLeft: 'none',
                         border: '1px solid green ',
-                        borderRadius: '15px',
+                        borderRadius: '13px',
                         '&:hover': {
                           color: 'white',
                           background: 'green',
                         },
+                        padding: '.25rem .55rem',
                       }}
                     >
-                      <EditOutlinedIcon />
+                      <EditOutlinedIcon sx={{ fontSize: '18px' }} />
                       Edit
                     </Button>
                   </td>
@@ -229,20 +196,23 @@ export function EditCategory({ categories1,
                     <Button
                       onClick={()=>handleDeleteButton(index)}
                       sx={{
+                        fontSize: '13px',
                         background: '#ffffff',
                         color: '#d32f2f',
                         display: 'flex',
-                        justifyContent: 'flex-end',
+                        justifyContent: { md: 'flex-end', xs: 'center' },
+
                         marginLeft: 'none',
                         border: '1px solid red ',
-                        borderRadius: '15px',
+                        borderRadius: '13px',
                         '&:hover': {
                           color: 'white',
                           background: '#d32f2f',
                         },
+                        padding: '.5rem .15rem',
                       }}
                     >
-                      <DeleteForeverIcon />
+                      <DeleteForeverIcon sx={{ fontSize: '18px' }}  />
                       Delete
                     </Button>
                   </td>
@@ -250,6 +220,7 @@ export function EditCategory({ categories1,
               )): <tr><td colSpan={4} style={{ textAlign: 'center' }}>Add the Category</td></tr>}
           </tbody>
         </Table>
+        </Box>
 
         <Modal
           open={editOpen}
@@ -342,11 +313,7 @@ export function EditCategory({ categories1,
         </Modal>
 
 
-        <DeleteCategory
-          open={deleteOpen}
-          handleDeleteClose={handleDeleteClose}
-          handleDeleteSubmit={handleDeleteSubmit}
-        />
+      
 
       </Stack>
     </>

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Box, Modal } from '@mui/joy'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../../../Redux/store'
 import { Typography, Divider } from '@mui/joy'
 import Button from '@mui/joy/Button'
 import { FormControl, FormLabel } from '@mui/joy'
@@ -15,15 +14,16 @@ import { useState } from 'react'
 import EditLocation from './EditLocation'
 import PlaylistAddCheckOutlinedIcon from '@mui/icons-material/PlaylistAddCheckOutlined'
 import AppView from '../../../components/Common/AppView'
-import {
-  addLocation,
-  fetchLocation,
-} from '../../../Redux/features/LocationSlice'
+import {addLocation,  fetchLocation,} from '../../../Redux/features/LocationSlice'
 import { ThunkDispatch } from 'redux-thunk'
 import AddLocation from './AddLocation'
 import AddIcon from '@mui/icons-material/Add'
 import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
-// import { LocationDelete } from './LocationDelete'
+import DeleteLocation from './DeleteLocation'
+import { RootState } from '../../../redux/store'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 
 type Location = {
   id: number
@@ -44,19 +44,27 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
     setActiveTab,
 }) => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const [open, setOpen] = useState(false)
+  const [matchedSelected, setMatchedSelected] = useState<number[]>([])
+  const [open, setOpen] =useState<boolean>(false)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [location, setLocation] = useState<string>('')
-  // const [locationName, setLocationName] = useState<Location[]>([])
+  const [deleteOpen, setDeleteOpen] = useState(false)
 
   const locations = useSelector((state: RootState) => state.location.data)
-  // const dispatch = useDispatch<AppDispatch>()
   console.log(locations)
 
   const handleLocationChange = (updatedData: Location[]) => {
-    // setLocationName(updatedData)
     console.log('location: ', JSON.stringify(updatedData))
+  }
+
+  const handleDeleteOpen = () => {
+    setDeleteOpen(true)
+  }
+  
+  const handleDeleteClose = () => {
+    setDeleteOpen(false)
+    setMatchedSelected([]) 
   }
 
   const handleNextTab = () => {
@@ -81,9 +89,8 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
         level="h4"
         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
       >
-        <SignpostOutlinedIcon
-          style={{ fontSize: '1.4rem', color: '#d32f2f' }}
-        />
+        {/* <SignpostOutlinedIcon style={{ fontSize: , color: '#d32f2f' }}/> */}
+        <RoomOutlinedIcon style={{ fontSize: '1.4rem', color: '#FABC1E' }} />
         Step-3 Locations
       </Typography>
 
@@ -103,7 +110,7 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
             flexDirection: { xs: 'column', md: 'row' },
             justifyContent: { xs: 'center', md: 'space-between' },
             gap: 2,
-            mb: 2,
+            mb: 1,
           }}
         >
           <Box
@@ -113,7 +120,6 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
           >
             <Typography
               sx={{
-                fontFamily: 'Poppins',
                 fontSize: '20px',
                 fontWeight: 500,
                 lineHeight: '30px',
@@ -122,9 +128,16 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
                 mt: 0,
               }}
             >
-              <PlaylistAddCheckOutlinedIcon
-                style={{ fontSize: '1.4rem', color: '#d32f2f' }}
-              />
+              {/* <PlaylistAddCheckOutlinedIcon
+                style={{ fontSize: , color: '#d32f2f' }}
+              /> */}
+              <TuneOutlinedIcon
+                    sx={{
+                      fontSize: '16px',
+                      color: '#FABC1E',
+                      alignItems: 'center',
+                    }}
+                  />
               List of Location
             </Typography>
           </Box>
@@ -149,6 +162,31 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
           >
             <AddIcon /> Add New Location
           </Button>
+
+          {matchedSelected.length > 0 && (
+          <Button
+            onClick={handleDeleteOpen}
+            autoFocus
+              variant="solid"
+            sx={{
+              fontSize: '13px',
+              // background: '#ffffff',
+              borderRadius: '15px',
+              // color: '#d32f2f',
+              background: '#d32f2f',
+              display: 'flex',
+              justifyContent: { md: 'flex-end', xs: 'center' },
+              marginLeft: 'none',
+              border: '1px solid red',
+              
+              padding: '.5rem .10rem',
+            }}
+          >
+            <DeleteForeverIcon sx={{ fontSize: '15px' }} />
+            Delete Location
+          </Button>
+        )}
+
           <Button
               autoFocus
               type="submit"
@@ -247,39 +285,10 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
               display: 'flex',
               alignItems: 'center',
               flexDirection: { md: 'row', xs: 'column' },
-              justifyContent: { xs: 'center', md: 'space-between' },
+              justifyContent: { xs: 'center', md: 'flex-end' },
               padding: '10px',
             }}
           >
-            <FormControl
-              sx={{
-                display: 'flex',
-                flexDirection: { xs: 'column', md: 'row' },
-              }}
-            >
-              <Select
-                placeholder="10"
-                sx={{
-                  alignItems: 'center',
-                  background: 'none',
-                  color: 'black',
-                  borderRadius: '15px',
-                }}
-                required
-              >
-                <Option value="10">10</Option>
-              </Select>
-
-              <FormLabel
-                sx={{
-                  marginLeft: '10px',
-                  marginTop: '6px',
-                  mb: { xs: 1, md: 1 },
-                }}
-              >
-                locations
-              </FormLabel>
-            </FormControl>
 
             <Box
               sx={{
@@ -336,6 +345,9 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
         <Box>
           <EditLocation
             locationName={locations}
+            matchedSelected={matchedSelected}
+        setMatchedSelected={setMatchedSelected}
+        handleDeleteOpen={handleDeleteOpen}
           />
         </Box>
         <Divider />
@@ -385,6 +397,17 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
   </Button>
   </Box>
       </Box>
+
+      <DeleteLocation
+              selectedCell={null}
+            
+              setMatchedSelected={setMatchedSelected}
+              setSelectedCell={() => {}}
+              locDatas={{ locationData: [] }}
+              setLocDatas={() => { }}
+              handleDeleteClose={handleDeleteClose}
+              open={deleteOpen}
+            />
     </AppView>
   )
 }

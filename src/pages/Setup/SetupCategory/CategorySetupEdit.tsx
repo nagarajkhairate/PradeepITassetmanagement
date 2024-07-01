@@ -13,9 +13,9 @@ import { useTheme } from '@mui/material/styles'
 import CategorySetup from './CategorySetup'
 import CategoryDelete from './CategorySetupDelete'
 import { ThunkDispatch } from 'redux-thunk'
-import { RootState } from '../../../Redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteCategory, updateCategory } from '../../../Redux/features/CategorySlice'
+import { RootState } from '../../../redux/store'
 
 type Category = {
   id: number
@@ -122,7 +122,7 @@ export function CategorySetupEdit({ categories1,
           <thead>
             <tr>
               <th
-               style={{ width: 30, background: '#fff8e6' }}
+               style={{ width: 30, background: '#fff8e6',verticalAlign:'middle' }}
                >
                 <Checkbox
                   size="sm"
@@ -151,9 +151,9 @@ export function CategorySetupEdit({ categories1,
                 />
               </th>
               <th 
-              style={{ background: '#fff8e6' }}>Category</th>
-              <th style={{ background: '#fff8e6' }}>Edit</th>
-              <th style={{background: '#fff8e6' }}>Delete</th>
+              style={{ background: '#fff8e6' ,verticalAlign:'middle'}}>Category</th>
+              <th style={{ background: '#fff8e6',verticalAlign:'middle' }}>Edit</th>
+              <th style={{background: '#fff8e6',verticalAlign:'middle' }}>Delete</th>
             </tr>
           </thead>
           <tbody>

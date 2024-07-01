@@ -146,7 +146,7 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
                 >
                   <thead>
                     <tr>
-                      <th style={{ width: 30, background: '#fff8e6' }}>
+                      <th style={{ width: 30, background: '#fff8e6', verticalAlign:'middle' }}>
                         <Checkbox
                           size="sm"
                           indeterminate={
@@ -174,12 +174,12 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
                           sx={{ verticalAlign: "text-bottom" }}
                         />
                       </th>
-                      <th style={{ background: '#fff8e6' }}>Field Name</th>
-                      <th style={{ background: '#fff8e6' }}>Data Type</th>
-                      <th style={{ background: '#fff8e6' }}>Required</th>
-                      <th style={{ background: '#fff8e6' }}>Category</th>
-                      <th style={{ background: '#fff8e6' }}>Edit</th>
-                      <th style={{ background: '#fff8e6' }}>Delete</th>
+                      <th style={{ background: '#fff8e6' ,verticalAlign:'middle'}}>Field Name</th>
+                      <th style={{ background: '#fff8e6',verticalAlign:'middle' }}>Data Type</th>
+                      <th style={{ background: '#fff8e6',verticalAlign:'middle' }}>Required</th>
+                      <th style={{ background: '#fff8e6' ,verticalAlign:'middle'}}>Category</th>
+                      <th style={{ background: '#fff8e6',verticalAlign:'middle' }}>Edit</th>
+                      <th style={{ background: '#fff8e6' ,verticalAlign:'middle'}}>Delete</th>
  
                     </tr>
                   </thead>

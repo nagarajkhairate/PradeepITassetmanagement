@@ -1,20 +1,27 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { Box, Typography, Button, Input, FormLabel } from "@mui/joy";
-import { Link } from "react-router-dom";
+import { Box, Typography, Button, Input, FormLabel, IconButton } from "@mui/joy";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { AppDispatch, RootState } from "../../Redux/store";
 import  { loginAccount } from '../../Redux/features/AuthSlice';
 import { ThunkDispatch } from "redux-thunk";
 import AppForm from "../Common/AppForm";
+import { RootState } from "../../redux/store";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const LoginAccount: React.FC = () => {
   const dispatch: ThunkDispatch<RootState,void, any> = useDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
+  const [showPassword, setShowPassword] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -22,27 +29,51 @@ const LoginAccount: React.FC = () => {
       ...prevData,
       [name]: value,
     }));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    let valid = true;
+    const newErrors = { email: "", password: "" };
+
+    if (!formData.email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+      newErrors.email = "Please enter a valid email address.";
+      valid = false;
+    }
+
+    if (formData.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters.";
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    if (valid) {
     try {
       await dispatch(loginAccount(formData))
       setLoginSuccess(true); 
+      navigate("/dashboard");
     }catch (error) {
       console.error("Login failed:", error);
-      setLoginSuccess(false); // Reset login success state if login fails
+      setLoginSuccess(false); 
     }
+  }
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
     <>
-      <div style={{ width: "100%", background: "#f9f9f9" }}>
+      <div style={{ width: "100%", background: "#f9f9f9", display:"flex",justifyContent:"center", alignItems:"center" , height:"100vh"}}>
         <Box
           sx={{
             display: "flex",
-            height: "100%",
-            width: "100%",
             justifyContent: "center",
             alignItems: "center",
             background: "#ffffff",
@@ -53,7 +84,7 @@ const LoginAccount: React.FC = () => {
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                width: "450px",
+                width: { xs: "90%", sm: "450px" },
                 justifyContent: "center",
                 alignItems: "center",
                 gap: "10px",
@@ -64,7 +95,7 @@ const LoginAccount: React.FC = () => {
               }}
             >
               <Typography level="h3">Login</Typography>
-              <Box>
+              <Box sx={{ width: "100%" }}>
                 <FormLabel htmlFor="email" sx={{ ml: "10px" }}>
                   Email
                 </FormLabel>
@@ -75,34 +106,61 @@ const LoginAccount: React.FC = () => {
                   placeholder="Email"
                   value={formData.email}
                   onChange={handleChange}
-                  sx={{ width: "350px", m: "10px", borderRadius: "15px" }}
+                  sx={{ width: "100%", m: "10px", borderRadius: "15px" }}
+                  error={!!errors.email}
                 />
+                {errors.email && (
+                <Typography level="body-sm"  sx={{ ml: "10px", color:"#dc3545" }}>
+                  {errors.email}
+                </Typography>
+              )}
               </Box>
-              <Box>
+
+              <Box sx={{ width: "100%" , position: "relative" }}>
                 <FormLabel htmlFor="password" sx={{ ml: "10px" }}>
                   Password
                 </FormLabel>
                 <Input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   id="password"
                   placeholder="Password"
                   value={formData.password}
                   onChange={handleChange}
-                  sx={{ width: "350px", m: "10px", borderRadius: "15px" }}
+                  sx={{ width: "100%", m: "10px", borderRadius: "15px" ,paddingRight: "40px"}}
+                  error={!!errors.password}
                 />
+                 <IconButton
+                onClick={handleClickShowPassword}
+                sx={{
+                  position: "absolute",
+                  right: "20px",
+                  top: "60%",
+                  transform: "translateY(-50%)",
+                  verticalAlign:"middle",
+                  padding: "10px",
+                }}
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+              {errors.password && (
+                <Typography level="body-sm"  sx={{ ml: "10px", color:"#dc3545" }}>
+                  {errors.password}
+                </Typography>
+              )}
               </Box>
-              <Box sx={{ ml: "220px" }}>
+              <Box sx={{ alignSelf: "flex-end", mr: "10px" }}>
                 <Typography>Forgot Password?</Typography>
               </Box>
               <Box
                 sx={{
                   display: "flex",
                   width: "100%",
-                  justifyContent: "space-around",
+                  justifyContent: "space-between",
+                alignItems: "center",
                 }}
               >
-               <Link to='/createAccount'> <Typography> Create an account</Typography></Link>
+               <Link to='/register'> <Typography> Create an account</Typography></Link>
                 <Button
                   type="submit"
                   size="lg"

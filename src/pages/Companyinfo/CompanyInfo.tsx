@@ -16,10 +16,9 @@ import EventOption from "../../components/Companyinfo/EventOption/EventOption";
 import AppView from "../../components/Common/AppView";
 import { fetchOptions } from "../../Redux/features/TabsSlice";
 import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../Redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { RootState } from "../../redux/store";
 const CompanyInfo = () => {
   const [companyFormData, setCompanyFormData] = React.useState({});
   const [activeTab, setActiveTab] = React.useState(0);

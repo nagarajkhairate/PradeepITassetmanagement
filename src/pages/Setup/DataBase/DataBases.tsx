@@ -15,20 +15,20 @@ import EditDataBase from './EditDataBase'
 import AppView from '../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
-import { RootState } from '../../../Redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchDataBase } from '../../../Redux/features/DataBaseSlice'
+import { RootState } from '../../../redux/store'
 
 const customDefaultFields = [
   {
     id: 1,
-    visible: true,
     fieldName: 'Asset Tag ID',
+    visible: false,
+
     required: '',
     description:
       'This field holds the unique asset id number that your company assigns to identify each asset. These are generally sequentially numbered labels with barcodes.',
     example: 'A-1001',
-    name: 'assetId',
     option: [
       {
         id: 1,
@@ -39,12 +39,12 @@ const customDefaultFields = [
 
   {
     id: 2,
-    visible: true,
     fieldName: 'Asset Description',
+    visible: false,
+
     required: '',
     description: 'Description of the asset.',
     example: 'HP - Envy Desktop - 12GB Memory - 2TB Hard Drive',
-    name: 'assetDec',
     option: [
       {
         id: 1,
@@ -54,12 +54,12 @@ const customDefaultFields = [
   },
   {
     id: 3,
-    visible: true,
     fieldName: 'Purchase Date',
+    visible: false,
+
     required: '',
     description: 'Date asset was purchased',
     example: '08/22/2014',
-    name: 'PurchasedDate',
     option: [
       {
         id: 1,
@@ -73,12 +73,12 @@ const customDefaultFields = [
   },
   {
     id: 4,
-    visible: true,
     fieldName: 'Cost',
+    visible: false,
+
     required: '',
     description: 'Cost of the asset',
     example: 'Bs225.75',
-    name: 'cost',
     option: [
       {
         id: 1,
@@ -93,12 +93,12 @@ const customDefaultFields = [
 
   {
     id: 5,
-    visible: true,
     fieldName: 'Purchased From',
+    visible: false,
+
     required: '',
     description: 'Vendor/Supplier name',
     example: 'Amazon',
-    name: 'PurchasedForm',
     option: [
       {
         id: 1,
@@ -112,12 +112,12 @@ const customDefaultFields = [
   },
   {
     id: 6,
-    visible: true,
     fieldName: 'Brand',
+    visible: false,
+
     required: '',
     description: 'Manufacturer of the asset',
     example: 'HP',
-    name: 'brand',
     option: [
       {
         id: 1,
@@ -131,12 +131,12 @@ const customDefaultFields = [
   },
   {
     id: 7,
-    visible: true,
     fieldName: 'Model',
+    visible: false,
+
     required: '',
     description: 'Model name of the asset',
     example: 'Envy',
-    name: 'Model',
     option: [
       {
         id: 1,
@@ -150,12 +150,12 @@ const customDefaultFields = [
   },
   {
     id: 8,
-    visible: true,
     fieldName: 'Serial No',
+    visible: false,
+
     required: '',
     description: "Manufacturer's serial number",
     example: 'HG9C3X',
-    name: 'SerialNo',
     option: [
       {
         id: 1,
@@ -183,14 +183,19 @@ const DataBases: React.FunctionComponent = () => {
 
   const [dataBases, setDataBases] = useState({
     customAssetFields: [],
-    customDefaultFields: customDefaultFields.map(item => ({
-      id: item.id,
-      visible:item.visible,
-      fieldName: item.fieldName,
-      required: item.required,
-      description: item.description,
+    customDefaultFields: customDefaultFields.map((item) => ({
+      ...item,
+      // id: item.id,
+
+      // visible: item.visible,
+
+      // required: item.required,
+      // description: item.description,
+      //   example: item.example,
+      // name: item.name,
+      // option: item.option,
     })),
-  });
+  })
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
   const [editOpen, setEditOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
@@ -198,18 +203,14 @@ const DataBases: React.FunctionComponent = () => {
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [eventForm, setEventForm] = useState<any>({})
 
- 
-
-  // const addCustomField = (custom: string) => {
-  //   setDataBases((prevData) => ({
-  //     ...prevData,
-  //     data: [...prevData.data, custom],
-  //   }))
-  // }
-
   const deleteCustomField = (index: number) => {
-    const updatedData = dataBases.customAssetFields.filter((_, idx) => idx !== index)
-    setDataBases((prevData) => ({ ...prevData, customAssetFields: updatedData }))
+    const updatedData = dataBases.customAssetFields.filter(
+      (_, idx) => idx !== index,
+    )
+    setDataBases((prevData) => ({
+      ...prevData,
+      customAssetFields: updatedData,
+    }))
   }
 
   const handleClickEditOpen = () => {
@@ -242,18 +243,12 @@ const DataBases: React.FunctionComponent = () => {
   //   setSelectedCell(index)
   // }
   const handleCheckboxChange = (index: number) => {
-    setDataBases(prevData => ({
+    setDataBases((prevData) => ({
       ...prevData,
       customDefaultFields: prevData.customDefaultFields.map((item, i) =>
         i === index ? { ...item, visible: !item.visible } : item,
       ),
-    }));
-  };
-
-  const handleDeleteButton = () => {
-    if (selectedCell !== null) {
-      handleDeleteOpen()
-    }
+    }))
   }
 
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -276,31 +271,30 @@ const DataBases: React.FunctionComponent = () => {
     setMatchedSelected([])
   }
 
-  const handleEdit = () => {
-    if (selectedCell !== null) {
-      handleClickEditOpen()
-    }
-  }
-
-  const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const { value } = event.target;
+  const HandleRadioSelect = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+  ) => {
+    const { value } = event.target
     setDataBases((prevData) => ({
       ...prevData,
       customDefaultFields: prevData.customDefaultFields.map((item, i) =>
-        i === index ? { ...item, required: value } : item
+        i === index ? { ...item, required: value } : item,
       ),
-    }));
-  };
+    }))
+  }
 
   console.log(JSON.stringify(dataBases, null, 2))
-  
+
   const generateJson = () => {
-    const jsonData = dataBases.customDefaultFields.map(item => ({
-      id: item.id,
-      visible:item.visible,
-      fieldName: item.fieldName,
-      required: item.required,
-      description: item.description,
+    const jsonData = dataBases.customDefaultFields.map(({ 
+      id, visible, fieldName, required, description 
+    }) => ({
+      id,
+      visible,
+      fieldName,
+      required,
+      description
     }));
     return JSON.stringify(jsonData, null, 2);
   };
@@ -356,45 +350,68 @@ const DataBases: React.FunctionComponent = () => {
             <Table borderAxis="both">
               <thead>
                 <tr>
-                  <th style={{ width: 30 }}>
+                  <th
+                    style={{
+                      width: 30,
+                      background: '#fff8e6',
+                      verticalAlign: 'middle',
+                    }}
+                  >
                     <Checkbox />
                   </th>
-                  <th style={{ minWidth: 180 }}>Field Name</th>
-                  <th style={{ minWidth: 200 }}>Data Required</th>
-                  <th style={{ minWidth: 400 }}>Description</th>
-                  <th style={{ minWidth: 150 }}>Example</th>
+                  <th
+                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                  >
+                    Field Name
+                  </th>
+                  <th
+                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                  >
+                    Data Required
+                  </th>
+                  <th
+                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                  >
+                    Description
+                  </th>
+                  <th
+                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                  >
+                    Example
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {customDefaultFields.map((data, index) => (
+                {dataBases.customDefaultFields.map((data, index) => (
                   <tr key={index}>
                     <td>
                       <Checkbox
-                      checked={data.visible} onChange={() => handleCheckboxChange(index)}
+                        checked={data.visible}
+                        onChange={() => handleCheckboxChange(index)}
                       />
                     </td>
                     <td>{data.fieldName}</td>
                     <td>
                       {/* {data.required} */}
                       {data.visible && (
-                      <FormControl>
-                        <RadioGroup
-                          defaultValue="outlined"
-                          name="radio-buttons-group"
-                          
-                        >
-                          {data.option.map((opt: any) => (
-                            <Radio
-                              name={data.name}
-                              onChange={(event) => HandleRadioSelect(event, index)}
-                              key={opt.id}
-                              value={opt.value}
-                              label={opt.value}
-                              variant="outlined"
-                            />
-                          ))}
-                        </RadioGroup>
-                      </FormControl>
+                        <FormControl>
+                          <RadioGroup
+                            defaultValue="outlined"
+                            name="radio-buttons-group"
+                          >
+                            {data.option.map((opt: any) => (
+                              <Radio
+                                onChange={(event) =>
+                                  HandleRadioSelect(event, index)
+                                }
+                                key={opt.id}
+                                value={opt.value}
+                                label={opt.value}
+                                variant="outlined"
+                              />
+                            ))}
+                          </RadioGroup>
+                        </FormControl>
                       )}
                     </td>
                     <td>{data.description}</td>
@@ -408,13 +425,14 @@ const DataBases: React.FunctionComponent = () => {
         </Box>
 
         <Typography
-         level="h4"
-         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+          level="h4"
+          sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
         >
-        <SignpostOutlinedIcon
-          style={{ fontSize: '1.4rem', color: '#FBC21E' }}
-        />
-          Asset Custom Fields</Typography>
+          <SignpostOutlinedIcon
+            style={{ fontSize: '1.4rem', color: '#FBC21E' }}
+          />
+          Asset Custom Fields
+        </Typography>
         <Box>
           Add custom fields to join the standard fields that we provided. Feel
           free to get creative.
@@ -440,9 +458,7 @@ const DataBases: React.FunctionComponent = () => {
             selectedCell={selectedCell}
             setSelectedCell={setSelectedCell}
             handleCheckboxChange={handleCheckboxChange}
-            handleEdit={handleEdit}
             handleEditButton={handleEditButton}
-            handleDeleteButton={handleDeleteButton}
             handleDeleteSubmit={handleDeleteSubmit}
             handleEditClose={handleEditClose}
             handleDeleteOpen={handleDeleteOpen}
@@ -483,7 +499,7 @@ const DataBases: React.FunctionComponent = () => {
               borderRadius: '15px',
             }}
             component="label"
-            // onClick={handleNextTab}
+            // onClick={generateJson}
           >
             Continue
             <NavigateNextOutlinedIcon />{' '}

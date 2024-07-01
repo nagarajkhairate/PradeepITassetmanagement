@@ -1,15 +1,28 @@
 import { Box, Button, FormControl, Modal, Sheet, Typography } from "@mui/joy"
+import { useDispatch } from "react-redux";
 
 
 interface SetupDeleteDeptProps{
     open:boolean
     handleDeleteClose:() => void
-    handleDeleteSubmit:(e: React.FormEvent<HTMLFormElement>) => void
+    // handleDeleteSubmit:(e: React.FormEvent<HTMLFormElement>) => void
 }
 
 
-const SetupDeleteDept: React.FunctionComponent<SetupDeleteDeptProps> = ({open, handleDeleteClose, handleDeleteSubmit}) => {
-return(
+const SetupDeleteDept: React.FunctionComponent<SetupDeleteDeptProps> = ({open, handleDeleteClose, }) => {
+
+  const dispatch = useDispatch();
+  const selectedCell = 0; 
+
+  const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (selectedCell !== null) {
+      // dispatch(deleteCategory(categories[selectedCell].id));
+      handleDeleteClose();
+    }
+  };
+
+  return(
 
 <Modal
           

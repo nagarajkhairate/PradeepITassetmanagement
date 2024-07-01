@@ -13,9 +13,9 @@ import { useTheme } from "@mui/material/styles";
 import CategorySub from "./CategorySub";
 import CategorySubDelete from "./CategorySubDelete";
 import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../../Redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteSubCategories, updateSubCategories } from "../../../Redux/features/CategorySubSlice";
+import { RootState } from "../../../redux/store";
 
 
 
@@ -158,7 +158,7 @@ const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] 
         >
           <thead>
             <tr>
-              <th style={{width:30, background: '#fff8e6'}}>
+              <th style={{width:30, background: '#fff8e6',verticalAlign:'middle'}}>
                 <Checkbox
                   size="sm"
                   indeterminate={
@@ -181,9 +181,9 @@ const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] 
                   sx={{ verticalAlign: "text-bottom" }}
                 />
               </th>
-              <th style={{ background: '#fff8e6' }}>Sub Category</th>
-              <th style={{ background: '#fff8e6' }}>Edit</th>
-              <th style={{ background: '#fff8e6' }}>Delete</th>
+              <th style={{ background: '#fff8e6',verticalAlign:'middle' }}>Sub Category</th>
+              <th style={{ background: '#fff8e6',verticalAlign:'middle' }}>Edit</th>
+              <th style={{ background: '#fff8e6' ,verticalAlign:'middle'}}>Delete</th>
             </tr>
           </thead>
           <tbody>

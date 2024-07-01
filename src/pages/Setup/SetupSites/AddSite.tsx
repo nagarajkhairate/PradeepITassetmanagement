@@ -3,7 +3,7 @@ import { Box, Button, Input, Modal, Option, Select, Typography , FormLabel, Form
 import { addSites } from '../../../Redux/features/SitesSlice'
 import {  useDispatch, useSelector } from 'react-redux'
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { RootState } from "../../../Redux/store";
+import { RootState } from "../../../redux/store";
 
 interface AddSiteProps {
   open: boolean;
@@ -42,6 +42,7 @@ const initialSiteData: Site = {
 
 const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
   const [newSite, setNewSite] = useState<Site>(initialSiteData);
+  const [zipCodeError, setZipCodeError] = useState<string | null>(null)
 
   // const users=useSelector((state: { users: SitesState }) =>state.users);
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
@@ -56,22 +57,43 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
     }
   };
 
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase())
+  }
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+
+    if (name === 'zipCode') {
+      const zipCodeRegex = /^\d*$/
+      if (!zipCodeRegex.test(value)) {
+        setZipCodeError('Zip Code must be numeric')
+        return
+      } else {
+        setZipCodeError(null)
+      }
+    }
     setNewSite((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleAddSite = async () => {
-    onSave(newSite);
-
-    console.log(JSON.stringify(newSite))
-    await dispatch(addSites(newSite)); 
+    const capitalizedSite = {
+      ...newSite,
+      siteName: capitalizeWords(newSite.siteName),
+      description: capitalizeWords(newSite.description),
+      address: capitalizeWords(newSite.address),
+      aptSuite: capitalizeWords(newSite.aptSuite),
+      city: capitalizeWords(newSite.city),
+      state: capitalizeWords(newSite.state),
+      country: capitalizeWords(newSite.country),
+    };
+    onSave(capitalizedSite);
+    console.log(JSON.stringify(capitalizedSite))
+    await dispatch(addSites(capitalizedSite)); 
     setNewSite(initialSiteData);
-    // onClose();
+    onClose();
   };
 
- 
   return (  
     <Modal open={open} onClose={onClose}>
       <Box sx={modalStyle}>
@@ -94,7 +116,8 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
         <FormLabel>City</FormLabel>
         <Input placeholder="city" name="city" value={newSite.city} onChange={handleChange} fullWidth sx={{ mb: 2 }} />
         <FormLabel>Zip Code</FormLabel>
-        <Input placeholder="ZipCode" name="zipCode" value={newSite.zipCode} onChange={handleChange} fullWidth sx={{ mb: 2 }} />
+        <Input placeholder="ZipCode" name="zipCode" value={newSite.zipCode} onChange={handleChange} fullWidth sx={{ mb: 2 }}  error={!!zipCodeError}
+                    helperText={zipCodeError} />
         <FormLabel>State</FormLabel>
         <Input placeholder="State" name="state" value={newSite.state} onChange={handleChange} fullWidth sx={{ mb: 2 }} />
         <FormLabel>Country</FormLabel>

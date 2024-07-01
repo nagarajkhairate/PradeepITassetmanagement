@@ -291,7 +291,8 @@ const CategorySetup: React.FunctionComponent = () => {
         setCategoryName={setCategoryName}
         handleAddCategory={handleAddCategory}
       />
-        <CategoryDelete open={deleteOpen} 
+        <CategoryDelete 
+        open={deleteOpen} 
         handleDeleteClose={handleDeleteClose} 
         categories={categories} />
 

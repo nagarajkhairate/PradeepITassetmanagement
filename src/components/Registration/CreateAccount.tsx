@@ -1,36 +1,41 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { Box, Typography, Button, Divider, Input, Checkbox, FormLabel } from "@mui/joy";
+import { Box, Typography, Button, Divider, Input, Checkbox, FormLabel, IconButton } from "@mui/joy";
 import { useDispatch, useSelector } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../Redux/store";
 import { createAccount } from "../../Redux/features/AccountSlice";
 import AppForm from "../Common/AppForm";
+import { RootState } from "../../redux/store";
+import { Link, useNavigate } from "react-router-dom";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 interface FormData {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
-  reTypeYourPassword: string;
+  confirmPassword: string;
   termsPrivacyPolicy: boolean;
 }
 
 const CreateAccount: React.FC = () => {
   const dispatch: ThunkDispatch<RootState,void, any> = useDispatch();
+  const navigate = useNavigate();
   // const authState = useSelector((state: RootState) => state.auth);
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
-    reTypeYourPassword: "",
+    confirmPassword: "",
     termsPrivacyPolicy: false,
   });
 
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true);
+  const [showPassword, setShowPassword] = useState(false);
+
   const [terms,setTerms]=useState<boolean>(true)
   const [submitted, setSubmitted] = useState<boolean>(false);
-
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked, type } = e.target;
@@ -40,33 +45,73 @@ const CreateAccount: React.FC = () => {
       [name]: newValue,
     }));
     
-    if (name === "password" || name === "reTypeYourPassword") {
+    if (name === "password" || name === "confirmPassword") {
     setPasswordsMatch(formData.password === newValue);
   }
   if(name==='termsPrivacyPolicy'){
     setTerms(formData.termsPrivacyPolicy===newValue)
   }
+  setErrors((prevErrors) => ({
+    ...prevErrors,
+    [name]: "",
+  }));
 };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitted(true);
-    if (!formData.termsPrivacyPolicy) {
-      console.log("Please agree to terms");
-      return;
+
+
+
+    const newErrors: { [key: string]: string } = {};
+
+    if (!formData.firstName) {
+      newErrors.firstName = "First Name is required.";
     }
-    if (passwordsMatch) {
-      dispatch(createAccount(formData));
+    if (!formData.lastName) {
+      newErrors.lastName = "Last Name is required.";
+    }
+    if (!formData.email) {
+      newErrors.email = "Email is required.";
+    } else if (!formData.email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+      newErrors.email = "Please enter a valid email address.";
+    }
+    if (!formData.password) {
+      newErrors.password = "Password is required.";
+    } else if (formData.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters.";
+    }
+    if (!formData.confirmPassword) {
+      newErrors.confirmPassword = "Confirm Password is required.";
+    } else if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match.";
+    }
+    if (!formData.termsPrivacyPolicy) {
+      newErrors.termsPrivacyPolicy = "Please agree to 'Terms of Service' and 'Privacy Policy'.";
+    }
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      try {
+        await dispatch(createAccount(formData));
+        navigate('/');
+      } catch (error) {
+        console.error("Account creation failed:", error);
+      }
     }
   }
 
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <>
-      <div style={{ width: "100%",background:"#f9f9f9" }}>
+      <div style={{ width: "100%",background:"#f9f9f9", display:"flex",justifyContent:"center", alignItems:"center" , height:"100vh"}}>
         <Box
           sx={{
             display: "flex",
-            height: "100%",
             width: "100%",
             justifyContent: "center",
             alignItems: "center",
@@ -77,21 +122,20 @@ const CreateAccount: React.FC = () => {
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                width: "450px",
-                // height: "100%",
+                width: { xs: "90%", sm: "450px" },
                 justifyContent: "center",
                 alignItems: "center",
                 gap: "10px",
                 boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
                 borderRadius: "15px",
                 padding: "20px",
-            background:"#ffffff"
+                background:"#ffffff"
 
               }}
             >
               <Typography level="h3">Create an Account</Typography>
-
-              <Box>
+              <Divider />
+              <Box sx={{ width: { xs: "100%", sm: "100%", md: "350px"} }}>
                 <FormLabel htmlFor="firstName" sx={{ml:"10px"}}>First Name</FormLabel>
                 <Input
                   type="text"
@@ -100,11 +144,17 @@ const CreateAccount: React.FC = () => {
                   placeholder="First Name"
                   value={formData.firstName}
                   onChange={handleChange}
-                  sx={{ width: "350px", m: "10px", borderRadius: "15px" }}
+                  sx={{ width: { xs: "100%", sm: "100%", md: "350px" }, m: "10px", borderRadius: "15px" }}
+                  error={!!errors.firstName}
                 />
+                {errors.firstName && (
+                  <Typography level="body-sm"  sx={{ ml: "10px",color:"#dc3545",fontSize: '12px' }}>
+                    {errors.firstName}
+                  </Typography>
+                )}
               </Box>
 
-              <Box>
+              <Box sx={{ width: { xs: "100%", sm: "100%", md: "350px"} }}>
                 <FormLabel htmlFor="lastName" sx={{ml:"10px"}}>Last Name</FormLabel>
                 <Input
                   type="text"
@@ -113,11 +163,17 @@ const CreateAccount: React.FC = () => {
                   placeholder="Last Name"
                   value={formData.lastName}
                   onChange={handleChange}
-                  sx={{ width: "350px", m: "10px", borderRadius: "15px" }}
+                  sx={{ width: { xs: "100%", sm: "100%", md: "350px" }, m: "10px", borderRadius: "15px" }}
+                  error={!!errors.lastName}
                 />
+                 {errors.lastName && (
+                  <Typography level="body-sm"  sx={{ ml: "10px",color:"#dc3545",fontSize: '12px' }}>
+                    {errors.lastName}
+                  </Typography>
+                )}
               </Box>
 
-              <Box>
+              <Box sx={{width: { xs: "100%", sm: "100%", md: "350px"} }}>
                 <FormLabel htmlFor="email" sx={{ml:"10px"}}>Email</FormLabel>
                 <Input
                   type="email"
@@ -126,11 +182,17 @@ const CreateAccount: React.FC = () => {
                   placeholder="Email"
                   value={formData.email}
                   onChange={handleChange}
-                  sx={{ width: "350px", m: "10px", borderRadius: "15px" }}
+                  sx={{ width: { xs: "100%", sm: "100%", md: "350px" }, m: "10px", borderRadius: "15px" }}
+                  error={!!errors.email}
                 />
+                {errors.email && (
+                  <Typography level="body-sm"  sx={{ ml: "10px",color:"#dc3545",fontSize: '12px' }}>
+                    {errors.email}
+                  </Typography>
+                )}
               </Box>
 
-              <Box>
+              <Box sx={{width: { xs: "100%", sm: "100%", md: "350px"} , position: "relative" }}>
                 <FormLabel htmlFor="password" sx={{ml:"10px"}}>Password</FormLabel>
                 <Input
                   type="password"
@@ -139,22 +201,60 @@ const CreateAccount: React.FC = () => {
                   placeholder="Password"
                   value={formData.password}
                   onChange={handleChange}
-                  sx={{ width: "350px", m: "10px", borderRadius: "15px" }}
+                  sx={{ width: { xs: "100%", sm: "100%", md: "350px" }, m: "10px", borderRadius: "15px" }}
+                  error={!!errors.password}
                 />
+                 <IconButton
+                onClick={handleClickShowPassword}
+                sx={{
+                  position: "absolute",
+                  right: "20px",
+                  top: "60%",
+                  transform: "translateY(-50%)",
+                  verticalAlign:"middle",
+                  padding: "10px",
+                }}
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+                {errors.password && (
+                  <Typography level="body-sm"  sx={{ ml: "10px",color:"#dc3545",fontSize: '12px' }}>
+                    {errors.password}
+                  </Typography>
+                )}
               </Box>
 
-              <Box>
-                <FormLabel htmlFor="reTypeYourPassword" sx={{ml:"10px"}}>Re-type Your Password</FormLabel>
+              <Box sx={{width: { xs: "100%", sm: "100%", md: "350px"} ,position: "relative" }}>
+                <FormLabel htmlFor="confirmPassword" sx={{ml:"10px"}}>Re-type Your Password</FormLabel>
                 <Input
                   type="password"
-                  name="reTypeYourPassword"
-                  id="reTypeYourPassword"
+                  name="confirmPassword"
+                  id="confirmPassword"
                   placeholder="Re-type Your Password"
-                  value={formData.reTypeYourPassword}
+                  value={formData.confirmPassword}
                   onChange={handleChange}
-                  sx={{ width: "350px", m: "10px", borderRadius: "15px" }}
+                  sx={{ width: { xs: "100%", sm: "100%", md: "350px" }, m: "10px", borderRadius: "15px" }}
+                  error={!!errors.confirmPassword}
                 />
+                 <IconButton
+                onClick={handleClickShowPassword}
+                sx={{
+                  position: "absolute",
+                  right: "20px",
+                  top: "60%",
+                  transform: "translateY(-50%)",
+                  verticalAlign:"middle",
+                  padding: "10px",
+                }}
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
                 {!passwordsMatch && <span style={{ color: 'red', fontSize: '12px', marginLeft: '10px' }}>Password does not match</span>}
+                {errors.confirmPassword && (
+                  <Typography level="body-sm"  sx={{ ml: "10px",color:"#dc3545",fontSize: '12px' }}>
+                    {errors.confirmPassword}
+                  </Typography>
+                )}
               </Box>
 
               <Box sx={{ display: "flex", gap: "10px",mr:"30px" }}>
@@ -165,7 +265,7 @@ const CreateAccount: React.FC = () => {
                   />
                   <Typography>I Agree to the Terms & Privacy Policy .</Typography>
               </Box>
-                {submitted && !formData.termsPrivacyPolicy && <span style={{ color: 'red', fontSize: '12px', marginLeft: '10px' }}>Please agree to 'Terms of Service' and 'Privacy Policy'.</span>}
+                {submitted && !formData.termsPrivacyPolicy && <span style={{ color: '#dc3545', fontSize: '12px', marginLeft: '10px' }}>Please agree to 'Terms of Service' and 'Privacy Policy'.</span>}
               <Divider />
               <Box sx={{ display: "flex", width: "100%", justifyContent: "flex-end" }}>
                 <Button
@@ -197,7 +297,7 @@ const CreateAccount: React.FC = () => {
                     },
                   }}
                 >
-                  Sign Up
+                Sign Up
                 </Button>
               </Box>
             </Box>
