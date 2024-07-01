@@ -53,7 +53,7 @@ export const addEvents = createAsyncThunk('events/addEvents', async (events: any
  
 export const updateEvents = createAsyncThunk('events/updateevents', async (updatedEvents: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/categories/${updatedEvents.id}`, updatedEvents);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/events/${updatedEvents.id}`, updatedEvents);
   
   return response.data;
 });

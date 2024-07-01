@@ -20,8 +20,9 @@ import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import AppView from '../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
-import { RootState } from '../../../Redux/store'
 import { useDispatch } from 'react-redux'
+import { RootState } from '../../../redux/store'
+import { addEvents, fetchEvents } from '../../../Redux/features/EventsSlice'
 
 const options = [
   {
@@ -49,6 +50,7 @@ const Event: React.FunctionComponent= () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [eventForm, setEventForm] = useState<any>({})
 
+  
   const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setEventForm((prevData: any) => ({ ...prevData, [name]: value }))
@@ -59,7 +61,13 @@ const Event: React.FunctionComponent= () => {
     //   eventOption: eventForm,
     // }))
     console.log(JSON.stringify(eventForm, null, 2))
+    dispatch(addEvents(eventForm))
+    console.log(JSON.stringify(eventForm, null, 2));
   }
+  React.useEffect(()=>{
+    dispatch(fetchEvents())
+  },[dispatch])
+  
 
 
   const AssetRadioGroup: React.FC<AssetRadioGroupProps> = ({
@@ -220,9 +228,9 @@ const Event: React.FunctionComponent= () => {
             </Typography>
           </Box>
           <AssetRadioGroup
-            name="lease"
+            name="leaseAssets"
             onChange={HandleRadioSelect}
-            value={eventForm.lease}
+            value={eventForm.leaseAssets}
           />
 
           <>
@@ -300,9 +308,9 @@ const Event: React.FunctionComponent= () => {
             </Typography>
           </Box>
           <AssetRadioGroup
-            name="repair"
+            name="repairAssets"
             onChange={HandleRadioSelect}
-            value={eventForm.repair}
+            value={eventForm.repairAssets}
           />
 
           <CustomButtonBox
@@ -327,9 +335,9 @@ const Event: React.FunctionComponent= () => {
             </Typography>
           </Box>
           <AssetRadioGroup
-            name="broken"
+            name="brokenAssets"
             onChange={HandleRadioSelect}
-            value={eventForm.broken}
+            value={eventForm.brokenAssets}
           />
 
           <CustomButtonBox
@@ -355,9 +363,9 @@ const Event: React.FunctionComponent= () => {
             </Typography>
           </Box>
           <AssetRadioGroup
-            name="dispose"
+            name="disposeAssets"
             onChange={HandleRadioSelect}
-            value={eventForm.dispose}
+            value={eventForm.disposeAssets}
           />
 
           <CustomButtonBox
@@ -383,9 +391,9 @@ const Event: React.FunctionComponent= () => {
             </Typography>
           </Box>
           <AssetRadioGroup
-            name="donate"
+            name="donateAssets"
             onChange={HandleRadioSelect}
-            value={eventForm.donate}
+            value={eventForm.donateAssets}
           />
 
           <CustomButtonBox
@@ -411,9 +419,9 @@ const Event: React.FunctionComponent= () => {
             </Typography>
           </Box>
           <AssetRadioGroup
-            name="sell"
+            name="sellAssets"
             onChange={HandleRadioSelect}
-            value={eventForm.sell}
+            value={eventForm.sellAssets}
           />
 
           <CustomButtonBox
@@ -455,7 +463,7 @@ const Event: React.FunctionComponent= () => {
             component="label"
             onClick={handleSubmit}
           >
-            Finish
+            Submit
             <NavigateNextOutlinedIcon />
           </Button>
         </Box>

@@ -498,7 +498,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
             display: 'flex',
             alignItems: 'center',
             flexDirection: { md: 'row', xs: 'column' },
-            justifyContent: { xs: 'center', md: 'flex-end' },
+            justifyContent: { xs: 'space-around', md: 'flex-end' },
             gap: '5px',
             mt: 4,
           }}

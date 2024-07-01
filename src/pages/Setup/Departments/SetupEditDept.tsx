@@ -13,9 +13,9 @@ import { useTheme } from "@mui/material/styles";
 import SetupDept from "./SetupDept";
 import SetupDeleteDept from "./SetupDeleteDept";
 import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../../Redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteDepartment, updateDepartment } from "../../../Redux/features/DepartmentSlice";
+import { RootState } from "../../../redux/store";
 
 type Department = {
   id: number
@@ -142,15 +142,21 @@ const selectedDepartment = selectedCell !== null ? departments[selectedCell] : n
         direction={{ xs: "column", sm: "row" }}
         spacing={{ xs: 1, sm: 2, md: 2 }}
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-
+          display: 'flex',
+          justifyContent: 'space-between',
         }}
       >
-        <Table borderAxis="both" style={{ borderCollapse: "collapse" }}>
+        <Box
+          sx={{
+            overflowX: 'auto',
+            fontSize: '14px',
+            whiteSpace: 'nowrap',
+          }}
+        >
+        <Table borderAxis="both" style={{ borderCollapse: 'collapse' }}>
           <thead>
             <tr>
-              <th style={{width:30}}>
+              <th style={{width:30, background: '#fff8e6',verticalAlign:'middle'}}>
                 <Checkbox
                   size="sm"
                   indeterminate={
@@ -173,9 +179,9 @@ const selectedDepartment = selectedCell !== null ? departments[selectedCell] : n
                   sx={{ verticalAlign: "text-bottom" }}
                 />
               </th>
-              <th>Department</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Department</th>
+              <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Edit</th>
+              <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -192,20 +198,24 @@ const selectedDepartment = selectedCell !== null ? departments[selectedCell] : n
 
                   <td>
                     <Button onClick={() => handleEdit(index)}
-                    sx={{
-                      background: "#ffffff",
-                      color: "green",
-                      display:'flex',
-                      justifyContent:'flex-end',
-                      marginLeft:'none',
-                      border: "1px solid green ",
-                      borderRadius: "15px",
-                      "&:hover": {
-                        color: "white",
-                        background: "green",
-                      
-                      },
-                    }}
+                   sx={{
+                    fontSize: '13px',
+                    background: '#ffffff',
+                    color: 'green',
+                    display: 'flex',
+                    justifyContent: {
+                      md: 'flex-end',
+                      xs: 'center',
+                    },
+                    marginLeft: 'none',
+                    border: '1px solid green ',
+                    borderRadius: '13px',
+                    '&:hover': {
+                      color: 'white',
+                      background: 'green',
+                    },
+                    padding: '.25rem .55rem',
+                  }}
                     >
                       <EditOutlinedIcon sx={{
                         fontSize:'15px'
@@ -216,18 +226,20 @@ const selectedDepartment = selectedCell !== null ? departments[selectedCell] : n
                   <td>  
                     <Button onClick={() => handleDeleteButton(index)}
                     sx={{
-                      background: "#ffffff",
+                      fontSize: '13px',
+                      background: '#ffffff',
                       color: '#d32f2f',
-                      display:'flex',
-                      justifyContent:'flex-end',
-                      marginLeft:'none',
-                      border: "1px solid red ",
-                      borderRadius: "15px",
-                      "&:hover": {
-                        color: "white",
-                        background:'#d32f2f',
-                       
+                      display: 'flex',
+                      justifyContent: { md: 'flex-end', xs: 'center' },
+
+                      marginLeft: 'none',
+                      border: '1px solid red ',
+                      borderRadius: '13px',
+                      '&:hover': {
+                        color: 'white',
+                        background: '#d32f2f',
                       },
+                      padding: '.5rem .15rem',
                     }}
                     >
                       <DeleteForeverIcon 
@@ -242,7 +254,7 @@ const selectedDepartment = selectedCell !== null ? departments[selectedCell] : n
             
           </tbody>
         </Table>
-
+        </Box>
         <Modal
          
           open={editOpen}
