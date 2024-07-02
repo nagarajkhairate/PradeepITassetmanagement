@@ -13,6 +13,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import {
   addCompanyInfo,
   fetchCompanyInfo,
+  updateCompanyInfo,
 } from '../../../Redux/features/CompanyInfoSlice'
 import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../../redux/store'
@@ -21,6 +22,7 @@ const SetupCompInfo: React.FC = ({}) => {
   const [formData, setFormData] = useState<{
     [key: string]: string | File | null
   }>({})
+  
   const [file, setFile] = useState<File | null>(null)
   const [zipCodeError, setZipCodeError] = useState<string | null>(null)
   const [open, setOpen] = useState(false)
@@ -87,17 +89,21 @@ const SetupCompInfo: React.FC = ({}) => {
         }
       }
     }
-    await dispatch(addCompanyInfo(formDataToSend))
+    await dispatch(updateCompanyInfo(formDataToSend))
   }
 
   console.log('Form Data:', JSON.stringify(formData))
 
   React.useEffect(() => {
     const fetchData = async () => {
+      try {
       const data = await dispatch(fetchCompanyInfo());
       const capitalizedData = capitalizeKeys(data);
       setFormData(capitalizedData);
-    };
+    } catch (error) {
+      console.error('Error fetching company info:', error);
+    }
+  };
     fetchData();
   }, [dispatch]);
   
@@ -235,40 +241,57 @@ const SetupCompInfo: React.FC = ({}) => {
         </Grid>
 
         <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '10px',
-            justifyContent: 'center',
-            marginBottom: '10px',
-          }}
-        ></Box>
-        <Divider sx={{ my: 3 }} />
-        <Box
-          sx={{
-            display: 'flex',
-            // justifyContent: 'space-between',
-          }}
-        >
-          <Button
-            onClick={handleCancel}
-            sx={{
-              backgroundColor: '#E0E0E0',
-              '&:hover': { backgroundColor: '#BDBDBD' },
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            type="submit"
-            sx={{
-              backgroundColor: '#FABC1E',
-              '&:hover': { backgroundColor: '#e0a800' },
-            }}
-          >
-            Submit
-          </Button>
-        </Box>
+  sx={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+    justifyContent: 'center',
+    marginBottom: '10px',
+  }}
+></Box>
+<Divider sx={{ my: 3 }} />
+<Box
+  sx={{
+    display: 'flex',
+    justifyContent: 'space-between', // Ensures buttons are spaced evenly
+    gap: '10px', // Adds gap between the buttons
+    flexWrap: 'wrap', // Allows wrapping on smaller screens
+  }}
+>
+  <Button
+    onClick={handleCancel}
+    sx={{
+      backgroundColor: '#E0E0E0',
+      '&:hover': { backgroundColor: '#BDBDBD' },
+      width: {
+        xs: 'auto',  // Auto width for extra-small screens
+        sm: 'auto',  // Auto width for small screens
+        md: 'auto',  // Auto width for medium screens
+        lg: 'auto',  // Auto width for large screens
+      },
+      flexShrink: 0, // Prevent shrinking
+    }}
+  >
+    Cancel
+  </Button>
+  <Button
+    type="submit"
+    sx={{
+      backgroundColor: '#FABC1E',
+      '&:hover': { backgroundColor: '#e0a800' },
+      width: {
+        xs: 'auto',  // Auto width for extra-small screens
+        sm: 'auto',  // Auto width for small screens
+        md: 'auto',  // Auto width for medium screens
+        lg: 'auto',  // Auto width for large screens
+      },
+      flexShrink: 0, // Prevent shrinking
+    }}
+  >
+    Submit
+  </Button>
+</Box>
+
       </Box>
     </AppForm>
   )

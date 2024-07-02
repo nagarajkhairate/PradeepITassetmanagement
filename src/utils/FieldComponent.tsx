@@ -32,6 +32,7 @@ const handleInputValue = (
   }
   switch (field.dataType) {
     case 'text':
+      return <InputField {...commonProps} />
     case 'date':
       return <InputField {...commonProps} />
     case 'select':
