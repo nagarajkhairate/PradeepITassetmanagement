@@ -185,15 +185,13 @@ const DataBases: React.FunctionComponent = () => {
     customAssetFields: [],
     customDefaultFields: customDefaultFields.map((item) => ({
       ...item,
-      // id: item.id,
+      id: item.id,
 
-      // visible: item.visible,
+      visible: item.visible,
 
-      // required: item.required,
-      // description: item.description,
-      //   example: item.example,
-      // name: item.name,
-      // option: item.option,
+      required: item.required,
+      description: item.description,
+      
     })),
   })
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
@@ -284,7 +282,7 @@ const DataBases: React.FunctionComponent = () => {
     }))
   }
 
-  console.log(JSON.stringify(dataBases, null, 2))
+  // console.log(JSON.stringify(dataBases, null, 2))
 
   const generateJson = () => {
     const jsonData = dataBases.customDefaultFields.map(({ 
@@ -313,7 +311,7 @@ const DataBases: React.FunctionComponent = () => {
 
       <Box
         sx={{
-          borderRadius: 'none',
+          borderRadius: '10px',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
           gap: '5px',
@@ -483,25 +481,25 @@ const DataBases: React.FunctionComponent = () => {
             sx={{
               background: '#388e3c',
               color: 'white',
-              borderRadius: '15px',
+              borderRadius: '10px',
             }}
             component="label"
             // onClick={handlePrevTab}
           >
             <NavigateBeforeOutlinedIcon />
-            Back
+            Cancel
           </Button>
           <Button
             variant="solid"
             sx={{
               background: '#fdd835',
-              color: 'white',
-              borderRadius: '15px',
+              color: 'black',
+              borderRadius: '10px',
             }}
             component="label"
-            // onClick={generateJson}
+            onClick={()=>console.log(generateJson())}
           >
-            Continue
+           Submit
             <NavigateNextOutlinedIcon />{' '}
           </Button>
         </Box>
