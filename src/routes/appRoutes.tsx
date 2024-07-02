@@ -94,15 +94,18 @@ const appRoutes: RouteType[] = [
         element: <ListOfAssets />,
         state: 'assets',
         sidebarProps: {
-          displayText: 'Employees',
+          displayText: 'List of Assets',
           icon: <ICONS.person />,
         },
       },
       {
-        index: true,
-        path: 'Add an Asset',
+        path: '/assets/add',
         element: <AddAnAsset />,
-        state: 'assets',
+        state: 'addAnAsset',
+        sidebarProps: {
+          displayText: 'Add an Assets',
+          icon: <ICONS.person />,
+        },
       },
       {
         index: true,
