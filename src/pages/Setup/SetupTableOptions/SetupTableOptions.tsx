@@ -20,9 +20,9 @@ import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import AppView from "../../../components/Common/AppView";
 import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../../Redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { addoptions, fetchOptions, fetchOptionsById } from "../../../Redux/features/TableOptionsSlice";
+import { RootState } from "../../../redux/store";
 
 const depreciationOptions = {
   "id": 1,

@@ -124,14 +124,14 @@ const Sites: React.FC<SiteProps> = ({
 
   return (
     <AppView>
-      <Typography level="h4" style={{ display: 'flex', alignItems: 'center' }}>
+      {/* <Typography level="h4" style={{ display: 'flex', alignItems: 'center' }}>
         <RoomOutlinedIcon style={{ fontSize: '16px', color: '#FBC21E' }} />
         <strong>Step- 2 Sites</strong>
-      </Typography>
+      </Typography> */}
       <AppForm onSubmit={handleNextTab}>
         <Box
           sx={{
-            borderRadius: 'none',
+            borderRadius: '10px',
             boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
             background: '#ffffff',
             gap: '5px',
@@ -159,9 +159,9 @@ const Sites: React.FC<SiteProps> = ({
                   }}
                 >
                   <Typography
-                   
+                   level='h4'
                     sx={{
-                      fontSize: '16px',
+                      fontSize: '1.4rem',
                       fontWeight: 500,
                       lineHeight: '30px',
                       textAlign: { xs: 'center', md: 'left' },
@@ -170,12 +170,12 @@ const Sites: React.FC<SiteProps> = ({
                   >
                     <TuneOutlinedIcon
                       sx={{
-                        fontSize: '16px',
+                        fontSize: '1.1rem',
                         color: '#FBC21E',
                         alignItems: 'center',
                       }}
                     />
-                    <strong>List of Sites</strong>
+                    List of Sites
                   </Typography>
                 </Box>
               </Grid>
@@ -249,7 +249,7 @@ const Sites: React.FC<SiteProps> = ({
             </Grid>
           </Box>
           <Divider />
-          <Box sx={{ marginTop: '20px', padding: '20px', fontSize: '14px' }}>
+          <Box sx={{ marginTop: '20px', padding: '10px', fontSize: '14px' }}>
             <strong>AssetTiger</strong> allows you to enter multiple{' '}
             <strong>Sites</strong>. For example, the <strong>Site</strong> may
             be a building or address. This means that you can better track each

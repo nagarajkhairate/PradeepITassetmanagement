@@ -278,7 +278,7 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
     title: 'Logo',
     // value: 'companyLogo',
     name: 'companyLogo', 
-    required: true,
+    required: false,
     sequence: 13,
     className: { sm: 12, md: 6, lg: 6 },
     dataType: 'file',
