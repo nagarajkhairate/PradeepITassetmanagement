@@ -13,32 +13,31 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AppView from "../../components/Common/AppView";
-import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import CategoryDialog from "../../components/AssetSections/EditAsset/AddAssetSection/CategoryDialog";
 import SiteDialog from "../../components/AssetSections/EditAsset/AddAssetSection/SiteDialog";
 import LocationDialog from "../../components/AssetSections/EditAsset/AddAssetSection/LocationDialog";
 import DepartmentDialog from "../../components/AssetSections/EditAsset/AddAssetSection/DepartmentDialog";
-
-
+import { RootState } from "../../redux/store";
+ 
 const data =[{
   "id": "9",
-  "asset_name": "MAcbook Air",
-  "asset_tag_id": "Mac1001",
-  "site": "Indore",
+  "assetName": "MAcbook Air",
+  "assetTagId": "Mac1001",
+  "siteId": "Indore",
   "description": "Macbook Air M1",
-  "purchase_from": "Bangalore",
-  "purchase_date": "2024-05-28",
+  "purchaseFrom": "Bangalore",
+  "purchaseDate": "2024-05-28",
   "brand": "Apple",
   "cost": "100000.00",
   "model": "Air M1",
-  "serial_number": "1234567890asdf",
+  "serialNumber": "1234567890asdf",
   "status": "Available",
-  "category": "Laptop",
-  "location": "Indore",
-  "department": "Supplier A",
-  "asset_photo": "/asset_photos/2.jpeg",
+  "categoryId": "Laptop",
+  "locationId": "Indore",
+  "departmentId": "Supplier A",
+  "assetPhoto": "/asset_photos/2.jpeg",
 }]
 
 interface FormData {
@@ -99,18 +98,18 @@ const AddAnAsset: React.FC = () => {
 
       setFormData((prevData) => ({
         ...prevData,
-        asset_photo: [...(prevData.asset_photo as File[]), ...validFiles],
+        assetPhoto: [...(prevData.assetPhoto as File[]), ...validFiles],
       }));
       setPhotoPreviews((prevPreviews) => [...prevPreviews, ...fileURLs]);
-      setValidationMessages((prevState) => ({ ...prevState, asset_photo: "" }));
+      setValidationMessages((prevState) => ({ ...prevState, assetPhoto: "" }));
     }
   };
 
   const handleDeletePhoto = (index: number) => {
     setFormData((prevData) => {
-      const updatedFiles = [...(prevData.asset_photo as File[])];
+      const updatedFiles = [...(prevData.assetPhoto as File[])];
       updatedFiles.splice(index, 1);
-      return { ...prevData, asset_photo: updatedFiles };
+      return { ...prevData, assetPhoto: updatedFiles };
     });
     setPhotoPreviews((prevPreviews) => {
       const updatedPreviews = [...prevPreviews];
@@ -189,7 +188,7 @@ const AddAnAsset: React.FC = () => {
               </Grid>
               {formConfig.slice(0,10).map((field: FormFieldConfig) => (
                 <Grid key={field.label} sx={{ paddingLeft: "32px", }}  xs={12}
-                md={field.stateKey === "description" ? 12 : (field.stateKey === "asset_name" || field.stateKey === "asset_tag_id") ? 6 : 4} 
+                md={field.stateKey === "description" ? 12 : (field.stateKey === "assetName" || field.stateKey === "assetTagId") ? 6 : 4} 
                 >
                   <Typography
                     level="body-xs"
@@ -400,9 +399,9 @@ const AddAnAsset: React.FC = () => {
               ) : (
                 <Typography level="body-xs">Only (JPG, GIF, PNG) Allowed</Typography>
               )}
-              {validationMessages.asset_photo && (
+              {validationMessages.assetPhoto && (
                 <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
-                  {validationMessages.asset_photo}
+                  {validationMessages.assetPhoto}
                 </Typography>
               )}
             </Box>
@@ -452,10 +451,10 @@ const AddAnAsset: React.FC = () => {
           </Box>
         </Box>
       </Box>
-      <SiteDialog open={openDialog === 'site'} onClose={handleCloseDialog}/>
-      <CategoryDialog open={openDialog === 'category'} onClose={handleCloseDialog}/>
-      <LocationDialog open={openDialog === 'location'} onClose={handleCloseDialog}/>
-      <DepartmentDialog open={openDialog === 'department'} onClose={handleCloseDialog}/>
+      <SiteDialog open={openDialog === 'siteId'} onClose={handleCloseDialog}/>
+      <CategoryDialog open={openDialog === 'categoryId'} onClose={handleCloseDialog}/>
+      <LocationDialog open={openDialog === 'locationId'} onClose={handleCloseDialog}/>
+      <DepartmentDialog open={openDialog === 'departmentId'} onClose={handleCloseDialog}/>
     </AppView>
   );
 };

@@ -41,18 +41,18 @@ export const fetchAssetsById = createAsyncThunk('assets/fetchAssetsById', async 
 });
  
 export const addAssets = createAsyncThunk('assets/addAssets', async (assets: any) => {
- const response = await axios.post(`${base_api_key_url}customers/${TENANT_ID}/clients`, assets);
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/add-asset`, assets);
   return response.data;
 });
  
 export const updateAssets = createAsyncThunk('assets/updateAssets', async (updatedCustomer: any) => {
  
-  const response = await axios.put(`${base_api_key_url}customers/${TENANT_ID}/clients/${updatedCustomer.id}`, updatedCustomer);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/add-asset/${updatedCustomer.id}`, updatedCustomer);
   return response.data;
 });
  
 export const deleteAssets = createAsyncThunk('assets/deleteAssets', async (id: number) => {
-  await axios.delete(`${base_api_key_url}customers/${TENANT_ID}/clients/${id}`);
+  await axios.delete(`${base_api_key_url}customers/${TENANT_ID}/add-asset/${id}`);
   return id;
 });
  

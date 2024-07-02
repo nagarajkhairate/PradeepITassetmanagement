@@ -21,8 +21,8 @@ export const formConfig: FormFieldConfig[] = [
   {
     label: "Asset Name",
     type: "text",
-    stateKey: "asset_name",
-    validationMessageKey: "asset_name",
+    stateKey: "assetName",
+    validationMessageKey: "assetName",
     sx: {
       borderRadius: "15px",
       padding: "12.25px",
@@ -32,8 +32,8 @@ export const formConfig: FormFieldConfig[] = [
   {
     label: "Asset Tag ID",
     type: "text",
-    stateKey: "asset_tag_id",
-    validationMessageKey: "asset_tag_id",
+    stateKey: "assetTagId",
+    validationMessageKey: "assetTagId",
     sx: {
       borderRadius: "15px",
       padding: "12.25px",
@@ -54,8 +54,8 @@ export const formConfig: FormFieldConfig[] = [
   {
     label: "Purchased From",
     type: "text",
-    stateKey: "purchase_from",
-    validationMessageKey: "purchase_from",
+    stateKey: "purchaseFrom",
+    validationMessageKey: "purchaseFrom",
     sx: {
       borderRadius: "15px",
       padding: "12.25px",
@@ -65,8 +65,8 @@ export const formConfig: FormFieldConfig[] = [
   {
     label: "Purchased Date",
     type: "date",
-    stateKey: "purchase_date",
-    validationMessageKey: "purchase_date",
+    stateKey: "purchaseDate",
+    validationMessageKey: "purchaseDate",
     sx: {
       borderRadius: "15px",
       padding: "12.25px",
@@ -109,8 +109,8 @@ export const formConfig: FormFieldConfig[] = [
   {
     label: "Serial No.",
     type: "text",
-    stateKey: "serial_number",
-    validationMessageKey: "serial_number",
+    stateKey: "serialNumber",
+    validationMessageKey: "serialNumber",
     sx: {
       borderRadius: "15px",
       padding: "12.25px",
@@ -131,14 +131,14 @@ export const formConfig: FormFieldConfig[] = [
     }
   },
   {
-    label: "Site",
+    label: "site",
     type: "select",
-    stateKey: "site",
-    validationMessageKey: "site",
+    stateKey: "siteId",
+    validationMessageKey: "siteId",
     options: [
-      { value: "Indore", label: "Indore" },
-      { value: "Mumbai", label: "Mumbai" },
-      { value: "Delhi", label: "Delhi" },
+      { value: "1", label: "Indore" },
+      { value: "2", label: "Mumbai" },
+      { value: "3", label: "Delhi" },
     ],
     sx: {
       borderRadius: "15px",
@@ -152,14 +152,14 @@ export const formConfig: FormFieldConfig[] = [
     }
   },
   {
-    label: "Category",
+    label: "category",
     type: "select",
-    stateKey: "category",
-    validationMessageKey: "category",
+    stateKey: "categoryId",
+    validationMessageKey: "categoryId",
     options: [
-      { value: "Laptop", label: "Laptop" },
-      { value: "Desktop", label: "Desktop" },
-      { value: "Monitor", label: "Monitor" },
+      { value: "1", label: "Laptop" },
+      { value: "2", label: "Desktop" },
+      { value: "3", label: "Monitor" },
     ],
     sx: {
       borderRadius: "15px",
@@ -173,14 +173,14 @@ export const formConfig: FormFieldConfig[] = [
     }
   },
   {
-    label: "Location",
+    label: "location",
     type: "select",
-    stateKey: "location",
-    validationMessageKey: "location",
+    stateKey: "locationId",
+    validationMessageKey: "locationId",
     options: [
-      { value: "Indore", label: "Indore" },
-      { value: "Mumbai", label: "Mumbai" },
-      { value: "Delhi", label: "Delhi" },
+      { value: "1", label: "Indore" },
+      { value: "2", label: "Mumbai" },
+      { value: "3", label: "Delhi" },
     ],
     sx: {
       borderRadius: "15px",
@@ -194,14 +194,14 @@ export const formConfig: FormFieldConfig[] = [
     }
   },
   {
-    label: "Department",
+    label: "department",
     type: "select",
-    stateKey: "department",
-    validationMessageKey: "department",
+    stateKey: "departmentId",
+    validationMessageKey: "departmentId",
     options: [
-      { value: "Supplier A", label: "Supplier A" },
-      { value: "Supplier B", label: "Supplier B" },
-      { value: "Supplier C", label: "Supplier C" },
+      { value: "1", label: "Supplier A" },
+      { value: "2", label: "Supplier B" },
+      { value: "3", label: "Supplier C" },
     ],
     sx: {
       borderRadius: "15px",
@@ -218,8 +218,8 @@ export const formConfig: FormFieldConfig[] = [
   {
     label: "Assets Photo",
     type: "file",
-    stateKey: "asset_photo",
-    validationMessageKey: "asset_photo",
+    stateKey: "assetPhoto",
+    validationMessageKey: "assetPhoto",
     sx: {
       borderRadius: "15px",
       padding: "12.25px",

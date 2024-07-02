@@ -325,13 +325,13 @@ const ListOfAssets = () => {
                       <td>
                         <Checkbox />
                       </td>
-                      <td>{item.asset_tag_id}</td>
+                      <td>{item.assetTagId}</td>
                       <td>{item.description}</td>
                       <td>{item.brand}</td>
-                      <td>{item.purchase_date}</td>
+                      <td>{item.purchaseDate}</td>
                       <td>{item.cost}</td>
                       <td>{item.status}</td>
-                      <td>{item.serial_number}</td>
+                      <td>{item.serialNumber}</td>
                       <td>{item.AssignedTo}</td>
                       <td style={{ cursor: "pointer" }}>
                         <Link
