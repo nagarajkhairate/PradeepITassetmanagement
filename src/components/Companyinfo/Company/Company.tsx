@@ -126,24 +126,26 @@ const Company: React.FC<CompanyProps> = ({
     setCompanyFormData((prevData:any) => ({ ...prevData, [name]: value }));
   };
 
-  React.useEffect(() => {
-    dispatch(fetchCompanyInfo())
-  }, [dispatch])
+  // React.useEffect(() => {
+  //   dispatch(fetchCompanyInfo())
+  // }, [dispatch])
 
   return (
     <AppView>
-        <Typography
+        {/* <Typography
         sx={{ display: 'flex', alignItems: 'center', fontSize:"16px" }} >
-        <Box component={TuneOutlinedIcon} color='#FBC21E' />
+        <Box component={TuneOutlinedIcon} 
+        color='#FBC21E' 
+        />
       <strong>Step 1 - Company Information</strong> 
-      </Typography>
+      </Typography> */}
    <AppForm onSubmit={handleNextTab} encType="multipart/form-data">
         <Box
           sx={{
             borderRadius: '16px',
-            boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+            // boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
             background: '#ffffff',
-            padding: 2,
+            // padding: 2,
           }}
         >
             <Grid container spacing={2}>

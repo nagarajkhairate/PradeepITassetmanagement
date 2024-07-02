@@ -14,10 +14,7 @@ import { Select, Option } from "@mui/joy";
 import Modal from "@mui/joy/Modal";
 import PublishOutlinedIcon from "@mui/icons-material/PublishOutlined";
 import { useState } from "react";
-import { selectClasses } from "@mui/joy/Select";
 import CategorySubEdit from "./CategorySubEdit";
-import PlaylistAddCheckOutlinedIcon from "@mui/icons-material/PlaylistAddCheckOutlined";
-import { KeyboardArrowDown } from "@mui/icons-material";
 import AppView from "../../../components/Common/AppView";
 import CategorySubAdd from "./CategorySubAdd";
 import { ThunkDispatch } from "redux-thunk";
@@ -25,7 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchSubCategories } from "../../../Redux/features/CategorySubSlice";
 import CategorySubDelete from "./CategorySubDelete";
 import { RootState } from "../../../redux/store";
-
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 
 type SubCategory = {
   id: number
@@ -93,7 +90,7 @@ const CategorySub: React.FunctionComponent = () => {
     <AppView>
       <Typography level="h3" sx={{ display: "flex", alignItems: "center" }}>
         <SignpostOutlinedIcon
-          style={{ fontSize: "1.4rem", color: "#d32f2f"}}
+          style={{ fontSize: "1.4rem", color: "#FBC12E"}}
         />
         Sub Categories
       </Typography>
@@ -124,6 +121,7 @@ const CategorySub: React.FunctionComponent = () => {
                   }}
                 >
                   <Typography
+                  level="h4"
                     sx={{
                    
                       fontSize: "20px",
@@ -133,8 +131,8 @@ const CategorySub: React.FunctionComponent = () => {
                       whiteSpace: "nowrap",
                     }}
                   >
-                    <PlaylistAddCheckOutlinedIcon
-                      style={{ fontSize: "1.4rem", color: "#d32f2f" }}
+                    <TuneOutlinedIcon
+                      style={{ fontSize: "1.1rem", color: "#FBC12E" }}
                     />
                     List of Sub Categories
                   </Typography>
@@ -226,9 +224,9 @@ const CategorySub: React.FunctionComponent = () => {
             <Divider />
 
             <Box>
-              <Box sx={{ padding: "20px", marginTop: "10px" }}>
+              <Typography sx={{  marginTop: "10px" }}>
               You may also add Sub Categories. Sub Categories are a subset of Categories. For example, the Sub Categories may be different types of Categories. The Sub Category may be a specific type or name within the Category. Select a Category and add your list of Sub Categories here.
-              </Box>
+              </Typography>
 
 
               <Box 

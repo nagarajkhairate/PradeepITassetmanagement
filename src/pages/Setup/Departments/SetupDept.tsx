@@ -17,7 +17,7 @@ import { useState } from 'react'
 import { selectClasses } from '@mui/joy/Select'
 import SetupEditDept from './SetupEditDept'
 import PlaylistAddCheckOutlinedIcon from '@mui/icons-material/PlaylistAddCheckOutlined'
-
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 type Department = {
   id: number
   departmentName: string
@@ -90,9 +90,9 @@ const SetupDept: React.FunctionComponent = () => {
   }, [])
   return (
     <AppView>
-      <Typography level="h4" sx={{ display: 'flex', alignItems: 'center' }}>
+      <Typography level="h3" sx={{ display: 'flex', alignItems: 'center' }}>
         <SignpostOutlinedIcon
-          style={{ fontSize: '1.4rem', color: '#d32f2f' }}
+          style={{ fontSize: '1.4rem', color: '#FBC12E' }}
         />
         Department
       </Typography>
@@ -113,7 +113,7 @@ const SetupDept: React.FunctionComponent = () => {
             flexDirection: { xs: 'column', md: 'row' },
             justifyContent: { xs: 'center', md: 'space-between' },
             gap: 2,
-            mb: 2,
+            mb: 1,
           }}
         >
           <Box
@@ -122,6 +122,7 @@ const SetupDept: React.FunctionComponent = () => {
             }}
           >
             <Typography
+            level='h4'
               sx={{
                
                 fontSize: '20px',
@@ -131,9 +132,9 @@ const SetupDept: React.FunctionComponent = () => {
                 whiteSpace: 'nowrap',
               }}
             >
-              <PlaylistAddCheckOutlinedIcon
-                style={{ fontSize: '1.4rem', color: '#d32f2f' }}
-              />
+              <TuneOutlinedIcon
+                      style={{ fontSize: "1.1rem", color: "#FBC12E" }}
+                    />
               List of Department
             </Typography>
           </Box>
@@ -202,12 +203,12 @@ const SetupDept: React.FunctionComponent = () => {
         <Divider />
 
         <Box>
-          <Box sx={{ padding: '20px', marginTop: '10px' }}>
+          <Typography sx={{  marginTop: '10px' }}>
             Add departments that own or house the particular assets. Make them
             as broad or as specific as you want. Departments can be
             'Accounting', 'Marketing', or 'Executive'. Customize to your
             particular need.
-          </Box>
+          </Typography>
 
           <Box
             sx={{

@@ -105,10 +105,10 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
           justifyContent: 'space-between',
         }}
       >
-      <Table borderAxis="both" style={{ borderCollapse: 'collapse' }}>
+      <Table borderAxis="both" style={{ borderCollapse: 'collapse', }}>
           <thead>
             <tr>
-              <th style={{ width: 30,background: '#fff8e6'  }}>
+              <th style={{ width: 30,background: '#fff8e6',verticalAlign:'middle' }}>
                 <Checkbox
                   size="sm"
                   indeterminate={
@@ -136,9 +136,9 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
                   sx={{ verticalAlign: 'text-bottom' }}
                 />
               </th>
-              <th style={{ background: '#fff8e6' }}>Location</th>
-              <th style={{ background: '#fff8e6' }}>Edit</th>
-              <th style={{ background: '#fff8e6' }}>Delete</th>
+              <th style={{ background: '#fff8e6' ,verticalAlign:'middle'}}>Location</th>
+              <th style={{ background: '#fff8e6' ,verticalAlign:'middle'}}>Edit</th>
+              <th style={{ background: '#fff8e6' ,verticalAlign:'middle'}}>Delete</th>
             </tr>
           </thead>
               <tbody>
