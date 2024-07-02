@@ -54,15 +54,24 @@ const LoginAccount: React.FC = () => {
     setErrors(newErrors);
     if (valid) {
     try {
-      await dispatch(loginAccount(formData))
-      setLoginSuccess(true); 
-      navigate("/dashboard");
-    }catch (error) {
-      console.error("Login failed:", error);
-      setLoginSuccess(false); 
+      const response = await dispatch(loginAccount(formData));
+        
+        if (response.meta.requestStatus === 'fulfilled') {
+          // Assuming successful response contains status 201
+          setLoginSuccess(true);
+          navigate("/dashboard");
+        } else {
+          // Handle failed login
+          setErrors({ ...newErrors, email: "Email or Password is not valid" });
+          setLoginSuccess(false);
+        }
+      } catch (error) {
+        console.error("Login failed:", error);
+        setLoginSuccess(false);
+      }
     }
-  }
   };
+
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -120,6 +129,7 @@ const LoginAccount: React.FC = () => {
                 <FormLabel htmlFor="password" sx={{ ml: "10px" }}>
                   Password
                 </FormLabel>
+                <div style={{ position: "relative", marginBottom: "20px" }}>
                 <Input
                   type={showPassword ? "text" : "password"}
                   name="password"
@@ -141,8 +151,9 @@ const LoginAccount: React.FC = () => {
                   padding: "10px",
                 }}
               >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
+                {showPassword ? <VisibilityOff fontSize="small" /> : <Visibility  fontSize="small"/>}
               </IconButton>
+              </div>
               {errors.password && (
                 <Typography level="body-sm"  sx={{ ml: "10px", color:"#dc3545" }}>
                   {errors.password}

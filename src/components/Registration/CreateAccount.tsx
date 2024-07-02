@@ -64,32 +64,39 @@ const CreateAccount: React.FC = () => {
 
 
     const newErrors: { [key: string]: string } = {};
-
     if (!formData.firstName) {
       newErrors.firstName = "First Name is required.";
+    } else if (!/^[a-zA-Z]+$/.test(formData.firstName)) {
+      newErrors.firstName = "First Name should contain only letters.";
     }
+
     if (!formData.lastName) {
       newErrors.lastName = "Last Name is required.";
+    } else if (!/^[a-zA-Z]+$/.test(formData.lastName)) {
+      newErrors.lastName = "Last Name should contain only letters.";
     }
+
     if (!formData.email) {
       newErrors.email = "Email is required.";
-    } else if (!formData.email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+    } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(formData.email)) {
       newErrors.email = "Please enter a valid email address.";
     }
+
     if (!formData.password) {
       newErrors.password = "Password is required.";
-    } else if (formData.password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters.";
+    } else if (!/(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/.test(formData.password)) {
+      newErrors.password = "Password must be at least 8 characters long, include at least one uppercase, one integer, and one special char.";
     }
+
     if (!formData.confirmPassword) {
       newErrors.confirmPassword = "Confirm Password is required.";
     } else if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match.";
     }
+
     if (!formData.termsPrivacyPolicy) {
       newErrors.termsPrivacyPolicy = "Please agree to 'Terms of Service' and 'Privacy Policy'.";
     }
-
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
@@ -194,8 +201,9 @@ const CreateAccount: React.FC = () => {
 
               <Box sx={{width: { xs: "100%", sm: "100%", md: "350px"} , position: "relative" }}>
                 <FormLabel htmlFor="password" sx={{ml:"10px"}}>Password</FormLabel>
+                <div style={{ position: "relative", marginBottom: "20px" }}>
                 <Input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   id="password"
                   placeholder="Password"
@@ -215,8 +223,9 @@ const CreateAccount: React.FC = () => {
                   padding: "10px",
                 }}
               >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
+                {showPassword ? <VisibilityOff fontSize="small" /> : <Visibility fontSize="small" />}
               </IconButton>
+              </div>
                 {errors.password && (
                   <Typography level="body-sm"  sx={{ ml: "10px",color:"#dc3545",fontSize: '12px' }}>
                     {errors.password}
@@ -226,8 +235,9 @@ const CreateAccount: React.FC = () => {
 
               <Box sx={{width: { xs: "100%", sm: "100%", md: "350px"} ,position: "relative" }}>
                 <FormLabel htmlFor="confirmPassword" sx={{ml:"10px"}}>Re-type Your Password</FormLabel>
+                <div style={{ position: "relative", marginBottom: "20px" }}>
                 <Input
-                  type="password"
+                   type={showPassword ? "text" : "password"}
                   name="confirmPassword"
                   id="confirmPassword"
                   placeholder="Re-type Your Password"
@@ -247,8 +257,9 @@ const CreateAccount: React.FC = () => {
                   padding: "10px",
                 }}
               >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
+                {showPassword ? <VisibilityOff fontSize="small" /> : <Visibility fontSize="small" />}
               </IconButton>
+              </div>
                 {!passwordsMatch && <span style={{ color: 'red', fontSize: '12px', marginLeft: '10px' }}>Password does not match</span>}
                 {errors.confirmPassword && (
                   <Typography level="body-sm"  sx={{ ml: "10px",color:"#dc3545",fontSize: '12px' }}>
