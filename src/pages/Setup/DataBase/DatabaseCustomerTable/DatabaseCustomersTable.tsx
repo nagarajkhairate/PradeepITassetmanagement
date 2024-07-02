@@ -14,10 +14,10 @@ import AppView from '../../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-import AddDataBaseEmp from './AddDataBaseEmp'
-import EditDataBaseEmp from './EditDataBaseEmp'
 import { RootState } from '../../../../redux/store'
 import { fetchDataBase } from '../../../../Redux/features/DataBaseSlice'
+import EditCustomersTable from './EditCustomersTable'
+import AddCustomersTable from './AddCustomersTable'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
 
 const customDefaultFields = [
@@ -27,7 +27,7 @@ const customDefaultFields = [
     visible: false,
     required: '',
     name: 'fullName',
-    description: 'Full name of the person / employee.',
+    description: 'Full name of the customer',
     example: 'John Doe',
     option: [
       {
@@ -42,7 +42,7 @@ const customDefaultFields = [
     visible: false,
     required: '',
     name: 'email',
-    description: 'Email of the person',
+    description: 'Email of the customer',
     example: 'johndoe@example.com',
     option: [
       {
@@ -57,12 +57,12 @@ const customDefaultFields = [
   },
   {
     id: 3,
-    fieldName: 'Employee ID',
+    fieldName: 'Company',
     visible: false,
     required: '',
-    name: 'employeeID',
-    description: 'For example Employee ID, Student ID, etc.',
-    example: 'IT-1234',
+    name: 'company',
+    description: 'Customers company name',
+    example: 'Jane Doe Company',
     option: [
       {
         id: 1,
@@ -76,12 +76,12 @@ const customDefaultFields = [
   },
   {
     id: 4,
-    fieldName: 'Title',
+    fieldName: 'Address',
     visible: false,
     required: '',
-    name: 'title',
-    description: '  fieldName of the person.',
-    example: '  Sales Manager',
+    name: 'address',
+    description: ' All address fields of the customer',
+    example: ' ---',
     option: [
       {
         id: 1,
@@ -99,7 +99,7 @@ const customDefaultFields = [
     visible: false,
     required: '',
     name: 'phone',
-    description: 'Phone number of the person',
+    description: 'Phone number of the customer',
     example: '(555) 123-4567',
     option: [
       {
@@ -114,12 +114,12 @@ const customDefaultFields = [
   },
   {
     id: 6,
-    fieldName: 'Notes',
+    fieldName: 'Mobile Phone',
     visible: false,
     required: '',
-    name: 'notes',
-    description: 'Text area for notes',
-    example: 'Reports to CEO',
+    name: 'mobilePhone',
+    description: 'Mobile Cell of the customer',
+    example: '	(123) 456-7890',
     option: [
       {
         id: 1,
@@ -133,12 +133,12 @@ const customDefaultFields = [
   },
   {
     id: 7,
-    fieldName: 'Site',
+    fieldName: 'Notes',
     visible: false,
     required: '',
-    name: 'site',
-    description: 'System field to link person to a Site',
-    example: '-',
+    name: 'notes',
+    description: 'Text area for notes',
+    example: 'Leases equipment for 12 months.',
     option: [
       {
         id: 1,
@@ -150,47 +150,10 @@ const customDefaultFields = [
       },
     ],
   },
-  {
-    id: 8,
-    fieldName: 'Location',
-    visible: false,
-    required: '',
-    name: 'location',
-    description: 'System field to link person to a Location',
-    example: '  -',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
-  },
-  {
-    id: 9,
-    fieldName: 'Department',
-    visible: false,
-    required: '',
-    name: 'department',
-    description: '  System field to link person to a Department',
-    example: '  -',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
-  },
+  
 ]
 
-const DataBaseEmp: React.FunctionComponent = () => {
+const DatabaseCustomersTable: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
 
@@ -304,7 +267,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
 
   // console.log(JSON.stringify(dataBases, null, 2))
 const handleCancel=()=>{
-
+    
 }
   const generateJson = () => {
     const jsonData = dataBases.customDefaultFields.map(
@@ -328,7 +291,7 @@ const handleCancel=()=>{
         <SignpostOutlinedIcon
           style={{ fontSize: '1.4rem', color: '#FBC21E' }}
         />
-        Database Persons/Employees
+        Database Customers
       </Typography>
 
       <Box
@@ -360,9 +323,7 @@ const handleCancel=()=>{
         >
           <Box sx={{ mt: 3 }}>
             <Typography >
-              Fill in the appropriate fields for your assets. Asset Tag ID and
-              Asset Description are the only required fields. Check the boxes
-              next to the field names you want to include.
+            Customers are the individuals or organizations to whom you  lease out your equipment. Select the fields you would like to use for your customers.
             </Typography>
           </Box>
 
@@ -444,16 +405,17 @@ const handleCancel=()=>{
           </Box>
         </Box>
 
+     
 
         <Box>
-          <AddDataBaseEmp
+          <AddCustomersTable
             dataBases={dataBases}
             setDataBases={setDataBases}
             // addCustomField={addCustomField}
             deleteCustomField={deleteCustomField}
           />
 
-          <EditDataBaseEmp
+          <EditCustomersTable
             matchedSelected={matchedSelected}
             setMatchedSelected={setMatchedSelected}
             dataBases={dataBases}
@@ -477,9 +439,9 @@ const handleCancel=()=>{
 
         <DatabaseButtons onCancel={() => handleCancel()} onSubmit={() => console.log(generateJson())} />
 
-      </Box>
+       </Box>
     </AppView>
   )
 }
 
-export default DataBaseEmp
+export default DatabaseCustomersTable

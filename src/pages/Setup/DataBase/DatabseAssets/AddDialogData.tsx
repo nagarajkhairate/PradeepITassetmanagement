@@ -1,11 +1,11 @@
 import { ThunkDispatch } from "redux-thunk";
-import { addDataBase } from "../../../Redux/features/DataBaseSlice";
 import { useDispatch, useSelector } from "react-redux";
 import React, { ChangeEvent,useEffect , useState } from "react";
-import { fetchComponents } from "../../../Redux/features/ComponentsIdSlice";
+import { fetchComponents } from "../../../../Redux/features/ComponentsIdSlice";
 import { Box, Button, FormControl, FormLabel, Input, Option, Radio, RadioGroup, Select, Sheet, Typography } from "@mui/joy";
-import AppForm from "../../../components/Common/AppForm";
-import { RootState } from "../../../redux/store";
+import AppForm from "../../../../components/Common/AppForm";
+import { RootState } from "../../../../redux/store";
+import { addDatabaseAsset } from "../../../../redux/features/AssetDatabaseSlice";
 
 
 interface DataBaseAddProps {
@@ -59,7 +59,7 @@ const handleAddSkill = (e: React.FormEvent<HTMLFormElement>) => {
         },
       ],
     }));
-    dispatch(addDataBase(formData))
+    dispatch(addDatabaseAsset(formData))
     handleClose();
     setOpen(false);
     setFormData({

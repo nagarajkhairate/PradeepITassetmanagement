@@ -10,6 +10,7 @@ interface ButtonsProps {
 
 export function Buttons({ handleContinue, toLink }: ButtonsProps) {
   return (
+    <>
     <Box sx={{ marginTop: "1px", marginBottom: "15px", padding: "20px" }}>
       <ButtonGroup
         spacing="1rem"
@@ -43,7 +44,45 @@ export function Buttons({ handleContinue, toLink }: ButtonsProps) {
         </Button>
       </ButtonGroup>
     </Box>
-    
+
+<Box
+sx={{
+  display: 'flex',
+  flexDirection: { xs: 'column', md: 'row' },
+  justifyContent: { xs: 'center', md: 'flex-end' },
+  gap: 2,
+  marginTop: '20px',
+}}
+>
+<Button
+  variant="solid"
+  sx={{
+    background: '#388e3c',
+    color: 'white',
+    borderRadius: '10px',
+  }}
+  component="label"
+  // onClick={handlePrevTab}
+>
+  {/* <NavigateBeforeOutlinedIcon /> */}
+  Back
+</Button>
+<Button
+  variant="solid"
+  sx={{
+    background: '#FABC1E',
+    color: 'black',
+    '&:hover': { background: '#E1A91B' },
+    borderRadius: '10px',
+  }}
+  component="label"
+  // onClick={handleNextTab}
+>
+  Continue
+  <NavigateNextOutlinedIcon />{' '}
+</Button>
+</Box>
+    </>
   );
 }
 export default Buttons;

@@ -2,9 +2,9 @@ import { Box, Button, FormControl, FormLabel, Input, Option, Radio, RadioGroup, 
 import React, { ChangeEvent, useState } from "react";
 import AppForm from "../../Common/AppForm";
 import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../../Redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { addComponents, fetchComponents,  } from "../../../Redux/features/ComponentsIdSlice";
+import { RootState } from "../../../redux/store";
 
 
 interface DataBaseAddProps {

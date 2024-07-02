@@ -56,7 +56,7 @@ interface DataProps {
  
  
  
-const EditDataBaseEmp: React.FC<DataProps>= ({ matchedSelected,
+const EditDataBaseMaintenance: React.FC<DataProps>= ({ matchedSelected,
     setMatchedSelected,
     dataBases,
     setDataBases,
@@ -489,4 +489,4 @@ const handleDeleteButton = (index:number) => {
               </Stack>
     )
 }
-export default EditDataBaseEmp;
+export default EditDataBaseMaintenance

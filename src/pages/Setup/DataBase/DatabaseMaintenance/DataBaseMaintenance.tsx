@@ -1,34 +1,30 @@
 import { Typography, Radio, RadioGroup, Divider, Grid } from '@mui/joy'
-import ButtonGroup from '@mui/joy/ButtonGroup'
 import React, { useState, useEffect } from 'react'
 import { Box } from '@mui/joy'
 import Table from '@mui/joy/Table'
 import Checkbox from '@mui/joy/Checkbox'
-import Button from '@mui/joy/Button'
 import { FormControl } from '@mui/joy'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
-import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
-import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
 import AppView from '../../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-import AddDataBaseEmp from './AddDataBaseEmp'
-import EditDataBaseEmp from './EditDataBaseEmp'
 import { RootState } from '../../../../redux/store'
 import { fetchDataBase } from '../../../../Redux/features/DataBaseSlice'
+import EditDataBaseMaintenance from './EditDataBaseMaintenance'
+import AddDataBaseMaintenance from './AddDataBaseMaintenance'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
 
 const customDefaultFields = [
   {
     id: 1,
-    fieldName: 'Full Name ',
+    fieldName: 'Title ',
     visible: false,
     required: '',
-    name: 'fullName',
-    description: 'Full name of the person / employee.',
-    example: 'John Doe',
+    name: 'title',
+    description: 'Title of the maintenance.',
+    example: 'Monthly Calibration',
     option: [
       {
         id: 1,
@@ -38,12 +34,12 @@ const customDefaultFields = [
   },
   {
     id: 2,
-    fieldName: 'Email',
+    fieldName: 'Details',
     visible: false,
     required: '',
-    name: 'email',
-    description: 'Email of the person',
-    example: 'johndoe@example.com',
+    name: 'details',
+    description: '	Details of the maintenance',
+    example: 'Calibrate to 120 units',
     option: [
       {
         id: 1,
@@ -57,12 +53,12 @@ const customDefaultFields = [
   },
   {
     id: 3,
-    fieldName: 'Employee ID',
+    fieldName: 'Due Date',
     visible: false,
     required: '',
-    name: 'employeeID',
-    description: 'For example Employee ID, Student ID, etc.',
-    example: 'IT-1234',
+    name: 'dueDate',
+    description: 'Date when maintenance is due',
+    example: '3/5/2020',
     option: [
       {
         id: 1,
@@ -76,12 +72,12 @@ const customDefaultFields = [
   },
   {
     id: 4,
-    fieldName: 'Title',
+    fieldName: 'Maintenance By',
     visible: false,
     required: '',
-    name: 'title',
-    description: '  fieldName of the person.',
-    example: '  Sales Manager',
+    name: 'maintenanceBy',
+    description: 'Person doing maintenance',
+    example: '	John Doe',
     option: [
       {
         id: 1,
@@ -95,12 +91,13 @@ const customDefaultFields = [
   },
   {
     id: 5,
-    fieldName: 'Phone',
+    fieldName: 'Maintenance Status',
     visible: false,
     required: '',
-    name: 'phone',
-    description: 'Phone number of the person',
-    example: '(555) 123-4567',
+    name: 'maintenanceStatus',
+    description:
+      ' System field to show current status of the maintenance. The possible values are Scheduled, In progress, On Hold, Cancelled, Completed.',
+    example: ' Scheduled',
     option: [
       {
         id: 1,
@@ -114,12 +111,12 @@ const customDefaultFields = [
   },
   {
     id: 6,
-    fieldName: 'Notes',
+    fieldName: 'Date Completed',
     visible: false,
     required: '',
-    name: 'notes',
-    description: 'Text area for notes',
-    example: 'Reports to CEO',
+    name: 'dateCompleted',
+    description: '	Date when maintenance is completed',
+    example: '3/5/2020',
     option: [
       {
         id: 1,
@@ -133,12 +130,12 @@ const customDefaultFields = [
   },
   {
     id: 7,
-    fieldName: 'Site',
+    fieldName: 'Maintenance Cost',
     visible: false,
     required: '',
-    name: 'site',
-    description: 'System field to link person to a Site',
-    example: '-',
+    name: 'maintenanceCost',
+    description: 'Total cost spent on this maintenance',
+    example: '	$97.50',
     option: [
       {
         id: 1,
@@ -152,31 +149,12 @@ const customDefaultFields = [
   },
   {
     id: 8,
-    fieldName: 'Location',
+    fieldName: 'Repeating',
     visible: false,
     required: '',
-    name: 'location',
-    description: 'System field to link person to a Location',
-    example: '  -',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
-  },
-  {
-    id: 9,
-    fieldName: 'Department',
-    visible: false,
-    required: '',
-    name: 'department',
-    description: '  System field to link person to a Department',
-    example: '  -',
+    name: 'repeating',
+    description: 'System fields to define repeating maintenances',
+    example: '---',
     option: [
       {
         id: 1,
@@ -190,12 +168,11 @@ const customDefaultFields = [
   },
 ]
 
-const DataBaseEmp: React.FunctionComponent = () => {
+const DatabaseMaintenance: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
 
   const dataBase = useSelector((state: RootState) => state.dataBase.data)
-  // const dispatch = useDispatch<AppDispatch>()
   console.log(dataBase)
 
   React.useEffect(() => {
@@ -230,7 +207,6 @@ const DataBaseEmp: React.FunctionComponent = () => {
       customAssetFields: updatedData,
     }))
   }
-
   const handleClickEditOpen = () => {
     setEditOpen(true)
   }
@@ -251,15 +227,6 @@ const DataBaseEmp: React.FunctionComponent = () => {
       handleEditClose()
     }
   }
-
-  // const handleCheckboxChange = (index: number) => {
-  //   setMatchedSelected((prevSelected) =>
-  //     prevSelected.includes(index)
-  //       ? prevSelected.filter((item) => item !== index)
-  //       : [...prevSelected, index],
-  //   )
-  //   setSelectedCell(index)
-  // }
   const handleCheckboxChange = (index: number) => {
     setDataBases((prevData) => ({
       ...prevData,
@@ -301,11 +268,8 @@ const DataBaseEmp: React.FunctionComponent = () => {
       ),
     }))
   }
+  const handleCancel = () => {}
 
-  // console.log(JSON.stringify(dataBases, null, 2))
-const handleCancel=()=>{
-
-}
   const generateJson = () => {
     const jsonData = dataBases.customDefaultFields.map(
       ({ id, visible, fieldName, required, description }) => ({
@@ -322,13 +286,13 @@ const handleCancel=()=>{
   return (
     <AppView>
       <Typography
-        level="h4"
+        level="h3"
         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
       >
         <SignpostOutlinedIcon
           style={{ fontSize: '1.4rem', color: '#FBC21E' }}
         />
-        Database Persons/Employees
+        Database Maintenance
       </Typography>
 
       <Box
@@ -349,7 +313,7 @@ const handleCancel=()=>{
             level="h4"
             sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
           >
-            Asset Database Fields
+            Maintenance Standard Fields
           </Typography>
         </Box>
 
@@ -359,10 +323,8 @@ const handleCancel=()=>{
           }}
         >
           <Box sx={{ mt: 3 }}>
-            <Typography >
-              Fill in the appropriate fields for your assets. Asset Tag ID and
-              Asset Description are the only required fields. Check the boxes
-              next to the field names you want to include.
+            <Typography>
+              Select the fields you would like to use for the maintenance table.
             </Typography>
           </Box>
 
@@ -412,7 +374,6 @@ const handleCancel=()=>{
                     </td>
                     <td>{data.fieldName}</td>
                     <td>
-                      {/* {data.required} */}
                       {data.visible && (
                         <FormControl>
                           <RadioGroup
@@ -444,16 +405,13 @@ const handleCancel=()=>{
           </Box>
         </Box>
 
-
         <Box>
-          <AddDataBaseEmp
+          <AddDataBaseMaintenance
             dataBases={dataBases}
             setDataBases={setDataBases}
-            // addCustomField={addCustomField}
             deleteCustomField={deleteCustomField}
           />
-
-          <EditDataBaseEmp
+          <EditDataBaseMaintenance
             matchedSelected={matchedSelected}
             setMatchedSelected={setMatchedSelected}
             dataBases={dataBases}
@@ -472,14 +430,10 @@ const handleCancel=()=>{
             handleDeleteClose={handleDeleteClose}
           />
         </Box>
-
         <Divider sx={{ marginTop: '3%' }} />
-
-        <DatabaseButtons onCancel={() => handleCancel()} onSubmit={() => console.log(generateJson())} />
-
+        <DatabaseButtons onCancel={() => handleCancel()} onSubmit={() => console.log(generateJson())}/>
       </Box>
     </AppView>
   )
 }
-
-export default DataBaseEmp
+export default DatabaseMaintenance

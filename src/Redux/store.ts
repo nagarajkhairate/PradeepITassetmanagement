@@ -18,6 +18,7 @@ import AuthReducer from './features/AuthSlice';
 import AccountReducer from './features/AccountSlice';
 import TabsReducer from './features/TabsSlice';
 import componentsReducer from "./features/ComponentsIdSlice";
+import databaseAssetReducer from './features/AssetDatabaseSlice'
 
 export const store = configureStore({
   reducer: {
@@ -32,6 +33,7 @@ export const store = configureStore({
     subCategories: subCategoryReducer,
     departments: departmentNameReducer,
     dataBase: dataBaseReducer,
+    databaseAsset:databaseAssetReducer,
     events: eventsReducer,
     sites: SitesReducer,
     companyInfo: companyInfoReducer,

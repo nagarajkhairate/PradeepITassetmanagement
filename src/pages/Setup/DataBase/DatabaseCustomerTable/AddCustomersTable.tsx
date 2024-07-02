@@ -15,14 +15,12 @@ import {
   Sheet,
   Typography,
 } from '@mui/joy'
+import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  addDataBase,
-  fetchDataBase,
-} from '../../../Redux/features/DataBaseSlice'
-import AddDialogData from './AddDialogData'
-import { RootState } from '../../../redux/store'
+import { fetchDataBase } from '../../../../Redux/features/DataBaseSlice'
+import { RootState } from '../../../../redux/store'
+import AddDialogCustomer from './AddDialogCustomer'
 
 interface DataAddProps {
   dataBases: { customAssetFields: string[] }
@@ -32,7 +30,7 @@ interface DataAddProps {
   id: number
 }
 
-const AddDataBase: React.FC<DataAddProps> = ({
+const AddCustomersTable: React.FC<DataAddProps> = ({
   dataBases,
   setDataBases,
   addCustomField,
@@ -45,61 +43,29 @@ const AddDataBase: React.FC<DataAddProps> = ({
   const dataBase = useSelector((state: RootState) => state.dataBase.data)
   console.log(dataBase)
 
-  // const [formData, setFormData] = useState({
-  //   custom: '',
-  //   componentsId: '',
-  //   selectedCategories: '',
-  //   dataRequired: '',
-  // })
-
   React.useEffect(() => {
     dispatch(fetchDataBase())
   }, [])
 
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
-
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
-
-  // const handleAddSkill = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   // addCustomField(formData);
-  //   setDataBases((prevData:any) => ({
-  //     ...prevData,
-  //     data: [
-  //       ...prevData.data,
-  //       {
-  //         fieldName: formData.custom,
-  //         dataType: formData.dataType,
-  //         category: formData.selectedCategories,
-  //         required: formData.dataRequired,
-  //       },
-  //     ],
-  //   }));
-  //   dispatch(addDataBase(formData))
-  //   handleClose();
-  //   setFormData({
-  //     custom: "",
-  //     dataType: "",
-  //     dataRequired: '',
-  //     selectedCategories: "",
-  //   });
-  // };
-
-  // const [showDepreciationOptions, setShowDepreciationOptions] =useState<boolean>(false);
-  // const handleDepreciationChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   const value = event.target.value;
-  //   setShowDepreciationOptions(value === "Yes");
-  //   // setCompanyFormData((prevState: any) => ({ ...prevState, assetDepreciation: value }));
-  // };
-
-  // console.log(JSON.stringify(formData))
-  // console.log("tableAdd:", formData);
 
   return (
+    <Box>
+      <Box>
+      <Typography
+    level="h4"
+    sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+  >
+    <SignpostOutlinedIcon
+      style={{ fontSize: '1.4rem', color: '#FBC21E' }}
+    />
+    Asset Custom Fields
+  </Typography>
+  <Typography
+  sx={{marginTop:'10px'}}
+  >
+    Add custom fields to join the standard fields that we provided.
+  </Typography>
+  </Box>
     <Box
       sx={{
         display: 'flex',
@@ -112,7 +78,7 @@ const AddDataBase: React.FC<DataAddProps> = ({
       <Button
         onClick={() => setOpen(true)}
         sx={{
-          marginTop: '25px',
+          marginTop: '15px',
           background: 'green',
           color: 'white',
           borderRadius: '15px',
@@ -134,7 +100,7 @@ const AddDataBase: React.FC<DataAddProps> = ({
           open={open}
           onClose={setOpen}
         >
-          <AddDialogData
+          <AddDialogCustomer
             open={open}
             setOpen={setOpen}
             dataBases={dataBases}
@@ -143,7 +109,8 @@ const AddDataBase: React.FC<DataAddProps> = ({
         </Modal>
       )}
     </Box>
+    </Box>
   )
 }
 
-export default AddDataBase
+export default AddCustomersTable

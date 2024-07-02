@@ -16,10 +16,10 @@ import {
   Typography,
 } from "@mui/joy";
 import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../../Redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { addDataBase } from "../../../Redux/features/DataBaseSlice";
 import DataBaseAddDialog from "./DataBaseAddDialog";
+import { RootState } from "../../../redux/store";
 
 interface DataAddProps {
   dataBases: { customAssetFields: string[] };

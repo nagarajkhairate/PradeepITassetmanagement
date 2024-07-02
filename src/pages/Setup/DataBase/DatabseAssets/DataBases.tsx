@@ -12,19 +12,20 @@ import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
 import AddDataBase from './AddDataBase'
 import EditDataBase from './EditDataBase'
-import AppView from '../../../components/Common/AppView'
+import AppView from '../../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchDataBase } from '../../../Redux/features/DataBaseSlice'
-import { RootState } from '../../../redux/store'
+import { RootState } from '../../../../redux/store'
+import DatabaseButtons from '../../../../components/Common/DatabaseButton'
+import { fetchDatabaseAsset } from '../../../../redux/features/AssetDatabaseSlice'
+
 
 const customDefaultFields = [
   {
     id: 1,
     fieldName: 'Asset Tag ID',
     visible: false,
-
     required: '',
     description:
       'This field holds the unique asset id number that your company assigns to identify each asset. These are generally sequentially numbered labels with barcodes.',
@@ -67,7 +68,7 @@ const customDefaultFields = [
       },
       {
         id: 2,
-        value: 'no',
+        value: 'optional',
       },
     ],
   },
@@ -86,7 +87,7 @@ const customDefaultFields = [
       },
       {
         id: 2,
-        value: 'no',
+        value: 'optional',
       },
     ],
   },
@@ -106,7 +107,7 @@ const customDefaultFields = [
       },
       {
         id: 2,
-        value: 'no',
+        value: 'optional',
       },
     ],
   },
@@ -125,7 +126,7 @@ const customDefaultFields = [
       },
       {
         id: 2,
-        value: 'no',
+        value: 'optional',
       },
     ],
   },
@@ -144,13 +145,13 @@ const customDefaultFields = [
       },
       {
         id: 2,
-        value: 'no',
+        value: 'optional',
       },
     ],
   },
   {
     id: 8,
-    fieldName: 'Serial No',
+    fieldName: 'Serial optional',
     visible: false,
 
     required: '',
@@ -163,7 +164,7 @@ const customDefaultFields = [
       },
       {
         id: 2,
-        value: 'no',
+        value: 'optional',
       },
     ],
   },
@@ -178,7 +179,7 @@ const DataBases: React.FunctionComponent = () => {
   console.log(dataBase)
 
   React.useEffect(() => {
-    dispatch(fetchDataBase())
+    dispatch(fetchDatabaseAsset())
   }, [])
 
   const [dataBases, setDataBases] = useState({
@@ -186,9 +187,7 @@ const DataBases: React.FunctionComponent = () => {
     customDefaultFields: customDefaultFields.map((item) => ({
       ...item,
       id: item.id,
-
       visible: item.visible,
-
       required: item.required,
       description: item.description,
       
@@ -282,18 +281,45 @@ const DataBases: React.FunctionComponent = () => {
     }))
   }
 
+  const handleCancel=()=>{
+    
+  }
   // console.log(JSON.stringify(dataBases, null, 2))
 
+  // const generateJson = () => {
+  //   const jsonData = dataBases.customDefaultFields.map(({ 
+  //     id, visible, fieldName, required, description 
+  //   }) => ({
+  //     id,
+  //     visible,
+  //     fieldName,
+  //     required,
+  //     description
+  //   }));
+  //   return JSON.stringify(jsonData, null, 2);
+  // };
+
   const generateJson = () => {
-    const jsonData = dataBases.customDefaultFields.map(({ 
-      id, visible, fieldName, required, description 
-    }) => ({
-      id,
-      visible,
-      fieldName,
+    const jsonData = {
+      customDefaultFields: dataBases.customDefaultFields.map(({ 
+        id, visible, fieldName, required, description 
+      }) => ({
+        id,
+        visible,
+        fieldName,
+        required,
+        description
+      })),
+      customAssetFields: dataBases.customAssetFields.map(({ 
+        id, fieldName, componentsId, category,required,  
+      }) => ({
+        id,
+        fieldName,
+      componentsId,
+      category,
       required,
-      description
-    }));
+      })),
+    };
     return JSON.stringify(jsonData, null, 2);
   };
 
@@ -306,7 +332,7 @@ const DataBases: React.FunctionComponent = () => {
         <SignpostOutlinedIcon
           style={{ fontSize: '1.4rem', color: '#FBC21E' }}
         />
-        Database
+        Database Assets
       </Typography>
 
       <Box
@@ -337,7 +363,7 @@ const DataBases: React.FunctionComponent = () => {
           }}
         >
           <Box sx={{ mt: 3 }}>
-            <Typography level="body-xs">
+            <Typography >
               Fill in the appropriate fields for your assets. Asset Tag ID and
               Asset Description are the only required fields. Check the boxes
               next to the field names you want to include.
@@ -466,43 +492,7 @@ const DataBases: React.FunctionComponent = () => {
 
         <Divider sx={{ marginTop: '3%' }} />
 
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            flexDirection: { md: 'row', xs: 'column' },
-            justifyContent: { xs: 'center', md: 'flex-end' },
-            gap: '5px',
-            mt: 4,
-          }}
-        >
-          <Button
-            variant="solid"
-            sx={{
-              background: '#388e3c',
-              color: 'white',
-              borderRadius: '10px',
-            }}
-            component="label"
-            // onClick={handlePrevTab}
-          >
-            <NavigateBeforeOutlinedIcon />
-            Cancel
-          </Button>
-          <Button
-            variant="solid"
-            sx={{
-              background: '#fdd835',
-              color: 'black',
-              borderRadius: '10px',
-            }}
-            component="label"
-            onClick={()=>console.log(generateJson())}
-          >
-           Submit
-            <NavigateNextOutlinedIcon />{' '}
-          </Button>
-        </Box>
+<DatabaseButtons onCancel={() => handleCancel()} onSubmit={() => console.log(generateJson())} />
       </Box>
     </AppView>
   )

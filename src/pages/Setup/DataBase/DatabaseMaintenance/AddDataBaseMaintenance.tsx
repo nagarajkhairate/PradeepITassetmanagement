@@ -18,9 +18,9 @@ import {
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-import AddEmployeeData from './AddEmployeeData'
 import { fetchDataBase } from '../../../../Redux/features/DataBaseSlice'
 import { RootState } from '../../../../redux/store'
+import AddMaintenanceData from './AddMaintenanceData'
 
 interface DataAddProps {
   dataBases: { customAssetFields: string[] }
@@ -30,7 +30,7 @@ interface DataAddProps {
   id: number
 }
 
-const AddDataBaseEmp: React.FC<DataAddProps> = ({
+const AddDataBaseMaintenance: React.FC<DataAddProps> = ({
   dataBases,
   setDataBases,
   addCustomField,
@@ -100,7 +100,7 @@ const AddDataBaseEmp: React.FC<DataAddProps> = ({
           open={open}
           onClose={setOpen}
         >
-          <AddEmployeeData
+          <AddMaintenanceData
             open={open}
             setOpen={setOpen}
             dataBases={dataBases}
@@ -113,4 +113,4 @@ const AddDataBaseEmp: React.FC<DataAddProps> = ({
   )
 }
 
-export default AddDataBaseEmp
+export default AddDataBaseMaintenance
