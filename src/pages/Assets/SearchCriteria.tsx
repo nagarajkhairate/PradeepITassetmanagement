@@ -295,9 +295,9 @@ const SearchCriteria: React.FC = () => {
                   value={siteId}
                   onChange={handleSelectChange(setSiteId, 'siteId')}
                 >
-                  <Option value="Site1">Site 1</Option>
-                  <Option value="Site2">Site 2</Option>
-                  <Option value="Site3">Site 3</Option>
+                  <Option value="1">Site 1</Option>
+                  <Option value="2">Site 2</Option>
+                  <Option value="3">Site 3</Option>
                 </Select>
                 {validationMessages.siteId && (
                   <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
@@ -312,9 +312,9 @@ const SearchCriteria: React.FC = () => {
                   value={locationId}
                   onChange={handleSelectChange(setLocationId, 'locationId')}
                 >
-                  <Option value="Location1">location 1</Option>
-                  <Option value="Location2">location 2</Option>
-                  <Option value="Location3">location 3</Option>
+                  <Option value="1">location 1</Option>
+                  <Option value="2">location 2</Option>
+                  <Option value="3">location 3</Option>
                 </Select>
                 {validationMessages.locationId && (
                   <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>

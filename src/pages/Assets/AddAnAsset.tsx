@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Typography, Box, Grid, Input, Select, Option, Button } from '@mui/joy'
 import { formConfig, FormFieldConfig } from './formConfig'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
@@ -6,7 +6,7 @@ import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import AppView from '../../components/Common/AppView'
 import { ThunkDispatch } from '@reduxjs/toolkit'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import CategoryDialog from '../../components/AssetSections/EditAsset/AddAssetSection/CategoryDialog'
 import SiteDialog from '../../components/AssetSections/EditAsset/AddAssetSection/SiteDialog'
 import LocationDialog from '../../components/AssetSections/EditAsset/AddAssetSection/LocationDialog'
@@ -14,7 +14,34 @@ import DepartmentDialog from '../../components/AssetSections/EditAsset/AddAssetS
 import { RootState } from '../../redux/store'
 import { addAssets } from '../../Redux/features/AssetSlice'
 import AppForm from '../../components/Common/AppForm'
+import AddCategory from '../../components/Companyinfo/Category/AddCategory'
+import { addCategory, fetchCategory } from '../../Redux/features/CategorySlice'
+import AddSite from '../Setup/SetupSites/AddSite'
+import AddLocation from '../../components/Companyinfo/Location/AddLocation'
+import SetupAddDept from '../Setup/Departments/SetupAddDept'
+import { addDepartment, fetchDepartment } from '../../Redux/features/DepartmentSlice'
+import { fetchLocation } from '../../Redux/features/LocationSlice'
+import { fetchSites } from '../../Redux/features/SitesSlice'
+type Category = {
+  id: number
+  categoryName: string
+}
 
+type Department = {
+  id: number
+  departmentName: string
+}
+
+interface Site {
+  siteName: string
+  description: string
+  address: string
+  aptSuite: string
+  city: string
+  state: string
+  zipCode: number
+  country: string
+}
 interface FormData {
   [key: string]: string | File[]
 }
@@ -27,16 +54,70 @@ const AddAnAsset: React.FC = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
   // Initialize state dynamically based on formConfig
-  const initialFormData = formConfig.reduce<FormData>((acc, field) => {
-    acc[field.stateKey] = field.type === 'file' ? [] : ''
-    return acc
-  }, {})
+  const initialFormData = formConfig.reduce<Record<string, any>>((acc, field) => {
+    acc[field.stateKey] = field.type === 'file' ? [] : '';
+    return acc;
+  }, {});
+  const [formData, setFormData] = useState(initialFormData);
 
-  const [formData, setFormData] = useState<FormData>(initialFormData)
+    const [open, setOpen] = useState<boolean>(false)
   const [validationMessages, setValidationMessages] =
     useState<ValidationMessages>({})
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([])
+  const [categoryName, setCategoryName] = useState<string>('')
+  const [departmentName, setDepartmentName] = useState<string>('')
   const [openDialog, setOpenDialog] = useState<string | null>(null)
+  
+  const departments = useSelector((state: RootState) => state.departments.data)
+  const categories = useSelector((state: RootState) => state.category.data)
+  const sites = useSelector((state: RootState) => state.sites.data)
+  const locations = useSelector((state: RootState) => state.location.data);
+
+  useEffect(() => {
+    dispatch(fetchSites());
+    dispatch(fetchLocation());
+    dispatch(fetchDepartment());
+    dispatch(fetchCategory());
+  }, [dispatch]);
+
+  const handleSelectChange = (
+    event: React.SyntheticEvent<Element, Event> | null,
+    newValue: any,
+    stateKey: string,
+  ) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [stateKey]: newValue,
+    }))
+    setValidationMessages((prevState) => ({ ...prevState, [stateKey]: '' }))
+  }
+  const dynamicFormConfig = formConfig.map(field => {
+    if (field.stateKey === 'siteId') {
+      return {
+        ...field,
+        options: sites.map(site => ({ value: site.id, label: site.name })),
+      };
+    }
+    if (field.stateKey === 'locationId') {
+      return {
+        ...field,
+        options: locations.map(location => ({ value: location.id, label: location.name })),
+      };
+    }
+    if (field.stateKey === 'departmentId') {
+      return {
+        ...field,
+        options: departments.map(department => ({ value: department.id, label: department.name })),
+      };
+    }
+    if (field.stateKey === 'categoryId') {
+      return {
+        ...field,
+        options: categories.map(category => ({ value: category.id, label: category.name })),
+      };
+    }
+    return field;
+  });
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -50,19 +131,37 @@ const AddAnAsset: React.FC = () => {
     setValidationMessages((prevState) => ({ ...prevState, [stateKey]: '' }))
   }
 
-  const handleSelectChange = (
-    event: React.SyntheticEvent<Element, Event> | null,
-    newValue: any,
-    stateKey: string,
-  ) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [stateKey]: newValue,
-    }))
-    setValidationMessages((prevState) => ({ ...prevState, [stateKey]: '' }))
+ 
+
+  const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const newCategory: Category = {
+      id: categories.length ? categories[categories.length - 1].id + 1 : 1,
+      categoryName: capitalizeWords(categoryName),
+    }
+    // setCategories([...categories, newCategory])
+    setCategoryName('') // Clear the input field after adding
+    dispatch(addCategory(newCategory))
+    console.log(newCategory)
+    handleClose()
+  }
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase())
   }
 
- 
+  const handleAddDepartment = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const newdepartment: Department = {
+      id: departments.length ? departments[departments.length - 1].id + 1 : 1,
+      departmentName: capitalizeWords(departmentName),
+    }
+    // setDepartment([...department, newdepartment])
+    dispatch(addDepartment(newdepartment))
+    setDepartmentName('') // Clear the input field after adding
+    handleClose()
+    console.log(newdepartment)
+  }
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, files } = e.target;
     if (files && files.length > 0) {
@@ -97,12 +196,16 @@ const AddAnAsset: React.FC = () => {
     })
   }
 
-  const handleOpenDialog = (dialogName: string) => {
-    setOpenDialog(dialogName)
+  const handleOpenDialog = (modalName: string) => {
+    setOpenDialog(modalName)
   }
+  console.log(openDialog)
 
   const handleCloseDialog = () => {
     setOpenDialog(null)
+  }
+  const handleClose = () => {
+    setOpen(false)
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -253,7 +356,7 @@ const AddAnAsset: React.FC = () => {
                     flexDirection: { xs: 'column', md: 'row' },
                   }}
                 >
-                  {formConfig.slice(10, 14).map((field) => (
+                  {dynamicFormConfig.slice(10, 14).map((field) => (
                     <Grid
                       key={field.label}
                       sx={{ paddingLeft: '32px', paddingBottom: '20px' }}
@@ -280,6 +383,9 @@ const AddAnAsset: React.FC = () => {
                         </Select>
 
                         <Button
+                         onClick={() => handleOpenDialog(field.stateKey)}
+                         variant="outlined"
+                          size="sm"
                           sx={{
                             ml: { md: 4, xs: '0' },
                             width: '187px',
@@ -292,7 +398,7 @@ const AddAnAsset: React.FC = () => {
                             color: '#767676',
                             mt: { xs: '10px', md: '0' },
                           }}
-                          onClick={() => handleOpenDialog(field.stateKey)}
+                         
                         >
                           <Typography sx={{ mr: '25px', color: '#767676' }}>
                             <AddIcon />
@@ -368,7 +474,7 @@ const AddAnAsset: React.FC = () => {
                         },
                       }}
                     >
-                      <CloudUploadIcon size={23} />
+                      <CloudUploadIcon sx={{size:"20" }}/>
                     </Button>
                     <input
                       type="file"
@@ -412,7 +518,7 @@ const AddAnAsset: React.FC = () => {
                             }}
                             onClick={() => handleDeletePhoto(index)}
                           >
-                            <DeleteIcon color="#d9534f" />
+                            <DeleteIcon sx={{color:"#d9534f"}} />
                           </Button>
                         </Box>
                       </Grid>
@@ -475,20 +581,30 @@ const AddAnAsset: React.FC = () => {
             </Box>
           </Box>
         </Box>
-        <SiteDialog open={openDialog === 'site'} onClose={handleCloseDialog} />
-        <CategoryDialog
-          open={openDialog === 'category'}
-          onClose={handleCloseDialog}
-        />
-        <LocationDialog
-          open={openDialog === 'location'}
-          onClose={handleCloseDialog}
-        />
-        <DepartmentDialog
-          open={openDialog === 'department'}
-          onClose={handleCloseDialog}
-        />
+
+        {openDialog==='categoryId' &&  <AddCategory open={openDialog === 'categoryId'} handleClose={handleCloseDialog}  categoryName={categoryName}
+        setCategoryName={setCategoryName}
+        handleAddCategory={handleAddCategory} 
+        />}
+
+      
+        {openDialog==='siteId' && <AddSite open={openDialog==='siteId'}  onClose={handleCloseDialog} 
+         onSave={(newSite: Site) => {
+          setOpen(false)
+        }}
+        />}
+
+        {openDialog==='locationId' && <AddLocation open={openDialog==='locationId'} setOpen={setOpen} handleClose={handleCloseDialog} 
+        />}
+
+        {openDialog==='departmentId' && <SetupAddDept  open={openDialog==='departmentId'} handleClose={handleCloseDialog} departmentName={departmentName} setDepartmentName={setDepartmentName} handleAddDepartment={handleAddDepartment}
+        />}
+
+        {/* <SiteDialog open={openDialog === 'site'} handleClose={handleCloseDialog} />
+        <LocationDialog open={openDialog === 'location'} handleClose={handleCloseDialog} />
+        <DepartmentDialog open={openDialog === 'department'} handleClose={handleCloseDialog} /> */}
       </AppView>
+      
     </AppForm>
   )
 }

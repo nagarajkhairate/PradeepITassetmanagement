@@ -346,7 +346,7 @@ const AddAnAsset: React.FC = () => {
                       },
                     }}
                   >
-                    <CloudUploadIcon size={23} />
+                    <CloudUploadIcon sx={{size:"23"}} />
                   </Button>
                   <input
                     type="file"
@@ -390,7 +390,7 @@ const AddAnAsset: React.FC = () => {
                             padding: 0,
                           }}
                         >
-                          <DeleteIcon color="#d9534f" />
+                          <DeleteIcon sx={{color:"#d9534f"}} />
                         </Button>
                       </Box>
                     </Grid>

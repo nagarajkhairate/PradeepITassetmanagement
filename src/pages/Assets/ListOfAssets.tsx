@@ -10,11 +10,11 @@ import { useTheme } from "@mui/material/styles";
 import ListOfAssetsCard from "./ListOfAssetsCard";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { Link } from "react-router-dom";
 import AppView from "../../components/Common/AppView";
 import { fetchAssets } from "../../Redux/features/AssetSlice";
+import { RootState } from "../../redux/store";
 
 const data1 = [
   {
@@ -102,7 +102,7 @@ const ListOfAssets = () => {
                   }}
                 >
                   <Typography sx={{ color: "white" }}>
-                    <SearchIcon size={23} />
+                    <SearchIcon sx={{size:"23"}} />
                   </Typography>
                   <Typography
                     sx={{
@@ -151,7 +151,7 @@ const ListOfAssets = () => {
                   }}
                 >
                   <Typography sx={{ color: "white" }}>
-                    <FileUploadIcon size={23} />
+                    <FileUploadIcon sx={{size:"23"}}/>
                   </Typography>
                   <Typography
                     sx={{
@@ -189,7 +189,7 @@ const ListOfAssets = () => {
                   }}
                 >
                   <Typography sx={{ color: "white" }}>
-                    <SettingsRoundedIcon size={23} />
+                    <SettingsRoundedIcon sx={{size:"23"}} />
                   </Typography>
 
                   <Typography
@@ -293,7 +293,7 @@ const ListOfAssets = () => {
                     >
                       Serial No.
                     </th>
-                    <th
+                    {/* <th
                       style={{
                         background: "#f9f9f9",
                         borderBottom: "none",
@@ -301,7 +301,7 @@ const ListOfAssets = () => {
                       }}
                     >
                       Assigned to
-                    </th>
+                    </th> */}
                     <th
                       style={{
                         background: "#f9f9f9",
@@ -332,13 +332,13 @@ const ListOfAssets = () => {
                       <td>{item.cost}</td>
                       <td>{item.status}</td>
                       <td>{item.serialNumber}</td>
-                      <td>{item.AssignedTo}</td>
+                      {/* <td>{item.AssignedTo}</td> */}
                       <td style={{ cursor: "pointer" }}>
                         <Link
                           to={`/assets/editasset/${item.id}`}
                           style={{ color: "inherit" }}
                         >
-                          <RemoveRedEyeIcon size={20} />
+                          <RemoveRedEyeIcon sx={{size:"20"}} />
                         </Link>
                       </td>
                     </tr>

@@ -136,12 +136,35 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
         </Select>
         </Grid>
         </Grid>
-      
+        <Divider />
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
       
-          <Button onClick={onClose} sx={{ mr: 1 }}>Cancel</Button>
-          <Button onClick={handleAddSite}>Add Site</Button>
-       
+        <Button
+  onClick={onClose}
+  sx={{
+    mr: 1,
+    background: 'black',
+    color: 'white',
+    '&:hover': {
+      backgroundColor: '#333', // Darker shade of black
+    },
+  }}
+>
+  Cancel
+</Button>
+<Button
+  onClick={handleAddSite}
+  sx={{
+    background: '#fdd835',
+    color: 'black',
+    '&:hover': {
+      backgroundColor: '#c6a700', // Darker shade of #fdd835
+    },
+  }}
+>
+  Add Site
+</Button>
+
         </Box>
       </Box>
     </Modal>
