@@ -11,7 +11,6 @@ import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
-import { fetchDataBase } from '../../../../Redux/features/DataBaseSlice'
 import EditDataBaseMaintenance from './EditDataBaseMaintenance'
 import AddDataBaseMaintenance from './AddDataBaseMaintenance'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
@@ -175,9 +174,9 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
   const dataBase = useSelector((state: RootState) => state.dataBase.data)
   console.log(dataBase)
 
-  React.useEffect(() => {
-    dispatch(fetchDataBase())
-  }, [])
+  // React.useEffect(() => {
+  //   dispatch(fetchDataBase())
+  // }, [])
 
   const [dataBases, setDataBases] = useState({
     customAssetFields: [],

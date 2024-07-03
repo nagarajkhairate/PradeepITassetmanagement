@@ -18,7 +18,6 @@ import {
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchDataBase } from '../../../../Redux/features/DataBaseSlice'
 import { RootState } from '../../../../redux/store'
 import AddDialogCustomer from './AddDialogCustomer'
 
@@ -43,9 +42,9 @@ const AddCustomersTable: React.FC<DataAddProps> = ({
   const dataBase = useSelector((state: RootState) => state.dataBase.data)
   console.log(dataBase)
 
-  React.useEffect(() => {
-    dispatch(fetchDataBase())
-  }, [])
+  // React.useEffect(() => {
+  //   dispatch(fetchDataBase())
+  // }, [])
 
   return (
     <Box>

@@ -1,8 +1,6 @@
 import { ThunkDispatch } from 'redux-thunk'
-import { addDataBase } from '../../../../Redux/features/DataBaseSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { ChangeEvent, useEffect, useState } from 'react'
-import { fetchComponents } from '../../../../Redux/features/ComponentsIdSlice'
 import {
   Box,
   Button,
@@ -52,9 +50,9 @@ const AddDialogCustomer: React.FC<DataBaseAddProps> = ({
     dataRequired: '',
   })
 
-  React.useEffect(() => {
-    dispatch(fetchComponents())
-  }, [dispatch])
+  // React.useEffect(() => {
+  //   dispatch(fetchComponents())
+  // }, [dispatch])
 
   const handleAddSkill = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -71,7 +69,7 @@ const AddDialogCustomer: React.FC<DataBaseAddProps> = ({
         },
       ],
     }))
-    dispatch(addDataBase(formData))
+    // dispatch(addDataBase(formData))
     handleClose()
     setOpen(false)
     setFormData({

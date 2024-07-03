@@ -17,7 +17,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import AddDataBaseEmp from './AddDataBaseEmp'
 import EditDataBaseEmp from './EditDataBaseEmp'
 import { RootState } from '../../../../redux/store'
-import { fetchDataBase } from '../../../../Redux/features/DataBaseSlice'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
 
 const EmployeePerson = [
@@ -198,9 +197,9 @@ const DataBaseEmp: React.FunctionComponent = () => {
   // const dispatch = useDispatch<AppDispatch>()
   console.log(dataBase)
 
-  React.useEffect(() => {
-    dispatch(fetchDataBase())
-  }, [])
+  // React.useEffect(() => {
+  //   dispatch(fetchDataBase())
+  // }, [])
 
   const [dataBases, setDataBases] = useState({
     customAsset: [],

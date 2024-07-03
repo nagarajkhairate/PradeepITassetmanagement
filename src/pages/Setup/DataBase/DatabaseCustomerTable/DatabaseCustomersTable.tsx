@@ -15,7 +15,6 @@ import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
-import { fetchDataBase } from '../../../../Redux/features/DataBaseSlice'
 import EditCustomersTable from './EditCustomersTable'
 import AddCustomersTable from './AddCustomersTable'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
@@ -161,9 +160,9 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
   // const dispatch = useDispatch<AppDispatch>()
   console.log(dataBase)
 
-  React.useEffect(() => {
-    dispatch(fetchDataBase())
-  }, [])
+  // React.useEffect(() => {
+  //   dispatch(fetchDataBase())
+  // }, [])
 
   const [dataBases, setDataBases] = useState({
     customAsset: [],
