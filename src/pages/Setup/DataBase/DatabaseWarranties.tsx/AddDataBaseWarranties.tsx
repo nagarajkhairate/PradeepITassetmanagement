@@ -1,37 +1,71 @@
 import React, { ChangeEvent, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
-import { Box,Button, Modal,} from '@mui/joy'
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Grid,
+  Input,
+  Modal,
+  Option,
+  Radio,
+  RadioGroup,
+  Select,
+  Sheet,
+  Typography,
+} from '@mui/joy'
+import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-import AddDialogData from './AddDialogData'
 import { RootState } from '../../../../redux/store'
-import { fetchDefaultFields } from '../../../../Redux/features/DefaultFieldAssetSlice'
+import AddWarrantiesData from './AddWarrantiesData'
 
 
 interface DataAddProps {
-  dataBases: { customAsset: string[] }
-  setDataBases: React.Dispatch<React.SetStateAction<{ customAsset: any[] }>>
+  dataBases: { customAssetFields: string[] }
+  setDataBases: React.Dispatch<React.SetStateAction<{ customAssetFields: any[] }>>
   addCustomField: (custom: any) => void
   deleteCustomField: (index: number) => void
   id: number
 }
 
-const AddDataBaseAsset: React.FC<DataAddProps> = ({
+const AddDataBaseWarranties: React.FC<DataAddProps> = ({
   dataBases,
   setDataBases,
+  addCustomField,
+  deleteCustomField,
   id,
 }: DataAddProps) => {
   const [open, setOpen] = useState(false)
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
-  const dataBase = useSelector((state: RootState) => state.defaultFields.data)
+  const dataBase = useSelector((state: RootState) => state.dataBase.data)
   console.log(dataBase)
 
-  React.useEffect(() => {
-    dispatch(fetchDefaultFields())
-  }, [])
+//   React.useEffect(() => {
+//     dispatch(fetchDataBase())
+//   }, [])
+
 
   return (
+    <Box>
+      <Box>
+      <Typography
+    level="h4"
+    sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+  >
+    <SignpostOutlinedIcon
+      style={{ fontSize: '1.4rem', color: '#FBC21E' }}
+    />
+    Warranty Custom Fields
+  </Typography>
+  <Typography
+  sx={{marginTop:'10px'}}
+  >
+    Add custom fields to join the standard fields that we provided.
+  </Typography>
+  </Box>
     <Box
       sx={{
         display: 'flex',
@@ -45,14 +79,9 @@ const AddDataBaseAsset: React.FC<DataAddProps> = ({
         onClick={() => setOpen(true)}
         sx={{
           marginTop: '15px',
-          
-          background: '#ffffff',
-          color: 'green',
-          border: '1px solid green ',
-          '&:hover': {
-            color: 'white',
-            background: 'green',
-          },
+          background: 'green',
+          color: 'white',
+          '&:hover': { background: '#1b5e20' },
           borderRadius: '15px',
         }}
       >
@@ -72,7 +101,7 @@ const AddDataBaseAsset: React.FC<DataAddProps> = ({
           open={open}
           onClose={setOpen}
         >
-          <AddDialogData
+          <AddWarrantiesData
             open={open}
             setOpen={setOpen}
             dataBases={dataBases}
@@ -81,7 +110,8 @@ const AddDataBaseAsset: React.FC<DataAddProps> = ({
         </Modal>
       )}
     </Box>
+    </Box>
   )
 }
 
-export default AddDataBaseAsset
+export default AddDataBaseWarranties

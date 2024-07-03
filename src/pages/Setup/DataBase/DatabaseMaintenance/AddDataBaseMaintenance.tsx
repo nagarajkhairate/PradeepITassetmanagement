@@ -58,7 +58,7 @@ const AddDataBaseMaintenance: React.FC<DataAddProps> = ({
     <SignpostOutlinedIcon
       style={{ fontSize: '1.4rem', color: '#FBC21E' }}
     />
-    Asset Custom Fields
+    Maintenance Custom Fields
   </Typography>
   <Typography
   sx={{marginTop:'10px'}}
@@ -81,6 +81,7 @@ const AddDataBaseMaintenance: React.FC<DataAddProps> = ({
           marginTop: '15px',
           background: 'green',
           color: 'white',
+          '&:hover': { background: '#1b5e20' },
           borderRadius: '15px',
         }}
       >

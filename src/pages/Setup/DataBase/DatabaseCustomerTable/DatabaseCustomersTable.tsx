@@ -20,12 +20,12 @@ import EditCustomersTable from './EditCustomersTable'
 import AddCustomersTable from './AddCustomersTable'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
 
-const customDefaultFields = [
+const Customers = [
   {
     id: 1,
     fieldName: 'Full Name ',
     visible: false,
-    required: '',
+    isRequired: '',
     name: 'fullName',
     description: 'Full name of the customer',
     example: 'John Doe',
@@ -40,7 +40,7 @@ const customDefaultFields = [
     id: 2,
     fieldName: 'Email',
     visible: false,
-    required: '',
+    isRequired: '',
     name: 'email',
     description: 'Email of the customer',
     example: 'johndoe@example.com',
@@ -59,7 +59,7 @@ const customDefaultFields = [
     id: 3,
     fieldName: 'Company',
     visible: false,
-    required: '',
+    isRequired: '',
     name: 'company',
     description: 'Customers company name',
     example: 'Jane Doe Company',
@@ -78,7 +78,7 @@ const customDefaultFields = [
     id: 4,
     fieldName: 'Address',
     visible: false,
-    required: '',
+    isRequired: '',
     name: 'address',
     description: ' All address fields of the customer',
     example: ' ---',
@@ -97,7 +97,7 @@ const customDefaultFields = [
     id: 5,
     fieldName: 'Phone',
     visible: false,
-    required: '',
+    isRequired: '',
     name: 'phone',
     description: 'Phone number of the customer',
     example: '(555) 123-4567',
@@ -116,7 +116,7 @@ const customDefaultFields = [
     id: 6,
     fieldName: 'Mobile Phone',
     visible: false,
-    required: '',
+    isRequired: '',
     name: 'mobilePhone',
     description: 'Mobile Cell of the customer',
     example: '	(123) 456-7890',
@@ -135,7 +135,7 @@ const customDefaultFields = [
     id: 7,
     fieldName: 'Notes',
     visible: false,
-    required: '',
+    isRequired: '',
     name: 'notes',
     description: 'Text area for notes',
     example: 'Leases equipment for 12 months.',
@@ -166,14 +166,12 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
   }, [])
 
   const [dataBases, setDataBases] = useState({
-    customAssetFields: [],
-    customDefaultFields: customDefaultFields.map((item) => ({
+    customAsset: [],
+    Customers: Customers.map((item) => ({
       ...item,
       id: item.id,
-
       visible: item.visible,
-
-      required: item.required,
+      isRequired: item.isRequired,
       description: item.description,
     })),
   })
@@ -185,12 +183,12 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
   const [eventForm, setEventForm] = useState<any>({})
 
   const deleteCustomField = (index: number) => {
-    const updatedData = dataBases.customAssetFields.filter(
+    const updatedData = dataBases.customAsset.filter(
       (_, idx) => idx !== index,
     )
     setDataBases((prevData) => ({
       ...prevData,
-      customAssetFields: updatedData,
+      customAsset: updatedData,
     }))
   }
 
@@ -207,7 +205,7 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
     e.preventDefault()
     const Custom = (e.target as HTMLFormElement).Custom.value
     if (selectedCell !== null) {
-      const updatedData = dataBases.customAssetFields.map((item, index) =>
+      const updatedData = dataBases.customAsset.map((item, index) =>
         index === selectedCell ? Custom : item,
       )
       // setDataBases((prevData) => ({ ...prevData, data: updatedData }))
@@ -215,18 +213,10 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
     }
   }
 
-  // const handleCheckboxChange = (index: number) => {
-  //   setMatchedSelected((prevSelected) =>
-  //     prevSelected.includes(index)
-  //       ? prevSelected.filter((item) => item !== index)
-  //       : [...prevSelected, index],
-  //   )
-  //   setSelectedCell(index)
-  // }
   const handleCheckboxChange = (index: number) => {
     setDataBases((prevData) => ({
       ...prevData,
-      customDefaultFields: prevData.customDefaultFields.map((item, i) =>
+      Customers: prevData.Customers.map((item, i) =>
         i === index ? { ...item, visible: !item.visible } : item,
       ),
     }))
@@ -234,11 +224,11 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
 
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const updatedData = dataBases.customAssetFields.filter(
+    const updatedData = dataBases.customAsset.filter(
       (_, index) => index !== selectedCell,
     )
     // setDataBases((prevData) => ({ ...prevData, data: updatedData }));
-    setDataBases({ ...dataBases, customAssetFields: updatedData })
+    setDataBases({ ...dataBases, customAsset: updatedData })
     setMatchedSelected([])
     setDeleteOpen(false)
   }
@@ -259,28 +249,36 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
     const { value } = event.target
     setDataBases((prevData) => ({
       ...prevData,
-      customDefaultFields: prevData.customDefaultFields.map((item, i) =>
-        i === index ? { ...item, required: value } : item,
+      Customers: prevData.Customers.map((item, i) =>
+        i === index ? { ...item, isRequired: value } : item,
       ),
     }))
   }
-
-  // console.log(JSON.stringify(dataBases, null, 2))
 const handleCancel=()=>{
     
 }
   const generateJson = () => {
-    const jsonData = dataBases.customDefaultFields.map(
-      ({ id, visible, fieldName, required, description }) => ({
+    const jsonData = {
+      Customers: dataBases.Customers.map(({ 
+        id, visible, fieldName, isRequired, description 
+      }) => ({
         id,
         visible,
         fieldName,
-        required,
-        description,
-      }),
-    )
-    return JSON.stringify(jsonData, null, 2)
-  }
+        isRequired,
+        description
+      })),
+      customAsset: dataBases.customAsset.map(({ 
+        id, fieldName, componentsId,isRequired,  
+      }) => ({
+        id,
+        fieldName,
+      componentsId,
+      isRequired,
+      })),
+    };
+    return JSON.stringify(jsonData, null, 2);
+  };
 
   return (
     <AppView>
@@ -312,7 +310,7 @@ const handleCancel=()=>{
             level="h4"
             sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
           >
-            Asset Database Fields
+            Customers Standard Fields
           </Typography>
         </Box>
 
@@ -327,8 +325,21 @@ const handleCancel=()=>{
             </Typography>
           </Box>
 
-          <Box sx={{ mt: '10px', overflowX: 'auto' }}>
-            <Table borderAxis="both">
+          <Box sx={{
+                overflowX: 'auto',
+                fontSize: '14px',
+                whiteSpace: 'nowrap',
+                borderRadius:'5px'
+              }}>
+            <Table 
+             borderAxis="both" aria-label="basic table" 
+             style={{
+                   borderCollapse: 'collapse',
+                   border: '1px solid grey',
+                   minWidth: '500px',
+                   borderRadius:'5px'
+                 }}
+            >
               <thead>
                 <tr>
                   <th
@@ -341,29 +352,29 @@ const handleCancel=()=>{
                     <Checkbox />
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                   style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Field Name
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                    style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Data Required
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                    style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Description
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                    style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Example
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {dataBases.customDefaultFields.map((data, index) => (
+                {dataBases.Customers.map((data, index) => (
                   <tr key={index}>
                     <td>
                       <Checkbox
@@ -371,9 +382,8 @@ const handleCancel=()=>{
                         onChange={() => handleCheckboxChange(index)}
                       />
                     </td>
-                    <td>{data.fieldName}</td>
-                    <td>
-                      {/* {data.required} */}
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{data.fieldName}</td>
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal' }}>
                       {data.visible && (
                         <FormControl>
                           <RadioGroup
@@ -395,8 +405,8 @@ const handleCancel=()=>{
                         </FormControl>
                       )}
                     </td>
-                    <td>{data.description}</td>
-                    <td>{data.example}</td>
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{data.description}</td>
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left'}}>{data.example}</td>
                   </tr>
                 ))}
               </tbody>

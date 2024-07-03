@@ -21,7 +21,7 @@ const customDefaultFields = [
     id: 1,
     fieldName: 'Title ',
     visible: false,
-    required: '',
+    isRequired: '',
     name: 'title',
     description: 'Title of the maintenance.',
     example: 'Monthly Calibration',
@@ -36,7 +36,7 @@ const customDefaultFields = [
     id: 2,
     fieldName: 'Details',
     visible: false,
-    required: '',
+    isRequired: '',
     name: 'details',
     description: '	Details of the maintenance',
     example: 'Calibrate to 120 units',
@@ -55,7 +55,7 @@ const customDefaultFields = [
     id: 3,
     fieldName: 'Due Date',
     visible: false,
-    required: '',
+    isRequired: '',
     name: 'dueDate',
     description: 'Date when maintenance is due',
     example: '3/5/2020',
@@ -74,7 +74,7 @@ const customDefaultFields = [
     id: 4,
     fieldName: 'Maintenance By',
     visible: false,
-    required: '',
+    isRequired: '',
     name: 'maintenanceBy',
     description: 'Person doing maintenance',
     example: '	John Doe',
@@ -93,7 +93,7 @@ const customDefaultFields = [
     id: 5,
     fieldName: 'Maintenance Status',
     visible: false,
-    required: '',
+    isRequired: '',
     name: 'maintenanceStatus',
     description:
       ' System field to show current status of the maintenance. The possible values are Scheduled, In progress, On Hold, Cancelled, Completed.',
@@ -113,7 +113,7 @@ const customDefaultFields = [
     id: 6,
     fieldName: 'Date Completed',
     visible: false,
-    required: '',
+    isRequired: '',
     name: 'dateCompleted',
     description: '	Date when maintenance is completed',
     example: '3/5/2020',
@@ -132,7 +132,7 @@ const customDefaultFields = [
     id: 7,
     fieldName: 'Maintenance Cost',
     visible: false,
-    required: '',
+    isRequired: '',
     name: 'maintenanceCost',
     description: 'Total cost spent on this maintenance',
     example: '	$97.50',
@@ -151,7 +151,7 @@ const customDefaultFields = [
     id: 8,
     fieldName: 'Repeating',
     visible: false,
-    required: '',
+    isRequired: '',
     name: 'repeating',
     description: 'System fields to define repeating maintenances',
     example: '---',
@@ -187,7 +187,7 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
 
       visible: item.visible,
 
-      required: item.required,
+      isRequired: item.isRequired,
       description: item.description,
     })),
   })
@@ -264,22 +264,31 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
     setDataBases((prevData) => ({
       ...prevData,
       customDefaultFields: prevData.customDefaultFields.map((item, i) =>
-        i === index ? { ...item, required: value } : item,
+        i === index ? { ...item, isRequired: value } : item,
       ),
     }))
   }
   const handleCancel = () => {}
 
   const generateJson = () => {
-    const jsonData = dataBases.customDefaultFields.map(
-      ({ id, visible, fieldName, required, description }) => ({
+    const jsonData = {
+      customDefaultFields:dataBases.customDefaultFields.map(
+      ({ id, visible, fieldName, isRequired, description }) => ({
         id,
         visible,
         fieldName,
-        required,
+        isRequired,
         description,
-      }),
-    )
+      })),
+      customAssetFields: dataBases.customAssetFields.map(({ 
+        id, fieldName, componentsId,isRequired,  
+      }) => ({
+        id,
+        fieldName,
+      componentsId,
+      isRequired,
+      })),
+  }
     return JSON.stringify(jsonData, null, 2)
   }
 
@@ -328,8 +337,21 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
             </Typography>
           </Box>
 
-          <Box sx={{ mt: '10px', overflowX: 'auto' }}>
-            <Table borderAxis="both">
+          <Box sx={{
+                overflowX: 'auto',
+                fontSize: '14px',
+                whiteSpace: 'nowrap',
+                borderRadius:'5px'
+              }}>
+            <Table 
+             borderAxis="both" aria-label="basic table" 
+             style={{
+                   borderCollapse: 'collapse',
+                   border: '1px solid grey',
+                   minWidth: '500px',
+                   borderRadius:'5px'
+                 }}
+            >
               <thead>
                 <tr>
                   <th
@@ -342,22 +364,22 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                     <Checkbox />
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                  style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Field Name
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                    style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Data Required
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                    style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Description
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                   style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Example
                   </th>
@@ -372,8 +394,8 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                         onChange={() => handleCheckboxChange(index)}
                       />
                     </td>
-                    <td>{data.fieldName}</td>
-                    <td>
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{data.fieldName}</td>
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>
                       {data.visible && (
                         <FormControl>
                           <RadioGroup
@@ -395,8 +417,8 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                         </FormControl>
                       )}
                     </td>
-                    <td>{data.description}</td>
-                    <td>{data.example}</td>
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{data.description}</td>
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{data.example}</td>
                   </tr>
                 ))}
               </tbody>

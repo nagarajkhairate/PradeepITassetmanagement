@@ -1,8 +1,7 @@
 import { ThunkDispatch } from 'redux-thunk'
-import { addDataBase } from '../../../../Redux/features/DataBaseSlice'
+// import { addDataBase } from '../../../../redux/features/DataBaseSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { ChangeEvent, useEffect, useState } from 'react'
-import { fetchComponents } from '../../../../Redux/features/ComponentsIdSlice'
 import {
   Box,
   Button,
@@ -28,7 +27,7 @@ interface DataBaseAddProps {
   >
 }
 
-const AddMaintenanceData: React.FC<DataBaseAddProps> = ({
+const AddWarrantiesData: React.FC<DataBaseAddProps> = ({
   open,
   setOpen,
   setDataBases,
@@ -52,9 +51,9 @@ const AddMaintenanceData: React.FC<DataBaseAddProps> = ({
     dataRequired: '',
   })
 
-  React.useEffect(() => {
-    dispatch(fetchComponents())
-  }, [dispatch])
+//   React.useEffect(() => {
+//     dispatch(fetchComponents())
+//   }, [dispatch])
 
   const handleAddSkill = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -71,7 +70,7 @@ const AddMaintenanceData: React.FC<DataBaseAddProps> = ({
         },
       ],
     }))
-    dispatch(addDataBase(formData))
+    // dispatch(addDataBase(formData))
     handleClose()
     setOpen(false)
     setFormData({
@@ -258,4 +257,4 @@ const AddMaintenanceData: React.FC<DataBaseAddProps> = ({
     </Sheet>
   )
 }
-export default AddMaintenanceData
+export default AddWarrantiesData

@@ -6,7 +6,7 @@ import clientReducer from "./features/ClientSlice"; // Ensure this matches the f
 import appStateReducer from "./features/StateSlice";
 import darkModeReducer from "./features/DarkModeSlice";
 import locationReducer from './features/LocationSlice';
-import categoryReducer from './features/CategorySlice';
+import categoryReducer from './features/CategorySlice'
 import subCategoryReducer from './features/CategorySubSlice';
 import departmentNameReducer from './features/DepartmentSlice';
 import dataBaseReducer from "./features/DataBaseSlice";

@@ -24,14 +24,14 @@ import { fetchDefaultFields } from '../../../../Redux/features/DefaultFieldAsset
 
 
 
-const customDefaultFields = [
+const AssetDefaultFields = [
   {
     id: 1,
     fieldName: 'Asset Tag ID',
     visible: false,
-    required: '',
+    isRequired: '',
     description:
-      'This field holds the unique asset id number that your company assigns to identify each asset. These are generally sequentially numbered labels with barcodes.',
+      'This holds unique asset id number that your company assigns to identify each asset',
     example: 'A-1001',
     option: [
       {
@@ -46,7 +46,7 @@ const customDefaultFields = [
     fieldName: 'Asset Description',
     visible: false,
 
-    required: '',
+    isRequired: '',
     description: 'Description of the asset.',
     example: 'HP - Envy Desktop - 12GB Memory - 2TB Hard Drive',
     option: [
@@ -61,7 +61,7 @@ const customDefaultFields = [
     fieldName: 'Purchase Date',
     visible: false,
 
-    required: '',
+    isRequired: '',
     description: 'Date asset was purchased',
     example: '08/22/2014',
     option: [
@@ -80,7 +80,7 @@ const customDefaultFields = [
     fieldName: 'Cost',
     visible: false,
 
-    required: '',
+    isRequired: '',
     description: 'Cost of the asset',
     example: 'Bs225.75',
     option: [
@@ -100,7 +100,7 @@ const customDefaultFields = [
     fieldName: 'Purchased From',
     visible: false,
 
-    required: '',
+    isRequired: '',
     description: 'Vendor/Supplier name',
     example: 'Amazon',
     option: [
@@ -119,7 +119,7 @@ const customDefaultFields = [
     fieldName: 'Brand',
     visible: false,
 
-    required: '',
+    isRequired: '',
     description: 'Manufacturer of the asset',
     example: 'HP',
     option: [
@@ -138,7 +138,7 @@ const customDefaultFields = [
     fieldName: 'Model',
     visible: false,
 
-    required: '',
+    isRequired: '',
     description: 'Model name of the asset',
     example: 'Envy',
     option: [
@@ -157,7 +157,7 @@ const customDefaultFields = [
     fieldName: 'Serial optional',
     visible: false,
 
-    required: '',
+    isRequired: '',
     description: "Manufacturer's serial number",
     example: 'HG9C3X',
     option: [
@@ -186,12 +186,12 @@ const DataBaseAsset: React.FunctionComponent = () => {
   }, [])
 
   const [dataBases, setDataBases] = useState({
-    customAssetFields: [],
-    customDefaultFields: customDefaultFields.map((item) => ({
+    customAsset: [],
+    AssetDefaultFields: AssetDefaultFields.map((item) => ({
       ...item,
       id: item.id,
       visible: item.visible,
-      required: item.required,
+      isRequired: item.isRequired,
       description: item.description,
       
     })),
@@ -204,12 +204,12 @@ const DataBaseAsset: React.FunctionComponent = () => {
   const [eventForm, setEventForm] = useState<any>({})
 
   const deleteCustomField = (index: number) => {
-    const updatedData = dataBases.customAssetFields.filter(
+    const updatedData = dataBases.customAsset.filter(
       (_, idx) => idx !== index,
     )
     setDataBases((prevData) => ({
       ...prevData,
-      customAssetFields: updatedData,
+      customAsset: updatedData,
     }))
   }
 
@@ -226,7 +226,7 @@ const DataBaseAsset: React.FunctionComponent = () => {
     e.preventDefault()
     const Custom = (e.target as HTMLFormElement).Custom.value
     if (selectedCell !== null) {
-      const updatedData = dataBases.customAssetFields.map((item, index) =>
+      const updatedData = dataBases.customAsset.map((item, index) =>
         index === selectedCell ? Custom : item,
       )
       // setDataBases((prevData) => ({ ...prevData, data: updatedData }))
@@ -234,18 +234,10 @@ const DataBaseAsset: React.FunctionComponent = () => {
     }
   }
 
-  // const handleCheckboxChange = (index: number) => {
-  //   setMatchedSelected((prevSelected) =>
-  //     prevSelected.includes(index)
-  //       ? prevSelected.filter((item) => item !== index)
-  //       : [...prevSelected, index],
-  //   )
-  //   setSelectedCell(index)
-  // }
   const handleCheckboxChange = (index: number) => {
     setDataBases((prevData) => ({
       ...prevData,
-      customDefaultFields: prevData.customDefaultFields.map((item, i) =>
+      AssetDefaultFields: prevData.AssetDefaultFields.map((item, i) =>
         i === index ? { ...item, visible: !item.visible } : item,
       ),
     }))
@@ -253,11 +245,11 @@ const DataBaseAsset: React.FunctionComponent = () => {
 
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const updatedData = dataBases.customAssetFields.filter(
+    const updatedData = dataBases.customAsset.filter(
       (_, index) => index !== selectedCell,
     )
     // setDataBases((prevData) => ({ ...prevData, data: updatedData }));
-    setDataBases({ ...dataBases, customAssetFields: updatedData })
+    setDataBases({ ...dataBases, customAsset: updatedData })
     setMatchedSelected([])
     setDeleteOpen(false)
   }
@@ -278,8 +270,8 @@ const DataBaseAsset: React.FunctionComponent = () => {
     const { value } = event.target
     setDataBases((prevData) => ({
       ...prevData,
-      customDefaultFields: prevData.customDefaultFields.map((item, i) =>
-        i === index ? { ...item, required: value } : item,
+      AssetDefaultFields: prevData.AssetDefaultFields.map((item, i) =>
+        i === index ? { ...item, isRequired: value } : item,
       ),
     }))
   }
@@ -287,40 +279,26 @@ const DataBaseAsset: React.FunctionComponent = () => {
   const handleCancel=()=>{
     
   }
-  // console.log(JSON.stringify(dataBases, null, 2))
-
-  // const generateJson = () => {
-  //   const jsonData = dataBases.customDefaultFields.map(({ 
-  //     id, visible, fieldName, required, description 
-  //   }) => ({
-  //     id,
-  //     visible,
-  //     fieldName,
-  //     required,
-  //     description
-  //   }));
-  //   return JSON.stringify(jsonData, null, 2);
-  // };
 
   const generateJson = () => {
     const jsonData = {
-      customDefaultFields: dataBases.customDefaultFields.map(({ 
-        id, visible, fieldName, required, description 
+      AssetDefaultFields: dataBases.AssetDefaultFields.map(({ 
+        id, visible, fieldName, isRequired, description 
       }) => ({
         id,
         visible,
         fieldName,
-        required,
+        isRequired,
         description
       })),
-      customAssetFields: dataBases.customAssetFields.map(({ 
-        id, fieldName, componentsId, category,required,  
+      customAsset: dataBases.customAsset.map(({ 
+        id, fieldName, componentsId, categoryId,isRequired,  
       }) => ({
         id,
         fieldName,
       componentsId,
-      category,
-      required,
+      categoryId,
+      isRequired,
       })),
     };
     return JSON.stringify(jsonData, null, 2);
@@ -367,14 +345,25 @@ const DataBaseAsset: React.FunctionComponent = () => {
         >
           <Box sx={{ mt: 3 }}>
             <Typography >
-              Fill in the appropriate fields for your assets. Asset Tag ID and
-              Asset Description are the only required fields. Check the boxes
+              Fill in the appropriate fields for your assets. <b>Asset Tag ID</b> and  <b>Asset Description</b> are the only required fields. Check the boxes
               next to the field names you want to include.
             </Typography>
           </Box>
 
-          <Box sx={{ mt: '10px', overflowX: 'auto' }}>
-            <Table borderAxis="both">
+          <Box  sx={{
+                overflowX: 'auto',
+                fontSize: '14px',
+                whiteSpace: 'nowrap',
+                borderRadius:'5px'
+              }}>
+            <Table 
+            borderAxis="both" aria-label="basic table" 
+            style={{
+                  borderCollapse: 'collapse',
+                  border: '1px solid grey',
+                  minWidth: '500px',
+                  borderRadius:'5px'
+                }}>
               <thead>
                 <tr>
                   <th
@@ -387,29 +376,29 @@ const DataBaseAsset: React.FunctionComponent = () => {
                     <Checkbox />
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                    style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Field Name
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                    style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Data Required
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                    style={{ background: '#fff8e6', verticalAlign: 'middle', wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Description
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                   style={{ background: '#fff8e6', verticalAlign: 'middle', wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Example
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {dataBases.customDefaultFields.map((data, index) => (
+                {dataBases.AssetDefaultFields.map((data, index) => (
                   <tr key={index}>
                     <td>
                       <Checkbox
@@ -417,8 +406,8 @@ const DataBaseAsset: React.FunctionComponent = () => {
                         onChange={() => handleCheckboxChange(index)}
                       />
                     </td>
-                    <td>{data.fieldName}</td>
-                    <td>
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{data.fieldName}</td>
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal' }}>
                       {/* {data.required} */}
                       {data.visible && (
                         <FormControl>
@@ -441,8 +430,8 @@ const DataBaseAsset: React.FunctionComponent = () => {
                         </FormControl>
                       )}
                     </td>
-                    <td>{data.description}</td>
-                    <td>{data.example}</td>
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{data.description}</td>
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left'}}>{data.example}</td>
                   </tr>
                 ))}
               </tbody>
@@ -467,7 +456,7 @@ const DataBaseAsset: React.FunctionComponent = () => {
 
         <Box>
           <AddDataBaseAsset
-            dataBases={dataBases}
+            dataBase={dataBases}
             setDataBases={setDataBases}
             // addCustomField={addCustomField}
             deleteCustomField={deleteCustomField}

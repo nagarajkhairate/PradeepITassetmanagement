@@ -23,8 +23,8 @@ import { RootState } from '../../../../redux/store'
 import AddDialogCustomer from './AddDialogCustomer'
 
 interface DataAddProps {
-  dataBases: { customAssetFields: string[] }
-  setDataBases: React.Dispatch<React.SetStateAction<{ customAssetFields: any[] }>>
+  dataBases: { customAsset: string[] }
+  setDataBases: React.Dispatch<React.SetStateAction<{ customAsset: any[] }>>
   addCustomField: (custom: any) => void
   deleteCustomField: (index: number) => void
   id: number
@@ -47,68 +47,71 @@ const AddCustomersTable: React.FC<DataAddProps> = ({
     dispatch(fetchDataBase())
   }, [])
 
-
   return (
     <Box>
       <Box>
-      <Typography
-    level="h4"
-    sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-  >
-    <SignpostOutlinedIcon
-      style={{ fontSize: '1.4rem', color: '#FBC21E' }}
-    />
-    Asset Custom Fields
-  </Typography>
-  <Typography
-  sx={{marginTop:'10px'}}
-  >
-    Add custom fields to join the standard fields that we provided.
-  </Typography>
-  </Box>
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: { md: 'row', xs: 'column' },
-        justifyContent: { xs: 'center', md: 'space-between' },
-        gap: '5px',
-      }}
-    >
-      <Button
-        onClick={() => setOpen(true)}
+        <Typography
+          level="h4"
+          sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+        >
+          <SignpostOutlinedIcon
+            style={{ fontSize: '1.4rem', color: '#FBC21E' }}
+          />
+          Customers Custom Fields
+        </Typography>
+        <Typography sx={{ marginTop: '10px' }}>
+          Add custom fields to join the standard fields that we provided.
+        </Typography>
+      </Box>
+      <Box
         sx={{
-          marginTop: '15px',
-          background: 'green',
-          color: 'white',
-          borderRadius: '15px',
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: { md: 'row', xs: 'column' },
+          justifyContent: { xs: 'center', md: 'space-between' },
+          gap: '5px',
         }}
       >
-        <AddIcon />
-        Add Custom Fields
-      </Button>
-
-      {open && (
-        <Modal
-          aria-labelledby="responsive-dialog-title"
-          aria-describedby="modal-desc"
+        <Button
+          onClick={() => setOpen(true)}
           sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
+            marginTop: '15px',
+            
+            background: '#ffffff',
+            color: 'green',
+            border: '1px solid green ',
+            '&:hover': {
+              color: 'white',
+              background: 'green',
+            },
+            borderRadius: '15px',
           }}
-          open={open}
-          onClose={setOpen}
         >
-          <AddDialogCustomer
+          <AddIcon />
+          Add Custom Fields
+        </Button>
+
+        {open && (
+          <Modal
+            aria-labelledby="responsive-dialog-title"
+            aria-describedby="modal-desc"
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
             open={open}
-            setOpen={setOpen}
-            dataBases={dataBases}
-            setDataBases={setDataBases}
-          />
-        </Modal>
-      )}
-    </Box>
+            onClose={setOpen}
+          >
+            <AddDialogCustomer
+              open={open}
+              setOpen={setOpen}
+              dataBases={dataBases}
+              setDataBases={setDataBases}
+            />
+          </Modal>
+        )}
+      </Box>
     </Box>
   )
 }

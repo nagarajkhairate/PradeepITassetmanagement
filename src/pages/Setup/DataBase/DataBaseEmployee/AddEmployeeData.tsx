@@ -22,9 +22,9 @@ import { RootState } from '../../../../redux/store'
 interface DataBaseAddProps {
   open: any
   setOpen: any
-  dataBases: { customAssetFields: string[] }
+  dataBases: { customAsset: string[] }
   setDataBases: React.Dispatch<
-    React.SetStateAction<{ customAssetFields: string[] }>
+    React.SetStateAction<{ customAsset: string[] }>
   >
 }
 
@@ -61,13 +61,13 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
     // addCustomField(formData);
     setDataBases((prevData: any) => ({
       ...prevData,
-      customAssetFields: [
-        ...prevData.customAssetFields,
+      customAsset: [
+        ...prevData.customAsset,
         {
           fieldName: formData.custom,
           componentsId: formData.componentsId,
           category: formData.selectedCategories,
-          required: formData.dataRequired,
+          isRequired: formData.dataRequired,
         },
       ],
     }))

@@ -19,10 +19,11 @@ interface DatabaseButtonsProps {
           sx={{
             display: 'flex',
             alignItems: 'center',
-            flexDirection: { md: 'row', xs: 'column' },
+            flexDirection: { md: 'row'},
             justifyContent: { xs: 'center', md: 'flex-end' },
             gap: '5px',
             mt: 4,
+            flexWrap:'wrap'
           }}
         >
           <Button
@@ -30,6 +31,7 @@ interface DatabaseButtonsProps {
             sx={{
               background: '#388e3c',
               color: 'white',
+              '&:hover': { background: '#1b5e20' },
               borderRadius: '10px',
             }}
             component="label"
@@ -43,6 +45,7 @@ interface DatabaseButtonsProps {
             sx={{
               background: '#fdd835',
               color: 'black',
+              '&:hover': { background: '#E1A91B' },
               borderRadius: '10px',
             }}
             component="label"

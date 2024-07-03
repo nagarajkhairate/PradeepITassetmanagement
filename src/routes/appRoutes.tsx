@@ -42,6 +42,7 @@ import DataBases from '../pages/Setup/DataBase/DatabseAssets/DataBaseAsset'
 import DatabaseCustomersTable from '../pages/Setup/DataBase/DatabaseCustomerTable/DatabaseCustomersTable'
 import DatabaseSetup from '../pages/Setup/DataBase/DataBaseSetup'
 import DatabaseMaintenance from '../pages/Setup/DataBase/DatabaseMaintenance/DataBaseMaintenance'
+import DatabaseWarranties from '../pages/Setup/DataBase/DatabaseWarranties.tsx/DataBaseWarranties'
 
 const appRoutes: RouteType[] = [
   {
@@ -331,7 +332,16 @@ const appRoutes: RouteType[] = [
             element: <DatabaseMaintenance />,
             state: 'DataBasemaintenance',
             sidebarProps: {
-              displayText: 'dataBases Maintenance',
+              displayText: 'dataBases Maintenance Table',
+              icon: <ICONS.person />,
+            },
+          },
+          {
+            path: '/setup/database/databases-warranties',
+            element: <DatabaseWarranties />,
+            state: 'DataBaseWarranties',
+            sidebarProps: {
+              displayText: 'dataBases Warranties Table',
               icon: <ICONS.person />,
             },
           },

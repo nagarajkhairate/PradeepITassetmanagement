@@ -23,8 +23,8 @@ import { fetchDataBase } from '../../../../Redux/features/DataBaseSlice'
 import { RootState } from '../../../../redux/store'
 
 interface DataAddProps {
-  dataBases: { customAssetFields: string[] }
-  setDataBases: React.Dispatch<React.SetStateAction<{ customAssetFields: any[] }>>
+  dataBases: { customAsset: string[] }
+  setDataBases: React.Dispatch<React.SetStateAction<{ customAsset: any[] }>>
   addCustomField: (custom: any) => void
   deleteCustomField: (index: number) => void
   id: number
@@ -58,7 +58,7 @@ const AddDataBaseEmp: React.FC<DataAddProps> = ({
     <SignpostOutlinedIcon
       style={{ fontSize: '1.4rem', color: '#FBC21E' }}
     />
-    Asset Custom Fields
+    Persons/Employees Custom Fields
   </Typography>
   <Typography
   sx={{marginTop:'10px'}}
@@ -81,6 +81,7 @@ const AddDataBaseEmp: React.FC<DataAddProps> = ({
           marginTop: '15px',
           background: 'green',
           color: 'white',
+          '&:hover': { background: '#1b5e20' },
           borderRadius: '15px',
         }}
       >

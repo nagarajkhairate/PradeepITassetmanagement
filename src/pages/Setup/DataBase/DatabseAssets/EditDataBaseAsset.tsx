@@ -9,16 +9,16 @@ const initialDatabase = [
      id:1,
       fieldName: "swde",
       componentsId: "wsedf",
-      Category: "234frd",
-      required: "swed",
+      categoryId: false,
+      isRequired: false,
     },
   ];
 
   const addCustomField = (custom: { 
     fieldName: string; 
     componentsId: string; 
-    category: string; 
-    required: string; 
+    categoryId: boolean; 
+    isRequired: boolean; 
   }) => {
     // Your implementation logic here
   };
@@ -28,8 +28,8 @@ const initialDatabase = [
     id:1,
     fieldName: string;
     componentsId: string;
-    category: string;
-    required: boolean;
+    categoryId: boolean;
+    isRequired: boolean;
   }
 
 
@@ -37,8 +37,8 @@ const initialDatabase = [
 interface DataProps {
     matchedSelected: number[];
     setMatchedSelected: React.Dispatch<React.SetStateAction<number[]>>;
-    dataBases: { customAssetFields: dataItem[] };
-    setDataBases: React.Dispatch<React.SetStateAction<{ customAssetFields: dataItem[] }>>;
+    dataBases: { customAsset: dataItem[] };
+    setDataBases: React.Dispatch<React.SetStateAction<{ customAsset: dataItem[] }>>;
     
     editOpen: boolean;
     setEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -122,10 +122,10 @@ const EditDataBaseAsset: React.FC<DataProps>= ({ matchedSelected,
 
     const custom = formData.custom;
     if (selectedCell !== null) {
-        const updatedData = dataBases.customAssetFields.map((item, index) =>
+        const updatedData = dataBases.customAsset.map((item, index) =>
             index === selectedCell ? { ...item, fieldName: custom } : item
         );
-        setDataBases({ ...dataBases, customAssetFields: updatedData });
+        setDataBases({ ...dataBases, customAsset: updatedData });
         handleEditClose();
     }
 };
@@ -148,42 +148,52 @@ const handleDeleteButton = (index:number) => {
                   overflowX: "auto",
                 }}
               >
-                <Table
-                  borderAxis="both"
-                  sx={{
-                    mt:'10px'
-                  }}
-                >
+                 <Box
+              sx={{
+                overflowX: 'auto',
+                fontSize: '14px',
+                whiteSpace: 'nowrap',
+                borderRadius:'5px'
+              }}
+            >
+                 <Table 
+        borderAxis="both" aria-label="basic table" 
+        style={{
+                  borderCollapse: 'collapse',
+                  border: '1px solid grey',
+                  minWidth: '500px',
+                  borderRadius:'5px'
+                }}>
                   <thead>
                     <tr>
-                      <th style={{ width: 30,background: '#fff8e6',verticalAlign:'middle' }}>
+                      {/* <th style={{ width: 30,background: '#fff8e6',verticalAlign:'middle' }}>
                         <Checkbox
                           size="sm"
                           indeterminate={
                             matchedSelected.length > 0 &&
-                            matchedSelected.length < dataBases.customAssetFields.length
+                            matchedSelected.length < dataBases.customAsset.length
                           }
                           checked={
                             matchedSelected.length > 0 &&
-                            matchedSelected.length === dataBases.customAssetFields.length
+                            matchedSelected.length === dataBases.customAsset.length
                           }
                           onChange={(event) => {
                             const isChecked = event.target.checked;
                             setMatchedSelected(
                               isChecked
-                                ? dataBases.customAssetFields.map((_, index) => index)
+                                ? dataBases.customAsset.map((_, index) => index)
                                 : []
                             );
                           }}
                           color={
                             matchedSelected.length > 0 &&
-                            matchedSelected.length === dataBases.customAssetFields.length
+                            matchedSelected.length === dataBases.customAsset.length
                               ? "primary"
                               : undefined
                           }
                           sx={{ verticalAlign: "text-bottom" }}
                         />
-                      </th>
+                      </th> */}
                       <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Field Name</th>
                       <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Data Type</th>
                       <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Required</th>
@@ -194,58 +204,67 @@ const handleDeleteButton = (index:number) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {dataBases.customAssetFields.length > 0 ? (
-                    dataBases.customAssetFields.map((item, index) => (
+                    {dataBases.customAsset.length > 0 ? (
+                    dataBases.customAsset.map((item, index) => (
                       <tr key={index}>
-                        <td>
+                        {/* <td>
                           <Checkbox
                             checked={matchedSelected.includes(index)}
                             onChange={() => handleCheckboxChange(index)}
                             color="primary"
                           />
-                        </td>
-                        <td>{item.fieldName}</td>
+                        </td> */}
+                        <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{item.fieldName}</td>
                         <td>{item.componentsId}</td>
-                        <td>{item.required}</td>
-                        <td>{item.category}</td>
+                        <td>{item.isRequired}</td>
+                        <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{item.categoryId}</td>
                         <td>
                           <Button 
-                          sx={{
+                           sx={{
+                            fontSize: '13px',
                             background: '#ffffff',
                             color: 'green',
+                            // display: 'inline-flex',
                             display: 'flex',
-                            justifyContent: {md:'flex-start', xs:'center'},
+                            justifyContent: {
+                              md: 'flex-end',
+                              xs:'center'
+                            },
                             marginLeft: 'none',
-                            // border: '1px solid green ',
-                            // borderRadius: '13px',
+                            border: '1px solid green ',
+                            borderRadius: '10px',
                             '&:hover': {
                               color: 'white',
                               background: 'green',
-                              
                             },
+                            padding: ".15rem .50rem"
                           }}
                           onClick={()=>handleEdit(index)}>
-                            <EditOutlinedIcon />
+                            <EditOutlinedIcon sx={{ fontSize: '15px' }}/>
                             Edit
                           </Button>
                         </td>
                         <td>
                           <Button 
                           sx={{
+                            fontSize: '13px',
                             background: '#ffffff',
                             color: '#d32f2f',
+                            // display: 'inline-flex',
                             display: 'flex',
-                            justifyContent: {md:'flex-start',xs:'center'},
+                            justifyContent: { md: 'flex-end', xs: 'center' },
+                            
                             marginLeft: 'none',
-                            // border: '1px solid red ',
-                            // borderRadius: '13px',
+                            border: '1px solid red ',
+                            borderRadius: '10px',
                             '&:hover': {
                               color: 'white',
                               background: '#d32f2f',
                             },
+                            padding: ".5rem .10rem"
                           }}
                           onClick={()=>handleDeleteButton(index)}>
-                            <DeleteForeverIcon />
+                            <DeleteForeverIcon sx={{ fontSize: '15px' }}/>
                             Delete
                           </Button>
                         </td>
@@ -253,13 +272,14 @@ const handleDeleteButton = (index:number) => {
                     ))
                   ):(
                 <tr>
-                  <td colSpan={7} style={{ textAlign: 'center' }}>
+                  <td colSpan={6} style={{ textAlign: 'center' }}>
                     No Data Found
                   </td>
                 </tr>
               )}
                   </tbody>
                 </Table>
+                </Box>
  
  
                 <Modal

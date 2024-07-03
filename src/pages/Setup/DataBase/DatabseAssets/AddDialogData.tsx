@@ -12,8 +12,8 @@ import { addDefaultFields } from "../../../../Redux/features/DefaultFieldAssetSl
 interface DataBaseAddProps {
     open:any,
     setOpen:any
-    dataBases: { customAssetFields: string[] };
-        setDataBases: React.Dispatch<React.SetStateAction<{ customAssetFields: string[] }>>;
+    dataBases: { customAsset: string[] };
+        setDataBases: React.Dispatch<React.SetStateAction<{ customAsset: string[] }>>;
     }
 
 
@@ -50,13 +50,13 @@ const handleAddSkill = (e: React.FormEvent<HTMLFormElement>) => {
     // addCustomField(formData);
     setDataBases((prevData:any) => ({
       ...prevData,
-      customAssetFields: [
-        ...prevData.customAssetFields,
+      customAsset: [
+        ...prevData.customAsset,
         {
           fieldName: formData.custom,
           componentsId: formData.componentsId,
-          category: formData.selectedCategories,
-          required: formData.dataRequired,
+          categoryId: formData.selectedCategories,
+          isRequired: formData.dataRequired,
         },
       ],
     }));

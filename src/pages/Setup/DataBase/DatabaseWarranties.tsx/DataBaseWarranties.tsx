@@ -1,125 +1,64 @@
 import { Typography, Radio, RadioGroup, Divider, Grid } from '@mui/joy'
-import ButtonGroup from '@mui/joy/ButtonGroup'
 import React, { useState, useEffect } from 'react'
 import { Box } from '@mui/joy'
 import Table from '@mui/joy/Table'
 import Checkbox from '@mui/joy/Checkbox'
-import Button from '@mui/joy/Button'
 import { FormControl } from '@mui/joy'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
-import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
-import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
 import AppView from '../../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-import AddDataBaseEmp from './AddDataBaseEmp'
-import EditDataBaseEmp from './EditDataBaseEmp'
 import { RootState } from '../../../../redux/store'
-import { fetchDataBase } from '../../../../Redux/features/DataBaseSlice'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
+import AddDataBaseWarranties from './AddDataBaseWarranties'
+import EditDataBaseWarranties from './EditDataBaseWarranties'
 
-const EmployeePerson = [
+const customDefaultFields = [
   {
     id: 1,
-    fieldName: 'Full Name ',
+    fieldName: 'Length ',
     visible: false,
     isRequired: '',
-    name: 'fullName',
-    description: 'Full name of the person / employee.',
-    example: 'John Doe',
+    name: 'length',
+    description: 'Length of the warranty (in months).',
+    example: '24',
     option: [
       {
         id: 1,
         value: 'yes',
+      },
+      {
+        id: 2,
+        value: 'optional',
       },
     ],
   },
   {
     id: 2,
-    fieldName: 'Email',
+    fieldName: 'Expiration Date ',
     visible: false,
     isRequired: '',
-    name: 'email',
-    description: 'Email of the person',
-    example: 'johndoe@example.com',
+    name: 'expirationDate ',
+    description: 'Date when warranty expires.',
+    example: '12/12/2022',
     option: [
       {
         id: 1,
         value: 'yes',
       },
-      {
-        id: 2,
-        value: 'optional',
-      },
+      
     ],
   },
   {
     id: 3,
-    fieldName: 'Employee ID',
-    visible: false,
-    isRequired: '',
-    name: 'employeeID',
-    description: 'For example Employee ID, Student ID, etc.',
-    example: 'IT-1234',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
-  },
-  {
-    id: 4,
-    fieldName: 'Title',
-    visible: false,
-    isRequired: '',
-    name: 'title',
-    description: '  fieldName of the person.',
-    example: '  Sales Manager',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
-  },
-  {
-    id: 5,
-    fieldName: 'Phone',
-    visible: false,
-    isRequired: '',
-    name: 'phone',
-    description: 'Phone number of the person',
-    example: '(555) 123-4567',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
-  },
-  {
-    id: 6,
     fieldName: 'Notes',
     visible: false,
     isRequired: '',
     name: 'notes',
-    description: 'Text area for notes',
-    example: 'Reports to CEO',
+    description: 'Text area for notes.',
+    example: 'Renew warranty if equipment in good condition.',
     option: [
       {
         id: 1,
@@ -131,83 +70,28 @@ const EmployeePerson = [
       },
     ],
   },
-  {
-    id: 7,
-    fieldName: 'Site',
-    visible: false,
-    isRequired: '',
-    name: 'site',
-    description: 'System field to link person to a Site',
-    example: '-',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
-  },
-  {
-    id: 8,
-    fieldName: 'Location',
-    visible: false,
-    isRequired: '',
-    name: 'location',
-    description: 'System field to link person to a Location',
-    example: '  -',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
-  },
-  {
-    id: 9,
-    fieldName: 'Department',
-    visible: false,
-    isRequired: '',
-    name: 'department',
-    description: '  System field to link person to a Department',
-    example: '  -',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
-  },
+  
 ]
 
-const DataBaseEmp: React.FunctionComponent = () => {
+const DatabaseWarranties: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
 
   const dataBase = useSelector((state: RootState) => state.dataBase.data)
-  // const dispatch = useDispatch<AppDispatch>()
   console.log(dataBase)
 
-  React.useEffect(() => {
-    dispatch(fetchDataBase())
-  }, [])
+//   React.useEffect(() => {
+//     dispatch(fetchDataBase())
+//   }, [])
 
   const [dataBases, setDataBases] = useState({
-    customAsset: [],
-    EmployeePerson: EmployeePerson.map((item) => ({
+    customAssetFields: [],
+    customDefaultFields: customDefaultFields.map((item) => ({
       ...item,
       id: item.id,
+
       visible: item.visible,
+
       isRequired: item.isRequired,
       description: item.description,
     })),
@@ -220,15 +104,14 @@ const DataBaseEmp: React.FunctionComponent = () => {
   const [eventForm, setEventForm] = useState<any>({})
 
   const deleteCustomField = (index: number) => {
-    const updatedData = dataBases.customAsset.filter(
+    const updatedData = dataBases.customAssetFields.filter(
       (_, idx) => idx !== index,
     )
     setDataBases((prevData) => ({
       ...prevData,
-      customAsset: updatedData,
+      customAssetFields: updatedData,
     }))
   }
-
   const handleClickEditOpen = () => {
     setEditOpen(true)
   }
@@ -242,26 +125,17 @@ const DataBaseEmp: React.FunctionComponent = () => {
     e.preventDefault()
     const Custom = (e.target as HTMLFormElement).Custom.value
     if (selectedCell !== null) {
-      const updatedData = dataBases.customAsset.map((item, index) =>
+      const updatedData = dataBases.customAssetFields.map((item, index) =>
         index === selectedCell ? Custom : item,
       )
       // setDataBases((prevData) => ({ ...prevData, data: updatedData }))
       handleEditClose()
     }
   }
-
-  // const handleCheckboxChange = (index: number) => {
-  //   setMatchedSelected((prevSelected) =>
-  //     prevSelected.includes(index)
-  //       ? prevSelected.filter((item) => item !== index)
-  //       : [...prevSelected, index],
-  //   )
-  //   setSelectedCell(index)
-  // }
   const handleCheckboxChange = (index: number) => {
     setDataBases((prevData) => ({
       ...prevData,
-      EmployeePerson: prevData.EmployeePerson.map((item, i) =>
+      customDefaultFields: prevData.customDefaultFields.map((item, i) =>
         i === index ? { ...item, visible: !item.visible } : item,
       ),
     }))
@@ -269,11 +143,11 @@ const DataBaseEmp: React.FunctionComponent = () => {
 
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const updatedData = dataBases.customAsset.filter(
+    const updatedData = dataBases.customAssetFields.filter(
       (_, index) => index !== selectedCell,
     )
     // setDataBases((prevData) => ({ ...prevData, data: updatedData }));
-    setDataBases({ ...dataBases, customAsset: updatedData })
+    setDataBases({ ...dataBases, customAssetFields: updatedData })
     setMatchedSelected([])
     setDeleteOpen(false)
   }
@@ -294,19 +168,16 @@ const DataBaseEmp: React.FunctionComponent = () => {
     const { value } = event.target
     setDataBases((prevData) => ({
       ...prevData,
-      EmployeePerson: prevData.EmployeePerson.map((item, i) =>
+      customDefaultFields: prevData.customDefaultFields.map((item, i) =>
         i === index ? { ...item, isRequired: value } : item,
       ),
     }))
   }
+  const handleCancel = () => {}
 
-  // console.log(JSON.stringify(dataBases, null, 2))
-const handleCancel=()=>{
-
-}
   const generateJson = () => {
     const jsonData = {
-      EmployeePerson:dataBases.EmployeePerson.map(
+      customDefaultFields:dataBases.customDefaultFields.map(
       ({ id, visible, fieldName, isRequired, description }) => ({
         id,
         visible,
@@ -314,7 +185,7 @@ const handleCancel=()=>{
         isRequired,
         description,
       })),
-      customAsset: dataBases.customAsset.map(({ 
+      customAssetFields: dataBases.customAssetFields.map(({ 
         id, fieldName, componentsId,isRequired,  
       }) => ({
         id,
@@ -329,13 +200,13 @@ const handleCancel=()=>{
   return (
     <AppView>
       <Typography
-        level="h4"
+        level="h3"
         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
       >
         <SignpostOutlinedIcon
           style={{ fontSize: '1.4rem', color: '#FBC21E' }}
         />
-        Database Persons/Employees
+        Database warranty
       </Typography>
 
       <Box
@@ -356,7 +227,7 @@ const handleCancel=()=>{
             level="h4"
             sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
           >
-            Persons/Employees Standard Fields
+            Warranty Standard Fields
           </Typography>
         </Box>
 
@@ -366,9 +237,8 @@ const handleCancel=()=>{
           }}
         >
           <Box sx={{ mt: 3 }}>
-            <Typography >
-            Persons/employees are individuals to whom you assign assets. These could be employees in your organization or students in your school/university. Check the boxes
-              next to the field names you want to include.
+            <Typography>
+               Select the fields you would like to use for the warranty table.
             </Typography>
           </Box>
 
@@ -399,7 +269,7 @@ const handleCancel=()=>{
                     <Checkbox />
                   </th>
                   <th
-                   style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
+                  style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Field Name
                   </th>
@@ -414,14 +284,14 @@ const handleCancel=()=>{
                     Description
                   </th>
                   <th
-                 style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
+                   style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Example
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {dataBases.EmployeePerson.map((data, index) => (
+                {dataBases.customDefaultFields.map((data, index) => (
                   <tr key={index}>
                     <td>
                       <Checkbox
@@ -430,7 +300,7 @@ const handleCancel=()=>{
                       />
                     </td>
                     <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{data.fieldName}</td>
-                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal' }}>
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>
                       {data.visible && (
                         <FormControl>
                           <RadioGroup
@@ -453,7 +323,7 @@ const handleCancel=()=>{
                       )}
                     </td>
                     <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{data.description}</td>
-                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left'}}>{data.example}</td>
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{data.example}</td>
                   </tr>
                 ))}
               </tbody>
@@ -462,16 +332,13 @@ const handleCancel=()=>{
           </Box>
         </Box>
 
-
         <Box>
-          <AddDataBaseEmp
+          <AddDataBaseWarranties
             dataBases={dataBases}
             setDataBases={setDataBases}
-            // addCustomField={addCustomField}
             deleteCustomField={deleteCustomField}
           />
-
-          <EditDataBaseEmp
+          <EditDataBaseWarranties
             matchedSelected={matchedSelected}
             setMatchedSelected={setMatchedSelected}
             dataBases={dataBases}
@@ -490,14 +357,10 @@ const handleCancel=()=>{
             handleDeleteClose={handleDeleteClose}
           />
         </Box>
-
         <Divider sx={{ marginTop: '3%' }} />
-
-        <DatabaseButtons onCancel={() => handleCancel()} onSubmit={() => console.log(generateJson())} />
-
+        <DatabaseButtons onCancel={() => handleCancel()} onSubmit={() => console.log(generateJson())}/>
       </Box>
     </AppView>
   )
 }
-
-export default DataBaseEmp
+export default DatabaseWarranties
