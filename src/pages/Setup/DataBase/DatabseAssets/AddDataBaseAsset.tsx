@@ -17,13 +17,10 @@ import {
 } from '@mui/joy'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  addDataBase,
-
-} from '../../../../Redux/features/DataBaseSlice'
 import AddDialogData from './AddDialogData'
 import { RootState } from '../../../../redux/store'
-import { fetchDatabaseAsset } from '../../../../redux/features/AssetDatabaseSlice'
+import { fetchDefaultFields } from '../../../../Redux/features/DefaultFieldAssetSlice'
+
 
 interface DataAddProps {
   dataBases: { customAssetFields: string[] }
@@ -33,7 +30,7 @@ interface DataAddProps {
   id: number
 }
 
-const AddDataBase: React.FC<DataAddProps> = ({
+const AddDataBaseAsset: React.FC<DataAddProps> = ({
   dataBases,
   setDataBases,
   addCustomField,
@@ -43,7 +40,7 @@ const AddDataBase: React.FC<DataAddProps> = ({
   const [open, setOpen] = useState(false)
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
-  const dataBase = useSelector((state: RootState) => state.dataBase.data)
+  const dataBase = useSelector((state: RootState) => state.defaultFields.data)
   console.log(dataBase)
 
   // const [formData, setFormData] = useState({
@@ -54,7 +51,7 @@ const AddDataBase: React.FC<DataAddProps> = ({
   // })
 
   React.useEffect(() => {
-    dispatch(fetchDatabaseAsset())
+    dispatch(fetchDefaultFields())
   }, [])
 
   // const handleClickOpen = () => {
@@ -147,4 +144,4 @@ const AddDataBase: React.FC<DataAddProps> = ({
   )
 }
 
-export default AddDataBase
+export default AddDataBaseAsset

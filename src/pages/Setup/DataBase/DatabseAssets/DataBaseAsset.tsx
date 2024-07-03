@@ -10,15 +10,18 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
-import AddDataBase from './AddDataBase'
-import EditDataBase from './EditDataBase'
+import AddDataBase from './AddDataBaseAsset'
+import EditDataBase from './EditDataBaseAsset'
 import AppView from '../../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
-import { fetchDatabaseAsset } from '../../../../redux/features/AssetDatabaseSlice'
+import AddDataBaseAsset from './AddDataBaseAsset'
+import EditDataBaseAsset from './EditDataBaseAsset'
+import { fetchDefaultFields } from '../../../../Redux/features/DefaultFieldAssetSlice'
+
 
 
 const customDefaultFields = [
@@ -170,16 +173,16 @@ const customDefaultFields = [
   },
 ]
 
-const DataBases: React.FunctionComponent = () => {
+const DataBaseAsset: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
 
-  const dataBase = useSelector((state: RootState) => state.dataBase.data)
+  const dataBase = useSelector((state: RootState) => state.defaultFields.data)
   // const dispatch = useDispatch<AppDispatch>()
   console.log(dataBase)
 
   React.useEffect(() => {
-    dispatch(fetchDatabaseAsset())
+    dispatch(fetchDefaultFields())
   }, [])
 
   const [dataBases, setDataBases] = useState({
@@ -463,14 +466,14 @@ const DataBases: React.FunctionComponent = () => {
         </Box>
 
         <Box>
-          <AddDataBase
+          <AddDataBaseAsset
             dataBases={dataBases}
             setDataBases={setDataBases}
             // addCustomField={addCustomField}
             deleteCustomField={deleteCustomField}
           />
 
-          <EditDataBase
+          <EditDataBaseAsset
             matchedSelected={matchedSelected}
             setMatchedSelected={setMatchedSelected}
             dataBases={dataBases}
@@ -498,4 +501,4 @@ const DataBases: React.FunctionComponent = () => {
   )
 }
 
-export default DataBases
+export default DataBaseAsset

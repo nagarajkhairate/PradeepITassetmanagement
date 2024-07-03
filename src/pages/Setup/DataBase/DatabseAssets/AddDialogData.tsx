@@ -5,7 +5,8 @@ import { fetchComponents } from "../../../../Redux/features/ComponentsIdSlice";
 import { Box, Button, FormControl, FormLabel, Input, Option, Radio, RadioGroup, Select, Sheet, Typography } from "@mui/joy";
 import AppForm from "../../../../components/Common/AppForm";
 import { RootState } from "../../../../redux/store";
-import { addDatabaseAsset } from "../../../../redux/features/AssetDatabaseSlice";
+import { addDefaultFields } from "../../../../Redux/features/DefaultFieldAssetSlice";
+
 
 
 interface DataBaseAddProps {
@@ -59,7 +60,7 @@ const handleAddSkill = (e: React.FormEvent<HTMLFormElement>) => {
         },
       ],
     }));
-    dispatch(addDatabaseAsset(formData))
+    dispatch(addDefaultFields(formData))
     handleClose();
     setOpen(false);
     setFormData({

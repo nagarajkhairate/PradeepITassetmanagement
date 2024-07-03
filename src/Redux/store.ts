@@ -18,7 +18,7 @@ import AuthReducer from './features/AuthSlice';
 import AccountReducer from './features/AccountSlice';
 import TabsReducer from './features/TabsSlice';
 import componentsReducer from "./features/ComponentsIdSlice";
-import databaseAssetReducer from './features/AssetDatabaseSlice'
+import defaultFieldsReducer from './features/DefaultFieldAssetSlice'
 
 export const store = configureStore({
   reducer: {
@@ -33,7 +33,6 @@ export const store = configureStore({
     subCategories: subCategoryReducer,
     departments: departmentNameReducer,
     dataBase: dataBaseReducer,
-    databaseAsset:databaseAssetReducer,
     events: eventsReducer,
     sites: SitesReducer,
     companyInfo: companyInfoReducer,
@@ -42,6 +41,7 @@ export const store = configureStore({
     createAccount: AccountReducer,
     tabs: TabsReducer,
     components: componentsReducer,
+    defaultFields:defaultFieldsReducer
   },
 });
 

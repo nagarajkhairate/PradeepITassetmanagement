@@ -38,7 +38,7 @@ import {
   WarrantyForm,
 } from './AllComponents'
 import { ICONS } from '../components/Common/AppIcon/AppIcon'
-import DataBases from '../pages/Setup/DataBase/DatabseAssets/DataBases'
+import DataBases from '../pages/Setup/DataBase/DatabseAssets/DataBaseAsset'
 import DatabaseCustomersTable from '../pages/Setup/DataBase/DatabaseCustomerTable/DatabaseCustomersTable'
 import DatabaseSetup from '../pages/Setup/DataBase/DataBaseSetup'
 import DatabaseMaintenance from '../pages/Setup/DataBase/DatabaseMaintenance/DataBaseMaintenance'
