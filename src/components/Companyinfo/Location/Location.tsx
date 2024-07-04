@@ -14,10 +14,7 @@ import { useState } from 'react'
 import EditLocation from './EditLocation'
 import PlaylistAddCheckOutlinedIcon from '@mui/icons-material/PlaylistAddCheckOutlined'
 import AppView from '../../../components/Common/AppView'
-import {
-  addLocation,
-  fetchLocation,
-} from '../../../Redux/features/LocationSlice'
+
 import { ThunkDispatch } from 'redux-thunk'
 import AddLocation from './AddLocation'
 import AddIcon from '@mui/icons-material/Add'
@@ -27,6 +24,7 @@ import { RootState } from '../../../redux/store'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
+import { fetchLocation } from '../../../Redux/features/LocationSlice'
 
 type Location = {
   id: number
@@ -227,9 +225,11 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
               setOpen={setOpen}
               handleClose={handleClose}
             />
-            </Modal>}
-        
+            </Modal>
+          )
+}
         </Box>
+            
 
         <Divider />
 

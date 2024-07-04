@@ -12,16 +12,19 @@ import SiteDialog from '../../components/AssetSections/EditAsset/AddAssetSection
 import LocationDialog from '../../components/AssetSections/EditAsset/AddAssetSection/LocationDialog'
 import DepartmentDialog from '../../components/AssetSections/EditAsset/AddAssetSection/DepartmentDialog'
 import { RootState } from '../../redux/store'
-import { addAssets } from '../../Redux/features/AssetSlice'
+
 import AppForm from '../../components/Common/AppForm'
 import AddCategory from '../../components/Companyinfo/Category/AddCategory'
-import { addCategory, fetchCategory } from '../../Redux/features/CategorySlice'
+
 import AddSite from '../Setup/SetupSites/AddSite'
 import AddLocation from '../../components/Companyinfo/Location/AddLocation'
 import SetupAddDept from '../Setup/Departments/SetupAddDept'
-import { addDepartment, fetchDepartment } from '../../Redux/features/DepartmentSlice'
-import { fetchLocation } from '../../Redux/features/LocationSlice'
 import { fetchSites } from '../../Redux/features/SitesSlice'
+import { fetchLocation } from '../../Redux/features/LocationSlice'
+import { addDepartment, fetchDepartment } from '../../Redux/features/DepartmentSlice'
+import { addCategory, fetchCategory } from '../../Redux/features/CategorySlice'
+import { addAssets } from '../../Redux/features/AssetSlice'
+
 type Category = {
   id: number
   categoryName: string
