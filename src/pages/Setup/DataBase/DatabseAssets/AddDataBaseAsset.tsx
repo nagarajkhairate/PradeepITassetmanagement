@@ -1,25 +1,12 @@
 import React, { ChangeEvent, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Grid,
-  Input,
-  Modal,
-  Option,
-  Radio,
-  RadioGroup,
-  Select,
-  Sheet,
-  Typography,
-} from '@mui/joy'
-import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
+import { Box,Button, Modal,} from '@mui/joy'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-import AddEmployeeData from './AddEmployeeData'
+import AddDialogData from './AddDialogData'
 import { RootState } from '../../../../redux/store'
+import { fetchDefaultFields } from '../../../../Redux/features/DefaultFieldAssetSlice'
+
 
 interface DataAddProps {
   dataBases: { customAsset: string[] }
@@ -29,42 +16,22 @@ interface DataAddProps {
   id: number
 }
 
-const AddDataBaseEmp: React.FC<DataAddProps> = ({
+const AddDataBaseAsset: React.FC<DataAddProps> = ({
   dataBases,
   setDataBases,
-  addCustomField,
-  deleteCustomField,
   id,
 }: DataAddProps) => {
   const [open, setOpen] = useState(false)
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
-  const dataBase = useSelector((state: RootState) => state.dataBase.data)
+  const dataBase = useSelector((state: RootState) => state.defaultFields.data)
   console.log(dataBase)
 
-  // React.useEffect(() => {
-  //   dispatch(fetchDataBase())
-  // }, [])
-
+  React.useEffect(() => {
+    dispatch(fetchDefaultFields())
+  }, [])
 
   return (
-    <Box>
-      <Box>
-      <Typography
-    level="h4"
-    sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-  >
-    <SignpostOutlinedIcon
-      style={{ fontSize: '1.4rem', color: '#FBC21E' }}
-    />
-    Persons/Employees Custom Fields
-  </Typography>
-  <Typography
-  sx={{marginTop:'10px'}}
-  >
-    Add custom fields to join the standard fields that we provided.
-  </Typography>
-  </Box>
     <Box
       sx={{
         display: 'flex',
@@ -78,9 +45,14 @@ const AddDataBaseEmp: React.FC<DataAddProps> = ({
         onClick={() => setOpen(true)}
         sx={{
           marginTop: '15px',
-          background: 'green',
-          color: 'white',
-          '&:hover': { background: '#1b5e20' },
+          
+          background: '#ffffff',
+          color: 'green',
+          border: '1px solid green ',
+          '&:hover': {
+            color: 'white',
+            background: 'green',
+          },
           borderRadius: '15px',
         }}
       >
@@ -100,7 +72,7 @@ const AddDataBaseEmp: React.FC<DataAddProps> = ({
           open={open}
           onClose={setOpen}
         >
-          <AddEmployeeData
+          <AddDialogData
             open={open}
             setOpen={setOpen}
             dataBases={dataBases}
@@ -109,8 +81,7 @@ const AddDataBaseEmp: React.FC<DataAddProps> = ({
         </Modal>
       )}
     </Box>
-    </Box>
   )
 }
 
-export default AddDataBaseEmp
+export default AddDataBaseAsset

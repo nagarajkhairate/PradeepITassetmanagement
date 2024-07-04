@@ -1,8 +1,48 @@
 import { RouteType } from './config'
 import CompanyInfo from '../pages/Companyinfo/CompanyInfo'
-import { AddAnAsset, Alerts, AssetForm, Assets, AssetsPastDue, CategorySetup, CategorySub, CheckIn, CheckOut, ContractForm, CustomerForm, Dashboard, DataBasesEmp, Dispose, EditAssets, Event, Lease, LeaseReturn, LeasesExpiring, ListOfAssets, LocationSetup, Maintenance, MaintenanceForm, MaintenanceOverdue, MaintenancesDue, Move, PersonsEmployeesForm, Reserve, Setup, SetupCompInfo, SetupDept, SetupSites, SetupTableOptions, WarrantyExpiring, WarrantyForm } from './AllComponents'
+import {
+  AddAnAsset,
+  Alerts,
+  AssetForm,
+  Assets,
+  AssetsPastDue,
+  CategorySetup,
+  CategorySub,
+  CheckIn,
+  CheckOut,
+  ContractForm,
+  CustomerForm,
+  Dashboard,
+  DataBasesEmp,
+  Dispose,
+  EditAssets,
+  Event,
+  Lease,
+  LeaseReturn,
+  LeasesExpiring,
+  ListOfAssets,
+  LocationSetup,
+  Maintenance,
+  MaintenanceForm,
+  MaintenanceOverdue,
+  MaintenancesDue,
+  Move,
+  PersonsEmployeesForm,
+  Reserve,
+  Setup,
+  SetupCompInfo,
+  SetupDept,
+  SetupSites,
+  SetupTableOptions,
+  WarrantyExpiring,
+  WarrantyForm,
+} from './AllComponents'
 import { ICONS } from '../components/Common/AppIcon/AppIcon'
-import DataBases from '../pages/Setup/DataBase/DataBases'
+import DataBases from '../pages/Setup/DataBase/DatabseAssets/DataBaseAsset'
+import DatabaseCustomersTable from '../pages/Setup/DataBase/DatabaseCustomerTable/DatabaseCustomersTable'
+import DatabaseSetup from '../pages/Setup/DataBase/DataBaseSetup'
+import DatabaseMaintenance from '../pages/Setup/DataBase/DatabaseMaintenance/DataBaseMaintenance'
+import DatabaseWarranties from '../pages/Setup/DataBase/DatabaseWarranties.tsx/DataBaseWarranties'
 
 const appRoutes: RouteType[] = [
   {
@@ -77,8 +117,7 @@ const appRoutes: RouteType[] = [
           icon: <ICONS.person />,
         },
       },
-      
-    ]
+    ],
   },
   {
     path: '/assets',
@@ -185,7 +224,6 @@ const appRoutes: RouteType[] = [
           icon: <ICONS.person />,
         },
       },
-      
     ],
   },
   {
@@ -251,24 +289,66 @@ const appRoutes: RouteType[] = [
           icon: <ICONS.person />,
         },
       },
+
       {
-        path: '/setup/data-bases',
-        element: <DataBases />,
-        state: 'DataBasesEmp',
+        path: '/setup/database',
+        element: <DatabaseSetup />,
+        state: 'database',
         sidebarProps: {
-          displayText: 'DataBases',
-          icon: <ICONS.person />,
+          displayText: 'DataBase',
+          icon: <ICONS.resource />,
         },
+
+        child: [
+          {
+            path: '/setup/database/data-bases-assets',
+            element: <DataBases />,
+            state: 'DataBases',
+            sidebarProps: {
+              displayText: 'DataBases Assets',
+              icon: <ICONS.person />,
+            },
+          },
+          {
+            path: '/setup/database/data-bases-employee',
+            element: <DataBasesEmp />,
+            state: 'DataBasesEmp',
+            sidebarProps: {
+              displayText: 'DataBases Employee',
+              icon: <ICONS.person />,
+            },
+          },
+          {
+            path: '/setup/database/databases-customer-table',
+            element: <DatabaseCustomersTable />,
+            state: 'DataBasescustomerstable',
+            sidebarProps: {
+              displayText: 'dataBases Customers Table',
+              icon: <ICONS.person />,
+            },
+          },
+          {
+            path: '/setup/database/databases-maintenance',
+            element: <DatabaseMaintenance />,
+            state: 'DataBasemaintenance',
+            sidebarProps: {
+              displayText: 'dataBases Maintenance Table',
+              icon: <ICONS.person />,
+            },
+          },
+          {
+            path: '/setup/database/databases-warranties',
+            element: <DatabaseWarranties />,
+            state: 'DataBaseWarranties',
+            sidebarProps: {
+              displayText: 'dataBases Warranties Table',
+              icon: <ICONS.person />,
+            },
+          },
+        ],
       },
-      {
-        path: '/setup/data-bases-employee',
-        element: <DataBasesEmp />,
-        state: 'DataBasesEmp',
-        sidebarProps: {
-          displayText: 'DataBases Employee',
-          icon: <ICONS.person />,
-        },
-      },
+
+
       {
         path: '/setup/events',
         element: <Event />,
@@ -350,12 +430,10 @@ const appRoutes: RouteType[] = [
               icon: <ICONS.person />,
             },
           },
-          
-        ]
+        ],
       },
-    ]
+    ],
   },
-  
 ]
 
 export default appRoutes

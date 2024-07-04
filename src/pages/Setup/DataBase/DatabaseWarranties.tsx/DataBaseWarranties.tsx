@@ -1,65 +1,64 @@
 import { Typography, Radio, RadioGroup, Divider, Grid } from '@mui/joy'
-import ButtonGroup from '@mui/joy/ButtonGroup'
 import React, { useState, useEffect } from 'react'
 import { Box } from '@mui/joy'
 import Table from '@mui/joy/Table'
 import Checkbox from '@mui/joy/Checkbox'
-import Button from '@mui/joy/Button'
 import { FormControl } from '@mui/joy'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
-import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
-import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
-import AddDataBase from './AddDataBase'
-import EditDataBase from './EditDataBase'
-import AppView from '../../../components/Common/AppView'
+import AppView from '../../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchDataBase } from '../../../Redux/features/DataBaseSlice'
-import { RootState } from '../../../redux/store'
+import { RootState } from '../../../../redux/store'
+import DatabaseButtons from '../../../../components/Common/DatabaseButton'
+import AddDataBaseWarranties from './AddDataBaseWarranties'
+import EditDataBaseWarranties from './EditDataBaseWarranties'
 
 const customDefaultFields = [
   {
     id: 1,
-    fieldName: 'Asset Tag ID',
+    fieldName: 'Length ',
     visible: false,
-
-    required: '',
-    description:
-      'This field holds the unique asset id number that your company assigns to identify each asset. These are generally sequentially numbered labels with barcodes.',
-    example: 'A-1001',
+    isRequired: '',
+    name: 'length',
+    description: 'Length of the warranty (in months).',
+    example: '24',
     option: [
       {
         id: 1,
         value: 'yes',
+      },
+      {
+        id: 2,
+        value: 'optional',
       },
     ],
   },
-
   {
     id: 2,
-    fieldName: 'Asset Description',
+    fieldName: 'Expiration Date ',
     visible: false,
-
-    required: '',
-    description: 'Description of the asset.',
-    example: 'HP - Envy Desktop - 12GB Memory - 2TB Hard Drive',
+    isRequired: '',
+    name: 'expirationDate ',
+    description: 'Date when warranty expires.',
+    example: '12/12/2022',
     option: [
       {
         id: 1,
         value: 'yes',
       },
+      
     ],
   },
   {
     id: 3,
-    fieldName: 'Purchase Date',
+    fieldName: 'Notes',
     visible: false,
-
-    required: '',
-    description: 'Date asset was purchased',
-    example: '08/22/2014',
+    isRequired: '',
+    name: 'notes',
+    description: 'Text area for notes.',
+    example: 'Renew warranty if equipment in good condition.',
     option: [
       {
         id: 1,
@@ -67,119 +66,23 @@ const customDefaultFields = [
       },
       {
         id: 2,
-        value: 'no',
+        value: 'optional',
       },
     ],
   },
-  {
-    id: 4,
-    fieldName: 'Cost',
-    visible: false,
-
-    required: '',
-    description: 'Cost of the asset',
-    example: 'Bs225.75',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'no',
-      },
-    ],
-  },
-
-  {
-    id: 5,
-    fieldName: 'Purchased From',
-    visible: false,
-
-    required: '',
-    description: 'Vendor/Supplier name',
-    example: 'Amazon',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'no',
-      },
-    ],
-  },
-  {
-    id: 6,
-    fieldName: 'Brand',
-    visible: false,
-
-    required: '',
-    description: 'Manufacturer of the asset',
-    example: 'HP',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'no',
-      },
-    ],
-  },
-  {
-    id: 7,
-    fieldName: 'Model',
-    visible: false,
-
-    required: '',
-    description: 'Model name of the asset',
-    example: 'Envy',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'no',
-      },
-    ],
-  },
-  {
-    id: 8,
-    fieldName: 'Serial No',
-    visible: false,
-
-    required: '',
-    description: "Manufacturer's serial number",
-    example: 'HG9C3X',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'no',
-      },
-    ],
-  },
+  
 ]
 
-const DataBases: React.FunctionComponent = () => {
+const DatabaseWarranties: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
 
   const dataBase = useSelector((state: RootState) => state.dataBase.data)
-  // const dispatch = useDispatch<AppDispatch>()
   console.log(dataBase)
 
-  React.useEffect(() => {
-    dispatch(fetchDataBase())
-  }, [])
+//   React.useEffect(() => {
+//     dispatch(fetchDataBase())
+//   }, [])
 
   const [dataBases, setDataBases] = useState({
     customAssetFields: [],
@@ -189,9 +92,8 @@ const DataBases: React.FunctionComponent = () => {
 
       visible: item.visible,
 
-      required: item.required,
+      isRequired: item.isRequired,
       description: item.description,
-      
     })),
   })
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
@@ -210,7 +112,6 @@ const DataBases: React.FunctionComponent = () => {
       customAssetFields: updatedData,
     }))
   }
-
   const handleClickEditOpen = () => {
     setEditOpen(true)
   }
@@ -231,15 +132,6 @@ const DataBases: React.FunctionComponent = () => {
       handleEditClose()
     }
   }
-
-  // const handleCheckboxChange = (index: number) => {
-  //   setMatchedSelected((prevSelected) =>
-  //     prevSelected.includes(index)
-  //       ? prevSelected.filter((item) => item !== index)
-  //       : [...prevSelected, index],
-  //   )
-  //   setSelectedCell(index)
-  // }
   const handleCheckboxChange = (index: number) => {
     setDataBases((prevData) => ({
       ...prevData,
@@ -277,36 +169,44 @@ const DataBases: React.FunctionComponent = () => {
     setDataBases((prevData) => ({
       ...prevData,
       customDefaultFields: prevData.customDefaultFields.map((item, i) =>
-        i === index ? { ...item, required: value } : item,
+        i === index ? { ...item, isRequired: value } : item,
       ),
     }))
   }
-
-  // console.log(JSON.stringify(dataBases, null, 2))
+  const handleCancel = () => {}
 
   const generateJson = () => {
-    const jsonData = dataBases.customDefaultFields.map(({ 
-      id, visible, fieldName, required, description 
-    }) => ({
-      id,
-      visible,
-      fieldName,
-      required,
-      description
-    }));
-    return JSON.stringify(jsonData, null, 2);
-  };
+    const jsonData = {
+      customDefaultFields:dataBases.customDefaultFields.map(
+      ({ id, visible, fieldName, isRequired, description }) => ({
+        id,
+        visible,
+        fieldName,
+        isRequired,
+        description,
+      })),
+      customAssetFields: dataBases.customAssetFields.map(({ 
+        id, fieldName, componentsId,isRequired,  
+      }) => ({
+        id,
+        fieldName,
+      componentsId,
+      isRequired,
+      })),
+  }
+    return JSON.stringify(jsonData, null, 2)
+  }
 
   return (
     <AppView>
       <Typography
-        level="h4"
+        level="h3"
         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
       >
         <SignpostOutlinedIcon
           style={{ fontSize: '1.4rem', color: '#FBC21E' }}
         />
-        Database
+        Database warranty
       </Typography>
 
       <Box
@@ -327,7 +227,7 @@ const DataBases: React.FunctionComponent = () => {
             level="h4"
             sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
           >
-            Asset Database Fields
+            Warranty Standard Fields
           </Typography>
         </Box>
 
@@ -337,15 +237,26 @@ const DataBases: React.FunctionComponent = () => {
           }}
         >
           <Box sx={{ mt: 3 }}>
-            <Typography level="body-xs">
-              Fill in the appropriate fields for your assets. Asset Tag ID and
-              Asset Description are the only required fields. Check the boxes
-              next to the field names you want to include.
+            <Typography>
+               Select the fields you would like to use for the warranty table.
             </Typography>
           </Box>
 
-          <Box sx={{ mt: '10px', overflowX: 'auto' }}>
-            <Table borderAxis="both">
+          <Box sx={{
+                overflowX: 'auto',
+                fontSize: '14px',
+                whiteSpace: 'nowrap',
+                borderRadius:'5px'
+              }}>
+            <Table 
+             borderAxis="both" aria-label="basic table" 
+             style={{
+                   borderCollapse: 'collapse',
+                   border: '1px solid grey',
+                   minWidth: '500px',
+                   borderRadius:'5px'
+                 }}
+            >
               <thead>
                 <tr>
                   <th
@@ -358,22 +269,22 @@ const DataBases: React.FunctionComponent = () => {
                     <Checkbox />
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                  style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Field Name
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                    style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Data Required
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                    style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Description
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                   style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Example
                   </th>
@@ -388,9 +299,8 @@ const DataBases: React.FunctionComponent = () => {
                         onChange={() => handleCheckboxChange(index)}
                       />
                     </td>
-                    <td>{data.fieldName}</td>
-                    <td>
-                      {/* {data.required} */}
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{data.fieldName}</td>
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>
                       {data.visible && (
                         <FormControl>
                           <RadioGroup
@@ -412,39 +322,23 @@ const DataBases: React.FunctionComponent = () => {
                         </FormControl>
                       )}
                     </td>
-                    <td>{data.description}</td>
-                    <td>{data.example}</td>
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{data.description}</td>
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{data.example}</td>
                   </tr>
                 ))}
               </tbody>
             </Table>
-            <Divider sx={{ my: '30px' }}></Divider>
+            <Divider sx={{ my: '20px' }}></Divider>
           </Box>
         </Box>
 
-        <Typography
-          level="h4"
-          sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-        >
-          <SignpostOutlinedIcon
-            style={{ fontSize: '1.4rem', color: '#FBC21E' }}
-          />
-          Asset Custom Fields
-        </Typography>
         <Box>
-          Add custom fields to join the standard fields that we provided. Feel
-          free to get creative.
-        </Box>
-
-        <Box>
-          <AddDataBase
+          <AddDataBaseWarranties
             dataBases={dataBases}
             setDataBases={setDataBases}
-            // addCustomField={addCustomField}
             deleteCustomField={deleteCustomField}
           />
-
-          <EditDataBase
+          <EditDataBaseWarranties
             matchedSelected={matchedSelected}
             setMatchedSelected={setMatchedSelected}
             dataBases={dataBases}
@@ -463,49 +357,10 @@ const DataBases: React.FunctionComponent = () => {
             handleDeleteClose={handleDeleteClose}
           />
         </Box>
-
         <Divider sx={{ marginTop: '3%' }} />
-
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            flexDirection: { md: 'row', xs: 'column' },
-            justifyContent: { xs: 'center', md: 'flex-end' },
-            gap: '5px',
-            mt: 4,
-          }}
-        >
-          <Button
-            variant="solid"
-            sx={{
-              background: '#388e3c',
-              color: 'white',
-              borderRadius: '10px',
-            }}
-            component="label"
-            // onClick={handlePrevTab}
-          >
-            <NavigateBeforeOutlinedIcon />
-            Cancel
-          </Button>
-          <Button
-            variant="solid"
-            sx={{
-              background: '#fdd835',
-              color: 'black',
-              borderRadius: '10px',
-            }}
-            component="label"
-            onClick={()=>console.log(generateJson())}
-          >
-           Submit
-            <NavigateNextOutlinedIcon />{' '}
-          </Button>
-        </Box>
+        <DatabaseButtons onCancel={() => handleCancel()} onSubmit={() => console.log(generateJson())}/>
       </Box>
     </AppView>
   )
 }
-
-export default DataBases
+export default DatabaseWarranties

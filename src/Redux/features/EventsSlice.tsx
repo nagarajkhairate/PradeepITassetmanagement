@@ -20,7 +20,7 @@ const base_api_key_url = process.env.BASE_API_KEY;
 const TENANT_ID = process.env.TENANT_ID;
 
  
-export const fetchEvents = createAsyncThunk('events/fetchEvent', async () => {
+export const fetchEvents = createAsyncThunk('events/fetchEvents', async () => {
   try {
     const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/events`);
   return response.data;
