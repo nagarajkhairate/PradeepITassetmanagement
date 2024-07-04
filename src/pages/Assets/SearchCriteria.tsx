@@ -87,10 +87,10 @@ const Select: React.FC<SelectProps> = ({ placeholder, value, onChange, children,
 interface ValidationErrors {
   searchKeyword?: string;
   searchFields?: string;
-  site?: string;
-  location?: string;
-  category?: string;
-  department?: string;
+  siteId?: string;
+  locationId?: string;
+  categoryId?: string;
+  departmentId?: string;
   person?: string;
   customer?: string;
   status?: string;
@@ -104,10 +104,10 @@ interface ValidationErrors {
 const SearchCriteria: React.FC = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [searchFields, setSearchFields] = useState("");
-  const [site, setSite] = useState("");
-  const [location, setLocation] = useState("");
-  const [category, setCategory] = useState("");
-  const [department, setDepartment] = useState("");
+  const [siteId, setSiteId] = useState("");
+  const [locationId, setLocationId] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [departmentId, setDepartmentId] = useState("");
   const [person, setPerson] = useState("");
   const [customer, setCustomer] = useState("");
   const [status, setStatus] = useState("");
@@ -131,20 +131,20 @@ const SearchCriteria: React.FC = () => {
       errors.searchFields = "Search fields are required";
       isValid = false;
     }
-    if (!site) {
-      errors.site = "Site is required";
+    if (!siteId) {
+      errors.siteId = "siteId is required";
       isValid = false;
     }
-    if (!location) {
-      errors.location = "Location is required";
+    if (!locationId) {
+      errors.locationId = "locationId is required";
       isValid = false;
     }
-    if (!category) {
-      errors.category = "Category is required";
+    if (!categoryId) {
+      errors.categoryId = "categoryId is required";
       isValid = false;
     }
-    if (!department) {
-      errors.department = "Department is required";
+    if (!departmentId) {
+      errors.departmentId = "departmentId is required";
       isValid = false;
     }
     if (!person) {
@@ -192,10 +192,10 @@ const SearchCriteria: React.FC = () => {
     const formData = {
       searchKeyword,
       searchFields,
-      site,
-      location,
-      category,
-      department,
+      siteId,
+      locationId,
+      categoryId,
+      departmentId,
       person,
       customer,
       status,
@@ -292,67 +292,67 @@ const SearchCriteria: React.FC = () => {
                 <TypographyLabel title="Site" />
                 <Select
                   placeholder="All sites"
-                  value={site}
-                  onChange={handleSelectChange(setSite, 'site')}
+                  value={siteId}
+                  onChange={handleSelectChange(setSiteId, 'siteId')}
                 >
-                  <Option value="Site1">Site 1</Option>
-                  <Option value="Site2">Site 2</Option>
-                  <Option value="Site3">Site 3</Option>
+                  <Option value="1">Site 1</Option>
+                  <Option value="2">Site 2</Option>
+                  <Option value="3">Site 3</Option>
                 </Select>
-                {validationMessages.site && (
+                {validationMessages.siteId && (
                   <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
-                    {validationMessages.site}
+                    {validationMessages.siteId}
                   </Typography>
                 )}
               </Grid>
               <Grid>
-                <TypographyLabel title="Location" />
+                <TypographyLabel title="location" />
                 <Select
-                  placeholder="All Location"
-                  value={location}
-                  onChange={handleSelectChange(setLocation, 'location')}
+                  placeholder="All location"
+                  value={locationId}
+                  onChange={handleSelectChange(setLocationId, 'locationId')}
                 >
-                  <Option value="Location1">Location 1</Option>
-                  <Option value="Location2">Location 2</Option>
-                  <Option value="Location3">Location 3</Option>
+                  <Option value="1">location 1</Option>
+                  <Option value="2">location 2</Option>
+                  <Option value="3">location 3</Option>
                 </Select>
-                {validationMessages.location && (
+                {validationMessages.locationId && (
                   <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
-                    {validationMessages.location}
+                    {validationMessages.locationId}
                   </Typography>
                 )}
               </Grid>
               <Grid>
-                <TypographyLabel title="Category" />
+                <TypographyLabel title="categoryId" />
                 <Select
-                  placeholder="All Location"
-                  value={category}
-                  onChange={handleSelectChange(setCategory, 'category')}
+                  placeholder="All locationId"
+                  value={categoryId}
+                  onChange={handleSelectChange(setCategoryId, 'categoryId')}
                 >
-                  <Option value="Category1">Category 1</Option>
-                  <Option value="Category2">Category 2</Option>
-                  <Option value="Category3">Category 3</Option>
+                  <Option value="1">category 1</Option>
+                  <Option value="2">category 2</Option>
+                  <Option value="3">category 3</Option>
                 </Select>
-                {validationMessages.category && (
+                {validationMessages.categoryId && (
                   <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
-                    {validationMessages.category}
+                    {validationMessages.categoryId}
                   </Typography>
                 )}
               </Grid>
               <Grid>
-                <TypographyLabel title="Department" />
+                <TypographyLabel title="departmentId" />
                 <Select
-                  placeholder="All Department"
-                  value={department}
-                  onChange={handleSelectChange(setDepartment, 'department')}
+                  placeholder="All departmentId"
+                  value={departmentId}
+                  onChange={handleSelectChange(setDepartmentId, 'departmentId')}
                 >
-                  <Option value="Department1">Department 1</Option>
-                  <Option value="Department2">Department 2</Option>
-                  <Option value="Department3">Department 3</Option>
+                  <Option value="1">department 1</Option>
+                  <Option value="2">department 2</Option>
+                  <Option value="3">department 3</Option>
                 </Select>
-                {validationMessages.department && (
+                {validationMessages.departmentId && (
                   <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
-                    {validationMessages.department}
+                    {validationMessages.departmentId}
                   </Typography>
                 )}
               </Grid>

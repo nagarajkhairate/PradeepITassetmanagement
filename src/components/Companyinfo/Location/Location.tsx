@@ -89,6 +89,10 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
     dispatch(fetchLocation())
   }, [])
 
+  const handleClose = () => {
+    setOpen(false)
+  }
+
   return (
     <AppView>
       {/* <Typography
@@ -217,10 +221,14 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
               }}
               open={open}
               onClose={setOpen}
-            >
-              <AddLocation open={open} setOpen={setOpen} />
-            </Modal>
-          )}
+
+            ><AddLocation
+            open={open}
+              setOpen={setOpen}
+              handleClose={handleClose}
+            />
+            </Modal>}
+        
         </Box>
 
         <Divider />
