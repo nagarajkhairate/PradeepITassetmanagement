@@ -9,6 +9,7 @@ const initialDatabase = [
      id:1,
       fieldName: "swde",
       componentsId: "wsedf",
+      Category: "234frd",
       isRequired: "swed",
     },
   ];
@@ -16,6 +17,7 @@ const initialDatabase = [
   const addCustomField = (custom: { 
     fieldName: string; 
     componentsId: string; 
+    category: string; 
     isRequired: string; 
   }) => {
     // Your implementation logic here
@@ -35,8 +37,8 @@ const initialDatabase = [
 interface DataProps {
     matchedSelected: number[];
     setMatchedSelected: React.Dispatch<React.SetStateAction<number[]>>;
-    dataBases: { customAsset: dataItem[] };
-    setDataBases: React.Dispatch<React.SetStateAction<{ customAsset: dataItem[] }>>;
+    dataBases: { customAssetFields: dataItem[] };
+    setDataBases: React.Dispatch<React.SetStateAction<{ customAssetFields: dataItem[] }>>;
     
     editOpen: boolean;
     setEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -54,7 +56,7 @@ interface DataProps {
  
  
  
-const EditDataBaseEmp: React.FC<DataProps>= ({ matchedSelected,
+const EditDataBaseWarranties: React.FC<DataProps>= ({ matchedSelected,
     setMatchedSelected,
     dataBases,
     setDataBases,
@@ -120,10 +122,10 @@ const EditDataBaseEmp: React.FC<DataProps>= ({ matchedSelected,
 
     const custom = formData.custom;
     if (selectedCell !== null) {
-        const updatedData = dataBases.customAsset.map((item, index) =>
+        const updatedData = dataBases.customAssetFields.map((item, index) =>
             index === selectedCell ? { ...item, fieldName: custom } : item
         );
-        setDataBases({ ...dataBases, customAsset: updatedData });
+        setDataBases({ ...dataBases, customAssetFields: updatedData });
         handleEditClose();
     }
 };
@@ -146,7 +148,7 @@ const handleDeleteButton = (index:number) => {
                   overflowX: "auto",
                 }}
               >
-               <Box
+                <Box
               sx={{
                 overflowX: 'auto',
                 fontSize: '14px',
@@ -173,10 +175,9 @@ const handleDeleteButton = (index:number) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {dataBases.customAsset.length > 0 ? (
-                    dataBases.customAsset.map((item, index) => (
+                    {dataBases.customAssetFields.length > 0 ? (
+                    dataBases.customAssetFields.map((item, index) => (
                       <tr key={index}>
-                        
                         <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{item.fieldName}</td>
                         <td>{item.componentsId}</td>
                         <td>{item.isRequired}</td>
@@ -242,7 +243,7 @@ const handleDeleteButton = (index:number) => {
               )}
                   </tbody>
                 </Table>
-              </Box>
+                </Box>
  
                 <Modal
                   open={editOpen}
@@ -471,4 +472,4 @@ const handleDeleteButton = (index:number) => {
               </Stack>
     )
 }
-export default EditDataBaseEmp;
+export default EditDataBaseWarranties

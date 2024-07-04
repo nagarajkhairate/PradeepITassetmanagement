@@ -14,19 +14,19 @@ import AppView from '../../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-import AddDataBaseEmp from './AddDataBaseEmp'
-import EditDataBaseEmp from './EditDataBaseEmp'
 import { RootState } from '../../../../redux/store'
+import EditCustomersTable from './EditCustomersTable'
+import AddCustomersTable from './AddCustomersTable'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
 
-const EmployeePerson = [
+const Customers = [
   {
     id: 1,
     fieldName: 'Full Name ',
     visible: false,
     isRequired: '',
     name: 'fullName',
-    description: 'Full name of the person / employee.',
+    description: 'Full name of the customer',
     example: 'John Doe',
     option: [
       {
@@ -41,7 +41,7 @@ const EmployeePerson = [
     visible: false,
     isRequired: '',
     name: 'email',
-    description: 'Email of the person',
+    description: 'Email of the customer',
     example: 'johndoe@example.com',
     option: [
       {
@@ -56,12 +56,12 @@ const EmployeePerson = [
   },
   {
     id: 3,
-    fieldName: 'Employee ID',
+    fieldName: 'Company',
     visible: false,
     isRequired: '',
-    name: 'employeeID',
-    description: 'For example Employee ID, Student ID, etc.',
-    example: 'IT-1234',
+    name: 'company',
+    description: 'Customers company name',
+    example: 'Jane Doe Company',
     option: [
       {
         id: 1,
@@ -75,12 +75,12 @@ const EmployeePerson = [
   },
   {
     id: 4,
-    fieldName: 'Title',
+    fieldName: 'Address',
     visible: false,
     isRequired: '',
-    name: 'title',
-    description: '  fieldName of the person.',
-    example: '  Sales Manager',
+    name: 'address',
+    description: ' All address fields of the customer',
+    example: ' ---',
     option: [
       {
         id: 1,
@@ -98,7 +98,7 @@ const EmployeePerson = [
     visible: false,
     isRequired: '',
     name: 'phone',
-    description: 'Phone number of the person',
+    description: 'Phone number of the customer',
     example: '(555) 123-4567',
     option: [
       {
@@ -113,12 +113,12 @@ const EmployeePerson = [
   },
   {
     id: 6,
-    fieldName: 'Notes',
+    fieldName: 'Mobile Phone',
     visible: false,
     isRequired: '',
-    name: 'notes',
-    description: 'Text area for notes',
-    example: 'Reports to CEO',
+    name: 'mobilePhone',
+    description: 'Mobile Cell of the customer',
+    example: '	(123) 456-7890',
     option: [
       {
         id: 1,
@@ -132,12 +132,12 @@ const EmployeePerson = [
   },
   {
     id: 7,
-    fieldName: 'Site',
+    fieldName: 'Notes',
     visible: false,
     isRequired: '',
-    name: 'site',
-    description: 'System field to link person to a Site',
-    example: '-',
+    name: 'notes',
+    description: 'Text area for notes',
+    example: 'Leases equipment for 12 months.',
     option: [
       {
         id: 1,
@@ -149,47 +149,10 @@ const EmployeePerson = [
       },
     ],
   },
-  {
-    id: 8,
-    fieldName: 'Location',
-    visible: false,
-    isRequired: '',
-    name: 'location',
-    description: 'System field to link person to a Location',
-    example: '  -',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
-  },
-  {
-    id: 9,
-    fieldName: 'Department',
-    visible: false,
-    isRequired: '',
-    name: 'department',
-    description: '  System field to link person to a Department',
-    example: '  -',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
-  },
+  
 ]
 
-const DataBaseEmp: React.FunctionComponent = () => {
+const DatabaseCustomersTable: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
 
@@ -203,7 +166,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
 
   const [dataBases, setDataBases] = useState({
     customAsset: [],
-    EmployeePerson: EmployeePerson.map((item) => ({
+    Customers: Customers.map((item) => ({
       ...item,
       id: item.id,
       visible: item.visible,
@@ -249,18 +212,10 @@ const DataBaseEmp: React.FunctionComponent = () => {
     }
   }
 
-  // const handleCheckboxChange = (index: number) => {
-  //   setMatchedSelected((prevSelected) =>
-  //     prevSelected.includes(index)
-  //       ? prevSelected.filter((item) => item !== index)
-  //       : [...prevSelected, index],
-  //   )
-  //   setSelectedCell(index)
-  // }
   const handleCheckboxChange = (index: number) => {
     setDataBases((prevData) => ({
       ...prevData,
-      EmployeePerson: prevData.EmployeePerson.map((item, i) =>
+      Customers: prevData.Customers.map((item, i) =>
         i === index ? { ...item, visible: !item.visible } : item,
       ),
     }))
@@ -293,25 +248,24 @@ const DataBaseEmp: React.FunctionComponent = () => {
     const { value } = event.target
     setDataBases((prevData) => ({
       ...prevData,
-      EmployeePerson: prevData.EmployeePerson.map((item, i) =>
+      Customers: prevData.Customers.map((item, i) =>
         i === index ? { ...item, isRequired: value } : item,
       ),
     }))
   }
-
-  // console.log(JSON.stringify(dataBases, null, 2))
 const handleCancel=()=>{
-
+    
 }
   const generateJson = () => {
     const jsonData = {
-      EmployeePerson:dataBases.EmployeePerson.map(
-      ({ id, visible, fieldName, isRequired, description }) => ({
+      Customers: dataBases.Customers.map(({ 
+        id, visible, fieldName, isRequired, description 
+      }) => ({
         id,
         visible,
         fieldName,
         isRequired,
-        description,
+        description
       })),
       customAsset: dataBases.customAsset.map(({ 
         id, fieldName, componentsId,isRequired,  
@@ -321,9 +275,9 @@ const handleCancel=()=>{
       componentsId,
       isRequired,
       })),
-  }
-    return JSON.stringify(jsonData, null, 2)
-  }
+    };
+    return JSON.stringify(jsonData, null, 2);
+  };
 
   return (
     <AppView>
@@ -334,7 +288,7 @@ const handleCancel=()=>{
         <SignpostOutlinedIcon
           style={{ fontSize: '1.4rem', color: '#FBC21E' }}
         />
-        Database Persons/Employees
+        Database Customers
       </Typography>
 
       <Box
@@ -355,7 +309,7 @@ const handleCancel=()=>{
             level="h4"
             sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
           >
-            Persons/Employees Standard Fields
+            Customers Standard Fields
           </Typography>
         </Box>
 
@@ -366,8 +320,7 @@ const handleCancel=()=>{
         >
           <Box sx={{ mt: 3 }}>
             <Typography >
-            Persons/employees are individuals to whom you assign assets. These could be employees in your organization or students in your school/university. Check the boxes
-              next to the field names you want to include.
+            Customers are the individuals or organizations to whom you  lease out your equipment. Select the fields you would like to use for your customers.
             </Typography>
           </Box>
 
@@ -413,14 +366,14 @@ const handleCancel=()=>{
                     Description
                   </th>
                   <th
-                 style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
+                    style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Example
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {dataBases.EmployeePerson.map((data, index) => (
+                {dataBases.Customers.map((data, index) => (
                   <tr key={index}>
                     <td>
                       <Checkbox
@@ -461,16 +414,17 @@ const handleCancel=()=>{
           </Box>
         </Box>
 
+     
 
         <Box>
-          <AddDataBaseEmp
+          <AddCustomersTable
             dataBases={dataBases}
             setDataBases={setDataBases}
             // addCustomField={addCustomField}
             deleteCustomField={deleteCustomField}
           />
 
-          <EditDataBaseEmp
+          <EditCustomersTable
             matchedSelected={matchedSelected}
             setMatchedSelected={setMatchedSelected}
             dataBases={dataBases}
@@ -494,9 +448,9 @@ const handleCancel=()=>{
 
         <DatabaseButtons onCancel={() => handleCancel()} onSubmit={() => console.log(generateJson())} />
 
-      </Box>
+       </Box>
     </AppView>
   )
 }
 
-export default DataBaseEmp
+export default DatabaseCustomersTable

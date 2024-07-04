@@ -1,18 +1,19 @@
 import { ThunkDispatch } from "redux-thunk";
-import { addDataBase } from "../../../Redux/features/DataBaseSlice";
 import { useDispatch, useSelector } from "react-redux";
 import React, { ChangeEvent,useEffect , useState } from "react";
-import { fetchComponents } from "../../../Redux/features/ComponentsIdSlice";
+import { fetchComponents } from "../../../../Redux/features/ComponentsIdSlice";
 import { Box, Button, FormControl, FormLabel, Input, Option, Radio, RadioGroup, Select, Sheet, Typography } from "@mui/joy";
-import AppForm from "../../../components/Common/AppForm";
-import { RootState } from "../../../redux/store";
+import AppForm from "../../../../components/Common/AppForm";
+import { RootState } from "../../../../redux/store";
+import { addDefaultFields } from "../../../../Redux/features/DefaultFieldAssetSlice";
+
 
 
 interface DataBaseAddProps {
     open:any,
     setOpen:any
-    dataBases: { customAssetFields: string[] };
-        setDataBases: React.Dispatch<React.SetStateAction<{ customAssetFields: string[] }>>;
+    dataBases: { customAsset: string[] };
+        setDataBases: React.Dispatch<React.SetStateAction<{ customAsset: string[] }>>;
     }
 
 
@@ -49,17 +50,17 @@ const handleAddSkill = (e: React.FormEvent<HTMLFormElement>) => {
     // addCustomField(formData);
     setDataBases((prevData:any) => ({
       ...prevData,
-      customAssetFields: [
-        ...prevData.customAssetFields,
+      customAsset: [
+        ...prevData.customAsset,
         {
           fieldName: formData.custom,
           componentsId: formData.componentsId,
-          category: formData.selectedCategories,
-          required: formData.dataRequired,
+          categoryId: formData.selectedCategories,
+          isRequired: formData.dataRequired,
         },
       ],
     }));
-    dispatch(addDataBase(formData))
+    dispatch(addDefaultFields(formData))
     handleClose();
     setOpen(false);
     setFormData({

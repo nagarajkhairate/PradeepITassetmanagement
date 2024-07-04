@@ -16,7 +16,7 @@ const initialDatabase = [
   const addCustomField = (custom: { 
     fieldName: string; 
     componentsId: string; 
-    isRequired: string; 
+    isRequired: boolean; 
   }) => {
     // Your implementation logic here
   };
@@ -26,7 +26,6 @@ const initialDatabase = [
     id:1,
     fieldName: string;
     componentsId: string;
-    category: string;
     isRequired: boolean;
   }
 
@@ -54,7 +53,7 @@ interface DataProps {
  
  
  
-const EditDataBaseEmp: React.FC<DataProps>= ({ matchedSelected,
+const EditCustomersTable: React.FC<DataProps>= ({ matchedSelected,
     setMatchedSelected,
     dataBases,
     setDataBases,
@@ -146,7 +145,7 @@ const handleDeleteButton = (index:number) => {
                   overflowX: "auto",
                 }}
               >
-               <Box
+                <Box
               sx={{
                 overflowX: 'auto',
                 fontSize: '14px',
@@ -176,11 +175,17 @@ const handleDeleteButton = (index:number) => {
                     {dataBases.customAsset.length > 0 ? (
                     dataBases.customAsset.map((item, index) => (
                       <tr key={index}>
-                        
+                        {/* <td>
+                          <Checkbox
+                            checked={matchedSelected.includes(index)}
+                            onChange={() => handleCheckboxChange(index)}
+                            color="primary"
+                          />
+                        </td> */}
                         <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{item.fieldName}</td>
                         <td>{item.componentsId}</td>
                         <td>{item.isRequired}</td>
-                        {/* <td>{item.category}</td> */}
+
                         <td>
                           <Button 
                           sx={{
@@ -195,11 +200,12 @@ const handleDeleteButton = (index:number) => {
                             },
                             marginLeft: 'none',
                             border: '1px solid green ',
-                            borderRadius: '10px',
                             '&:hover': {
                               color: 'white',
                               background: 'green',
                             },
+                            borderRadius: '10px',
+                            
                             padding: ".15rem .50rem"
                           }}
                           onClick={()=>handleEdit(index)}>
@@ -209,23 +215,23 @@ const handleDeleteButton = (index:number) => {
                         </td>
                         <td>
                           <Button 
-                         sx={{
-                          fontSize: '13px',
-                          background: '#ffffff',
-                          color: '#d32f2f',
-                          // display: 'inline-flex',
-                          display: 'flex',
-                          justifyContent: { md: 'flex-end', xs: 'center' },
-                          
-                          marginLeft: 'none',
-                          border: '1px solid red ',
-                          borderRadius: '10px',
-                          '&:hover': {
-                            color: 'white',
-                            background: '#d32f2f',
-                          },
-                          padding: ".5rem .10rem"
-                        }}
+                          sx={{
+                            fontSize: '13px',
+                            background: '#ffffff',
+                            color: '#d32f2f',
+                            // display: 'inline-flex',
+                            display: 'flex',
+                            justifyContent: { md: 'flex-end', xs: 'center' },
+                            
+                            marginLeft: 'none',
+                            border: '1px solid red ',
+                            borderRadius: '10px',
+                            '&:hover': {
+                              color: 'white',
+                              background: '#d32f2f',
+                            },
+                            padding: ".5rem .10rem"
+                          }}
                           onClick={()=>handleDeleteButton(index)}>
                             <DeleteForeverIcon sx={{ fontSize: '15px' }}/>
                             Delete
@@ -471,4 +477,4 @@ const handleDeleteButton = (index:number) => {
               </Stack>
     )
 }
-export default EditDataBaseEmp;
+export default EditCustomersTable;

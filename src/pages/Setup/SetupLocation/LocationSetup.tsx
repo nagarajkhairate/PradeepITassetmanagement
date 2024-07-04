@@ -52,6 +52,9 @@ const LocationSetup: React.FunctionComponent = () => {
   const handleDeleteOpen = () => {
     setDeleteOpen(true)
   }
+  const handleClose = () => {
+    setOpen(false)
+  }
 
   const handleDeleteClose = () => {
     setDeleteOpen(false)
@@ -192,6 +195,7 @@ const LocationSetup: React.FunctionComponent = () => {
             ><LocationAdd
             open={open}
               setOpen={setOpen}
+              handleClose={handleClose}
             />
             </Modal>}
         

@@ -10,24 +10,29 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
+import AddDataBase from './AddDataBaseAsset'
+import EditDataBase from './EditDataBaseAsset'
 import AppView from '../../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-import AddDataBaseEmp from './AddDataBaseEmp'
-import EditDataBaseEmp from './EditDataBaseEmp'
 import { RootState } from '../../../../redux/store'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
+import AddDataBaseAsset from './AddDataBaseAsset'
+import EditDataBaseAsset from './EditDataBaseAsset'
+import { fetchDefaultFields } from '../../../../Redux/features/DefaultFieldAssetSlice'
 
-const EmployeePerson = [
+
+
+const AssetDefaultFields = [
   {
     id: 1,
-    fieldName: 'Full Name ',
+    fieldName: 'Asset Tag ID',
     visible: false,
     isRequired: '',
-    name: 'fullName',
-    description: 'Full name of the person / employee.',
-    example: 'John Doe',
+    description:
+      'This holds unique asset id number that your company assigns to identify each asset',
+    example: 'A-1001',
     option: [
       {
         id: 1,
@@ -35,33 +40,30 @@ const EmployeePerson = [
       },
     ],
   },
+
   {
     id: 2,
-    fieldName: 'Email',
+    fieldName: 'Asset Description',
     visible: false,
+
     isRequired: '',
-    name: 'email',
-    description: 'Email of the person',
-    example: 'johndoe@example.com',
+    description: 'Description of the asset.',
+    example: 'HP - Envy Desktop - 12GB Memory - 2TB Hard Drive',
     option: [
       {
         id: 1,
         value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
       },
     ],
   },
   {
     id: 3,
-    fieldName: 'Employee ID',
+    fieldName: 'Purchase Date',
     visible: false,
+
     isRequired: '',
-    name: 'employeeID',
-    description: 'For example Employee ID, Student ID, etc.',
-    example: 'IT-1234',
+    description: 'Date asset was purchased',
+    example: '08/22/2014',
     option: [
       {
         id: 1,
@@ -75,12 +77,12 @@ const EmployeePerson = [
   },
   {
     id: 4,
-    fieldName: 'Title',
+    fieldName: 'Cost',
     visible: false,
+
     isRequired: '',
-    name: 'title',
-    description: '  fieldName of the person.',
-    example: '  Sales Manager',
+    description: 'Cost of the asset',
+    example: 'Bs225.75',
     option: [
       {
         id: 1,
@@ -92,14 +94,15 @@ const EmployeePerson = [
       },
     ],
   },
+
   {
     id: 5,
-    fieldName: 'Phone',
+    fieldName: 'Purchased From',
     visible: false,
+
     isRequired: '',
-    name: 'phone',
-    description: 'Phone number of the person',
-    example: '(555) 123-4567',
+    description: 'Vendor/Supplier name',
+    example: 'Amazon',
     option: [
       {
         id: 1,
@@ -113,12 +116,12 @@ const EmployeePerson = [
   },
   {
     id: 6,
-    fieldName: 'Notes',
+    fieldName: 'Brand',
     visible: false,
+
     isRequired: '',
-    name: 'notes',
-    description: 'Text area for notes',
-    example: 'Reports to CEO',
+    description: 'Manufacturer of the asset',
+    example: 'HP',
     option: [
       {
         id: 1,
@@ -132,12 +135,12 @@ const EmployeePerson = [
   },
   {
     id: 7,
-    fieldName: 'Site',
+    fieldName: 'Model',
     visible: false,
+
     isRequired: '',
-    name: 'site',
-    description: 'System field to link person to a Site',
-    example: '-',
+    description: 'Model name of the asset',
+    example: 'Envy',
     option: [
       {
         id: 1,
@@ -151,31 +154,12 @@ const EmployeePerson = [
   },
   {
     id: 8,
-    fieldName: 'Location',
+    fieldName: 'Serial optional',
     visible: false,
+
     isRequired: '',
-    name: 'location',
-    description: 'System field to link person to a Location',
-    example: '  -',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
-  },
-  {
-    id: 9,
-    fieldName: 'Department',
-    visible: false,
-    isRequired: '',
-    name: 'department',
-    description: '  System field to link person to a Department',
-    example: '  -',
+    description: "Manufacturer's serial number",
+    example: 'HG9C3X',
     option: [
       {
         id: 1,
@@ -189,26 +173,27 @@ const EmployeePerson = [
   },
 ]
 
-const DataBaseEmp: React.FunctionComponent = () => {
+const DataBaseAsset: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
 
-  const dataBase = useSelector((state: RootState) => state.dataBase.data)
+  const dataBase = useSelector((state: RootState) => state.defaultFields.data)
   // const dispatch = useDispatch<AppDispatch>()
   console.log(dataBase)
 
-  // React.useEffect(() => {
-  //   dispatch(fetchDataBase())
-  // }, [])
+  React.useEffect(() => {
+    dispatch(fetchDefaultFields())
+  }, [])
 
   const [dataBases, setDataBases] = useState({
     customAsset: [],
-    EmployeePerson: EmployeePerson.map((item) => ({
+    AssetDefaultFields: AssetDefaultFields.map((item) => ({
       ...item,
       id: item.id,
       visible: item.visible,
       isRequired: item.isRequired,
       description: item.description,
+      
     })),
   })
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
@@ -249,18 +234,10 @@ const DataBaseEmp: React.FunctionComponent = () => {
     }
   }
 
-  // const handleCheckboxChange = (index: number) => {
-  //   setMatchedSelected((prevSelected) =>
-  //     prevSelected.includes(index)
-  //       ? prevSelected.filter((item) => item !== index)
-  //       : [...prevSelected, index],
-  //   )
-  //   setSelectedCell(index)
-  // }
   const handleCheckboxChange = (index: number) => {
     setDataBases((prevData) => ({
       ...prevData,
-      EmployeePerson: prevData.EmployeePerson.map((item, i) =>
+      AssetDefaultFields: prevData.AssetDefaultFields.map((item, i) =>
         i === index ? { ...item, visible: !item.visible } : item,
       ),
     }))
@@ -293,37 +270,39 @@ const DataBaseEmp: React.FunctionComponent = () => {
     const { value } = event.target
     setDataBases((prevData) => ({
       ...prevData,
-      EmployeePerson: prevData.EmployeePerson.map((item, i) =>
+      AssetDefaultFields: prevData.AssetDefaultFields.map((item, i) =>
         i === index ? { ...item, isRequired: value } : item,
       ),
     }))
   }
 
-  // console.log(JSON.stringify(dataBases, null, 2))
-const handleCancel=()=>{
+  const handleCancel=()=>{
+    
+  }
 
-}
   const generateJson = () => {
     const jsonData = {
-      EmployeePerson:dataBases.EmployeePerson.map(
-      ({ id, visible, fieldName, isRequired, description }) => ({
+      AssetDefaultFields: dataBases.AssetDefaultFields.map(({ 
+        id, visible, fieldName, isRequired, description 
+      }) => ({
         id,
         visible,
         fieldName,
         isRequired,
-        description,
+        description
       })),
       customAsset: dataBases.customAsset.map(({ 
-        id, fieldName, componentsId,isRequired,  
+        id, fieldName, componentsId, categoryId,isRequired,  
       }) => ({
         id,
         fieldName,
       componentsId,
+      categoryId,
       isRequired,
       })),
-  }
-    return JSON.stringify(jsonData, null, 2)
-  }
+    };
+    return JSON.stringify(jsonData, null, 2);
+  };
 
   return (
     <AppView>
@@ -334,7 +313,7 @@ const handleCancel=()=>{
         <SignpostOutlinedIcon
           style={{ fontSize: '1.4rem', color: '#FBC21E' }}
         />
-        Database Persons/Employees
+        Database Assets
       </Typography>
 
       <Box
@@ -355,7 +334,7 @@ const handleCancel=()=>{
             level="h4"
             sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
           >
-            Persons/Employees Standard Fields
+            Asset Database Fields
           </Typography>
         </Box>
 
@@ -366,26 +345,25 @@ const handleCancel=()=>{
         >
           <Box sx={{ mt: 3 }}>
             <Typography >
-            Persons/employees are individuals to whom you assign assets. These could be employees in your organization or students in your school/university. Check the boxes
+              Fill in the appropriate fields for your assets. <b>Asset Tag ID</b> and  <b>Asset Description</b> are the only required fields. Check the boxes
               next to the field names you want to include.
             </Typography>
           </Box>
 
-          <Box sx={{
+          <Box  sx={{
                 overflowX: 'auto',
                 fontSize: '14px',
                 whiteSpace: 'nowrap',
                 borderRadius:'5px'
               }}>
             <Table 
-             borderAxis="both" aria-label="basic table" 
-             style={{
-                   borderCollapse: 'collapse',
-                   border: '1px solid grey',
-                   minWidth: '500px',
-                   borderRadius:'5px'
-                 }}
-            >
+            borderAxis="both" aria-label="basic table" 
+            style={{
+                  borderCollapse: 'collapse',
+                  border: '1px solid grey',
+                  minWidth: '500px',
+                  borderRadius:'5px'
+                }}>
               <thead>
                 <tr>
                   <th
@@ -398,7 +376,7 @@ const handleCancel=()=>{
                     <Checkbox />
                   </th>
                   <th
-                   style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
+                    style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Field Name
                   </th>
@@ -408,19 +386,19 @@ const handleCancel=()=>{
                     Data Required
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
+                    style={{ background: '#fff8e6', verticalAlign: 'middle', wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Description
                   </th>
                   <th
-                 style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
+                   style={{ background: '#fff8e6', verticalAlign: 'middle', wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Example
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {dataBases.EmployeePerson.map((data, index) => (
+                {dataBases.AssetDefaultFields.map((data, index) => (
                   <tr key={index}>
                     <td>
                       <Checkbox
@@ -430,6 +408,7 @@ const handleCancel=()=>{
                     </td>
                     <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{data.fieldName}</td>
                     <td style={{ wordBreak: 'break-word', whiteSpace: 'normal' }}>
+                      {/* {data.required} */}
                       {data.visible && (
                         <FormControl>
                           <RadioGroup
@@ -457,20 +436,33 @@ const handleCancel=()=>{
                 ))}
               </tbody>
             </Table>
-            <Divider sx={{ my: '20px' }}></Divider>
+            <Divider sx={{ my: '30px' }}></Divider>
           </Box>
         </Box>
 
+        <Typography
+          level="h4"
+          sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+        >
+          <SignpostOutlinedIcon
+            style={{ fontSize: '1.4rem', color: '#FBC21E' }}
+          />
+          Asset Custom Fields
+        </Typography>
+        <Box>
+          Add custom fields to join the standard fields that we provided. Feel
+          free to get creative.
+        </Box>
 
         <Box>
-          <AddDataBaseEmp
-            dataBases={dataBases}
+          <AddDataBaseAsset
+            dataBase={dataBases}
             setDataBases={setDataBases}
             // addCustomField={addCustomField}
             deleteCustomField={deleteCustomField}
           />
 
-          <EditDataBaseEmp
+          <EditDataBaseAsset
             matchedSelected={matchedSelected}
             setMatchedSelected={setMatchedSelected}
             dataBases={dataBases}
@@ -492,11 +484,10 @@ const handleCancel=()=>{
 
         <Divider sx={{ marginTop: '3%' }} />
 
-        <DatabaseButtons onCancel={() => handleCancel()} onSubmit={() => console.log(generateJson())} />
-
+<DatabaseButtons onCancel={() => handleCancel()} onSubmit={() => console.log(generateJson())} />
       </Box>
     </AppView>
   )
 }
 
-export default DataBaseEmp
+export default DataBaseAsset

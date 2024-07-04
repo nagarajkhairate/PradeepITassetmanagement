@@ -14,8 +14,8 @@ import CategorySetup from './CategorySetup'
 import CategoryDelete from './CategorySetupDelete'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteCategory, updateCategory } from '../../../Redux/features/CategorySlice'
 import { RootState } from '../../../redux/store'
+import { updateCategory } from '../../../Redux/features/CategorySlice'
 
 type Category = {
   id: number

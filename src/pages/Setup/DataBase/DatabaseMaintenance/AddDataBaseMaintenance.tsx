@@ -18,18 +18,18 @@ import {
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-import AddEmployeeData from './AddEmployeeData'
 import { RootState } from '../../../../redux/store'
+import AddMaintenanceData from './AddMaintenanceData'
 
 interface DataAddProps {
-  dataBases: { customAsset: string[] }
-  setDataBases: React.Dispatch<React.SetStateAction<{ customAsset: any[] }>>
+  dataBases: { customAssetFields: string[] }
+  setDataBases: React.Dispatch<React.SetStateAction<{ customAssetFields: any[] }>>
   addCustomField: (custom: any) => void
   deleteCustomField: (index: number) => void
   id: number
 }
 
-const AddDataBaseEmp: React.FC<DataAddProps> = ({
+const AddDataBaseMaintenance: React.FC<DataAddProps> = ({
   dataBases,
   setDataBases,
   addCustomField,
@@ -57,7 +57,7 @@ const AddDataBaseEmp: React.FC<DataAddProps> = ({
     <SignpostOutlinedIcon
       style={{ fontSize: '1.4rem', color: '#FBC21E' }}
     />
-    Persons/Employees Custom Fields
+    Maintenance Custom Fields
   </Typography>
   <Typography
   sx={{marginTop:'10px'}}
@@ -100,7 +100,7 @@ const AddDataBaseEmp: React.FC<DataAddProps> = ({
           open={open}
           onClose={setOpen}
         >
-          <AddEmployeeData
+          <AddMaintenanceData
             open={open}
             setOpen={setOpen}
             dataBases={dataBases}
@@ -113,4 +113,4 @@ const AddDataBaseEmp: React.FC<DataAddProps> = ({
   )
 }
 
-export default AddDataBaseEmp
+export default AddDataBaseMaintenance

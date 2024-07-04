@@ -12,17 +12,13 @@ import { RootState } from '../../../redux/store'
 interface LocationAddProps {
   open:any,
   setOpen:any
-
+  handleClose:() => void
   }
 
-  const LocationAdd: React.FC<LocationAddProps> = ({open, setOpen}) => {
+  const LocationAdd: React.FC<LocationAddProps> = ({open, setOpen, handleClose}) => {
     const [locationForm, setLocationForm] =useState<{ [key: string]: any }>({})
     const sites = useSelector((state:RootState) => state.sites.data);
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-
-    const handleClose = () => {
-      setOpen(false)
-    }
     
       React.useEffect(()=>{
         dispatch(fetchSites())
