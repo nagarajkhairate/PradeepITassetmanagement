@@ -95,7 +95,8 @@ export const formConfig: FormFieldConfig[] = [
       
     }
   },
-  {
+  
+  {   
     label: "Model",
     type: "text",
     stateKey: "model",

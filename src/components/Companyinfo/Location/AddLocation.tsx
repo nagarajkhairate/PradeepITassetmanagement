@@ -3,10 +3,12 @@ import { Box, Button, Divider, FormControl, FormLabel, Input, Modal, Option, Sel
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ThunkDispatch } from 'redux-thunk'
-import { fetchSites } from '../../../Redux/features/SitesSlice'
+
 import AppForm from '../../../components/Common/AppForm'
-import { addLocation } from '../../../Redux/features/LocationSlice'
+
 import { RootState } from '../../../redux/store'
+import { addLocation } from '../../../Redux/features/LocationSlice'
+import { fetchSites } from '../../../Redux/features/SitesSlice'
 
 
 interface LocationAddProps {

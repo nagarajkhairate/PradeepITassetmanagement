@@ -36,7 +36,7 @@ import {
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import AppForm from '../../Common/AppForm'
-import { RootState } from '../../../redux/store'
+import { RootState } from '../../../Redux/store'
 
 export interface Site {
   siteName: string
@@ -427,14 +427,14 @@ const Sites: React.FC<SiteProps> = ({
                               color="primary"
                             />
                           </td>
-                          <td>{site.siteName}</td>
-                          <td>{site.description}</td>
-                          <td>{site.address}</td>
-                          <td>{site.aptSuite}</td>
-                          <td>{site.city}</td>
-                          <td>{site.state}</td>
-                          <td>{site.zipCode}</td>
-                          <td>{site.country}</td>
+                          <td style={{wordBreak: 'break-word'}}>{site.siteName}</td>
+                          <td style={{wordBreak: 'break-word'}}>{site.description}</td>
+                          <td style={{wordBreak: 'break-word'}}>{site.address}</td>
+                          <td style={{wordBreak: 'break-word'}}>{site.aptSuite}</td>
+                          <td style={{wordBreak: 'break-word'}}>{site.city}</td>
+                          <td style={{wordBreak: 'break-word'}}>{site.state}</td>
+                          <td >{site.zipCode}</td>
+                          <td style={{wordBreak: 'break-word'}}>{site.country}</td>
                           <td>
                             <div>
                               <Button
