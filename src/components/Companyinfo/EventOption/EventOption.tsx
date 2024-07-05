@@ -22,7 +22,7 @@ import AppView from '../../Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch } from 'react-redux'
-import { addoptions, fetchOptions } from '../../../Redux/features/TabsSlice'
+import { addoptions} from '../../../Redux/features/TabsSlice'
 import AppForm from '../../Common/AppForm'
 import { RootState } from '../../../redux/store'
 
@@ -33,10 +33,6 @@ interface EventOptionProps {
   activeTab: number
   setActiveTab: (tab: number) => void
 }
-
-
-
-
 const options = [
   {
     id: 1,
@@ -76,11 +72,23 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
     setCompanyFormData((prevData: any) => ({
       ...prevData,
       eventOption: eventForm,
-    }))
-    dispatch(addoptions(companyFormData)); 
-    console.log(JSON.stringify(eventForm, null, 2))
-  }
-  console.log(JSON.stringify(companyFormData))
+    }));
+
+    const formDataToSend = new FormData();
+    for (const key in companyFormData) {
+      if (companyFormData[key] !== null) {
+        if (key === 'companyLogo' && companyFormData[key] instanceof File) {
+          formDataToSend.append(key, companyFormData[key]);
+        } else {
+          formDataToSend.append(key, companyFormData[key]);
+        }
+      }
+    }
+
+    dispatch(addoptions(formDataToSend));
+    console.log(JSON.stringify(eventForm, null, 2));
+  };
+
 
   const AssetRadioGroup: React.FC<AssetRadioGroupProps> = ({
     name,

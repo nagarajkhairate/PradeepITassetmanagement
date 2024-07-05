@@ -37,6 +37,7 @@ import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import AppForm from '../../Common/AppForm'
 import { RootState } from '../../../Redux/store'
+import HandleTabButtons from '../../Common/HandleTabButtons'
 
 export interface Site {
   siteName: string
@@ -427,14 +428,14 @@ const Sites: React.FC<SiteProps> = ({
                               color="primary"
                             />
                           </td>
-                          <td style={{wordBreak: 'break-word'}}>{site.siteName}</td>
-                          <td style={{wordBreak: 'break-word'}}>{site.description}</td>
-                          <td style={{wordBreak: 'break-word'}}>{site.address}</td>
-                          <td style={{wordBreak: 'break-word'}}>{site.aptSuite}</td>
-                          <td style={{wordBreak: 'break-word'}}>{site.city}</td>
-                          <td style={{wordBreak: 'break-word'}}>{site.state}</td>
+                          <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.siteName}</td>
+                          <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.description}</td>
+                          <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.address}</td>
+                          <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.aptSuite}</td>
+                          <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.city}</td>
+                          <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.state}</td>
                           <td >{site.zipCode}</td>
-                          <td style={{wordBreak: 'break-word'}}>{site.country}</td>
+                          <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.country}</td>
                           <td>
                             <div>
                               <Button
@@ -519,32 +520,22 @@ const Sites: React.FC<SiteProps> = ({
                   padding: '2rem 2.5rem',
                 }}
               >
-                <Button
-                  variant="solid"
-                  sx={{
-                    background: '#388e3c',
-                    color: 'white',
-                    borderRadius: '15px',
-                  }}
-                  component="label"
-                  onClick={handlePrevTab}
-                >
-                  <NavigateBeforeOutlinedIcon />
-                  Back
-                </Button>
-                <Button
-                  variant="solid"
-                  sx={{
-                    background: '#fdd835',
-                    color: 'white',
-                    borderRadius: '15px',
-                  }}
-                  component="label"
-                  onClick={handleNextTab}
-                >
-                  Continue
-                  <NavigateNextOutlinedIcon />
-                </Button>
+              <HandleTabButtons 
+               backgroundColor="#388e3c"
+               hoverColor="#2c6f2b"
+               onClick={handlePrevTab}
+               >
+                 <NavigateBeforeOutlinedIcon />
+                 Back
+               </HandleTabButtons>
+               <HandleTabButtons
+               backgroundColor="#FABC1E"
+               hoverColor="#E1A91B"
+               onClick={handleNextTab}
+             >
+               Continue
+               <NavigateNextOutlinedIcon />
+               </HandleTabButtons>
               </Box>
             </React.Fragment>
           </Grid>

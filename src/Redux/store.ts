@@ -18,7 +18,8 @@ import AuthReducer from './features/AuthSlice';
 import AccountReducer from './features/AccountSlice';
 import TabsReducer from './features/TabsSlice';
 import componentsReducer from "./features/ComponentsIdSlice";
-import defaultFieldsReducer from './features/DefaultFieldAssetSlice'
+import defaultFieldsReducer from './features/DefaultFieldAssetSlice';
+import AssetFieldMappingReducer from './features/AssetFieldMappingSlice';
 
 export const store = configureStore({
   reducer: {
@@ -41,7 +42,8 @@ export const store = configureStore({
     createAccount: AccountReducer,
     tabs: TabsReducer,
     components: componentsReducer,
-    defaultFields:defaultFieldsReducer
+    defaultFields:defaultFieldsReducer,
+    assetFieldMapping:AssetFieldMappingReducer
   },
 });
 

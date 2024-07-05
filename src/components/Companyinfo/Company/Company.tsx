@@ -14,6 +14,7 @@ import { addCompanyInfo, fetchCompanyInfo } from "../../../Redux/features/Compan
 import { ThunkDispatch } from "redux-thunk";
 import { useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
+import HandleTabButtons from "../../Common/HandleTabButtons";
 
 export interface FormData {
   companyName: string;
@@ -77,11 +78,10 @@ const Company: React.FC<CompanyProps> = ({
     }
     setCompanyFormData((prevData: any) => ({
       company:{ ...prevData,
-        company: Company,}
+        company: companyFormDataToSend}
      
     }));
     setActiveTab(activeTab + 1); 
-    await dispatch(addCompanyInfo(companyFormDataToSend));
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -126,19 +126,8 @@ const Company: React.FC<CompanyProps> = ({
     setCompanyFormData((prevData:any) => ({ ...prevData, [name]: value }));
   };
 
-  // React.useEffect(() => {
-  //   dispatch(fetchCompanyInfo())
-  // }, [dispatch])
-
   return (
     <AppView>
-        {/* <Typography
-        sx={{ display: 'flex', alignItems: 'center', fontSize:"16px" }} >
-        <Box component={TuneOutlinedIcon} 
-        color='#FBC21E' 
-        />
-      <strong>Step 1 - Company Information</strong> 
-      </Typography> */}
    <AppForm onSubmit={handleNextTab} encType="multipart/form-data">
         <Box
           sx={{
@@ -311,19 +300,14 @@ const Company: React.FC<CompanyProps> = ({
             gap: 2,
           }}
         >
-        <Button
-            variant="solid"
-            sx={{
-              background: "#fdd835",
-              color: 'white',
-              borderRadius:'15px'
-            }}
-            component="label"
-              onClick={handleNextTab} 
-          >
-             Continue
-             <NavigateNextOutlinedIcon />
-          </Button>
+        <HandleTabButtons
+               backgroundColor="#FABC1E"
+               hoverColor="#E1A91B"
+               onClick={handleNextTab}
+             >
+               Continue
+               <NavigateNextOutlinedIcon />
+               </HandleTabButtons>
           </Box>
       </Box>
    </AppForm>

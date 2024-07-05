@@ -19,7 +19,7 @@ const base_api_key_url = process.env.BASE_API_KEY;
  
 export const fetchAssets = createAsyncThunk('assets/fetchAssets', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}customers/${TENANT_ID}/clients`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/add-asset`);
   return response.data;
    
   } catch (error) {
@@ -31,7 +31,7 @@ export const fetchAssets = createAsyncThunk('assets/fetchAssets', async () => {
 });
 export const fetchAssetsById = createAsyncThunk('assets/fetchAssetsById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}customers/${TENANT_ID}/clients/${id}`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/add-asset/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -52,7 +52,7 @@ export const updateAssets = createAsyncThunk('assets/updateAssets', async (updat
 });
  
 export const deleteAssets = createAsyncThunk('assets/deleteAssets', async (id: number) => {
-  await axios.delete(`${base_api_key_url}customers/${TENANT_ID}/add-asset/${id}`);
+  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/add-asset/${id}`);
   return id;
 });
  
