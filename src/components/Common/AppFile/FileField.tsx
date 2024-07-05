@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { Box, FormControl, FormLabel, IconButton, Input, Typography, Button, FormHelperText } from '@mui/joy';
+import { Box, FormControl, FormLabel, IconButton, FormHelperText } from '@mui/joy';
 import DeleteIcon from '@mui/icons-material/Delete';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 type FieldProps = {
   id: number;
@@ -122,26 +121,41 @@ const FileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, 
             textAlign: 'center',
             cursor: 'pointer',
             position: 'relative',
+            overflow: 'hidden', // Add overflow hidden
           }}
         >
           {imagePreview ? (
-            <Box>
-            <img
-              src={imagePreview}
-              alt="Preview"
-              style={{
-                // width: '100%',
+            <Box
+              sx={{
+                width: '100%',
                 height: '100%',
-                objectFit: 'cover',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                position: 'relative',
               }}
-            />
-            <IconButton
-            onClick={handleDelete}
-            sx={{ position: 'absolute', top: 0, right: 0, "&:hover": { background: "none" } }}
-          >
-            <DeleteIcon sx={{ fontSize: '20px' }} />
-          </IconButton>
-          </Box>
+            >
+              <img
+                src={imagePreview}
+                alt="Preview"
+                style={{
+                  maxWidth: '100%',
+                  maxHeight: '100%',
+                  objectFit: 'cover',
+                }}
+              />
+              <IconButton
+                onClick={handleDelete}
+                sx={{
+                  position: 'absolute',
+                  top: 0,
+                  right: 0,
+                  "&:hover": { background: "none" }
+                }}
+              >
+                <DeleteIcon sx={{ fontSize: '20px' }} />
+              </IconButton>
+            </Box>
           ) : (
             'Drop your image here'
           )}

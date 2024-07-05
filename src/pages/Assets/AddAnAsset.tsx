@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Typography, Box, Grid, Input, Select, Option, Button } from '@mui/joy'
+import { Typography, Box, Grid, Input, Select, Option, Button, FormControl, FormLabel } from '@mui/joy'
 import { formConfig, FormFieldConfig } from './formConfig'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import AddIcon from '@mui/icons-material/Add'
@@ -12,10 +12,8 @@ import SiteDialog from '../../components/AssetSections/EditAsset/AddAssetSection
 import LocationDialog from '../../components/AssetSections/EditAsset/AddAssetSection/LocationDialog'
 import DepartmentDialog from '../../components/AssetSections/EditAsset/AddAssetSection/DepartmentDialog'
 import { RootState } from '../../Redux/store'
-
 import AppForm from '../../components/Common/AppForm'
 import AddCategory from '../../components/Companyinfo/Category/AddCategory'
-
 import AddSite from '../Setup/SetupSites/AddSite'
 import AddLocation from '../../components/Companyinfo/Location/AddLocation'
 import SetupAddDept from '../Setup/Departments/SetupAddDept'
@@ -24,7 +22,7 @@ import { fetchLocation } from '../../Redux/features/LocationSlice'
 import { addDepartment, fetchDepartment } from '../../Redux/features/DepartmentSlice'
 import { addCategory, fetchCategory } from '../../Redux/features/CategorySlice'
 import { addAssets } from '../../Redux/features/AssetSlice'
-import { fetchAssetFieldMapping } from '../../redux/features/AssetFieldMappingSlice'
+import { fetchAssetFieldMapping } from '../../Redux/features/AssetFieldMappingSlice'
 import { Gif } from '@mui/icons-material'
 
 type Category = {
@@ -298,9 +296,9 @@ const AddAnAsset: React.FC = () => {
                            <Input 
  name= {field.value}
                       value={formData[field.value] as string}
-                      onChange={(e) => handleInputChange(e, field.stateKey)}
-                      {...field}
-                      sx={field.sx}
+                      // onChange={(e) => handleInputChange(e, field.stateKey)}
+                      // {...field}
+                      // sx={field.sx}
                     />
                            
                            </FormControl>
@@ -312,7 +310,7 @@ const AddAnAsset: React.FC = () => {
                     )}
                   </Grid>
                 ))}
-                {/* {formConfig.slice(0, 10).map((field: any) => (
+                {formConfig.slice(0, 10).map((field: any) => (
                   <Grid
                     key={field.label}
                     sx={{ paddingLeft: '32px' }}
@@ -377,7 +375,7 @@ const AddAnAsset: React.FC = () => {
                   Site, Location, Category and Department
                 </Typography>
               </Box>
-              <Box> */}
+              <Box>
                 <Grid
                   container
                   spacing={1}
@@ -450,7 +448,7 @@ const AddAnAsset: React.FC = () => {
                     </Grid>
                   ))}
                 </Grid>
-              {/* </Box> */}
+              </Box>
               <Box sx={{ paddingLeft: '48px', mb: '30px', mt: '20px' }}>
                 <Typography sx={{ fontWeight: 'bold' }}>
                   Assets Photo

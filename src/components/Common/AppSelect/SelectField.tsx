@@ -31,7 +31,7 @@ const SelectField: FunctionComponent<Props> = ({
         // placeholder= {field.title}
         name={field.name}
         value={controlledValue}
-        sx={{ minWidth: 228 }}
+        sx={{ minWidth: 280 }}
         onChange={handleSelect}
         disabled={mode ==='view'? true: false}
         required={field.isRequired}

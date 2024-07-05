@@ -16,6 +16,7 @@ import {
   DataBasesEmp,
   Dispose,
   EditAssets,
+  EditAssetPage,
   Event,
   Lease,
   LeaseReturn,
@@ -154,8 +155,14 @@ const appRoutes: RouteType[] = [
       },
       {
         index: true,
-        path: '/assets/view-an-asset',
+        path: '/assets/view-an-asset/:id',
         element: <EditAssets />,
+        state: 'assets',
+      },
+      {
+        index: true,
+        path: '/assets/edit-an-asset/:id',
+        element: <EditAssetPage />,
         state: 'assets',
       },
       {

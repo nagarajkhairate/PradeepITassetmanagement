@@ -137,7 +137,7 @@ export const formConfig: any[] = [
         "components": {
           "type": "text",
         },
-      }
+      },
       {
         "id": 6,
         "fieldName": "example",
