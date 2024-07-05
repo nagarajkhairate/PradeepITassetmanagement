@@ -11,7 +11,7 @@ import { addSubCategories } from "../../../Redux/features/CategorySubSlice"
 
 interface CategorySubAddProps {
     // open: boolean
-    // handleClose: () => void
+    handleClose: () => void
     // subCategory: string
     // setSubCategory: React.Dispatch<React.SetStateAction<string>>
     // handleAddCategory: (e: React.FormEvent<HTMLFormElement>) => void
@@ -20,8 +20,9 @@ interface CategorySubAddProps {
 
   }
 
-const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, setOpen
-  //  handleClose, subCategory, setSubCategory, handleAddCategory
+const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, setOpen,
+   handleClose,
+  //  subCategory, setSubCategory, handleAddCategory
    }) => {
 
     const [subForm, setSubForm] = useState<{ [key: string]: any }>({})
@@ -208,7 +209,8 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, se
 
             <Button
               type="button"
-              onClick={setOpen}
+              // onClick={setOpen}
+              onClick={handleClose}
               autoFocus
               variant="solid"
               sx={{
