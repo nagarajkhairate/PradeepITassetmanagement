@@ -20,9 +20,9 @@ const base_api_key_url = process.env.BASE_API_KEY;
 const TENANT_ID = process.env.TENANT_ID;
 
  
-export const fetchDefaultFields = createAsyncThunk('defaultFields/fetchDefaultFields', async () => {
+export const fetchDefaultFields = createAsyncThunk('field-asset/fetchDefaultFields', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/asset-default-fields`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/field-asset`);
   return response.data;
    
   } catch (error) {
@@ -34,9 +34,9 @@ export const fetchDefaultFields = createAsyncThunk('defaultFields/fetchDefaultFi
 });
 
 
-export const fetchDefaultFieldsById = createAsyncThunk('defaultFields/fetchDefaultFieldsById', async (id: string ) => {
+export const fetchDefaultFieldsById = createAsyncThunk('field-asset/fetchDefaultFieldsById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/asset-default-fields/${id}`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/field-asset/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -45,26 +45,26 @@ export const fetchDefaultFieldsById = createAsyncThunk('defaultFields/fetchDefau
  
 });
  
-export const addDefaultFields = createAsyncThunk('defaultFields/addDefaultFields', async (defaultFields: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/asset-default-fields`, defaultFields);
+export const addDefaultFields = createAsyncThunk('custom/addDefaultFields', async (defaultFields: any) => {
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/custom`, defaultFields);
  console.log(response)
   return response.data;
 });
  
-export const updateDefaultFields = createAsyncThunk('defaultFields/updateDefaultFields', async (updatedDefaultFields: any) => {
+export const updateDefaultFieldsById = createAsyncThunk('custom/updateDefaultFields', async (updatedDefaultFields: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/asset-default-fields/${updatedDefaultFields.id}`, updatedDefaultFields);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/custom/${updatedDefaultFields.id}`, updatedDefaultFields);
   
   return response.data;
 });
  
-export const deleteDefaultFields = createAsyncThunk('defaultFields/deleteDefaultFields', async (id: number) => {
+export const deleteDefaultFields = createAsyncThunk('asset-default-fields/deleteDefaultFields', async (id: number) => {
   await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/asset-default-fields/${id}`);
   return id;
 });
 
 const defaultFieldsSlice = createSlice({
-  name: 'defaultFields',
+  name: 'asset-default-fields',
   initialState,
   reducers: {
     setSelectedCustomer: (state, action: PayloadAction<number>) => {
@@ -93,7 +93,7 @@ const defaultFieldsSlice = createSlice({
       .addCase(addDefaultFields.fulfilled, (state, action) => {
         state.data.push(action.payload);
       })
-      .addCase(updateDefaultFields.fulfilled, (state, action) => {
+      .addCase(updateDefaultFieldsById.fulfilled, (state, action) => {
         const index = state.data.findIndex((u) => u.id === action.payload.id);
         console.log(index)
         if (index !== -1) {

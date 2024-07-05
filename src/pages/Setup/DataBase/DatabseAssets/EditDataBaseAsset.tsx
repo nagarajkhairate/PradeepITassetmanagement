@@ -1,23 +1,28 @@
-import { Box, Button, Checkbox, FormControl, FormLabel, Input, Modal, Option, Radio, RadioGroup, Select, Sheet, Stack, Table, Typography } from "@mui/joy";
+import { Box, Button, FormControl, FormLabel, Input, Modal, Option, Radio, RadioGroup, Select, Sheet, Stack, Table, Typography } from "@mui/joy";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store";
+import { fetchComponents } from "../../../../Redux/features/ComponentsIdSlice";
+import { ThunkDispatch } from "redux-thunk";
+import { addDefaultFields, updateDefaultFieldsById } from "../../../../Redux/features/DefaultFieldAssetSlice";
  
 
 const initialDatabase = [
     {
      id:1,
       fieldName: "swde",
-      componentsId: "wsedf",
-      categoryId: false,
+      componentsId: 0,
+      categoryId: 0,
       isRequired: false,
     },
   ];
 
-  const addCustomField = (custom: { 
+  const addCustomField = (fieldName: { 
     fieldName: string; 
-    componentsId: string; 
-    categoryId: boolean; 
+    componentsId:number; 
+    categoryId: number; 
     isRequired: boolean; 
   }) => {
     // Your implementation logic here
@@ -27,8 +32,8 @@ const initialDatabase = [
   interface dataItem {
     id:1,
     fieldName: string;
-    componentsId: string;
-    categoryId: boolean;
+    componentsId: number;
+    categoryId: number;
     isRequired: boolean;
   }
 
@@ -74,31 +79,38 @@ const EditDataBaseAsset: React.FC<DataProps>= ({ matchedSelected,
     handleDeleteOpen,
     handleDeleteClose,
   }: DataProps)=>{
- 
+    const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
     const [formData, setFormData] = useState({
-        custom: "",
-        componentsId: "",
+        fieldName: "",
+        componentsId: 0,
         dataRequired: false,
-        selectedCategories: "",
+        categoryId: 0,
       });
     const [showDepreciationOptions, setShowDepreciationOptions] =useState<boolean>(false);
-    const handleDepreciationChange = (event: ChangeEvent<HTMLInputElement>) => {
-      const value = event.target.value;
-      setShowDepreciationOptions(value === "Yes");
-      // setCompanyFormData((prevState: any) => ({ ...prevState, assetDepreciation: value }));
-    };
+ 
+    const components = useSelector((state: RootState) => state.components.data)
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target;
         const val = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
-        setFormData((prevData) => ({ ...prevData, [name]: val }));
+        const categoryIdValue = name === 'categoryId' ? parseInt(value, 10) : value;
+        setFormData((prevData) => ({ ...prevData, [name]: categoryIdValue }));
       };
 
-      const handleSelectChange = (
-        event: React.SyntheticEvent | null,
-        newValue: string | null
-      ) => {
-        setFormData((prevData) => ({ ...prevData, componentsId: newValue || "" }));
+      // const handleSelectChange = (event: ChangeEvent<{ value: unknown }>) => {
+      //   const newValue = event.target.value as string;
+      //   setFormData((prevData) => ({
+      //     ...prevData,
+      //     componentsId: newValue
+      //   }));
+      // };
+
+      const handleSelectChange = (event: ChangeEvent<{ value: unknown }>) => {
+        const newValue = event.target.value as string;
+        setFormData((prevData:any) => ({
+          ...prevData,
+          componentsId: newValue ? parseInt(newValue, 10) : 0
+        }));
       };
 
       const handleClickEditOpen = () => {
@@ -120,12 +132,13 @@ const EditDataBaseAsset: React.FC<DataProps>= ({ matchedSelected,
       const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const custom = formData.custom;
+    const fieldName = formData.fieldName;
     if (selectedCell !== null) {
         const updatedData = dataBases.customAsset.map((item, index) =>
-            index === selectedCell ? { ...item, fieldName: custom } : item
+            index === selectedCell ? { ...item, fieldName: fieldName } : item
         );
         setDataBases({ ...dataBases, customAsset: updatedData });
+        dispatch(updateDefaultFieldsById(updatedData)); 
         handleEditClose();
     }
 };
@@ -135,6 +148,19 @@ const handleDeleteButton = (index:number) => {
     handleDeleteOpen()
   
 }
+
+const getComponentName =((componentsId)=>{
+  components.map((component)=>{
+    if(component.id===componentsId)
+      return component.type
+    return null
+  })
+ 
+})
+
+  useEffect(() => {
+    dispatch(fetchComponents())
+  }, [dispatch])
 
 
     return(
@@ -166,34 +192,6 @@ const handleDeleteButton = (index:number) => {
                 }}>
                   <thead>
                     <tr>
-                      {/* <th style={{ width: 30,background: '#fff8e6',verticalAlign:'middle' }}>
-                        <Checkbox
-                          size="sm"
-                          indeterminate={
-                            matchedSelected.length > 0 &&
-                            matchedSelected.length < dataBases.customAsset.length
-                          }
-                          checked={
-                            matchedSelected.length > 0 &&
-                            matchedSelected.length === dataBases.customAsset.length
-                          }
-                          onChange={(event) => {
-                            const isChecked = event.target.checked;
-                            setMatchedSelected(
-                              isChecked
-                                ? dataBases.customAsset.map((_, index) => index)
-                                : []
-                            );
-                          }}
-                          color={
-                            matchedSelected.length > 0 &&
-                            matchedSelected.length === dataBases.customAsset.length
-                              ? "primary"
-                              : undefined
-                          }
-                          sx={{ verticalAlign: "text-bottom" }}
-                        />
-                      </th> */}
                       <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Field Name</th>
                       <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Data Type</th>
                       <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Required</th>
@@ -215,7 +213,7 @@ const handleDeleteButton = (index:number) => {
                           />
                         </td> */}
                         <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{item.fieldName}</td>
-                        <td>{item.componentsId}</td>
+                        <td>{getComponentName(item.componentsId)}</td>
                         <td>{item.isRequired}</td>
                         <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{item.categoryId}</td>
                         <td>
@@ -324,9 +322,9 @@ const handleDeleteButton = (index:number) => {
                         <Input
                           variant="outlined"
                           type="text"
-                          id="custom"
-                          name="custom"
-                          value={formData.custom}
+                          id="fieldName"
+                          name="fieldName"
+                          value={formData.fieldName}
                         onChange={handleChange}
                           required
                           sx={{ width: "70%", marginLeft: "10px" }}
@@ -347,7 +345,7 @@ const handleDeleteButton = (index:number) => {
                             <Select placeholder="Select Data Types"
                             sx={{ width: "50%", marginLeft: "60px" }}
                             value={formData.componentsId}
-                        onChange={handleSelectChange}
+                        onChange={(e)=>handleSelectChange}
                             >
                              <Option value="checkbox List">Checkbox List</Option>
                              <Option value="Currency">Currency</Option>
@@ -391,7 +389,7 @@ const handleDeleteButton = (index:number) => {
                           <FormLabel sx={{ paddingTop: "40px", marginLeft: "20px" }}> Selected Categories</FormLabel>
                           <FormLabel sx={{ marginLeft: "165px", paddingBottom:'30px' }}> Is this field visible to assets of selective 'Categories'?</FormLabel>
                           <RadioGroup
-                           name="selectedCategories" value={formData.selectedCategories.toString()}
+                           name="categoryId" value={formData.categoryId}
                           
                           onChange={handleChange}
                         >

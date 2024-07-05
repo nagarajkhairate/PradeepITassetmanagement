@@ -1,17 +1,11 @@
-import { Typography, Radio, RadioGroup, Divider, Grid } from '@mui/joy'
-import ButtonGroup from '@mui/joy/ButtonGroup'
-import React, { useState, useEffect } from 'react'
+import { Typography, Radio, RadioGroup, Divider } from '@mui/joy'
+import React, { useState } from 'react'
 import { Box } from '@mui/joy'
 import Table from '@mui/joy/Table'
 import Checkbox from '@mui/joy/Checkbox'
-import Button from '@mui/joy/Button'
 import { FormControl } from '@mui/joy'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
-import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
-import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
-import AddDataBase from './AddDataBaseAsset'
-import EditDataBase from './EditDataBaseAsset'
 import AppView from '../../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
@@ -20,13 +14,13 @@ import { RootState } from '../../../../redux/store'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
 import AddDataBaseAsset from './AddDataBaseAsset'
 import EditDataBaseAsset from './EditDataBaseAsset'
-import { fetchDefaultFields } from '../../../../Redux/features/DefaultFieldAssetSlice'
+import { fetchDefaultFields,  updateDefaultFieldsById } from '../../../../Redux/features/DefaultFieldAssetSlice'
 
 
 
 const AssetDefaultFields = [
   {
-    id: 1,
+    
     fieldName: 'Asset Tag ID',
     visible: false,
     isRequired: '',
@@ -42,7 +36,7 @@ const AssetDefaultFields = [
   },
 
   {
-    id: 2,
+
     fieldName: 'Asset Description',
     visible: false,
 
@@ -57,7 +51,7 @@ const AssetDefaultFields = [
     ],
   },
   {
-    id: 3,
+
     fieldName: 'Purchase Date',
     visible: false,
 
@@ -76,7 +70,7 @@ const AssetDefaultFields = [
     ],
   },
   {
-    id: 4,
+
     fieldName: 'Cost',
     visible: false,
 
@@ -96,7 +90,7 @@ const AssetDefaultFields = [
   },
 
   {
-    id: 5,
+
     fieldName: 'Purchased From',
     visible: false,
 
@@ -115,7 +109,7 @@ const AssetDefaultFields = [
     ],
   },
   {
-    id: 6,
+ 
     fieldName: 'Brand',
     visible: false,
 
@@ -134,7 +128,7 @@ const AssetDefaultFields = [
     ],
   },
   {
-    id: 7,
+
     fieldName: 'Model',
     visible: false,
 
@@ -153,7 +147,7 @@ const AssetDefaultFields = [
     ],
   },
   {
-    id: 8,
+  
     fieldName: 'Serial optional',
     visible: false,
 
@@ -175,33 +169,33 @@ const AssetDefaultFields = [
 
 const DataBaseAsset: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const defaultFields = useSelector((state: RootState) => state.defaultFields.data)
+  console.log(JSON.stringify(defaultFields))
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
-
-  const dataBase = useSelector((state: RootState) => state.defaultFields.data)
-  // const dispatch = useDispatch<AppDispatch>()
-  console.log(dataBase)
-
-  React.useEffect(() => {
-    dispatch(fetchDefaultFields())
-  }, [])
+  const [selectedCell, setSelectedCell] = useState<number | null>(null)
+ const [editOpen, setEditOpen] = useState(false)
+  const [deleteOpen, setDeleteOpen] = useState(false)
 
   const [dataBases, setDataBases] = useState({
     customAsset: [],
     AssetDefaultFields: AssetDefaultFields.map((item) => ({
       ...item,
-      id: item.id,
+      // id: item.id,
       visible: item.visible,
       isRequired: item.isRequired,
       description: item.description,
       
     })),
   })
-  const [selectedCell, setSelectedCell] = useState<number | null>(null)
-  const [editOpen, setEditOpen] = useState(false)
-  const [deleteOpen, setDeleteOpen] = useState(false)
+
+ 
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [eventForm, setEventForm] = useState<any>({})
+  
+  React.useEffect(() => {
+    dispatch(fetchDefaultFields())
+  }, [dispatch])
 
   const deleteCustomField = (index: number) => {
     const updatedData = dataBases.customAsset.filter(
@@ -231,6 +225,7 @@ const DataBaseAsset: React.FunctionComponent = () => {
       )
       // setDataBases((prevData) => ({ ...prevData, data: updatedData }))
       handleEditClose()
+
     }
   }
 
@@ -241,6 +236,7 @@ const DataBaseAsset: React.FunctionComponent = () => {
         i === index ? { ...item, visible: !item.visible } : item,
       ),
     }))
+    dispatch(updateDefaultFieldsById(AssetDefaultFields))
   }
 
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -283,22 +279,13 @@ const DataBaseAsset: React.FunctionComponent = () => {
   const generateJson = () => {
     const jsonData = {
       AssetDefaultFields: dataBases.AssetDefaultFields.map(({ 
-        id, visible, fieldName, isRequired, description 
+         visible, fieldName, isRequired, description 
       }) => ({
-        id,
+        
         visible,
         fieldName,
         isRequired,
         description
-      })),
-      customAsset: dataBases.customAsset.map(({ 
-        id, fieldName, componentsId, categoryId,isRequired,  
-      }) => ({
-        id,
-        fieldName,
-      componentsId,
-      categoryId,
-      isRequired,
       })),
     };
     return JSON.stringify(jsonData, null, 2);
@@ -398,6 +385,7 @@ const DataBaseAsset: React.FunctionComponent = () => {
                 </tr>
               </thead>
               <tbody>
+               
                 {dataBases.AssetDefaultFields.map((data, index) => (
                   <tr key={index}>
                     <td>
