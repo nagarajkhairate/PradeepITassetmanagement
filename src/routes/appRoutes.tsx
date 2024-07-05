@@ -43,6 +43,7 @@ import DatabaseCustomersTable from '../pages/Setup/DataBase/DatabaseCustomerTabl
 import DatabaseSetup from '../pages/Setup/DataBase/DataBaseSetup'
 import DatabaseMaintenance from '../pages/Setup/DataBase/DatabaseMaintenance/DataBaseMaintenance'
 import DatabaseWarranties from '../pages/Setup/DataBase/DatabaseWarranties.tsx/DataBaseWarranties'
+import SetupColumns from '../pages/Assets/SetupColumns'
 
 const appRoutes: RouteType[] = [
   {
@@ -136,6 +137,11 @@ const appRoutes: RouteType[] = [
           displayText: 'List of Assets',
           icon: <ICONS.person />,
         },
+      },{
+        index: true,
+        path: '/assets/list-of-assets/set-up-columns',
+        element: <SetupColumns />,
+        state: 'assets',
       },
       {
         path: '/assets/add',

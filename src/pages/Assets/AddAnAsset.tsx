@@ -11,7 +11,7 @@ import CategoryDialog from '../../components/AssetSections/EditAsset/AddAssetSec
 import SiteDialog from '../../components/AssetSections/EditAsset/AddAssetSection/SiteDialog'
 import LocationDialog from '../../components/AssetSections/EditAsset/AddAssetSection/LocationDialog'
 import DepartmentDialog from '../../components/AssetSections/EditAsset/AddAssetSection/DepartmentDialog'
-import { RootState } from '../../redux/store'
+import { RootState } from '../../Redux/store'
 
 import AppForm from '../../components/Common/AppForm'
 import AddCategory from '../../components/Companyinfo/Category/AddCategory'
@@ -24,6 +24,8 @@ import { fetchLocation } from '../../Redux/features/LocationSlice'
 import { addDepartment, fetchDepartment } from '../../Redux/features/DepartmentSlice'
 import { addCategory, fetchCategory } from '../../Redux/features/CategorySlice'
 import { addAssets } from '../../Redux/features/AssetSlice'
+import { fetchAssetFieldMapping } from '../../redux/features/AssetFieldMappingSlice'
+import { Gif } from '@mui/icons-material'
 
 type Category = {
   id: number
@@ -81,6 +83,7 @@ const AddAnAsset: React.FC = () => {
     dispatch(fetchLocation());
     dispatch(fetchDepartment());
     dispatch(fetchCategory());
+    dispatch(fetchAssetFieldMapping())
   }, [dispatch]);
 
   const handleSelectChange = (
@@ -253,11 +256,11 @@ const AddAnAsset: React.FC = () => {
   return (
     <AppForm onSubmit={handleSubmit} encType="multipart/form-data">
       <AppView>
-        <div>
+     
           <Typography level="h3" sx={{ ml: '52px' }}>
             Add An Asset
           </Typography>
-        </div>
+  
         <Box
           sx={{
             borderRadius: 'none',
@@ -267,7 +270,7 @@ const AddAnAsset: React.FC = () => {
           }}
         >
           <Box sx={{ paddingBottom: '30px' }}>
-            <Box>
+            <Box> 
               <Grid
                 container
                 spacing={1}
@@ -284,7 +287,32 @@ const AddAnAsset: React.FC = () => {
                     Assets Details
                   </Typography>
                 </Grid>
-                {formConfig.slice(0, 10).map((field: FormFieldConfig) => (
+                {formConfig && formConfig.map((group, index)=>(
+                  <Grid key={index}>
+                    <Typography>{group.title}</Typography>
+                    {group.fields && group.fields.map(
+                      (field, index) =>(
+                        <Grid key={index}>
+                           <FormControl >
+                           <FormLabel>Label</FormLabel>
+                           <Input 
+ name= {field.value}
+                      value={formData[field.value] as string}
+                      onChange={(e) => handleInputChange(e, field.stateKey)}
+                      {...field}
+                      sx={field.sx}
+                    />
+                           
+                           </FormControl>
+ 
+                        </Grid>
+                       
+                      )
+                      
+                    )}
+                  </Grid>
+                ))}
+                {/* {formConfig.slice(0, 10).map((field: any) => (
                   <Grid
                     key={field.label}
                     sx={{ paddingLeft: '32px' }}
@@ -349,7 +377,7 @@ const AddAnAsset: React.FC = () => {
                   Site, Location, Category and Department
                 </Typography>
               </Box>
-              <Box>
+              <Box> */}
                 <Grid
                   container
                   spacing={1}
@@ -422,7 +450,7 @@ const AddAnAsset: React.FC = () => {
                     </Grid>
                   ))}
                 </Grid>
-              </Box>
+              {/* </Box> */}
               <Box sx={{ paddingLeft: '48px', mb: '30px', mt: '20px' }}>
                 <Typography sx={{ fontWeight: 'bold' }}>
                   Assets Photo

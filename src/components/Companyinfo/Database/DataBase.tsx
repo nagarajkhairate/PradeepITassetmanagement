@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchDataBase } from '../../../Redux/features/DataBaseSlice'
 import { RootState } from '../../../redux/store'
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
+import HandleTabButtons from '../../Common/HandleTabButtons'
 interface DataBaseProps {
   companyFormData: any
   setCompanyFormData: any
@@ -495,38 +496,26 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
             alignItems: 'center',
             flexDirection: { md: 'row', xs: 'column' },
             justifyContent: { xs: 'space-around', md: 'flex-end' },
-            gap: '5px',
+            gap: 2,
             mt: 4,
           }}
         >
-          <Button
-            variant="solid"
-            sx={{
-              background: '#388e3c',
-              color: 'white',
-              borderRadius:'10px'
-            }}
-            component="label"
-            onClick={handlePrevTab}
-          >
-            <NavigateBeforeOutlinedIcon />
-            Back
-          </Button>
-          <Button
-            variant="solid"
-            sx={{
-              background: "#FABC1E",
-              color: "black",
-              "&:hover": { background: "#E1A91B" },
-              borderRadius:'10px'
-            }}
-            component="label"
-            // onClick={handleNextTab}
-            onClick={handleNextTab}
-          >
-            Continue
-            <NavigateNextOutlinedIcon />{' '}
-          </Button>
+           <HandleTabButtons
+               backgroundColor="#388e3c"
+               hoverColor="#2c6f2b"
+               onClick={handlePrevTab}
+               >
+                 <NavigateBeforeOutlinedIcon />
+                 Back
+               </HandleTabButtons>
+               <HandleTabButtons
+               backgroundColor="#FABC1E"
+               hoverColor="#E1A91B"
+               onClick={handleNextTab}
+             >
+               Continue
+               <NavigateNextOutlinedIcon />
+               </HandleTabButtons>
         </Box>
       </Box>
     </AppView>

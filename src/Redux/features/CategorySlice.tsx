@@ -29,10 +29,7 @@ export const fetchCategory = createAsyncThunk('categories/fetchCategory', async 
     console.error('Error Message'+ error);
     throw error;
   }
- 
- 
 });
-
 
 export const fetchCategoryById = createAsyncThunk('categories/fetchCategoryById', async (id: string ) => {
   try {

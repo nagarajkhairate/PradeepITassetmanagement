@@ -165,6 +165,7 @@ const ListOfAssets = () => {
                   </Typography>
                 </Box>
               </Button>
+              <Link to="/assets/list-of-assets/set-up-columns" style={{ textDecoration: "none" }}>
               <Button
                 size="lg"
                 sx={{
@@ -204,6 +205,7 @@ const ListOfAssets = () => {
                   </Typography>
                 </Box>
               </Button>
+              </Link>
             </Box>
           </Box>
           <Box sx={{ my: "20px", width: "90px" }}>

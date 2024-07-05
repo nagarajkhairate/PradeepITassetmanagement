@@ -8,6 +8,7 @@ import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined'
 import AppView from "../../Common/AppView";
+import HandleTabButtons from "../../Common/HandleTabButtons";
 
 const DepreciationOptions = {
   "id": 1,
@@ -547,63 +548,29 @@ const TableOptions: React.FC<TableProps> = ({
                   display: 'flex',
                   flexDirection: { md: 'row', xs: 'column' },
                   justifyContent: { xs: 'center', md: "flex-end" },
+                  gap: 2,
                   }}
                 >
-                    <Button 
-                    onClick={handlePrevTab}
-                      sx={{
-                        background:"White",
-                        borderBlock:"black",
-                       color: "black",
-                       "&:hover": { background: "#d9d9d9" },
-                      }}
-                      >
-                      <NavigateBeforeOutlinedIcon />
-                      Back
-                    </Button>
-
-                    <Button
-                     onClick={handleNextTab}
-                     sx={{
-                      background: "#FABC1E",
-                      color: "black",
-                      "&:hover": { background: "#E1A91B" },
-                    }}
-                    >
-                      Continue
-                      <NavigateNextOutlinedIcon />{" "}
-                    </Button>
+                     <HandleTabButtons
+               backgroundColor="#388e3c"
+               hoverColor="#2c6f2b"
+               onClick={handlePrevTab}
+               >
+                 <NavigateBeforeOutlinedIcon />
+                 Back
+               </HandleTabButtons>
+               <HandleTabButtons
+               backgroundColor="#FABC1E"
+               hoverColor="#E1A91B"
+               onClick={handleNextTab}
+             >
+               Continue
+               <NavigateNextOutlinedIcon />
+               </HandleTabButtons>
                
                 </Box>
               </React.Fragment>
             </Grid>
-
-                  {/* <Box
-                    sx={{
-                      marginTop: "1px",
-                      marginBottom: "15px",
-                      padding: "20px",
-                    }}
-                  >
-                    <ButtonGroup
-                      spacing="1rem"
-                      aria-label="spacing button group"
-                      sx={{ paddingLeft: "85%" }}
-                    >
-                      <Button sx={{ fontSize: "15px" }}
-                      onClick={handlePrevTab}
-                      >
-                        <FaLessThan />
-                        Back
-                      </Button>
-                      <Button sx={{ background: "#FABC1E", fontSize: "15px" }}
-                      onClick={handleNextTab}
-                      >
-                          Continue
-                        <FaGreaterThan />{" "}
-                      </Button>
-                    </ButtonGroup>
-                  </Box> */}
                 </Box>
               </form>
             </Box>

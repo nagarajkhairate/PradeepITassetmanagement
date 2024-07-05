@@ -17,214 +17,457 @@ export interface FormFieldConfig {
   options?: { value: string; label: string }[];
 }
 
-export const formConfig: FormFieldConfig[] = [
+export const formConfig: any[] = [
   {
-    label: "Asset Name",
-    type: "text",
-    stateKey: "assetName",
-    validationMessageKey: "assetName",
-    sx: {
-      borderRadius: "15px",
-      padding: "12.25px",
-    
-    }
-  },
-  {
-    label: "Asset Tag ID",
-    type: "text",
-    stateKey: "assetTagId",
-    validationMessageKey: "assetTagId",
-    sx: {
-      borderRadius: "15px",
-      padding: "12.25px",
-     
-    }
-  },
-  {
-    label: "Description",
-    type: "text",
-    stateKey: "description",
-    validationMessageKey: "description",
-    sx: {
-      borderRadius: "15px",
-      padding: "12.25px",
-      
-    }
-  },
-  {
-    label: "Purchased From",
-    type: "text",
-    stateKey: "purchaseFrom",
-    validationMessageKey: "purchaseFrom",
-    sx: {
-      borderRadius: "15px",
-      padding: "12.25px",
-     
-    }
-  },
-  {
-    label: "Purchased Date",
-    type: "date",
-    stateKey: "purchaseDate",
-    validationMessageKey: "purchaseDate",
-    sx: {
-      borderRadius: "15px",
-      padding: "12.25px",
-     
-    }
-  },
-  {
-    label: "Brand",
-    type: "text",
-    stateKey: "brand",
-    validationMessageKey: "brand",
-    sx: {
-      borderRadius: "15px",
-      padding: "12.25px",
-      
-    }
-  },
-  {
-    label: "cost",
-    type: "number",
-    stateKey: "cost",
-    validationMessageKey: "cost",
-    sx: {
-      borderRadius: "15px",
-      padding: "12.25px",
-      
-    }
-  },
-  
-  {   
-    label: "Model",
-    type: "text",
-    stateKey: "model",
-    validationMessageKey: "model",
-    sx: {
-      borderRadius: "15px",
-      padding: "12.25px",
-   
-    }
-  },
-  {
-    label: "Serial No.",
-    type: "text",
-    stateKey: "serialNumber",
-    validationMessageKey: "serialNumber",
-    sx: {
-      borderRadius: "15px",
-      padding: "12.25px",
-    }
-  },
-  {
-    label: "Status",
-    type: "select",
-    stateKey: "status",
-    validationMessageKey: "status",
-    options: [
-      { value: "Available", label: "Available" },
-      { value: "Not Available", label: "Not Available" }
-    ],
-    sx: {
-      borderRadius: "15px",
-      padding: "12.25px",
-    }
-  },
-  {
-    label: "site",
-    type: "select",
-    stateKey: "siteId",
-    validationMessageKey: "siteId",
-    options: [
-      { value: "1", label: "Indore" },
-      { value: "2", label: "Mumbai" },
-      { value: "3", label: "Delhi" },
-    ],
-    sx: {
-      borderRadius: "15px",
-      padding: "12.25px",
-      width: {
-        xs: "100%",
-        sm:"100%",
-        md: 400,
-
+    "id": 2,
+    "title": "Site, Location, Category and Departments",
+    "fields": [
+      {
+        "id": 1,
+        "fieldName": "Site",
+        "value": "site",
+        "sequence": null,
+        "components": {
+          "id": 1,
+          "createdBy": "system",
+          "createdOn": "2024-07-04T09:41:36.136102Z",
+          "updatedBy": "system",
+          "updatedOn": "2024-07-04T09:41:36.136102Z",
+          "type": "text",
+          "format": "string",
+          "isActive": true,
+          "isEnabled": true,
+          "isDelete": false,
+          "tenantId": 1
+        },
+        "visible": false,
+        "createdOn": "2024-07-04T10:47:47.188194Z",
+        "updatedOn": "2024-07-04T10:47:47.188194Z",
+        "createdBy": "system",
+        "updatedBy": "system",
+        "isDelete": false,
+        "tenantId": 1,
+        "groupId": 2
+      },
+      {
+        "id": 2,
+        "fieldName": "Location",
+        "value": "site",
+        "sequence": null,
+        "components": {
+          "id": 1,
+          "createdBy": "system",
+          "createdOn": "2024-07-04T09:41:36.136102Z",
+          "updatedBy": "system",
+          "updatedOn": "2024-07-04T09:41:36.136102Z",
+          "type": "text",
+          "format": "string",
+          "isActive": true,
+          "isEnabled": true,
+          "isDelete": false,
+          "tenantId": 1
+        },
+        "visible": false,
+        "createdOn": "2024-07-04T10:47:47.195806Z",
+        "updatedOn": "2024-07-04T10:47:47.195806Z",
+        "createdBy": "system",
+        "updatedBy": "system",
+        "isDelete": false,
+        "tenantId": 1,
+        "groupId": 2
+      },
+      {
+        "id": 3,
+        "fieldName": "Category",
+        "value": "site",
+        "sequence": null,
+        "components": {
+          "id": 1,
+          "createdBy": "system",
+          "createdOn": "2024-07-04T09:41:36.136102Z",
+          "updatedBy": "system",
+          "updatedOn": "2024-07-04T09:41:36.136102Z",
+          "type": "text",
+          "format": "string",
+          "isActive": true,
+          "isEnabled": true,
+          "isDelete": false,
+          "tenantId": 1
+        },
+        "visible": false,
+        "createdOn": "2024-07-04T10:47:47.195806Z",
+        "updatedOn": "2024-07-04T10:47:47.195806Z",
+        "createdBy": "system",
+        "updatedBy": "system",
+        "isDelete": false,
+        "tenantId": 1,
+        "groupId": 2
+      },
+      {
+        "id": 4,
+        "fieldName": "Sub Category",
+        "value": "site",
+        "sequence": null,
+        "components": {
+          "id": 1,
+          "createdBy": "system",
+          "createdOn": "2024-07-04T09:41:36.136102Z",
+          "updatedBy": "system",
+          "updatedOn": "2024-07-04T09:41:36.136102Z",
+          "type": "text",
+          "format": "string",
+          "isActive": true,
+          "isEnabled": true,
+          "isDelete": false,
+          "tenantId": 1
+        },
+        "visible": false,
+        "createdOn": "2024-07-04T10:47:47.195806Z",
+        "updatedOn": "2024-07-04T10:47:47.195806Z",
+        "createdBy": "system",
+        "updatedBy": "system",
+        "isDelete": false,
+        "tenantId": 1,
+        "groupId": 2
+      },
+      {
+        "fieldName": "Department",
+        "value": "site",
+        "sequence": 5,
+        "components": {
+          "type": "text",
+        },
       }
-    }
-  },
-  {
-    label: "category",
-    type: "select",
-    stateKey: "categoryId",
-    validationMessageKey: "categoryId",
-    options: [
-      { value: "1", label: "Laptop" },
-      { value: "2", label: "Desktop" },
-      { value: "3", label: "Monitor" },
-    ],
-    sx: {
-      borderRadius: "15px",
-      padding: "12.25px",
-      width: {
-        xs: "100%",
-        sm:"100%",
-        md: 400,
-
+      {
+        "id": 6,
+        "fieldName": "example",
+        "value": "string",
+        "sequence": null,
+        "components": {
+          "id": 1,
+          "createdBy": "system",
+          "createdOn": "2024-07-04T09:41:36.136102Z",
+          "updatedBy": "system",
+          "updatedOn": "2024-07-04T09:41:36.136102Z",
+          "type": "text",
+          "format": "string",
+          "isActive": true,
+          "isEnabled": true,
+          "isDelete": false,
+          "tenantId": 1
+        },
+        "visible": false,
+        "createdOn": "2024-07-04T12:07:33.731109Z",
+        "updatedOn": "2024-07-04T12:07:33.731109Z",
+        "createdBy": "system",
+        "updatedBy": "system",
+        "isDelete": false,
+        "tenantId": 1,
+        "groupId": 2
       }
-    }
+    ]
   },
   {
-    label: "location",
-    type: "select",
-    stateKey: "locationId",
-    validationMessageKey: "locationId",
-    options: [
-      { value: "1", label: "Indore" },
-      { value: "2", label: "Mumbai" },
-      { value: "3", label: "Delhi" },
-    ],
-    sx: {
-      borderRadius: "15px",
-      padding: "12.25px",
-      width: {
-        xs: "100%",
-        sm:"100%",
-        md: 400,
-
+    "id": 1,
+    "title": "Asset Details",
+    "fields": [
+      {
+        "id": 1,
+        "fieldName": "Asset Name",
+        "value": "assetName",
+        "sequence": 1,
+        "components": {
+          "id": null,
+          "createdBy": null,
+          "createdOn": null,
+          "updatedBy": null,
+          "updatedOn": null,
+          "type": null,
+          "format": null,
+          "isActive": null,
+          "isEnabled": null,
+          "isDelete": null,
+          "tenantId": null
+        },
+        "visible": false,
+        "createdOn": "2024-07-04T09:41:49.942526Z",
+        "updatedOn": "2024-07-04T09:41:49.942526Z",
+        "createdBy": "system",
+        "updatedBy": "system",
+        "isDelete": false,
+        "tenantId": 1,
+        "groupId": 1
+      },
+      {
+        "id": 2,
+        "fieldName": "Asset Tag Id",
+        "value": "assetName",
+        "sequence": 2,
+        "components": {
+          "id": null,
+          "createdBy": null,
+          "createdOn": null,
+          "updatedBy": null,
+          "updatedOn": null,
+          "type": null,
+          "format": null,
+          "isActive": null,
+          "isEnabled": null,
+          "isDelete": null,
+          "tenantId": null
+        },
+        "visible": false,
+        "createdOn": "2024-07-04T09:42:08.378501Z",
+        "updatedOn": "2024-07-04T09:42:08.378501Z",
+        "createdBy": "system",
+        "updatedBy": "system",
+        "isDelete": false,
+        "tenantId": 1,
+        "groupId": 1
+      },
+      {
+        "id": 3,
+        "fieldName": "Description",
+        "value": "description",
+        "sequence": 3,
+        "components": {
+          "id": null,
+          "createdBy": null,
+          "createdOn": null,
+          "updatedBy": null,
+          "updatedOn": null,
+          "type": null,
+          "format": null,
+          "isActive": null,
+          "isEnabled": null,
+          "isDelete": null,
+          "tenantId": null
+        },
+        "visible": false,
+        "createdOn": "2024-07-04T09:42:45.427377Z",
+        "updatedOn": "2024-07-04T09:42:45.427377Z",
+        "createdBy": "system",
+        "updatedBy": "system",
+        "isDelete": false,
+        "tenantId": 1,
+        "groupId": 1
+      },
+      {
+        "id": 4,
+        "fieldName": "Purchased from",
+        "value": "purchasedFrom",
+        "sequence": 4,
+        "components": {
+          "id": null,
+          "createdBy": null,
+          "createdOn": null,
+          "updatedBy": null,
+          "updatedOn": null,
+          "type": null,
+          "format": null,
+          "isActive": null,
+          "isEnabled": null,
+          "isDelete": null,
+          "tenantId": null
+        },
+        "visible": false,
+        "createdOn": "2024-07-04T09:43:23.544263Z",
+        "updatedOn": "2024-07-04T09:43:23.544263Z",
+        "createdBy": "system",
+        "updatedBy": "system",
+        "isDelete": false,
+        "tenantId": 1,
+        "groupId": 1
+      },
+      {
+        "id": 5,
+        "fieldName": "Purchased from",
+        "value": "purchasedFrom",
+        "sequence": 4,
+        "components": {
+          "id": null,
+          "createdBy": null,
+          "createdOn": null,
+          "updatedBy": null,
+          "updatedOn": null,
+          "type": null,
+          "format": null,
+          "isActive": null,
+          "isEnabled": null,
+          "isDelete": null,
+          "tenantId": null
+        },
+        "visible": false,
+        "createdOn": "2024-07-04T09:44:56.609365Z",
+        "updatedOn": "2024-07-04T09:44:56.609365Z",
+        "createdBy": "system",
+        "updatedBy": "system",
+        "isDelete": false,
+        "tenantId": 1,
+        "groupId": 1
+      },
+      {
+        "id": 6,
+        "fieldName": "Purchase Date",
+        "value": "purchaseDate",
+        "sequence": 5,
+        "components": {
+          "id": null,
+          "createdBy": null,
+          "createdOn": null,
+          "updatedBy": null,
+          "updatedOn": null,
+          "type": null,
+          "format": null,
+          "isActive": null,
+          "isEnabled": null,
+          "isDelete": null,
+          "tenantId": null
+        },
+        "visible": false,
+        "createdOn": "2024-07-04T09:45:36.959856Z",
+        "updatedOn": "2024-07-04T09:45:36.959856Z",
+        "createdBy": "system",
+        "updatedBy": "system",
+        "isDelete": false,
+        "tenantId": 1,
+        "groupId": 1
+      },
+      {
+        "id": 7,
+        "fieldName": "Brand",
+        "value": "brand",
+        "sequence": 6,
+        "components": {
+          "id": null,
+          "createdBy": null,
+          "createdOn": null,
+          "updatedBy": null,
+          "updatedOn": null,
+          "type": null,
+          "format": null,
+          "isActive": null,
+          "isEnabled": null,
+          "isDelete": null,
+          "tenantId": null
+        },
+        "visible": false,
+        "createdOn": "2024-07-04T09:46:15.683236Z",
+        "updatedOn": "2024-07-04T09:46:15.683236Z",
+        "createdBy": "system",
+        "updatedBy": "system",
+        "isDelete": false,
+        "tenantId": 1,
+        "groupId": 1
+      },
+      {
+        "id": 8,
+        "fieldName": "Cost",
+        "value": "cost",
+        "sequence": 7,
+        "components": {
+          "id": null,
+          "createdBy": null,
+          "createdOn": null,
+          "updatedBy": null,
+          "updatedOn": null,
+          "type": null,
+          "format": null,
+          "isActive": null,
+          "isEnabled": null,
+          "isDelete": null,
+          "tenantId": null
+        },
+        "visible": false,
+        "createdOn": "2024-07-04T09:47:34.276160Z",
+        "updatedOn": "2024-07-04T09:47:34.276160Z",
+        "createdBy": "system",
+        "updatedBy": "system",
+        "isDelete": false,
+        "tenantId": 1,
+        "groupId": 1
+      },
+      {
+        "id": 9,
+        "fieldName": "Model",
+        "value": "model",
+        "sequence": 8,
+        "components": {
+          "id": null,
+          "createdBy": null,
+          "createdOn": null,
+          "updatedBy": null,
+          "updatedOn": null,
+          "type": null,
+          "format": null,
+          "isActive": null,
+          "isEnabled": null,
+          "isDelete": null,
+          "tenantId": null
+        },
+        "visible": false,
+        "createdOn": "2024-07-04T10:00:31.419127Z",
+        "updatedOn": "2024-07-04T10:00:31.419127Z",
+        "createdBy": "system",
+        "updatedBy": "system",
+        "isDelete": false,
+        "tenantId": 1,
+        "groupId": 1
+      },
+      {
+        "id": 10,
+        "fieldName": "Serial No",
+        "value": "serialNo",
+        "sequence": 9,
+        "components": {
+          "id": null,
+          "createdBy": null,
+          "createdOn": null,
+          "updatedBy": null,
+          "updatedOn": null,
+          "type": null,
+          "format": null,
+          "isActive": null,
+          "isEnabled": null,
+          "isDelete": null,
+          "tenantId": null
+        },
+        "visible": false,
+        "createdOn": "2024-07-04T10:23:06.737614Z",
+        "updatedOn": "2024-07-04T10:23:06.737614Z",
+        "createdBy": "system",
+        "updatedBy": "system",
+        "isDelete": false,
+        "tenantId": 1,
+        "groupId": 1
+      },
+      {
+        "id": 11,
+        "fieldName": "exampleee",
+        "value": "string",
+        "sequence": 19,
+        "components": {
+          "id": 1,
+          "createdBy": "system",
+          "createdOn": "2024-07-04T09:41:36.136102Z",
+          "updatedBy": "system",
+          "updatedOn": "2024-07-04T09:41:36.136102Z",
+          "type": "text",
+          "format": "string",
+          "isActive": true,
+          "isEnabled": true,
+          "isDelete": false,
+          "tenantId": 1
+        },
+        "visible": false,
+        "createdOn": "2024-07-04T12:09:29.401656Z",
+        "updatedOn": "2024-07-04T12:09:29.401656Z",
+        "createdBy": "system",
+        "updatedBy": "system",
+        "isDelete": false,
+        "tenantId": 1,
+        "groupId": 1
       }
-    }
-  },
-  {
-    label: "department",
-    type: "select",
-    stateKey: "departmentId",
-    validationMessageKey: "departmentId",
-    options: [
-      { value: "1", label: "Supplier A" },
-      { value: "2", label: "Supplier B" },
-      { value: "3", label: "Supplier C" },
-    ],
-    sx: {
-      borderRadius: "15px",
-      padding: "12.25px",
-      width: {
-        xs: "100%",
-        sm:"100%",
-        md: 400,
-
-      }
-    }
-
-  },
-  {
-    label: "Assets Photo",
-    type: "file",
-    stateKey: "assetPhoto",
-    validationMessageKey: "assetPhoto",
-    sx: {
-      borderRadius: "15px",
-      padding: "12.25px",
-    
+    ]
   }
-}
-];
+]
