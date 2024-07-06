@@ -78,10 +78,11 @@ const Company: React.FC<CompanyProps> = ({
     }
     setCompanyFormData((prevData: any) => ({
       company:{ ...prevData,
-        company: companyFormDataToSend}
+        company: companyFormDataToSend,}
      
     }));
     setActiveTab(activeTab + 1); 
+    await dispatch(addCompanyInfo(companyFormDataToSend));
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {

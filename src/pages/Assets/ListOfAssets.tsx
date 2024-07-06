@@ -15,34 +15,6 @@ import AppView from "../../components/Common/AppView";
 import { fetchAssets, fetchAssetsById } from "../../Redux/features/AssetSlice";
 import { RootState } from "../../Redux/store";
 
-
-// const data1 = [
-//   {
-//     id:1,
-//     assetTagId: "BBC1014",
-//     description:
-//       "HP Pavillion 14-ek 1074TU Intel core i5 13th gen(14inch, 16GB, 512GB windows 11 home, MS Office 2021, Intel UHD,FHD IPS Display)",
-//     brand: "HP Pavilion",
-//     purchaseDate: "06/03/2024",
-//     cost: "70,800.00",
-//     status: "Checked In",
-//     serialNumber: "8CG3250PAR",
-//     assignedTo: "Piya V", 
-//   },
-//   {
-//     id:2,
-//     assetTagId: "BLR10e4",
-//     description:
-//       "HP Pavillion 14-ek 1074TU Intel core i5 13th gen(14inch, 16GB, 512GB windows 11 home, MS Office 2021, Intel UHD,FHD IPS Display)",
-//     brand: "HP Pavilion",
-//     purchaseDate: "06/03/2024",
-//     cost: "70,865.00",
-//     status: "Checked Out",
-//     serialNumber: "8CG3250PAR",
-//     assignedTo: "Riya V",
-//   },
-// ];
-
 const ListOfAssets = () => {
   const assets = useSelector((state: RootState) => state.assets.data);
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
@@ -55,9 +27,7 @@ const ListOfAssets = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    // Merge the dummy data with fetched data
-    const mergedData = [ ...assets];
-    setListData(mergedData);
+    setListData(assets);
   }, [assets]);
 
   return (
@@ -75,7 +45,7 @@ const ListOfAssets = () => {
       >
         <Box>
           <Button
-            size="lg"
+            size="md" // Medium size
             sx={{
               background: "#1BCAB8",
               width: "200px",
@@ -107,9 +77,7 @@ const ListOfAssets = () => {
                   marginTop: "-0.25rem",
                 }}
               >
-                <Link to='/assetsearchcriteria' style={{color:"inherit",textDecoration:"none"}}>
-                  Search Criteria
-                </Link>
+                Search Criteria
               </Typography>
             </Box>
           </Button>
@@ -122,7 +90,7 @@ const ListOfAssets = () => {
           width: isSmallScreen ? "100%" : "auto",
         }}>
           <Button
-            size="lg"
+            size="md" // Medium size
             sx={{
               mr: "20px",
               background: "#11B456",
@@ -159,9 +127,10 @@ const ListOfAssets = () => {
               </Typography>
             </Box>
           </Button>
-          <Link to="/assets/list-of-assets/set-up-columns" style={{ textDecoration: "none" }}>
+          {/* Uncomment the following section when needed */}
+          {/* <Link to="/assets/list-of-assets/set-up-columns" style={{ textDecoration: "none" }}>
             <Button
-              size="lg"
+              size="md" // Medium size
               sx={{
                 background: "#000000",
                 width: "200px",
@@ -197,7 +166,7 @@ const ListOfAssets = () => {
                 </Typography>
               </Box>
             </Button>
-          </Link>
+          </Link> */}
         </Box>
       </Box>
       <Box sx={{ my: "20px", width: "90px" }}>
@@ -208,7 +177,7 @@ const ListOfAssets = () => {
       </Box>
 
       {isSmallScreen ? (
-        <ListOfAssetsCard />
+        <ListOfAssetsCard data={listData} />
       ) : (
         <Box
           sx={{
@@ -319,9 +288,8 @@ const ListOfAssets = () => {
                   <td>{item.serialNumber}</td>
                   <td style={{ cursor: "pointer" }}>
                     <Link
-                      // to={`/assets/view-an-asset`}
-                      style={{ color: "inherit" }}
                       to={`/assets/view-an-asset/${item.id}`}
+                      style={{ color: "inherit" }}
                     >
                       <RemoveRedEyeIcon sx={{ size: "20" }} />
                     </Link>

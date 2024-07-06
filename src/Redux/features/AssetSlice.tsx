@@ -81,7 +81,10 @@ const AssetSlice = createSlice({
       })
       .addCase(fetchAssetsById.fulfilled, (state, action) => {
         state.loading = false;
-        state.data.push(action.payload);
+        const existingClient = state.data.find((asset) => asset.id === action.payload.id);
+        if (!existingClient) {
+          state.data.push(action.payload);
+        }
       })
       .addCase(addAssets.fulfilled, (state, action) => {
         state.data.push(action.payload);
