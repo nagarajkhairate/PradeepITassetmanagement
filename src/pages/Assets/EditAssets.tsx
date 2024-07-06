@@ -58,7 +58,7 @@ const EditAssets: React.FC = () => {
     <AppView>
           <Typography level="h3">Asset View</Typography>
           {assets && <ViewAssetInfo
-            assets={assets}          />}
+            assets={assets}  id={id}        />}
           {/* <EditAssetDetails
             assetDetails={editAssetData?.assetDetails || {}}
             dataUpdater={dataUpdater}

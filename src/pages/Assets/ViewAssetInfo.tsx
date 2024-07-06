@@ -26,20 +26,17 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EmailIcon from '@mui/icons-material/Email';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckOutDialog from "../../components/AssetSections/EditAsset/Check Out/CheckOutDialog";
-import { Link, useParams } from "react-router-dom";
-import { fetchAssetsById } from "../../redux/features/AssetSlice";
-import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../redux/store";
-import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
 import AppView from "../../components/Common/AppView";
 import HPLaptopImg from "../../Assets/hp-15.png"
 
 interface AssetInfoProps {
-
+  id:string,
   assets:any
 }
 
-const ViewAssetInfo: React.FC<AssetInfoProps> = ({ assets }) => {
+const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
 
   const [open, setOpen] = useState(false);
   const openPopUp = () => {
@@ -91,7 +88,7 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ assets }) => {
           >
             <PrintIcon sx={{ size: "23" }} /> Print
           </Button>
-          <Link to={`/assets/edit-an-asset/:id`} >
+          <Link to={`/assets/edit-an-asset/${id}`} >
             <Button
               sx={{
                 background: "#767676",
@@ -224,26 +221,30 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ assets }) => {
           >
             <Table borderAxis="both">
               <tbody>
-                 {/* <tr>
+                 <tr>
                   <th scope="row">Site</th>
-                  <td>{ assets.site}</td>
+                  <td>{assets.site.name}</td>
                 </tr>
                 <tr>
-                  <th scope="row">Type</th>
-                  <td>{assets.type}</td>
+                  <th scope="row">Location</th>
+                  <td>{assets.location.name}</td>
                 </tr>
                 <tr>
-                  <th scope="row">Warranry Expiry Date</th>
-                  <td>{ assets.warrantyExpiryDate}</td>
+                  <th scope="row">Category</th>
+                  <td>{assets.category.name}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Department</th>
+                  <td>{assets.department.name}</td>
                 </tr>
                 <tr>
                   <th scope="row">Assigned To</th>
-                  <td>{ assets.assignedTo}</td>
+                  <td></td>
                 </tr>
                 <tr>
-                  <th scope="row">Assigned Date</th>
-                  <td>{assets.assignedDate}</td>
-                </tr>  */}
+                  <th scope="row">Status</th>
+                  <td></td>
+                </tr> 
               </tbody>
             </Table>
           </Box>
