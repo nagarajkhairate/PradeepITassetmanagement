@@ -199,11 +199,34 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
               </Grid>
             </Grid>
 
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-              <Button onClick={onClose} sx={{ mr: 1 }}>
+              
+            <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: { md: 'row'},
+            justifyContent: { xs: 'space-between', md: 'flex-end' },
+            gap: '5px',
+            flexWrap:'wrap',
+            mt:4
+          }}
+        >
+              <Button
+sx={{
+  background: '#fdd835',
+  color: 'black',
+  '&:hover': { background: '#E1A91B' },
+}}
+              onClick={onClose}>
                 Cancel
               </Button>
-              <Button type="Submit">Update</Button>
+              <Button type="Submit"
+               sx={{
+                background: 'black',
+                color: 'white',
+                '&:hover': { background: 'black' },
+              }}
+              >Update</Button>
             </Box>
           </AppForm>
         )}

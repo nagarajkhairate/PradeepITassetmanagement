@@ -16,6 +16,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteSubCategories, updateSubCategories } from "../../../redux/features/CategorySubSlice";
 import { RootState } from "../../../redux/store";
+import AppForm from "../../../components/Common/AppForm";
 
 
 
@@ -270,7 +271,7 @@ const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] 
             fontWeight="lg"
             mb={1}>{"Edit the Customs here"}</Typography>
 
-          <form onSubmit={handleEditButton}>
+          <AppForm onSubmit={handleEditButton}>
             <FormControl
               sx={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly" }}
             >
@@ -286,15 +287,26 @@ const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] 
                 // defaultValue={selectedCell !== null ? lapCat.data[selectedCell].subCategory : ""} // Set default value to the selected cell content
               />
             </FormControl>
+
+            <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: { md: 'row'},
+            justifyContent: { xs: 'space-between', md: 'flex-end' },
+            gap: '5px',
+            flexWrap:'wrap',
+            mt:4
+          }}
+        >
             <Button
               autoFocus
               type="submit"
               variant="solid"
               sx={{
                 background: "#fdd835",
+                '&:hover': { background: '#E1A91B' },
                 color: "black",
-                marginTop: "25px",
-                marginLeft: "30%",
               }}
             >
               Update
@@ -306,11 +318,13 @@ const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] 
               autoFocus
               variant="solid"
               sx={{ background: "black",
+                '&:hover': { background: 'black' },
               color: "white", marginLeft: "50px" }}
             >
               Cancel
             </Button>
-          </form>
+            </Box>
+          </AppForm>
           </div>
           </Sheet>
         </Modal>

@@ -16,6 +16,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { deleteLocation, updateLocation } from '../../../redux/features/LocationSlice'
 import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../../redux/store'
+import AppForm from '../../../components/Common/AppForm'
 
 
 type Location = {
@@ -151,7 +152,7 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
                           color="primary"
                         />
                       </td>
-                      <td>{custom.location}</td>
+                      <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{custom.location}</td>
     
                       <td>
                         <Button
@@ -198,7 +199,7 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
                               color: 'white',
                               background: '#d32f2f',
                             },
-                            padding: ".5rem .15rem"
+                            padding: ".5rem .35rem"
                           }}
                         > 
                           <DeleteForeverIcon sx={{ fontSize: '15px' }}/>
@@ -242,7 +243,7 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
                 {'Edit the Customs here'}
               </Typography>
 
-              <form onSubmit={handleEditButton}>
+              <AppForm onSubmit={handleEditButton}>
                 <FormControl
                   sx={{
                     display: 'flex',
@@ -250,8 +251,8 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
                     justifyContent: 'space-evenly',
                   }}
                 >
-                  <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
-                    Location*
+                  <FormLabel sx={{ marginTop: '20px', marginLeft: '20px' }}>
+                    Location*:
                   </FormLabel>
                   <Input
                     variant="outlined"
@@ -259,19 +260,30 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
                     id="location"
                     name="location"
                     required
-                    sx={{ width: '70%', marginLeft: '10px' }}
+                    sx={{ width: '70%', marginLeft: '10px',marginTop: '8px', }}
                     defaultValue={selectedLocation ? selectedLocation.location : ''}
                   />
                 </FormControl>
+                <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: { md: 'row'},
+            justifyContent: { xs: 'space-between', md: 'flex-end' },
+            gap: '5px',
+            mt: 4,
+            flexWrap:'wrap'
+          }}
+        >
                 <Button
                   autoFocus
                   type="submit"
                   variant="solid"
                   sx={{
                     background: '#fdd835',
+                    '&:hover': { background: '#E1A91B' },
                     color: 'black',
-                    marginTop: '25px',
-                    marginLeft: '30%',
+
                   }}
                 >
                   Update
@@ -285,12 +297,13 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
                   sx={{
                     background: 'black',
                     color: 'white',
-                    marginLeft: '50px',
+                    '&:hover': { background: 'black' },
                   }}
                 >
                   Cancel
                 </Button>
-              </form>
+                </Box>
+              </AppForm>
             </div>
           </Sheet>
         </Modal>

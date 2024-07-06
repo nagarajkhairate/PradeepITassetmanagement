@@ -176,15 +176,27 @@ interface LocationAddProps {
                       </Box>
                       <Divider />
 
+                      <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: { md: 'row'},
+            justifyContent: { xs: 'space-between', md: 'flex-end' },
+            gap: '5px',
+            mt: 4,
+            flexWrap:'wrap'
+          }}
+        >
                       <Button
                         autoFocus
                         type="submit"
                         variant="solid"
                         sx={{
                           background: '#fdd835',
+                          '&:hover': { background: '#E1A91B' },
                           color: 'black',
-                          marginTop: '25px',
-                          marginLeft: '40%',
+                          // marginTop: '25px',
+                          // marginLeft: '40%',
                         }}
                       >
                         Add
@@ -197,12 +209,14 @@ interface LocationAddProps {
                         variant="solid"
                         sx={{
                           background: 'black',
+                          '&:hover': { background: 'black' },
                           color: 'white',
-                          marginLeft: '50px',
+                          // marginLeft: '50px',
                         }}
                       >
                         Cancel
                       </Button>
+                      </Box>
                     </AppForm>
                   </Box>
                 </div>

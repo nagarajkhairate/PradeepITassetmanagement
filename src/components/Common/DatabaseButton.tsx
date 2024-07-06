@@ -20,7 +20,7 @@ interface DatabaseButtonsProps {
             display: 'flex',
             alignItems: 'center',
             flexDirection: { md: 'row'},
-            justifyContent: { xs: 'center', md: 'flex-end' },
+            justifyContent: { xs: 'space-between', md: 'flex-end' },
             gap: '5px',
             mt: 4,
             flexWrap:'wrap'
@@ -32,12 +32,12 @@ interface DatabaseButtonsProps {
               background: '#388e3c',
               color: 'white',
               '&:hover': { background: '#1b5e20' },
-              borderRadius: '10px',
+              borderRadius: 'none',
             }}
             component="label"
             onClick={onCancel}
           >
-            <NavigateBeforeOutlinedIcon />
+           
             Cancel
           </Button>
           <Button
@@ -46,14 +46,14 @@ interface DatabaseButtonsProps {
               background: '#fdd835',
               color: 'black',
               '&:hover': { background: '#E1A91B' },
-              borderRadius: '10px',
+              borderRadius: 'none',
             }}
             component="label"
             
             onClick={onSubmit}
           >
            Submit
-            <NavigateNextOutlinedIcon />{' '}
+           
           </Button>
         </Box>
     )

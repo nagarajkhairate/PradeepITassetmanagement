@@ -138,7 +138,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, se
                 <FormLabel
                   sx={{
                     paddingTop: "20px",
-                    marginLeft: "20px",
+                    marginLeft: "25px",
                   }}
                 >
                   Category*:
@@ -148,7 +148,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, se
                   placeholder="Select a Category"
                   indicator={<KeyboardArrowDown />}
                   sx={{
-                    width: 240,
+                    width: "50%",
                     [`& .${selectClasses.indicator}`]: {
                       transition: "0.2s",
                       [`&.${selectClasses.expanded}`]: {
@@ -184,7 +184,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, se
                   onChange={HandleInputChange}
                   placeholder="Type here"
                   sx={{
-                    marginLeft: "10px",
+                    marginLeft: "5px",
                     width: "50%",
                     marginTop: "10px",
                   }}
@@ -193,6 +193,18 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, se
             </Box>
             <Divider />
 
+            <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: { md: 'row'},
+            justifyContent: { xs: 'space-between', md: 'flex-end' },
+            gap: '5px',
+            mt: 4,
+            flexWrap:'wrap'
+          }}
+        >
+
             <Button
               autoFocus
               type="submit"
@@ -200,8 +212,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, se
               sx={{
                 background: "#fdd835",
                 color: "black",
-                marginTop: "25px",
-                marginLeft: "40%",
+                '&:hover': { background: '#E1A91B' },
               }}
             >
               Add
@@ -216,11 +227,12 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, se
               sx={{
                 background: "black",
                 color: "white",
-                marginLeft: "50px",
+               '&:hover': { background: 'black' },
               }}
             >
               Cancel
             </Button>
+            </Box>
           </AppForm>
         </Box>
       </div>
