@@ -35,6 +35,15 @@ const ListOfAssets = () => {
       <Typography level="h3">List Of Assets</Typography>
       <Box
         sx={{
+          borderRadius: 'none',
+          boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+          background: '#ffffff',
+          gap: '5px',
+          padding: 2,
+        }}
+      >
+      <Box
+        sx={{
           mt: "40px",
           width: "100%",
           display: "flex",
@@ -45,35 +54,38 @@ const ListOfAssets = () => {
       >
         <Box>
           <Button
-            size="md" // Medium size
+            size="md" 
             sx={{
               background: "#1BCAB8",
-              width: "200px",
+              // width: "200px",
               borderRadius: "15px",
-              paddingInline: "0px",
+              // paddingInline: "0px",
               m: { xs: "10px", md: "none" },
               "&:hover": {
-                background: "#1BCAB8",
+                background: "#17a299",
               },
             }}
           >
             <Box
               sx={{
                 display: "flex",
-                width: "90%",
-                justifyContent: "space-around",
+                gap:1,
+                // width: "90%",
+                // justifyContent: "space-around",
                 alignItems: "center",
                 marginTop: "0.5rem",
               }}
             >
               <Typography sx={{ color: "white" }}>
-                <SearchIcon sx={{ size: "23" }} />
+                <SearchIcon 
+                // sx={{ size: "23" }}
+                 />
               </Typography>
               <Typography
                 sx={{
                   color: "white",
-                  fontWeight: "400",
-                  fontSize: "20px",
+                  // fontWeight: "400",
+                  // fontSize: "20px",
                   marginTop: "-0.25rem",
                 }}
               >
@@ -90,36 +102,37 @@ const ListOfAssets = () => {
           width: isSmallScreen ? "100%" : "auto",
         }}>
           <Button
-            size="md" // Medium size
+            size="md" 
             sx={{
               mr: "20px",
               background: "#11B456",
-              width: "200px",
+              // width: "200px",
               borderRadius: "15px",
-              paddingInline: "0px",
+              // paddingInline: "0px",
               m: { xs: "10px", md: "none" },
-              "&:hover": {
-                background: "#11B456",
-              },
+              '&:hover': { backgroundColor: 'darkgreen' },
             }}
           >
             <Box
               sx={{
                 display: "flex",
-                width: "90%",
-                justifyContent: "space-around",
+                gap:1,
+                // width: "90%",
+                // justifyContent: "space-around",
                 alignItems: "center",
                 marginTop: "0.5rem",
               }}
             >
               <Typography sx={{ color: "white" }}>
-                <FileUploadIcon sx={{ size: "23" }} />
+                <FileUploadIcon 
+                // sx={{ size: "23" }} 
+                />
               </Typography>
               <Typography
                 sx={{
                   color: "white",
-                  fontWeight: "400",
-                  fontSize: "20px",
+                  // fontWeight: "400",
+                  // fontSize: "20px",
                   marginTop: "-0.25rem",
                 }}
               >
@@ -169,13 +182,13 @@ const ListOfAssets = () => {
           </Link> */}
         </Box>
       </Box>
-      <Box sx={{ my: "20px", width: "90px" }}>
+      <Box sx={{ my: "20px", width: "80px" }}>
         <Select
           placeholder="10"
-          sx={{ height: "55px", borderRadius: "15px" }}
+          sx={{ height: "40px", borderRadius: "15px" }}
         ></Select>
       </Box>
-
+     
       {isSmallScreen ? (
         <ListOfAssetsCard data={listData} />
       ) : (
@@ -300,6 +313,7 @@ const ListOfAssets = () => {
           </Table>
         </Box>
       )}
+       </Box>
     </AppView>
   );
 };

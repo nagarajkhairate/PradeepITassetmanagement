@@ -31,6 +31,8 @@ import { fetchAssetsById } from "../../redux/features/AssetSlice";
 import { ThunkDispatch } from "redux-thunk";
 import { RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
+import AppView from "../../components/Common/AppView";
+import HPLaptopImg from "../../Assets/hp-15.png"
 
 interface AssetInfoProps {
 
@@ -53,7 +55,7 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ assets }) => {
 
 
   return (
-    <>
+    <AppView>
       <Box
         sx={{
           borderRadius: "16px",
@@ -89,7 +91,7 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ assets }) => {
           >
             <PrintIcon sx={{ size: "23" }} /> Print
           </Button>
-          <Link to={`/assets/edit/assetInfodata`} >
+          <Link to={`/assets/edit-an-asset/:id`} >
             <Button
               sx={{
                 background: "#767676",
@@ -175,7 +177,7 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ assets }) => {
             }}
           >
             <img
-              src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
+              src={HPLaptopImg}
               style={{ width: "100%", height: "200px" }}
               alt=""
             />
@@ -264,7 +266,7 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ assets }) => {
           </Button> */}
         </Box>
       </Box>
-    </>
+    </AppView>
   );
 };
 

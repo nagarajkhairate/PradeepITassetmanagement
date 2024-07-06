@@ -45,7 +45,7 @@ interface Site {
   zipCode: number
   country: string
 }
-interface any {
+interface FormData {
   [key: string]: string | File[]
 }
 
@@ -134,7 +134,6 @@ const AddAnAsset: React.FC = () => {
     setValidationMessages((prevState) => ({ ...prevState, [stateKey]: '' }))
   }
 
- 
 
   const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
