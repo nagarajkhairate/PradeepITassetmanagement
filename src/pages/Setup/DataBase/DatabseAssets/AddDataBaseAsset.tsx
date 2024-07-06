@@ -11,7 +11,7 @@ import { fetchDefaultFields } from '../../../../Redux/features/DefaultFieldAsset
 interface DataAddProps {
   dataBases: { customAsset: string[] }
   setDataBases: React.Dispatch<React.SetStateAction<{ customAsset: any[] }>>
-  addCustomField: (custom: any) => void
+  addCustomField: (fieldName: any) => void
   deleteCustomField: (index: number) => void
   id: number
 }
@@ -27,9 +27,9 @@ const AddDataBaseAsset: React.FC<DataAddProps> = ({
   const dataBase = useSelector((state: RootState) => state.defaultFields.data)
   console.log(dataBase)
 
-  React.useEffect(() => {
-    dispatch(fetchDefaultFields())
-  }, [])
+  // React.useEffect(() => {
+  //   dispatch(fetchDefaultFields())
+  // }, [])
 
   return (
     <Box
