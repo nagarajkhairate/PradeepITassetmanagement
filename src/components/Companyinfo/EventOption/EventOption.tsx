@@ -72,23 +72,11 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
     setCompanyFormData((prevData: any) => ({
       ...prevData,
       eventOption: eventForm,
-    }));
-
-    const formDataToSend = new FormData();
-    for (const key in companyFormData) {
-      if (companyFormData[key] !== null) {
-        if (key === 'companyLogo' && companyFormData[key] instanceof File) {
-          formDataToSend.append(key, companyFormData[key]);
-        } else {
-          formDataToSend.append(key, companyFormData[key]);
-        }
-      }
-    }
-
-    dispatch(addoptions(formDataToSend));
-    console.log(JSON.stringify(eventForm, null, 2));
-  };
-
+    }))
+    dispatch(addoptions(companyFormData)); 
+    console.log(JSON.stringify(eventForm, null, 2))
+  }
+  console.log(JSON.stringify(companyFormData))
 
   const AssetRadioGroup: React.FC<AssetRadioGroupProps> = ({
     name,

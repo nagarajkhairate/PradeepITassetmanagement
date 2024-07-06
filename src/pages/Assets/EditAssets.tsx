@@ -3,13 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { RootState } from "../../Redux/store";
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import EditAssetInfo from "../../components/AssetSections/EditAsset/EditAssetInfo";
+import EditAssetInfo from "./ViewAssetInfo";
 import EditAssetDetails from "../../components/AssetSections/EditAsset/EditAssetDetails";
 import { Typography } from '@mui/joy';
 import AppView from "../../components/Common/AppView";
-import { fetchAssetsById } from "../../Redux/features/AssetSlice";
+import { fetchAssetsById, updateAssets } from "../../Redux/features/AssetSlice";
+import ViewAssetInfo from "./ViewAssetInfo";
 
 const EditAssets: React.FC = () => {
+
+  const assets = useSelector((state: RootState) => state.assets.data);
   const { id } = useParams<{ id: string }>();
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
   const asset = useSelector((state: RootState) => state.assets.data);
@@ -49,21 +52,22 @@ const EditAssets: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    dispatch(updateAsset(editAssetData));
+    dispatch(updateAssets(editAssetData));
   };
+
 
   return (
     <AppView>
       
           <Typography level="h3">Asset View</Typography>
-          <EditAssetInfo
+          <ViewAssetInfo
             assetInfo={editAssetData}
             dataUpdater={dataUpdater}
-          />
-          <EditAssetDetails
+            assets={assets}          />
+          {/* <EditAssetDetails
             assetDetails={editAssetData?.assetDetails || {}}
             dataUpdater={dataUpdater}
-          />
+          /> */}
     </AppView>
   );
 };

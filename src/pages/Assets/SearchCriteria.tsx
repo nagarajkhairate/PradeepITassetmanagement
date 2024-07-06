@@ -61,7 +61,7 @@ const Select: React.FC<SelectProps> = ({ placeholder, value, onChange, children,
     placeholder={placeholder}
     value={value}
     onChange={onChange}
-    indicator={<IoIosArrowDown />}
+    // indicator={<IoIosArrowDown />}
     sx={{
       borderRadius: "15px",
       padding: "12.25px",
@@ -233,7 +233,7 @@ const SearchCriteria: React.FC = () => {
             color: "#767676",
           }}
         >
-          <IoIosArrowForward />
+          {/* <IoIosArrowForward /> */}
           Search Criteria
         </Typography>
       </div>

@@ -45,6 +45,7 @@ import DatabaseSetup from '../pages/Setup/DataBase/DataBaseSetup'
 import DatabaseMaintenance from '../pages/Setup/DataBase/DatabaseMaintenance/DataBaseMaintenance'
 import DatabaseWarranties from '../pages/Setup/DataBase/DatabaseWarranties.tsx/DataBaseWarranties'
 import SetupColumns from '../pages/Assets/SetupColumns'
+import SearchCriteria from '../pages/Assets/SearchCriteria'
 
 const appRoutes: RouteType[] = [
   {
@@ -142,6 +143,12 @@ const appRoutes: RouteType[] = [
         index: true,
         path: '/assets/list-of-assets/set-up-columns',
         element: <SetupColumns />,
+        state: 'assets',
+      },
+      {
+        index: true,
+        path: '/assets/list-of-assets/search-criteria',
+        element: <SearchCriteria />,
         state: 'assets',
       },
       {
