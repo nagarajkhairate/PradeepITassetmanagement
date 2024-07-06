@@ -27,7 +27,7 @@ import AppView from '../../../components/Common/AppView'
 import SetupAddDept from './SetupAddDept'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-import { addDepartment, fetchDepartment } from '../../../Redux/features/DepartmentSlice'
+import { addDepartment, fetchDepartment } from '../../../redux/features/DepartmentSlice'
 import SetupDeleteDept from './SetupDeleteDept'
 import { RootState } from '../../../redux/store'
 

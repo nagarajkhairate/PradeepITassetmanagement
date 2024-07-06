@@ -19,7 +19,7 @@ import AppView from "../../../components/Common/AppView";
 import CategorySubAdd from "./CategorySubAdd";
 import { ThunkDispatch } from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchSubCategories } from "../../../Redux/features/CategorySubSlice";
+import { fetchSubCategories } from "../../../redux/features/CategorySubSlice";
 import CategorySubDelete from "./CategorySubDelete";
 import { RootState } from "../../../redux/store";
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'

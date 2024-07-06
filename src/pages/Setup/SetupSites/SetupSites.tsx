@@ -32,7 +32,7 @@ import {
   deleteSites,
   fetchSites,
   updateSites,
-} from '../../../Redux/features/SitesSlice'
+} from '../../../redux/features/SitesSlice'
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
 import { RootState } from '../../../redux/store'

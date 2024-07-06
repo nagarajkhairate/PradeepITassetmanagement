@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button, FormControl, Modal, Sheet, Typography } from '@mui/joy';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteCategory } from '../../../Redux/features/CategorySlice';
+import { deleteCategory } from '../../../redux/features/CategorySlice';
 
 interface CategoryDeleteProps {
   open: boolean;

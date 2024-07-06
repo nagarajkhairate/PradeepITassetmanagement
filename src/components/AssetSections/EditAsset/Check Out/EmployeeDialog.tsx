@@ -11,10 +11,10 @@ import {
 } from "@mui/material";
 
 import CloseIcon from '@mui/icons-material/Close';
-import { RootState } from "../../../../Redux/store";
+import { RootState } from "../../../../redux/store";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { post_add_Employee } from "../../../../Redux/features/EmployeeSlice";
+import { post_add_Employee } from "../../../../redux/features/EmployeeSlice";
 
 interface EmployeeData {
   emp_name: string;

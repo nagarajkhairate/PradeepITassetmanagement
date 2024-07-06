@@ -17,7 +17,7 @@ import {
 } from "@mui/joy";
 import { ThunkDispatch } from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
-import { addDataBase } from "../../../Redux/features/DataBaseSlice";
+import { addDataBase } from "../../../redux/features/DataBaseSlice";
 import DataBaseAddDialog from "./DataBaseAddDialog";
 import { RootState } from "../../../redux/store";
 

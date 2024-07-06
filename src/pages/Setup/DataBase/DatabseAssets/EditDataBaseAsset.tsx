@@ -4,9 +4,9 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { ChangeEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
-import { fetchComponents } from "../../../../Redux/features/ComponentsIdSlice";
+import { fetchComponents } from "../../../../redux/features/ComponentsIdSlice";
 import { ThunkDispatch } from "redux-thunk";
-import { addDefaultFields, updateDefaultFieldsById } from "../../../../Redux/features/DefaultFieldAssetSlice";
+import { addDefaultFields, updateDefaultFieldsById } from "../../../../redux/features/DefaultFieldAssetSlice";
  
 
 const initialDatabase = [

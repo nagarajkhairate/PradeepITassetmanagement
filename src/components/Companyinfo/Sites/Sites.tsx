@@ -32,11 +32,11 @@ import {
   deleteSites,
   fetchSites,
   updateSites,
-} from '../../../Redux/features/SitesSlice'
+} from '../../../redux/features/SitesSlice'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import AppForm from '../../Common/AppForm'
-import { RootState } from '../../../Redux/store'
+import { RootState } from '../../../redux/store'
 import HandleTabButtons from '../../Common/HandleTabButtons'
 
 export interface Site {

@@ -1,7 +1,7 @@
 // import React, { useState } from 'react';
 // import { ThunkDispatch } from 'redux-thunk';
 // import { useDispatch, useSelector } from 'react-redux';
-// import { fetchComponents } from '../../Redux/features/ComponentsIdSlice';
+// import { fetchComponents } from '../../redux/features/ComponentsIdSlice';
 // import { RootState } from '../../redux/store';
  
 // import { Option, Select } from "@mui/joy"

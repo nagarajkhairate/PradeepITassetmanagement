@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import { Box, Typography, Button, Divider, Input, Checkbox, FormLabel, IconButton } from "@mui/joy";
 import { useDispatch, useSelector } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { createAccount } from "../../Redux/features/AccountSlice";
+import { createAccount } from "../../redux/features/AccountSlice";
 import AppForm from "../Common/AppForm";
 import { RootState } from "../../redux/store";
 import { Link, useNavigate } from "react-router-dom";

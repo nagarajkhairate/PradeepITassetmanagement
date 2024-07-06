@@ -14,7 +14,7 @@ import CategorySub from "./CategorySub";
 import CategorySubDelete from "./CategorySubDelete";
 import { ThunkDispatch } from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteSubCategories, updateSubCategories } from "../../../Redux/features/CategorySubSlice";
+import { deleteSubCategories, updateSubCategories } from "../../../redux/features/CategorySubSlice";
 import { RootState } from "../../../redux/store";
 
 

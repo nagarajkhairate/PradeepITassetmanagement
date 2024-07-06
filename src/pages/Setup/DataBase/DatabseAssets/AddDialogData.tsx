@@ -1,7 +1,7 @@
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { ChangeEvent, useEffect, useState } from 'react'
-import { fetchComponents } from '../../../../Redux/features/ComponentsIdSlice'
+import { fetchComponents } from '../../../../redux/features/ComponentsIdSlice'
 import {
   Box,
   Button,
@@ -17,7 +17,7 @@ import {
 } from '@mui/joy'
 import AppForm from '../../../../components/Common/AppForm'
 import { RootState } from '../../../../redux/store'
-import { addDefaultFields } from '../../../../Redux/features/DefaultFieldAssetSlice'
+import { addDefaultFields } from '../../../../redux/features/DefaultFieldAssetSlice'
 
 interface DataBaseAddProps {
   open: any

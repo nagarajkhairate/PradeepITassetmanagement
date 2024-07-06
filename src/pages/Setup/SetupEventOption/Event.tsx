@@ -22,7 +22,7 @@ import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch } from 'react-redux'
 import { RootState } from '../../../redux/store'
-import { addEvents, fetchEvents } from '../../../Redux/features/EventsSlice'
+import { addEvents, fetchEvents } from '../../../redux/features/EventsSlice'
 
 const options = [
   {

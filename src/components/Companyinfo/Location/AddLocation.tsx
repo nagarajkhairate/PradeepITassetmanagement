@@ -7,8 +7,8 @@ import { ThunkDispatch } from 'redux-thunk'
 import AppForm from '../../../components/Common/AppForm'
 
 import { RootState } from '../../../redux/store'
-import { addLocation } from '../../../Redux/features/LocationSlice'
-import { fetchSites } from '../../../Redux/features/SitesSlice'
+import { addLocation } from '../../../redux/features/LocationSlice'
+import { fetchSites } from '../../../redux/features/SitesSlice'
 
 
 interface LocationAddProps {

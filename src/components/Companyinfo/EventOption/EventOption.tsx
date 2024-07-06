@@ -22,7 +22,7 @@ import AppView from '../../Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch } from 'react-redux'
-import { addoptions} from '../../../Redux/features/TabsSlice'
+import { addoptions} from '../../../redux/features/TabsSlice'
 import AppForm from '../../Common/AppForm'
 import { RootState } from '../../../redux/store'
 

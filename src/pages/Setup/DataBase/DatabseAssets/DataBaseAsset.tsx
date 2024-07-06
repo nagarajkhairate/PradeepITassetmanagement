@@ -14,7 +14,7 @@ import { RootState } from '../../../../redux/store'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
 import AddDataBaseAsset from './AddDataBaseAsset'
 import EditDataBaseAsset from './EditDataBaseAsset'
-import { fetchDefaultFields,  updateDefaultFieldsById } from '../../../../Redux/features/DefaultFieldAssetSlice'
+import { fetchDefaultFields,  updateDefaultFieldsById } from '../../../../redux/features/DefaultFieldAssetSlice'
 
 
 

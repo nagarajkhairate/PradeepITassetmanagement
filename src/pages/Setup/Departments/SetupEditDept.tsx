@@ -14,7 +14,7 @@ import SetupDept from "./SetupDept";
 import SetupDeleteDept from "./SetupDeleteDept";
 import { ThunkDispatch } from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteDepartment, updateDepartment } from "../../../Redux/features/DepartmentSlice";
+import { deleteDepartment, updateDepartment } from "../../../redux/features/DepartmentSlice";
 import { RootState } from "../../../redux/store";
 
 type Department = {

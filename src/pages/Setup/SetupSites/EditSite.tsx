@@ -14,7 +14,7 @@ import {
 import { Site } from './SetupSites'
 import { UseSelector, useDispatch } from 'react-redux'
 import { UseDispatch } from 'react-redux'
-import { updateSites } from '../../../Redux/features/SitesSlice'
+import { updateSites } from '../../../redux/features/SitesSlice'
 import AppForm from '../../../components/Common/AppForm'
 
 import { ThunkDispatch } from 'redux-thunk'

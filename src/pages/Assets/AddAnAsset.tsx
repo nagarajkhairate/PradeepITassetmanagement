@@ -11,19 +11,19 @@ import CategoryDialog from '../../components/AssetSections/EditAsset/AddAssetSec
 import SiteDialog from '../../components/AssetSections/EditAsset/AddAssetSection/SiteDialog'
 import LocationDialog from '../../components/AssetSections/EditAsset/AddAssetSection/LocationDialog'
 import DepartmentDialog from '../../components/AssetSections/EditAsset/AddAssetSection/DepartmentDialog'
-import { RootState } from '../../Redux/store'
-
 import AppForm from '../../components/Common/AppForm'
 import AddCategory from '../../components/Companyinfo/Category/AddCategory'
 
 import AddSite from '../Setup/SetupSites/AddSite'
 import AddLocation from '../../components/Companyinfo/Location/AddLocation'
 import SetupAddDept from '../Setup/Departments/SetupAddDept'
-import { fetchSites } from '../../Redux/features/SitesSlice'
-import { fetchLocation } from '../../Redux/features/LocationSlice'
-import { addDepartment, fetchDepartment } from '../../Redux/features/DepartmentSlice'
-import { addCategory, fetchCategory } from '../../Redux/features/CategorySlice'
-import { addAssets } from '../../Redux/features/AssetSlice'
+import { RootState } from '../../redux/store'
+import { fetchSites } from '../../redux/features/SitesSlice'
+import { fetchLocation } from '../../redux/features/LocationSlice'
+import { addDepartment, fetchDepartment } from '../../redux/features/DepartmentSlice'
+import { addCategory, fetchCategory } from '../../redux/features/CategorySlice'
+import { addAssets } from '../../redux/features/AssetSlice'
+
 
 type Category = {
   id: number
@@ -45,7 +45,7 @@ interface Site {
   zipCode: number
   country: string
 }
-interface FormData {
+interface any {
   [key: string]: string | File[]
 }
 
@@ -553,7 +553,7 @@ const AddAnAsset: React.FC = () => {
               >
                 <Button
                   size="lg"
-                  onClick={handleSubmit}
+                  // onClick={handleSubmit}
                   sx={{
                     color: '#000000',
                     borderRadius: '15px',

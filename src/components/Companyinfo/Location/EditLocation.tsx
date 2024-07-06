@@ -14,7 +14,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
   deleteLocation,
   updateLocation,
-} from '../../../Redux/features/LocationSlice'
+} from '../../../redux/features/LocationSlice'
 import { ThunkDispatch } from 'redux-thunk'
 import AppForm from '../../Common/AppForm'
 import { RootState } from '../../../redux/store'

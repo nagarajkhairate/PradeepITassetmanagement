@@ -12,8 +12,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { Link } from "react-router-dom";
 import AppView from "../../components/Common/AppView";
-import { fetchAssets, fetchAssetsById } from "../../Redux/features/AssetSlice";
-import { RootState } from "../../Redux/store";
+import { fetchAssets, fetchAssetsById } from "../../redux/features/AssetSlice";
+import { RootState } from "../../redux/store";
 
 const ListOfAssets = () => {
   const assets = useSelector((state: RootState) => state.assets.data);

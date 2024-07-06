@@ -13,7 +13,7 @@ import { useTheme } from '@mui/material/styles'
 import DeleteCategory from './DeleteCategory'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteCategory, updateCategory } from '../../../Redux/features/CategorySlice'
+import { deleteCategory, updateCategory } from '../../../redux/features/CategorySlice'
 import { RootState } from '../../../redux/store'
 
 type Category = {

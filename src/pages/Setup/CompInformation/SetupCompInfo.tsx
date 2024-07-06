@@ -14,7 +14,7 @@ import {
   addCompanyInfo,
   fetchCompanyInfo,
   updateCompanyInfo,
-} from '../../../Redux/features/CompanyInfoSlice'
+} from '../../../redux/features/CompanyInfoSlice'
 import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../../redux/store'
 

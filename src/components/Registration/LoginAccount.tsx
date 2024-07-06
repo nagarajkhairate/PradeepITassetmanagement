@@ -1,8 +1,8 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 import { Box, Typography, Button, Input, FormLabel, IconButton } from "@mui/joy";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import  { loginAccount } from '../../Redux/features/AuthSlice';
+import  { loginAccount } from '../../redux/features/AuthSlice';
 import { ThunkDispatch } from "redux-thunk";
 import AppForm from "../Common/AppForm";
 import { RootState } from "../../redux/store";

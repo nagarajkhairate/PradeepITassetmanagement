@@ -10,7 +10,7 @@ import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
 import FieldComponent from '../../../utils/FieldComponent';
 import AppView from "../../Common/AppView";
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
-import { addCompanyInfo, fetchCompanyInfo } from "../../../Redux/features/CompanyInfoSlice";
+import { addCompanyInfo, fetchCompanyInfo } from "../../../redux/features/CompanyInfoSlice";
 import { ThunkDispatch } from "redux-thunk";
 import { useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";

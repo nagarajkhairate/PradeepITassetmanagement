@@ -3,7 +3,7 @@ import React, { ChangeEvent, useState } from "react";
 import AppForm from "../../Common/AppForm";
 import { ThunkDispatch } from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
-import { addComponents, fetchComponents,  } from "../../../Redux/features/ComponentsIdSlice";
+import { addComponents, fetchComponents,  } from "../../../redux/features/ComponentsIdSlice";
 import { RootState } from "../../../redux/store";
 
 

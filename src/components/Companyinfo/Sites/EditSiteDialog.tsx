@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Box, Typography, Input, Button, FormControl } from "@mui/joy";
 import { Site } from "./Sites";
-import { updateSites } from "../../../Redux/features/SitesSlice";
+import { updateSites } from "../../../redux/features/SitesSlice";
 import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../../Redux/store";
+import { RootState } from "../../../redux/store";
 import { useDispatch } from "react-redux";
 import AppForm from "../../Common/AppForm";
 

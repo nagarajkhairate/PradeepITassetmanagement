@@ -13,7 +13,7 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
 import LocationSetup from './LocationSetup'
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteLocation, updateLocation } from '../../../Redux/features/LocationSlice'
+import { deleteLocation, updateLocation } from '../../../redux/features/LocationSlice'
 import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../../redux/store'
 

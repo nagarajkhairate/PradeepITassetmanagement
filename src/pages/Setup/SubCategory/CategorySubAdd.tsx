@@ -1,12 +1,12 @@
 import { KeyboardArrowDown } from "@mui/icons-material"
 import { Box, Button, Divider, FormControl, FormLabel, Input, Modal, Option, Select, Sheet, Typography, selectClasses } from "@mui/joy"
-import { RootState } from "../../../Redux/store"
+import { RootState } from "../../../redux/store"
 import { useDispatch, useSelector } from "react-redux"
 import { ThunkDispatch } from "redux-thunk"
 import React, { useState } from "react"
-import { fetchCategory } from "../../../Redux/features/CategorySlice"
+import { fetchCategory } from "../../../redux/features/CategorySlice"
 import AppForm from "../../../components/Common/AppForm"
-import { addSubCategories } from "../../../Redux/features/CategorySubSlice"
+import { addSubCategories } from "../../../redux/features/CategorySubSlice"
 
 
 interface CategorySubAddProps {

@@ -5,7 +5,7 @@ import IconButton, { IconButtonProps } from '@mui/joy/IconButton';
 
 import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
 import LightModeIcon from '@mui/icons-material/LightMode';
-import { toggleDarkMode } from '../../../Redux/features/DarkModeSlice';
+import { toggleDarkMode } from '../../../redux/features/DarkModeSlice';
 
 const  ColorToggle: React.FunctionComponent = (props: IconButtonProps) => {
   const dispatch = useDispatch(); // Getting the dispatch function

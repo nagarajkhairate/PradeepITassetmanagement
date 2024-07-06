@@ -27,34 +27,17 @@ import EmailIcon from '@mui/icons-material/Email';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckOutDialog from "../../components/AssetSections/EditAsset/Check Out/CheckOutDialog";
 import { Link, useParams } from "react-router-dom";
-import { fetchAssetsById } from "../../Redux/features/AssetSlice";
+import { fetchAssetsById } from "../../redux/features/AssetSlice";
 import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../Redux/store";
+import { RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 
 interface AssetInfoProps {
-  assetInfo: any;
-  dataUpdater: (data: any, tab: string) => void;
+
   assets:any
 }
 
-const ViewAssetInfo: React.FC<AssetInfoProps> = ({ assetInfo, dataUpdater, assets }) => {
-
-   
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
-  const [assetInfodata, setAssetInfodata] = useState(assetInfo);
-
-
-  const handleUpdates = (updatedFielddata: any) => {
-    setAssetInfodata((prevState: any) => ({
-      ...prevState,
-      ...updatedFielddata,
-    }));
-  };
-
-  const handleSubmitAssetInfo = () => {
-    dataUpdater({ assetInfo: assetInfodata }, "assetInfo");
-  };
+const ViewAssetInfo: React.FC<AssetInfoProps> = ({ assets }) => {
 
   const [open, setOpen] = useState(false);
   const openPopUp = () => {
@@ -209,23 +192,23 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ assetInfo, dataUpdater, asset
               <tbody>
                 <tr>
                   <th scope="row">Asset Tag ID</th>
-                  <td>{assets && assets[0].assetTagId}</td>
+                  <td>{assets.assetTagId}</td>
                 </tr>
                 <tr>
                   <th scope="row">Purchase Date</th>
-                  <td>{assets && assets[0].purchaseDate}</td>
+                  <td>{assets.purchaseDate}</td>
                 </tr>
                 <tr>
                   <th scope="row">Cost</th>
-                  <td>{assets && assets[0].cost}</td>
+                  <td>{assets.cost}</td>
                 </tr>
                 <tr>
                   <th scope="row">Brand</th>
-                  <td>{assets && assets[0].brand}</td>
+                  <td>{assets.brand}</td>
                 </tr>
                 <tr>
                   <th scope="row">Model</th>
-                  <td>{assets && assets[0].model}</td>
+                  <td>{assets.model}</td>
                 </tr>
               </tbody>
             </Table>
@@ -241,23 +224,23 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ assetInfo, dataUpdater, asset
               <tbody>
                  {/* <tr>
                   <th scope="row">Site</th>
-                  <td>{ assets && assets[0].site}</td>
+                  <td>{ assets.site}</td>
                 </tr>
                 <tr>
                   <th scope="row">Type</th>
-                  <td>{assets && assets[0].type}</td>
+                  <td>{assets.type}</td>
                 </tr>
                 <tr>
                   <th scope="row">Warranry Expiry Date</th>
-                  <td>{ assets && assets[0].warrantyExpiryDate}</td>
+                  <td>{ assets.warrantyExpiryDate}</td>
                 </tr>
                 <tr>
                   <th scope="row">Assigned To</th>
-                  <td>{ assets && assets[0].assignedTo}</td>
+                  <td>{ assets.assignedTo}</td>
                 </tr>
                 <tr>
                   <th scope="row">Assigned Date</th>
-                  <td>{assets && assets[0].assignedDate}</td>
+                  <td>{assets.assignedDate}</td>
                 </tr>  */}
               </tbody>
             </Table>

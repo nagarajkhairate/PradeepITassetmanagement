@@ -24,7 +24,7 @@ import { RootState } from '../../../redux/store'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
-import { fetchLocation } from '../../../Redux/features/LocationSlice'
+import { fetchLocation } from '../../../redux/features/LocationSlice'
 import HandleTabButtons from '../../Common/HandleTabButtons'
 
 type Location = {
