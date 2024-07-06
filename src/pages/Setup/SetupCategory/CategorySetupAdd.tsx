@@ -1,5 +1,6 @@
 import { Box, Button, Divider, FormControl, FormLabel, Input, Modal, Sheet, Typography } from '@mui/joy'
 import React from 'react'
+import AppForm from '../../../components/Common/AppForm'
 
 
 interface CategoryAddProps {
@@ -49,7 +50,7 @@ interface CategoryAddProps {
                   <Divider />
 
                   <Box sx={{ marginBottom: '10px' }}>
-                    <form onSubmit={handleAddCategory}>
+                    <AppForm onSubmit={handleAddCategory}>
                       <FormControl
                         sx={{
                           display: 'flex',
@@ -102,15 +103,25 @@ interface CategoryAddProps {
                       </Box>
                       <Divider />
 
+                      <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: { md: 'row'},
+            justifyContent: { xs: 'space-between', md: 'flex-end' },
+            gap: '5px',
+            mt: 4,
+            flexWrap:'wrap'
+          }}
+        >
                       <Button
                         autoFocus
                         type="submit"
                         variant="solid"
                         sx={{
                           background: '#fdd835',
+                          '&:hover': { background: '#E1A91B' },
                           color: 'black',
-                          marginTop: '25px',
-                          marginLeft: '40%',
                         }}
                       >
                         Add
@@ -123,13 +134,15 @@ interface CategoryAddProps {
                         variant="solid"
                         sx={{
                           background: 'black',
+                          '&:hover': { background: 'black' },
                           color: 'white',
-                          marginLeft: '50px',
+
                         }}
                       >
                         Cancel
                       </Button>
-                    </form>
+                      </Box>
+                    </AppForm>
                   </Box>
                 </div>
               </Sheet>

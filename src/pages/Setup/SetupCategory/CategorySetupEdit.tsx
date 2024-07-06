@@ -16,6 +16,7 @@ import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
 import { updateCategory } from '../../../redux/features/CategorySlice'
+import AppForm from '../../../components/Common/AppForm'
 
 type Category = {
   id: number
@@ -166,7 +167,7 @@ export function CategorySetupEdit({ categories1,
                       color="primary"
                     />
                   </td>
-                  <td>{custom.categoryName}</td>
+                  <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{custom.categoryName}</td>
 
                   <td style={{ textAlign: 'right' }}>
                     <Button
@@ -214,7 +215,7 @@ export function CategorySetupEdit({ categories1,
                           color: 'white',
                           background: '#d32f2f',
                         },
-                        padding: ".5rem .10rem"
+                        padding: ".5rem .35rem"
                       }}
                     >
                       <DeleteForeverIcon sx={{ fontSize: '15px' }}/>
@@ -258,7 +259,7 @@ export function CategorySetupEdit({ categories1,
                 {'Edit the Customs here'}
               </Typography>
 
-              <form onSubmit={handleEditButton}>
+              <AppForm onSubmit={handleEditButton}>
                 <FormControl
                   sx={{
                     display: 'flex',
@@ -266,8 +267,8 @@ export function CategorySetupEdit({ categories1,
                     justifyContent: 'space-evenly',
                   }}
                 >
-                  <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
-                    Category*
+                  <FormLabel sx={{ marginTop: '15px',  marginLeft: '20px' }}>
+                    Category*:
                   </FormLabel>
                   <Input
                     variant="outlined"
@@ -275,10 +276,23 @@ export function CategorySetupEdit({ categories1,
                     id="categoryName"
                     name="categoryName"
                     required
-                    sx={{ width: '70%', marginLeft: '10px' }}
+                    sx={{ width: '70%', marginLeft: '10px',marginTop: '8px',  }}
                     defaultValue={selectedCategory ? selectedCategory.categoryName : ''}
                   />
                 </FormControl>
+
+                
+                <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: { md: 'row'},
+            justifyContent: { xs: 'space-between', md: 'flex-end' },
+            gap: '5px',
+            flexWrap:'wrap',
+            mt:4
+          }}
+        >
                 <Button
                   autoFocus
                   type="submit"
@@ -286,8 +300,7 @@ export function CategorySetupEdit({ categories1,
                   sx={{
                     background: '#fdd835',
                     color: 'black',
-                    marginTop: '25px',
-                    marginLeft: '30%',
+                    '&:hover': { background: '#E1A91B' },
                   }}
                 >
                   Update
@@ -301,12 +314,13 @@ export function CategorySetupEdit({ categories1,
                   sx={{
                     background: 'black',
                     color: 'white',
-                    marginLeft: '50px',
+                    '&:hover': { background: 'black' },
                   }}
                 >
                   Cancel
                 </Button>
-              </form>
+                </Box>
+              </AppForm>
             </div>
           </Sheet>
         </Modal>

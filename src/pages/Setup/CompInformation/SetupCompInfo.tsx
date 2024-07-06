@@ -17,6 +17,7 @@ import {
 } from '../../../redux/features/CompanyInfoSlice'
 import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../../redux/store'
+import AppView from '../../../components/Common/AppView'
 
 const SetupCompInfo: React.FC = ({}) => {
   const [formData, setFormData] = useState<{
@@ -108,9 +109,14 @@ const SetupCompInfo: React.FC = ({}) => {
   }, [dispatch]);
   
   return (
+    <AppView>
     <AppForm onSubmit={handleEdit} encType="multipart/form-data">
-      <Typography level="h4">
-        <Box component={TuneOutlinedIcon} color="#FABC1E" />
+      <Typography level="h4"
+      sx={{ display: 'flex', alignItems: 'center' }}
+      >
+       <TuneOutlinedIcon
+                      style={{ fontSize: "1.4rem", color: "#FBC12E" }}
+                    />
         Company Information
       </Typography>
 
@@ -119,21 +125,31 @@ const SetupCompInfo: React.FC = ({}) => {
           borderRadius: '16px',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
-          padding: 5,
+          padding: 2,
         }}
       >
-        <Grid container spacing={2}>
+        <Grid container spacing={2}  justifyContent="center">
           <Grid xs={12}>
             <Typography
               level="h4"
-              sx={{ display: 'flex', alignItems: 'center' }}
+              sx={{
+               
+                fontSize: '20px',
+                fontWeight: 500,
+                lineHeight: '30px',
+                textAlign: { xs: 'center', md: 'left' },
+                whiteSpace: 'nowrap',
+                
+              }}
             >
-              <ContactMailOutlinedIcon style={{ color: '#FBC21E' }} />
-              <Box component="span" sx={{ marginLeft: 1, fontSize: '16px' }}>
-                Company Details
-              </Box>
+              <ContactMailOutlinedIcon style={{  fontSize: "1.1rem",color: '#FBC21E' }} />
+              Company Details
             </Typography>
-            <Typography sx={{ fontSize: '14px' }}>
+            <Typography 
+            sx={{marginTop:'15px', fontSize: '14px',fontWeight: 500,
+                lineHeight: '30px',
+                textAlign: { xs: 'center', md: 'left' },
+                whiteSpace: 'nowrap', }}>
               Provide the name and site of the main office.
             </Typography>
           </Grid>
@@ -147,8 +163,9 @@ const SetupCompInfo: React.FC = ({}) => {
                 key={index}
                 sx={{
                   justifyContent: 'center',
-                  marginLeft: '10%',
+                  // marginLeft: '10%',
                   fontSize: '14px',
+                  textAlign: { xs: 'center', md: 'left' },
                 }}
               >
                 <FieldComponent
@@ -161,21 +178,27 @@ const SetupCompInfo: React.FC = ({}) => {
             ))}
         </Grid>
         <Divider sx={{ my: 3 }} />
-        <Grid container spacing={2}>
+        <Grid container spacing={2}  justifyContent="center">
           <Grid xs={12}>
             <Typography
-              level="h4"
-              sx={{ display: 'flex', alignItems: 'center' }}
+             level="h4"
+             sx={{
+              
+               fontSize: '20px',
+               fontWeight: 500,
+               lineHeight: '30px',
+               textAlign: { xs: 'center', md: 'left' },
+               whiteSpace: 'nowrap',
+               
+             }}
             >
-              <Box sx={{ display: 'flex' }}>
-                {' '}
-                <CurrencyExchangeOutlinedIcon style={{ color: '#FBC21E' }} />
-                <Box component="span" sx={{ marginLeft: 1, fontSize: '16px' }}>
-                  Timezone & Currency
-                </Box>
-              </Box>
+               <CurrencyExchangeOutlinedIcon style={{  fontSize: "1.1rem",color: '#FBC21E' }} />
+               Timezone & Currency
             </Typography>
-            <Typography sx={{ fontSize: '14px' }}>
+            <Typography sx={{marginTop:'15px', fontSize: '14px',fontWeight: 500,
+                lineHeight: '30px',
+                textAlign: { xs: 'center', md: 'left' },
+                whiteSpace: 'normal', wordBreak: 'break-word', }}>
               Adjust your company’s local timezone, currency, and date format.
             </Typography>
           </Grid>
@@ -184,12 +207,13 @@ const SetupCompInfo: React.FC = ({}) => {
               <Grid
                 key={index}
                 md={8}
-                xs={8}
+                xs={12}
                 sm={8}
                 sx={{
                   justifyContent: 'center',
-                  marginLeft: '10%',
+                  // marginLeft: '10%',
                   fontSize: '14px',
+                  textAlign: { xs: 'center', md: 'left' },
                 }}
               >
                 <FieldComponent
@@ -206,14 +230,23 @@ const SetupCompInfo: React.FC = ({}) => {
           <Grid xs={12}>
             <Typography
               level="h4"
-              sx={{ display: 'flex', alignItems: 'center' }}
+              sx={{
+              
+                // fontSize: '20px',
+                fontWeight: 500,
+                lineHeight: '30px',
+                textAlign: { xs: 'center', md: 'left' },
+                whiteSpace: 'nowrap',
+                
+              }}
             >
-              <CollectionsOutlinedIcon style={{ color: '#FBC21E' }} />
-              <Box component="span" sx={{ marginLeft: 1, fontSize: '16px' }}>
-                Company Logo
-              </Box>
+              <CollectionsOutlinedIcon style={{  fontSize: "1.1rem",color: '#FBC21E' }} />
+              Company Logo
             </Typography>
-            <Typography sx={{ fontSize: '14px' }}>
+            <Typography sx={{marginTop:'15px', fontSize: '14px',fontWeight: 500,
+                lineHeight: '30px',
+                textAlign: { xs: 'center', md: 'left' },
+                whiteSpace: 'normal', wordBreak: 'break-word', }}>
               Upload your organization’s logo to make this space your own.
             </Typography>
           </Grid>
@@ -222,11 +255,13 @@ const SetupCompInfo: React.FC = ({}) => {
               <Grid
                 key={index}
                 md={8}
-                xs={8}
-                sm={8}
+                xs={10}
+                sm={12}
                 sx={{
-                  justifyContent: 'center',
-                  marginLeft: '10%',
+                  justifyContent: {md:'center', xs:"center"},
+                  display:"flex",
+                  flexDirection:{md:'center', xs:"center"},
+                  marginLeft: {md:"15%", xs:"10%" },
                   fontSize: '14px',
                 }}
               >
@@ -235,7 +270,7 @@ const SetupCompInfo: React.FC = ({}) => {
                   formData={formData}
                   handleFileChange={handleFileChange}
                 />
-                 <CloudUploadIcon size={23} />
+                 {/* <CloudUploadIcon style={{fontSize:'15px'}}/> */}
               </Grid>
             ))}
         </Grid>
@@ -253,16 +288,25 @@ const SetupCompInfo: React.FC = ({}) => {
 <Box
   sx={{
     display: 'flex',
-    justifyContent: 'space-between', // Ensures buttons are spaced evenly
-    gap: '10px', // Adds gap between the buttons
-    flexWrap: 'wrap', // Allows wrapping on smaller screens
+    // justifyContent: 'space-between', // Ensures buttons are spaced evenly
+    // gap: '10px', // Adds gap between the buttons
+    // flexWrap: 'wrap', // Allows wrapping on smaller screens
+
+            alignItems: 'center',
+            flexDirection: { md: 'row'},
+            justifyContent: { xs: 'space-between', md: 'flex-end' },
+            gap: '5px',
+            mt: 4,
+            flexWrap:'wrap'
   }}
 >
   <Button
     onClick={handleCancel}
     sx={{
-      backgroundColor: '#E0E0E0',
-      '&:hover': { backgroundColor: '#BDBDBD' },
+      background: '#388e3c',
+      color: 'white',
+      '&:hover': { background: '#1b5e20' },
+      borderRadius: 'none',
       width: {
         xs: 'auto',  // Auto width for extra-small screens
         sm: 'auto',  // Auto width for small screens
@@ -277,8 +321,10 @@ const SetupCompInfo: React.FC = ({}) => {
   <Button
     type="submit"
     sx={{
-      backgroundColor: '#FABC1E',
-      '&:hover': { backgroundColor: '#e0a800' },
+      background: '#fdd835',
+              color: 'black',
+              '&:hover': { background: '#e0a800' },
+              borderRadius: 'none',
       width: {
         xs: 'auto',  // Auto width for extra-small screens
         sm: 'auto',  // Auto width for small screens
@@ -294,6 +340,7 @@ const SetupCompInfo: React.FC = ({}) => {
 
       </Box>
     </AppForm>
+    </AppView>
   )
 }
 

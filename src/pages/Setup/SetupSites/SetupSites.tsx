@@ -101,17 +101,17 @@ const SetupSites: React.FC = ({}) => {
   return (
     <AppView>
       <Typography level="h4" style={{ display: 'flex', alignItems: 'center' }}>
-        <RoomOutlinedIcon style={{ color: '#FBC21E' }} />
-        <strong>Sites</strong>
+        <RoomOutlinedIcon style={{ fontSize: '1.4rem', color: '#FBC21E' }} />
+        Sites
       </Typography>
 
       <Box
         sx={{
-          borderRadius: 'none',
+          borderRadius: '10px',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
           gap: '5px',
-          padding: 2,
+          p:1,
         }}
       >
         <Box
@@ -127,7 +127,7 @@ const SetupSites: React.FC = ({}) => {
           <Grid
             container
             spacing={1}
-            sx={{ flexGrow: 1, paddingTop: '20px', paddingBottom: '10px' }}
+            sx={{ flexGrow: 1, paddingTop: '10px', paddingBottom: '10px' }}
           >
             <Grid xs={4}>
             
@@ -144,17 +144,14 @@ const SetupSites: React.FC = ({}) => {
                   lineHeight: '30px',
                   textAlign: { xs: 'center', md: 'left' },
                   whiteSpace: 'nowrap',
-                  mt:0
+                  
                 }}
 
                 >
                   <TuneOutlinedIcon
-                    sx={{
-                      color: '#FBC21E',
-                      alignItems: 'center',
-                    }}
+                    style={{ fontSize: '1.1rem', color: '#FBC12E' }}
                   />
-                  <strong>List of Sites</strong>
+                  List of Sites
                 </Typography>
               </Box>
             </Grid>
@@ -175,16 +172,10 @@ const SetupSites: React.FC = ({}) => {
                 >
                   <Button
                     sx={{
-                      backgroundColor: 'green',
-                      color: 'white',
-                      fontSize: '15px',
-                      padding: '10px',
+                      background: '#388e3c',
                       borderRadius: '15px',
-                      width: { xs: '100%', sm: 'auto', md: '150px' },
-                      height: '40px',
-                      '&:hover': {
-                        backgroundColor: 'darkgreen',
-                      },
+                      color: 'white',
+                      '&:hover': { background: 'green' },
                     }}
                     onClick={() => setOpen(true)}
                   >
@@ -215,13 +206,12 @@ const SetupSites: React.FC = ({}) => {
           </Button>
         )}
                   <Button
-                    sx={{
-                      fontSize: '15px',
-                      width: { xs: '100%', sm: 'auto', md: '150px' },
-                      marginRight: '10px',
-                      height: '40px',
-                      borderRadius: '15px',
-                    }}
+                   sx={{
+                    background: 'black',
+                    borderRadius: '15px',
+                    color: 'white',
+                    '&:hover': { background: 'black' },
+                  }}
                   >
                     <PublishOutlinedIcon
                     />
@@ -234,13 +224,13 @@ const SetupSites: React.FC = ({}) => {
         
         </Box>
         <Divider />
-        <Box sx={{ marginTop: '20px', padding: '20px', fontSize: '14px' }}>
+        <Box sx={{ marginTop: '5px', padding: '10px', fontSize: '14px' }}>
           <Typography>
-        <strong>AssetTiger</strong> allows you to enter multiple{' '}
-            <strong>Sites</strong>. For example, the <strong>Site</strong> may
+        AssetTiger allows you to enter multiple
+            Sites. For example, the Site may
             be a building or address. This means that you can better track each
-            asset that is assigned to a given <strong>Site</strong>. A detailed{' '}
-            <strong>Site</strong> makes it easy to find and count each asset.
+            asset that is assigned to a given Site. A detailed
+          Site makes it easy to find and count each asset.
             </Typography>
         </Box>
         <Divider />
@@ -260,7 +250,7 @@ const SetupSites: React.FC = ({}) => {
               flexDirection: { xs: 'column', md: 'row' },
             }}
           >
-            <FormLabel
+            {/* <FormLabel
               sx={{
                 marginLeft: '10px',
                 marginTop: '6px',
@@ -268,7 +258,7 @@ const SetupSites: React.FC = ({}) => {
               }}
             >
               Sites
-            </FormLabel>
+            </FormLabel> */}
             {/* <Select
               placeholder="10"
               sx={{
@@ -425,22 +415,23 @@ const SetupSites: React.FC = ({}) => {
                               aria-label="edit"
                               onClick={() => handleEditClick(site)}
                               sx={{
-                                fontSize: '14px',
+                                fontSize: '13px',
                                 background: '#ffffff',
                                 color: 'green',
+                                // display: 'inline-flex',
                                 display: 'flex',
                                 justifyContent: {
                                   md: 'flex-end',
-                                  xs: 'center',
+                                  xs:'center'
                                 },
                                 marginLeft: 'none',
                                 border: '1px solid green ',
-                                borderRadius: '13px',
+                                borderRadius: '10px',
                                 '&:hover': {
                                   color: 'white',
                                   background: 'green',
                                 },
-                                padding: '.25rem .55rem',
+                                padding: ".15rem .50rem"
                               }}
                             >
                               <EditIcon sx={{ fontSize: '14px' }} />
@@ -453,19 +444,21 @@ const SetupSites: React.FC = ({}) => {
                             aria-label="delete"
                             onClick={() => handleDeleteClick(site)}
                             sx={{
-                              fontSize: '14px',
+                              fontSize: '13px',
                               background: '#ffffff',
                               color: '#d32f2f',
+                              // display: 'inline-flex',
                               display: 'flex',
                               justifyContent: { md: 'flex-end', xs: 'center' },
+                              
                               marginLeft: 'none',
                               border: '1px solid red ',
-                              borderRadius: '13px',
+                              borderRadius: '10px',
                               '&:hover': {
                                 color: 'white',
                                 background: '#d32f2f',
                               },
-                              padding: '.25rem .55rem',
+                              padding: ".5rem .35rem"
                             }}
                           >
                             <DeleteIcon sx={{ fontSize: '14px' }} />

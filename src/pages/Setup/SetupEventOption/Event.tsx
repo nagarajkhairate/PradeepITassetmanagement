@@ -22,7 +22,7 @@ import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch } from 'react-redux'
 import { RootState } from '../../../redux/store'
-import { addEvents, fetchEvents } from '../../../redux/features/EventsSlice'
+import { addEvents, fetchEvents, updateEvents } from '../../../redux/features/EventsSlice'
 
 const options = [
   {
@@ -43,7 +43,7 @@ interface CustomButtonBoxProps {
 interface AssetRadioGroupProps {
   name: string
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  value: string
+  value: boolean |''
 }
 
 const Event: React.FunctionComponent= () => {
@@ -53,7 +53,7 @@ const Event: React.FunctionComponent= () => {
   
   const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
-    setEventForm((prevData: any) => ({ ...prevData, [name]: value }))
+    setEventForm((prevData: any) => ({ ...prevData, [name]: value==="yes"}))
   }
   const handleSubmit = () => {
     // setCompanyFormData((prevData: any) => ({
@@ -61,7 +61,7 @@ const Event: React.FunctionComponent= () => {
     //   eventOption: eventForm,
     // }))
     console.log(JSON.stringify(eventForm, null, 2))
-    dispatch(addEvents(eventForm))
+    dispatch(updateEvents(eventForm))
     console.log(JSON.stringify(eventForm, null, 2));
   }
   React.useEffect(()=>{
@@ -79,7 +79,7 @@ const Event: React.FunctionComponent= () => {
       name={name}
       defaultValue="outlined"
       onChange={onChange}
-      value={value}
+      value={value === true ? 'yes' : value === false ? 'no' : ''}
     >
       <Box>
         {options.map((option) => (
@@ -434,10 +434,12 @@ const Event: React.FunctionComponent= () => {
         <Box
           sx={{
             display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
-            justifyContent: { xs: 'center', md: 'flex-end' },
-            gap: 1,
             mt: 2,
+            alignItems: 'center',
+            flexDirection: { md: 'row'},
+            justifyContent: { xs: 'space-between', md: 'flex-end' },
+            gap: '5px',
+            flexWrap:'wrap'
           }}
         >
           <Button
