@@ -14,16 +14,15 @@ import { Select, Option } from "@mui/joy";
 import Modal from "@mui/joy/Modal";
 import PublishOutlinedIcon from "@mui/icons-material/PublishOutlined";
 import { useState } from "react";
-import { selectClasses } from "@mui/joy/Select";
 import CategorySubEdit from "./CategorySubEdit";
-import PlaylistAddCheckOutlinedIcon from "@mui/icons-material/PlaylistAddCheckOutlined";
-import { KeyboardArrowDown } from "@mui/icons-material";
 import AppView from "../../../components/Common/AppView";
 import CategorySubAdd from "./CategorySubAdd";
 import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../../Redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { addSubCategory, fetchSubCategory } from "../../../Redux/features/CategorySubSlice";
+import { fetchSubCategories } from "../../../redux/features/CategorySubSlice";
+import CategorySubDelete from "./CategorySubDelete";
+import { RootState } from "../../../redux/store";
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 
 type SubCategory = {
   id: number
@@ -33,18 +32,18 @@ type SubCategory = {
 
 const CategorySub: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [subCategory, setSubCategory] = useState<string>("");
-  const [categories, setCategories] = useState<SubCategory[]>([]);
+  const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
 
   const subCategories = useSelector((state: RootState) => state.subCategories.data)
   // const dispatch = useDispatch<AppDispatch>()
   console.log(subCategories)
 
   const handleCategoryChange = (updatedCategories: SubCategory[]) => {
-    setCategories(updatedCategories);
+    // setCategories(updatedCategories);
     console.log("subCategory: ", JSON.stringify(updatedCategories));
   };
 
@@ -59,25 +58,39 @@ const CategorySub: React.FunctionComponent = () => {
   const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const newCategory: SubCategory = {
-      id: categories.length ? categories[categories.length - 1].id + 1 : 1,
-      subCategory: subCategory,
+      id: subCategories.length ? subCategories[subCategories.length - 1].id + 1 : 1,
+      subCategory: capitalizeWords(subCategory),
     }
-    setCategories([...categories, newCategory])
-    dispatch(addSubCategory(newCategory))
+    // setCategories([...categories, newCategory])
+    // dispatch(addSubCategory(newCategory))
     setSubCategory('') // Clear the input field after adding
-    handleClose()
+    // handleClose()
   }
 
-  
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase())
+  }
+
+
+  const handleDeleteOpen = () => {
+    setDeleteOpen(true)
+  }
+  const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
+
+  const handleDeleteClose = () => {
+    setDeleteOpen(false)
+    setMatchedSelected([])
+  }
+
   React.useEffect(() => {
-    dispatch(fetchSubCategory())
+    dispatch(fetchSubCategories())
   }, [])
 
   return (
     <AppView>
       <Typography level="h3" sx={{ display: "flex", alignItems: "center" }}>
         <SignpostOutlinedIcon
-          style={{ fontSize: "1.4rem", color: "#d32f2f"}}
+          style={{ fontSize: "1.4rem", color: "#FBC12E"}}
         />
         Sub Categories
       </Typography>
@@ -108,8 +121,9 @@ const CategorySub: React.FunctionComponent = () => {
                   }}
                 >
                   <Typography
+                  level="h4"
                     sx={{
-                      fontFamily: "Poppins",
+                   
                       fontSize: "20px",
                       fontWeight: 500,
                       lineHeight: "30px",
@@ -117,8 +131,8 @@ const CategorySub: React.FunctionComponent = () => {
                       whiteSpace: "nowrap",
                     }}
                   >
-                    <PlaylistAddCheckOutlinedIcon
-                      style={{ fontSize: "1.4rem", color: "#d32f2f" }}
+                    <TuneOutlinedIcon
+                      style={{ fontSize: "1.1rem", color: "#FBC12E" }}
                     />
                     List of Sub Categories
                   </Typography>
@@ -140,10 +154,55 @@ const CategorySub: React.FunctionComponent = () => {
                       borderRadius: '15px',
                       color: "white",   
                     }}
-                    onClick={handleClickOpen}
+                    onClick={()=>setOpen(true)}
                   >
                     <AddIcon /> Add New Sub Category
                   </Button>
+                  {open && <Modal
+              aria-labelledby="responsive-dialog-title"
+              aria-describedby="modal-desc"
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              open={open}
+              onClose={setOpen}
+            >
+                  <CategorySubAdd
+                   open={open}
+                   setOpen={setOpen}
+        // open={open}
+        handleClose={handleClose}
+        // subCategory={subCategory}
+        // setSubCategory={setSubCategory}
+        // handleAddCategory={handleAddCategory}
+      />
+      </Modal>}
+
+      {matchedSelected.length > 0 && (
+          <Button
+            onClick={handleDeleteOpen}
+            autoFocus
+              variant="solid"
+            sx={{
+              fontSize: '13px',
+              // background: '#ffffff',
+              borderRadius: '15px',
+              // color: '#d32f2f',
+              background: '#d32f2f',
+              display: 'flex',
+              justifyContent: { md: 'flex-end', xs: 'center' },
+              marginLeft: 'none',
+              border: '1px solid red',
+              
+              padding: '.5rem .10rem',
+            }}
+          >
+            {/* <DeleteForeverIcon sx={{ fontSize: '15px' }} /> */}
+            Delete Categories
+          </Button>
+        )}
 
                   <Button
                     autoFocus
@@ -165,9 +224,9 @@ const CategorySub: React.FunctionComponent = () => {
             <Divider />
 
             <Box>
-              <Box sx={{ padding: "20px", marginTop: "10px" }}>
+              <Typography sx={{  marginTop: "10px" }}>
               You may also add Sub Categories. Sub Categories are a subset of Categories. For example, the Sub Categories may be different types of Categories. The Sub Category may be a specific type or name within the Category. Select a Category and add your list of Sub Categories here.
-              </Box>
+              </Typography>
 
 
               <Box 
@@ -213,7 +272,7 @@ const CategorySub: React.FunctionComponent = () => {
               //   )
               // }
             >
-              <Option value="Location1">Location1</Option>
+              <Option value="category">Category</Option>
             </Select>
           </FormControl>
         </Box>
@@ -319,20 +378,22 @@ const CategorySub: React.FunctionComponent = () => {
 
             <Box>
               <CategorySubEdit
-                categories={categories}
-                onCategoryChange={handleCategoryChange}
+                categories1={subCategories}
+                matchedSelected={matchedSelected}
+                setMatchedSelected={setMatchedSelected}
+                handleDeleteOpen={handleDeleteOpen}
+                // onCategoryChange={handleCategoryChange}
               />
             </Box>
             <Divider />
           </Box>
 
-          <CategorySubAdd
-        open={open}
-        handleClose={handleClose}
-        subCategory={subCategory}
-        setSubCategory={setSubCategory}
-        handleAddCategory={handleAddCategory}
-      />
+          <CategorySubDelete
+          open={deleteOpen}
+          handleDeleteClose={handleDeleteClose}
+         
+          categories1={subCategories}
+        />
     </AppView>
   );
 };

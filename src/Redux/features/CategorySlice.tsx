@@ -20,23 +20,20 @@ const base_api_key_url = process.env.BASE_API_KEY;
 const TENANT_ID = process.env.TENANT_ID;
 
  
-export const fetchCategory = createAsyncThunk('category/fetchCategory', async () => {
+export const fetchCategory = createAsyncThunk('categories/fetchCategory', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/category`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/categories`);
   return response.data;
    
   } catch (error) {
     console.error('Error Message'+ error);
     throw error;
   }
- 
- 
 });
 
-
-export const fetchCategoryById = createAsyncThunk('category/fetchCategoryById', async (id: string ) => {
+export const fetchCategoryById = createAsyncThunk('categories/fetchCategoryById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/category/${id}`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/categories/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -45,32 +42,31 @@ export const fetchCategoryById = createAsyncThunk('category/fetchCategoryById', 
  
 });
  
-export const addCategory = createAsyncThunk('category/addCategory', async (category: any) => {
-  console.log('asfes')
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/category/`, category);
+export const addCategory = createAsyncThunk('categories/addCategory', async (category: any) => {
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/categories`, category);
  console.log(response)
   return response.data;
 });
  
-export const updateCategory = createAsyncThunk('category/updateCategory', async (updatedCategory: any) => {
+export const updateCategory = createAsyncThunk('categories/updateCategory', async (updatedCategory: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/category/${updatedCategory.id}`, updatedCategory);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/categories/${updatedCategory.id}`, updatedCategory);
   
   return response.data;
 });
  
-export const deleteCategory = createAsyncThunk('category/deleteCategory', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/category/${id}`);
+export const deleteCategory = createAsyncThunk('categories/deleteCategory', async (id: number) => {
+  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/categories/${id}`);
   return id;
 });
 
 const categorySlice = createSlice({
-  name: 'category',
+  name: 'categories',
   initialState,
   reducers: {
     setSelectedCustomer: (state, action: PayloadAction<number>) => {
-      const category = state.data.find((u) => u.id === action.payload);
-      state.selectedCategory = category || null;
+      const categories = state.data.find((u) => u.id === action.payload);
+      state.selectedCategory = categories || null;
     },
   },
   extraReducers: (builder) => {

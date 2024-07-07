@@ -28,7 +28,6 @@ export const AssetsPastDue: React.FC = () => {
               >
         <Typography
           sx={{
-            fontFamily: 'Poppins',
             fontSize: { xs: '24px', md: '32px' },
             fontWeight: 500,
             lineHeight: { xs: '36px', md: '48px' },
@@ -40,7 +39,6 @@ export const AssetsPastDue: React.FC = () => {
         </Typography>
         <Typography
           sx={{
-            fontFamily: 'Poppins',
             fontSize: { xs: '14px', md: '18px' },
             fontWeight: 400,
             lineHeight: { xs: '22px', md: '27px' },

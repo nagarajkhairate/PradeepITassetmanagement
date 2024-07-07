@@ -1,11 +1,4 @@
-import * as React from "react";
-import Tabs from "@mui/joy/Tabs";
-import TabList from "@mui/joy/TabList";
-import Tab from "@mui/joy/Tab";
-import TabPanel from "@mui/joy/TabPanel";
-import { Box, Button, Typography, IconButton } from "@mui/joy";
-import LanguageIcon from "@mui/icons-material/Language";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import React from "react";
 import Company from "../../components/Companyinfo/Company/Company";
 import Sites from "../../components/Companyinfo/Sites/Sites";
 import TableOptions from "../../components/Companyinfo/TableOptions/TableOptions";
@@ -15,21 +8,31 @@ import DataBase from "../../components/Companyinfo/Database/DataBase";
 import EventOption from "../../components/Companyinfo/EventOption/EventOption";
 import AppView from "../../components/Common/AppView";
 
+import { Box, Step, StepButton, StepIndicator, Stepper } from "@mui/joy";
+import Check from "@mui/icons-material/Check";
+
+
 const CompanyInfo = () => {
   const [companyFormData, setCompanyFormData] = React.useState({});
-  const [siteFormData, setSiteFormData] = React.useState({});
-  const [tableFormData, setTableFormData] = React.useState({});
-  const [activeTab, setActiveTab] = React.useState(0);
+  const [activeStep, setActiveStep] = React.useState(0);
 
 
-  const tabs = [
-    { label: "Company", icon: <LanguageIcon fontSize="large" /> },
-    { label: "Sites", icon: <LanguageIcon fontSize="large" /> },
-    { label: "Locations", icon: <LanguageIcon fontSize="large" /> },
-    { label: "Categories", icon: <LanguageIcon fontSize="large" /> },
-    { label: "Database", icon: <LanguageIcon fontSize="large" /> },
-    { label: "TableOptions", icon: <LanguageIcon fontSize="large" /> },
-    { label: "EventOptions", icon: <LanguageIcon fontSize="large" /> },
+  console.log(companyFormData)
+
+  const steps: any[] = [
+    { label: "Company", component: <Company companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
+    { label: "Sites", component: <Sites companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
+    { label: "Locations", component: <LocationPage companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep}/> },
+    { label: "Categories", component: <Category activeTab={activeStep} setActiveTab={setActiveStep}/>  },
+    { label: "Database", component: <DataBase companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep}/> },
+    { label: "TableOptions", component: <TableOptions companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
+    { label: "EventOptions", component: <EventOption companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
+    // { label: "Summary", component: (
+    //   <Box>
+    //     <Typography level="h6">Summary</Typography>
+    //     <pre>{JSON.stringify(companyFormData, null, 2)}</pre>
+    //   </Box>
+    // ) },
   ];
 
   return (
@@ -38,104 +41,38 @@ const CompanyInfo = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
+          justifyContent: "center",
           alignItems: "center",
           width: "100%",
         }}
       >
-        <Tabs aria-label="Basic tabs" value={activeTab} sx={{ width: "100%" }}>
-          <TabList
-            sx={{
-              display: "flex",
-              justifyContent: "space-around",
-              width: "100%",
-              flexDirection: { xs: "column", sm: "column", md: "row" },
-            }}
-          >
-            {tabs.map((tab, index) => (
-              <Tab
-                key={index}
-              >
-                <IconButton>
-                  {React.cloneElement(tab.icon, {
-                    style: { color: index <= activeTab ? "#FBC21E" : "inherit" },
-                  })}
-                  {index < activeTab && (
-                    <CheckCircleIcon
-                      style={{ color: "green", marginLeft: "4px" , fontSize:"small" }}
-                    />
-                  )}
-                </IconButton>
-                <Typography level="h4">{tab.label}</Typography>
-              </Tab>
-            ))}
-          </TabList>
-          <TabPanel value={0}>
-            <Company
-              companyFormData={companyFormData}
-              setCompanyFormData={setCompanyFormData}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-            />
-          </TabPanel>
-          <TabPanel value={1}>
-            <Sites
-              companyFormData={companyFormData}
-              setCompanyFormData={setCompanyFormData}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-            />
-          </TabPanel>
-          <TabPanel value={2}>
-            <LocationPage
-              companyFormData={companyFormData}
-              setCompanyFormData={setCompanyFormData}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-            />
-          </TabPanel>
-          <TabPanel value={3}>
-          <Category
-              companyFormData={companyFormData}
-              setCompanyFormData={setCompanyFormData}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-            />
-          </TabPanel>
-          <TabPanel value={4}>
-          <DataBase
-          id={1}
-              companyFormData={companyFormData}
-              setCompanyFormData={setCompanyFormData}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-            />
-          </TabPanel>
-          <TabPanel value={5}>
-            <TableOptions
-              companyFormData={companyFormData}
-              setCompanyFormData={setCompanyFormData}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-            />
-          </TabPanel>
-          <TabPanel value={6}>
-          <EventOption
-              companyFormData={companyFormData}
-              setCompanyFormData={setCompanyFormData}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-            />
-          </TabPanel>
-        </Tabs>
-        <Box
-          mt={2}
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-          }}
-        >
+        <Stepper sx={{ width: '100%' }}>
+          {steps && steps.map((step, index) => (
+            <Step
+              key={index}
+              indicator={
+                <StepIndicator
+                  variant={activeStep <= index ? 'soft' : 'solid'}
+                  color={activeStep < index ? 'neutral' : 'primary'}
+                >
+                  {activeStep <= index ? index + 1 : <Check />}
+                </StepIndicator>
+              }
+              sx={{
+                '&::after': {
+                  ...(activeStep > index &&
+                    index !== 2 && { bgcolor: '#FABC1E' }),
+                },
+              }}
+            >
+              <StepButton>{step.label}</StepButton>
+            </Step>
+          ))}
+        </Stepper>
+        <Box sx={{ mt: 2 }}>
+          {steps[activeStep] && steps[activeStep].component}
         </Box>
+       
       </Box>
     </AppView>
   );

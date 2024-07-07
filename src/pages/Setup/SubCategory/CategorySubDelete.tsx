@@ -1,13 +1,45 @@
 import { Box, Button, FormControl, Modal, Sheet, Typography } from "@mui/joy"
+import AppForm from "../../../components/Common/AppForm"
 
 
 interface CategorySubDeleteProps{
     open:boolean
     handleDeleteClose:() => void
-    handleDeleteSubmit:(e: React.FormEvent<HTMLFormElement>) => void
+    // handleDeleteSubmit:(e: React.FormEvent<HTMLFormElement>) => void
+    categories1:SubCategory[]
 }
 
-const CategorySubDelete: React.FunctionComponent<CategorySubDeleteProps> = ({open, handleDeleteClose, handleDeleteSubmit}) => {
+
+type SubCategory = {
+  id: number
+  subCategory: string
+}
+
+
+const CategorySubDelete: React.FunctionComponent<CategorySubDeleteProps> = ({open, handleDeleteClose,categories1}) => {
+
+  const selectedCell = 0; 
+
+  // const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   if (selectedCell !== null) {
+  //     dispatch(deleteSubCategories(subCategories[selectedCell].id))
+  //     setDeleteOpen(false)
+  //     setSelectedCell(null)
+  //     setMatchedSelected((prevSelected) =>
+  //       prevSelected.filter((item) => item !== selectedCell),
+  //     )
+  //   }
+  // }
+
+  const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (selectedCell !== null) {
+      // dispatch(deleteCategory(categories[selectedCell].id));
+      handleDeleteClose();
+    }
+  };
+
 return(
 <Modal
           
@@ -35,10 +67,21 @@ sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
   fontWeight="lg"
   mb={1}>{"Delete Customs here"}</Typography>
 
-<form onSubmit={handleDeleteSubmit}>
+<AppForm onSubmit={handleDeleteSubmit}>
   <FormControl sx={{ display: "flex", flexDirection: "column", justifyContent: "space-evenly" }}>
     <Box sx={{ marginBottom: "20px", padding: "20px" }}>Are you sure you want to delete this Category?</Box>
   </FormControl>
+
+  <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: { md: 'row'},
+            justifyContent: { xs: 'space-between', md: 'flex-end' },
+            gap: '5px',
+            flexWrap:'wrap'
+          }}
+        >
   <Button
     autoFocus
     type="submit"
@@ -46,8 +89,7 @@ sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
     sx={{
       background: "#fdd835",
       color: "black",
-      marginTop: "25px",
-      marginLeft: "40%",
+      '&:hover': { background: '#E1A91B' },
     }}
   >
     Confirm Delete
@@ -59,11 +101,14 @@ sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
     autoFocus
     variant="solid"
     sx={{ background: "black",
-    color: "white", marginTop: "25px", marginLeft: "10px" }}
+    color: "white", 
+    '&:hover': { background: 'black' },
+   }}
   >
     Cancel
   </Button>
-</form>
+  </Box>
+</AppForm>
 </div>
 </Sheet>
 </Modal>

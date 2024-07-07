@@ -20,11 +20,11 @@ import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import AppView from "../../../components/Common/AppView";
 import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../../Redux/store";
-import { useDispatch } from "react-redux";
-import { addoptions } from "../../../Redux/features/TableOptionsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addoptions, fetchOptions, fetchOptionsById } from "../../../redux/features/TableOptionsSlice";
+import { RootState } from "../../../redux/store";
 
-const DepreciationOptions = {
+const depreciationOptions = {
   "id": 1,
   "title": "Depreciation",
   "description":
@@ -80,7 +80,9 @@ const SetupTableOptions: React.FC = ({}) => {
     calculationFrequency: "",
     enableLinking: "no",
   });
+  const tableOptions = useSelector((state: RootState) => state.tableOptions);
   const dispatch: ThunkDispatch<RootState, void, any>= useDispatch()
+
 
   const handleDepreciationChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -89,7 +91,6 @@ const SetupTableOptions: React.FC = ({}) => {
       ...prevData,
       assetDepreciation: value,
     }));
-    // console.log("Depreciation option selected:", value);
   };
 
   const handleDepreciationMethodChange = (
@@ -113,25 +114,25 @@ const SetupTableOptions: React.FC = ({}) => {
 
   const handleSubmit = () => {
     const formData: any = {
-      DepreciationOptions: {
+      depreciationOptions: {
         assetDepreciation: companyFormData.assetDepreciation,
       },
      
-      TableData: TableData.map((item) => ({
+      tableData: TableData.map((item) => ({
         title: item.title,
         selectedOption: companyFormData[item.title],
       })),
-      LinkingOfAssets: {
+      linkingOfAssets: {
         enableLinking: enableLinking,
       },
     };
 
     if (companyFormData.assetDepreciation === "yes") {
-      formData.DepreciationOptions.depreciationMethod = depreciationMethod;
-      formData.DepreciationOptions.calculationFrequency = calculationFrequency;
+      formData.depreciationOptions.depreciationMethod = depreciationMethod;
+      formData.depreciationOptions.calculationFrequency = calculationFrequency;
     }
     if (enableLinking === "yes") {
-      formData.LinkingOfAssets.linkedAssets = {
+      formData.linkingOfAssets.linkedAssets = {
         checkout: linkedAssets.checkout,
           reservation: linkedAssets.reservation,
           leaseAssets: linkedAssets.leaseAssets,
@@ -144,6 +145,7 @@ const SetupTableOptions: React.FC = ({}) => {
           auditAssets: linkedAssets.auditAssets,
       };
     }
+
     dispatch(addoptions(formData))
     console.log(JSON.stringify(formData, null, 2));
   };
@@ -167,6 +169,11 @@ const SetupTableOptions: React.FC = ({}) => {
       [name]: checked,
     }));
   };
+
+  React.useEffect(()=>{
+    dispatch(fetchOptions())
+  },[dispatch])
+  
 
 
   return (
@@ -200,13 +207,14 @@ const SetupTableOptions: React.FC = ({}) => {
               <form>
                 <Typography
                   sx={{
+                    fontSize: '14px',
                     margin: {
                       xs: "4px",
                       md: "22px",
                     },
                   }}
                 >
-                  <b>AssetTiger</b> lets you decide how comprehensive you want
+                  <strong>AssetTiger</strong> lets you decide how comprehensive you want
                   your system. Use these Options to fashion your ideal asset
                   tracking and create more reports.
                 </Typography>
@@ -222,14 +230,14 @@ const SetupTableOptions: React.FC = ({}) => {
                     }}
                   >
                     <div style={{ width: 25, height: 25, color: "#FBC21E" }}>
-                      <DepreciationOptions.icon />
+                      <depreciationOptions.icon />
                     </div>
 
-                    <span style={{ marginLeft: "8px" }}>
-                      {DepreciationOptions.title}
+                    <span style={{ marginLeft: "8px" , fontSize: '16px'}}>
+                      {depreciationOptions.title}
                     </span>
                   </Typography>
-                  <Typography>{DepreciationOptions.description} </Typography>
+                  <Typography sx={{fontSize: '14px'}}>{depreciationOptions.description} </Typography>
                   <Box >
                     
                     <Box>
@@ -242,9 +250,9 @@ const SetupTableOptions: React.FC = ({}) => {
                         }}
                       >
                         <Box>
-                          <FormLabel>
+                          <FormLabel sx={{fontSize: '14px'}}>
                             {" "}
-                            {DepreciationOptions.formLabel}
+                            {depreciationOptions.formLabel}
                           </FormLabel>
                         </Box>
                         <RadioGroup
@@ -257,8 +265,8 @@ const SetupTableOptions: React.FC = ({}) => {
                             gap: 2,
                           }}
                         >
-                          {DepreciationOptions.options.map((option) => (
-                            <Box>
+                          {depreciationOptions.options.map((option) => (
+                            <Box sx={{fontSize: '14px'}}>
                               <Radio
                                 key={option.value}
                                 value={option.value}
@@ -273,20 +281,20 @@ const SetupTableOptions: React.FC = ({}) => {
 
                       {showDepreciationOptions && (
                         <>
-                         <Typography>
+                         <Typography sx={{fontSize: '14px'}}>
                           Select the default depreciation method to be used for most assets. You still have the option to override and choose another depreciation method when creating assets.
                         </Typography>
                         <Box>
                           <FormControl>
-                            <FormLabel>Default Depreciation Method</FormLabel>
+                            <FormLabel sx={{fontSize: '14px'}}>Default Depreciation Method</FormLabel>
                             <Select
                               value={depreciationMethod}
                               onChange={handleDepreciationMethodChange}
                               placeholder="Straight Line"
                             >
-                              {DepreciationOptions.depreciationMethods.map(
+                              {depreciationOptions.depreciationMethods.map(
                                 (method) => (
-                                  <Option key={method} value={method}>
+                                  <Option sx={{fontSize: '14px'}} key={method} value={method}>
                                     {method}
                                   </Option>
                                 )
@@ -295,13 +303,13 @@ const SetupTableOptions: React.FC = ({}) => {
                           </FormControl>
                           </Box>
                           <FormControl>
-                            <FormLabel>Calculation Frequency</FormLabel>
+                            <FormLabel sx={{fontSize: '14px'}}>Calculation Frequency</FormLabel>
                             <Select
                               value={calculationFrequency}
                               onChange={handleCalculationFrequencyChange}
                               placeholder="Yearly"
                             >
-                              {DepreciationOptions.calculationFrequencies.map(
+                              {depreciationOptions.calculationFrequencies.map(
                                 (frequency) => (
                                   <Option key={frequency} value={frequency}>
                                     {frequency}
@@ -332,11 +340,11 @@ const SetupTableOptions: React.FC = ({}) => {
                             <div style={{ width: 25, height: 25, color: "#FBC21E" }}>
                           <item.icon />
                           </div>
-                          <span style={{ marginLeft: "8px" }}>
+                          <span style={{ marginLeft: "8px" ,fontSize: '16px'}}>
                             {item.title}
                           </span>
                         </Typography>
-                        <Typography>{item.description}</Typography>
+                        <Typography sx={{fontSize: '14px'}}>{item.description}</Typography>
 
                         <Box>
                           <FormControl
@@ -348,7 +356,7 @@ const SetupTableOptions: React.FC = ({}) => {
                             }}
                           >
                             <Box>
-                              <FormLabel>{item.formLabel}</FormLabel>
+                              <FormLabel sx={{fontSize: '14px'}}>{item.formLabel}</FormLabel>
                             </Box>
                             <RadioGroup
                               name={item.title}
@@ -361,7 +369,7 @@ const SetupTableOptions: React.FC = ({}) => {
                               }}
                             >
                               {item.options.map((opt) => (
-                                <Box>
+                                <Box sx={{fontSize: '14px'}}>
                                   <Radio
                                     key={opt.value}
                                     value={opt.value}
@@ -388,11 +396,11 @@ const SetupTableOptions: React.FC = ({}) => {
                         marginTop: "10px",
                       }}
                     >
-                      <span style={{ marginLeft: "8px" }}>
+                      <span style={{ marginLeft: "8px" ,fontSize: '16px' }}>
                         {LinkingOptions.title}
                       </span>
                     </Typography>
-                    <Typography>{LinkingOptions.description} </Typography>
+                    <Typography sx={{fontSize: '14px'}}>{LinkingOptions.description} </Typography>
 
                     <Box >
                     <FormControl
@@ -404,7 +412,7 @@ const SetupTableOptions: React.FC = ({}) => {
                       }}
                     >
                       <Box>
-                        <FormLabel>{LinkingOptions.formLabel}</FormLabel>
+                        <FormLabel sx={{fontSize: '14px'}}>{LinkingOptions.formLabel}</FormLabel>
                       </Box>
                       <RadioGroup
                         defaultValue="no"
@@ -418,7 +426,7 @@ const SetupTableOptions: React.FC = ({}) => {
                         }}
                       >
                         {LinkingOptions.options.map((option) => (
-                          <Box>
+                          <Box sx={{fontSize: '14px'}}>
                             <Radio
                               key={option.value}
                               value={option.value}
@@ -431,58 +439,59 @@ const SetupTableOptions: React.FC = ({}) => {
                     </Box>
                     {enableLinking === "yes" && (
                       <Box>
-                        <Typography>
+                        <Typography sx={{fontSize: '14px'}}>
                           When you define linked assets, you can mark them
                           Transact as a whole...
                         </Typography>
                         <FormControl component="fieldset">
                        
-                          <Box >
-                            <Box  marginBottom={"10px"}>
+                          <Box
+                             sx={{fontSize: '14px'}}
+                              >
+                            <Box  marginBottom={"5px"}>
                             <Checkbox 
                             name="checkout"
-                           
                             onChange={handleCheckboxChange}
                             />
                             <HowToRegOutlinedIcon   /> Check-out
                           </Box>
                     
-                          <Box marginBottom={"10px"}>
+                          <Box marginBottom={"5px"}>
                             <Checkbox
                               name="reservation"
-                              
+
                               onChange={handleCheckboxChange} />
                             <CalendarMonthOutlinedIcon  /> Reservation
                           </Box>
-                          <Box marginBottom={"10px"}>
+                          <Box marginBottom={"5px"}>
                             <Checkbox 
                               name="leaseAssets"
                             
                               onChange={handleCheckboxChange}/>
                             <CalendarMonthOutlinedIcon  /> Lease assets
                           </Box>
-                          <Box marginBottom={"10px"}>
+                          <Box marginBottom={"5px"}>
                             <Checkbox
                               name="lostFoundAssets"
                               
                               onChange={handleCheckboxChange} />
                             <TuneOutlinedIcon  /> Lost/Found'assets
                           </Box>
-                          <Box marginBottom={"10px"}>
+                          <Box marginBottom={"5px"}>
                             <Checkbox 
                               name="repairAssets"
                               
                               onChange={handleCheckboxChange}/>
                             <TuneOutlinedIcon  /> Repair assets
                           </Box>
-                          <Box marginBottom={"10px"}>
+                          <Box marginBottom={"5px"}>
                             <Checkbox 
                               name="brokenAssets"
                               
                               onChange={handleCheckboxChange}/>
                             <TuneOutlinedIcon  /> Broken assets
                           </Box>
-                          <Box marginBottom={"10px"}>
+                          <Box marginBottom={"5px"}>
                             <Checkbox 
                               name="disposeAssets"
                               
@@ -490,7 +499,7 @@ const SetupTableOptions: React.FC = ({}) => {
                             <TuneOutlinedIcon  /> Dispose
                             assets
                           </Box>
-                          <Box marginBottom={"10px"}>
+                          <Box marginBottom={"5px"}>
                             <Checkbox 
                               name="donateAssets"
                               
@@ -498,14 +507,14 @@ const SetupTableOptions: React.FC = ({}) => {
                             <TuneOutlinedIcon  /> Donate
                             assets
                           </Box>
-                          <Box marginBottom={"10px"}>
+                          <Box marginBottom={"5px"}>
                             <Checkbox
                               name="sellAssets"
                               
                               onChange={handleCheckboxChange} />
                             <TuneOutlinedIcon  /> Sell assets
                           </Box>
-                          <Box marginBottom={"10px"}>
+                          <Box marginBottom={"5px"}>
                             <Checkbox
                               name="auditAssets"
                               

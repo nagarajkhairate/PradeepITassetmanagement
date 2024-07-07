@@ -9,6 +9,7 @@ interface PageSectionProps {
   formData: any
   handleInputChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
   handleSelectChange?: (name: string, value: string | null) => void
+  handleFileChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   mode?: string
 }
 
@@ -17,6 +18,8 @@ const handleInputValue = (
   formData: any,
   handleInputChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
   handleSelectChange?: (name: string, value: string | null) => void,
+  handleFileChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
+
   mode?: string,
 ) => {
   const commonProps = {
@@ -24,10 +27,12 @@ const handleInputValue = (
     formData,
     handleInputChange,
     handleSelectChange: handleSelectChange || (() => {}),
+    handleFileChange: handleFileChange ||(() => {}),
     mode,
   }
   switch (field.dataType) {
     case 'text':
+      return <InputField {...commonProps} />
     case 'date':
       return <InputField {...commonProps} />
     case 'select':
@@ -35,6 +40,7 @@ const handleInputValue = (
 
     case 'checkbox':
     case 'textArea':
+      return <InputField {...commonProps} />
     case 'file':
       return <FileField {...commonProps} />
     default:
@@ -47,6 +53,7 @@ const FieldComponent: FunctionComponent<PageSectionProps> = ({
   formData,
   handleInputChange,
   handleSelectChange,
+  handleFileChange,
   mode,
 }) => {
   
@@ -62,6 +69,7 @@ const FieldComponent: FunctionComponent<PageSectionProps> = ({
         formData,
         handleInputChange,
         handleSelectChange,
+        handleFileChange,
         mode,
       )}
     </Box>

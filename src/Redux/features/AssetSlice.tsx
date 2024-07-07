@@ -19,7 +19,7 @@ const base_api_key_url = process.env.BASE_API_KEY;
  
 export const fetchAssets = createAsyncThunk('assets/fetchAssets', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}customers/${TENANT_ID}/clients`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/add-asset`);
   return response.data;
    
   } catch (error) {
@@ -31,7 +31,7 @@ export const fetchAssets = createAsyncThunk('assets/fetchAssets', async () => {
 });
 export const fetchAssetsById = createAsyncThunk('assets/fetchAssetsById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}customers/${TENANT_ID}/clients/${id}`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/add-asset/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -41,18 +41,18 @@ export const fetchAssetsById = createAsyncThunk('assets/fetchAssetsById', async 
 });
  
 export const addAssets = createAsyncThunk('assets/addAssets', async (assets: any) => {
- const response = await axios.post(`${base_api_key_url}customers/${TENANT_ID}/clients`, assets);
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/add-asset`, assets);
   return response.data;
 });
  
 export const updateAssets = createAsyncThunk('assets/updateAssets', async (updatedCustomer: any) => {
  
-  const response = await axios.put(`${base_api_key_url}customers/${TENANT_ID}/clients/${updatedCustomer.id}`, updatedCustomer);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/add-asset/${updatedCustomer.id}`, updatedCustomer);
   return response.data;
 });
  
 export const deleteAssets = createAsyncThunk('assets/deleteAssets', async (id: number) => {
-  await axios.delete(`${base_api_key_url}customers/${TENANT_ID}/clients/${id}`);
+  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/add-asset/${id}`);
   return id;
 });
  
@@ -81,7 +81,10 @@ const AssetSlice = createSlice({
       })
       .addCase(fetchAssetsById.fulfilled, (state, action) => {
         state.loading = false;
-        state.data.push(action.payload);
+        const existingClient = state.data.find((asset) => asset.id === action.payload.id);
+        if (!existingClient) {
+          state.data.push(action.payload);
+        }
       })
       .addCase(addAssets.fulfilled, (state, action) => {
         state.data.push(action.payload);

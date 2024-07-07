@@ -13,9 +13,11 @@ import { useTheme } from "@mui/material/styles";
 import CategorySub from "./CategorySub";
 import CategorySubDelete from "./CategorySubDelete";
 import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../../Redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { updateSubCategory } from "../../../Redux/features/CategorySubSlice";
+import { deleteSubCategories, updateSubCategories } from "../../../redux/features/CategorySubSlice";
+import { RootState } from "../../../redux/store";
+import AppForm from "../../../components/Common/AppForm";
+
 
 
 type SubCategory = {
@@ -25,23 +27,29 @@ type SubCategory = {
 
 
 interface Props {
-  categories: SubCategory[];
-  onCategoryChange: (updatedCategories: SubCategory[]) => void;
+  categories1: SubCategory[];
+  matchedSelected: number[];
+  setMatchedSelected: React.Dispatch<React.SetStateAction<number[]>>;
+  handleDeleteOpen: () => void;
 }
 
-export function CategorySubEdit({ categories, onCategoryChange }: Props) {
-  const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
-  const [lapCat, setLapCat] = useState<{ data: SubCategory[] }>({ data: [] });
+export function CategorySubEdit({ categories1, 
+  matchedSelected,
+  setMatchedSelected,
+  handleDeleteOpen,
+}: Props) {
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  // const [lapCat, setLapCat] = useState<{ data: SubCategory[] }>({ data: [] });
   const [selectedCell, setSelectedCell] = useState<number | null>(null);
   const [editOpen, setEditOpen] = useState<boolean>(false);
-  const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  
 
   const subCategories = useSelector((state: RootState) => state.subCategories.data)
 // const dispatch = useDispatch<AppDispatch>()
 console.log(subCategories)
+const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] : null
 
   const handleCheckboxChange = (index: number) => {
     setMatchedSelected((prevSelected) =>
@@ -49,7 +57,6 @@ console.log(subCategories)
         ? prevSelected.filter((item) => item !== index)
         : [...prevSelected, index]
     );
-    setSelectedCell(index);
   };
 
   const handleClickEditOpen = () => {
@@ -63,52 +70,61 @@ console.log(subCategories)
     // console.log(JSON.stringify(editOpen))
   };
 
+  // const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   const subCategory = (e.target as any).subCategory.value;
+  //   if (selectedCell !== null) {
+  //     const updatedData = lapCat.data.map((item, index) =>
+  //       index === selectedCell ? {...item, subCategory} : item
+  //     );
+  //     setLapCat({ ...lapCat, data: updatedData });
+  //     handleEditClose();
+  //     dispatch(updateSubCategory(updatedData))
+  //     onCategoryChange(updatedData);
+  //   }
+  // };
+
   const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const subCategory = (e.target as any).subCategory.value;
-    if (selectedCell !== null) {
-      const updatedData = lapCat.data.map((item, index) =>
-        index === selectedCell ? {...item, subCategory} : item
-      );
-      setLapCat({ ...lapCat, data: updatedData });
-      handleEditClose();
-      dispatch(updateSubCategory(updatedData))
-      onCategoryChange(updatedData);
+    e.preventDefault()
+    if (selectedSubCategory !== null) {
+      const subCategory = (e.target as any).subCategory.value
+      const updatedCategory = { ...selectedSubCategory, subCategory:capitalizeWords(subCategory) }
+      dispatch(updateSubCategories(updatedCategory))
+      handleEditClose()
     }
-  };
+  }
 
-  const handleDeleteButton = () => {
-    if (selectedCell !== null) {
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase())
+  }
+
+  const handleDeleteButton = (index:number) => {
+    setSelectedCell(index)
       handleDeleteOpen();
-    }
+    
   };
 
-  const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const updatedData = lapCat.data.filter((_, index) => index !== selectedCell);
-    setLapCat({ ...lapCat, data: updatedData });
-    setMatchedSelected([]);
-    setDeleteOpen(false); // Close the delete dialog after deletion
-    onCategoryChange(updatedData);
-  };
+  // const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   if (selectedCell !== null) {
+  //     dispatch(deleteSubCategories(subCategories[selectedCell].id))
+  //     setDeleteOpen(false)
+  //     setSelectedCell(null)
+  //     setMatchedSelected((prevSelected) =>
+  //       prevSelected.filter((item) => item !== selectedCell),
+  //     )
+  //   }
+  // }
 
-  const handleDeleteOpen = () => {
-    setDeleteOpen(true);
-  };
-
-  const handleDeleteClose = () => {
-    setDeleteOpen(false);
-    setMatchedSelected([]);
-  };
 
   useEffect(() => {
-    setLapCat({ data: categories });
-  }, [categories]);
+    setSelectedCell(null);
+  }, [subCategories]);
 
-  const handleEdit = () => {
-    if (selectedCell !== null) {
+  const handleEdit = (index:number) => {
+    setSelectedCell(index)
       handleClickEditOpen();
-    }
+    
   };
 
   
@@ -123,39 +139,56 @@ console.log(subCategories)
           justifyContent: "space-between",
         }}
       >
-        <Table borderAxis="both" style={{ width: "100%", borderCollapse: "collapse" }}>
+        <Box
+              sx={{
+                overflowX: 'auto',
+                fontSize: '14px',
+                whiteSpace: 'nowrap',
+                borderRadius:'5px'
+              }}
+            >
+        <Table 
+        // borderAxis="both" style={{ width: "100%", borderCollapse: "collapse" }}
+        borderAxis="both" aria-label="basic table" 
+        style={{
+                  borderCollapse: 'collapse',
+                  border: '1px solid grey',
+                  minWidth: '500px',
+                  borderRadius:'5px'
+                }}
+        >
           <thead>
             <tr>
-              <th style={{width:30}}>
+              <th style={{width:30, background: '#fff8e6',verticalAlign:'middle'}}>
                 <Checkbox
                   size="sm"
                   indeterminate={
-                    matchedSelected.length > 0 && matchedSelected.length < lapCat.data.length
+                    matchedSelected.length > 0 && matchedSelected.length < subCategories.length
                   }
                   checked={
-                    matchedSelected.length > 0 && matchedSelected.length === lapCat.data.length
+                    matchedSelected.length > 0 && matchedSelected.length === subCategories.length
                   }
                   onChange={(event) => {
                     const isChecked = event.target.checked;
                     setMatchedSelected(
-                      isChecked ? lapCat.data.map((_, index) => index) : []
+                      isChecked ? subCategories.map((_, index) => index) : []
                     );
                   }}
                   color={
-                    matchedSelected.length > 0 && matchedSelected.length === lapCat.data.length
+                    matchedSelected.length > 0 && matchedSelected.length === subCategories.length
                       ? "primary"
                       : undefined
                   }
                   sx={{ verticalAlign: "text-bottom" }}
                 />
               </th>
-              <th>Sub Category</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              <th style={{ background: '#fff8e6',verticalAlign:'middle' }}>Sub Category</th>
+              <th style={{ background: '#fff8e6',verticalAlign:'middle' }}>Edit</th>
+              <th style={{ background: '#fff8e6' ,verticalAlign:'middle'}}>Delete</th>
             </tr>
           </thead>
           <tbody>
-              {lapCat.data.length > 0 ? lapCat.data.map((custom, index) => (
+              {subCategories.length > 0 ? subCategories.map((custom, index) => (
                 <tr key={custom.id}>
                   <td>
                     <Checkbox
@@ -167,7 +200,7 @@ console.log(subCategories)
                   <td>{custom.subCategory}</td>
 
                   <td>
-                    <Button onClick={() => handleEdit()}
+                    <Button onClick={()=> handleEdit(index)}
                      sx={{
                       background: "#ffffff",
                       color: "green",
@@ -188,7 +221,7 @@ console.log(subCategories)
                   </td>
 
                   <td>  
-                    <Button onClick={() => handleDeleteButton()}
+                    <Button onClick={()=>handleDeleteButton(index)}
                      sx={{
                       background: "#ffffff",
                       color: '#d32f2f',
@@ -212,7 +245,7 @@ console.log(subCategories)
             
           </tbody>
         </Table>
-
+              </Box>
         <Modal
          
           open={editOpen}
@@ -238,7 +271,7 @@ console.log(subCategories)
             fontWeight="lg"
             mb={1}>{"Edit the Customs here"}</Typography>
 
-          <form onSubmit={handleEditButton}>
+          <AppForm onSubmit={handleEditButton}>
             <FormControl
               sx={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly" }}
             >
@@ -250,18 +283,30 @@ console.log(subCategories)
                 name="subCategory"
                 required
                 sx={{ width: "70%", marginLeft: "10px" }}
+                defaultValue={selectedSubCategory ? selectedSubCategory.subCategory : ''}
                 // defaultValue={selectedCell !== null ? lapCat.data[selectedCell].subCategory : ""} // Set default value to the selected cell content
               />
             </FormControl>
+
+            <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: { md: 'row'},
+            justifyContent: { xs: 'space-between', md: 'flex-end' },
+            gap: '5px',
+            flexWrap:'wrap',
+            mt:4
+          }}
+        >
             <Button
               autoFocus
               type="submit"
               variant="solid"
               sx={{
                 background: "#fdd835",
+                '&:hover': { background: '#E1A91B' },
                 color: "black",
-                marginTop: "25px",
-                marginLeft: "30%",
               }}
             >
               Update
@@ -273,11 +318,13 @@ console.log(subCategories)
               autoFocus
               variant="solid"
               sx={{ background: "black",
+                '&:hover': { background: 'black' },
               color: "white", marginLeft: "50px" }}
             >
               Cancel
             </Button>
-          </form>
+            </Box>
+          </AppForm>
           </div>
           </Sheet>
         </Modal>
@@ -341,11 +388,7 @@ console.log(subCategories)
           </Sheet>
         </Modal> */}
 
-<CategorySubDelete
-          open={deleteOpen}
-          handleDeleteClose={handleDeleteClose}
-          handleDeleteSubmit={handleDeleteSubmit}
-        />
+
       </Stack>
     </>
   );

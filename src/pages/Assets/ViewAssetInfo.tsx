@@ -1,18 +1,15 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
   Button,
   Table,
-  Divider, 
+  Divider,
   Menu,
   MenuButton,
   Dropdown,
 } from "@mui/joy";
-import {
-  MenuItem,
-} from "@mui/material";
-
+import { MenuItem } from "@mui/material";
 
 import PrintIcon from '@mui/icons-material/Print';
 import EditIcon from '@mui/icons-material/Edit';
@@ -28,68 +25,18 @@ import SellIcon from '@mui/icons-material/Sell';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EmailIcon from '@mui/icons-material/Email';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import CheckOutDialog from "./Check Out/CheckOutDialog";
+import CheckOutDialog from "../../components/AssetSections/EditAsset/Check Out/CheckOutDialog";
 import { Link } from "react-router-dom";
 
-const data=[{
-  "id": 15,
-  "asset_name": "gfdhgdgh",
-  "asset_tag_id": null,
-  "description": "sdf",
-  "purchase_from": "asdf",
-  "purchase_date": "2022-12-12",
-  "brand": "asdf",
-  "model": "asdf23",
-  "serial_number": "sdfj3",
-  "cost": "234.00",
-  "site": ",kadsf",
-  "location": "asdf",
-  "department": "asdlfk",
-  "category": "asdf",
-  "asset_photo": "/asset_photos/1955991501_Abhishek_0RmhR95.jpg",
-  "status": "df"
-},
-{
-  "id": 14,
-  "asset_name": "kj,asdf",
-  "asset_tag_id": "asdkf",
-  "description": "kasdfklasdf",
-  "purchase_from": "lkansdf",
-  "purchase_date": "2024-05-11",
-  "brand": "lksdfg",
-  "model": "kdaf",
-  "serial_number": "ksadfkn",
-  "cost": "2345.00",
-  "site": "Delhi",
-  "location": "Delhi",
-  "department": "Supplier A",
-  "category": "Desktop",
-  "asset_photo": "/asset_photos/20220908_161508_dh60Xsd.jpg",
-  "status": "Not Available"
-}]
+import AppView from "../../components/Common/AppView";
+import HPLaptopImg from "../../Assets/hp-15.png"
 
 interface AssetInfoProps {
-  assetInfo: any;
-  dataUpdater: (data: any, tab: string) => void;
+  id:string,
+  assets:any
 }
 
-const EditAssetInfo: React.FC<AssetInfoProps> = ({ assetInfo, dataUpdater }) => {
-  const [assetInfodata, setAssetInfodata] = useState(assetInfo);
-
-  useEffect(() => {
-    setAssetInfodata(assetInfo);
-  }, [assetInfo]);
-
-  const handleUpdates = (updatedFielddata: any) => {
-    setAssetInfodata((prevState: any) => ({
-      ...prevState,
-      ...updatedFielddata,
-    }));
-  };
-
-  const handleSubmitAssetInfo = () => {
-    dataUpdater({ assetInfo: assetInfodata }, "assetInfo");
-  };
+const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
 
   const [open, setOpen] = useState(false);
   const openPopUp = () => {
@@ -100,8 +47,12 @@ const EditAssetInfo: React.FC<AssetInfoProps> = ({ assetInfo, dataUpdater }) => 
     setOpen(false);
   };
 
+  console.log(JSON.stringify(assets))
+
+
+
   return (
-    <>
+    <AppView>
       <Box
         sx={{
           borderRadius: "16px",
@@ -113,7 +64,7 @@ const EditAssetInfo: React.FC<AssetInfoProps> = ({ assetInfo, dataUpdater }) => 
       >
         <Box>
           <Typography>
-          {assetInfodata?.description}
+            {/* {assets.length > 0 && typeof assets[0].description === "object" ? JSON.stringify(assets[0].description) : assets[0].description} */}
           </Typography>
         </Box>
         <Box
@@ -135,25 +86,23 @@ const EditAssetInfo: React.FC<AssetInfoProps> = ({ assetInfo, dataUpdater }) => 
               },
             }}
           >
-            <PrintIcon size={23} /> Print
+            <PrintIcon sx={{ size: "23" }} /> Print
           </Button>
-          {/* <Link to={`/assets/edit/${assetInfodata?.id}`} > */}
-          <Link to={`/assets/edit/assetInfodata`} >
-          <Button
-            sx={{
-              background: "#767676",
-              borderRadius: "15px",
-              "&:hover": {
-                backgroundColor: "#555555",
-
-              },
-              height: '100%', 
-              width:"100%"
-            }}
+          <Link to={`/assets/edit-an-asset/${id}`} >
+            <Button
+              sx={{
+                background: "#767676",
+                borderRadius: "15px",
+                "&:hover": {
+                  backgroundColor: "#555555",
+                },
+                height: '100%',
+                width: "100%"
+              }}
             >
-            <EditIcon size={23} /> Edit Asset
-          </Button>
-            </Link>
+              <EditIcon sx={{ size: "23" }} /> Edit Asset
+            </Button>
+          </Link>
           <Dropdown>
             <MenuButton
               sx={{
@@ -165,7 +114,7 @@ const EditAssetInfo: React.FC<AssetInfoProps> = ({ assetInfo, dataUpdater }) => 
                 color: "#ffffff",
               }}
             >
-              More Action <KeyboardArrowDownIcon size={23} />
+              More Action <KeyboardArrowDownIcon sx={{ size: "23" }} />
             </MenuButton>
             <Menu>
               <MenuItem onClick={openPopUp}>
@@ -176,7 +125,7 @@ const EditAssetInfo: React.FC<AssetInfoProps> = ({ assetInfo, dataUpdater }) => 
                 <SendIcon /> Lease
               </MenuItem>
               <MenuItem>
-                <ThumbDownIcon /> Lost/Minning
+                <ThumbDownIcon /> Lost/Missing
               </MenuItem>
               <MenuItem>
                 <BuildIcon /> Repair
@@ -225,7 +174,7 @@ const EditAssetInfo: React.FC<AssetInfoProps> = ({ assetInfo, dataUpdater }) => 
             }}
           >
             <img
-              src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg"
+              src={HPLaptopImg}
               style={{ width: "100%", height: "200px" }}
               alt=""
             />
@@ -242,28 +191,23 @@ const EditAssetInfo: React.FC<AssetInfoProps> = ({ assetInfo, dataUpdater }) => 
               <tbody>
                 <tr>
                   <th scope="row">Asset Tag ID</th>
-                  {/* <td>{assetInfodata?.asset_tag_id}</td> */}
-                  <td>{data[0].asset_tag_id}</td>
+                  <td>{assets.assetTagId}</td>
                 </tr>
                 <tr>
                   <th scope="row">Purchase Date</th>
-                  {/* <td>{assetInfodata?.purchase_date}</td> */}
-                  <td>{data[0].purchase_date}</td>
+                  <td>{assets.purchaseDate}</td>
                 </tr>
                 <tr>
                   <th scope="row">Cost</th>
-                  {/* <td>{assetInfodata?.cost}</td> */}
-                  <td>{data[0].cost}</td>
+                  <td>{assets.cost}</td>
                 </tr>
                 <tr>
                   <th scope="row">Brand</th>
-                  {/* <td>{assetInfodata?.brand}</td> */}
-                  <td>{data[0].brand}</td>
+                  <td>{assets.brand}</td>
                 </tr>
                 <tr>
                   <th scope="row">Model</th>
-                  {/* <td>{assetInfodata?.model}</td> */}
-                  <td>{data[0].model}</td>
+                  <td>{assets.model}</td>
                 </tr>
               </tbody>
             </Table>
@@ -277,46 +221,59 @@ const EditAssetInfo: React.FC<AssetInfoProps> = ({ assetInfo, dataUpdater }) => 
           >
             <Table borderAxis="both">
               <tbody>
-                <tr>
+                 <tr>
                   <th scope="row">Site</th>
-                  {/* <td>{assetInfodata?.site}</td> */}
-                  <td>{data[0].site}</td>
+                  <td>{assets.site.name}</td>
                 </tr>
                 <tr>
                   <th scope="row">Location</th>
-                  {/* <td>{assetInfodata?.location}</td> */}
-                  <td>{data[0].location}</td>
+                  <td>{assets.location.name}</td>
                 </tr>
                 <tr>
                   <th scope="row">Category</th>
-                  {/* <td>{assetInfodata?.category}</td> */}
-                  <td>{data[0].category}</td>
+                  <td>{assets.category.name}</td>
                 </tr>
                 <tr>
                   <th scope="row">Department</th>
-                  {/* <td>{assetInfodata?.department}</td> */}
-                  <td>{data[0].department}</td>
+                  <td>{assets.department.name}</td>
                 </tr>
                 <tr>
                   <th scope="row">Assigned To</th>
-                  {/* <td>{assetInfodata?.assignedTo}</td> */}
-                  <td>{assetInfodata?.assignedTo}</td>
+                  <td></td>
                 </tr>
                 <tr>
                   <th scope="row">Status</th>
-                  {/* <td>{assetInfodata?.status}</td> */}
-                  <td>{data[0].status}</td>
-                </tr>
+                  <td></td>
+                </tr> 
               </tbody>
             </Table>
           </Box>
         </Box>
+        <Box>
+          {/* <Button
+            onClick={handleSubmitAssetInfo}
+            sx={{
+              mt: "15px",
+              mb: "15px",
+              background: "#1976d2",
+              borderRadius: "15px",
+              "&:hover": {
+                backgroundColor: "#12589e",
+              },
+              color: "#ffffff",
+            }}
+          >
+            Submit
+          </Button> */}
+        </Box>
       </Box>
-    </>
+    </AppView>
   );
 };
 
-export default EditAssetInfo;
+export default ViewAssetInfo;
+
+
 
 
 // interface Asset {

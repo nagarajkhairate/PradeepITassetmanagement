@@ -1,17 +1,20 @@
+import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
+
 import App from './App'
 import { Provider } from 'react-redux'
-import { store } from './Redux/store'
+import { store } from './redux/store'
+import { CssBaseline, CssVarsProvider } from '@mui/joy'
 
 const rootElement = document.getElementById('root')
 if (!rootElement) throw Error('connot find root element with that id')
 
 const root = ReactDOM.createRoot(rootElement)
 root.render(
-  <BrowserRouter>
   <Provider store={store}>
+        <CssVarsProvider>
+        <CssBaseline />
     <App />
+    </CssVarsProvider>
   </Provider>
-  </BrowserRouter>,
 )

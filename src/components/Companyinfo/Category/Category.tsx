@@ -1,22 +1,25 @@
 import React from 'react'
-import { Box, ButtonGroup, Grid, Sheet } from '@mui/joy'
+import { Box } from '@mui/joy'
 import { Typography, Divider } from '@mui/joy'
 import Button from '@mui/joy/Button'
-import { FormControl, FormLabel } from '@mui/joy'
 import AddIcon from '@mui/icons-material/Add'
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
-import Input from '@mui/joy/Input'
-import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
-import { useTheme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import { Select, Option } from '@mui/joy'
-import Modal from '@mui/joy/Modal'
 import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
 import { useState } from 'react'
-import Category2 from './CategoryEditDelete'
-import PlaylistAddCheckOutlinedIcon from '@mui/icons-material/PlaylistAddCheckOutlined'
+import EditCategory from './EditCategory'
 import AppView from '../../../components/Common/AppView'
+import AddCategory from './AddCategory'
+import { useDispatch, useSelector } from 'react-redux'
+import { ThunkDispatch } from 'redux-thunk'
+import {
+  addCategory,
+  fetchCategory,
+} from '../../../redux/features/CategorySlice'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import DeleteCategory from './DeleteCategory'
+import { RootState } from '../../../redux/store'
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 
 type Category = {
   id: number
@@ -24,31 +27,25 @@ type Category = {
 }
 
 interface CategoryProps {
-  companyFormData: any;
-  setCompanyFormData: any;
-  activeTab: number;
-  setActiveTab: (tab: number) => void;
+  activeTab: number
+  setActiveTab: (tab: number) => void
 }
 
-const Category: React.FunctionComponent<CategoryProps > = (
-  {
-    companyFormData,
-  setCompanyFormData,
-    activeTab,
-    setActiveTab,
-  }
-) => {
+const CategoryPage: React.FunctionComponent<CategoryProps> = ({
+  activeTab,
+  setActiveTab,
+}) => {
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [open, setOpen] = useState<boolean>(false)
-  const theme = useTheme()
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
-  const [categoryName, setCategoryName] = useState<string>('')
-  const [categories, setCategories] = useState<Category[]>([])
-  
+  const [matchedSelected, setMatchedSelected] = useState<number[]>([])
+  const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
 
-  const handleCategoryChange = (updatedCategories: Category[]) => {
-    setCategories(updatedCategories)
-    console.log('category: ', JSON.stringify(updatedCategories))
-  }
+  const [categoryName, setCategoryName] = useState<string>('')
+  // const [categories, setCategories] = useState<Category[]>([])
+
+  const categories = useSelector((state: RootState) => state.category.data)
+  // const dispatch = useDispatch<AppDispatch>()
+  console.log(categories)
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -62,45 +59,47 @@ const Category: React.FunctionComponent<CategoryProps > = (
     e.preventDefault()
     const newCategory: Category = {
       id: categories.length ? categories[categories.length - 1].id + 1 : 1,
-      categoryName: categoryName,
+      categoryName: capitalizeWords(categoryName),
     }
-    setCategories([...categories, newCategory])
+    // setCategories([...categories, newCategory])
     setCategoryName('') // Clear the input field after adding
+    dispatch(addCategory(newCategory))
     console.log(newCategory)
     handleClose()
   }
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase())
+  }
+  const handleDeleteOpen = () => {
+    setDeleteOpen(true)
+  }
 
+  const handleDeleteClose = () => {
+    setDeleteOpen(false)
+    setMatchedSelected([])
+  }
 
-  const handleNextTab = () => {
-        setCompanyFormData((prevData: any) => ({ ...prevData, categories: categories }));
-        setActiveTab(activeTab + 1); 
-        console.log(JSON.stringify(categories, null, 2))
-      };
-    
-      const handlePrevTab = () => {
-        setActiveTab(activeTab - 1);
-    };
+  const handleNext = () => {
+    setActiveTab((prevActiveStep) => prevActiveStep + 1)
+  }
 
-   
-    console.log(JSON.stringify(companyFormData))
-    
+  const handleBack = () => {
+    setActiveTab((prevActiveStep) => prevActiveStep - 1)
+  }
+
+  React.useEffect(() => {
+    dispatch(fetchCategory())
+  }, [])
 
   return (
     <AppView>
-      <Typography level="h4" sx={{ display: 'flex', alignItems: 'center' }}>
-        <SignpostOutlinedIcon
-          style={{ fontSize: '1.4rem', color: '#d32f2f' }}
-        />
-        Categories
-      </Typography>
-
       <Box
         sx={{
-          borderRadius: 'none',
+          borderRadius: '10px',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
           gap: '5px',
-          p:2
+          p: 2,
         }}
       >
         <Box
@@ -110,7 +109,7 @@ const Category: React.FunctionComponent<CategoryProps > = (
             flexDirection: { xs: 'column', md: 'row' },
             justifyContent: { xs: 'center', md: 'space-between' },
             gap: 2,
-            mb: 2,
+            mb: 1,
           }}
         >
           <Box
@@ -119,8 +118,8 @@ const Category: React.FunctionComponent<CategoryProps > = (
             }}
           >
             <Typography
+              level="h4"
               sx={{
-                fontFamily: 'Poppins',
                 fontSize: '20px',
                 fontWeight: 500,
                 lineHeight: '30px',
@@ -128,8 +127,12 @@ const Category: React.FunctionComponent<CategoryProps > = (
                 whiteSpace: 'nowrap',
               }}
             >
-              <PlaylistAddCheckOutlinedIcon
-                style={{ fontSize: '1.4rem', color: '#d32f2f' }}
+              <TuneOutlinedIcon
+                sx={{
+                  fontSize: '1.1rem',
+                  color: '#FABC1E',
+                  alignItems: 'center',
+                }}
               />
               List of Categories
             </Typography>
@@ -156,125 +159,29 @@ const Category: React.FunctionComponent<CategoryProps > = (
               <AddIcon /> Add New Category
             </Button>
 
-            <Modal
-              aria-labelledby="responsive-dialog-title"
-              aria-describedby="modal-desc"
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              open={open}
-              onClose={handleClose}
-            >
-              <Sheet
-                variant="outlined"
+            {matchedSelected.length > 0 && (
+              <Button
+                onClick={handleDeleteOpen}
+                autoFocus
+                variant="solid"
                 sx={{
-                  borderRadius: 'md',
-                  maxWidth: 500,
-                  p: 3,
-                  boxShadow: 'lg',
+                  fontSize: '13px',
+                  // background: '#ffffff',
+                  borderRadius: '15px',
+                  // color: '#d32f2f',
+                  background: '#d32f2f',
+                  display: 'flex',
+                  justifyContent: { md: 'flex-end', xs: 'center' },
+                  marginLeft: 'none',
+                  border: '1px solid red',
+
+                  padding: '.5rem .10rem',
                 }}
               >
-                <div>
-                  <Typography
-                    id="responsive-dialog-title"
-                    component="h2"
-                    level="h4"
-                    textColor="inherit"
-                    fontWeight="lg"
-                    mb={1}
-                  >
-                    {'Add a Category'}
-                  </Typography>
-                  <Divider />
-
-                  <Box sx={{ marginBottom: '10px' }}>
-                    <form onSubmit={handleAddCategory}>
-                      <FormControl
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                        }}
-                      ></FormControl>
-
-                      <Box
-                        sx={{
-                          marginTop: '1px',
-                          marginBottom: '15px',
-                          padding: '10px',
-                        }}
-                      >
-                        <Typography sx={{ padding: 'none', width: '100%' }}>
-                          If you want to add a new category of assets, you’re in
-                          the right spot. Add a category for computer equipment,
-                          wireless keyboards, or any assets you’re working with.
-                        </Typography>
-                        <FormControl
-                          sx={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            justifyContent: 'space-evenly',
-                            marginTop: '10px',
-                          }}
-                        >
-                          <FormLabel
-                            sx={{
-                              paddingTop: '20px',
-                              marginLeft: '20px',
-                            }}
-                          >
-                            Category*:
-                          </FormLabel>
-                          <Input
-                            value={categoryName}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
-                            ) => setCategoryName(e.target.value)}
-                            placeholder="Type here"
-                            sx={{
-                              marginLeft: '20px',
-                              width: '70%',
-                              marginTop: '10px',
-                            }}
-                          />
-                        </FormControl>
-                      </Box>
-                      <Divider />
-
-                      <Button
-                        autoFocus
-                        type="submit"
-                        variant="solid"
-                        sx={{
-                          background: '#fdd835',
-                          color: 'black',
-                          marginTop: '25px',
-                          marginLeft: '40%',
-                        }}
-                      >
-                        Add
-                      </Button>
-
-                      <Button
-                        type="button"
-                        onClick={handleClose}
-                        autoFocus
-                        variant="solid"
-                        sx={{
-                          background: 'black',
-                          color: 'white',
-                          marginLeft: '50px',
-                        }}
-                      >
-                        Cancel
-                      </Button>
-                    </form>
-                  </Box>
-                </div>
-              </Sheet>
-            </Modal>
+                <DeleteForeverIcon sx={{ fontSize: '15px' }} />
+                Delete Categories
+              </Button>
+            )}
 
             <Button
               autoFocus
@@ -295,11 +202,14 @@ const Category: React.FunctionComponent<CategoryProps > = (
         <Divider />
 
         <Box>
-          <Box sx={{ padding: '20px', marginTop: '10px' }}>
-            Add the type of groups of assets. To start with, commonly used
-            categories have already been created for you. Make them as broad or
-            as specific as you want. Categories can be 'laptops and printers',
-            'equipment', or 'chairs'. Customize to your particular need.
+          <Box sx={{ marginTop: '10px' }}>
+            <Typography>
+              Add the type of groups of assets. To start with, commonly used
+              categories have already been created for you. Make them as broad
+              or as specific as you want. Categories can be 'laptops and
+              printers', 'equipment', or 'chairs'. Customize to your particular
+              need.
+            </Typography>
           </Box>
 
           <Box
@@ -307,42 +217,11 @@ const Category: React.FunctionComponent<CategoryProps > = (
               display: 'flex',
               alignItems: 'center',
               flexDirection: { md: 'row', xs: 'column' },
-              justifyContent: { xs: 'center', md: 'space-between' },
+              justifyContent: { xs: 'center', md: 'flex-end' },
               marginTop: '1px',
               padding: '20px',
             }}
           >
-            <FormControl
-              sx={{
-                display: 'flex',
-                flexDirection: { xs: 'column', md: 'row' },
-              }}
-            >
-              <Select
-                placeholder="10"
-                sx={{
-                  marginLeft: { md: '20px' },
-                  alignItems: 'center',
-                  background: 'none',
-                  color: 'black',
-                  borderRadius: '15px',
-                }}
-                required
-              >
-                <Option value="10">10</Option>
-              </Select>
-
-              <FormLabel
-                sx={{
-                  marginLeft: '10px',
-                  marginTop: '6px',
-                  mb: { xs: 1, md: 1 },
-                }}
-              >
-                Sub Category
-              </FormLabel>
-            </FormControl>
-
             <Box
               sx={{
                 display: 'flex',
@@ -396,67 +275,57 @@ const Category: React.FunctionComponent<CategoryProps > = (
         </Box>
 
         <Box>
-          <Category2
-            categories={categories}
-            onCategoryChange={handleCategoryChange}
+          <EditCategory
+            categories1={categories}
+            matchedSelected={matchedSelected}
+            setMatchedSelected={setMatchedSelected}
+            handleDeleteOpen={handleDeleteOpen}
           />
         </Box>
         <Divider />
-
-
-      
-        <Box
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+        <Button
           sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
-            justifyContent: { xs: 'center', md: 'flex-end' },
-            gap: 2,
+            background: '#388e3c',
+            color: 'white',
+            '&:hover': { background: '#388e3B' },
+            borderRadius: '10px',
           }}
+          disabled={activeTab === 0}
+          onClick={handleBack}
         >
-         
-          <Button
-            variant="solid"
-            sx={{
-              background: '#388e3c',
-              color: 'white',
-              borderRadius:'15px'
-            }}
-            component="label"
-            onClick={handlePrevTab}
-          >
-            <NavigateBeforeOutlinedIcon />
-                
-                Back
-          </Button>
-          <Button
-            variant="solid"
-            sx={{
-              background: "#fdd835",
-              color: 'white',
-              borderRadius:'15px'
-            }}
-            component="label"
-              onClick={handleNextTab} 
-          >
-             Continue
-             <NavigateNextOutlinedIcon />{" "}
-          </Button>
-          </Box>
-        
+          Back
+        </Button>
+        <Button
+          sx={{
+            background: '#FABC1E',
+            color: 'black',
+            '&:hover': { background: '#E1A91B' },
+            borderRadius: '10px',
+          }}
+          onClick={handleNext}
+        >
+          Continue
+        </Button>
       </Box>
+      </Box>
+
+      <AddCategory
+        open={open}
+        handleClose={handleClose}
+        categoryName={categoryName}
+        setCategoryName={setCategoryName}
+        handleAddCategory={handleAddCategory}
+      />
+
+      <DeleteCategory
+        open={deleteOpen}
+        handleDeleteClose={handleDeleteClose}
+        handleDeleteOpen={handleDeleteOpen}
+      />
+      
     </AppView>
   )
 }
 
-export default Category
-
-
-
-
-
-
-
-
-
-
-
+export default CategoryPage

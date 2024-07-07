@@ -21,9 +21,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import EmployeeDialog from "./EmployeeDialog";
 import ClientDialog from "./ClientDialog";
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { RootState } from "../../../../Redux/store";
+import { RootState } from "../../../../redux/store";
 import { useDispatch } from "react-redux";
-import { post_check_out } from "../../../../Redux/features/TransactionSlice";
+import { post_check_out } from "../../../../redux/features/TransactionSlice";
 
 
 // Define a type for the checkout and employee data

@@ -17,7 +17,7 @@ import { useState } from 'react'
 import { selectClasses } from '@mui/joy/Select'
 import SetupEditDept from './SetupEditDept'
 import PlaylistAddCheckOutlinedIcon from '@mui/icons-material/PlaylistAddCheckOutlined'
-
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 type Department = {
   id: number
   departmentName: string
@@ -26,9 +26,10 @@ type Department = {
 import AppView from '../../../components/Common/AppView'
 import SetupAddDept from './SetupAddDept'
 import { ThunkDispatch } from 'redux-thunk'
-import { RootState } from '../../../Redux/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { addDepartment, fetchDepartment } from '../../../Redux/features/DepartmentSlice'
+import { addDepartment, fetchDepartment } from '../../../redux/features/DepartmentSlice'
+import SetupDeleteDept from './SetupDeleteDept'
+import { RootState } from '../../../redux/store'
 
 const SetupDept: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -36,14 +37,17 @@ const SetupDept: React.FunctionComponent = () => {
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [departmentName, setDepartmentName] = useState<string>('')
-  const [department, setDepartment] = useState<Department[]>([])
+  const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
+  const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
+
+  // const [department, setDepartment] = useState<Department[]>([])
   
   const departments = useSelector((state: RootState) => state.departments.data)
   // const dispatch = useDispatch<AppDispatch>()
   console.log(departments)
 
   const handleDeptChange = (updateddepartment: Department[]) => {
-    setDepartment(updateddepartment)
+    // setDepartment(updateddepartment)
     console.log('deptartment: ', JSON.stringify(updateddepartment))
   }
 
@@ -58,23 +62,37 @@ const SetupDept: React.FunctionComponent = () => {
   const handleAddDepartment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const newdepartment: Department = {
-      id: department.length ? department[department.length - 1].id + 1 : 1,
-      departmentName: departmentName,
+      id: departments.length ? departments[departments.length - 1].id + 1 : 1,
+      departmentName: capitalizeWords(departmentName),
     }
-    setDepartment([...department, newdepartment])
+    // setDepartment([...department, newdepartment])
     dispatch(addDepartment(newdepartment))
     setDepartmentName('') // Clear the input field after adding
     handleClose()
+    console.log(newdepartment)
   }
+
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase())
+  }
+
+  const handleDeleteOpen = () => {
+    setDeleteOpen(true);
+  };
+
+  const handleDeleteClose = () => {
+    setDeleteOpen(false);
+    setMatchedSelected([]);
+  };
 
   React.useEffect(() => {
     dispatch(fetchDepartment())
   }, [])
   return (
     <AppView>
-      <Typography level="h4" sx={{ display: 'flex', alignItems: 'center' }}>
+      <Typography level="h3" sx={{ display: 'flex', alignItems: 'center' }}>
         <SignpostOutlinedIcon
-          style={{ fontSize: '1.4rem', color: '#d32f2f' }}
+          style={{ fontSize: '1.4rem', color: '#FBC12E' }}
         />
         Department
       </Typography>
@@ -95,7 +113,7 @@ const SetupDept: React.FunctionComponent = () => {
             flexDirection: { xs: 'column', md: 'row' },
             justifyContent: { xs: 'center', md: 'space-between' },
             gap: 2,
-            mb: 2,
+            mb: 1,
           }}
         >
           <Box
@@ -104,8 +122,9 @@ const SetupDept: React.FunctionComponent = () => {
             }}
           >
             <Typography
+            level='h4'
               sx={{
-                fontFamily: 'Poppins',
+               
                 fontSize: '20px',
                 fontWeight: 500,
                 lineHeight: '30px',
@@ -113,9 +132,9 @@ const SetupDept: React.FunctionComponent = () => {
                 whiteSpace: 'nowrap',
               }}
             >
-              <PlaylistAddCheckOutlinedIcon
-                style={{ fontSize: '1.4rem', color: '#d32f2f' }}
-              />
+              <TuneOutlinedIcon
+                      style={{ fontSize: "1.1rem", color: "#FBC12E" }}
+                    />
               List of Department
             </Typography>
           </Box>
@@ -141,125 +160,29 @@ const SetupDept: React.FunctionComponent = () => {
               <AddIcon /> Add New dept
             </Button>
 
-            {/* <Modal
-              aria-labelledby="responsive-dialog-title"
-              aria-describedby="modal-desc"
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              open={open}
-              onClose={handleClose}
-            >
-              <Sheet
-                variant="outlined"
-                sx={{
-                  maxWidth: 500,
-                  borderRadius: 'md',
-                  p: 3,
-                  boxShadow: 'lg',
-                }}
-              >
-                <div>
-                  <Typography
-                    id="responsive-dialog-title"
-                    component="h2"
-                    level="h4"
-                    textColor="inherit"
-                    fontWeight="lg"
-                    mb={1}
-                  >
-                    {'Add a dept'}
-                  </Typography>
-                  <Divider />
-
-                  <Box sx={{ marginBottom: '10px' }}>
-                    <form onSubmit={handleAddDepartment}>
-                      <FormControl
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                        }}
-                      ></FormControl>
-
-                      <Box
-                        sx={{
-                          marginTop: '1px',
-                          marginBottom: '15px',
-                          padding: '10px',
-                        }}
-                      >
-                        <Typography sx={{ padding: 'none', width: '100%' }}>
-                          If you want to add a new dept of assets, you’re in the
-                          right spot. Add a dept for computer equipment,
-                          wireless keyboards, or any assets you’re working with.
-                        </Typography>
-                        <FormControl
-                          sx={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            justifyContent: 'space-evenly',
-                            marginTop: '10px',
-                          }}
-                        >
-                          <FormLabel
-                            sx={{
-                              paddingTop: '20px',
-                              marginLeft: '20px',
-                            }}
-                          >
-                            dept*:
-                          </FormLabel>
-                          <Input
-                            value={departmentName}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
-                            ) => setDepartmentName(e.target.value)}
-                            placeholder="Type here"
-                            sx={{
-                              marginLeft: '20px',
-                              width: '70%',
-                              marginTop: '10px',
-                            }}
-                          />
-                        </FormControl>
-                      </Box>
-                      <Divider />
-
-                      <Button
-                        autoFocus
-                        type="submit"
-                        variant="solid"
-                        sx={{
-                          background: '#fdd835',
-                          color: 'black',
-                          marginTop: '25px',
-                          marginLeft: '40%',
-                        }}
-                      >
-                        Add
-                      </Button>
-
-                      <Button
-                        type="button"
-                        onClick={handleClose}
-                        autoFocus
-                        variant="solid"
-                        sx={{
-                          background: 'black',
-                          color: 'white',
-                          marginLeft: '50px',
-                        }}
-                      >
-                        Cancel
-                      </Button>
-                    </form>
-                  </Box>
-                </div>
-              </Sheet>
-            </Modal> */}
+            {matchedSelected.length > 0 && (
+          <Button
+            onClick={handleDeleteOpen}
+            autoFocus
+              variant="solid"
+            sx={{
+              fontSize: '13px',
+              // background: '#ffffff',
+              borderRadius: '15px',
+              // color: '#d32f2f',
+              background: '#d32f2f',
+              display: 'flex',
+              justifyContent: { md: 'flex-end', xs: 'center' },
+              marginLeft: 'none',
+              border: '1px solid red',
+              
+              padding: '.5rem .10rem',
+            }}
+          >
+            {/* <DeleteForeverIcon sx={{ fontSize: '15px' }} /> */}
+            Delete Categories
+          </Button>
+        )}
 
             <Button
               autoFocus
@@ -280,12 +203,12 @@ const SetupDept: React.FunctionComponent = () => {
         <Divider />
 
         <Box>
-          <Box sx={{ padding: '20px', marginTop: '10px' }}>
+          <Typography sx={{  marginTop: '10px' }}>
             Add departments that own or house the particular assets. Make them
             as broad or as specific as you want. Departments can be
             'Accounting', 'Marketing', or 'Executive'. Customize to your
             particular need.
-          </Box>
+          </Typography>
 
           <Box
             sx={{
@@ -313,12 +236,6 @@ const SetupDept: React.FunctionComponent = () => {
                   // borderRadius: '15px',
                 }}
                 required
-                // value={selectedValue}
-                // onChange={(event) =>
-                //   setSelectedValue(
-                //     (event?.target as HTMLSelectElement)?.value ?? ""
-                //   )
-                // }
               >
                 <Option value="10">10</Option>
               </Select>
@@ -388,8 +305,10 @@ const SetupDept: React.FunctionComponent = () => {
 
         <Box>
           <SetupEditDept
-            department={department}
-            onDeptChange={handleDeptChange}
+            department1={departments}
+            matchedSelected={matchedSelected}
+        setMatchedSelected={setMatchedSelected}
+        handleDeleteOpen={handleDeleteOpen}
           />
         </Box>
         <Divider />
@@ -424,6 +343,12 @@ const SetupDept: React.FunctionComponent = () => {
         handleAddDepartment={handleAddDepartment}
         />
       </Box>
+
+      <SetupDeleteDept
+          open={deleteOpen}
+          handleDeleteClose={handleDeleteClose}
+         
+        />
     </AppView>
   )
 }

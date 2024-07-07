@@ -1,92 +1,69 @@
 import { KeyboardArrowDown } from '@mui/icons-material'
 import { Box, Button, Divider, FormControl, FormLabel, Input, Modal, Option, Select, Sheet, Typography, selectClasses } from '@mui/joy'
 import React, { useState } from 'react'
-import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
-import AddIcon from '@mui/icons-material/Add'
-import { RootState } from '../../../Redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { ThunkDispatch } from 'redux-thunk'
-import { fetchSites } from '../../../Redux/features/SitesSlice'
+import { fetchSites } from '../../../redux/features/SitesSlice'
+import AppForm from '../../../components/Common/AppForm'
+import { addLocation } from '../../../redux/features/LocationSlice'
+import { RootState } from '../../../redux/store'
 
 
 interface LocationAddProps {
-    location: string
-    setLocation: React.Dispatch<React.SetStateAction<string>>
-    handleAddLocation: (e: React.FormEvent<HTMLFormElement>) => void
-    onChange?: (
-      event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element> | React.FocusEvent<Element, Element> | null,
-      value: {} | null
-    ) => void;
+  open:any,
+  setOpen:any
+  handleClose:() => void
   }
 
-  const LocationAdd: React.FC<LocationAddProps> = ({
-    location,
-    setLocation,
-    handleAddLocation,
-    onChange
-
-  }:LocationAddProps) => {
-    const [open, setOpen] = useState<boolean>(false)
+  const LocationAdd: React.FC<LocationAddProps> = ({open, setOpen, handleClose}) => {
+    const [locationForm, setLocationForm] =useState<{ [key: string]: any }>({})
     const sites = useSelector((state:RootState) => state.sites.data);
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-
-    const handleClickOpen = () => {
-        setOpen(true)
-      }
-
-      const handleClose = () => {
-        setOpen(false)
-      }
-
+    
       React.useEffect(()=>{
         dispatch(fetchSites())
       },[dispatch])
-      
-      // const [site, setSite]=useState<{ [key:string]:string  | null}>({})
 
-      const handleChange = (
-        event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element> | React.FocusEvent<Element, Element> | null,
-        value: {} | null
-      ) => {
-        if (onChange) {
-          onChange(event, value);
+      const handleAddLocation = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        const capitalizedForm = {
+          ...locationForm,
+          location: capitalizeWords(locationForm.location || '')
         }
-      };
+        console.log(JSON.stringify(capitalizedForm))
+        dispatch(addLocation(capitalizedForm))
+        setOpen(false)
+      }
+
+      const capitalizeWords = (str: string) => {
+        return str.replace(/\b\w/g, (char) => char.toUpperCase())
+      }
+
+      
+      const HandleInputChange= (e: React.ChangeEvent<HTMLInputElement>)=>{
+        const { name, value} = e.target
+        setLocationForm((prevData:any)=>({
+          ...prevData,
+          [name]:value
+        })
+          
+        )
+      }
+
+      const handleSelectChange = (
+        event: React.SyntheticEvent | null,
+        newValue: string | null,
+      ) => {
+        setLocationForm((prevData:any)=>({
+          ...prevData,
+          siteId:newValue
+        })
+          
+        )
+      }
 
   return (
-    <Box
-            sx={{
-              display: 'flex',
-              flexDirection: { md: 'row', xs: 'column' },
-              gap: 2,
-            }}
-          >
-            <Button
-              autoFocus
-              variant="solid"
-              sx={{
-                background: '#388e3c',
-                borderRadius: '15px',
-                color: 'white',
-              }}
-              component="label"
-              onClick={handleClickOpen}
-            >
-              <AddIcon /> Add New Location
-            </Button>
-
-            <Modal
-              aria-labelledby="responsive-dialog-title"
-              aria-describedby="modal-desc"
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              open={open}
-              onClose={handleClose}
-            >
-              <Sheet
+    <Sheet
                 variant="outlined"
                 sx={{
                   maxWidth: 500,
@@ -109,7 +86,7 @@ interface LocationAddProps {
                   <Divider />
 
                   <Box sx={{ marginBottom: '10px' }}>
-                    <form onSubmit={handleAddLocation}>
+                    <AppForm onSubmit={handleAddLocation}>
                       <FormControl
                         sx={{
                           display: 'flex',
@@ -147,7 +124,7 @@ interface LocationAddProps {
                           </FormLabel>
                           
                           <Select
-                           onChange={(event,value) => handleChange(event, value)}
+                           onChange={handleSelectChange}
                             placeholder="Select Site"
                             indicator={<KeyboardArrowDown />}
                             sx={{
@@ -185,10 +162,9 @@ interface LocationAddProps {
                             Location*:
                           </FormLabel>
                           <Input
-                            value={location}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
-                            ) => setLocation(e.target.value)}
+                            // value={locationForm.location}
+                            name='location'
+                            onChange={HandleInputChange}
                             placeholder="Type here"
                             sx={{
                               marginLeft: '5px',
@@ -200,15 +176,27 @@ interface LocationAddProps {
                       </Box>
                       <Divider />
 
+                      <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: { md: 'row'},
+            justifyContent: { xs: 'space-between', md: 'flex-end' },
+            gap: '5px',
+            mt: 4,
+            flexWrap:'wrap'
+          }}
+        >
                       <Button
                         autoFocus
                         type="submit"
                         variant="solid"
                         sx={{
                           background: '#fdd835',
+                          '&:hover': { background: '#E1A91B' },
                           color: 'black',
-                          marginTop: '25px',
-                          marginLeft: '40%',
+                          // marginTop: '25px',
+                          // marginLeft: '40%',
                         }}
                       >
                         Add
@@ -221,32 +209,18 @@ interface LocationAddProps {
                         variant="solid"
                         sx={{
                           background: 'black',
+                          '&:hover': { background: 'black' },
                           color: 'white',
-                          marginLeft: '50px',
+                          // marginLeft: '50px',
                         }}
                       >
                         Cancel
                       </Button>
-                    </form>
+                      </Box>
+                    </AppForm>
                   </Box>
                 </div>
               </Sheet>
-            </Modal>
-
-            <Button
-              autoFocus
-              type="submit"
-              variant="solid"
-              sx={{
-                background: 'black',
-                borderRadius: '15px',
-                color: 'white',
-              }}
-            >
-              <PublishOutlinedIcon />
-              Import Locations
-            </Button>
-          </Box>
   )
 }
 

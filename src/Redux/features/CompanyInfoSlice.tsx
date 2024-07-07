@@ -6,6 +6,7 @@ interface CompanyInfoState {
   selectedCustomer: any | null;
   loading: boolean;
   error: string | null;
+  activeTab: number;
 }
  
 const initialState: CompanyInfoState = {
@@ -13,13 +14,14 @@ const initialState: CompanyInfoState = {
   selectedCustomer: null,
   loading: false,
   error: null,
+  activeTab: 0,
 };
 const TENANT_ID = process.env.TENANT_ID;
 const base_api_key_url = process.env.BASE_API_KEY;
  
 export const fetchCompanyInfo = createAsyncThunk('companyInfo/fetchCompanyInfo', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}customers/${TENANT_ID}/clients`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/company`);
   return response.data;
    
   } catch (error) {
@@ -29,9 +31,9 @@ export const fetchCompanyInfo = createAsyncThunk('companyInfo/fetchCompanyInfo',
  
  
 });
-export const fetchCompanyInfoById = createAsyncThunk('companyInfo/fetchCompanyInfoById', async (id: string ) => {
+export const fetchCompanyInfoById = createAsyncThunk('company/fetchCompanyById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}customers/${TENANT_ID}/clients/${id}`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/company/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -39,20 +41,21 @@ export const fetchCompanyInfoById = createAsyncThunk('companyInfo/fetchCompanyIn
   }
  
 });
- 
+
+  
 export const addCompanyInfo = createAsyncThunk('companyInfo/addCompanyInfo', async (companyInfo: any) => {
- const response = await axios.post(`${base_api_key_url}customers/${TENANT_ID}/clients`, companyInfo);
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/company`, companyInfo);
   return response.data;
 });
  
-export const updateCompanyInfo = createAsyncThunk('companyInfo/updateCompanyInfo', async (updatedCustomer: any) => {
+export const updateCompanyInfo = createAsyncThunk('companyInfo/updateCompanyInfo', async (companyInfo: any) => {
  
-  const response = await axios.put(`${base_api_key_url}customers/${TENANT_ID}/clients/${updatedCustomer.id}`, updatedCustomer);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/company/${companyInfo.id}`, companyInfo);
   return response.data;
 });
  
 export const deleteCompanyInfo = createAsyncThunk('companyInfo/deleteCompanyInfo', async (id: number) => {
-  await axios.delete(`${base_api_key_url}customers/${TENANT_ID}/clients/${id}`);
+  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/company/${id}`);
   return id;
 });
  
@@ -63,6 +66,9 @@ const CompanyInfoSlice = createSlice({
     setSelectedCustomer: (state, action: PayloadAction<number>) => {
       const user = state.data.find((u) => u.id === action.payload);
       state.selectedCustomer = user || null;
+    },
+    setActiveTab1: (state, action: PayloadAction<number>) => {
+      state.activeTab = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -87,18 +93,18 @@ const CompanyInfoSlice = createSlice({
         state.data.push(action.payload);
       })
       .addCase(updateCompanyInfo.fulfilled, (state, action) => {
-        const index = state.data.findIndex((u) => u.id === action.payload.id);
-        console.log(index)
-        if (index !== -1) {
-          state.data[index] = action.payload;
+        const updatedindex = state.data.findIndex((item) => item.id === action.payload.id);
+        console.log(updatedindex)
+        if (updatedindex !== -1) {
+          state.data[updatedindex] = action.payload;
         }
       })
       .addCase(deleteCompanyInfo.fulfilled, (state, action) => {
-        state.data = state.data.filter((u) => u.id !== action.payload);
+        state.data = state.data.filter((item) => item.id !== action.payload);
       });
   },
 });
  
-export const { setSelectedCustomer } = CompanyInfoSlice.actions;
+export const { setSelectedCustomer , setActiveTab1 } = CompanyInfoSlice.actions;
  
 export default CompanyInfoSlice.reducer;

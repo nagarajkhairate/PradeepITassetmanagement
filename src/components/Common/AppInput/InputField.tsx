@@ -7,8 +7,9 @@ import Input from '@mui/joy/Input';
 type FieldProps = {
   id: number;
   title: string;
-  dataType: string;
+  dataType: 'text' | 'select' | 'file' | 'number';
   value: string;
+  name: string;
   required: boolean;
   sequence: number;
   className: {
@@ -16,6 +17,7 @@ type FieldProps = {
     md: number;
     lg: number;
   };
+  
 };
 
 interface InputFieldProps {
@@ -28,12 +30,12 @@ const InputField: React.FunctionComponent<InputFieldProps> = ({ field, formData,
   return (
     <FormControl>
       <FormLabel>
-        {field.title} <span>{field.required && '*'}</span>:
+      {field.title}{field.required && <span style={{ color:"red"}}>*</span>}:
       </FormLabel>
       <Input
-        placeholder={field.title}
-        value={formData[field.value] || ''} 
-        name={field.value} 
+        // placeholder={field.title}
+        value={formData[field.name] || ''} 
+        name={field.name} 
         type={field.dataType} 
         onChange={handleInputChange}
         required={field.required}

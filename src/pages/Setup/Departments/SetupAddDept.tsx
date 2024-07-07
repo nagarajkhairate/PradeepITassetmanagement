@@ -1,7 +1,7 @@
 import { Box, Button, Divider, FormControl, FormLabel, Input, Modal, Sheet, Typography } from "@mui/joy"
 import { ThunkDispatch } from "redux-thunk"
-import { RootState } from "../../../Redux/store"
 import { useDispatch } from "react-redux"
+import AppForm from "../../../components/Common/AppForm"
 
 
 interface SetupAddDeptProps {
@@ -14,7 +14,7 @@ interface SetupAddDeptProps {
   }
 
 const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({ open, handleClose, departmentName, setDepartmentName, handleAddDepartment }) => {
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  
 return(
 <Modal
               aria-labelledby="responsive-dialog-title"
@@ -50,7 +50,7 @@ return(
                   <Divider />
 
                   <Box sx={{ marginBottom: '10px' }}>
-                    <form onSubmit={handleAddDepartment}>
+                    <AppForm onSubmit={handleAddDepartment}>
                       <FormControl
                         sx={{
                           display: 'flex',
@@ -81,11 +81,11 @@ return(
                         >
                           <FormLabel
                             sx={{
-                              paddingTop: '20px',
-                              marginLeft: '20px',
+                              paddingTop: '15px',
+                              marginLeft: '5px',
                             }}
                           >
-                            dept*:
+                            department*:
                           </FormLabel>
                           <Input
                             value={departmentName}
@@ -94,7 +94,6 @@ return(
                             ) => setDepartmentName(e.target.value)}
                             placeholder="Type here"
                             sx={{
-                              marginLeft: '20px',
                               width: '70%',
                               marginTop: '10px',
                             }}
@@ -103,6 +102,19 @@ return(
                       </Box>
                       <Divider />
 
+                      
+            <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: { md: 'row'},
+            justifyContent: { xs: 'space-between', md: 'flex-end' },
+            gap: '5px',
+            mt: 4,
+            flexWrap:'wrap'
+          }}
+        >
+
                       <Button
                         autoFocus
                         type="submit"
@@ -110,8 +122,7 @@ return(
                         sx={{
                           background: '#fdd835',
                           color: 'black',
-                          marginTop: '25px',
-                          marginLeft: '40%',
+                          '&:hover': { background: '#E1A91B' },
                         }}
                       >
                         Add
@@ -125,12 +136,13 @@ return(
                         sx={{
                           background: 'black',
                           color: 'white',
-                          marginLeft: '50px',
+                          '&:hover': { background: 'black' },
                         }}
                       >
                         Cancel
                       </Button>
-                    </form>
+                      </Box>
+                    </AppForm>
                   </Box>
                 </div>
               </Sheet>

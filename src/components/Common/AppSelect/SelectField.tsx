@@ -15,12 +15,12 @@ const SelectField: FunctionComponent<Props> = ({
   handleSelectChange,
   mode
 }) => {
-  const controlledValue = formData && formData[field.value] || ''
+  const controlledValue =formData && formData[field.name] || ''
   const handleSelect = (
     event: React.SyntheticEvent | null,
     newValue: string | null,
   ) => {
-    handleSelectChange(field.value, newValue)
+    handleSelectChange(field.name, newValue)
   }
   return (
     <FormControl>
@@ -28,9 +28,10 @@ const SelectField: FunctionComponent<Props> = ({
         {field.title}{field.isRequired && <span style={{ color:"red"}}>*</span>}:
       </FormLabel>
       <Select
-        placeholder= {field.title}
+        // placeholder= {field.title}
+        name={field.name}
         value={controlledValue}
-        sx={{ minWidth: 235 }}
+        sx={{ minWidth: 280 }}
         onChange={handleSelect}
         disabled={mode ==='view'? true: false}
         required={field.isRequired}

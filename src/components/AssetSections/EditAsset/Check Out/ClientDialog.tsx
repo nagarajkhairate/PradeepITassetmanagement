@@ -10,10 +10,13 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { RootState } from "../../../../Redux/store";
+
 import InputField from "../../../Common/Input";
 import SelectField from "../../../Common/Select";
-import {post_add_client} from "../../../../Redux/features/clientSlice";
+import { RootState } from "../../../../redux/store";
+import { post_add_client } from "../../../../redux/features/ClientSlice";
+
+
 
 interface ClientData {
   person_name: string;
@@ -132,7 +135,7 @@ const ClientDialog = (props: any) => {
 
       console.log("Client Data: ", client);
       props.onAddClient(client.person_name);
-      dispatch(post_add_client(client))
+      // dispatch(post_add_client(client))
     }
     setClient({
       person_name: "",

@@ -1,5 +1,8 @@
 import React from "react";
 import { Modal, Box, Typography, Button } from "@mui/joy";
+import { useDispatch } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { RootState } from "../../../redux/store";
 
 interface DeleteSiteProps {
     deleteOpen: boolean;
@@ -8,14 +11,23 @@ interface DeleteSiteProps {
 }
 
 const DeleteSite: React.FC<DeleteSiteProps> = ({ deleteOpen, handleDelete, handleDeleteClose }) => {
+    const dispatch:ThunkDispatch<RootState, void, any> = useDispatch()
+    
     return (
         <Modal open={deleteOpen} onClose={handleDeleteClose}>
             <Box sx={modalStyle}>
                 <Typography level="h4" sx={{ mb: 2 }}>Confirm Delete</Typography>
-                <Typography sx={{ mb: 3 }}>Are you sure you want to delete this site?</Typography>
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button onClick={handleDeleteClose} sx={{ mr: 1 }}>Cancel</Button>
-                    <Button onClick={handleDelete} >Delete</Button> 
+                <Typography sx={{ mb: 3 }}>Are you sure you want to delete this site(s)?</Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap:2 }}>
+                    <Button onClick={handleDeleteClose} 
+                    sx={{
+                        background: 'black',
+                        color: 'white',
+                        '&:hover': { background: 'black' },
+                      }}
+                    >Cancel</Button>
+                    <Button onClick={handleDelete} sx={{background: '#fdd835',
+                        '&:hover': { background: '#E1A91B' },}}>Delete</Button> 
                 </Box>
             </Box>
         </Modal>

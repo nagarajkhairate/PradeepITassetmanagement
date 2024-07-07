@@ -1,5 +1,6 @@
 import { Box, Button, FormControl, Modal, Sheet, Typography } from "@mui/joy"
 import { useState } from "react"
+import AppForm from "../../../components/Common/AppForm";
 
 
 interface Location {
@@ -9,44 +10,29 @@ interface Location {
 
 interface LocationDeleteProps {
     // locationName: Location[]
-    onLocationChange: (deletedData: Location[]) => void
+    // onLocationChange: (deletedData: Location[]) => void
     setMatchedSelected: React.Dispatch<React.SetStateAction<number[]>>
     setSelectedCell: React.Dispatch<React.SetStateAction<number | null>>
     locDatas: { locationData: Location[] }
     setLocDatas: React.Dispatch<React.SetStateAction<{ locationData: Location[] }>>
     selectedCell: number | null;
+    handleDeleteClose: () => void;
+    open:boolean
   }
 
   
 
   const LocationDelete: React.FunctionComponent<LocationDeleteProps> = (
     { 
-        // locationName,
-        selectedCell, 
-        onLocationChange, 
+      open,  
+      handleDeleteClose,
+      selectedCell, 
+        // onLocationChange, 
         setMatchedSelected, 
         setSelectedCell, 
+       
         locDatas, setLocDatas }) => {
-    const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
-
-
-
-    const handleDeleteOpen = () => {
-        setDeleteOpen(true)
-      }
     
-      const handleDeleteClose = () => {
-        setDeleteOpen(false)
-        setMatchedSelected([])
-        
-      }
-
-      const handleDeleteButton = () => {
-        if (selectedCell !== null) {
-          handleDeleteOpen()
-        }
-      }
-
     const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const deleteData = locDatas.locationData.filter(
@@ -54,15 +40,12 @@ interface LocationDeleteProps {
         )
         setLocDatas({ ...locDatas, locationData: deleteData })
         setMatchedSelected([])
-        setDeleteOpen(false)
-        // dispatch(deleteLocation())
-        onLocationChange(deleteData)
-      
+        handleDeleteClose()
       }
 
       return(
         <Modal
-          open={deleteOpen}
+          open={open}
           onClose={handleDeleteClose}
           aria-labelledby="responsive-dialog-title"
           aria-describedby="modal-desc"
@@ -93,7 +76,7 @@ interface LocationDeleteProps {
                 {'Delete Customs here'}
               </Typography>
 
-              <form onSubmit={handleDeleteSubmit}>
+              <AppForm onSubmit={handleDeleteSubmit}>
                 <FormControl
                   sx={{
                     display: 'flex',
@@ -101,31 +84,29 @@ interface LocationDeleteProps {
                     justifyContent: 'space-evenly',
                   }}
                 >
-                  <Box sx={{ marginBottom: '20px', padding: '20px' }}>
+                  <Typography sx={{ marginBottom: '20px', padding: '20px' }}>
                     Are you sure you want to delete this Location?
-                  </Box>
-                  {/* <Input
-                    variant="outlined"
-                    // type="text"
-                    // id="location"
-                    // name="location"
-                    required
-                    sx={{ width: '92%', marginLeft: '20px' }}
-                    defaultValue={
-                      selectedCell !== null
-                        ? locData.locationData[selectedCell].location: ''
-                    }
-                  /> */}
+                  </Typography>
                 </FormControl>
+
+                <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: { md: 'row'},
+            justifyContent: { xs: 'space-between', md: 'flex-end' },
+            gap: '5px',
+            flexWrap:'wrap'
+          }}
+        >
                 <Button
                   autoFocus
                   type="submit"
                   variant="solid"
                   sx={{
                     background: '#fdd835',
+                    '&:hover': { background: '#E1A91B' },
                     color: 'black',
-                    // marginTop: '25px',
-                    marginLeft: '40%',
                   }}
                 >
                   Confirm Delete
@@ -138,14 +119,14 @@ interface LocationDeleteProps {
                   variant="solid"
                   sx={{
                     background: 'black',
+                    '&:hover': { background: 'black' },
                     color: 'white',
-                    // marginTop: '25px',
-                    marginLeft: '10px',
                   }}
                 >
                   Cancel
                 </Button>
-              </form>
+                </Box>
+              </AppForm>
             </div>
           </Sheet>
         </Modal>

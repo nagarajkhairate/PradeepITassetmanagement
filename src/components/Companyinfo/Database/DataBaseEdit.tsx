@@ -8,7 +8,7 @@ const initialDatabase = [
     {
      id:1,
       fieldName: "swde",
-      dataType: "wsedf",
+      componentsId: "wsedf",
       Category: "234frd",
       required: "swed",
     },
@@ -16,7 +16,7 @@ const initialDatabase = [
 
   const addCustomField = (custom: { 
     fieldName: string; 
-    dataType: string; 
+    componentsId: string; 
     category: string; 
     required: string; 
   }) => {
@@ -27,7 +27,7 @@ const initialDatabase = [
   interface dataItem {
     id:1,
     fieldName: string;
-    dataType: string;
+    componentsId: string;
     category: string;
     required: boolean;
   }
@@ -37,8 +37,8 @@ const initialDatabase = [
 interface DataProps {
     matchedSelected: number[];
     setMatchedSelected: React.Dispatch<React.SetStateAction<number[]>>;
-    dataBase: { data: dataItem[] };
-    setDataBase: React.Dispatch<React.SetStateAction<{ data: dataItem[] }>>;
+    dataBases: { customAssetFields: dataItem[] };
+    setDataBases: React.Dispatch<React.SetStateAction<{ customAssetFields: dataItem[] }>>;
     
     editOpen: boolean;
     setEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -47,9 +47,9 @@ interface DataProps {
     selectedCell: number | null;
     setSelectedCell: React.Dispatch<React.SetStateAction<number | null>>;
     handleCheckboxChange: (index: number) => void;
-    handleEdit: () => void;
+
     handleEditButton: (e: React.FormEvent<HTMLFormElement>) => void;
-    handleDeleteButton: () => void;
+
     handleDeleteSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     handleEditClose: () => void;
     handleDeleteOpen: () => void;
@@ -60,8 +60,8 @@ interface DataProps {
  
 const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
     setMatchedSelected,
-    dataBase,
-    setDataBase,
+    dataBases,
+    setDataBases,
     editOpen,
     setEditOpen,
     deleteOpen,
@@ -69,9 +69,8 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
     selectedCell,
     setSelectedCell,
     handleCheckboxChange,
-    handleEdit,
-    // handleEditButton,
-    handleDeleteButton,
+
+
     handleDeleteSubmit,
     // handleEditClose,
     handleDeleteOpen,
@@ -80,16 +79,11 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
  
     const [formData, setFormData] = useState({
         custom: "",
-        dataType: "",
+        componentsId: "",
         dataRequired: false,
         selectedCategories: "",
       });
-    const [showDepreciationOptions, setShowDepreciationOptions] =useState<boolean>(false);
-    const handleDepreciationChange = (event: ChangeEvent<HTMLInputElement>) => {
-      const value = event.target.value;
-      setShowDepreciationOptions(value === "Yes");
-      // setCompanyFormData((prevState: any) => ({ ...prevState, assetDepreciation: value }));
-    };
+  
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target;
@@ -101,12 +95,17 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
         event: React.SyntheticEvent | null,
         newValue: string | null
       ) => {
-        setFormData((prevData) => ({ ...prevData, dataType: newValue || "" }));
+        setFormData((prevData) => ({ ...prevData, componentsId: newValue || "" }));
       };
 
       const handleClickEditOpen = () => {
         setEditOpen(true);
       };
+      const handleEdit = (index:number) => {
+      setSelectedCell(index)
+          handleClickEditOpen()
+        
+      }
     
       const handleEditClose = () => {
         setEditOpen(false);
@@ -114,15 +113,21 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
     
         // console.log(JSON.stringify(editOpen))
       };
+      const handleDeleteButton = (index:number) => {
+        setSelectedCell(index)
+          handleDeleteOpen()
+        
+      }
+
       const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const custom = formData.custom;
     if (selectedCell !== null) {
-        const updatedData = dataBase.data.map((item, index) =>
+        const updatedData = dataBases.customAssetFields.map((item, index) =>
             index === selectedCell ? { ...item, fieldName: custom } : item
         );
-        setDataBase({ ...dataBase, data: updatedData });
+        setDataBases({ ...dataBases, customAssetFields: updatedData });
         handleEditClose();
     }
 };
@@ -138,54 +143,59 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
                   overflowX: "auto",
                 }}
               >
+                  <Box   sx={{
+    overflowX: 'auto', 
+    fontSize: '14px',
+    whiteSpace: 'nowrap', 
+  }}>
                 <Table
                   borderAxis="both"
                   sx={{
-                    mt:'10px'
+                    mt:'10px', border: '1px solid grey', minWidth: '900px'
                   }}
                 >
                   <thead>
                     <tr>
-                      <th style={{ width: 30 }}>
+                      <th style={{ width: 30, background: '#fff8e6', verticalAlign:'middle' }}>
                         <Checkbox
                           size="sm"
                           indeterminate={
                             matchedSelected.length > 0 &&
-                            matchedSelected.length < dataBase.data.length
+                            matchedSelected.length < dataBases.customAssetFields.length
                           }
                           checked={
                             matchedSelected.length > 0 &&
-                            matchedSelected.length === dataBase.data.length
+                            matchedSelected.length === dataBases.customAssetFields.length
                           }
                           onChange={(event) => {
                             const isChecked = event.target.checked;
                             setMatchedSelected(
                               isChecked
-                                ? dataBase.data.map((_, index) => index)
+                                ? dataBases.customAssetFields.map((_, index) => index)
                                 : []
                             );
                           }}
                           color={
                             matchedSelected.length > 0 &&
-                            matchedSelected.length === dataBase.data.length
+                            matchedSelected.length === dataBases.customAssetFields.length
                               ? "primary"
                               : undefined
                           }
                           sx={{ verticalAlign: "text-bottom" }}
                         />
                       </th>
-                      <th>Field Name</th>
-                      <th>Data Type</th>
-                      <th>Required</th>
-                      <th>Category</th>
-                      <th>Edit</th>
-                      <th>Delete</th>
+                      <th style={{ background: '#fff8e6' ,verticalAlign:'middle'}}>Field Name</th>
+                      <th style={{ background: '#fff8e6',verticalAlign:'middle' }}>Data Type</th>
+                      <th style={{ background: '#fff8e6',verticalAlign:'middle' }}>Required</th>
+                      <th style={{ background: '#fff8e6' ,verticalAlign:'middle'}}>Category</th>
+                      <th style={{ background: '#fff8e6',verticalAlign:'middle' }}>Edit</th>
+                      <th style={{ background: '#fff8e6' ,verticalAlign:'middle'}}>Delete</th>
  
                     </tr>
                   </thead>
                   <tbody>
-                    {dataBase.data.length > 0 ? (
-                    dataBase.data.map((item, index) => (
+                    {dataBases.customAssetFields.length > 0 ? (
+                    dataBases.customAssetFields.map((item, index) => (
                       <tr key={index}>
                         <td>
                           <Checkbox
@@ -195,7 +205,7 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
                           />
                         </td>
                         <td>{item.fieldName}</td>
-                        <td>{item.dataType}</td>
+                        <td>{item.componentsId}</td>
                         <td>{item.required}</td>
                         <td>{item.category}</td>
                         <td>
@@ -214,7 +224,7 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
                               
                             },
                           }}
-                          onClick={handleEdit}>
+                          onClick={()=>handleEdit(index)}>
                             <EditOutlinedIcon />
                             Edit
                           </Button>
@@ -234,7 +244,7 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
                               background: '#d32f2f',
                             },
                           }}
-                          onClick={handleDeleteButton}>
+                          onClick={()=>handleDeleteButton(index)}>
                             <DeleteForeverIcon />
                             Delete
                           </Button>
@@ -250,7 +260,7 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
               )}
                   </tbody>
                 </Table>
- 
+              </Box>
  
                 <Modal
                   open={editOpen}
@@ -316,7 +326,7 @@ const DataBaseEdit: React.FC<DataProps>= ({ matchedSelected,
                            
                             <Select placeholder="Select Data Types"
                             sx={{ width: "50%", marginLeft: "60px" }}
-                            value={formData.dataType}
+                            value={formData.componentsId}
                         onChange={handleSelectChange}
                             >
                              <Option value="checkbox List">Checkbox List</Option>

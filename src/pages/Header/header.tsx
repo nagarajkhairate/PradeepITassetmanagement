@@ -17,15 +17,15 @@ const Header = () => {
   return (
     <Sheet
       sx={{
-        display: 'flex',
+        display:'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         position: 'fixed',
         top: 0,
         width: '100vw',
         height: 'var(--Header-height)',
-        zIndex: 10,
-        p: 1,
+        zIndex: 9995,
+        p: 2,
         gap: 1,
         borderBottom: '1px solid',
         borderColor: 'background.level1',
