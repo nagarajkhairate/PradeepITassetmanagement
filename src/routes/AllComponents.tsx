@@ -36,7 +36,7 @@ import Maintenance from '../pages/Maintenance/Maintenance'
 import Lease from '../pages/Lease/Lease'
 import Move from '../pages/Move/Move'
 import EditAssets from '../pages/Assets/EditAssets'
-import EditAssetPage from '../pages/Assets/EditAssetPage'
+import EditAnAsset from '../pages/Assets/EditAnAsset'
 import PersonsEmployeesForm from '../pages/Setup/CustomizeForm/PersonsEmployeesForm'
 import ContractForm from '../pages/Setup/CustomizeForm/ContractForm'
 import MaintenanceForm from '../pages/Setup/CustomizeForm/MaintenanceForm'
@@ -92,7 +92,7 @@ export {
     Lease,
     Move,
     EditAssets,
-    EditAssetPage,
+    EditAnAsset,
     PersonsEmployeesForm,
     ContractForm,
     MaintenanceForm,
