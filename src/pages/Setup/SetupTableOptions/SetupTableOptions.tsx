@@ -21,7 +21,7 @@ import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import AppView from "../../../components/Common/AppView";
 import { ThunkDispatch } from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
-import { addoptions, fetchOptions, fetchOptionsById } from "../../../redux/features/TableOptionsSlice";
+import { addoptions, fetchOptions, fetchOptionsById, updateoptions } from "../../../redux/features/TableOptionsSlice";
 import { RootState } from "../../../redux/store";
 
 const depreciationOptions = {
@@ -146,7 +146,9 @@ const SetupTableOptions: React.FC = ({}) => {
       };
     }
 
-    dispatch(addoptions(formData))
+    const updatedOption = { ...companyFormData };
+    dispatch(updateoptions(updatedOption))
+    // dispatch(addoptions(formData))
     console.log(JSON.stringify(formData, null, 2));
   };
 

@@ -48,8 +48,7 @@ interface AssetRadioGroupProps {
 
 const Event: React.FunctionComponent= () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const [eventForm, setEventForm] = useState<any>({})
-
+  const [eventForm, setEventForm] = useState<any>({id:1})
   
   const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
@@ -60,8 +59,9 @@ const Event: React.FunctionComponent= () => {
     //   ...prevData,
     //   eventOption: eventForm,
     // }))
+    const updatedEventForm = { ...eventForm };
     console.log(JSON.stringify(eventForm, null, 2))
-    dispatch(updateEvents(eventForm))
+    dispatch(updateEvents(updatedEventForm))
     console.log(JSON.stringify(eventForm, null, 2));
   }
   React.useEffect(()=>{
