@@ -45,9 +45,9 @@ export const addAssets = createAsyncThunk('assets/addAssets', async (assets: any
   return response.data;
 });
  
-export const updateAssets = createAsyncThunk('assets/updateAssets', async (updatedCustomer: any) => {
+export const updateAssets = createAsyncThunk('assets/updateAssets', async (id,updatedCustomer: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/add-asset/${updatedCustomer.id}`, updatedCustomer);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/add-asset/${id}`, updatedCustomer);
   return response.data;
 });
  
