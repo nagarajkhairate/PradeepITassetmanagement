@@ -1,31 +1,16 @@
 import React, { useState } from 'react'
-import {
-  Typography,
-  Box,
-  Button,
-  Radio,
-  RadioGroup,
-  Divider,
-  Grid,
-  ButtonGroup,
-} from '@mui/joy'
+import { Typography, Box, Button, Radio, RadioGroup, Divider } from '@mui/joy'
 // import { VscSettings } from "react-icons/vsc";
-import SendTwoToneIcon from '@mui/icons-material/SendTwoTone'
-import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined'
-import ConstructionOutlinedIcon from '@mui/icons-material/ConstructionOutlined'
-import GavelOutlinedIcon from '@mui/icons-material/GavelOutlined'
-import Buttonss from './Buttonss'
-// import HowToRegOutlinedIcon from "@mui/icons-material/HowToRegOutlined";
-import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
-import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import AppView from '../../Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch } from 'react-redux'
-import { addoptions} from '../../../redux/features/TabsSlice'
-import AppForm from '../../Common/AppForm'
+// import { addoptions} from '../../../redux/features/TabsSlice'
 import { RootState } from '../../../redux/store'
-
+import { addoptions } from '../../../redux/features/TabsSlice'
+import { addEvents } from '../../../redux/features/EventsSlice'
+import { useNavigate } from 'react-router-dom'
+import { addDataBase } from '../../../redux/features/DataBaseSlice'
 
 interface EventOptionProps {
   companyFormData: any
@@ -61,6 +46,7 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
   activeTab,
   setActiveTab,
 }) => {
+  const navigate = useNavigate()
   const [eventForm, setEventForm] = useState<any>({})
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
@@ -73,11 +59,12 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
       ...prevData,
       eventOption: eventForm,
     }))
-    dispatch(addoptions(companyFormData)); 
-    console.log(JSON.stringify(eventForm, null, 2))
+    dispatch(addDataBase(companyFormData.dataBase))
+    dispatch(addoptions(companyFormData.tableOption))
+    dispatch(addEvents(companyFormData.eventOption))
+    // navigate('/dashboard')
   }
-  console.log(JSON.stringify(companyFormData))
-
+  console.log(JSON.stringify(companyFormData.tableOption))
   const AssetRadioGroup: React.FC<AssetRadioGroupProps> = ({
     name,
     onChange,
@@ -135,7 +122,7 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
               borderRadius: '15px',
               '&:hover': {
                 color: 'white',
-                background: 'green',  
+                background: 'green',
               },
             }}
           >
@@ -146,49 +133,44 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
     )
   }
 
-  // const handleNextTab = () => {
-  //   setActiveTab(activeTab + 1);
-  // };
-
-  const handlePrevTab = () => {
-    setActiveTab(activeTab - 1)
+  const handleBack = () => {
+    setActiveTab((prevActiveStep) => prevActiveStep - 1)
   }
 
   return (
-    <AppForm onSubmit={handleSubmit}>
     <AppView>
-      
-
       <Box
         sx={{
           borderRadius: '10px',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
           gap: '5px',
-          p: 1,
+          p: 2,
         }}
       >
         <Typography
-        level="h4"
-        sx={{ display: 'flex', alignItems: 'center',marginBottom:'20px', gap: 1 }}
-      >
-        <SignpostOutlinedIcon
-          style={{ fontSize: '1.4rem', color: '#FBC12E',  }}
-        />
-        EventOption
-      </Typography>
-       
-          <Typography><strong>Asset-related Events</strong></Typography>
-      
+          level="h4"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            marginBottom: '20px',
+            gap: 1,
+          }}
+        >
+          <SignpostOutlinedIcon
+            style={{ fontSize: '1.4rem', color: '#FBC12E' }}
+          />
+          EventOption
+        </Typography>
 
-        
-        
-          <Typography
-          sx={{marginTop:'20px'}}
-          >
-            Do you want to register these event for the assets?
-          </Typography>
-        
+        <Typography>
+          <strong>Asset-related Events</strong>
+        </Typography>
+
+        <Typography sx={{ marginTop: '20px' }}>
+          Do you want to register these event for the assets?
+        </Typography>
+
         <Divider></Divider>
 
         <Box
@@ -232,7 +214,7 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
         </Box>
         <Divider></Divider>
         <Box
-           sx={{
+          sx={{
             display: 'flex',
 
             flexDirection: { md: 'row', xs: 'column' },
@@ -242,7 +224,7 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
           }}
         >
           <Box>
-            <Typography >
+            <Typography>
               {/* <SendTwoToneIcon /> */}
               Lease assets:
             </Typography>
@@ -450,47 +432,35 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
           />
         </Box>
         <Divider />
-
-        <Box
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+        <Button
           sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
-            justifyContent: { xs: 'center', md: 'flex-end' },
-            gap: 1,
-            mt: 2,
+            background: '#388e3c',
+            color: 'white',
+            '&:hover': { background: '#388e3B' },
+            borderRadius: '10px',
           }}
+          disabled={activeTab === 0}
+          onClick={handleBack}
         >
-          <Button
-            variant="solid"
-            sx={{
-              background: '#388e3c',
-              color: 'white',
-              borderRadius:'10px'
-            }}
-            component="label"
-            onClick={handlePrevTab}
-          >
-            <NavigateBeforeOutlinedIcon />
-            Cancel
-          </Button>
-          <Button
-            variant="solid"
-            sx={{
-              background: '#FABC1E',
-              color: 'black',
-              '&:hover': { background: '#E1A91B' },
-              borderRadius: '10px',
-            }}
-            component="label"
-            onClick={handleSubmit}
-          >
-            Finish
-            <NavigateNextOutlinedIcon />
-          </Button>
-        </Box>
+          Back
+        </Button>
+        <Button
+          type="submit"
+          sx={{
+            background: '#FABC1E',
+            color: 'black',
+            '&:hover': { background: '#E1A91B' },
+            borderRadius: '10px',
+          }}
+          onClick={handleSubmit}
+        >
+          Finish
+        </Button>
       </Box>
+      </Box>
+      
     </AppView>
-    </AppForm>
   )
 }
 

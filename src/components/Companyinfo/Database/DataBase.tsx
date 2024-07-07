@@ -1,41 +1,27 @@
-import { Typography, Radio, RadioGroup, Divider, Grid } from '@mui/joy'
-import ButtonGroup from '@mui/joy/ButtonGroup'
+import { Typography, Radio, RadioGroup } from '@mui/joy'
 import React, { useState, useEffect } from 'react'
 import { Box } from '@mui/joy'
 import Table from '@mui/joy/Table'
 import Checkbox from '@mui/joy/Checkbox'
 import Button from '@mui/joy/Button'
 import { FormControl } from '@mui/joy'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import { useTheme } from '@mui/material/styles'
-import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
-import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
-import DataBaseAdd from './DataBaseAdd'
-import DataBaseEdit from './DataBaseEdit'
+
 import AppView from '../../../components/Common/AppView'
-import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
+
 import { ThunkDispatch } from 'redux-thunk'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { fetchDataBase } from '../../../redux/features/DataBaseSlice'
 import { RootState } from '../../../redux/store'
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
-import HandleTabButtons from '../../Common/HandleTabButtons'
-interface DataBaseProps {
-  companyFormData: any
-  setCompanyFormData: any
-  activeTab: number
-  setActiveTab: (tab: number) => void
-  id: number
-}
+
 
 const customDefaultFields = [
   {
     id: 1,
     visible: true,
     fieldName: 'Asset Tag ID',
-    required: '',
-    description:
-      'This field holds the unique asset id number that your company assigns to identify each asset. These are generally sequentially numbered labels with barcodes.',
+    isRequired: 'yes',
+    description: 'This field holds the unique asset id.',
     example: 'A-1001',
     name: 'assetId',
     option: [
@@ -45,14 +31,13 @@ const customDefaultFields = [
       },
     ],
   },
-
   {
     id: 2,
     visible: true,
     fieldName: 'Asset Description',
-    required: '',
+    isRequired: 'yes',
     description: 'Description of the asset.',
-    example: 'HP - Envy Desktop - 12GB Memory - 2TB Hard Drive',
+    example: 'HP - Envy Desktop',
     name: 'assetDec',
     option: [
       {
@@ -65,10 +50,10 @@ const customDefaultFields = [
     id: 3,
     visible: true,
     fieldName: 'Purchase Date',
-    required: '',
+    isRequired: '',
     description: 'Date asset was purchased',
     example: '08/22/2014',
-    name: 'PurchasedDate',
+    name: 'purchasedDate',
     option: [
       {
         id: 1,
@@ -84,7 +69,7 @@ const customDefaultFields = [
     id: 4,
     visible: true,
     fieldName: 'Cost',
-    required: '',
+    isRequired: '',
     description: 'Cost of the asset',
     example: 'Bs225.75',
     name: 'cost',
@@ -99,15 +84,14 @@ const customDefaultFields = [
       },
     ],
   },
-
   {
     id: 5,
     visible: true,
     fieldName: 'Purchased From',
-    required: '',
+    isRequired: '',
     description: 'Vendor/Supplier name',
     example: 'Amazon',
-    name: 'PurchasedForm',
+    name: 'purchasedForm',
     option: [
       {
         id: 1,
@@ -123,7 +107,7 @@ const customDefaultFields = [
     id: 6,
     visible: true,
     fieldName: 'Brand',
-    required: '',
+    isRequired: '',
     description: 'Manufacturer of the asset',
     example: 'HP',
     name: 'brand',
@@ -142,10 +126,10 @@ const customDefaultFields = [
     id: 7,
     visible: true,
     fieldName: 'Model',
-    required: '',
+    isRequired: '',
     description: 'Model name of the asset',
     example: 'Envy',
-    name: 'Model',
+    name: 'model',
     option: [
       {
         id: 1,
@@ -161,10 +145,10 @@ const customDefaultFields = [
     id: 8,
     visible: true,
     fieldName: 'Serial No',
-    required: '',
+    isRequired: '',
     description: "Manufacturer's serial number",
     example: 'HG9C3X',
-    name: 'SerialNo',
+    name: 'serialNo',
     option: [
       {
         id: 1,
@@ -178,178 +162,88 @@ const customDefaultFields = [
   },
 ]
 
+interface DataBaseProps {
+  companyFormData: any
+  setCompanyFormData: any
+  activeTab: number
+  setActiveTab: (tab: number) => void
+}
+
 const DataBases: React.FunctionComponent<DataBaseProps> = ({
   companyFormData,
   setCompanyFormData,
   activeTab,
   setActiveTab,
-  id,
 }) => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const [matchedSelected, setMatchedSelected] = useState<number[]>([])
-  const [dataBases, setDataBases] = useState({
-    customAssetFields: [],
-    customDefaultFields: customDefaultFields.map((item) => ({
-      ...item,
-      id: item.id,
-      visible: item.visible,
-      fieldName: item.fieldName,
-      required: item.required,
-      description: item.description,
-    })),
-  })
-  const [selectedCell, setSelectedCell] = useState<number | null>(null)
-  const [editOpen, setEditOpen] = useState(false)
-  const [deleteOpen, setDeleteOpen] = useState(false)
-  const theme = useTheme()
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
-  const [eventForm, setEventForm] = useState<any>({})
+  const [dataBaseForm, setDataBaseForm] = useState(
+    customDefaultFields.reduce((acc: any, field) => {
+      acc[field.name] = {
+        visible: field.visible,
+        fieldName: field.fieldName,
+        name: field.name,
+        isRequired: field.isRequired,
+      }
+      return acc
+    }, {}),
+  )
 
-  const dataBase = useSelector((state: RootState) => state.dataBase.data)
-  console.log(dataBase)
-
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(fetchDataBase())
-  }, [])
+  }, [dispatch])
 
-  // const addCustomField = (custom: string) => {
-  //   setDataBases((prevData) => ({
-  //     ...prevData,
-  //     data: [...prevData.data, custom],
-  //   }))
-  // }
-
-  const deleteCustomField = (index: number) => {
-    const updatedData = dataBases.customAssetFields.filter((_, idx) => idx !== index)
-    setDataBases((prevData) => ({ ...prevData, customAssetFields: updatedData }))
-  }
-
-  const handleClickEditOpen = () => {
-    setEditOpen(true)
-  }
-
-  const handleEditClose = () => {
-    setEditOpen(false)
-    setSelectedCell(null)
-  }
-
-  const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const Custom = (e.target as HTMLFormElement).Custom.value
-    if (selectedCell !== null) {
-      const updatedData = dataBases.customAssetFields.map((item, index) =>
-        index === selectedCell ? Custom : item,
-      )
-      // setDataBases((prevData) => ({ ...prevData, data: updatedData }))
-      handleEditClose()
-    }
-  }
-  const handleCheckboxChange = (index: number) => {
-    setDataBases((prevData) => ({
+  const handleCheckboxChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+  ) => {
+    const { checked } = event.target
+    const fieldName = customDefaultFields[index].name
+    setDataBaseForm((prevData) => ({
       ...prevData,
-      customDefaultFields: prevData.customDefaultFields.map((item, i) =>
-        i === index ? { ...item, visible: !item.visible } : item,
-      ),
+      [fieldName]: {
+        ...prevData[fieldName],
+        visible: checked,
+      },
     }))
   }
-
- 
-
-  const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const updatedData = dataBases.customAssetFields.filter(
-      (_, index) => index !== selectedCell,
-    )
-    setDataBases({ ...dataBases, customAssetFields: updatedData })
-    setMatchedSelected([])
-    setDeleteOpen(false)
-  }
-
-  const handleDeleteOpen = () => {
-    setDeleteOpen(true)
-  }
-
-  const handleDeleteClose = () => {
-    setDeleteOpen(false)
-    setMatchedSelected([])
-  }
-
- 
 
   const HandleRadioSelect = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: number,
   ) => {
     const { value } = event.target
-    setDataBases((prevData) => ({
+    const fieldName = customDefaultFields[index].name
+    setDataBaseForm((prevData) => ({
       ...prevData,
-      customDefaultFields: prevData.customDefaultFields.map((item, i) =>
-        i === index ? { ...item, required: value } : item,
-      ),
-    }))
-  }
-
-  console.log(JSON.stringify(dataBases, null, 2))
-
-
-
-  const handleNextTab = () => {
-    // Extracting only the necessary fields from dataBaseTable in dataBases
-    const transformedTableData = dataBases.customDefaultFields.map((item) => ({
-      id: item.id,
-      visible: item.visible,
-      fieldName: item.fieldName,
-      required: item.required,
-      description: item.description,
-    }))
-
-    setCompanyFormData((prevData: any) => ({
-      ...prevData,
-      dataBases: {
-        customAssetFields: dataBases.customAssetFields, // Assuming dataBases.data is handled separately
-        customDefaultFields: transformedTableData,
+      [fieldName]: {
+        ...prevData[fieldName],
+        isRequired: value,
       },
     }))
-
-    // Increment the active tab
-    setActiveTab(activeTab + 1)
   }
 
-  const handlePrevTab = () => {
-    setActiveTab(activeTab - 1)
+  const handleNext = () => {
+    setCompanyFormData((prevData) => ({
+      ...prevData,
+      dataBase: Object.values(dataBaseForm),
+    }))
+    setActiveTab((prevActiveStep) => prevActiveStep + 1)
   }
-  const generateJson = () => {
-    const jsonData = dataBases.customDefaultFields.map(({ 
-      id, visible, fieldName, required, description 
-    }) => ({
-      id,
-      visible,
-      fieldName,
-      required,
-      description
-    }));
-    return JSON.stringify(jsonData, null, 2);
-  };
+
+  const handleBack = () => {
+    setActiveTab((prevActiveStep) => prevActiveStep - 1)
+  }
+  console.log(dataBaseForm)
 
   return (
     <AppView>
-      {/* <Typography
-        level="h4"
-        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-      >
-        <SignpostOutlinedIcon
-          style={{ fontSize: '1.4rem', color: '#FABC1E' }}
-        />
-        Step-4 Database
-      </Typography> */}
-
       <Box
         sx={{
           borderRadius: '10px',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
           gap: '5px',
-          p: 1,
+          p: 2,
         }}
       >
         <Box
@@ -358,27 +252,25 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
           }}
         >
           <Typography
-          level='h4'
+            level="h4"
+            sx={{
+              fontSize: '20px',
+              fontWeight: 500,
+              lineHeight: '30px',
+              textAlign: { xs: 'center', md: 'left' },
+              whiteSpace: 'nowrap',
+              gap: 1,
+            }}
+          >
+            <TuneOutlinedIcon
               sx={{
-             
-                fontSize: '20px',
-                fontWeight: 500,
-                lineHeight: '30px',
-                textAlign: { xs: 'center', md: 'left' },
-                whiteSpace: 'nowrap',
-                gap:1
+                fontSize: '1.1rem',
+                color: '#FABC1E',
+                alignItems: 'center',
               }}
-            >
-              <TuneOutlinedIcon
-                    sx={{
-                      fontSize: '1.1rem',
-                      color: '#FABC1E',
-                      alignItems: 'center',
-                    }}
-                  />
-              
-              Asset Database Fields
-            </Typography>
+            />
+            Asset Database Fields
+          </Typography>
         </Box>
 
         <Box
@@ -394,33 +286,58 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
             </Typography>
           </Box>
 
-          <Box sx={{overflowX: 'auto',
-            fontSize: '14px',
-            whiteSpace: 'nowrap', }}>
+          <Box
+            sx={{
+              overflowX: 'auto',
+              fontSize: '14px',
+              whiteSpace: 'nowrap',
+            }}
+          >
             <Table borderAxis="both">
               <thead>
                 <tr>
-                  <th style={{ width: 30, background: '#fff8e6',verticalAlign:'middle' }}>
+                  <th
+                    style={{
+                      width: 30,
+                      background: '#fff8e6',
+                      verticalAlign: 'middle',
+                    }}
+                  >
                     <Checkbox />
                   </th>
-                  <th style={{   background: '#fff8e6', verticalAlign:'middle' }}>Field Name</th>
-                  <th style={{ background: '#fff8e6', verticalAlign:'middle' }}>Date Required</th>
-                  <th style={{ background: '#fff8e6', verticalAlign:'middle' }}>Description</th>
-                  <th style={{  background: '#fff8e6', verticalAlign:'middle' }}>Example</th>
+                  <th
+                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                  >
+                    Field Name
+                  </th>
+                  <th
+                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                  >
+                    Date Required
+                  </th>
+                  <th
+                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                  >
+                    Description
+                  </th>
+                  <th
+                    style={{ background: '#fff8e6', verticalAlign: 'middle' }}
+                  >
+                    Example
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {dataBases.customDefaultFields.map((data, index) => (
+                {customDefaultFields.map((data, index) => (
                   <tr key={index}>
                     <td>
                       <Checkbox
-                        checked={data.visible}
-                        onChange={() => handleCheckboxChange(index)}
+                        checked={dataBaseForm[data.name].visible}
+                        onChange={(event) => handleCheckboxChange(event, index)}
                       />
                     </td>
                     <td>{data.fieldName}</td>
                     <td>
-                      {/* {data.required} */}
                       {data.visible && (
                         <FormControl>
                           <RadioGroup
@@ -430,6 +347,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
                             {data.option.map((opt: any) => (
                               <Radio
                                 name={data.name}
+                                defaultValue={data.isRequired}
                                 onChange={(event) =>
                                   HandleRadioSelect(event, index)
                                 }
@@ -449,75 +367,35 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
                 ))}
               </tbody>
             </Table>
-            </Box>
-            <Divider sx={{ my: '30px' }}></Divider>
-          
+          </Box>
         </Box>
-
-        <b>Asset Custom Fields</b>
-        <Box sx={{ marginBottom: '2px' }}>
-          Add custom fields to join the standard fields that we provided. Feel
-          free to get creative.
-        </Box>
-
-        <Box>
-          <DataBaseAdd
-            dataBases={dataBases}
-            setDataBases={setDataBases}
-            // addCustomField={addCustomField}
-            deleteCustomField={deleteCustomField}
-          />
-
-          <DataBaseEdit
-            matchedSelected={matchedSelected}
-            setMatchedSelected={setMatchedSelected}
-            dataBases={dataBases}
-            setDataBases={setDataBases}
-            editOpen={editOpen}
-            setEditOpen={setEditOpen}
-            deleteOpen={deleteOpen}
-            setDeleteOpen={setDeleteOpen}
-            selectedCell={selectedCell}
-            setSelectedCell={setSelectedCell}
-            handleCheckboxChange={handleCheckboxChange}
-            handleEditButton={handleEditButton}
-            handleDeleteSubmit={handleDeleteSubmit}
-            handleEditClose={handleEditClose}
-            handleDeleteOpen={handleDeleteOpen}
-            handleDeleteClose={handleDeleteClose}
-          />
-        </Box>
-
-        <Divider sx={{ marginTop: '3%' }} />
-
-        <Box
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+        <Button
           sx={{
-            display: 'flex',
-            alignItems: 'center',
-            flexDirection: { md: 'row', xs: 'column' },
-            justifyContent: { xs: 'space-around', md: 'flex-end' },
-            gap: 2,
-            mt: 4,
+            background: '#388e3c',
+            color: 'white',
+            '&:hover': { background: '#388e3B' },
+            borderRadius: '10px',
           }}
+          disabled={activeTab === 0}
+          onClick={handleBack}
         >
-           <HandleTabButtons
-               backgroundColor="#388e3c"
-               hoverColor="#2c6f2b"
-               onClick={handlePrevTab}
-               >
-                 <NavigateBeforeOutlinedIcon />
-                 Back
-               </HandleTabButtons>
-               <HandleTabButtons
-               backgroundColor="#FABC1E"
-               hoverColor="#E1A91B"
-               onClick={handleNextTab}
-             >
-               Continue
-               <NavigateNextOutlinedIcon />
-               </HandleTabButtons>
-        </Box>
+          Back
+        </Button>
+        <Button
+          sx={{
+            background: '#FABC1E',
+            color: 'black',
+            '&:hover': { background: '#E1A91B' },
+            borderRadius: '10px',
+          }}
+          onClick={handleNext}
+        >
+          Continue
+        </Button>
       </Box>
+      </Box>
+      
     </AppView>
   )
 }

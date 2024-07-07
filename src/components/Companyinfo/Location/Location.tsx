@@ -6,13 +6,11 @@ import Button from '@mui/joy/Button'
 import { FormControl, FormLabel } from '@mui/joy'
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
-import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
-import { useTheme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
+
+
 import { Select, Option } from '@mui/joy'
 import { useState } from 'react'
 import EditLocation from './EditLocation'
-import PlaylistAddCheckOutlinedIcon from '@mui/icons-material/PlaylistAddCheckOutlined'
 import AppView from '../../../components/Common/AppView'
 
 import { ThunkDispatch } from 'redux-thunk'
@@ -22,15 +20,8 @@ import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
 import DeleteLocation from './DeleteLocation'
 import { RootState } from '../../../redux/store'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined'
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 import { fetchLocation } from '../../../redux/features/LocationSlice'
-import HandleTabButtons from '../../Common/HandleTabButtons'
-
-type Location = {
-  id: number
-  location: string
-}
 
 interface LocationProps {
   companyFormData: any
@@ -48,17 +39,10 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
   const [open, setOpen] = useState<boolean>(false)
-  const theme = useTheme()
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
-  const [location, setLocation] = useState<string>('')
   const [deleteOpen, setDeleteOpen] = useState(false)
 
   const locations = useSelector((state: RootState) => state.location.data)
   console.log(locations)
-
-  const handleLocationChange = (updatedData: Location[]) => {
-    console.log('location: ', JSON.stringify(updatedData))
-  }
 
   const handleDeleteOpen = () => {
     setDeleteOpen(true)
@@ -69,20 +53,13 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
     setMatchedSelected([])
   }
 
-  const handleNextTab = () => {
-    setCompanyFormData((prevData: any) => ({
-      ...prevData,
-      locations: locations,
-    }))
-    setActiveTab(activeTab + 1)
-    console.log(JSON.stringify(locations, null, 2))
+  const handleNext = () => {
+    setActiveTab((prevActiveStep) => prevActiveStep + 1)
   }
 
-  const handlePrevTab = () => {
-    setActiveTab(activeTab - 1)
+  const handleBack = () => {
+    setActiveTab((prevActiveStep) => prevActiveStep - 1)
   }
-
-  console.log(JSON.stringify(companyFormData))
 
   React.useEffect(() => {
     dispatch(fetchLocation())
@@ -94,15 +71,6 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
 
   return (
     <AppView>
-      {/* <Typography
-        level="h4"
-        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-      >
-        
-        <RoomOutlinedIcon style={{ fontSize: '1.4rem', color: '#FABC1E' }} />
-        Step-3 Locations
-      </Typography> */}
-
       <Box
         sx={{
           borderRadius: '10px',
@@ -220,17 +188,15 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
               }}
               open={open}
               onClose={setOpen}
-
-            ><AddLocation
-            open={open}
-              setOpen={setOpen}
-              handleClose={handleClose}
-            />
+            >
+              <AddLocation
+                open={open}
+                setOpen={setOpen}
+                handleClose={handleClose}
+              />
             </Modal>
-          )
-}
+          )}
         </Box>
-            
 
         <Divider />
 
@@ -363,34 +329,31 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
         </Box>
         <Divider />
 
-        <Divider />
-
-        <Box
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+        <Button
           sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
-            justifyContent: { xs: 'center', md: 'flex-end' },
-            gap: 2,
-            marginTop: '20px',
+            background: '#388e3c',
+            color: 'white',
+            '&:hover': { background: '#388e3B' },
+            borderRadius: '10px',
           }}
+          disabled={activeTab === 0}
+          onClick={handleBack}
         >
-         <HandleTabButtons
-               backgroundColor="#388e3c"
-               hoverColor="#2c6f2b"
-               onClick={handlePrevTab}
-               >
-                 <NavigateBeforeOutlinedIcon />
-                 Back
-               </HandleTabButtons>
-               <HandleTabButtons
-               backgroundColor="#FABC1E"
-               hoverColor="#E1A91B"
-               onClick={handleNextTab}
-             >
-               Continue
-               <NavigateNextOutlinedIcon />
-               </HandleTabButtons>
-        </Box>
+          Back
+        </Button>
+        <Button
+          sx={{
+            background: '#FABC1E',
+            color: 'black',
+            '&:hover': { background: '#E1A91B' },
+            borderRadius: '10px',
+          }}
+          onClick={handleNext}
+        >
+          Continue
+        </Button>
+      </Box>
       </Box>
 
       <DeleteLocation
@@ -402,6 +365,8 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
         handleDeleteClose={handleDeleteClose}
         open={deleteOpen}
       />
+
+    
     </AppView>
   )
 }

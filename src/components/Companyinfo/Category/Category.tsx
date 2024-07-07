@@ -1,68 +1,51 @@
 import React from 'react'
-import { Box, Sheet } from '@mui/joy'
+import { Box } from '@mui/joy'
 import { Typography, Divider } from '@mui/joy'
 import Button from '@mui/joy/Button'
-import { FormControl, FormLabel } from '@mui/joy'
 import AddIcon from '@mui/icons-material/Add'
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
-import Input from '@mui/joy/Input'
-import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
-import { useTheme } from '@mui/material/styles'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import { Select, Option } from '@mui/joy'
-import Modal from '@mui/joy/Modal'
 import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined'
 import { useState } from 'react'
 import EditCategory from './EditCategory'
-import PlaylistAddCheckOutlinedIcon from '@mui/icons-material/PlaylistAddCheckOutlined'
 import AppView from '../../../components/Common/AppView'
 import AddCategory from './AddCategory'
 import { useDispatch, useSelector } from 'react-redux'
 import { ThunkDispatch } from 'redux-thunk'
-import { addCategory, fetchCategory } from '../../../redux/features/CategorySlice'
+import {
+  addCategory,
+  fetchCategory,
+} from '../../../redux/features/CategorySlice'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import DeleteCategory from './DeleteCategory'
 import { RootState } from '../../../redux/store'
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
-import HandleTabButtons from '../../Common/HandleTabButtons'
+
 type Category = {
   id: number
   categoryName: string
 }
 
 interface CategoryProps {
-  companyFormData: any;
-  setCompanyFormData: any;
-  activeTab: number;
-  setActiveTab: (tab: number) => void;
+  activeTab: number
+  setActiveTab: (tab: number) => void
 }
 
 const CategoryPage: React.FunctionComponent<CategoryProps> = ({
-    
-    companyFormData,
-  setCompanyFormData,
-    activeTab,
-    setActiveTab,
-  
+  activeTab,
+  setActiveTab,
 }) => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [open, setOpen] = useState<boolean>(false)
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
-  const theme = useTheme()
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
+
   const [categoryName, setCategoryName] = useState<string>('')
   // const [categories, setCategories] = useState<Category[]>([])
 
   const categories = useSelector((state: RootState) => state.category.data)
   // const dispatch = useDispatch<AppDispatch>()
   console.log(categories)
-
-  const handleCategoryChange = (updatedCategories: Category[]) => {
-    // setCategories(updatedCategories)
-    console.log('category: ', JSON.stringify(updatedCategories))
-  }
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -95,42 +78,28 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
     setDeleteOpen(false)
     setMatchedSelected([])
   }
-  
-  const handleNextTab = () => {
-        setCompanyFormData((prevData: any) => ({ ...prevData, categories: categories }));
-        setActiveTab(activeTab + 1); 
-        console.log(JSON.stringify(categories, null, 2))
-      };
-    
-      const handlePrevTab = () => {
-        setActiveTab(activeTab - 1);
-    };
 
-   
-    console.log(JSON.stringify(companyFormData))
+  const handleNext = () => {
+    setActiveTab((prevActiveStep) => prevActiveStep + 1)
+  }
 
+  const handleBack = () => {
+    setActiveTab((prevActiveStep) => prevActiveStep - 1)
+  }
 
   React.useEffect(() => {
     dispatch(fetchCategory())
   }, [])
 
-
   return (
     <AppView>
-      {/* <Typography level="h4" sx={{ display: 'flex', alignItems: 'center' }}>
-        <SignpostOutlinedIcon
-          style={{ fontSize: '1.4rem', color: '#FABC1E' }}
-        />
-        Categories
-      </Typography> */}
-
       <Box
         sx={{
           borderRadius: '10px',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
           gap: '5px',
-          p:1
+          p: 2,
         }}
       >
         <Box
@@ -149,9 +118,8 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
             }}
           >
             <Typography
-            level='h4'
+              level="h4"
               sx={{
-             
                 fontSize: '20px',
                 fontWeight: 500,
                 lineHeight: '30px',
@@ -160,13 +128,12 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
               }}
             >
               <TuneOutlinedIcon
-                    sx={{
-                      fontSize: '1.1rem',
-                      color: '#FABC1E',
-                      alignItems: 'center',
-                    }}
-                  />
-              
+                sx={{
+                  fontSize: '1.1rem',
+                  color: '#FABC1E',
+                  alignItems: 'center',
+                }}
+              />
               List of Categories
             </Typography>
           </Box>
@@ -193,28 +160,28 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
             </Button>
 
             {matchedSelected.length > 0 && (
-          <Button
-            onClick={handleDeleteOpen}
-            autoFocus
-              variant="solid"
-            sx={{
-              fontSize: '13px',
-              // background: '#ffffff',
-              borderRadius: '15px',
-              // color: '#d32f2f',
-              background: '#d32f2f',
-              display: 'flex',
-              justifyContent: { md: 'flex-end', xs: 'center' },
-              marginLeft: 'none',
-              border: '1px solid red',
-              
-              padding: '.5rem .10rem',
-            }}
-          >
-            <DeleteForeverIcon sx={{ fontSize: '15px' }} />
-            Delete Categories
-          </Button>
-        )}
+              <Button
+                onClick={handleDeleteOpen}
+                autoFocus
+                variant="solid"
+                sx={{
+                  fontSize: '13px',
+                  // background: '#ffffff',
+                  borderRadius: '15px',
+                  // color: '#d32f2f',
+                  background: '#d32f2f',
+                  display: 'flex',
+                  justifyContent: { md: 'flex-end', xs: 'center' },
+                  marginLeft: 'none',
+                  border: '1px solid red',
+
+                  padding: '.5rem .10rem',
+                }}
+              >
+                <DeleteForeverIcon sx={{ fontSize: '15px' }} />
+                Delete Categories
+              </Button>
+            )}
 
             <Button
               autoFocus
@@ -235,12 +202,13 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
         <Divider />
 
         <Box>
-          <Box sx={{  marginTop: '10px' }}>
+          <Box sx={{ marginTop: '10px' }}>
             <Typography>
-            Add the type of groups of assets. To start with, commonly used
-            categories have already been created for you. Make them as broad or
-            as specific as you want. Categories can be 'laptops and printers',
-            'equipment', or 'chairs'. Customize to your particular need.
+              Add the type of groups of assets. To start with, commonly used
+              categories have already been created for you. Make them as broad
+              or as specific as you want. Categories can be 'laptops and
+              printers', 'equipment', or 'chairs'. Customize to your particular
+              need.
             </Typography>
           </Box>
 
@@ -253,8 +221,7 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
               marginTop: '1px',
               padding: '20px',
             }}
-          >   
-
+          >
             <Box
               sx={{
                 display: 'flex',
@@ -316,35 +283,31 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
           />
         </Box>
         <Divider />
-
-              
-        <Box
-           sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
-            justifyContent: { xs: 'center', md: 'flex-end' },
-            gap: 2,
-            marginTop:'20px'
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+        <Button
+          sx={{
+            background: '#388e3c',
+            color: 'white',
+            '&:hover': { background: '#388e3B' },
+            borderRadius: '10px',
           }}
+          disabled={activeTab === 0}
+          onClick={handleBack}
         >
-         
-         <HandleTabButtons
-               backgroundColor="#388e3c"
-               hoverColor="#2c6f2b"
-               onClick={handlePrevTab}
-               >
-                 <NavigateBeforeOutlinedIcon />
-                 Back
-               </HandleTabButtons>
-               <HandleTabButtons
-               backgroundColor="#FABC1E"
-               hoverColor="#E1A91B"
-               onClick={handleNextTab}
-             >
-               Continue
-               <NavigateNextOutlinedIcon />
-               </HandleTabButtons>
-          </Box>
+          Back
+        </Button>
+        <Button
+          sx={{
+            background: '#FABC1E',
+            color: 'black',
+            '&:hover': { background: '#E1A91B' },
+            borderRadius: '10px',
+          }}
+          onClick={handleNext}
+        >
+          Continue
+        </Button>
+      </Box>
       </Box>
 
       <AddCategory
@@ -355,11 +318,12 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
         handleAddCategory={handleAddCategory}
       />
 
-<DeleteCategory
-        open={deleteOpen} 
-        handleDeleteClose={handleDeleteClose} 
+      <DeleteCategory
+        open={deleteOpen}
+        handleDeleteClose={handleDeleteClose}
         handleDeleteOpen={handleDeleteOpen}
-         />
+      />
+      
     </AppView>
   )
 }

@@ -1,11 +1,10 @@
-import { Collapse } from '@mui/material'
-import { useEffect, useState } from 'react'
-import { RouteType } from '../../../routes/config'
-import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined'
-import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined'
-import SidebarItem from './SidebarItem'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../redux/store'
+import React, { useEffect, useState } from 'react';
+import { RouteType } from '../../../routes/config';
+import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
+import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
+import SidebarItem from './SidebarItem';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux/store';
 
 import {
   IconButton,
@@ -14,21 +13,21 @@ import {
   ListItemButton,
   ListItemContent,
   Typography,
-} from '@mui/joy'
+} from '@mui/joy';
 
 type Props = {
-  item: RouteType
-}
+  item: RouteType;
+};
 
 const SidebarItemCollapse = ({ item }: Props) => {
-  const [open, setOpen] = useState(false)
-  const { appState } = useSelector((state: RootState) => state.appState)
+  const [open, setOpen] = useState(false);
+  const { appState } = useSelector((state: RootState) => state.appState);
 
   useEffect(() => {
     if (appState.includes(item.state)) {
-      setOpen(true)
+      setOpen(true);
     }
-  }, [appState, item])
+  }, [appState, item]);
 
   return item.sidebarProps ? (
     <ListItem nested>
@@ -41,11 +40,9 @@ const SidebarItemCollapse = ({ item }: Props) => {
             {item.sidebarProps.displayText}
           </Typography>
         </ListItemContent>
-
-        <Typography level="title-sm"></Typography>
         {open ? <ExpandLessOutlinedIcon /> : <ExpandMoreOutlinedIcon />}
       </ListItemButton>
-      <Collapse in={open} timeout="auto">
+      {open && (
         <List>
           {item.child?.map((route, index) =>
             route.sidebarProps ? (
@@ -54,12 +51,12 @@ const SidebarItemCollapse = ({ item }: Props) => {
               ) : (
                 <SidebarItem item={route} key={index} />
               )
-            ) : null,
+            ) : null
           )}
         </List>
-      </Collapse>
+      )}
     </ListItem>
-  ) : null
-}
+  ) : null;
+};
 
-export default SidebarItemCollapse
+export default SidebarItemCollapse;

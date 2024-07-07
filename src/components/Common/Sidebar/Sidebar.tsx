@@ -1,8 +1,11 @@
+import React from 'react'
 import SidebarItem from './SidebarItem'
-import SidebarItemCollapse from './SidebarItemCollapse'
+
 import { Box, GlobalStyles, List, Sheet, listItemButtonClasses } from '@mui/joy'
-import { closeSidebar } from '../../../utils/utils'
+
 import appRoutes from '../../../routes/appRoutes'
+import SidebarItemCollapse from './SidebarItemCollapse'
+import { closeSidebar } from '../../../utils/utils'
 import useColorSelector from '../../../configs/useColorSelector'
 
 const Sidebar = () => {

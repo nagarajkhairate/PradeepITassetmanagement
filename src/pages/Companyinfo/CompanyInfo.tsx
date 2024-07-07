@@ -1,5 +1,4 @@
-import * as React from "react";
-import { Box, Step, Stepper, StepLabel, Typography } from "@mui/material";
+import React from "react";
 import Company from "../../components/Companyinfo/Company/Company";
 import Sites from "../../components/Companyinfo/Sites/Sites";
 import TableOptions from "../../components/Companyinfo/TableOptions/TableOptions";
@@ -8,34 +7,33 @@ import Category from "../../components/Companyinfo/Category/Category";
 import DataBase from "../../components/Companyinfo/Database/DataBase";
 import EventOption from "../../components/Companyinfo/EventOption/EventOption";
 import AppView from "../../components/Common/AppView";
-import { ThunkDispatch } from "redux-thunk";
-import { useDispatch } from "react-redux";
-import { RootState } from "../../redux/store";
+
+import { Box, Step, StepButton, StepIndicator, Stepper } from "@mui/joy";
+import Check from "@mui/icons-material/Check";
+
 
 const CompanyInfo = () => {
   const [companyFormData, setCompanyFormData] = React.useState({});
   const [activeStep, setActiveStep] = React.useState(0);
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
-  const steps = [
+
+  console.log(companyFormData)
+
+  const steps: any[] = [
     { label: "Company", component: <Company companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
     { label: "Sites", component: <Sites companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
-    { label: "Locations", component: <LocationPage companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
-    { label: "Categories", component: <Category companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
-    { label: "Database", component: <DataBase id={1} companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
+    { label: "Locations", component: <LocationPage companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep}/> },
+    { label: "Categories", component: <Category activeTab={activeStep} setActiveTab={setActiveStep}/>  },
+    { label: "Database", component: <DataBase companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep}/> },
     { label: "TableOptions", component: <TableOptions companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
     { label: "EventOptions", component: <EventOption companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
+    // { label: "Summary", component: (
+    //   <Box>
+    //     <Typography level="h6">Summary</Typography>
+    //     <pre>{JSON.stringify(companyFormData, null, 2)}</pre>
+    //   </Box>
+    // ) },
   ];
-
-  // Handle next step
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  // Handle previous step
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
 
   return (
     <AppView>
@@ -46,22 +44,35 @@ const CompanyInfo = () => {
           justifyContent: "center",
           alignItems: "center",
           width: "100%",
-          mt: 3,
         }}
       >
-        <Stepper activeStep={activeStep} alternativeLabel sx={{ width: "100%", bgcolor: "transparent",display:"flex", flexDirection: { xs: "column", sm: "column", md: "row" }, gap: 1,}}>
-          {steps.map((step, index) => (
-            <Step key={step.label}
+        <Stepper sx={{ width: '100%' }}>
+          {steps && steps.map((step, index) => (
+            <Step
+              key={index}
+              indicator={
+                <StepIndicator
+                  variant={activeStep <= index ? 'soft' : 'solid'}
+                  color={activeStep < index ? 'neutral' : 'primary'}
+                >
+                  {activeStep <= index ? index + 1 : <Check />}
+                </StepIndicator>
+              }
+              sx={{
+                '&::after': {
+                  ...(activeStep > index &&
+                    index !== 2 && { bgcolor: '#FABC1E' }),
+                },
+              }}
             >
-              <StepLabel>
-                <Typography variant="subtitle2">{step.label}</Typography>
-              </StepLabel>
+              <StepButton>{step.label}</StepButton>
             </Step>
           ))}
         </Stepper>
-        <Box sx={{ width: "100%" }}>
-          {steps[activeStep].component}
+        <Box sx={{ mt: 2 }}>
+          {steps[activeStep] && steps[activeStep].component}
         </Box>
+       
       </Box>
     </AppView>
   );
