@@ -253,7 +253,7 @@ const handleSelectChange = (e: any, newValue: any, key: string) => {
     }
 
     try {
-        await dispatch(updateAssets( id, formDataToSend));
+        await dispatch(updateAssets(id, formDataToSend));
         console.log('Form submitted successfully');
         navigate(`/assets/view-an-asset/${id}`);
     } catch (error) {

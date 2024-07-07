@@ -8,7 +8,7 @@ import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined'
 import { CompanyInfoFields } from './Data'
 import AppForm from '../../../components/Common/AppForm'
 import FieldComponent from '../../../utils/FieldComponent'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import {
   fetchCompanyInfo,
@@ -22,12 +22,10 @@ const SetupCompInfo: React.FC = ({}) => {
   const [formData, setFormData] = useState<{
     [key: string]: string | File | null
   }>({})
-  
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [file, setFile] = useState<File | null>(null)
   const [zipCodeError, setZipCodeError] = useState<string | null>(null)
-  const [open, setOpen] = useState(false)
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-
+  const companyInfo = useSelector((state: RootState) =>state.companyInfo.data)
  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -68,14 +66,6 @@ const SetupCompInfo: React.FC = ({}) => {
     }
   }
 
-  const capitalizeKeys = (data: { [key: string]: any }) => {
-    const result: { [key: string]: any } = {};
-    for (const key in data) {
-      const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
-      result[capitalizedKey] = data[key];
-    }
-    return result;
-  };
 
   const handleEdit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -103,14 +93,16 @@ const SetupCompInfo: React.FC = ({}) => {
   }
   
 
-  // console.log('Form Data:', JSON.stringify(formData))
-
+  React.useEffect(() => {
+    if(companyInfo.length > 0){
+      setFormData(companyInfo[0])
+    }
+    
+  }, [companyInfo]);
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-      const data = await dispatch(fetchCompanyInfo());
-      const capitalizedData = capitalizeKeys(data);
-      setFormData(capitalizedData);
+      dispatch(fetchCompanyInfo());
     } catch (error) {
       console.error('Error fetching company info:', error);
     }
