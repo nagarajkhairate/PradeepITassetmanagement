@@ -57,9 +57,7 @@ interface Site {
   zipCode: number
   country: string
 }
-interface FormData {
-  [key: string]: string | File[];
-}
+
 
 interface ValidationMessages {
   [key: string]: string;
@@ -128,25 +126,25 @@ const handleSelectChange = (e: any, newValue: any, key: string) => {
     if (assets.stateKey === 'siteId') {
       return {
         ...assets,
-        options: sites.map(site => ({ value: site.id, label: site.name })),
+        options: sites.map(site => ({ value: site.id, label: site.siteName })),
       };
     }
     if (assets.stateKey === 'locationId') {
       return {
         ...assets,
-        options: locations.map(location => ({ value: location.id, label: location.name })),
+        options: locations.map(location => ({ value: location.id, label: location.location })),
       };
     }
     if (assets.stateKey === 'departmentId') {
       return {
         ...assets,
-        options: departments.map(department => ({ value: department.id, label: department.name })),
+        options: departments.map(department => ({ value: department.id, label: department.departmentName })),
       };
     }
     if (assets.stateKey === 'categoryId') {
       return {
         ...assets,
-        options: categories.map(category => ({ value: category.id, label: category.name })),
+        options: categories.map(category => ({ value: category.id, label: category.categoryName })),
       };
     }
     return assets;
@@ -255,7 +253,7 @@ const handleSelectChange = (e: any, newValue: any, key: string) => {
     }
 
     try {
-        await dispatch(updateAssets( id,  formDataToSend ));
+        await dispatch(updateAssets( id, formDataToSend));
         console.log('Form submitted successfully');
         navigate(`/assets/view-an-asset/${id}`);
     } catch (error) {
@@ -263,24 +261,27 @@ const handleSelectChange = (e: any, newValue: any, key: string) => {
     }
 };
 
-// console.log( updateAssets);
+// console.log(JSON.stringify(formData['site'].name))
+console.log(JSON.stringify(formData))
+// console.log(JSON.stringify(assets.stateKey))
+
 
   return (
     <AppForm onSubmit={handleSubmit} encType="multipart/form-data">
     <AppView >
       
-        <Typography level="h3" sx={{ml:"52px"}}>Edit An Asset</Typography>
+        <Typography level="h3">Edit An Asset</Typography>
     
       <Box
         sx={{
-          borderRadius: 'none',
+          borderRadius: 2,
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
           gap: '5px',
         }}
       >
         <Box sx={{ paddingBottom: "30px" }}>
-          <Box>
+
             
             <Grid container spacing={1} sx={{ padding: "20px",
              display:"flex",flexDirection: { xs: "column", md: "row" },}} >
@@ -291,7 +292,7 @@ const handleSelectChange = (e: any, newValue: any, key: string) => {
                   Assets Details
                 </Typography>
               </Grid>
-              {formConfig.slice(0,10).map((assets: FormFieldConfig) => (
+              {formConfig.slice(0,9).map((assets: FormFieldConfig) => (
                 <Grid key={assets.label} sx={{ paddingLeft: "32px", }}  xs={12}
                 md={assets.stateKey === "description" ? 12 : (assets.stateKey === "assetName" || assets.stateKey === "assetTagId") ? 6 : 4} 
                 >
@@ -344,7 +345,7 @@ const handleSelectChange = (e: any, newValue: any, key: string) => {
               </Box>
               <Box>
                 <Grid container spacing={1} sx={{ padding: "20px",display:"flex",flexDirection: { xs: "column", md: "row" }, }}>
-                  {dynamicFormConfig.slice(10,14).map((assets)=>(
+                  {dynamicFormConfig.slice(9,13).map((assets)=>(
                     <Grid key={assets.label } sx={{ paddingLeft: "32px",paddingBottom:"20px" }}>
 
                       <Typography
@@ -553,7 +554,7 @@ const handleSelectChange = (e: any, newValue: any, key: string) => {
                 Cancel
               </Button>
             </Box>
-          </Box>
+       
         </Box>
       </Box>
       {openDialog==='categoryId' &&  <AddCategory open={openDialog === 'categoryId'} handleClose={handleCloseDialog}  categoryName={categoryName}

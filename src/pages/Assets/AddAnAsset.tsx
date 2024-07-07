@@ -7,10 +7,6 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import AppView from '../../components/Common/AppView'
 import { ThunkDispatch } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
-import CategoryDialog from '../../components/AssetSections/EditAsset/AddAssetSection/CategoryDialog'
-import SiteDialog from '../../components/AssetSections/EditAsset/AddAssetSection/SiteDialog'
-import LocationDialog from '../../components/AssetSections/EditAsset/AddAssetSection/LocationDialog'
-import DepartmentDialog from '../../components/AssetSections/EditAsset/AddAssetSection/DepartmentDialog'
 import { RootState } from '../../redux/store'
 
 import AppForm from '../../components/Common/AppForm'
@@ -24,6 +20,7 @@ import { fetchLocation } from '../../redux/features/LocationSlice'
 import { addDepartment, fetchDepartment } from '../../redux/features/DepartmentSlice'
 import { addCategory, fetchCategory } from '../../redux/features/CategorySlice'
 import { addAssets } from '../../redux/features/AssetSlice'
+import { useNavigate } from 'react-router-dom'
 
 type Category = {
   id: number
@@ -45,9 +42,6 @@ interface Site {
   zipCode: number
   country: string
 }
-interface FormData {
-  [key: string]: string | File[]
-}
 
 interface ValidationMessages {
   [key: string]: string
@@ -62,8 +56,8 @@ const AddAnAsset: React.FC = () => {
     return acc;
   }, {});
   const [formData, setFormData] = useState(initialFormData);
-
-    const [open, setOpen] = useState<boolean>(false)
+const navigate = useNavigate()
+    const [ setOpen] = useState<any>(false)
   const [validationMessages, setValidationMessages] =
     useState<ValidationMessages>({})
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([])
@@ -98,25 +92,25 @@ const AddAnAsset: React.FC = () => {
     if (field.stateKey === 'siteId') {
       return {
         ...field,
-        options: sites.map(site => ({ value: site.id, label: site.name })),
+        options: sites.map(site => ({ value: site.id, label: site.siteName })),
       };
     }
     if (field.stateKey === 'locationId') {
       return {
         ...field,
-        options: locations.map(location => ({ value: location.id, label: location.name })),
+        options: locations.map(location => ({ value: location.id, label: location.location })),
       };
     }
     if (field.stateKey === 'departmentId') {
       return {
         ...field,
-        options: departments.map(department => ({ value: department.id, label: department.name })),
+        options: departments.map(department => ({ value: department.id, label: department.departmentName })),
       };
     }
     if (field.stateKey === 'categoryId') {
       return {
         ...field,
-        options: categories.map(category => ({ value: category.id, label: category.name })),
+        options: categories.map(category => ({ value: category.id, label: category.categoryName })),
       };
     }
     return field;
@@ -239,10 +233,9 @@ const AddAnAsset: React.FC = () => {
         }
     }
 
-    console.log('Form Data:', formDataToSend);
-
     try {
         await dispatch(addAssets(formDataToSend));
+        navigate('/assets/list-of-assets')
         console.log('Form submitted successfully');
     } catch (error) {
         console.error('Error submitting form:', error);
@@ -253,11 +246,11 @@ const AddAnAsset: React.FC = () => {
   return (
     <AppForm onSubmit={handleSubmit} encType="multipart/form-data">
       <AppView>
-        <div>
-          <Typography level="h3" sx={{ ml: '52px' }}>
+    
+          <Typography level="h3" >
             Add An Asset
           </Typography>
-        </div>
+      
         <Box
           sx={{
             borderRadius: 'none',
@@ -267,7 +260,7 @@ const AddAnAsset: React.FC = () => {
           }}
         >
           <Box sx={{ paddingBottom: '30px' }}>
-            <Box>
+           
               <Grid
                 container
                 spacing={1}
@@ -284,7 +277,7 @@ const AddAnAsset: React.FC = () => {
                     Assets Details
                   </Typography>
                 </Grid>
-                {formConfig.slice(0, 10).map((field: FormFieldConfig) => (
+                {formConfig.slice(0, 9).map((field: FormFieldConfig) => (
                   <Grid
                     key={field.label}
                     sx={{ paddingLeft: '32px' }}
@@ -359,7 +352,7 @@ const AddAnAsset: React.FC = () => {
                     flexDirection: { xs: 'column', md: 'row' },
                   }}
                 >
-                  {dynamicFormConfig.slice(10, 14).map((field) => (
+                  {dynamicFormConfig.slice(9, 13).map((field) => (
                     <Grid
                       key={field.label}
                       sx={{ paddingLeft: '32px', paddingBottom: '20px' }}
@@ -378,8 +371,8 @@ const AddAnAsset: React.FC = () => {
                           }
                           sx={field.sx}
                         >
-                          {field.options?.map((option) => (
-                            <Option key={option.value} value={option.value}>
+                          {field.options?.map((option, index) => (
+                            <Option key={`${option.value}-${index}`} value={option.value}>
                               {option.label}
                             </Option>
                           ))}
@@ -552,7 +545,7 @@ const AddAnAsset: React.FC = () => {
                 }}
               >
                 <Button
-                  size="lg"
+                  size="md"
                   onClick={handleSubmit}
                   sx={{
                     color: '#000000',
@@ -567,7 +560,7 @@ const AddAnAsset: React.FC = () => {
                   Save
                 </Button>
                 <Button
-                  size="lg"
+                  size="md"
                   // onClick={handleCancel}
                   sx={{
                     borderRadius: '15px',
@@ -581,7 +574,7 @@ const AddAnAsset: React.FC = () => {
                   Cancel
                 </Button>
               </Box>
-            </Box>
+           
           </Box>
         </Box>
 
@@ -603,9 +596,6 @@ const AddAnAsset: React.FC = () => {
         {openDialog==='departmentId' && <SetupAddDept  open={openDialog==='departmentId'} handleClose={handleCloseDialog} departmentName={departmentName} setDepartmentName={setDepartmentName} handleAddDepartment={handleAddDepartment}
         />}
 
-        {/* <SiteDialog open={openDialog === 'site'} handleClose={handleCloseDialog} />
-        <LocationDialog open={openDialog === 'location'} handleClose={handleCloseDialog} />
-        <DepartmentDialog open={openDialog === 'department'} handleClose={handleCloseDialog} /> */}
       </AppView>
       
     </AppForm>

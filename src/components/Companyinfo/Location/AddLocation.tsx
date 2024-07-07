@@ -6,6 +6,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Modal,
   Option,
   Select,
   Sheet,
@@ -75,7 +76,18 @@ const AddLocation: React.FC<LocationAddProps> = ({
   }
 
   return (
-    <Sheet
+    <Modal
+              aria-labelledby="responsive-dialog-title"
+              aria-describedby="modal-desc"
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              open={open}
+              onClose={handleClose}
+            >
+              <Sheet
       variant="outlined"
       sx={{
         maxWidth: 500,
@@ -212,6 +224,8 @@ const AddLocation: React.FC<LocationAddProps> = ({
         </AppForm>
       </Box>
     </Sheet>
+            </Modal>
+    
   )
 }
 
