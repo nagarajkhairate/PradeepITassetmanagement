@@ -11,7 +11,6 @@ import FieldComponent from '../../../utils/FieldComponent'
 import { useDispatch } from 'react-redux'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import {
-  addCompanyInfo,
   fetchCompanyInfo,
   updateCompanyInfo,
 } from '../../../redux/features/CompanyInfoSlice'
@@ -90,10 +89,21 @@ const SetupCompInfo: React.FC = ({}) => {
         }
       }
     }
-    await dispatch(updateCompanyInfo(formDataToSend))
+    // await dispatch(updateCompanyInfo(formDataToSend))
   }
+  const handleSubmit = () => {
+    // setCompanyFormData((prevData: any) => ({
+    //   ...prevData,
+    //   eventOption: eventForm,
+    // }))
+    const updatedEventForm = { ...formData };
+    console.log(JSON.stringify(formData, null, 2))
+    dispatch(updateCompanyInfo(updatedEventForm))
+    console.log(JSON.stringify(formData, null, 2));
+  }
+  
 
-  console.log('Form Data:', JSON.stringify(formData))
+  // console.log('Form Data:', JSON.stringify(formData))
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -320,6 +330,7 @@ const SetupCompInfo: React.FC = ({}) => {
   </Button>
   <Button
     type="submit"
+    onClick={handleSubmit}
     sx={{
       background: '#fdd835',
               color: 'black',
