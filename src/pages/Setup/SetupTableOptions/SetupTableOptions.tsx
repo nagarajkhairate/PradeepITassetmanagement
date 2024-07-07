@@ -147,8 +147,8 @@ const SetupTableOptions: React.FC = ({}) => {
     }
 
     const updatedOption = { ...companyFormData };
-    dispatch(updateoptions(updatedOption))
-    // dispatch(addoptions(formData))
+    // dispatch(updateoptions(updatedOption))
+    dispatch(addoptions(formData))
     console.log(JSON.stringify(formData, null, 2));
   };
 
