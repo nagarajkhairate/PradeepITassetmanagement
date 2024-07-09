@@ -121,7 +121,6 @@ const CreateAccount: React.FC = () => {
               justifyContent: "center",
               alignItems: "center",
               gap: "10px",
-              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
               borderRadius: "15px",
               padding: "20px",
               background: "#ffffff",

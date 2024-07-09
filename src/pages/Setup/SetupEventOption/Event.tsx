@@ -6,23 +6,15 @@ import {
   Radio,
   RadioGroup,
   Divider,
-  Grid,
-  ButtonGroup,
 } from '@mui/joy'
-// import { VscSettings } from "react-icons/vsc";
-import SendTwoToneIcon from '@mui/icons-material/SendTwoTone'
-import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined'
-import ConstructionOutlinedIcon from '@mui/icons-material/ConstructionOutlined'
-import GavelOutlinedIcon from '@mui/icons-material/GavelOutlined'
-// import HowToRegOutlinedIcon from "@mui/icons-material/HowToRegOutlined";
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import AppView from '../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
-import { addEvents, fetchEvents, updateEvents } from '../../../redux/features/EventsSlice'
+import {  fetchEvents, updateEvents } from '../../../redux/features/EventsSlice'
 
 const options = [
   {
@@ -48,20 +40,17 @@ interface AssetRadioGroupProps {
 
 const Event: React.FunctionComponent= () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const [eventForm, setEventForm] = useState<any>({})
-
+  const [eventForm, setEventForm] = useState<any>({id:1})
+  const events = useSelector((state: RootState) => state.events.data);
   
   const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setEventForm((prevData: any) => ({ ...prevData, [name]: value==="yes"}))
   }
   const handleSubmit = () => {
-    // setCompanyFormData((prevData: any) => ({
-    //   ...prevData,
-    //   eventOption: eventForm,
-    // }))
+    const updatedEventForm = { ...eventForm };
     console.log(JSON.stringify(eventForm, null, 2))
-    dispatch(updateEvents(eventForm))
+    dispatch(updateEvents(updatedEventForm))
     console.log(JSON.stringify(eventForm, null, 2));
   }
   React.useEffect(()=>{

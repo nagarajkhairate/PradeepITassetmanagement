@@ -47,10 +47,6 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
     setOpen(false);
   };
 
-  console.log(JSON.stringify(assets))
-
-
-
   return (
     <AppView>
       <Box
@@ -62,11 +58,6 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
           mt: "30px",
         }}
       >
-        <Box>
-          <Typography>
-            {/* {assets.length > 0 && typeof assets[0].description === "object" ? JSON.stringify(assets[0].description) : assets[0].description} */}
-          </Typography>
-        </Box>
         <Box
           sx={{
             my: 2,
@@ -103,7 +94,7 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
               <EditIcon sx={{ size: "23" }} /> Edit Asset
             </Button>
           </Link>
-          <Dropdown>
+          {/* <Dropdown>
             <MenuButton
               sx={{
                 background: "#13b457",
@@ -154,8 +145,8 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
                 <ContentCopyIcon /> Replicate
               </MenuItem>
             </Menu>
-          </Dropdown>
-          <CheckOutDialog closePopUp={closePopUp} open={open} />
+          </Dropdown> */}
+          {/* <CheckOutDialog closePopUp={closePopUp} open={open} /> */}
         </Box>
         <Box
           sx={{
@@ -249,7 +240,7 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
             </Table>
           </Box>
         </Box>
-        <Box>
+        {/* <Box>
           {/* <Button
             onClick={handleSubmitAssetInfo}
             sx={{
@@ -265,7 +256,7 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
           >
             Submit
           </Button> */}
-        </Box>
+        {/* </Box>  */}
       </Box>
     </AppView>
   );

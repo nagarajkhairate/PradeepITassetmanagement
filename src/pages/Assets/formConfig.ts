@@ -118,20 +118,6 @@ export const formConfig: FormFieldConfig[] = [
     }
   },
   {
-    label: "Status",
-    type: "select",
-    stateKey: "status",
-    validationMessageKey: "status",
-    options: [
-      { value: "Available", label: "Available" },
-      { value: "Not Available", label: "Not Available" }
-    ],
-    sx: {
-      borderRadius: "15px",
-      padding: "12.25px",
-    }
-  },
-  {
     label: "site",
     type: "select",
     stateKey: "siteId",
