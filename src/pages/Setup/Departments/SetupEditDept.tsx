@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react'
 import { Stack, Box, Typography, Sheet, ListItem } from '@mui/joy'
 import Table from '@mui/joy/Table'
@@ -148,13 +149,21 @@ export function SetupEditDept({
         }}
       >
         <Box
-          sx={{
-            overflowX: 'auto',
-            fontSize: '14px',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          <Table borderAxis="both" style={{ borderCollapse: 'collapse' }}>
+              sx={{
+                overflowX: 'auto',
+                fontSize: '14px',
+                whiteSpace: 'nowrap',
+                borderRadius:'5px'
+              }}
+            >
+        <Table 
+        borderAxis="both" aria-label="basic table" 
+        style={{
+                  borderCollapse: 'collapse',
+                  border: '1px solid grey',
+                  minWidth: '500px',
+                  borderRadius:'5px'
+                }}>
             <thead>
               <tr>
                 <th
@@ -211,7 +220,7 @@ export function SetupEditDept({
                         color="primary"
                       />
                     </td>
-                    <td>{custom.departmentName}</td>
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{custom.departmentName}</td>
 
                     <td>
                       <Button
@@ -451,3 +460,4 @@ export function SetupEditDept({
 }
 
 export default SetupEditDept
+

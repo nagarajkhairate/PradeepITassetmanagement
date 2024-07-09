@@ -1,3 +1,4 @@
+
 import * as React from 'react'
 import {
   Box,
@@ -186,7 +187,7 @@ const SetupSites: React.FC = ({}) => {
 
                   {matchedSelected.length > 0 && (
           <Button
-          onClick={handleDeleteClick}
+          onClick={()=>handleDeleteClick}
             autoFocus
               variant="solid"
             sx={{
@@ -377,16 +378,16 @@ const SetupSites: React.FC = ({}) => {
                         }}
                       />
                     </th>
-                    <th style={{ background: '#fff8e6',verticalAlign:"middle", fontSize:"14px"}}>Site</th>
-                    <th style={{ background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Description</th>
-                    <th style={{ background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Address</th>
-                    <th style={{ background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Apt. / Suite</th>
-                    <th style={{ background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>City</th>
-                    <th style={{ background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>State</th>
-                    <th style={{ background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Zip Code</th>
-                    <th style={{ background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Country</th>
-                    <th style={{ background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Edit</th>
-                    <th style={{ background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}> Delete</th>
+                    <th style={{ background: '#fff8e6', fontSize:"14px", verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal'}}>Site</th>
+                    <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Description</th>
+                    <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Address</th>
+                    <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Apt. / Suite</th>
+                    <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>City</th>
+                    <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>State</th>
+                    <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Zip Code</th>
+                    <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Country</th>
+                    <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Edit</th>
+                    <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}> Delete</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -401,16 +402,16 @@ const SetupSites: React.FC = ({}) => {
                             color="primary"
                           />
                         </td>
-                        <td>{site.siteName}</td>
+                        <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.siteName}</td>
                         <td>{site.description}</td>
-                        <td>{site.address}</td>
-                        <td>{site.aptSuite}</td>
-                        <td>{site.city}</td>
-                        <td>{site.state}</td>
-                        <td>{site.zipCode}</td>
-                        <td>{site.country}</td>
+                        <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.address}</td>
+                        <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.aptSuite}</td>
+                        <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.city}</td>
+                        <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.state}</td>
+                        <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.zipCode}</td>
+                        <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.country}</td>
                         <td>
-                          <div>
+                          <div style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>
                             <Button
                               aria-label="edit"
                               onClick={() => handleEditClick(site)}
@@ -439,7 +440,7 @@ const SetupSites: React.FC = ({}) => {
                             </Button>
                           </div>
                         </td>
-                        <td>
+                        <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>
                           <Button
                             aria-label="delete"
                             onClick={() => handleDeleteClick(site)}

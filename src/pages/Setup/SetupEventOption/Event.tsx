@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react'
 import {
   Typography,
@@ -53,6 +54,15 @@ const Event: React.FunctionComponent= () => {
     dispatch(updateEvents(updatedEventForm))
     console.log(JSON.stringify(eventForm, null, 2));
   }
+
+
+
+  React.useEffect(() => {
+    if(events.length > 0){
+      setEventForm(events[0])
+    }
+  }, [events]);
+
   React.useEffect(()=>{
     dispatch(fetchEvents())
   },[dispatch])

@@ -1,3 +1,4 @@
+
 import { Typography, Radio, RadioGroup, Divider } from '@mui/joy'
 import React, { useState } from 'react'
 import { Box } from '@mui/joy'
@@ -22,8 +23,9 @@ const AssetDefaultFields = [
   {
     
     fieldName: 'Asset Tag ID',
+    value:'assetTagId',
     visible: false,
-    isRequired: '',
+    isRequired: false,
     description:
       'This holds unique asset id number that your company assigns to identify each asset',
     example: 'A-1001',
@@ -39,8 +41,8 @@ const AssetDefaultFields = [
 
     fieldName: 'Asset Description',
     visible: false,
-
-    isRequired: '',
+    value:"assetDescription",
+    isRequired: false,
     description: 'Description of the asset.',
     example: 'HP - Envy Desktop - 12GB Memory - 2TB Hard Drive',
     option: [
@@ -54,8 +56,8 @@ const AssetDefaultFields = [
 
     fieldName: 'Purchase Date',
     visible: false,
-
-    isRequired: '',
+    value:"purchaseDate",
+    isRequired: false,
     description: 'Date asset was purchased',
     example: '08/22/2014',
     option: [
@@ -73,8 +75,8 @@ const AssetDefaultFields = [
 
     fieldName: 'Cost',
     visible: false,
-
-    isRequired: '',
+    value:"cost",
+    isRequired: false,
     description: 'Cost of the asset',
     example: 'Bs225.75',
     option: [
@@ -91,10 +93,11 @@ const AssetDefaultFields = [
 
   {
 
-    fieldName: 'Purchased From',
+    fieldName: 'Purchased Form',
+    value:"purchasedForm",
     visible: false,
 
-    isRequired: '',
+    isRequired: false,
     description: 'Vendor/Supplier name',
     example: 'Amazon',
     option: [
@@ -112,8 +115,8 @@ const AssetDefaultFields = [
  
     fieldName: 'Brand',
     visible: false,
-
-    isRequired: '',
+    value:"brand",
+    isRequired: false,
     description: 'Manufacturer of the asset',
     example: 'HP',
     option: [
@@ -131,8 +134,8 @@ const AssetDefaultFields = [
 
     fieldName: 'Model',
     visible: false,
-
-    isRequired: '',
+    value:"model",
+    isRequired: false,
     description: 'Model name of the asset',
     example: 'Envy',
     option: [
@@ -150,8 +153,8 @@ const AssetDefaultFields = [
   
     fieldName: 'Serial optional',
     visible: false,
-
-    isRequired: '',
+    value:'serialOptional',
+    isRequired: false,
     description: "Manufacturer's serial number",
     example: 'HG9C3X',
     option: [
@@ -182,7 +185,7 @@ const DataBaseAsset: React.FunctionComponent = () => {
       ...item,
       // id: item.id,
       visible: item.visible,
-      isRequired: item.isRequired,
+      isRequired: item.option.find((opt) => opt.value === 'optional') ? false : true, 
       description: item.description,
       
     })),
@@ -191,7 +194,13 @@ const DataBaseAsset: React.FunctionComponent = () => {
  
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
-  const [eventForm, setEventForm] = useState<any>({})
+  const [dataBaseForm, setDataBaseForm] = useState<any>({id:1})
+
+  React.useEffect(() => {
+    if(defaultFields.length > 0){
+      setMatchedSelected(defaultFields[0])
+    }
+  }, [setMatchedSelected]);
   
   React.useEffect(() => {
     dispatch(fetchDefaultFields())
@@ -229,15 +238,31 @@ const DataBaseAsset: React.FunctionComponent = () => {
     }
   }
 
+  // const handleCheckboxChange = (index: number) => {
+  //   setDataBases((prevData) => ({
+  //     ...prevData,
+  //     AssetDefaultFields: prevData.AssetDefaultFields.map((item, i) =>
+  //       i === index ? { ...item, visible: !item.visible } : item,
+  //     ),
+  //   }))
+  //   dispatch(updateDefaultFieldsById(AssetDefaultFields))
+  // }
+
   const handleCheckboxChange = (index: number) => {
     setDataBases((prevData) => ({
       ...prevData,
       AssetDefaultFields: prevData.AssetDefaultFields.map((item, i) =>
-        i === index ? { ...item, visible: !item.visible } : item,
+        i === index
+          ? {
+              ...item,
+              visible: !item.visible,
+              isRequired: !item.visible, // Set isRequired to false when becoming visible
+            }
+          : item
       ),
-    }))
-    dispatch(updateDefaultFieldsById(AssetDefaultFields))
-  }
+    }));
+  };
+  
 
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -264,10 +289,11 @@ const DataBaseAsset: React.FunctionComponent = () => {
     index: number,
   ) => {
     const { value } = event.target
+    const booleanValue = value === 'yes'; 
     setDataBases((prevData) => ({
       ...prevData,
       AssetDefaultFields: prevData.AssetDefaultFields.map((item, i) =>
-        i === index ? { ...item, isRequired: value } : item,
+        i === index ? { ...item, isRequired: booleanValue } : item,
       ),
     }))
   }
@@ -279,13 +305,21 @@ const DataBaseAsset: React.FunctionComponent = () => {
   const generateJson = () => {
     const jsonData = {
       AssetDefaultFields: dataBases.AssetDefaultFields.map(({ 
-         visible, fieldName, isRequired, description 
+         visible,value, fieldName, isRequired, description 
       }) => ({
-        
+        value,
         visible,
         fieldName,
         isRequired,
         description
+      })),
+      customAsset: dataBases.customAsset.map(({ 
+        id, fieldName, componentsId,isRequired,  
+      }) => ({
+        id,
+        fieldName,
+      componentsId,
+      isRequired,
       })),
     };
     return JSON.stringify(jsonData, null, 2);
@@ -400,7 +434,8 @@ const DataBaseAsset: React.FunctionComponent = () => {
                       {data.visible && (
                         <FormControl>
                           <RadioGroup
-                            defaultValue="outlined"
+                            defaultValue="optional"
+                            // value={data.isRequired ? 'optional' : 'yes'}
                             name="radio-buttons-group"
                           >
                             {data.option.map((opt: any) => (
@@ -408,7 +443,9 @@ const DataBaseAsset: React.FunctionComponent = () => {
                                 onChange={(event) =>
                                   HandleRadioSelect(event, index)
                                 }
+                                 
                                 key={opt.id}
+                                name={opt.value}
                                 value={opt.value}
                                 label={opt.value}
                                 variant="outlined"
@@ -479,3 +516,5 @@ const DataBaseAsset: React.FunctionComponent = () => {
 }
 
 export default DataBaseAsset
+
+
