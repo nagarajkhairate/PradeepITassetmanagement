@@ -20,14 +20,15 @@ const customDefaultFields = [
     id: 1,
     visible: true,
     fieldName: 'Asset Tag ID',
-    isRequired: 'yes',
+    isRequired: true,
     description: 'This field holds the unique asset id.',
     example: 'A-1001',
     name: 'assetId',
     option: [
       {
         id: 1,
-        value: 'yes',
+        value: true,
+        title: 'Yes'
       },
     ],
   },
@@ -35,14 +36,15 @@ const customDefaultFields = [
     id: 2,
     visible: true,
     fieldName: 'Asset Description',
-    isRequired: 'yes',
+    isRequired: true,
     description: 'Description of the asset.',
     example: 'HP - Envy Desktop',
     name: 'assetDec',
     option: [
       {
         id: 1,
-        value: 'yes',
+        value: true,
+        title: 'Yes'
       },
     ],
   },
@@ -50,18 +52,20 @@ const customDefaultFields = [
     id: 3,
     visible: true,
     fieldName: 'Purchase Date',
-    isRequired: '',
+    isRequired: true,
     description: 'Date asset was purchased',
     example: '08/22/2014',
     name: 'purchasedDate',
     option: [
       {
         id: 1,
-        value: 'yes',
+        value: true,
+        title: 'Yes'
       },
       {
         id: 2,
-        value: 'no',
+        value: false,
+         title: 'No'
       },
     ],
   },
@@ -69,18 +73,20 @@ const customDefaultFields = [
     id: 4,
     visible: true,
     fieldName: 'Cost',
-    isRequired: '',
+    isRequired: true,
     description: 'Cost of the asset',
     example: 'Bs225.75',
     name: 'cost',
     option: [
       {
         id: 1,
-        value: 'yes',
+        value: true,
+        title: 'Yes'
       },
       {
         id: 2,
-        value: 'no',
+        value: false,
+         title: 'No'
       },
     ],
   },
@@ -88,18 +94,20 @@ const customDefaultFields = [
     id: 5,
     visible: true,
     fieldName: 'Purchased From',
-    isRequired: '',
+    isRequired: true,
     description: 'Vendor/Supplier name',
     example: 'Amazon',
     name: 'purchasedForm',
     option: [
       {
         id: 1,
-        value: 'yes',
+        value: true,
+        title: 'Yes'
       },
       {
         id: 2,
-        value: 'no',
+        value: false,
+         title: 'No'
       },
     ],
   },
@@ -107,18 +115,20 @@ const customDefaultFields = [
     id: 6,
     visible: true,
     fieldName: 'Brand',
-    isRequired: '',
+    isRequired: true,
     description: 'Manufacturer of the asset',
     example: 'HP',
     name: 'brand',
     option: [
       {
         id: 1,
-        value: 'yes',
+        value: true,
+        title: 'Yes'
       },
       {
         id: 2,
-        value: 'no',
+        value: false,
+         title: 'No'
       },
     ],
   },
@@ -133,11 +143,13 @@ const customDefaultFields = [
     option: [
       {
         id: 1,
-        value: 'yes',
+        value: true,
+        title: 'Yes'
       },
       {
         id: 2,
-        value: 'no',
+        value: false,
+         title: 'No'
       },
     ],
   },
@@ -145,18 +157,20 @@ const customDefaultFields = [
     id: 8,
     visible: true,
     fieldName: 'Serial No',
-    isRequired: '',
+    isRequired: true,
     description: "Manufacturer's serial number",
     example: 'HG9C3X',
     name: 'serialNo',
     option: [
       {
         id: 1,
-        value: 'yes',
+        value: true,
+        title: 'Yes'
       },
       {
         id: 2,
-        value: 'no',
+        value: false,
+         title: 'No'
       },
     ],
   },
@@ -182,6 +196,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
         visible: field.visible,
         fieldName: field.fieldName,
         name: field.name,
+        description: "string",
         isRequired: field.isRequired,
       }
       return acc
@@ -353,7 +368,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
                                 }
                                 key={opt.id}
                                 value={opt.value}
-                                label={opt.value}
+                                label={opt.title}
                                 variant="outlined"
                               />
                             ))}

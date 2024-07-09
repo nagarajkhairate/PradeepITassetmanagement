@@ -25,30 +25,18 @@ import { fetchSites } from "../../redux/features/SitesSlice";
 import { fetchLocation } from "../../redux/features/LocationSlice";
 import { addDepartment, fetchDepartment } from "../../redux/features/DepartmentSlice";
 import { addCategory, fetchCategory } from "../../redux/features/CategorySlice";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AddSite from "../Setup/SetupSites/AddSite";
 import AddCategory from "../../components/Category/AddCategory";
 import { AddLocation } from "@mui/icons-material";
 import SetupAddDept from "../Setup/Departments/SetupAddDept";
- 
-// const data =[{
-//   "id": "9",
-//   "assetName": "MAcbook Air",
-//   "assetTagId": "Mac1001",
-//   "siteId": "Indore",
-//   "description": "Macbook Air M1",
-//   "purchaseFrom": "Bangalore",
-//   "purchaseDate": "2024-05-28",
-//   "brand": "Apple",
-//   "cost": "100000.00",
-//   "model": "Air M1",
-//   "serialNumber": "1234567890asdf",
-//   "status": "Available",
-//   "categoryId": "Laptop",
-//   "locationId": "Indore",
-//   "departmentId": "Supplier A",
-//   "assetPhoto": "/asset_photos/2.jpeg",
-// }]
+import AppForm from "../../components/Common/AppForm";
+
+// // interface EditAnAssetProps {
+// //   id: string;
+// //   assets: any;
+// }
+
 type Category = {
   id: number
   categoryName: string
@@ -69,26 +57,27 @@ interface Site {
   zipCode: number
   country: string
 }
-interface FormData {
-  [key: string]: string | File[];
-}
+
 
 interface ValidationMessages {
   [key: string]: string;
 }
 
-const AddAnAsset: React.FC = () => {
-  const { assetId } = useParams<{ assetId: string }>();
-    // const history = useHistory();
-    const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
-  const asset = useSelector((state: RootState) => state.assets.data.find(a => a.id === assetId));
+const EditAnAsset: React.FC = ()=> {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+      const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+      const assets = useSelector((state: RootState) =>
+        state.assets.data.find((asset: any) => asset.id.toString() === id),
+      ) as any
+  const asset = useSelector((state: RootState) => state.assets.data.find(a => a.id === id));
   const departments = useSelector((state: RootState) => state.departments.data);
   const categories = useSelector((state: RootState) => state.category.data);
   const sites = useSelector((state: RootState) => state.sites.data);
   const locations = useSelector((state: RootState) => state.location.data);
 
-  const initialFormData = formConfig.reduce<Record<string, any>>((acc, field) => {
-      acc[field.stateKey] = field.type === 'file' ? [] : '';
+  const initialFormData = formConfig.reduce<Record<string, any>>((acc, assets) => {
+      acc[assets.stateKey] = assets.type === 'file' ? [] : '';
       return acc;
   }, {});
   const [open, setOpen] = useState<boolean>(false)
@@ -99,77 +88,66 @@ const AddAnAsset: React.FC = () => {
   const [departmentName, setDepartmentName] = useState<string>('');
   const [openDialog, setOpenDialog] = useState<string | null>(null);
 
-
   useEffect(() => {
-    if (assetId) {
-        dispatch(fetchAssetsById(assetId));
+    if (id) {
+      dispatch(fetchAssetsById(id));
+    } else {
+      console.log('Asset ID is undefined');
     }
-    dispatch(fetchSites());
-    dispatch(fetchLocation());
-    dispatch(fetchDepartment());
-    dispatch(fetchCategory());
-}, [dispatch, assetId]);
+  }, [id]);
+
+  // console.log('Asset ID:', id);
+useEffect(() => {
+
+  dispatch(fetchSites());
+  dispatch(fetchLocation());
+  dispatch(fetchDepartment());
+  dispatch(fetchCategory());
+}, [dispatch]);
 
 useEffect(() => {
-  if (asset) {
-      const assetFormData = formConfig.reduce<Record<string, any>>((acc, field) => {
-          acc[field.stateKey] = asset[field.stateKey] || '';
-          return acc;
-      }, {});
-      setFormData(assetFormData);
+  if (assets) {
+    setFormData({ ...assets });
   }
-}, [asset]);
+}, [assets]);
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    stateKey: string
-  ) => {
-    const { value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [stateKey]: value,
-    }));
-    setValidationMessages((prevState) => ({ ...prevState, [stateKey]: "" }));
-  };
 
-  const handleSelectChange = (
-    event: React.SyntheticEvent<Element, Event> | null,
-    newValue: any,
-    stateKey: string
-  ) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [stateKey]: newValue,
-    }));
-    setValidationMessages((prevState) => ({ ...prevState, [stateKey]: "" }));
 
-  };
-  const dynamicFormConfig = formConfig.map(field => {
-    if (field.stateKey === 'siteId') {
+const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, key: string) => {
+  setFormData({ ...formData, [key]: e.target.value });
+};
+
+
+const handleSelectChange = (e: any, newValue: any, key: string) => {
+  setFormData({ ...formData, [key]: newValue });
+};
+
+  const dynamicFormConfig = formConfig.map(assets => {
+    if (assets.stateKey === 'siteId') {
       return {
-        ...field,
-        options: sites.map(site => ({ value: site.id, label: site.name })),
+        ...assets,
+        options: sites.map(site => ({ value: site.id, label: site.siteName })),
       };
     }
-    if (field.stateKey === 'locationId') {
+    if (assets.stateKey === 'locationId') {
       return {
-        ...field,
-        options: locations.map(location => ({ value: location.id, label: location.name })),
+        ...assets,
+        options: locations.map(location => ({ value: location.id, label: location.location })),
       };
     }
-    if (field.stateKey === 'departmentId') {
+    if (assets.stateKey === 'departmentId') {
       return {
-        ...field,
-        options: departments.map(department => ({ value: department.id, label: department.name })),
+        ...assets,
+        options: departments.map(department => ({ value: department.id, label: department.departmentName })),
       };
     }
-    if (field.stateKey === 'categoryId') {
+    if (assets.stateKey === 'categoryId') {
       return {
-        ...field,
-        options: categories.map(category => ({ value: category.id, label: category.name })),
+        ...assets,
+        options: categories.map(category => ({ value: category.id, label: category.categoryName })),
       };
     }
-    return field;
+    return assets;
   });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -220,7 +198,7 @@ useEffect(() => {
       categoryName: capitalizeWords(categoryName),
     }
     // setCategories([...categories, newCategory])
-    setCategoryName('') // Clear the input field after adding
+    setCategoryName('') 
     dispatch(addCategory(newCategory))
     console.log(newCategory)
     handleClose()
@@ -241,7 +219,7 @@ useEffect(() => {
     }
     // setDepartment([...department, newdepartment])
     dispatch(addDepartment(newdepartment))
-    setDepartmentName('') // Clear the input field after adding
+    setDepartmentName('') 
     handleClose()
     console.log(newdepartment)
   }
@@ -249,10 +227,10 @@ useEffect(() => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newValidationMessages: ValidationMessages = {};
-    formConfig.forEach((field) => {
-        if (field.stateKey !== 'assetPhoto' && !formData[field.stateKey]) {
-            newValidationMessages[field.validationMessageKey] =
-                `${field.label} is required.`;
+    formConfig.forEach((assets) => {
+        if (assets.stateKey !== 'assetPhoto' && !formData[assets.stateKey]) {
+            newValidationMessages[assets.validationMessageKey] =
+                `${assets.label} is required.`;
         }
     });
 
@@ -274,33 +252,37 @@ useEffect(() => {
         }
     }
 
-    console.log('Form Data:', formDataToSend);
-
     try {
-        await dispatch(updateAssets({ id: assetId, data: formDataToSend }));
+        await dispatch(updateAssets(id, formDataToSend));
         console.log('Form submitted successfully');
-        // history.push('/assets'); // Redirect to assets list or another relevant page
+        navigate(`/assets/view-an-asset/${id}`);
     } catch (error) {
         console.error('Error submitting form:', error);
     }
 };
 
+// console.log(JSON.stringify(formData['site'].name))
+console.log(JSON.stringify(formData))
+// console.log(JSON.stringify(assets.stateKey))
+
 
   return (
+    <AppForm onSubmit={handleSubmit} encType="multipart/form-data">
     <AppView >
-      <div>
-        <Typography level="h3" sx={{ml:"52px"}}>Edit An Asset</Typography>
-      </div>
+      
+        <Typography level="h3">Edit An Asset</Typography>
+    
       <Box
         sx={{
-          borderRadius: 'none',
+          borderRadius: 2,
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
           gap: '5px',
         }}
       >
         <Box sx={{ paddingBottom: "30px" }}>
-          <Box>
+
+            
             <Grid container spacing={1} sx={{ padding: "20px",
              display:"flex",flexDirection: { xs: "column", md: "row" },}} >
               <Grid xs={12}>
@@ -310,23 +292,23 @@ useEffect(() => {
                   Assets Details
                 </Typography>
               </Grid>
-              {formConfig.slice(0,10).map((field: FormFieldConfig) => (
-                <Grid key={field.label} sx={{ paddingLeft: "32px", }}  xs={12}
-                md={field.stateKey === "description" ? 12 : (field.stateKey === "assetName" || field.stateKey === "assetTagId") ? 6 : 4} 
+              {formConfig.slice(0,9).map((assets: FormFieldConfig) => (
+                <Grid key={assets.label} sx={{ paddingLeft: "32px", }}  xs={12}
+                md={assets.stateKey === "description" ? 12 : (assets.stateKey === "assetName" || assets.stateKey === "assetTagId") ? 6 : 4} 
                 >
                   <Typography
                     level="body-xs"
                     sx={{ color: "#767676", mt: "8px", mb: "5px" }}
                   >
-                    {field.label}
+                    {assets.label}
                   </Typography>
-                  {field.type === "select" ? (
+                  {assets.type === "select" ? (
                     <Select 
-                    value={formData[field.stateKey] as string}
-                    onChange={(e, newValue) => handleSelectChange(e, newValue, field.stateKey)}
-                    sx={field.sx}
+                    value={formData[assets.stateKey] as string}
+                    onChange={(e, newValue) => handleSelectChange(e, newValue, assets.stateKey)}
+                    sx={assets.sx}
                     >
-                      {field.options?.map((option) => (
+                      {assets.options?.map((option) => (
                         <Option key={option.value} value={option.value}>
                           {option.label}
                         </Option>
@@ -334,16 +316,16 @@ useEffect(() => {
                     </Select>
                   ) : (
                     <Input
-                      value={formData[field.stateKey] as string}
-                      onChange={(e) => handleInputChange(e, field.stateKey)}
-                      {...field}
-                      sx={field.sx}
+                      value={formData[assets.stateKey] as string}
+                      onChange={(e) => handleInputChange(e, assets.stateKey)}
+                      {...assets}
+                      sx={assets.sx}
                       />
                     )}
 
-                  {validationMessages[field.validationMessageKey] && (
+                  {validationMessages[assets.validationMessageKey] && (
                     <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
-                      {validationMessages[field.validationMessageKey]}
+                      {validationMessages[assets.validationMessageKey]}
                     </Typography>
                   )}
                 </Grid>     
@@ -363,23 +345,23 @@ useEffect(() => {
               </Box>
               <Box>
                 <Grid container spacing={1} sx={{ padding: "20px",display:"flex",flexDirection: { xs: "column", md: "row" }, }}>
-                  {dynamicFormConfig.slice(10,14).map((field)=>(
-                    <Grid key={field.label } sx={{ paddingLeft: "32px",paddingBottom:"20px" }}>
+                  {dynamicFormConfig.slice(9,13).map((assets)=>(
+                    <Grid key={assets.label } sx={{ paddingLeft: "32px",paddingBottom:"20px" }}>
 
                       <Typography
                     level="body-xs"
                     sx={{ color: "#767676", mt: "8px", mb: "5px" }}
                   >
-                    {field.label}
+                    {assets.label}
                   </Typography>
                   <Grid container spacing={1} >
 
                   <Select
-                      value={formData[field.stateKey] as string}
-                      onChange={(e, newValue) => handleSelectChange(e, newValue, field.stateKey)}
-                      sx={field.sx}
+                      value={formData[assets.stateKey] as string}
+                      onChange={(e, newValue) => handleSelectChange(e, newValue, assets.stateKey)}
+                      sx={assets.sx}
                       >
-                      {field.options?.map((option) => (
+                      {assets.options?.map((option) => (
                         <Option key={option.value} value={option.value}>
                           {option.label}
                         </Option>
@@ -399,7 +381,7 @@ useEffect(() => {
                         color: "#767676",
                         mt:{xs:"10px",md:"0"}
                       }}
-                      onClick={() => handleOpenDialog(field.stateKey)}
+                      onClick={() => handleOpenDialog(assets.stateKey)}
 
                       >
                       <Typography sx={{ mr: "25px", color: "#767676" }}>
@@ -411,9 +393,9 @@ useEffect(() => {
                     </Button>
 
                       </Grid>
-                      {validationMessages[field.validationMessageKey] && (
+                      {validationMessages[assets.validationMessageKey] && (
                         <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
-                      {validationMessages[field.validationMessageKey]}
+                      {validationMessages[assets.validationMessageKey]}
                     </Typography>
                   )}
                     </Grid>
@@ -572,7 +554,7 @@ useEffect(() => {
                 Cancel
               </Button>
             </Box>
-          </Box>
+       
         </Box>
       </Box>
       {openDialog==='categoryId' &&  <AddCategory open={openDialog === 'categoryId'} handleClose={handleCloseDialog}  categoryName={categoryName}
@@ -592,8 +574,10 @@ useEffect(() => {
 
         {openDialog==='departmentId' && <SetupAddDept  open={openDialog==='departmentId'} handleClose={handleCloseDialog} departmentName={departmentName} setDepartmentName={setDepartmentName} handleAddDepartment={handleAddDepartment}
         />}
+              
     </AppView>
+    </AppForm>
   );
 };
 
-export default AddAnAsset;
+export default EditAnAsset;

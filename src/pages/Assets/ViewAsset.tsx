@@ -1,25 +1,23 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { ThunkDispatch } from "@reduxjs/toolkit";
-import { Typography } from '@mui/joy';
-import AppView from "../../components/Common/AppView";
-import ViewAssetInfo from "./ViewAssetInfo";
-import { RootState } from "../../redux/store";
-import { fetchAssetsById } from "../../redux/features/AssetSlice";
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { ThunkDispatch } from '@reduxjs/toolkit'
+import { Typography } from '@mui/joy'
+import AppView from '../../components/Common/AppView'
+import ViewAssetInfo from './ViewAssetInfo'
+import { RootState } from '../../redux/store'
+import { fetchAssetsById } from '../../redux/features/AssetSlice'
 
-const EditAssets: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+const ViewAsset: React.FC = () => {
+  const { id } = useParams<{ id: string }>()
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const assets = useSelector((state: RootState) =>
     state.assets.data.find((asset: any) => asset.id.toString() === id),
   ) as any
 
-  console.log(id)
   useEffect(() => {
-    console.log('hsafjg')
-      dispatch(fetchAssetsById(id));
-  }, []);
+    dispatch(fetchAssetsById(id))
+  }, [id])
 
   // useEffect(() => {
   //   if (asset) {
@@ -53,18 +51,16 @@ const EditAssets: React.FC = () => {
   //   dispatch(updateAssets(editAssetData));
   // };
 
-
   return (
     <AppView>
-          <Typography level="h3">Asset View</Typography>
-          {assets && <ViewAssetInfo
-            assets={assets}  id={id}        />}
-          {/* <EditAssetDetails
+      <Typography level="h3">Asset View</Typography>
+      {assets && <ViewAssetInfo assets={assets} id={id} />}
+      {/* <EditAssetDetails
             assetDetails={editAssetData?.assetDetails || {}}
             dataUpdater={dataUpdater}
           /> */}
     </AppView>
-  );
-};
+  )
+}
 
-export default EditAssets;
+export default ViewAsset
