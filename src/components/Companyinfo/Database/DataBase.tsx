@@ -14,7 +14,6 @@ import { fetchDataBase } from '../../../redux/features/DataBaseSlice'
 import { RootState } from '../../../redux/store'
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 
-
 const customDefaultFields = [
   {
     id: 1,
@@ -28,7 +27,7 @@ const customDefaultFields = [
       {
         id: 1,
         value: true,
-        title: 'Yes'
+        title: 'Yes',
       },
     ],
   },
@@ -44,7 +43,7 @@ const customDefaultFields = [
       {
         id: 1,
         value: true,
-        title: 'Yes'
+        title: 'Yes',
       },
     ],
   },
@@ -60,12 +59,12 @@ const customDefaultFields = [
       {
         id: 1,
         value: true,
-        title: 'Yes'
+        title: 'Yes',
       },
       {
         id: 2,
         value: false,
-         title: 'No'
+        title: 'No',
       },
     ],
   },
@@ -81,12 +80,12 @@ const customDefaultFields = [
       {
         id: 1,
         value: true,
-        title: 'Yes'
+        title: 'Yes',
       },
       {
         id: 2,
         value: false,
-         title: 'No'
+        title: 'No',
       },
     ],
   },
@@ -102,12 +101,12 @@ const customDefaultFields = [
       {
         id: 1,
         value: true,
-        title: 'Yes'
+        title: 'Yes',
       },
       {
         id: 2,
         value: false,
-         title: 'No'
+        title: 'No',
       },
     ],
   },
@@ -123,12 +122,12 @@ const customDefaultFields = [
       {
         id: 1,
         value: true,
-        title: 'Yes'
+        title: 'Yes',
       },
       {
         id: 2,
         value: false,
-         title: 'No'
+        title: 'No',
       },
     ],
   },
@@ -144,12 +143,12 @@ const customDefaultFields = [
       {
         id: 1,
         value: true,
-        title: 'Yes'
+        title: 'Yes',
       },
       {
         id: 2,
         value: false,
-         title: 'No'
+        title: 'No',
       },
     ],
   },
@@ -165,12 +164,12 @@ const customDefaultFields = [
       {
         id: 1,
         value: true,
-        title: 'Yes'
+        title: 'Yes',
       },
       {
         id: 2,
         value: false,
-         title: 'No'
+        title: 'No',
       },
     ],
   },
@@ -196,7 +195,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
         visible: field.visible,
         fieldName: field.fieldName,
         name: field.name,
-        description: "string",
+        description: 'string',
         isRequired: field.isRequired,
       }
       return acc
@@ -288,11 +287,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
           </Typography>
         </Box>
 
-        <Box
-          sx={{
-            textAlign: { xs: 'center', md: 'left' },
-          }}
-        >
+        <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
           <Box sx={{ mt: 2 }}>
             <Typography>
               Fill in the appropriate fields for your assets. Asset Tag ID and
@@ -385,32 +380,31 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
           </Box>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-        <Button
-          sx={{
-            background: '#388e3c',
-            color: 'white',
-            '&:hover': { background: '#388e3B' },
-            borderRadius: '10px',
-          }}
-          disabled={activeTab === 0}
-          onClick={handleBack}
-        >
-          Back
-        </Button>
-        <Button
-          sx={{
-            background: '#FABC1E',
-            color: 'black',
-            '&:hover': { background: '#E1A91B' },
-            borderRadius: '10px',
-          }}
-          onClick={handleNext}
-        >
-          Continue
-        </Button>
+          <Button
+            sx={{
+              background: '#388e3c',
+              color: 'white',
+              '&:hover': { background: '#388e3B' },
+              borderRadius: '10px',
+            }}
+            disabled={activeTab === 0}
+            onClick={handleBack}
+          >
+            Back
+          </Button>
+          <Button
+            sx={{
+              background: '#FABC1E',
+              color: 'black',
+              '&:hover': { background: '#E1A91B' },
+              borderRadius: '10px',
+            }}
+            onClick={handleNext}
+          >
+            Continue
+          </Button>
+        </Box>
       </Box>
-      </Box>
-      
     </AppView>
   )
 }
