@@ -14,8 +14,8 @@ const initialState: SitesState = {
   error: null,
 };
 
-const base_api_key_url = process.env.BASE_API_KEY;
-const TENANT_ID = process.env.TENANT_ID;
+const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
+const TENANT_ID = process.env.REACT_APP_TENANT_ID;
 
 export const fetchSites = createAsyncThunk('sites/fetchSites', async () => {
   try {

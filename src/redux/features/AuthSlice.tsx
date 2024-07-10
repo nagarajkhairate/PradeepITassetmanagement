@@ -14,7 +14,7 @@ const initialState: AuthState = {
   error: null,
 };
 
-const base_api_key_url = process.env.BASE_API_KEY;
+const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
  
 export const loginAccount = createAsyncThunk('tenant/login', async (account: any) => {
  const response = await axios.post(`${base_api_key_url}tenant/login`, account);
