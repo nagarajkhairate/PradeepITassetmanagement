@@ -6,7 +6,7 @@ pipeline {
     }
 
     parameters {
-        string(name: 'BRANCH_NAME', defaultValue: 'rashmi-deployment', description: 'Enter the branch name to checkout')
+        string(name: 'BRANCH_NAME', defaultValue: 'dev-main', description: 'Enter the branch name to checkout')
         string(name: 'DOCKER_NETWORK', defaultValue: 'asset-management-network', description: 'Enter network name')
         string(name: 'IMAGE_NAME', defaultValue: 'rashmi629/react-asset', description: 'Enter docker image name')
         string(name: 'IMAGE_TAG', defaultValue: 'latest', description: 'Enter docker image tag')
