@@ -26,7 +26,7 @@ interface DataBaseAddProps {
   >
 }
 
-const AddDialogCustomer: React.FC<DataBaseAddProps> = ({
+const AddDialogContract: React.FC<DataBaseAddProps> = ({
   open,
   setOpen,
   setDataBases,
@@ -256,4 +256,4 @@ const AddDialogCustomer: React.FC<DataBaseAddProps> = ({
     </Sheet>
   )
 }
-export default AddDialogCustomer
+export default AddDialogContract

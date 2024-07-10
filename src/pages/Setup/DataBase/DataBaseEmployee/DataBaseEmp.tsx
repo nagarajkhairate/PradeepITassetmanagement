@@ -1,15 +1,11 @@
 import { Typography, Radio, RadioGroup, Divider, Grid } from '@mui/joy'
-import ButtonGroup from '@mui/joy/ButtonGroup'
 import React, { useState, useEffect } from 'react'
 import { Box } from '@mui/joy'
 import Table from '@mui/joy/Table'
 import Checkbox from '@mui/joy/Checkbox'
-import Button from '@mui/joy/Button'
 import { FormControl } from '@mui/joy'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
-import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
-import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
 import AppView from '../../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
@@ -22,170 +18,94 @@ import DatabaseButtons from '../../../../components/Common/DatabaseButton'
 const EmployeePerson = [
   {
     id: 1,
-    fieldName: 'Full Name ',
-    visible: false,
-    isRequired: '',
-    name: 'fullName',
+    fieldName: 'Full Name',
+    value:"fullName",
+    visible: true,
+    isRequired: true,
     description: 'Full name of the person / employee.',
     example: 'John Doe',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-    ],
+    option: [{id: 1,value: 'yes',},],
   },
   {
     id: 2,
     fieldName: 'Email',
+    value: 'email',
     visible: false,
-    isRequired: '',
-    name: 'email',
+    isRequired: false,
+    
     description: 'Email of the person',
     example: 'johndoe@example.com',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
+    option: [{ id: 1, value: 'yes', }, { id: 2, value: 'optional', }, ],
   },
   {
     id: 3,
     fieldName: 'Employee ID',
+    value: 'employeeID',
     visible: false,
-    isRequired: '',
-    name: 'employeeID',
+    isRequired: false,
     description: 'For example Employee ID, Student ID, etc.',
     example: 'IT-1234',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
+    option: [{ id: 1, value: 'yes' },  { id: 2, value: 'optional', }, ],
   },
   {
     id: 4,
     fieldName: 'Title',
+    value: 'title',
     visible: false,
-    isRequired: '',
-    name: 'title',
+    isRequired: false,
     description: '  fieldName of the person.',
     example: '  Sales Manager',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
+    option: [ {  id: 1, value: 'yes',  }, { id: 2,  value: 'optional', }, ],
   },
   {
     id: 5,
     fieldName: 'Phone',
+    value: 'phone',
     visible: false,
-    isRequired: '',
-    name: 'phone',
+    isRequired: false,    
     description: 'Phone number of the person',
     example: '(555) 123-4567',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
+    option: [ {  id: 1,  value: 'yes',  }, { id: 2, value: 'optional',  }, ],
   },
   {
     id: 6,
     fieldName: 'Notes',
+    value: 'notes',
     visible: false,
-    isRequired: '',
-    name: 'notes',
+    isRequired: false,
     description: 'Text area for notes',
     example: 'Reports to CEO',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
+    option: [ { id: 1, value: 'yes',  }, {  id: 2,  value: 'optional', }, ],
   },
   {
     id: 7,
     fieldName: 'Site',
+    value: 'site',
     visible: false,
-    isRequired: '',
-    name: 'site',
+    isRequired: false,
     description: 'System field to link person to a Site',
     example: '-',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
+    option: [  { id: 1, value: 'yes', }, { id: 2, value: 'optional',  },],
   },
   {
     id: 8,
     fieldName: 'Location',
+    value: 'location',
     visible: false,
-    isRequired: '',
-    name: 'location',
+    isRequired: false,
     description: 'System field to link person to a Location',
     example: '  -',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
+    option: [  { id: 1, value: 'yes', }, { id: 2, value: 'optional', }, ],
   },
   {
     id: 9,
     fieldName: 'Department',
+    value: 'department',
     visible: false,
-    isRequired: '',
-    name: 'department',
+    isRequired: false,
     description: '  System field to link person to a Department',
     example: '  -',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
+    option: [{ id: 1, value: 'yes', }, { id: 2, value: 'optional', },],
   },
 ]
 
@@ -206,8 +126,8 @@ const DataBaseEmp: React.FunctionComponent = () => {
     EmployeePerson: EmployeePerson.map((item) => ({
       ...item,
       id: item.id,
-      visible: item.visible,
-      isRequired: item.isRequired,
+      visible: true,
+      isRequired: item.fieldName=== 'Full Name'  ? true : item.isRequired,
       description: item.description,
     })),
   })
@@ -249,19 +169,19 @@ const DataBaseEmp: React.FunctionComponent = () => {
     }
   }
 
-  // const handleCheckboxChange = (index: number) => {
-  //   setMatchedSelected((prevSelected) =>
-  //     prevSelected.includes(index)
-  //       ? prevSelected.filter((item) => item !== index)
-  //       : [...prevSelected, index],
-  //   )
-  //   setSelectedCell(index)
-  // }
   const handleCheckboxChange = (index: number) => {
     setDataBases((prevData) => ({
       ...prevData,
       EmployeePerson: prevData.EmployeePerson.map((item, i) =>
-        i === index ? { ...item, visible: !item.visible } : item,
+        i === index
+          ? {
+              ...item,
+              visible: ['Full Name', 'Email', 'Site', 'Location', 'Department'].includes(item.fieldName)
+              ? true
+              : !item.visible,
+              isRequired : item.fieldName === 'Full Name' ? true : item.isRequired,
+            }
+          : item,
       ),
     }))
   }
@@ -291,10 +211,11 @@ const DataBaseEmp: React.FunctionComponent = () => {
     index: number,
   ) => {
     const { value } = event.target
+    const booleanValue = value === 'yes'
     setDataBases((prevData) => ({
       ...prevData,
       EmployeePerson: prevData.EmployeePerson.map((item, i) =>
-        i === index ? { ...item, isRequired: value } : item,
+        i === index ? { ...item, isRequired: item.fieldName === 'Full Name' ? true : booleanValue } : item,
       ),
     }))
   }
@@ -306,10 +227,11 @@ const handleCancel=()=>{
   const generateJson = () => {
     const jsonData = {
       EmployeePerson:dataBases.EmployeePerson.map(
-      ({ id, visible, fieldName, isRequired, description }) => ({
+      ({ id,  fieldName, value,visible,isRequired, description }) => ({
         id,
-        visible,
         fieldName,
+        value,
+        visible,
         isRequired,
         description,
       })),
@@ -433,18 +355,22 @@ const handleCancel=()=>{
                       {data.visible && (
                         <FormControl>
                           <RadioGroup
-                            defaultValue="outlined"
+                           defaultValue='yes'
                             name="radio-buttons-group"
+                            onChange={(event) =>
+                              HandleRadioSelect(event, index)
+                            }
                           >
                             {data.option.map((opt: any) => (
                               <Radio
-                                onChange={(event) =>
-                                  HandleRadioSelect(event, index)
-                                }
                                 key={opt.id}
+                                name={opt.value}
                                 value={opt.value}
                                 label={opt.value}
                                 variant="outlined"
+                                checked={
+                                  data.isRequired === (opt.value === 'yes')
+                                }
                               />
                             ))}
                           </RadioGroup>

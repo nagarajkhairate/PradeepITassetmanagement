@@ -8,8 +8,6 @@ import Button from '@mui/joy/Button'
 import { FormControl } from '@mui/joy'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
-import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
-import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
 import AppView from '../../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
@@ -22,10 +20,10 @@ import DatabaseButtons from '../../../../components/Common/DatabaseButton'
 const Customers = [
   {
     id: 1,
-    fieldName: 'Full Name ',
-    visible: false,
-    isRequired: '',
-    name: 'fullName',
+    fieldName: 'Full Name',
+    value: 'fullName',
+    visible: true,
+    isRequired: true,
     description: 'Full name of the customer',
     example: 'John Doe',
     option: [
@@ -38,9 +36,9 @@ const Customers = [
   {
     id: 2,
     fieldName: 'Email',
+    value: 'email',
     visible: false,
-    isRequired: '',
-    name: 'email',
+    isRequired: false,
     description: 'Email of the customer',
     example: 'johndoe@example.com',
     option: [
@@ -57,9 +55,9 @@ const Customers = [
   {
     id: 3,
     fieldName: 'Company',
+    value: 'company',
     visible: false,
-    isRequired: '',
-    name: 'company',
+    isRequired: false,
     description: 'Customers company name',
     example: 'Jane Doe Company',
     option: [
@@ -76,9 +74,9 @@ const Customers = [
   {
     id: 4,
     fieldName: 'Address',
+    value: 'address',
     visible: false,
-    isRequired: '',
-    name: 'address',
+    isRequired: false,
     description: ' All address fields of the customer',
     example: ' ---',
     option: [
@@ -95,9 +93,9 @@ const Customers = [
   {
     id: 5,
     fieldName: 'Phone',
+    value: 'phone',
     visible: false,
-    isRequired: '',
-    name: 'phone',
+    isRequired: false,
     description: 'Phone number of the customer',
     example: '(555) 123-4567',
     option: [
@@ -114,9 +112,9 @@ const Customers = [
   {
     id: 6,
     fieldName: 'Mobile Phone',
+    value: 'mobilePhone',
     visible: false,
-    isRequired: '',
-    name: 'mobilePhone',
+    isRequired: false,
     description: 'Mobile Cell of the customer',
     example: '	(123) 456-7890',
     option: [
@@ -133,9 +131,9 @@ const Customers = [
   {
     id: 7,
     fieldName: 'Notes',
+    value: 'notes',
     visible: false,
-    isRequired: '',
-    name: 'notes',
+    isRequired: false,
     description: 'Text area for notes',
     example: 'Leases equipment for 12 months.',
     option: [
@@ -169,8 +167,8 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
     Customers: Customers.map((item) => ({
       ...item,
       id: item.id,
-      visible: item.visible,
-      isRequired: item.isRequired,
+      visible: true,
+      isRequired: item.fieldName=== 'Full Name'  ? true : item.isRequired,
       description: item.description,
     })),
   })
@@ -216,10 +214,17 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
     setDataBases((prevData) => ({
       ...prevData,
       Customers: prevData.Customers.map((item, i) =>
-        i === index ? { ...item, visible: !item.visible } : item,
+        i === index
+          ? {
+              ...item,
+              visible: ['Full Name', 'Email'].includes(item.fieldName) ? true : !item.visible,
+              isRequired: item.fieldName === 'Full Name' ? true : item.isRequired,
+            }
+          : item,
       ),
-    }))
-  }
+    }));
+  };
+  
 
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -246,10 +251,11 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
     index: number,
   ) => {
     const { value } = event.target
+        const booleanValue = value === 'yes'
     setDataBases((prevData) => ({
       ...prevData,
       Customers: prevData.Customers.map((item, i) =>
-        i === index ? { ...item, isRequired: value } : item,
+        i === index ? { ...item, isRequired: item.fieldName === 'Full Name' ? true : booleanValue } : item,
       ),
     }))
   }
@@ -259,19 +265,21 @@ const handleCancel=()=>{
   const generateJson = () => {
     const jsonData = {
       Customers: dataBases.Customers.map(({ 
-        id, visible, fieldName, isRequired, description 
+        id,  fieldName,value,visible, isRequired, description 
       }) => ({
         id,
-        visible,
         fieldName,
+        value,
+        visible,
         isRequired,
         description
       })),
       customAsset: dataBases.customAsset.map(({ 
-        id, fieldName, componentsId,isRequired,  
+        id, fieldName, isRequired,componentsId,  
       }) => ({
         id,
         fieldName,
+        
       componentsId,
       isRequired,
       })),
@@ -386,18 +394,23 @@ const handleCancel=()=>{
                       {data.visible && (
                         <FormControl>
                           <RadioGroup
-                            defaultValue="outlined"
+                            defaultValue='yes'
                             name="radio-buttons-group"
+                            onChange={(event) =>
+                              HandleRadioSelect(event, index)
+                            }
                           >
                             {data.option.map((opt: any) => (
                               <Radio
-                                onChange={(event) =>
-                                  HandleRadioSelect(event, index)
-                                }
+                                
                                 key={opt.id}
+                                name={opt.value}
                                 value={opt.value}
                                 label={opt.value}
                                 variant="outlined"
+                                checked={
+                                  data.isRequired === (opt.value === 'yes')
+                                }
                               />
                             ))}
                           </RadioGroup>

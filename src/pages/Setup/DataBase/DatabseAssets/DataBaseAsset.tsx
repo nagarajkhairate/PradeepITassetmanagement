@@ -1,30 +1,27 @@
-
-import { Typography, Radio, RadioGroup, Divider } from '@mui/joy'
-import React, { useState } from 'react'
-import { Box } from '@mui/joy'
-import Table from '@mui/joy/Table'
-import Checkbox from '@mui/joy/Checkbox'
-import { FormControl } from '@mui/joy'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import { useTheme } from '@mui/material/styles'
-import AppView from '../../../../components/Common/AppView'
-import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
-import { ThunkDispatch } from 'redux-thunk'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../../../redux/store'
-import DatabaseButtons from '../../../../components/Common/DatabaseButton'
-import AddDataBaseAsset from './AddDataBaseAsset'
-import EditDataBaseAsset from './EditDataBaseAsset'
-import { fetchDefaultFields,  updateDefaultFieldsById } from '../../../../redux/features/DefaultFieldAssetSlice'
-
-
+import React, { useState, useEffect } from 'react';
+import {
+  Typography,
+  Radio,
+  RadioGroup,
+  Divider,
+  Checkbox,
+  FormControl,
+  Table,
+  Box,
+} from '@mui/joy';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import AppView from '../../../../components/Common/AppView';
+import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../redux/store';
+import { FormControlLabel } from '@mui/material';
 
 const AssetDefaultFields = [
   {
-    
     fieldName: 'Asset Tag ID',
-    value:'assetTagId',
-    visible: false,
+    name: 'assetTagId',
+    isVisible: 'visible',
     isRequired: false,
     description:
       'This holds unique asset id number that your company assigns to identify each asset',
@@ -36,12 +33,10 @@ const AssetDefaultFields = [
       },
     ],
   },
-
   {
-
     fieldName: 'Asset Description',
-    visible: false,
-    value:"assetDescription",
+    isVisible: 'visible',
+    name: 'assetDescription',
     isRequired: false,
     description: 'Description of the asset.',
     example: 'HP - Envy Desktop - 12GB Memory - 2TB Hard Drive',
@@ -53,10 +48,9 @@ const AssetDefaultFields = [
     ],
   },
   {
-
     fieldName: 'Purchase Date',
-    visible: false,
-    value:"purchaseDate",
+    isVisible: 'visible',
+    name: 'purchaseDate',
     isRequired: false,
     description: 'Date asset was purchased',
     example: '08/22/2014',
@@ -72,10 +66,9 @@ const AssetDefaultFields = [
     ],
   },
   {
-
     fieldName: 'Cost',
-    visible: false,
-    value:"cost",
+    isVisible: 'visible',
+    name: 'cost',
     isRequired: false,
     description: 'Cost of the asset',
     example: 'Bs225.75',
@@ -90,13 +83,10 @@ const AssetDefaultFields = [
       },
     ],
   },
-
   {
-
     fieldName: 'Purchased Form',
-    value:"purchasedForm",
-    visible: false,
-
+    name: 'purchasedForm',
+    isVisible: 'visible',
     isRequired: false,
     description: 'Vendor/Supplier name',
     example: 'Amazon',
@@ -112,10 +102,9 @@ const AssetDefaultFields = [
     ],
   },
   {
- 
     fieldName: 'Brand',
-    visible: false,
-    value:"brand",
+    isVisible: 'visible',
+    name: 'brand',
     isRequired: false,
     description: 'Manufacturer of the asset',
     example: 'HP',
@@ -131,10 +120,9 @@ const AssetDefaultFields = [
     ],
   },
   {
-
     fieldName: 'Model',
-    visible: false,
-    value:"model",
+    isVisible: 'visible',
+    name: 'model',
     isRequired: false,
     description: 'Model name of the asset',
     example: 'Envy',
@@ -150,10 +138,9 @@ const AssetDefaultFields = [
     ],
   },
   {
-  
     fieldName: 'Serial optional',
-    visible: false,
-    value:'serialOptional',
+    isVisible: 'visible',
+    name: 'serialOptional',
     isRequired: false,
     description: "Manufacturer's serial number",
     example: 'HG9C3X',
@@ -168,172 +155,90 @@ const AssetDefaultFields = [
       },
     ],
   },
-]
+];
+
+const dataValue = [
+  {
+    visible: true,
+    fieldName: 'Asset Tag ID',
+    name: 'assetId',
+    description: 'string',
+    isRequired: true,
+  },
+  {
+    visible: true,
+    fieldName: 'Asset Description',
+    name: 'assetDec',
+    description: 'string',
+    isRequired: true,
+  },
+  {
+    visible: true,
+    fieldName: 'Purchase Date',
+    name: 'purchasedDate',
+    description: 'string',
+    isRequired: false,
+  },
+  {
+    visible: true,
+    fieldName: 'Cost',
+    name: 'cost',
+    description: 'string',
+    isRequired: false,
+  },
+  {
+    visible: true,
+    fieldName: 'Purchased From',
+    name: 'purchasedForm',
+    description: 'string',
+    isRequired: false,
+  },
+  {
+    visible: true,
+    fieldName: 'Brand',
+    name: 'brand',
+    description: 'string',
+    isRequired: false,
+  },
+  {
+    visible: true,
+    fieldName: 'Model',
+    name: 'model',
+    description: 'string',
+    isRequired: false,
+  },
+  {
+    visible: true,
+    fieldName: 'Serial No',
+    name: 'serialNo',
+    description: 'string',
+    isRequired: false,
+  },
+];
 
 const DataBaseAsset: React.FunctionComponent = () => {
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const defaultFields = useSelector((state: RootState) => state.defaultFields.data)
-  console.log(JSON.stringify(defaultFields))
-  const [matchedSelected, setMatchedSelected] = useState<number[]>([])
-  const [selectedCell, setSelectedCell] = useState<number | null>(null)
- const [editOpen, setEditOpen] = useState(false)
-  const [deleteOpen, setDeleteOpen] = useState(false)
+  const [assetDataForm, setAssetDataForm] = useState(dataValue);
 
-  const [dataBases, setDataBases] = useState({
-    customAsset: [],
-    AssetDefaultFields: AssetDefaultFields.map((item) => ({
-      ...item,
-      // id: item.id,
-      visible: item.visible,
-      isRequired: item.option.find((opt) => opt.value === 'optional') ? false : true, 
-      description: item.description,
-      
-    })),
-  })
-
- 
-  const theme = useTheme()
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
-  const [dataBaseForm, setDataBaseForm] = useState<any>({id:1})
-
-  React.useEffect(() => {
-    if(defaultFields.length > 0){
-      setMatchedSelected(defaultFields[0])
-    }
-  }, [setMatchedSelected]);
-  
-  React.useEffect(() => {
-    dispatch(fetchDefaultFields())
-  }, [dispatch])
-
-  const deleteCustomField = (index: number) => {
-    const updatedData = dataBases.customAsset.filter(
-      (_, idx) => idx !== index,
-    )
-    setDataBases((prevData) => ({
-      ...prevData,
-      customAsset: updatedData,
-    }))
-  }
-
-  const handleClickEditOpen = () => {
-    setEditOpen(true)
-  }
-
-  const handleEditClose = () => {
-    setEditOpen(false)
-    setSelectedCell(null)
-  }
-
-  const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const Custom = (e.target as HTMLFormElement).Custom.value
-    if (selectedCell !== null) {
-      const updatedData = dataBases.customAsset.map((item, index) =>
-        index === selectedCell ? Custom : item,
-      )
-      // setDataBases((prevData) => ({ ...prevData, data: updatedData }))
-      handleEditClose()
-
-    }
-  }
-
-  // const handleCheckboxChange = (index: number) => {
-  //   setDataBases((prevData) => ({
-  //     ...prevData,
-  //     AssetDefaultFields: prevData.AssetDefaultFields.map((item, i) =>
-  //       i === index ? { ...item, visible: !item.visible } : item,
-  //     ),
-  //   }))
-  //   dispatch(updateDefaultFieldsById(AssetDefaultFields))
-  // }
+  useEffect(() => {
+    setAssetDataForm(dataValue);
+  }, []);
 
   const handleCheckboxChange = (index: number) => {
-    setDataBases((prevData) => ({
-      ...prevData,
-      AssetDefaultFields: prevData.AssetDefaultFields.map((item, i) =>
-        i === index
-          ? {
-              ...item,
-              visible: !item.visible,
-              isRequired: !item.visible, // Set isRequired to false when becoming visible
-            }
-          : item
-      ),
-    }));
+    const updatedForm = [...assetDataForm];
+    updatedForm[index].visible = !updatedForm[index].visible;
+    setAssetDataForm(updatedForm);
   };
-  
 
-  const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const updatedData = dataBases.customAsset.filter(
-      (_, index) => index !== selectedCell,
-    )
-    // setDataBases((prevData) => ({ ...prevData, data: updatedData }));
-    setDataBases({ ...dataBases, customAsset: updatedData })
-    setMatchedSelected([])
-    setDeleteOpen(false)
-  }
-
-  const handleDeleteOpen = () => {
-    setDeleteOpen(true)
-  }
-
-  const handleDeleteClose = () => {
-    setDeleteOpen(false)
-    setMatchedSelected([])
-  }
-
-  const HandleRadioSelect = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    index: number,
-  ) => {
-    const { value } = event.target
-    const booleanValue = value === 'yes'; 
-    setDataBases((prevData) => ({
-      ...prevData,
-      AssetDefaultFields: prevData.AssetDefaultFields.map((item, i) =>
-        i === index ? { ...item, isRequired: booleanValue } : item,
-      ),
-    }))
-  }
-
-  const handleCancel=()=>{
-    
-  }
-
-  const generateJson = () => {
-    const jsonData = {
-      AssetDefaultFields: dataBases.AssetDefaultFields.map(({ 
-         visible,value, fieldName, isRequired, description 
-      }) => ({
-        value,
-        visible,
-        fieldName,
-        isRequired,
-        description
-      })),
-      customAsset: dataBases.customAsset.map(({ 
-        id, fieldName, componentsId,isRequired,  
-      }) => ({
-        id,
-        fieldName,
-      componentsId,
-      isRequired,
-      })),
-    };
-    return JSON.stringify(jsonData, null, 2);
+  const handleRadioChange = (index: number, value: string) => {
+    const updatedForm = [...assetDataForm];
+    updatedForm[index].isRequired = value === 'yes';
+    setAssetDataForm(updatedForm);
   };
 
   return (
     <AppView>
-      <Typography
-        level="h4"
-        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-      >
-        <SignpostOutlinedIcon
-          style={{ fontSize: '1.4rem', color: '#FBC21E' }}
-        />
+      <Typography level="h4" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <SignpostOutlinedIcon style={{ fontSize: '1.4rem', color: '#FBC21E' }} />
         Database Assets
       </Typography>
 
@@ -346,45 +251,39 @@ const DataBaseAsset: React.FunctionComponent = () => {
           p: 2,
         }}
       >
-        <Box
-          sx={{
-            textAlign: { xs: 'center', md: 'left' },
-          }}
-        >
-          <Typography
-            level="h4"
-            sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-          >
+        <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+          <Typography level="h4" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             Asset Database Fields
           </Typography>
         </Box>
 
-        <Box
-          sx={{
-            textAlign: { xs: 'center', md: 'left' },
-          }}
-        >
+        <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
           <Box sx={{ mt: 3 }}>
-            <Typography >
-              Fill in the appropriate fields for your assets. <b>Asset Tag ID</b> and  <b>Asset Description</b> are the only required fields. Check the boxes
+            <Typography>
+              Fill in the appropriate fields for your assets. <b>Asset Tag ID</b> and{' '}
+              <b>Asset Description</b> are the only required fields. Check the boxes
               next to the field names you want to include.
             </Typography>
           </Box>
 
-          <Box  sx={{
-                overflowX: 'auto',
-                fontSize: '14px',
-                whiteSpace: 'nowrap',
-                borderRadius:'5px'
-              }}>
-            <Table 
-            borderAxis="both" aria-label="basic table" 
-            style={{
-                  borderCollapse: 'collapse',
-                  border: '1px solid grey',
-                  minWidth: '500px',
-                  borderRadius:'5px'
-                }}>
+          <Box
+            sx={{
+              overflowX: 'auto',
+              fontSize: '14px',
+              whiteSpace: 'nowrap',
+              borderRadius: '5px',
+            }}
+          >
+            <Table
+              borderAxis="both"
+              aria-label="basic table"
+              style={{
+                borderCollapse: 'collapse',
+                border: '1px solid grey',
+                minWidth: '500px',
+                borderRadius: '5px',
+              }}
+            >
               <thead>
                 <tr>
                   <th
@@ -397,124 +296,119 @@ const DataBaseAsset: React.FunctionComponent = () => {
                     <Checkbox />
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
+                    style={{
+                      background: '#fff8e6',
+                      verticalAlign: 'middle',
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                    }}
                   >
                     Field Name
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
+                    style={{
+                      background: '#fff8e6',
+                      verticalAlign: 'middle',
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                    }}
                   >
                     Data Required
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle', wordBreak: 'break-word', whiteSpace: 'normal' }}
+                    style={{
+                      background: '#fff8e6',
+                      verticalAlign: 'middle',
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                    }}
                   >
                     Description
                   </th>
                   <th
-                   style={{ background: '#fff8e6', verticalAlign: 'middle', wordBreak: 'break-word', whiteSpace: 'normal' }}
+                    style={{
+                      background: '#fff8e6',
+                      verticalAlign: 'middle',
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                    }}
                   >
                     Example
                   </th>
                 </tr>
               </thead>
               <tbody>
-               
-                {dataBases.AssetDefaultFields.map((data, index) => (
-                  <tr key={index}>
-                    <td>
-                      <Checkbox
-                        checked={data.visible}
-                        onChange={() => handleCheckboxChange(index)}
-                      />
-                    </td>
-                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{data.fieldName}</td>
-                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal' }}>
-                      {/* {data.required} */}
-                      {data.visible && (
-                        <FormControl>
-                          <RadioGroup
-                            defaultValue="optional"
-                            // value={data.isRequired ? 'optional' : 'yes'}
-                            name="radio-buttons-group"
-                          >
-                            {data.option.map((opt: any) => (
-                              <Radio
-                                onChange={(event) =>
-                                  HandleRadioSelect(event, index)
-                                }
-                                 
-                                key={opt.id}
-                                name={opt.value}
-                                value={opt.value}
-                                label={opt.value}
-                                variant="outlined"
+                {assetDataForm.map((opt, index) => {
+                  const data = AssetDefaultFields.find(field => field.fieldName === opt.fieldName);
+                  if (!data) return null;
+
+                  return (
+                    <tr key={`${data.fieldName}-${index}`}>
+                      <td>
+                        <Checkbox
+                          checked={opt.visible || false}
+                          onChange={() => handleCheckboxChange(index)}
+                        />
+                      </td>
+                      <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>
+                        {data.fieldName}
+                      </td>
+                      <td style={{ wordBreak: 'break-word', whiteSpace: 'normal' }}>
+                        {data.isVisible && (
+                          <FormControl>
+                            <RadioGroup
+                              value={opt.isRequired ? 'yes' : 'optional'}
+                              name={`radio-buttons-group-${index}`}
+                              onChange={(e) => handleRadioChange(index, e.target.value)}
+                            >
+                              <FormControlLabel
+                                key={`${index}-yes`}
+                                value="yes"
+                                control={<Radio variant="outlined" />}
+                                label="Yes"
+                                checked={opt.isRequired === true}
+                                disabled={!opt.visible}
                               />
-                            ))}
-                          </RadioGroup>
-                        </FormControl>
-                      )}
-                    </td>
-                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{data.description}</td>
-                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left'}}>{data.example}</td>
-                  </tr>
-                ))}
+                              <FormControlLabel
+                                key={`${index}-optional`}
+                                value="optional"
+                                control={<Radio variant="outlined" />}
+                                label="Optional"
+                                checked={opt.isRequired === false}
+                                disabled={!opt.visible}
+                              />
+                            </RadioGroup>
+                          </FormControl>
+                        )}
+                      </td>
+                      <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>
+                        {data.description}
+                      </td>
+                      <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>
+                        {data.example}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </Table>
-            <Divider sx={{ my: '30px' }}></Divider>
+            <Divider sx={{ my: '30px' }} />
           </Box>
         </Box>
 
-        <Typography
-          level="h4"
-          sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-        >
-          <SignpostOutlinedIcon
-            style={{ fontSize: '1.4rem', color: '#FBC21E' }}
-          />
+        <Typography level="h4" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <SignpostOutlinedIcon style={{ fontSize: '1.4rem', color: '#FBC21E' }} />
           Asset Custom Fields
         </Typography>
         <Box>
-          Add custom fields to join the standard fields that we provided. Feel
-          free to get creative.
-        </Box>
-
-        <Box>
-          <AddDataBaseAsset
-            dataBase={dataBases}
-            setDataBases={setDataBases}
-            // addCustomField={addCustomField}
-            deleteCustomField={deleteCustomField}
-          />
-
-          <EditDataBaseAsset
-            matchedSelected={matchedSelected}
-            setMatchedSelected={setMatchedSelected}
-            dataBases={dataBases}
-            setDataBases={setDataBases}
-            editOpen={editOpen}
-            setEditOpen={setEditOpen}
-            deleteOpen={deleteOpen}
-            setDeleteOpen={setDeleteOpen}
-            selectedCell={selectedCell}
-            setSelectedCell={setSelectedCell}
-            handleCheckboxChange={handleCheckboxChange}
-            handleEditButton={handleEditButton}
-            handleDeleteSubmit={handleDeleteSubmit}
-            handleEditClose={handleEditClose}
-            handleDeleteOpen={handleDeleteOpen}
-            handleDeleteClose={handleDeleteClose}
-          />
+          Add custom fields to join the standard fields that we provided. Feel free to
+          get creative.
         </Box>
 
         <Divider sx={{ marginTop: '3%' }} />
-
-<DatabaseButtons onCancel={() => handleCancel()} onSubmit={() => console.log(generateJson())} />
       </Box>
     </AppView>
-  )
-}
+  );
+};
 
-export default DataBaseAsset
-
-
+export default DataBaseAsset;

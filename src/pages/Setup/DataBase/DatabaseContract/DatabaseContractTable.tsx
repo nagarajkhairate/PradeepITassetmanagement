@@ -1,29 +1,23 @@
-import { Typography, Radio, RadioGroup, Divider, Grid } from '@mui/joy'
+import { Typography, Radio, RadioGroup, Divider, Box,Table, Checkbox, FormControl } from '@mui/joy'
 import React, { useState, useEffect } from 'react'
-import { Box } from '@mui/joy'
-import Table from '@mui/joy/Table'
-import Checkbox from '@mui/joy/Checkbox'
-import { FormControl } from '@mui/joy'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
 import AppView from '../../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
-import { ThunkDispatch } from 'redux-thunk'
-import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
-import EditDataBaseMaintenance from './EditDataBaseMaintenance'
-import AddDataBaseMaintenance from './AddDataBaseMaintenance'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
+import EditContractTable from './EditContractTable'
+import AddContractTable from './AddContractTable'
 
-const customDefaultFields = [
+const Contract = [
   {
     id: 1,
-    fieldName: 'Title',
-    value: 'title',
+    fieldName: 'Contract Title',
+    value: 'contractTitle',
     visible: false,
     isRequired: false,
-    description: 'Title of the maintenance.',
-    example: 'Monthly Calibration',
+    description: 'Title of Contract',
+    example: 'Notebooks Annual Contract',
     option: [
       {
         id: 1,
@@ -33,12 +27,12 @@ const customDefaultFields = [
   },
   {
     id: 2,
-    fieldName: 'Details',
-    value: 'details',
+    fieldName: 'Description',
+    value: 'description',
     visible: false,
     isRequired: false,
-    description: '	Details of the maintenance',
-    example: 'Calibrate to 120 units',
+    description: 'Description of the contract.',
+    example: 'Maintenance Contract for Marketing department Notebooks',
     option: [
       {
         id: 1,
@@ -52,12 +46,12 @@ const customDefaultFields = [
   },
   {
     id: 3,
-    fieldName: 'Due Date',
+    fieldName: 'Hyperlink',
+    value: 'hyperlink',
     visible: false,
     isRequired: false,
-    value: 'dueDate',
-    description: 'Date when maintenance is due',
-    example: '3/5/2020',
+    description: 'HyperLink of Contract',
+    example: 'https://www.example.com',
     option: [
       {
         id: 1,
@@ -71,12 +65,12 @@ const customDefaultFields = [
   },
   {
     id: 4,
-    fieldName: 'Maintenance By',
+    fieldName: 'Contract No.',
+    value: 'contractNo',
     visible: false,
     isRequired: false,
-    value: 'maintenanceBy',
-    description: 'Person doing maintenance',
-    example: '	John Doe',
+    description: 'Contract No.',
+    example: ' AMC984763',
     option: [
       {
         id: 1,
@@ -90,13 +84,12 @@ const customDefaultFields = [
   },
   {
     id: 5,
-    fieldName: 'Maintenance Status',
+    fieldName: 'Cost',
+    value: 'cost',
     visible: false,
     isRequired: false,
-    value: 'maintenanceStatus',
-    description:
-      ' System field to show current status of the maintenance. The possible values are Scheduled, In progress, On Hold, Cancelled, Completed.',
-    example: ' Scheduled',
+    description: 'Cost of Contract',
+    example: '$499.95',
     option: [
       {
         id: 1,
@@ -110,74 +103,141 @@ const customDefaultFields = [
   },
   {
     id: 6,
-    fieldName: 'Date Completed',
+    fieldName: 'Start Date',
+    value: 'startDate',
     visible: false,
     isRequired: false,
-    value: 'dateCompleted',
-    description: '	Date when maintenance is completed',
-    example: '3/5/2020',
+    description: 'Start Date of Contract',
+    example: '7/4/2020',
     option: [
       {
         id: 1,
         value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
       },
     ],
   },
   {
     id: 7,
-    fieldName: 'Maintenance Cost',
+    fieldName: 'End Date',
+    value: 'endDate',
     visible: false,
     isRequired: false,
-    value: 'maintenanceCost',
-    description: 'Total cost spent on this maintenance',
-    example: '	$97.50',
+    description: 'End Date of Contract',
+    example: '	7/3/2021',
     option: [
       {
         id: 1,
         value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
       },
     ],
   },
   {
     id: 8,
-    fieldName: 'Repeating',
+    fieldName: 'No End Date',
+    value: 'noEndDate',
     visible: false,
     isRequired: false,
-    value: 'repeating',
-    description: 'System fields to define repeating maintenances',
-    example: '---',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-     
-    ],
+    description: 'No End Date',
+    example: 'No',
   },
+  {
+    id: 9,
+    fieldName: 'Vendor',
+    value: 'vendor',
+    visible: false,
+    isRequired: false,
+    description: 'Vendor of Contract',
+    example: 'CompuByte Computer Services',
+    option: [
+        {
+          id: 1,
+          value: 'yes',
+        },
+        {
+          id: 2,
+          value: 'optional',
+        },
+      ],
+  },
+  {
+    id: 10,
+    fieldName: 'Contract Person',
+    value: 'contract person',
+    visible: false,
+    isRequired: false,
+    description: 'Contact Person',
+    example: 'James Brown',
+    option: [
+        {
+          id: 1,
+          value: 'yes',
+        },
+        {
+          id: 2,
+          value: 'optional',
+        },
+      ],
+  },
+  {
+    id: 11,
+    fieldName: 'Phone',
+    value: 'phone',
+    visible: false,
+    isRequired: false,
+    description: 'Phone',
+    example: '(555) 123-4567',
+    option: [
+        {
+          id: 1,
+          value: 'yes',
+        },
+        {
+          id: 2,
+          value: 'optional',
+        },
+      ],
+  },
+  {
+    id: 12,
+    fieldName: 'No. of Licenses',
+    value: 'noOfLicenses',
+    visible: false,
+    isRequired: false,
+    description: 'No. of Licenses',
+    example: '10',
+    option: [
+        {
+          id: 1,
+          value: 'yes',
+        },
+        {
+          id: 2,
+          value: 'optional',
+        },
+      ],
+  },
+  {
+    id: 13,
+    fieldName: 'Is Software',
+    value: 'isSoftware',
+    visible: false,
+    isRequired: false,
+    description: 'Is Contract a Software ?',
+    example: 'No',
+  },
+  
 ]
 
-const DatabaseMaintenance: React.FunctionComponent = () => {
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+const DatabaseContractTable: React.FunctionComponent = () => {
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
 
-  const dataBase = useSelector((state: RootState) => state.dataBase.data)
-  console.log(dataBase)
-
   const [dataBases, setDataBases] = useState({
-    customAssetFields: [],
-    customDefaultFields: customDefaultFields.map((item) => ({
+    customAsset: [],
+    Contract: Contract.map((item) => ({
       ...item,
       id: item.id,
       visible: true,
-      isRequired: item.fieldName=== 'Title' ||item.fieldName=== 'Repeating'  ? true : item.isRequired,
+      isRequired: item.fieldName=== 'Contract Title' || item.fieldName==='Start Date' || item.fieldName==="End Date" ? true : item.isRequired,
       description: item.description,
     })),
   })
@@ -189,14 +249,15 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
   const [eventForm, setEventForm] = useState<any>({})
 
   const deleteCustomField = (index: number) => {
-    const updatedData = dataBases.customAssetFields.filter(
+    const updatedData = dataBases.customAsset.filter(
       (_, idx) => idx !== index,
     )
     setDataBases((prevData) => ({
       ...prevData,
-      customAssetFields: updatedData,
+      customAsset: updatedData,
     }))
   }
+
   const handleClickEditOpen = () => {
     setEditOpen(true)
   }
@@ -210,36 +271,35 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
     e.preventDefault()
     const Custom = (e.target as HTMLFormElement).Custom.value
     if (selectedCell !== null) {
-      const updatedData = dataBases.customAssetFields.map((item, index) =>
+      const updatedData = dataBases.customAsset.map((item, index) =>
         index === selectedCell ? Custom : item,
       )
-      // setDataBases((prevData) => ({ ...prevData, data: updatedData }))
       handleEditClose()
     }
   }
+
   const handleCheckboxChange = (index: number) => {
     setDataBases((prevData) => ({
       ...prevData,
-      customDefaultFields: prevData.customDefaultFields.map((item, i) =>
+      Contract: prevData.Contract.map((item, i) =>
         i === index
           ? {
               ...item,
-              visible: ['Title', 'Due Date','Maintenance Status', 'Repeating' ].includes(item.fieldName) ? true : !item.visible,
-              isRequired: item.fieldName === 'Title' || item.fieldName==='Repeating'  ? true
-              : !item.visible ? false : item.isRequired,
+              visible: ['Contract Title', 'Start Date', "End Date", "No End Date"].includes(item.fieldName) ? true : !item.visible,
+              isRequired: item.fieldName === 'Contract Title'|| item.fieldName === 'Start Date'|| item.fieldName === "End Date" ? true : item.isRequired,
             }
           : item,
       ),
     }));
   };
+  
 
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const updatedData = dataBases.customAssetFields.filter(
+    const updatedData = dataBases.customAsset.filter(
       (_, index) => index !== selectedCell,
     )
-    // setDataBases((prevData) => ({ ...prevData, data: updatedData }));
-    setDataBases({ ...dataBases, customAssetFields: updatedData })
+    setDataBases({ ...dataBases, customAsset: updatedData })
     setMatchedSelected([])
     setDeleteOpen(false)
   }
@@ -258,49 +318,52 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
     index: number,
   ) => {
     const { value } = event.target
-     const booleanValue = value === 'yes'
+        const booleanValue = value === 'yes'
     setDataBases((prevData) => ({
       ...prevData,
-      customDefaultFields: prevData.customDefaultFields.map((item, i) =>
-        i === index ? { ...item, isRequired: booleanValue } : item,
+      Contract: prevData.Contract.map((item, i) =>
+        i === index ? { ...item, isRequired: booleanValue} : item,
       ),
     }))
   }
-  const handleCancel = () => {}
-
+const handleCancel=()=>{
+    
+}
   const generateJson = () => {
     const jsonData = {
-      customDefaultFields:dataBases.customDefaultFields.map(
-      ({ id,  fieldName,value,  visible,isRequired, description }) => ({
+        Contract: dataBases.Contract.map(({ 
+        id,  fieldName,value,visible, isRequired, description 
+      }) => ({
         id,
         fieldName,
         value,
         visible,
         isRequired,
-        description,
+        description
       })),
-      customAssetFields: dataBases.customAssetFields.map(({ 
-        id, fieldName, componentsId,isRequired,  
+      customAsset: dataBases.customAsset.map(({ 
+        id, fieldName, isRequired,componentsId,  
       }) => ({
         id,
         fieldName,
+        
       componentsId,
       isRequired,
       })),
-  }
-    return JSON.stringify(jsonData, null, 2)
-  }
+    };
+    return JSON.stringify(jsonData, null, 2);
+  };
 
   return (
     <AppView>
       <Typography
-        level="h3"
+        level="h4"
         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
       >
         <SignpostOutlinedIcon
           style={{ fontSize: '1.4rem', color: '#FBC21E' }}
         />
-        Database Maintenance
+        Database Customers
       </Typography>
 
       <Box
@@ -321,7 +384,7 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
             level="h4"
             sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
           >
-            Maintenance Standard Fields
+            Customers Standard Fields
           </Typography>
         </Box>
 
@@ -331,8 +394,8 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
           }}
         >
           <Box sx={{ mt: 3 }}>
-            <Typography>
-              Select the fields you would like to use for the maintenance table.
+            <Typography >
+            Customers are the individuals or organizations to whom you  lease out your equipment. Select the fields you would like to use for your customers.
             </Typography>
           </Box>
 
@@ -363,7 +426,7 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                     <Checkbox />
                   </th>
                   <th
-                  style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
+                   style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Field Name
                   </th>
@@ -378,14 +441,14 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                     Description
                   </th>
                   <th
-                   style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
+                    style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
                   >
                     Example
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {dataBases.customDefaultFields.map((data, index) => (
+                {dataBases.Contract.map((data, index) => (
                   <tr key={index}>
                     <td>
                       <Checkbox
@@ -394,27 +457,20 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                       />
                     </td>
                     <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{data.fieldName}</td>
-                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal' }}>
                       {data.visible && (
                         <FormControl>
                           <RadioGroup
-                              defaultValue={
-                                data.visible &&
-                                (data.fieldName === 'Title' ||
-                                  data.fieldName === 'Repeating')
-                                  ? 'yes'
-                                  : 'optional'
-                              }
+                            defaultValue='yes'
                             name="radio-buttons-group"
                             onChange={(event) =>
                               HandleRadioSelect(event, index)
                             }
                           >
-                            {data.option.map((opt: any) => (
+                            {data.option && data.option.map((opt: any) => (
                               <Radio
-                                
                                 key={opt.id}
-                                name={opt.name}
+                                name={opt.value}
                                 value={opt.value}
                                 label={opt.value}
                                 variant="outlined"
@@ -428,7 +484,7 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                       )}
                     </td>
                     <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{data.description}</td>
-                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{data.example}</td>
+                    <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left'}}>{data.example}</td>
                   </tr>
                 ))}
               </tbody>
@@ -437,13 +493,17 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
           </Box>
         </Box>
 
+     
+
         <Box>
-          <AddDataBaseMaintenance
+          <AddContractTable
             dataBases={dataBases}
             setDataBases={setDataBases}
+            // addCustomField={addCustomField}
             deleteCustomField={deleteCustomField}
           />
-          <EditDataBaseMaintenance
+
+          <EditContractTable
             matchedSelected={matchedSelected}
             setMatchedSelected={setMatchedSelected}
             dataBases={dataBases}
@@ -462,10 +522,14 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
             handleDeleteClose={handleDeleteClose}
           />
         </Box>
+
         <Divider sx={{ marginTop: '3%' }} />
-        <DatabaseButtons onCancel={() => handleCancel()} onSubmit={() => console.log(generateJson())}/>
-      </Box>
+
+        <DatabaseButtons onCancel={() => handleCancel()} onSubmit={() => console.log(generateJson())} />
+
+       </Box>
     </AppView>
   )
 }
-export default DatabaseMaintenance
+
+export default DatabaseContractTable
