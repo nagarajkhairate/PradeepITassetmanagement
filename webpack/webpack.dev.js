@@ -1,5 +1,12 @@
 const webpack = require('webpack')
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
+
+const dotenv = require('dotenv');
+const path = require('path');
+
+// Load environment variables from .env file located at the specific path
+dotenv.config({ path: path.resolve(__dirname, '.env/') });
+
 module.exports ={
     mode: 'development',
     devServer:{
@@ -10,8 +17,10 @@ module.exports ={
     devtool: 'cheap-module-source-map',
     plugins: [
         new webpack.DefinePlugin({
-            'process.env.BASE_API_KEY': JSON.stringify('http://localhost:8000/api/'),
-            'process.env.TENANT_ID': JSON.stringify('1')
+            'process.env' :{
+                'REACT_APP_BASE_API_KEY': JSON.stringify(process.env.REACT_APP_BASE_API_KEY),
+                'REACT_APP_TENANT_ID': JSON.stringify(process.env.REACT_APP_TENANT_ID)
+            }
         }),
         new ReactRefreshWebpackPlugin(),
     ]
