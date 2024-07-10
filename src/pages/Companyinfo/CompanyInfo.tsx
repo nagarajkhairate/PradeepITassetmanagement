@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Company from "../../components/Companyinfo/Company/Company";
 import Sites from "../../components/Companyinfo/Sites/Sites";
 import TableOptions from "../../components/Companyinfo/TableOptions/TableOptions";
@@ -14,7 +14,7 @@ import Check from "@mui/icons-material/Check";
 
 const CompanyInfo = () => {
   const [companyFormData, setCompanyFormData] = React.useState({});
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState<any>(0);
 
 
   console.log(companyFormData)

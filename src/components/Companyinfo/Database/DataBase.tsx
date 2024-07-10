@@ -1,17 +1,11 @@
 import { Typography, Radio, RadioGroup } from '@mui/joy'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Box } from '@mui/joy'
 import Table from '@mui/joy/Table'
 import Checkbox from '@mui/joy/Checkbox'
 import Button from '@mui/joy/Button'
 import { FormControl } from '@mui/joy'
-
 import AppView from '../../../components/Common/AppView'
-
-import { ThunkDispatch } from 'redux-thunk'
-import { useDispatch } from 'react-redux'
-import { fetchDataBase } from '../../../redux/features/DataBaseSlice'
-import { RootState } from '../../../redux/store'
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 
 
@@ -189,7 +183,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
   activeTab,
   setActiveTab,
 }) => {
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+
   const [dataBaseForm, setDataBaseForm] = useState(
     customDefaultFields.reduce((acc: any, field) => {
       acc[field.name] = {
@@ -203,9 +197,6 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
     }, {}),
   )
 
-  useEffect(() => {
-    dispatch(fetchDataBase())
-  }, [dispatch])
 
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -213,7 +204,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
   ) => {
     const { checked } = event.target
     const fieldName = customDefaultFields[index].name
-    setDataBaseForm((prevData) => ({
+    setDataBaseForm((prevData: any) => ({
       ...prevData,
       [fieldName]: {
         ...prevData[fieldName],
@@ -228,7 +219,7 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
   ) => {
     const { value } = event.target
     const fieldName = customDefaultFields[index].name
-    setDataBaseForm((prevData) => ({
+    setDataBaseForm((prevData: any) => ({
       ...prevData,
       [fieldName]: {
         ...prevData[fieldName],
@@ -238,17 +229,16 @@ const DataBases: React.FunctionComponent<DataBaseProps> = ({
   }
 
   const handleNext = () => {
-    setCompanyFormData((prevData) => ({
+    setCompanyFormData((prevData: any) => ({
       ...prevData,
       dataBase: Object.values(dataBaseForm),
     }))
-    setActiveTab((prevActiveStep) => prevActiveStep + 1)
+    setActiveTab((prevActiveStep: any) => prevActiveStep + 1)
   }
 
   const handleBack = () => {
-    setActiveTab((prevActiveStep) => prevActiveStep - 1)
+    setActiveTab((prevActiveStep: any) => prevActiveStep - 1)
   }
-  console.log(dataBaseForm)
 
   return (
     <AppView>
