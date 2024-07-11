@@ -9,212 +9,11 @@ import {
   Table,
   Box,
 } from '@mui/joy';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
 import AppView from '../../../../components/Common/AppView';
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../redux/store';
 import { FormControlLabel } from '@mui/material';
-
-const AssetDefaultFields = [
-  {
-    fieldName: 'Asset Tag ID',
-    name: 'assetTagId',
-    isVisible: 'visible',
-    isRequired: false,
-    description:
-      'This holds unique asset id number that your company assigns to identify each asset',
-    example: 'A-1001',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-    ],
-  },
-  {
-    fieldName: 'Asset Description',
-    isVisible: 'visible',
-    name: 'assetDescription',
-    isRequired: false,
-    description: 'Description of the asset.',
-    example: 'HP - Envy Desktop - 12GB Memory - 2TB Hard Drive',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-    ],
-  },
-  {
-    fieldName: 'Purchase Date',
-    isVisible: 'visible',
-    name: 'purchaseDate',
-    isRequired: false,
-    description: 'Date asset was purchased',
-    example: '08/22/2014',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
-  },
-  {
-    fieldName: 'Cost',
-    isVisible: 'visible',
-    name: 'cost',
-    isRequired: false,
-    description: 'Cost of the asset',
-    example: 'Bs225.75',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
-  },
-  {
-    fieldName: 'Purchased Form',
-    name: 'purchasedForm',
-    isVisible: 'visible',
-    isRequired: false,
-    description: 'Vendor/Supplier name',
-    example: 'Amazon',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
-  },
-  {
-    fieldName: 'Brand',
-    isVisible: 'visible',
-    name: 'brand',
-    isRequired: false,
-    description: 'Manufacturer of the asset',
-    example: 'HP',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
-  },
-  {
-    fieldName: 'Model',
-    isVisible: 'visible',
-    name: 'model',
-    isRequired: false,
-    description: 'Model name of the asset',
-    example: 'Envy',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
-  },
-  {
-    fieldName: 'Serial optional',
-    isVisible: 'visible',
-    name: 'serialOptional',
-    isRequired: false,
-    description: "Manufacturer's serial number",
-    example: 'HG9C3X',
-    option: [
-      {
-        id: 1,
-        value: 'yes',
-      },
-      {
-        id: 2,
-        value: 'optional',
-      },
-    ],
-  },
-];
-
-const dataValue = [
-  {
-    visible: true,
-    fieldName: 'Asset Tag ID',
-    name: 'assetId',
-    description: 'string',
-    isRequired: true,
-  },
-  {
-    visible: true,
-    fieldName: 'Asset Description',
-    name: 'assetDec',
-    description: 'string',
-    isRequired: true,
-  },
-  {
-    visible: true,
-    fieldName: 'Purchase Date',
-    name: 'purchasedDate',
-    description: 'string',
-    isRequired: false,
-  },
-  {
-    visible: true,
-    fieldName: 'Cost',
-    name: 'cost',
-    description: 'string',
-    isRequired: false,
-  },
-  {
-    visible: true,
-    fieldName: 'Purchased From',
-    name: 'purchasedForm',
-    description: 'string',
-    isRequired: false,
-  },
-  {
-    visible: true,
-    fieldName: 'Brand',
-    name: 'brand',
-    description: 'string',
-    isRequired: false,
-  },
-  {
-    visible: true,
-    fieldName: 'Model',
-    name: 'model',
-    description: 'string',
-    isRequired: false,
-  },
-  {
-    visible: true,
-    fieldName: 'Serial No',
-    name: 'serialNo',
-    description: 'string',
-    isRequired: false,
-  },
-];
+import DatabaseButtons from '../../../../components/Common/DatabaseButton';
+import { AssetDefaultFields, dataValue } from './Data';
 
 const DataBaseAsset: React.FunctionComponent = () => {
   const [assetDataForm, setAssetDataForm] = useState(dataValue);
@@ -234,6 +33,12 @@ const DataBaseAsset: React.FunctionComponent = () => {
     updatedForm[index].isRequired = value === 'yes';
     setAssetDataForm(updatedForm);
   };
+
+  const handleCancel=()=>{}
+
+  const handleSubmit=()=>{
+    console.log(assetDataForm);
+  }
 
   return (
     <AppView>
@@ -407,6 +212,8 @@ const DataBaseAsset: React.FunctionComponent = () => {
 
         <Divider sx={{ marginTop: '3%' }} />
       </Box>
+
+      <DatabaseButtons onCancel={() => handleCancel()} onSubmit={() =>handleSubmit()} />
     </AppView>
   );
 };
