@@ -251,7 +251,7 @@ const CreateAccount: React.FC = () => {
                   {showConfirmPassword ? <VisibilityOff fontSize="small" /> : <Visibility fontSize="small" />}
                 </IconButton>
               </div>
-              {!passwordsMatch && <span style={{ color: 'red', fontSize: '12px', marginLeft: '10px' }}>Passwords do not match</span>}
+              {/* {!passwordsMatch && <span style={{ color: 'red', fontSize: '12px', marginLeft: '10px' }}>Passwords do not match</span>} */}
               {errors.confirmPassword && (
                 <Typography level="body-sm" sx={{ ml: "10px", color: "#dc3545", fontSize: '12px' }}>
                   {errors.confirmPassword}

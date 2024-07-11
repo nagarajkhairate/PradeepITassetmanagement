@@ -1,5 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { Typography, Box, Grid, Input, Select, Option, Button } from '@mui/joy'
+import {
+  Typography,
+  Box,
+  Grid,
+  Input,
+  Select,
+  Option,
+  Button,
+  FormControl,
+  FormLabel,
+  TextField,
+  MenuItem,
+  Checkbox,
+} from '@mui/joy'
 import { formConfig, FormFieldConfig } from './formConfig'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import AddIcon from '@mui/icons-material/Add'
@@ -8,19 +21,25 @@ import AppView from '../../components/Common/AppView'
 import { ThunkDispatch } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
-
 import AppForm from '../../components/Common/AppForm'
 import AddCategory from '../../components/Companyinfo/Category/AddCategory'
-
 import AddSite from '../Setup/SetupSites/AddSite'
 import AddLocation from '../../components/Companyinfo/Location/AddLocation'
 import SetupAddDept from '../Setup/Departments/SetupAddDept'
-import { fetchSites } from '../../redux/features/SitesSlice'
 import { fetchLocation } from '../../redux/features/LocationSlice'
-import { addDepartment, fetchDepartment } from '../../redux/features/DepartmentSlice'
+import {
+  addDepartment,
+  fetchDepartment,
+} from '../../redux/features/DepartmentSlice'
 import { addCategory, fetchCategory } from '../../redux/features/CategorySlice'
 import { addAssets } from '../../redux/features/AssetSlice'
-import { useNavigate } from 'react-router-dom'
+import { fetchAssetFieldMapping } from '../../redux/features/AssetFieldMappingSlice'
+import SiteComponent from '../../components/AssetSections/EditAsset/AddAssetSection/SiteComponent'
+import LocationComponent from '../../components/AssetSections/EditAsset/AddAssetSection/LocationComponent'
+import DepartmentComponent from '../../components/AssetSections/EditAsset/AddAssetSection/DepartmentComponent'
+import CategoryComponent from '../../components/AssetSections/EditAsset/AddAssetSection/CategoryComponent'
+import { fetchSubCategories } from '../../redux/features/CategorySubSlice'
+import SubCategoryComponent from '../../components/AssetSections/EditAsset/AddAssetSection/SubCategorycomponent'
 
 type Category = {
   id: number
@@ -42,6 +61,9 @@ interface Site {
   zipCode: number
   country: string
 }
+interface FormData {
+  [key: string]: string | File[]
+}
 
 interface ValidationMessages {
   [key: string]: string
@@ -51,84 +73,109 @@ const AddAnAsset: React.FC = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
   // Initialize state dynamically based on formConfig
-  const initialFormData = formConfig.reduce<Record<string, any>>((acc, field) => {
-    acc[field.stateKey] = field.type === 'file' ? [] : '';
-    return acc;
-  }, {});
-  const [formData, setFormData] = useState(initialFormData);
-const navigate = useNavigate()
-    const [ setOpen] = useState<any>(false)
+  const initialFormData = formConfig.reduce<Record<string, any>>(
+    (acc, field) => {
+      acc[field.title] = field.type === 'file' ? [] : ''
+      return acc
+    },
+    {},
+  )
+  const [formData, setFormData] = useState(initialFormData)
+
+  const [open, setOpen] = useState<boolean>(false)
   const [validationMessages, setValidationMessages] =
     useState<ValidationMessages>({})
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([])
   const [categoryName, setCategoryName] = useState<string>('')
   const [departmentName, setDepartmentName] = useState<string>('')
   const [openDialog, setOpenDialog] = useState<string | null>(null)
-  
+  const subCategories = useSelector((state: RootState) => state.subCategories.data);
+
   const departments = useSelector((state: RootState) => state.departments.data)
   const categories = useSelector((state: RootState) => state.category.data)
   const sites = useSelector((state: RootState) => state.sites.data)
-  const locations = useSelector((state: RootState) => state.location.data);
+  const locations = useSelector((state: RootState) => state.location.data)
 
   useEffect(() => {
-    dispatch(fetchSites());
-    dispatch(fetchLocation());
-    dispatch(fetchDepartment());
-    dispatch(fetchCategory());
-  }, [dispatch]);
+    dispatch(fetchLocation())
+    dispatch(fetchDepartment())
+    dispatch(fetchCategory())
+    dispatch(fetchSubCategories())
+    dispatch(fetchAssetFieldMapping())
+  }, [dispatch])
 
   const handleSelectChange = (
     event: React.SyntheticEvent<Element, Event> | null,
     newValue: any,
-    stateKey: string,
+    title: string,
   ) => {
+    if (!event) return
     setFormData((prevData) => ({
       ...prevData,
-      [stateKey]: newValue,
+      [title]: newValue,
     }))
-    setValidationMessages((prevState) => ({ ...prevState, [stateKey]: '' }))
+    setValidationMessages((prevState) => ({ ...prevState, [title]: '' }))
   }
-  const dynamicFormConfig = formConfig.map(field => {
-    if (field.stateKey === 'siteId') {
+  const dynamicFormConfig = formConfig.map((field) => {
+    if (field.title === 'Site') {
       return {
         ...field,
-        options: sites.map(site => ({ value: site.id, label: site.siteName })),
-      };
+        options: sites.map((site) => ({
+          value: site.id,
+          label: site.siteName,
+        })),
+      }
     }
-    if (field.stateKey === 'locationId') {
+    if (field.title === 'Location') {
       return {
         ...field,
-        options: locations.map(location => ({ value: location.id, label: location.location })),
-      };
+        options: locations.map((location) => ({
+          value: location.id,
+          label: location.location,
+        })),
+      }
     }
-    if (field.stateKey === 'departmentId') {
+    if (field.title === 'SubCategory') {
       return {
         ...field,
-        options: departments.map(department => ({ value: department.id, label: department.departmentName })),
-      };
+        options: subCategories.map((subCategory) => ({
+          value: subCategory.id,
+          label: subCategory.subCategory,
+        })),
+      }
     }
-    if (field.stateKey === 'categoryId') {
+    if (field.title === 'Department') {
       return {
         ...field,
-        options: categories.map(category => ({ value: category.id, label: category.categoryName })),
-      };
+        options: departments.map((department) => ({
+          value: department.id,
+          label: department.departmentName,
+        })),
+      }
     }
-    return field;
-  });
+    if (field.title === 'Category') {
+      return {
+        ...field,
+        options: categories.map((category) => ({
+          value: category.id,
+          label: category.categoryName,
+        })),
+      }
+    }
+    return field
+  })
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    stateKey: string,
+    title: string,
   ) => {
-    const { value } = e.target
+    const { name } = e.target
     setFormData((prevData) => ({
       ...prevData,
-      [stateKey]: value,
+      [title]: name,
     }))
-    setValidationMessages((prevState) => ({ ...prevState, [stateKey]: '' }))
+    setValidationMessages((prevState) => ({ ...prevState, [title]: '' }))
   }
-
- 
 
   const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -156,29 +203,27 @@ const navigate = useNavigate()
     dispatch(addDepartment(newdepartment))
     setDepartmentName('') // Clear the input field after adding
     handleClose()
-    console.log(newdepartment)
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, files } = e.target;
+    const { name, files } = e.target
     if (files && files.length > 0) {
-        const validFiles = Array.from(files).filter((file) =>
-            ['image/jpeg', 'image/png', 'image/gif'].includes(file.type)
-        );
+      const validFiles = Array.from(files).filter((file) =>
+        ['image/jpeg', 'image/png', 'image/gif'].includes(file.type),
+      )
 
-        const fileURLs = validFiles.map((file) => URL.createObjectURL(file));
+      const fileURLs = validFiles.map((file) => URL.createObjectURL(file))
 
-        setFormData((prevData: any) => ({
-            ...prevData,
-            [name]: validFiles.map(file => file.name), // Store the file names in the form data
-            assetPhoto: [...(prevData.assetPhoto as File[]), ...validFiles], // Keep the valid files in the form data
-        }));
-        
-        setPhotoPreviews((prevPreviews) => [...prevPreviews, ...fileURLs]);
-        setValidationMessages((prevState) => ({ ...prevState, assetPhoto: '' }));
+      setFormData((prevData: any) => ({
+        ...prevData,
+        [name]: validFiles.map((file) => file.name), // Store the file names in the form data
+        assetPhoto: [...(prevData.assetPhoto as File[]), ...validFiles], // Keep the valid files in the form data
+      }))
+
+      setPhotoPreviews((prevPreviews) => [...prevPreviews, ...fileURLs])
+      setValidationMessages((prevState) => ({ ...prevState, assetPhoto: '' }))
     }
-};
-
+  }
 
   const handleDeletePhoto = (index: number) => {
     setFormData((prevData) => {
@@ -206,51 +251,203 @@ const navigate = useNavigate()
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const newValidationMessages: ValidationMessages = {};
+    e.preventDefault()
+    const newValidationMessages: ValidationMessages = {}
     formConfig.forEach((field) => {
-        if (field.stateKey !== 'assetPhoto' && !formData[field.stateKey]) {
-            newValidationMessages[field.validationMessageKey] =
-                `${field.label} is required.`;
-        }
-    });
+      if (field.title !== 'assetPhoto' && !formData[field.title]) {
+        // newValidationMessages[field.validationMessageKey] =
+        //     `${field.title} is required.`;
+      }
+    })
 
     if (Object.keys(newValidationMessages).length > 0) {
-        setValidationMessages(newValidationMessages);
-        return;
+      setValidationMessages(newValidationMessages)
+      return
     }
 
-    const formDataToSend = new FormData();
+    const formDataToSend = new FormData()
     for (const key in formData) {
-        if (formData[key] !== null) {
-            if (key === 'assetPhoto' && formData[key] instanceof Array) {
-                (formData[key] as File[]).forEach((file) => {
-                    formDataToSend.append('assetPhoto', file);
-                });
-            } else {
-                formDataToSend.append(key, formData[key] as string);
-            }
+      if (formData[key] !== null) {
+        if (key === 'assetPhoto' && formData[key] instanceof Array) {
+          ;(formData[key] as File[]).forEach((file) => {
+            formDataToSend.append('assetPhoto', file)
+          })
+        } else {
+          formDataToSend.append(key, formData[key] as string)
         }
+      }
     }
+
+    console.log('Form Data:', formDataToSend)
 
     try {
-        await dispatch(addAssets(formDataToSend));
-        navigate('/assets/list-of-assets')
-        console.log('Form submitted successfully');
+      await dispatch(addAssets(formDataToSend))
+      console.log('Form submitted successfully')
     } catch (error) {
-        console.error('Error submitting form:', error);
+      console.error('Error submitting form:', error)
     }
-};
+  }
 
+  const handleInputValue = (
+    field: any,
+    formData: any,
+    handleInputChange?: (
+      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => void,
+    handleSelectChange?: (
+      event: React.SyntheticEvent<Element, Event> | null,
+      value: string | null,
+      name: string,
+    ) => void,
+    handleFileChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    mode?: string,
+  ) => {
+    const commonProps = {
+      field,
+      formData,
+      handleInputChange,
+      handleSelectChange: handleSelectChange || (() => {}),
+      handleFileChange: handleFileChange || (() => {}),
+      mode,
+    }
+
+    console.log(JSON.stringify(field))
+    console.log(field.name)
+    switch (field.components.type) {
+      case 'text':
+        return (
+          <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleInputChange}
+              sx={field.stylings}
+            />
+          </FormControl>
+        )
+      case 'date':
+        return (
+          <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+              type="date"
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleInputChange}
+              sx={field.stylings}
+            />
+          </FormControl>
+        )
+      case 'select':
+        if (field.name === 'siteId') {
+          return <SiteComponent {...commonProps} />
+        } else if (field.name === 'locationId') {
+          return <LocationComponent {...commonProps} />
+        }
+       else if (field.name === 'departmentId') {
+        return <DepartmentComponent {...commonProps} />
+      } 
+      else if (field.name === 'categoryId') {
+        return <CategoryComponent {...commonProps} />
+      } 
+      else if (field.name === 'subCategoryId') {
+        return <SubCategoryComponent {...commonProps} />
+      } 
+      else {
+          return <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Select
+              name={field.name}
+              value={formData[field.name]}
+              onChange={(event) =>
+                handleSelectChange &&
+                handleSelectChange(event, event.target.value, field.name)
+              }
+              sx={field.stylings}
+            >
+              {/* {field.options.map((option: any) => (
+                <MenuItem key={option.name} value={option.name}>
+                  {option.label}
+                </MenuItem>
+              ))} */}
+            </Select>
+          </FormControl>
+        }
+        case 'number':
+          return (
+            <FormControl key={field.name}>
+              <FormLabel>{field.fieldName}</FormLabel>
+              <Input
+                type="number"
+                name={field.name}
+                value={formData[field.name] as number}
+                onChange={handleInputChange}
+                sx={field.stylings}
+              />
+            </FormControl>
+          );
+      //
+      // case 'checkbox':
+      //   return (
+      //     <FormControl
+      //       control={
+      //         <Checkbox
+      //           name={field.name}
+      //           checked={formData[field.name] as boolean}
+      //           onChange={handleInputChange}
+      //         />
+      //       }
+      //       label={field.fieldName}
+      //     />
+      //   )
+      case 'textarea':
+        return (
+          <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+              // multiline
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleInputChange}
+              sx={field.stylings}
+            />
+          </FormControl>
+        )
+      case 'file':
+        return (
+          <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+              type="file"
+              name={field.name}
+              onChange={handleFileChange}
+              sx={field.stylings}
+            />
+            <Box>
+              {photoPreviews.map((preview, index) => (
+                <Box key={index}>
+                  <img src={preview} alt={`Preview ${index}`} />
+                  <Button onClick={() => handleDeletePhoto(index)}>
+                    Delete
+                  </Button>
+                </Box>
+              ))}
+            </Box>
+          </FormControl>
+        )
+      default:
+        return null
+    }
+  }
 
   return (
     <AppForm onSubmit={handleSubmit} encType="multipart/form-data">
       <AppView>
-    
-          <Typography level="h3" >
-            Add An Asset
-          </Typography>
-      
+        <Typography level="h3" sx={{ ml: '52px' }}>
+          Add An Asset
+        </Typography>
+
         <Box
           sx={{
             borderRadius: 'none',
@@ -260,7 +457,7 @@ const navigate = useNavigate()
           }}
         >
           <Box sx={{ paddingBottom: '30px' }}>
-           
+            <Box>
               <Grid
                 container
                 spacing={1}
@@ -271,13 +468,36 @@ const navigate = useNavigate()
                 }}
               >
                 <Grid xs={12}>
-                  <Typography
-                    sx={{ fontWeight: 'bold', mb: 0, paddingLeft: '32px' }}
-                  >
-                    Assets Details
-                  </Typography>
+                  {formConfig &&
+                    formConfig.map((group, index) => (
+                      <Grid key={index}>
+                        <Typography
+                          sx={{
+                            fontWeight: 'bold',
+                            mb: 0,
+                            paddingLeft: '32px',
+                          }}
+                        >
+                          {group.title}
+                        </Typography>
+
+                        {group.fields &&
+                          group.fields.map((field, index) => (
+                            <Grid key={index}>
+                              {handleInputValue(
+                                field,
+                                formData,
+                                handleInputChange,
+                                handleSelectChange,
+                                handleFileChange,
+                              )}
+                            </Grid>
+                          ))}
+                      </Grid>
+                    ))}
                 </Grid>
-                {formConfig.slice(0, 9).map((field: FormFieldConfig) => (
+
+                {/* {formConfig.slice(0, 6).map((field: any) => (
                   <Grid
                     key={field.label}
                     sx={{ paddingLeft: '32px' }}
@@ -303,7 +523,7 @@ const navigate = useNavigate()
                         onChange={(e, newValue) =>
                           handleSelectChange(e, newValue, field.stateKey)
                         }
-                        sx={field.sx}
+                        sx={field.stylings}
                       >
                         {field.options?.map((option) => (
                           <Option key={option.value} value={option.value}>
@@ -317,7 +537,7 @@ const navigate = useNavigate()
                           value={formData[field.stateKey] as string}
                           onChange={(e) => handleInputChange(e, field.stateKey)}
                           {...field}
-                          sx={field.sx}
+                          sx={field.stylings}
                         />
                       </Box>
                     )}
@@ -328,9 +548,9 @@ const navigate = useNavigate()
                       </Typography>
                     )}
                   </Grid>
-                ))}
+                ))} */}
               </Grid>
-              <Box>
+              {/* <Box>
                 <Typography
                   sx={{
                     fontWeight: 'bold',
@@ -341,8 +561,8 @@ const navigate = useNavigate()
                 >
                   Site, Location, Category and Department
                 </Typography>
-              </Box>
-              <Box>
+              </Box> */}
+              {/* <Box>
                 <Grid
                   container
                   spacing={1}
@@ -352,35 +572,35 @@ const navigate = useNavigate()
                     flexDirection: { xs: 'column', md: 'row' },
                   }}
                 >
-                  {dynamicFormConfig.slice(9, 13).map((field) => (
+                  {dynamicFormConfig.slice(10, 14).map((field) => (
                     <Grid
-                      key={field.label}
+                      key={field.title}
                       sx={{ paddingLeft: '32px', paddingBottom: '20px' }}
                     >
                       <Typography
                         level="body-xs"
                         sx={{ color: '#767676', mt: '8px', mb: '5px' }}
                       >
-                        {field.label}
+                        {field.title}
                       </Typography>
                       <Grid container spacing={1}>
                         <Select
-                          value={formData[field.stateKey] as string}
+                          value={formData[field.title] as string}
                           onChange={(e, newValue) =>
-                            handleSelectChange(e, newValue, field.stateKey)
+                            handleSelectChange(e, newValue, field.title)
                           }
                           sx={field.sx}
                         >
-                          {field.options?.map((option, index) => (
-                            <Option key={`${option.value}-${index}`} value={option.value}>
+                          {field.options?.map((option) => (
+                            <Option key={option.value} value={option.value}>
                               {option.label}
                             </Option>
                           ))}
                         </Select>
 
                         <Button
-                         onClick={() => handleOpenDialog(field.stateKey)}
-                         variant="outlined"
+                          onClick={() => handleOpenDialog(field.title)}
+                          variant="outlined"
                           size="sm"
                           sx={{
                             ml: { md: 4, xs: '0' },
@@ -394,7 +614,6 @@ const navigate = useNavigate()
                             color: '#767676',
                             mt: { xs: '10px', md: '0' },
                           }}
-                         
                         >
                           <Typography sx={{ mr: '25px', color: '#767676' }}>
                             <AddIcon />
@@ -415,8 +634,8 @@ const navigate = useNavigate()
                     </Grid>
                   ))}
                 </Grid>
-              </Box>
-              <Box sx={{ paddingLeft: '48px', mb: '30px', mt: '20px' }}>
+              </Box> */}
+              {/* <Box sx={{ paddingLeft: '48px', mb: '30px', mt: '20px' }}>
                 <Typography sx={{ fontWeight: 'bold' }}>
                   Assets Photo
                 </Typography>
@@ -470,7 +689,7 @@ const navigate = useNavigate()
                         },
                       }}
                     >
-                      <CloudUploadIcon sx={{size:"20" }}/>
+                      <CloudUploadIcon sx={{ size: '20' }} />
                     </Button>
                     <input
                       type="file"
@@ -514,7 +733,7 @@ const navigate = useNavigate()
                             }}
                             onClick={() => handleDeletePhoto(index)}
                           >
-                            <DeleteIcon sx={{color:"#d9534f"}} />
+                            <DeleteIcon sx={{ color: '#d9534f' }} />
                           </Button>
                         </Box>
                       </Grid>
@@ -530,7 +749,7 @@ const navigate = useNavigate()
                     {validationMessages.assetPhoto}
                   </Typography>
                 )}
-              </Box>
+              </Box> */}
               <Box
                 sx={{
                   display: 'flex',
@@ -545,8 +764,8 @@ const navigate = useNavigate()
                 }}
               >
                 <Button
-                  size="md"
-                  onClick={handleSubmit}
+                  size="lg"
+                  type="submit"
                   sx={{
                     color: '#000000',
                     borderRadius: '15px',
@@ -560,7 +779,7 @@ const navigate = useNavigate()
                   Save
                 </Button>
                 <Button
-                  size="md"
+                  size="lg"
                   // onClick={handleCancel}
                   sx={{
                     borderRadius: '15px',
@@ -574,30 +793,52 @@ const navigate = useNavigate()
                   Cancel
                 </Button>
               </Box>
-           
+            </Box>
           </Box>
         </Box>
 
-        {openDialog==='categoryId' &&  <AddCategory open={openDialog === 'categoryId'} handleClose={handleCloseDialog}  categoryName={categoryName}
-        setCategoryName={setCategoryName}
-        handleAddCategory={handleAddCategory} 
-        />}
+        {openDialog === 'categoryId' && (
+          <AddCategory
+            open={openDialog === 'categoryId'}
+            handleClose={handleCloseDialog}
+            categoryName={categoryName}
+            setCategoryName={setCategoryName}
+            handleAddCategory={handleAddCategory}
+          />
+        )}
 
-      
-        {openDialog==='siteId' && <AddSite open={openDialog==='siteId'}  onClose={handleCloseDialog} 
-         onSave={(newSite: Site) => {
-          setOpen(false)
-        }}
-        />}
+        {openDialog === 'siteId' && (
+          <AddSite
+            open={openDialog === 'siteId'}
+            onClose={handleCloseDialog}
+            onSave={(newSite: Site) => {
+              setOpen(false)
+            }}
+          />
+        )}
 
-        {openDialog==='locationId' && <AddLocation open={openDialog==='locationId'} setOpen={setOpen} handleClose={handleCloseDialog} 
-        />}
+        {openDialog === 'locationId' && (
+          <AddLocation
+            open={openDialog === 'locationId'}
+            setOpen={setOpen}
+            handleClose={handleCloseDialog}
+          />
+        )}
 
-        {openDialog==='departmentId' && <SetupAddDept  open={openDialog==='departmentId'} handleClose={handleCloseDialog} departmentName={departmentName} setDepartmentName={setDepartmentName} handleAddDepartment={handleAddDepartment}
-        />}
+        {openDialog === 'departmentId' && (
+          <SetupAddDept
+            open={openDialog === 'departmentId'}
+            handleClose={handleCloseDialog}
+            departmentName={departmentName}
+            setDepartmentName={setDepartmentName}
+            handleAddDepartment={handleAddDepartment}
+          />
+        )}
 
+        {/* <SiteDialog open={openDialog === 'site'} handleClose={handleCloseDialog} />
+        <LocationDialog open={openDialog === 'location'} handleClose={handleCloseDialog} />
+        <DepartmentDialog open={openDialog === 'department'} handleClose={handleCloseDialog} /> */}
       </AppView>
-      
     </AppForm>
   )
 }
