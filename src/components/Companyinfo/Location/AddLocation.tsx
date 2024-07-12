@@ -218,7 +218,7 @@ const AddLocation: React.FC<LocationAddProps> = ({
               }}
               type="submit"
             >
-              Add Site
+              Add Location
             </Button>
           </Box>
         </AppForm>

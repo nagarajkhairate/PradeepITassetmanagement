@@ -43,7 +43,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({ open, se
         e.preventDefault()
         const capitalizedForm = {
           ...subForm,
-          location: capitalizeWords(subForm.location || '')
+          subCategory: capitalizeWords(subForm.subCategory || '')
         }
         console.log(JSON.stringify(capitalizedForm))
         dispatch(addSubCategories(capitalizedForm))

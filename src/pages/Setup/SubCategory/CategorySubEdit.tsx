@@ -275,7 +275,7 @@ const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] 
             <FormControl
               sx={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly" }}
             >
-              <FormLabel sx={{ paddingTop: "30px", marginLeft: "20px" }}>Category*</FormLabel>
+              <FormLabel sx={{ paddingTop: "30px", marginLeft: "20px" }}>Sub-Category*</FormLabel>
               <Input
                 variant="outlined"
                 type="text"

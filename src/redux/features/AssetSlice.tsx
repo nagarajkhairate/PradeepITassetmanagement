@@ -26,9 +26,8 @@ export const fetchAssets = createAsyncThunk('assets/fetchAssets', async () => {
     console.error('Error Message'+ error);
     throw error;
   }
- 
- 
 });
+
 export const fetchAssetsById = createAsyncThunk('assets/fetchAssetsById', async (id: string ) => {
   try {
     const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/add-asset/${id}`);
