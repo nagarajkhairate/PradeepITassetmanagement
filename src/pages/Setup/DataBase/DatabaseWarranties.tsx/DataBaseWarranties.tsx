@@ -20,8 +20,8 @@ const customDefaultFields = [
     id: 1,
     fieldName: 'Length ',
     visible: false,
-    isRequired: '',
-    name: 'length',
+    isRequired: false,
+    value: 'length',
     description: 'Length of the warranty (in months).',
     example: '24',
     option: [
@@ -37,10 +37,10 @@ const customDefaultFields = [
   },
   {
     id: 2,
-    fieldName: 'Expiration Date ',
+    fieldName: 'Expiration Date',
     visible: false,
-    isRequired: '',
-    name: 'expirationDate ',
+    isRequired: false,
+    value: 'expirationDate ',
     description: 'Date when warranty expires.',
     example: '12/12/2022',
     option: [
@@ -55,8 +55,8 @@ const customDefaultFields = [
     id: 3,
     fieldName: 'Notes',
     visible: false,
-    isRequired: '',
-    name: 'notes',
+    isRequired: false,
+    value: 'notes',
     description: 'Text area for notes.',
     example: 'Renew warranty if equipment in good condition.',
     option: [
@@ -89,10 +89,8 @@ const DatabaseWarranties: React.FunctionComponent = () => {
     customDefaultFields: customDefaultFields.map((item) => ({
       ...item,
       id: item.id,
-
-      visible: item.visible,
-
-      isRequired: item.isRequired,
+      visible:true,
+      isRequired: item.fieldName === 'Expiration Date' ? true : item.isRequired,
       description: item.description,
     })),
   })
@@ -136,7 +134,15 @@ const DatabaseWarranties: React.FunctionComponent = () => {
     setDataBases((prevData) => ({
       ...prevData,
       customDefaultFields: prevData.customDefaultFields.map((item, i) =>
-        i === index ? { ...item, visible: !item.visible } : item,
+        i === index ? { ...item, 
+          visible:
+          item.fieldName === 'Expiration Date'  ? true: !item.visible,
+          isRequired:
+          item.fieldName === 'Expiration Date'
+            ? true
+            : !item.visible ? false : item.isRequired,
+        
+        } : item,
       ),
     }))
   }
@@ -166,10 +172,11 @@ const DatabaseWarranties: React.FunctionComponent = () => {
     index: number,
   ) => {
     const { value } = event.target
+    const booleanValue = value === 'yes'
     setDataBases((prevData) => ({
       ...prevData,
       customDefaultFields: prevData.customDefaultFields.map((item, i) =>
-        i === index ? { ...item, isRequired: value } : item,
+        i === index ? { ...item, isRequired: booleanValue } : item,
       ),
     }))
   }
@@ -178,10 +185,11 @@ const DatabaseWarranties: React.FunctionComponent = () => {
   const generateJson = () => {
     const jsonData = {
       customDefaultFields:dataBases.customDefaultFields.map(
-      ({ id, visible, fieldName, isRequired, description }) => ({
+      ({ id,  fieldName,value, visible,isRequired, description }) => ({
         id,
-        visible,
         fieldName,
+        value,
+        visible,
         isRequired,
         description,
       })),
@@ -304,18 +312,28 @@ const DatabaseWarranties: React.FunctionComponent = () => {
                       {data.visible && (
                         <FormControl>
                           <RadioGroup
-                            defaultValue="outlined"
+                            defaultValue={
+                              data.visible &&
+                              (data.fieldName === 'Expiration Date')
+                                ? 'yes'
+                                : 'optional'
+                            }
                             name="radio-buttons-group"
+                            onChange={(event) =>
+                              HandleRadioSelect(event, index)
+                            }
                           >
                             {data.option.map((opt: any) => (
                               <Radio
-                                onChange={(event) =>
-                                  HandleRadioSelect(event, index)
-                                }
+                                
                                 key={opt.id}
+                                name={opt.name}
                                 value={opt.value}
                                 label={opt.value}
                                 variant="outlined"
+                                checked={
+                                  data.isRequired === (opt.value === 'yes')
+                                }
                               />
                             ))}
                           </RadioGroup>

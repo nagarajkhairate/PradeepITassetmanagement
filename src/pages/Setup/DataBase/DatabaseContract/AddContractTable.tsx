@@ -1,44 +1,50 @@
 import React, { ChangeEvent, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
-import { Box, Button, Modal, Typography } from '@mui/joy'
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Grid,
+  Input,
+  Modal,
+  Option,
+  Radio,
+  RadioGroup,
+  Select,
+  Sheet,
+  Typography,
+} from '@mui/joy'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
-import AddEmployeeData from './AddEmployeeData'
-import EditDataBaseEmp from './EditDataBaseEmp'
+import { ThunkDispatch } from 'redux-thunk'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../../../redux/store'
+import AddDialogContract from '../DatabaseCustomerTable/AddDialogCustomer'
 
-interface DataItem {
-  id: number // Make sure to define an appropriate type for id
-  fieldName: string
-  componentsId: string
-  category: string
-  isRequired: string
+interface DataAddProps {
+  dataBases: { customAsset: string[] }
+  setDataBases: React.Dispatch<React.SetStateAction<{ customAsset: any[] }>>
+  addCustomField: (custom: any) => void
+  deleteCustomField: (index: number) => void
+  id: number
 }
 
-const AddDataBaseEmp: React.FC = () => {
+const AddContractTable: React.FC<DataAddProps> = ({
+  dataBases,
+  setDataBases,
+  addCustomField,
+  deleteCustomField,
+  id,
+}: DataAddProps) => {
   const [open, setOpen] = useState(false)
-  // const [editOpen, setEditOpen] = useState(false)
-  // const [deleteOpen, setDeleteOpen] = useState(false)
-  const [dataBases, setDataBases] = useState<{ customAsset: DataItem[] }>({
-    customAsset: [],
-  })
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
-  const handleClose = () => {
-    setOpen(false)
-  }
+  const dataBase = useSelector((state: RootState) => state.dataBase.data)
+  console.log(dataBase)
 
-  const handleAddSkill = (formData: DataItem) => {
-    setDataBases((prevData) => ({
-      ...prevData,
-      customAsset: [...prevData.customAsset, formData],
-    }))
-    handleClose()
-    setOpen(false)
-  }
-
-  const handleCheckboxChange = (index: number) => {
-    setDataBases((prevData) => ({
-      ...prevData,
-    }))
-  }
+  // React.useEffect(() => {
+  //   dispatch(fetchDataBase())
+  // }, [])
 
   return (
     <Box>
@@ -50,7 +56,7 @@ const AddDataBaseEmp: React.FC = () => {
           <SignpostOutlinedIcon
             style={{ fontSize: '1.4rem', color: '#FBC21E' }}
           />
-          Persons/Employees Custom Fields
+          Customers Custom Fields
         </Typography>
         <Typography sx={{ marginTop: '10px' }}>
           Add custom fields to join the standard fields that we provided.
@@ -69,9 +75,14 @@ const AddDataBaseEmp: React.FC = () => {
           onClick={() => setOpen(true)}
           sx={{
             marginTop: '15px',
-            background: 'green',
-            color: 'white',
-            '&:hover': { background: '#1b5e20' },
+            
+            background: '#ffffff',
+            color: 'green',
+            border: '1px solid green ',
+            '&:hover': {
+              color: 'white',
+              background: 'green',
+            },
             borderRadius: '15px',
           }}
         >
@@ -89,21 +100,19 @@ const AddDataBaseEmp: React.FC = () => {
               alignItems: 'center',
             }}
             open={open}
-            onClose={() => setOpen(false)}
+            onClose={setOpen}
           >
-            <AddEmployeeData
+            <AddDialogContract
               open={open}
               setOpen={setOpen}
               dataBases={dataBases}
-              handleAddSkill={handleAddSkill}
+              setDataBases={setDataBases}
             />
           </Modal>
         )}
       </Box>
-
-      <EditDataBaseEmp dataBases={dataBases} setDataBases={setDataBases} />
     </Box>
   )
 }
 
-export default AddDataBaseEmp
+export default AddContractTable
