@@ -13,6 +13,11 @@ interface SubCategoryProps {
   mode: string;
   setFormData: React.Dispatch<React.SetStateAction<any>>;
   setValidationMessages: React.Dispatch<React.SetStateAction<any>>;
+   handleSelectChange: (
+    event: React.SyntheticEvent<Element, Event> | null,
+    value: string | null,
+    name: string,
+  ) => void;
 }
 
 const SubCategoryComponent: React.FC<SubCategoryProps> = ({
@@ -20,7 +25,7 @@ const SubCategoryComponent: React.FC<SubCategoryProps> = ({
   formData, 
   setFormData, 
   setValidationMessages, 
-  mode 
+  handleSelectChange,
 }) => {
   const [error, setError] = useState<string>("");
   const [open, setOpen] = useState(false);
@@ -28,23 +33,6 @@ const SubCategoryComponent: React.FC<SubCategoryProps> = ({
   const subCategories = useSelector((state: RootState) => state.subCategories.data);
   const [subCategory, setSubCategory] = useState<string>("");
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
-
-  type SubCategory = {
-    id: number
-    subCategory: string
-  }
-
-  const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const newCategory: SubCategory = {
-      id: subCategories.length ? subCategories[subCategories.length - 1].id + 1 : 1,
-      subCategory: capitalizeWords(subCategory),
-    }
-    // setCategories([...categories, newCategory])
-    dispatch(addSubCategories(newCategory))
-    setSubCategory('') // Clear the input field after adding
-    // handleClose()
-  }
 
   const capitalizeWords = (str: string) => {
     return str.replace(/\b\w/g, (char) => char.toUpperCase())
@@ -58,19 +46,6 @@ const SubCategoryComponent: React.FC<SubCategoryProps> = ({
     return true;
   };
 
-  const handleSelectChange = (
-    event: React.SyntheticEvent<Element, Event> | null,
-    newValue: any,
-    fieldName: string
-  ) => {
-    if (!event) return;
-    setFormData((prevData:any) => ({
-      ...prevData,
-      [fieldName]: newValue,
-    }));
-    setValidationMessages((prevState:any) => ({ ...prevState, [fieldName]: '' }));
-  };
-
   const handleOpenDialog = (modalName: string) => {
     setOpenDialog(modalName);
   };
@@ -79,28 +54,17 @@ const SubCategoryComponent: React.FC<SubCategoryProps> = ({
     setOpenDialog(null);
   };
 
-  const handleAddSubCategory = (newSubCategory: { id: string; subCategoryName: string }) => {
-    dispatch(addSubCategories(newSubCategory))
-      .unwrap()
-      .then(() => {
-        dispatch(fetchSubCategories()); 
-      })
-      .catch((error) => {
-        console.error('Failed to add subcategory:', error);
-      });
-    handleCloseDialog();
-  };
-
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', mt: 2 }}>
       <FormControl sx={{ width: '200px' }}>
         <FormLabel>{field.fieldName}</FormLabel>
         <Select
           placeholder="Select SubCategory"
-          value={formData[field.name] || ''}
+          name={field.name}
+          value={formData[field.name] as string}
           onChange={(e, newValue) => handleSelectChange(e, newValue, field.name)}
         >
-          {subCategories.map((subCategory) => (
+          {subCategories.map((subCategory: { id: number; subCategory: string }) => (
             <Option key={subCategory.id} value={subCategory.id}>
               {subCategory.subCategory}
             </Option>

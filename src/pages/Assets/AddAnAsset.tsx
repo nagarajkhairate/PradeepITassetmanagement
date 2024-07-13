@@ -40,30 +40,8 @@ import DepartmentComponent from '../../components/AssetSections/EditAsset/AddAss
 import CategoryComponent from '../../components/AssetSections/EditAsset/AddAssetSection/CategoryComponent'
 import { fetchSubCategories } from '../../redux/features/CategorySubSlice'
 import SubCategoryComponent from '../../components/AssetSections/EditAsset/AddAssetSection/SubCategorycomponent'
-
-type Category = {
-  id: number
-  categoryName: string
-}
-
-type Department = {
-  id: number
-  departmentName: string
-}
-
-interface Site {
-  siteName: string
-  description: string
-  address: string
-  aptSuite: string
-  city: string
-  state: string
-  zipCode: number
-  country: string
-}
-interface FormData {
-  [key: string]: string | File[]
-}
+import FileField from '../../components/Common/AppFile/FileField'
+import AssetFileField from '../../components/Common/AppFile/AssetFileField'
 
 interface ValidationMessages {
   [key: string]: string
@@ -73,28 +51,15 @@ const AddAnAsset: React.FC = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
   // Initialize state dynamically based on formConfig
-  const initialFormData = formConfig.reduce<Record<string, any>>(
-    (acc, field) => {
-      acc[field.title] = field.type === 'file' ? [] : ''
-      return acc
-    },
-    {},
-  )
-  const [formData, setFormData] = useState(initialFormData)
+
+  const [formData, setFormData] = useState<any>({})
 
   const [open, setOpen] = useState<boolean>(false)
   const [validationMessages, setValidationMessages] =
     useState<ValidationMessages>({})
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([])
-  const [categoryName, setCategoryName] = useState<string>('')
-  const [departmentName, setDepartmentName] = useState<string>('')
   const [openDialog, setOpenDialog] = useState<string | null>(null)
-  const subCategories = useSelector((state: RootState) => state.subCategories.data);
-
-  const departments = useSelector((state: RootState) => state.departments.data)
-  const categories = useSelector((state: RootState) => state.category.data)
-  const sites = useSelector((state: RootState) => state.sites.data)
-  const locations = useSelector((state: RootState) => state.location.data)
+  const [file, setFile] = useState<File | null>(null)
 
   useEffect(() => {
     dispatch(fetchLocation())
@@ -110,123 +75,43 @@ const AddAnAsset: React.FC = () => {
     title: string,
   ) => {
     if (!event) return
-    setFormData((prevData) => ({
+    setFormData((prevData:any) => ({
       ...prevData,
       [title]: newValue,
     }))
     setValidationMessages((prevState) => ({ ...prevState, [title]: '' }))
   }
-  const dynamicFormConfig = formConfig.map((field) => {
-    if (field.title === 'Site') {
-      return {
-        ...field,
-        options: sites.map((site) => ({
-          value: site.id,
-          label: site.siteName,
-        })),
-      }
-    }
-    if (field.title === 'Location') {
-      return {
-        ...field,
-        options: locations.map((location) => ({
-          value: location.id,
-          label: location.location,
-        })),
-      }
-    }
-    if (field.title === 'SubCategory') {
-      return {
-        ...field,
-        options: subCategories.map((subCategory) => ({
-          value: subCategory.id,
-          label: subCategory.subCategory,
-        })),
-      }
-    }
-    if (field.title === 'Department') {
-      return {
-        ...field,
-        options: departments.map((department) => ({
-          value: department.id,
-          label: department.departmentName,
-        })),
-      }
-    }
-    if (field.title === 'Category') {
-      return {
-        ...field,
-        options: categories.map((category) => ({
-          value: category.id,
-          label: category.categoryName,
-        })),
-      }
-    }
-    return field
-  })
-
+  
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     title: string,
   ) => {
-    const { name } = e.target
-    setFormData((prevData) => ({
+    const { name, value } = e.target
+    setFormData((prevData:any) => ({
       ...prevData,
-      [title]: name,
+      [name]: value,
     }))
     setValidationMessages((prevState) => ({ ...prevState, [title]: '' }))
   }
 
-  const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const newCategory: Category = {
-      id: categories.length ? categories[categories.length - 1].id + 1 : 1,
-      categoryName: capitalizeWords(categoryName),
-    }
-    // setCategories([...categories, newCategory])
-    setCategoryName('') // Clear the input field after adding
-    dispatch(addCategory(newCategory))
-    console.log(newCategory)
-    handleClose()
-  }
   const capitalizeWords = (str: string) => {
     return str.replace(/\b\w/g, (char) => char.toUpperCase())
-  }
-
-  const handleAddDepartment = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const newdepartment: Department = {
-      id: departments.length ? departments[departments.length - 1].id + 1 : 1,
-      departmentName: capitalizeWords(departmentName),
-    }
-    // setDepartment([...department, newdepartment])
-    dispatch(addDepartment(newdepartment))
-    setDepartmentName('') // Clear the input field after adding
-    handleClose()
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, files } = e.target
     if (files && files.length > 0) {
-      const validFiles = Array.from(files).filter((file) =>
-        ['image/jpeg', 'image/png', 'image/gif'].includes(file.type),
-      )
-
-      const fileURLs = validFiles.map((file) => URL.createObjectURL(file))
-
+      const file = files[0]
+      setFile(file)
       setFormData((prevData: any) => ({
         ...prevData,
-        [name]: validFiles.map((file) => file.name), // Store the file names in the form data
-        assetPhoto: [...(prevData.assetPhoto as File[]), ...validFiles], // Keep the valid files in the form data
+        [name]: file.name,
       }))
-
-      setPhotoPreviews((prevPreviews) => [...prevPreviews, ...fileURLs])
-      setValidationMessages((prevState) => ({ ...prevState, assetPhoto: '' }))
     }
   }
 
   const handleDeletePhoto = (index: number) => {
-    setFormData((prevData) => {
+    setFormData((prevData:any) => {
       const updatedFiles = [...(prevData.assetPhoto as File[])]
       updatedFiles.splice(index, 1)
       return { ...prevData, assetPhoto: updatedFiles }
@@ -238,9 +123,6 @@ const AddAnAsset: React.FC = () => {
     })
   }
 
-  const handleOpenDialog = (modalName: string) => {
-    setOpenDialog(modalName)
-  }
   console.log(openDialog)
 
   const handleCloseDialog = () => {
@@ -268,16 +150,16 @@ const AddAnAsset: React.FC = () => {
     const formDataToSend = new FormData()
     for (const key in formData) {
       if (formData[key] !== null) {
-        if (key === 'assetPhoto' && formData[key] instanceof Array) {
-          ;(formData[key] as File[]).forEach((file) => {
-            formDataToSend.append('assetPhoto', file)
-          })
-        } else {
+        if (key === 'assetPhoto' && file) {
+          
+            formDataToSend.append(key, file)
+          }
+      else {
           formDataToSend.append(key, formData[key] as string)
         }
       }
     }
-
+    
     console.log('Form Data:', formDataToSend)
 
     try {
@@ -311,7 +193,7 @@ const AddAnAsset: React.FC = () => {
       mode,
     }
 
-    console.log(JSON.stringify(field))
+    // console.log(JSON.stringify(field))
     console.log(field.name)
     switch (field.components.type) {
       case 'text':
@@ -365,12 +247,7 @@ const AddAnAsset: React.FC = () => {
                 handleSelectChange(event, event.target.value, field.name)
               }
               sx={field.stylings}
-            >
-              {/* {field.options.map((option: any) => (
-                <MenuItem key={option.name} value={option.name}>
-                  {option.label}
-                </MenuItem>
-              ))} */}
+            >         
             </Select>
           </FormControl>
         }
@@ -415,6 +292,9 @@ const AddAnAsset: React.FC = () => {
           </FormControl>
         )
       case 'file':
+        if (field.name === 'assetPhoto') {
+          return <AssetFileField {...commonProps} />
+        }
         return (
           <FormControl>
             <FormLabel>{field.fieldName}</FormLabel>
@@ -796,48 +676,6 @@ const AddAnAsset: React.FC = () => {
             </Box>
           </Box>
         </Box>
-
-        {openDialog === 'categoryId' && (
-          <AddCategory
-            open={openDialog === 'categoryId'}
-            handleClose={handleCloseDialog}
-            categoryName={categoryName}
-            setCategoryName={setCategoryName}
-            handleAddCategory={handleAddCategory}
-          />
-        )}
-
-        {openDialog === 'siteId' && (
-          <AddSite
-            open={openDialog === 'siteId'}
-            onClose={handleCloseDialog}
-            onSave={(newSite: Site) => {
-              setOpen(false)
-            }}
-          />
-        )}
-
-        {openDialog === 'locationId' && (
-          <AddLocation
-            open={openDialog === 'locationId'}
-            setOpen={setOpen}
-            handleClose={handleCloseDialog}
-          />
-        )}
-
-        {openDialog === 'departmentId' && (
-          <SetupAddDept
-            open={openDialog === 'departmentId'}
-            handleClose={handleCloseDialog}
-            departmentName={departmentName}
-            setDepartmentName={setDepartmentName}
-            handleAddDepartment={handleAddDepartment}
-          />
-        )}
-
-        {/* <SiteDialog open={openDialog === 'site'} handleClose={handleCloseDialog} />
-        <LocationDialog open={openDialog === 'location'} handleClose={handleCloseDialog} />
-        <DepartmentDialog open={openDialog === 'department'} handleClose={handleCloseDialog} /> */}
       </AppView>
     </AppForm>
   )

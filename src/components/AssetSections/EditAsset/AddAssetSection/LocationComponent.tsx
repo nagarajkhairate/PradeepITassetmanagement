@@ -12,7 +12,11 @@ interface LocationProps {
   formData: any;
   setFormData: React.Dispatch<React.SetStateAction<any>>;
   setValidationMessages: React.Dispatch<React.SetStateAction<any>>;
-  mode: string;
+  handleSelectChange: (
+    event: React.SyntheticEvent<Element, Event> | null,
+    value: string | null,
+    name: string,
+  ) => void;
 }
 
 const LocationComponent: React.FC<LocationProps> = ({
@@ -20,7 +24,7 @@ const LocationComponent: React.FC<LocationProps> = ({
   formData, 
   setFormData, 
   setValidationMessages, 
-  mode
+  handleSelectChange
 }) => {
   const [error, setError] = useState<string>("");
   const [openDialog, setOpenDialog] = useState<string | null>(null);
@@ -28,19 +32,6 @@ const LocationComponent: React.FC<LocationProps> = ({
   const [open, setOpen] = useState<boolean>(false)
   const [locationForm, setLocationForm] = useState<{ [key: string]: any }>({});
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
-
-  const handleSelectChange = (
-    event: React.SyntheticEvent<Element, Event> | null,
-    newValue: any,
-    fieldName: string
-  ) => {
-    if (!event) return;
-    setFormData((prevData:any) => ({
-      ...prevData,
-      [fieldName]: newValue,
-    }));
-    setValidationMessages((prevState:any) => ({ ...prevState, [fieldName]: '' }));
-  };
 
   const handleOpenDialog = (modalName: string) => {
     setOpenDialog(modalName);
@@ -68,7 +59,8 @@ const LocationComponent: React.FC<LocationProps> = ({
         <FormLabel>{field.fieldName}</FormLabel>
         <Select
           placeholder="Select Location"
-          value={formData[field.name] || ''}
+          name={field.name}
+          value={formData[field.name] as string}
           onChange={(e, newValue) => handleSelectChange(e, newValue, field.name)}
         >
           {locations.map((location) => (

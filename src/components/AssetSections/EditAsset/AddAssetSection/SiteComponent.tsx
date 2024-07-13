@@ -12,7 +12,11 @@ interface SiteProps {
   formData: any;
   setFormData: React.Dispatch<React.SetStateAction<any>>;
   setValidationMessages: React.Dispatch<React.SetStateAction<any>>;
-  mode: string;
+  handleSelectChange: (
+    event: React.SyntheticEvent<Element, Event> | null,
+    value: string | null,
+    name: string,
+  ) => void;
 }
 
 interface Site {
@@ -31,7 +35,7 @@ const SiteComponent: React.FC<SiteProps> = ({
   formData, 
   setFormData, 
   setValidationMessages, 
-  mode
+  handleSelectChange,
 }) => {
   const [error, setError] = useState<string>("");
   const [openDialog, setOpenDialog] = useState<string | null>(null);
@@ -41,19 +45,6 @@ const SiteComponent: React.FC<SiteProps> = ({
   useEffect(() => {
     dispatch(fetchSites());
   }, [dispatch]);
-
-  const handleSelectChange = (
-    event: React.SyntheticEvent<Element, Event> | null,
-    newValue: any,
-    fieldName: string,
-  ) => {
-    if (!event) return;
-    setFormData((prevData:any) => ({
-      ...prevData,
-      [fieldName]: newValue,
-    }));
-    setValidationMessages((prevState:any) => ({ ...prevState, [fieldName]: '' }));
-  };
 
   const handleOpenDialog = (modalName: string) => {
     setOpenDialog(modalName);
@@ -68,10 +59,12 @@ const SiteComponent: React.FC<SiteProps> = ({
       <FormControl sx={{ width: '200px' }}>
         <FormLabel>{field.fieldName}</FormLabel>
         <Select
-          placeholder="Select Site"
-          value={formData[field.name] || ''}
-          onChange={(e, newValue) => handleSelectChange(e, newValue, field.name)}
-        >
+        placeholder="Select Site"
+        name={field.name}
+        value={formData[field.name] as string}
+        onChange={(e, newValue) => handleSelectChange(e, newValue, field.name)}
+        // sx={field.stylings}
+      >
           {sites.map((site) => (
             <Option key={site.id} value={site.id}>
               {site.siteName}

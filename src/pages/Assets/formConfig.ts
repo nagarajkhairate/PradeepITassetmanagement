@@ -177,8 +177,8 @@ export const formConfig: FormFieldConfig[] = [
         },
         {
           "id": 4,
-          "fieldName": "Purchased from",
-          "name": "purchasedFrom",
+          "fieldName": "Purchase from",
+          "name": "purchaseFrom",
           "sequence": 4,
           "components": {
             "id": null,
@@ -362,8 +362,8 @@ export const formConfig: FormFieldConfig[] = [
         },
         {
           "id": 10,
-          "fieldName": "Serial No",
-          "name": "serialNo",
+          "fieldName": "Serial Number",
+          "name": "serialNumber",
           "sequence": 10,
           "components": {
             "id": null,
@@ -607,7 +607,7 @@ export const formConfig: FormFieldConfig[] = [
             "updatedBy": null,
             "updatedOn": null,
             "type": "file",
-            "format": "file",
+            "format": "string",
             "isActive": null,
             "isEnabled": null,
             "isDelete": null,

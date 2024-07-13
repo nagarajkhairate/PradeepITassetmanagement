@@ -27,8 +27,21 @@ const ListOfAssets = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    setListData(assets);
+    const camelCaseAssets = assets.map((asset: any) => ({
+      ...asset,
+      assetName: camelCaseFirstLetter(asset.assetName),
+      assetTagId: camelCaseFirstLetter(asset.assetTagId),
+      description: camelCaseFirstLetter(asset.description),
+      brand: camelCaseFirstLetter(asset.brand),
+      purchaseDate: camelCaseFirstLetter(asset.purchaseDate),
+      status: camelCaseFirstLetter(asset.status),
+    }));
+    setListData(camelCaseAssets);
   }, [assets]);
+
+  const camelCaseFirstLetter = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
 
   return (
     <AppView>
@@ -211,6 +224,15 @@ const ListOfAssets = () => {
                     color: "#959595",
                   }}
                 >
+                  Asset Name
+                </th>
+                <th
+                  style={{
+                    background: "#f9f9f9",
+                    borderBottom: "none",
+                    color: "#959595",
+                  }}
+                >
                   Assets Tag ID
                 </th>
                 <th
@@ -218,7 +240,7 @@ const ListOfAssets = () => {
                     background: "#f9f9f9",
                     borderBottom: "none",
                     color: "#959595",
-                    width: "20%",
+                    
                   }}
                 >
                   Description
@@ -237,7 +259,7 @@ const ListOfAssets = () => {
                     background: "#f9f9f9",
                     borderBottom: "none",
                     color: "#959595",
-                    width: "10%",
+                  
                   }}
                 >
                   Purchase Date
@@ -292,6 +314,7 @@ const ListOfAssets = () => {
                   <td>
                     <Checkbox />
                   </td>
+                  <td>{item.assetName}</td>
                   <td>{item.assetTagId}</td>
                   <td>{item.description}</td>
                   <td>{item.brand}</td>

@@ -13,7 +13,11 @@ interface DepartmentProps {
   formData: any;
   setFormData: React.Dispatch<React.SetStateAction<any>>;
   setValidationMessages: React.Dispatch<React.SetStateAction<any>>;
-  mode: string;
+  handleSelectChange: (
+    event: React.SyntheticEvent<Element, Event> | null,
+    value: string | null,
+    name: string,
+  ) => void;
 }
 
 type Department = {
@@ -26,7 +30,7 @@ const DepartmentComponent: React.FC<DepartmentProps> = (
     formData, 
     setFormData, 
     setValidationMessages, 
-    mode
+    handleSelectChange
     }) => {
   const [error, setError] = useState<string>("");
   const [openDialog, setOpenDialog] = useState<string | null>(null);
@@ -59,19 +63,6 @@ const DepartmentComponent: React.FC<DepartmentProps> = (
     return str.replace(/\b\w/g, (char) => char.toUpperCase())
   }
 
-  const handleSelectChange = (
-    event: React.SyntheticEvent<Element, Event> | null,
-    newValue: any,
-    fieldName: string
-  ) => {
-    if (!event) return;
-    setFormData((prevData:any) => ({
-      ...prevData,
-      [fieldName]: newValue,
-    }));
-    setValidationMessages((prevState:any) => ({ ...prevState, [fieldName]: '' }));
-  };
-
   const handleOpenDialog = (modalName: string) => {
     setOpenDialog(modalName);
   };
@@ -87,7 +78,8 @@ const DepartmentComponent: React.FC<DepartmentProps> = (
 
         <Select
           placeholder="Select Department"
-          value={formData[field.name] || ''}
+          name={field.name}
+          value={formData[field.name] as string}
           onChange={(e, newValue) => handleSelectChange(e, newValue, field.name)}
         >
           {departments.map((department) => (
