@@ -14,8 +14,8 @@ const initialState: AssetSliceState = {
   loading: false,
   error: null,
 };
-const TENANT_ID = process.env.TENANT_ID;
-const base_api_key_url = process.env.BASE_API_KEY;
+const TENANT_ID = process.env.REACT_APP_TENANT_ID;
+const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
  
 export const fetchAssets = createAsyncThunk('assets/fetchAssets', async () => {
   try {
@@ -26,9 +26,8 @@ export const fetchAssets = createAsyncThunk('assets/fetchAssets', async () => {
     console.error('Error Message'+ error);
     throw error;
   }
- 
- 
 });
+
 export const fetchAssetsById = createAsyncThunk('assets/fetchAssetsById', async (id: string ) => {
   try {
     const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/add-asset/${id}`);
@@ -45,9 +44,9 @@ export const addAssets = createAsyncThunk('assets/addAssets', async (assets: any
   return response.data;
 });
  
-export const updateAssets = createAsyncThunk('assets/updateAssets', async (id,updatedCustomer: any) => {
+export const updateAssets = createAsyncThunk('assets/updateAssets', async (updatedCustomer: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/add-asset/${id}`, updatedCustomer);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/add-asset/${updatedCustomer.get('id')}`, updatedCustomer);
   return response.data;
 });
  

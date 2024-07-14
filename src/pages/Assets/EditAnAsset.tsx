@@ -6,7 +6,9 @@ import {
   Input,
   Select,
   Option,
-  Button
+  Button,
+  FormLabel,
+  FormControl
 } from "@mui/joy";
 import { formConfig, FormFieldConfig } from "./formConfig";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -15,10 +17,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AppView from "../../components/Common/AppView";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
-import CategoryDialog from "../../components/AssetSections/EditAsset/AddAssetSection/CategoryDialog";
-import SiteDialog from "../../components/AssetSections/EditAsset/AddAssetSection/SiteDialog";
-import LocationDialog from "../../components/AssetSections/EditAsset/AddAssetSection/LocationDialog";
-import DepartmentDialog from "../../components/AssetSections/EditAsset/AddAssetSection/DepartmentDialog";
 import { RootState } from "../../redux/store";
 import { fetchAssetsById, updateAssets } from "../../redux/features/AssetSlice";
 import { fetchSites } from "../../redux/features/SitesSlice";
@@ -31,33 +29,12 @@ import AddCategory from "../../components/Category/AddCategory";
 import { AddLocation } from "@mui/icons-material";
 import SetupAddDept from "../Setup/Departments/SetupAddDept";
 import AppForm from "../../components/Common/AppForm";
-
-// // interface EditAnAssetProps {
-// //   id: string;
-// //   assets: any;
-// }
-
-type Category = {
-  id: number
-  categoryName: string
-}
-
-type Department = {
-  id: number
-  departmentName: string
-}
-
-interface Site {
-  siteName: string
-  description: string
-  address: string
-  aptSuite: string
-  city: string
-  state: string
-  zipCode: number
-  country: string
-}
-
+import SiteComponent from "../../components/AssetSections/EditAsset/AddAssetSection/SiteComponent";
+import LocationComponent from "../../components/AssetSections/EditAsset/AddAssetSection/LocationComponent";
+import DepartmentComponent from "../../components/AssetSections/EditAsset/AddAssetSection/DepartmentComponent";
+import CategoryComponent from "../../components/AssetSections/EditAsset/AddAssetSection/CategoryComponent";
+import SubCategoryComponent from "../../components/AssetSections/EditAsset/AddAssetSection/SubCategorycomponent";
+import AssetFileField from "../../components/Common/AppFile/AssetFileField";
 
 interface ValidationMessages {
   [key: string]: string;
@@ -75,13 +52,9 @@ const EditAnAsset: React.FC = ()=> {
   const categories = useSelector((state: RootState) => state.category.data);
   const sites = useSelector((state: RootState) => state.sites.data);
   const locations = useSelector((state: RootState) => state.location.data);
-
-  const initialFormData = formConfig.reduce<Record<string, any>>((acc, assets) => {
-      acc[assets.stateKey] = assets.type === 'file' ? [] : '';
-      return acc;
-  }, {});
+  const [file, setFile] = useState<File | null>(null)
   const [open, setOpen] = useState<boolean>(false)
-  const [formData, setFormData] = useState(initialFormData);
+  const [formData, setFormData] = useState<any>({});
   const [validationMessages, setValidationMessages] = useState<ValidationMessages>({});
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([]);
   const [categoryName, setCategoryName] = useState<string>('');
@@ -122,56 +95,40 @@ const handleSelectChange = (e: any, newValue: any, key: string) => {
   setFormData({ ...formData, [key]: newValue });
 };
 
-  const dynamicFormConfig = formConfig.map(assets => {
-    if (assets.stateKey === 'siteId') {
-      return {
-        ...assets,
-        options: sites.map(site => ({ value: site.id, label: site.siteName })),
-      };
-    }
-    if (assets.stateKey === 'locationId') {
-      return {
-        ...assets,
-        options: locations.map(location => ({ value: location.id, label: location.location })),
-      };
-    }
-    if (assets.stateKey === 'departmentId') {
-      return {
-        ...assets,
-        options: departments.map(department => ({ value: department.id, label: department.departmentName })),
-      };
-    }
-    if (assets.stateKey === 'categoryId') {
-      return {
-        ...assets,
-        options: categories.map(category => ({ value: category.id, label: category.categoryName })),
-      };
-    }
-    return assets;
-  });
+const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const { name, files } = e.target
+  if (files && files.length > 0) {
+    const file = files[0]
+    setFile(file)
+    setFormData((prevData: any) => ({
+      ...prevData,
+      [name]: file.name,
+    }))
+  }
+}
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, files } = e.target;
-    if (files && files.length > 0) {
-        const validFiles = Array.from(files).filter((file) =>
-            ['image/jpeg', 'image/png', 'image/gif'].includes(file.type)
-        );
+//   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     const { name, files } = e.target;
+//     if (files && files.length > 0) {
+//         const validFiles = Array.from(files).filter((file) =>
+//             ['image/jpeg', 'image/png', 'image/gif'].includes(file.type)
+//         );
 
-        const fileURLs = validFiles.map((file) => URL.createObjectURL(file));
+//         const fileURLs = validFiles.map((file) => URL.createObjectURL(file));
 
-        setFormData((prevData: any) => ({
-            ...prevData,
-            [name]: validFiles.map(file => file.name), // Store the file names in the form data
-            assetPhoto: [...(prevData.assetPhoto as File[]), ...validFiles], // Keep the valid files in the form data
-        }));
+//         setFormData((prevData: any) => ({
+//             ...prevData,
+//             [name]: validFiles.map(file => file.name), // Store the file names in the form data
+//             assetPhoto: [...(prevData.assetPhoto as File[]), ...validFiles], // Keep the valid files in the form data
+//         }));
 
-        setPhotoPreviews((prevPreviews) => [...prevPreviews, ...fileURLs]);
-        setValidationMessages((prevState) => ({ ...prevState, assetPhoto: '' }));
-    }
-};
+//         setPhotoPreviews((prevPreviews) => [...prevPreviews, ...fileURLs]);
+//         setValidationMessages((prevState) => ({ ...prevState, assetPhoto: '' }));
+//     }
+// };
 
   const handleDeletePhoto = (index: number) => {
-    setFormData((prevData) => {
+    setFormData((prevData:any) => {
       const updatedFiles = [...(prevData.assetPhoto as File[])];
       updatedFiles.splice(index, 1);
       return { ...prevData, assetPhoto: updatedFiles };
@@ -190,47 +147,174 @@ const handleSelectChange = (e: any, newValue: any, key: string) => {
   const handleCloseDialog = () => {
     setOpenDialog(null);
   };
-
-  const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const newCategory: Category = {
-      id: categories.length ? categories[categories.length - 1].id + 1 : 1,
-      categoryName: capitalizeWords(categoryName),
+  const handleInputValue = (
+    field: any,
+    formData: any,
+    handleInputChange?: (
+      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => void,
+    handleSelectChange?: (
+      event: React.SyntheticEvent<Element, Event> | null,
+      value: string | null,
+      name: string,
+    ) => void,
+    handleFileChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    mode?: string,
+  ) => {
+    const commonProps = {
+      field,
+      formData,
+      handleInputChange,
+      handleSelectChange: handleSelectChange || (() => {}),
+      handleFileChange: handleFileChange || (() => {}),
+      mode,
     }
-    // setCategories([...categories, newCategory])
-    setCategoryName('') 
-    dispatch(addCategory(newCategory))
-    console.log(newCategory)
-    handleClose()
+
+    // console.log(JSON.stringify(field))
+    console.log(field.name)
+    switch (field.components.type) {
+      case 'text':
+        return (
+          <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleInputChange}
+              sx={field.stylings}
+            />
+          </FormControl>
+        )
+      case 'date':
+        return (
+          <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+              type="date"
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleInputChange}
+              sx={field.stylings}
+            />
+          </FormControl>
+        )
+      case 'select':
+        if (field.name === 'siteId') {
+          return <SiteComponent {...commonProps} />
+        } else if (field.name === 'locationId') {
+          return <LocationComponent {...commonProps} />
+        }
+       else if (field.name === 'departmentId') {
+        return <DepartmentComponent {...commonProps} />
+      } 
+      else if (field.name === 'categoryId') {
+        return <CategoryComponent {...commonProps} />
+      } 
+      else if (field.name === 'subCategoryId') {
+        return <SubCategoryComponent {...commonProps} />
+      } 
+      else {
+          return <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Select
+              name={field.name}
+              value={formData[field.name]}
+              onChange={(event) =>
+                handleSelectChange &&
+                handleSelectChange(event, event.target.value, field.name)
+              }
+              sx={field.stylings}
+            >   
+             {field.options?.map((option: any) => (
+                  <Option key={option.value} value={option.value}>
+                    {option.label}
+                  </Option>
+                ))}      
+            </Select>
+          </FormControl>
+        }
+        case 'number':
+          return (
+            <FormControl key={field.name}>
+              <FormLabel>{field.fieldName}</FormLabel>
+              <Input
+                type="number"
+                name={field.name}
+                value={formData[field.name] as number}
+                onChange={handleInputChange}
+                sx={field.stylings}
+              />
+            </FormControl>
+          );
+      //
+      // case 'checkbox':
+      //   return (
+      //     <FormControl
+      //       control={
+      //         <Checkbox
+      //           name={field.name}
+      //           checked={formData[field.name] as boolean}
+      //           onChange={handleInputChange}
+      //         />
+      //       }
+      //       label={field.fieldName}
+      //     />
+      //   )
+      case 'textarea':
+        return (
+          <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+              // multiline
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleInputChange}
+              sx={field.stylings}
+            />
+          </FormControl>
+        )
+      case 'file':
+        if (field.name === 'assetPhoto') {
+          return <AssetFileField {...commonProps} />
+        }
+        return (
+          <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+              type="file"
+              name={field.name}
+              onChange={handleFileChange}
+              sx={field.stylings}
+              // inputProps={{ multiple: true }}
+            />
+            <Box>
+              {photoPreviews.map((preview, index) => (
+                <Box key={index}>
+                  <img src={preview} alt={`Preview ${index}`} />
+                  <Button onClick={() => handleDeletePhoto(index)}>
+                    Delete
+                  </Button>
+                </Box>
+              ))}
+            </Box>
+          </FormControl>
+        )
+      default:
+        return null
+    }
   }
-  const capitalizeWords = (str: string) => {
-    return str.replace(/\b\w/g, (char) => char.toUpperCase())
-  }
+
   const handleClose = () => {
     setOpen(false)
-  }
-
-
-  const handleAddDepartment = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const newdepartment: Department = {
-      id: departments.length ? departments[departments.length - 1].id + 1 : 1,
-      departmentName: capitalizeWords(departmentName),
-    }
-    // setDepartment([...department, newdepartment])
-    dispatch(addDepartment(newdepartment))
-    setDepartmentName('') 
-    handleClose()
-    console.log(newdepartment)
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newValidationMessages: ValidationMessages = {};
-    formConfig.forEach((assets) => {
-        if (assets.stateKey !== 'assetPhoto' && !formData[assets.stateKey]) {
-            newValidationMessages[assets.validationMessageKey] =
-                `${assets.label} is required.`;
+    formConfig.forEach((field) => {
+        if (field.title !== 'assetPhoto' && !formData[field.title]) {
+            // newValidationMessages[assets.validationMessageKey] =
+            //     `${assets.label} is required.`;
         }
     });
 
@@ -242,18 +326,18 @@ const handleSelectChange = (e: any, newValue: any, key: string) => {
     const formDataToSend = new FormData();
     for (const key in formData) {
         if (formData[key] !== null) {
-            if (key === 'assetPhoto' && formData[key] instanceof Array) {
-                (formData[key] as File[]).forEach((file) => {
-                    formDataToSend.append('assetPhoto', file);
-                });
-            } else {
+            if (key === 'assetPhoto' && file) {  
+
+                    formDataToSend.append(key, file)
+                }
+             else {
                 formDataToSend.append(key, formData[key] as string);
             }
         }
     }
 
     try {
-        await dispatch(updateAssets(id, formDataToSend));
+        await dispatch(updateAssets(formDataToSend));
         console.log('Form submitted successfully');
         navigate(`/assets/view-an-asset/${id}`);
     } catch (error) {
@@ -261,77 +345,65 @@ const handleSelectChange = (e: any, newValue: any, key: string) => {
     }
 };
 
-// console.log(JSON.stringify(formData['site'].name))
-console.log(JSON.stringify(formData))
-// console.log(JSON.stringify(assets.stateKey))
-
+console.log(formData)
 
   return (
     <AppForm onSubmit={handleSubmit} encType="multipart/form-data">
-    <AppView >
-      
-        <Typography level="h3">Edit An Asset</Typography>
-    
-      <Box
-        sx={{
-          borderRadius: 2,
-          boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
-          background: '#ffffff',
-          gap: '5px',
-        }}
-      >
-        <Box sx={{ paddingBottom: "30px" }}>
+      <AppView>
+        <Typography level="h3" sx={{ ml: '52px' }}>
+          Edit An Asset
+        </Typography>
 
-            
-            <Grid container spacing={1} sx={{ padding: "20px",
-             display:"flex",flexDirection: { xs: "column", md: "row" },}} >
-              <Grid xs={12}>
-                <Typography
-                  sx={{ fontWeight: "bold", mb: 0, paddingLeft: "32px" }}
-                >
-                  Assets Details
-                </Typography>
-              </Grid>
-              {formConfig.slice(0,9).map((assets: FormFieldConfig) => (
-                <Grid key={assets.label} sx={{ paddingLeft: "32px", }}  xs={12}
-                md={assets.stateKey === "description" ? 12 : (assets.stateKey === "assetName" || assets.stateKey === "assetTagId") ? 6 : 4} 
-                >
-                  <Typography
-                    level="body-xs"
-                    sx={{ color: "#767676", mt: "8px", mb: "5px" }}
-                  >
-                    {assets.label}
-                  </Typography>
-                  {assets.type === "select" ? (
-                    <Select 
-                    value={formData[assets.stateKey] as string}
-                    onChange={(e, newValue) => handleSelectChange(e, newValue, assets.stateKey)}
-                    sx={assets.sx}
-                    >
-                      {assets.options?.map((option) => (
-                        <Option key={option.value} value={option.value}>
-                          {option.label}
-                        </Option>
-                      ))}
-                    </Select>
-                  ) : (
-                    <Input
-                      value={formData[assets.stateKey] as string}
-                      onChange={(e) => handleInputChange(e, assets.stateKey)}
-                      {...assets}
-                      sx={assets.sx}
-                      />
-                    )}
-
-                  {validationMessages[assets.validationMessageKey] && (
-                    <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
-                      {validationMessages[assets.validationMessageKey]}
-                    </Typography>
-                  )}
-                </Grid>     
-                ))}
-            </Grid>
+        <Box
+          sx={{
+            borderRadius: 'none',
+            boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+            background: '#ffffff',
+            gap: '5px',
+          }}
+        >
+          <Box sx={{ paddingBottom: '30px' }}>
             <Box>
+              <Grid
+                container
+                spacing={1}
+                sx={{
+                  padding: '20px',
+                  display: 'flex',
+                  flexDirection: { xs: 'column', md: 'row' },
+                }}
+              >
+                <Grid xs={12}>
+                  {formConfig &&
+                    formConfig.map((group, index) => (
+                      <Grid key={index}>
+                        <Typography
+                          sx={{
+                            fontWeight: 'bold',
+                            mb: 0,
+                            paddingLeft: '32px',
+                          }}
+                        >
+                          {group.title}
+                        </Typography>
+
+                        {group.fields &&
+                          group.fields.map((field, index) => (
+                            <Grid key={index}>
+                              {handleInputValue(
+                                field,
+                                formData,
+                                handleInputChange,
+                                handleSelectChange,
+                                handleFileChange,
+                              )}
+                            </Grid>
+                          ))}
+                      </Grid>
+                    ))}
+                </Grid>
+                </Grid>
+            {/* <Box>
             <Typography
                 sx={{
                   fontWeight: "bold",
@@ -342,9 +414,9 @@ console.log(JSON.stringify(formData))
               >
                 Site, Location, Category and Department
               </Typography>
-              </Box>
+              </Box> */}
               <Box>
-                <Grid container spacing={1} sx={{ padding: "20px",display:"flex",flexDirection: { xs: "column", md: "row" }, }}>
+                {/* <Grid container spacing={1} sx={{ padding: "20px",display:"flex",flexDirection: { xs: "column", md: "row" }, }}>
                   {dynamicFormConfig.slice(9,13).map((assets)=>(
                     <Grid key={assets.label } sx={{ paddingLeft: "32px",paddingBottom:"20px" }}>
 
@@ -400,12 +472,12 @@ console.log(JSON.stringify(formData))
                   )}
                     </Grid>
                   ))}
-                </Grid>
-              </Box>
+                </Grid> */}
+              {/* </Box>
               <Box sx={{ paddingLeft: "48px", mb: "30px", mt: "20px" }}>
               <Typography sx={{ fontWeight: "bold" }}>Assets Photo</Typography>
-            </Box>
-            <Box
+            </Box> */}
+            {/* <Box
               sx={{
                 height:"170px",
                 borderRadius: "10px",
@@ -510,7 +582,7 @@ console.log(JSON.stringify(formData))
                   {validationMessages.assetPhoto}
                 </Typography>
               )}
-            </Box>
+            </Box> */}
             <Box
               sx={{
                 display: "flex",
@@ -526,7 +598,7 @@ console.log(JSON.stringify(formData))
             >
               <Button
                 size="lg"
-                onClick={handleSubmit}
+                type="submit"
                 sx={{
                   color: "#000000",
                   borderRadius: "15px",
@@ -557,24 +629,8 @@ console.log(JSON.stringify(formData))
        
         </Box>
       </Box>
-      {openDialog==='categoryId' &&  <AddCategory open={openDialog === 'categoryId'} handleClose={handleCloseDialog}  categoryName={categoryName}
-        setCategoryName={setCategoryName}
-        handleAddCategory={handleAddCategory} 
-        />}
-
-      
-        {openDialog==='siteId' && <AddSite open={openDialog==='siteId'}  onClose={handleCloseDialog} 
-         onSave={(newSite: Site) => {
-          setOpen(false)
-        }}
-        />}
-
-        {openDialog==='locationId' && <AddLocation open={openDialog==='locationId'} setOpen={setOpen} handleClose={handleCloseDialog} 
-        />}
-
-        {openDialog==='departmentId' && <SetupAddDept  open={openDialog==='departmentId'} handleClose={handleCloseDialog} departmentName={departmentName} setDepartmentName={setDepartmentName} handleAddDepartment={handleAddDepartment}
-        />}
-              
+      </Box>
+              </Box>
     </AppView>
     </AppForm>
   );

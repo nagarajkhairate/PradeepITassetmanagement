@@ -1,6 +1,8 @@
+
+
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, FormEvent, forwardRef, Ref, useEffect, useState } from 'react'
 import { fetchComponents } from '../../../../redux/features/ComponentsIdSlice'
 import {
   Box,
@@ -14,26 +16,41 @@ import {
   Select,
   Sheet,
   Typography,
+  Divider,
 } from '@mui/joy'
 import AppForm from '../../../../components/Common/AppForm'
 import { RootState } from '../../../../redux/store'
 import { addDefaultFields } from '../../../../redux/features/DefaultFieldAssetSlice'
+import { addDataBase, updateDataBase } from '../../../../redux/features/DataBaseSlice'
 
 interface DataBaseAddProps {
   open: any
   setOpen: any
   dataBases: { customAsset: string[] }
   setDataBases: React.Dispatch<React.SetStateAction<{ customAsset: string[] }>>
+  handleClose: () => void;
+  isEditMode: boolean;
+  existingFieldData?: any; // Adjust the type based on your actual data
+}
+interface AddDialogDataProps {
+  open: boolean;
+  handleClose: () => void;
+  isEditMode: boolean;
+  existingFieldData?: any; // Adjust the type based on your actual data
 }
 
-const AddDialogData: React.FC<DataBaseAddProps> = ({
+
+const AddDialogData = forwardRef(({
   open,
   setOpen,
   setDataBases,
-}) => {
+  isEditMode,
+}: DataBaseAddProps, ref: Ref<HTMLDivElement>) => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-
+  const [limitedCategories, setLimitedCategories] = useState<string[]>([])
   const components = useSelector((state: RootState) => state.components.data)
+
+  const categoryOptions = useSelector((state: RootState) => state.dataBase.data); // Assuming this is where your category options are stored
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -48,15 +65,21 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({
     componentsId: 0,
     categoryId: 0,
     dataRequired: '',
+    limitedCategories: [] as string[],
   })
 
   React.useEffect(() => {
     dispatch(fetchComponents())
   }, [dispatch])
 
+  console.log(components)
+
   const handleAddSkill = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     // addCustomField(formData);
+    const selectedComponent = components.find(
+      (component) => component.id === formData.componentsId
+    )
     setDataBases((prevData: any) => ({
       ...prevData,
       customAsset: [
@@ -66,18 +89,14 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({
           componentsId: formData.componentsId,
           categoryId: formData.categoryId,
           isRequired: formData.dataRequired,
+          componentType: selectedComponent ? selectedComponent.type : '',
+          limitedCategories,
         },
       ],
     }))
     dispatch(addDefaultFields(formData)); 
     handleClose()
     setOpen(false)
-    // setFormData({
-    //   fieldName: '',
-    //   componentsId: '',
-    //   dataRequired: '',
-    //   categoryId: 0,
-    // })
   }
 
   const handleChange = (
@@ -88,14 +107,6 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({
     const categoryIdValue = name === 'categoryId' ? parseInt(value, 10) : value;
     setFormData((prevData) => ({ ...prevData, [name]: categoryIdValue }))
   }
-
-  // const handleSelectChange = (event: ChangeEvent<{ value: unknown }>) => {
-  //   const newValue = event.target.value;
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     componentsId: newValue ? parseInt(newValue, 10) : 0
-  //   }));
-  // };
   
 
   const handleSelectChange = (
@@ -104,10 +115,39 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({
   ) => {
     setFormData((prevData:any) => ({
       ...prevData,
-      componentsId: value ? parseInt(value as string, 10) : '0',
+      componentsId: value ? parseInt(value as string, 10) : 0,
     }))
   }
   
+  // const handleLimitedCategoryChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   const { value } = event.target
+  //   setLimitedCategories((prevCategories) =>
+  //     prevCategories.includes(value)
+  //       ? prevCategories.filter((category) => category !== value)
+  //       : [...prevCategories, value]
+  //   )
+  // }
+
+  const handleLimitedCategoryChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      limitedCategories: prevData.limitedCategories.includes(value)
+        ? prevData.limitedCategories.filter((category) => category !== value)
+        : [...prevData.limitedCategories, value],
+    }));
+    console.log("Updated Limited Categories:", formData.limitedCategories);
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (isEditMode) {
+      dispatch(updateDataBase(formData));
+    } else {
+      dispatch(addDataBase(formData));
+    }
+    handleClose();
+  };
 
   return (
     <Sheet
@@ -156,12 +196,16 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({
                 sx={{ width: '50%', marginLeft: '70px' }}
                 name="componentsId"
                 value={formData.componentsId}
-                onChange={(event)=> handleSelectChange}
+                onChange={(event, value)=> handleSelectChange(event,value)}
               >
                 {components &&
-                  components.map((option) => (
-                    <Option key={option.id} value={option.id}>
+                  components.map((option, index) => (
+                    <Option 
+                    key={index}
+                     value={option.id}
+                    >
                       {option.type}
+                      {/* <Components  /> */}
                     </Option>
                   ))}
               </Select>
@@ -215,7 +259,6 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({
               </span>
             </FormLabel>
 
-            {/* <FormLabel sx={{ marginLeft: "168px",paddingTop: "5px" }}> Is this field visible to assets of selective 'Categories'?</FormLabel> */}
             <RadioGroup
               name="categoryId"
               value={formData.categoryId}
@@ -228,19 +271,43 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({
                 }}
               >
                 <Radio
-                  value="All Categories"
+                  value={0}
                   label="All Categories"
                   variant="outlined"
                   sx={{ paddingTop: '20px', marginLeft: '165px' }}
                 />
                 <Radio
-                  value="Limited Categories"
+                  value={1}
                   label="Limited Categories"
                   variant="outlined"
                   sx={{ paddingTop: '20px', marginLeft: '15px' }}
                 />
               </Box>
             </RadioGroup>
+
+            {formData.categoryId === 1 && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  mt: 2,
+                }}
+              >
+                <FormLabel>Limited Categories:</FormLabel>
+                {categoryOptions.map((option) => (
+                  <Radio
+                    key={option.value}
+                    value={option.value}
+                    label={option.label}
+                    checked={formData.limitedCategories.includes(option.value)}
+                    onChange={handleLimitedCategoryChange}
+                    variant="outlined"
+                    sx={{ paddingTop: '10px', marginLeft: '55px' }}
+                  />
+                ))}
+              </Box>
+            )}
           </Box>
 
           <Button
@@ -270,5 +337,5 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({
       </div>
     </Sheet>
   )
-}
+})
 export default AddDialogData
