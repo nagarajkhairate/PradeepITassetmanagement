@@ -22,6 +22,8 @@ const DataBaseAsset: React.FunctionComponent = () => {
     setAssetDataForm(dataValue);
   }, []);
 
+  
+
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...assetDataForm];
     updatedForm[index].visible = !updatedForm[index].visible;

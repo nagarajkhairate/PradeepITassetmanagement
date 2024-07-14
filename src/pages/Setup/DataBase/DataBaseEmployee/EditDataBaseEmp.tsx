@@ -9,31 +9,45 @@ import {
   Radio,
   RadioGroup,
   Select,
+  selectClasses,
   Sheet,
   Stack,
   Table,
   Typography,
 } from '@mui/joy'
+import { KeyboardArrowDown } from '@mui/icons-material'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { ChangeEvent, useState } from 'react'
 import DeleteEmployeeData from './DeleteEmployeeData'
+import AppForm from '../../../../components/Common/AppForm'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../../redux/store'
 
-interface DataItem {
-  id: number
-  fieldName: string
-  componentsId: string
-  category: string
-  isRequired: string
+const BackendData=[
+  {
+ 'fieldName': 'string',
+ 'componentsId': 'string',
+ 'isRequired': 'string'
 }
+]
+
+const customAsset =[
+{
+ fieldName: 'Full Name',
+ name: 'fullName',
+ componentsId: 'string',
+ isRequired: 'string'
+},
+]
 
 interface Props {
   dataBases: {
-    customAsset: DataItem[];
+    customAsset: any[];
   };
   setDataBases: React.Dispatch<
     React.SetStateAction<{
-      customAsset: DataItem[];
+      customAsset: any[];
     }>
   >;
 }
@@ -45,6 +59,8 @@ const EditDataBaseEmp: React.FC<Props> = ({
   const [editOpen, setEditOpen] = useState(false)
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
+  const [deleteOpen, setDeleteOpen] = useState(false)
+  const components = useSelector((state: RootState) => state.components.data)
 
   const [formData, setFormData] = useState({
     custom: '',
@@ -105,7 +121,10 @@ const EditDataBaseEmp: React.FC<Props> = ({
     setDeleteOpen(true)
   }
 
-  const [deleteOpen, setDeleteOpen] = useState(false)
+  const handleDeleteClose = () => {
+    setDeleteOpen(false)
+    setMatchedSelected([])
+  }
 
   return (
     <Stack
@@ -170,7 +189,6 @@ const EditDataBaseEmp: React.FC<Props> = ({
                   </td>
                   <td>{item.componentsId}</td>
                   <td>{item.isRequired}</td>
-                  {/* <td>{item.category}</td> */}
                   <td>
                     <Button
                       sx={{
@@ -259,12 +277,13 @@ const EditDataBaseEmp: React.FC<Props> = ({
               level="h4"
               textColor="inherit"
               fontWeight="lg"
+              marginLeft={5}
               mb={1}
             >
-              {'Edit the Customs here'}
+              {'Edit the Custom Fields here'}
             </Typography>
 
-            <form onSubmit={handleEditButton}>
+            <AppForm onSubmit={handleEditButton}>
               <FormControl
                 sx={{
                   display: 'flex',
@@ -272,8 +291,8 @@ const EditDataBaseEmp: React.FC<Props> = ({
                   justifyContent: 'space-evenly',
                 }}
               >
-                <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
-                  Custom Field Label*
+                <FormLabel sx={{ paddingTop: '10px',  }}>
+                  Custom Field*
                 </FormLabel>
                 <Input
                   variant="outlined"
@@ -283,7 +302,7 @@ const EditDataBaseEmp: React.FC<Props> = ({
                   value={formData.custom}
                   onChange={handleChange}
                   required
-                  sx={{ width: '70%', marginLeft: '10px' }}
+                  sx={{  marginLeft: '30px' }}
                   //   defaultValue={
                   //     selectedCell !== null
                   //       ? dataBase.data[selectedCell]
@@ -293,22 +312,24 @@ const EditDataBaseEmp: React.FC<Props> = ({
               </FormControl>
 
               <FormControl>
-                <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
-                  Data Types*
-                  <Select
-                    placeholder="Select Data Types"
-                    sx={{ width: '50%', marginLeft: '60px' }}
-                    value={formData.componentsId}
-                    onChange={handleSelectChange}
-                  >
-                    <Option value="checkbox List">Checkbox List</Option>
-                    <Option value="Currency">Currency</Option>
-                    <Option value="Date">Date</Option>
-                    <Option value="Memo">Memo</Option>
-                    <Option value="Email">Email</Option>
-                  </Select>
-                </FormLabel>
-              </FormControl>
+            <FormLabel sx={{ paddingTop: '20px',  }}>
+              Data Types*:
+              <Select
+                placeholder="Select Data Types"
+                sx={{  marginLeft: '40px' }}
+                name="componentsId"
+                value={formData.componentsId}
+                onChange={handleSelectChange}
+              >
+                {components &&
+                  components.map((comp) => (
+                    <Option key={comp.id} value={comp.id}>
+                      {comp.compName}
+                    </Option>
+                  ))}
+              </Select>
+            </FormLabel>
+          </FormControl>
 
               <FormControl
                 sx={{
@@ -317,9 +338,9 @@ const EditDataBaseEmp: React.FC<Props> = ({
                   alignItems: 'center',
                 }}
               >
-                <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
-                  {' '}
-                  Data Required{' '}
+                <FormLabel sx={{ paddingTop: '20px',  }}>
+              
+                  Data Required
                 </FormLabel>
                 <RadioGroup
                   name="dataRequired"
@@ -329,7 +350,7 @@ const EditDataBaseEmp: React.FC<Props> = ({
                   <Box>
                     <Radio
                       value="Yes"
-                      label="true"
+                      label="Yes"
                       variant="outlined"
                       sx={{ paddingTop: '30px', marginLeft: '50px' }}
                     />
@@ -343,46 +364,26 @@ const EditDataBaseEmp: React.FC<Props> = ({
                 </RadioGroup>
               </FormControl>
 
-              <Box>
-                <FormLabel sx={{ paddingTop: '40px', marginLeft: '20px' }}>
-                  {' '}
-                  Selected Categories
-                </FormLabel>
-                <FormLabel sx={{ marginLeft: '165px', paddingBottom: '30px' }}>
-                  {' '}
-                  Is this field visible to assets of selective 'Categories'?
-                </FormLabel>
-                <RadioGroup
-                  name="selectedCategories"
-                  value={formData.selectedCategories.toString()}
-                  onChange={handleChange}
-                >
-                  <Box>
-                    <Radio
-                      value="Yes"
-                      label="All Categories"
-                      variant="outlined"
-                      sx={{ paddingTop: '20px', marginLeft: '160px' }}
-                    />
-                    <Radio
-                      value="No"
-                      label="Limited Categories"
-                      variant="outlined"
-                      sx={{ paddingTop: '30px', marginLeft: '20px' }}
-                    />
-                  </Box>
-                </RadioGroup>
-              </Box>
-
+             
+              <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: { md: 'row'},
+            justifyContent: { xs: 'space-between', md: 'flex-end' },
+            gap: '5px',
+            mt: 4,
+            flexWrap:'wrap'
+          }}
+        >
               <Button
                 autoFocus
                 type="submit"
                 variant="solid"
                 sx={{
                   background: '#fdd835',
+                  '&:hover': { background: '#E1A91B' },
                   color: 'black',
-                  marginTop: '25px',
-                  marginLeft: '30%',
                 }}
               >
                 Update
@@ -393,20 +394,32 @@ const EditDataBaseEmp: React.FC<Props> = ({
                 onClick={handleEditClose}
                 autoFocus
                 variant="solid"
-                sx={{ background: 'black', color: 'white', marginLeft: '50px' }}
+                sx={{
+                  background: 'black',
+                  '&:hover': { background: 'black' },
+                  color: 'white',
+                }}
               >
                 Cancel
               </Button>
-            </form>
+              </Box>
+            </AppForm>
           </div>
         </Sheet>
       </Modal>
 
       <DeleteEmployeeData
-        selectedCell={selectedCell}
-        setSelectedCell={setSelectedCell}
-        matchedSelected={matchedSelected}
-        setMatchedSelected={setMatchedSelected}
+        open={deleteOpen}
+        onClose={handleDeleteClose}
+        onDelete={() => {
+          setDataBases({
+            ...dataBases,
+            customAsset: dataBases.customAsset.filter(
+              (_, index) => index !== selectedCell,
+            ),
+          })
+          handleDeleteClose()
+        }}
       />
     </Stack>
   )

@@ -4,18 +4,14 @@ import { Box } from '@mui/joy'
 import Table from '@mui/joy/Table'
 import Checkbox from '@mui/joy/Checkbox'
 import { FormControl } from '@mui/joy'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import { useTheme } from '@mui/material/styles'
 import AppView from '../../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import AddDataBaseEmp from './AddDataBaseEmp'
-import EditDataBaseEmp from './EditDataBaseEmp'
 import { RootState } from '../../../../redux/store'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
 import { EmployeePerson, empData } from './EmployeeData'
-import { FormControlLabel } from '@mui/material'
 
 const DataBaseEmp: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -34,7 +30,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
 
   const handleRadioChange = (index: number, value: string) => {
     const updatedForm = [...empDataBases]
-    updatedForm[index].isRequired = value === 'yes'
+    updatedForm[index].isRequired = value
     setEmpDataBases(updatedForm)
   }
 
@@ -201,23 +197,43 @@ const DataBaseEmp: React.FunctionComponent = () => {
                               onChange={(e) =>
                                 handleRadioChange(index, e.target.value)
                               }
+                              sx={{gap:2}}
                             >
-                              <FormControlLabel
+                              <FormControl
                                 key={`${index}-yes`}
-                                value="yes"
-                                control={<Radio variant="outlined" />}
-                                label="Yes"
-                                checked={opt.isRequired === true}
                                 disabled={!opt.visible}
-                              />
-                              <FormControlLabel
+                                sx={{ display: 'inline-flex', 
+                                  alignItems: 'center',flexDirection:"row" , gap:2 ,
+                                  // visibility: opt.fieldName === 'Full Name' ? 'visible' : 'hidden',
+                                }}
+                              >
+                                <Radio
+                                  value="yes"
+                                  checked={opt.isRequired === 'yes'}
+                                  onChange={(e) =>
+                                    handleRadioChange(index, e.target.value)
+                                  }
+                                  color="primary" // Adjust color as needed
+                                  sx={{ mr: 1 }}
+                                />
+                                Yes
+                              </FormControl>
+                              <FormControl
                                 key={`${index}-optional`}
-                                value="optional"
-                                control={<Radio variant="outlined" />}
-                                label="Optional"
-                                checked={opt.isRequired === false}
                                 disabled={!opt.visible}
-                              />
+                                sx={{ display: 'inline-flex', alignItems: 'center', flexDirection:"row" }}
+                              >
+                                <Radio
+                                  value="optional"
+                                  checked={opt.isRequired === 'optional'}
+                                  onChange={(e) =>
+                                    handleRadioChange(index, e.target.value)
+                                  }
+                                  color="primary" 
+                                  sx={{ mr: 1 }}
+                                />
+                                Optional
+                              </FormControl>
                             </RadioGroup>
                           </FormControl>
                         )}
@@ -251,8 +267,6 @@ const DataBaseEmp: React.FunctionComponent = () => {
 
         <Box>
           <AddDataBaseEmp />
-
-          {/* <EditDataBaseEmp /> */}
         </Box>
 
         <Divider sx={{ marginTop: '3%' }} />

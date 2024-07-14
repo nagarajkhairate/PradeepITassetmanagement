@@ -6,6 +6,7 @@ import {
   Button,
   FormControl,
   FormLabel,
+  Grid,
   Input,
   Option,
   Radio,
@@ -16,20 +17,13 @@ import {
 } from '@mui/joy'
 import AppForm from '../../../../components/Common/AppForm'
 import { RootState } from '../../../../redux/store'
-
-interface DataItem {
-  id: number; // Adjust according to your data structure
-  fieldName: string;
-  componentsId: string;
-  category: string;
-  isRequired: string;
-}
+import { customAsset } from './EmployeeData'
 
 interface DataBaseAddProps {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  dataBases: { customAsset: DataItem[] };
-  handleAddSkill: (formData: DataItem) => void;
+  open: boolean
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  dataBases: { customAsset: any[] }
+  handleAddSkill: (formData: any) => void
 }
 
 const AddEmployeeData: React.FC<DataBaseAddProps> = ({
@@ -37,13 +31,11 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
   setOpen,
   handleAddSkill,
 }) => {
-  const [formData, setFormData] = useState<DataItem>({
-    id: 1, // or assign an appropriate initial value for id
+  const [formData, setFormData] = useState({
     fieldName: '',
-    componentsId: '',
-    category: '',
+    componentsId: 1,
     isRequired: '',
-  });
+  })
 
   const components = useSelector((state: RootState) => state.components.data)
 
@@ -55,40 +47,41 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target
-    // const val =  value;
     setFormData((prevData) => ({ ...prevData, [name]: value }))
+  }
+
+  const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData((prevData) => ({ ...prevData, isRequired: value }))
   }
 
   const handleSelectChange = (
     event: React.SyntheticEvent | null,
-    newValue: string | null,
+    newValue: number | null,
   ) => {
-    setFormData((prevData) => ({ ...prevData, componentsId: newValue || '' }))
+    setFormData((prevData) => ({ ...prevData, componentsId: newValue || 1 }))
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    handleAddSkill(formData);
+    e.preventDefault()
+    handleAddSkill(formData)
     setFormData({
-      id: 0, // Reset id or assign a new value if needed
       fieldName: '',
-      componentsId: '',
-      category: '',
+      componentsId: 1,
       isRequired: '',
-    });
-    setOpen(false); // Close modal after submission
-  };
+    })
+    setOpen(false) // Close modal after submission
+    console.log('Form Data:', formData)
+  }
 
   const handleClose = () => {
-    setOpen(false);
+    setOpen(false)
     setFormData({
-      id: 0, // Reset id or assign a new value if needed
       fieldName: '',
-      componentsId: '',
-      category: '',
+      componentsId: 1,
       isRequired: '',
-    });
-  };
+    })
+  }
 
   return (
     <Sheet
@@ -119,8 +112,7 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
               <Input
                 variant="outlined"
                 type="text"
-                id="custom"
-                name="custom"
+                name="fieldName"
                 value={formData.fieldName}
                 onChange={handleChange}
                 required
@@ -135,7 +127,7 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
               <Select
                 placeholder="Select Data Types"
                 sx={{ width: '50%', marginLeft: '70px' }}
-                name="dataType"
+                name="componentsId"
                 value={formData.componentsId}
                 onChange={handleSelectChange}
               >
@@ -156,14 +148,13 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
               alignItems: 'center',
             }}
           >
-            <FormLabel sx={{ paddingTop: '36px', marginLeft: '20px' }}>
-              Data Required:
-            </FormLabel>
+            <FormLabel sx={{ paddingTop: '20px' }}>Data Required:</FormLabel>
             <RadioGroup
-              name="dataRequired"
-              value={formData.isRequired ? 'yes' : 'optional'}
-              onChange={handleChange}
-            >l
+              name="isRequired"
+              value={formData.isRequired}
+              onChange={handleRadioChange}
+              sx={{ marginLeft: '20px' }}
+            >
               <Box>
                 <Radio
                   value="yes"
@@ -180,29 +171,45 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
               </Box>
             </RadioGroup>
           </FormControl>
-          <Button
-            autoFocus
-            type="submit"
-            variant="solid"
+
+          <Box
             sx={{
-              background: '#fdd835',
-              color: 'black',
-              marginTop: '25px',
-              marginLeft: '30%',
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: { md: 'row' },
+              justifyContent: { xs: 'space-between', md: 'flex-end' },
+              gap: '5px',
+              mt: 4,
+              flexWrap: 'wrap',
             }}
           >
-            Save
-          </Button>
+            <Button
+              autoFocus
+              type="submit"
+              variant="solid"
+              sx={{
+                background: '#fdd835',
+                '&:hover': { background: '#E1A91B' },
+                color: 'black',
+              }}
+            >
+              Save
+            </Button>
 
-          <Button
-            type="button"
-            onClick={handleClose}
-            autoFocus
-            variant="solid"
-            sx={{ background: 'black', color: 'white', marginLeft: '25px' }}
-          >
-            Cancel
-          </Button>
+            <Button
+              type="button"
+              onClick={handleClose}
+              autoFocus
+              variant="solid"
+              sx={{
+                background: 'black',
+                '&:hover': { background: 'black' },
+                color: 'white',
+              }}
+            >
+              Cancel
+            </Button>
+          </Box>
         </AppForm>
       </div>
     </Sheet>
