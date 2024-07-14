@@ -8,6 +8,7 @@ import {
   Menu,
   MenuButton,
   Dropdown,
+  Chip,
 } from "@mui/joy";
 import { MenuItem } from "@mui/material";
 
@@ -30,6 +31,7 @@ import { Link } from "react-router-dom";
 
 import AppView from "../../components/Common/AppView";
 import HPLaptopImg from "../../Assets/hp-15.png"
+import { OutboundOutlined } from "@mui/icons-material";
 
 interface AssetInfoProps {
   id:string,
@@ -45,6 +47,11 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
 
   const closePopUp = () => {
     setOpen(false);
+  };
+
+  const statusColorMap: Record<string, string> = {
+    Available: 'success',
+    CheckedOut: 'neutral',
   };
 
   return (
@@ -94,7 +101,7 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
               <EditIcon sx={{ size: "23" }} /> Edit Asset
             </Button>
           </Link>
-          {/* <Dropdown>
+           <Dropdown>
             <MenuButton
               sx={{
                 background: "#13b457",
@@ -145,8 +152,8 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
                 <ContentCopyIcon /> Replicate
               </MenuItem>
             </Menu>
-          </Dropdown> */}
-          {/* <CheckOutDialog closePopUp={closePopUp} open={open} /> */}
+          </Dropdown> 
+          {/* <CheckOutDialog closePopUp={closePopUp} open={open} />  */}
         </Box>
         <Box
           sx={{
@@ -180,6 +187,10 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
           >
             <Table borderAxis="both">
               <tbody>
+              <tr>
+                  <th scope="row">Asset Name</th>
+                  <td>{assets.assetName}</td>
+                </tr>
                 <tr>
                   <th scope="row">Asset Tag ID</th>
                   <td>{assets.assetTagId}</td>
@@ -230,40 +241,30 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
                 </tr>
                 <tr>
                   <th scope="row">Assigned To</th>
-                  <td></td>
+                  <td>{assets.assignedTo}</td>
                 </tr>
                 <tr>
                   <th scope="row">Status</th>
-                  <td></td>
+                  <td>
+                  <Chip
+          variant="soft"
+          size="sm"
+          color={statusColorMap[assets.status as keyof typeof statusColorMap] as 'success' | 'neutral'}
+        >
+          {assets.status}
+        </Chip>
+                </td>
                 </tr> 
               </tbody>
             </Table>
           </Box>
         </Box>
-        {/* <Box>
-          {/* <Button
-            onClick={handleSubmitAssetInfo}
-            sx={{
-              mt: "15px",
-              mb: "15px",
-              background: "#1976d2",
-              borderRadius: "15px",
-              "&:hover": {
-                backgroundColor: "#12589e",
-              },
-              color: "#ffffff",
-            }}
-          >
-            Submit
-          </Button> */}
-        {/* </Box>  */}
       </Box>
     </AppView>
   );
 };
 
 export default ViewAssetInfo;
-
 
 
 

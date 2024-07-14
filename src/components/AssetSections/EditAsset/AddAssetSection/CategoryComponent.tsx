@@ -13,7 +13,11 @@ interface CategoryProps {
   formData: any;
   setFormData: React.Dispatch<React.SetStateAction<any>>;
   setValidationMessages: React.Dispatch<React.SetStateAction<any>>;
-  mode: string;
+  handleSelectChange: (
+    event: React.SyntheticEvent<Element, Event> | null,
+    value: string | null,
+    name: string,
+  ) => void;
 }
 
 type Category = {
@@ -26,7 +30,7 @@ const CategoryComponent: React.FC<CategoryProps> = (
     formData, 
     setFormData, 
     setValidationMessages, 
-    mode
+    handleSelectChange
     }) => {
   const [error, setError] = useState<string>("");
   const [openDialog, setOpenDialog] = useState<string | null>(null);
@@ -34,18 +38,18 @@ const CategoryComponent: React.FC<CategoryProps> = (
   const [categoryName, setCategoryName] = useState<string>('')
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
-  const handleSelectChange = (
-    event: React.SyntheticEvent<Element, Event> | null,
-    newValue: any,
-    fieldName: string
-  ) => {
-    if (!event) return;
-    setFormData((prevData:any) => ({
-      ...prevData,
-      [fieldName]: newValue,
-    }));
-    setValidationMessages((prevState:any) => ({ ...prevState, [fieldName]: '' }));
-  };
+  // const handleSelectChange = (
+  //   event: React.SyntheticEvent<Element, Event> | null,
+  //   newValue: any,
+  //   fieldName: string
+  // ) => {
+  //   if (!event) return;
+  //   setFormData((prevData:any) => ({
+  //     ...prevData,
+  //     [fieldName]: newValue,
+  //   }));
+  //   setValidationMessages((prevState:any) => ({ ...prevState, [fieldName]: '' }));
+  // };
 
   const validateForm = () => {
     if (!formData.category) {
@@ -85,11 +89,12 @@ const CategoryComponent: React.FC<CategoryProps> = (
 
         <Select
           placeholder="Select Category"
-          value={formData[field.name] || ''}
+          name={field.name}
+          value={formData[field.name] as string}
           onChange={(e, newValue) => handleSelectChange(e, newValue, field.name)}
         >
           {categories.map((category) => (
-            <Option key={category.name} value={category.name}>
+            <Option key={category.id} value={category.id}>
               {category.categoryName}
             </Option>
           ))}
