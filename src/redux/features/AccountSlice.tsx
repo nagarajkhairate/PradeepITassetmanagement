@@ -15,7 +15,7 @@ const initialState: AccountState = {
 };
 
 
-const base_api_key_url = process.env.BASE_API_KEY;
+const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
 export const createAccount = createAsyncThunk(
   'tenant/register',
 
