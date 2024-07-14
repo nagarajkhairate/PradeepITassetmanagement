@@ -5,7 +5,7 @@
       fieldName: 'Full Name',
       name: 'fullName',
       isVisible: "visible",
-      isRequired: true,
+      isRequired: 'yes',
       description: 'Full name of the person / employee.',
       example: 'John Doe',
       option: [{id: 1,value: 'yes',},],
@@ -15,7 +15,7 @@
       fieldName: 'Email',
       name: "email",
       isVisible: 'visible',
-      isRequired: false,
+      isRequired: 'optional',
       
       description: 'Email of the person',
       example: 'johndoe@example.com',
@@ -26,7 +26,7 @@
       fieldName: 'Employee ID',
       name: "employeeID",
       isVisible: 'visible',
-      isRequired: false,
+      isRequired: 'optional',
       description: 'For example Employee ID, Student ID, etc.',
       example: 'IT-1234',
       option: [{ id: 1, value: 'yes' },  { id: 2, value: 'optional', }, ],
@@ -36,7 +36,7 @@
       fieldName: 'Title',
       name: "title",
       isVisible: 'visible',
-      isRequired: false,
+      isRequired: 'optional',
       description: '  fieldName of the person.',
       example: '  Sales Manager',
       option: [ {  id: 1, value: 'yes',  }, { id: 2,  value: 'optional', }, ],
@@ -46,7 +46,7 @@
       fieldName: 'Phone',
       name: "phone",
       isVisible: 'visible',
-      isRequired: false,    
+      isRequired: 'optional',    
       description: 'Phone number of the person',
       example: '(555) 123-4567',
       option: [ {  id: 1,  value: 'yes',  }, { id: 2, value: 'optional',  }, ],
@@ -56,7 +56,7 @@
       fieldName: 'Notes',
       name: "notes",
       isVisible: 'visible',
-      isRequired: false,
+      isRequired: 'optional',
       description: 'Text area for notes',
       example: 'Reports to CEO',
       option: [ { id: 1, value: 'yes',  }, {  id: 2,  value: 'optional', }, ],
@@ -66,7 +66,7 @@
       fieldName: 'Site',
       name: "site",
       isVisible: 'visible',
-      isRequired: false,
+      isRequired: 'optional',
       description: 'System field to link person to a Site',
       example: '-',
       option: [  { id: 1, value: 'yes', }, { id: 2, value: 'optional',  },],
@@ -76,7 +76,7 @@
       fieldName: 'Location',
       name: "location",
       isVisible: 'visible',
-      isRequired: false,
+      isRequired: 'optional',
       description: 'System field to link person to a Location',
       example: '  -',
       option: [  { id: 1, value: 'yes', }, { id: 2, value: 'optional', }, ],
@@ -86,7 +86,7 @@
       fieldName: 'Department',
       name: "department",
       isVisible: 'visible',
-      isRequired: false,
+      isRequired: 'optional',
       description: '  System field to link person to a Department',
       example: '  -',
       option: [{ id: 1, value: 'yes', }, { id: 2, value: 'optional', },],
@@ -99,63 +99,90 @@
       fieldName: 'Full Name',
       name: 'fullName',
       description: 'string',
-      isRequired: true,
+      isRequired: 'yes',
     },
     {
         visible: true,
         fieldName: "Email",
         name: "email",
-        isRequired: false,
+        isRequired: 'optional',
         description: "string",
     },
     {
         visible: true,
         fieldName: "Employee ID",
         name: "employeeID",
-        isRequired: false,
+        isRequired: 'optional',
         description: "string",
     },
     {
         visible: true,
         fieldName: "Title",
         name: "title",
-        isRequired: false,
+        isRequired: 'optional',
         description: "string",
     },
     {
         visible: true,
         fieldName: "Phone",
         name: "phone",
-        isRequired: false,
+        isRequired: 'optional',
         description: "string",
     },
     {
         visible: true,
         fieldName: "Notes",
         name: "notes",
-        isRequired: false,
+        isRequired: 'optional',
         description: "string",
     },
     {
         visible: true,
         fieldName: "Site",
         name: "site",
-        isRequired: false,
+        isRequired: 'optional',
         description: "string",
     },
     {
         visible: true,
         fieldName: "Location",
         name: "location",
-        isRequired: false,
+        isRequired: 'optional',
         description: "string",
     },
     {
         visible: true,
         fieldName: "Department",
         name: "department",
-        isRequired: false,
+        isRequired: 'optional',
         description: "string",
     },
 
 ]
+
+
+
+
+
+
+ 
+ export const customAsset =[
+ {
+   fieldName: 'fieldName',
+   name:'name',
+   componentsId: 1,
+   isRequired: 'isRequired',
+   
+ },
+ ]
+
+
+ export const BackendData=[
+    {
+   fieldName: 'full Name',
+   name:'fullName',
+   componentsId: 1,
+   isRequired: 'yes'
+ }
+ ]
+

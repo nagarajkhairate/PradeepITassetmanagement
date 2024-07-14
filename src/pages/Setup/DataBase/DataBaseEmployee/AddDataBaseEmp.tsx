@@ -5,19 +5,10 @@ import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import AddEmployeeData from './AddEmployeeData'
 import EditDataBaseEmp from './EditDataBaseEmp'
 
-interface DataItem {
-  id: number // Make sure to define an appropriate type for id
-  fieldName: string
-  componentsId: string
-  category: string
-  isRequired: string
-}
 
 const AddDataBaseEmp: React.FC = () => {
   const [open, setOpen] = useState(false)
-  // const [editOpen, setEditOpen] = useState(false)
-  // const [deleteOpen, setDeleteOpen] = useState(false)
-  const [dataBases, setDataBases] = useState<{ customAsset: DataItem[] }>({
+  const [dataBases, setDataBases] = useState<{ customAsset:any[] }>({
     customAsset: [],
   })
 
@@ -25,7 +16,7 @@ const AddDataBaseEmp: React.FC = () => {
     setOpen(false)
   }
 
-  const handleAddSkill = (formData: DataItem) => {
+  const handleAddSkill = (formData:any) => {
     setDataBases((prevData) => ({
       ...prevData,
       customAsset: [...prevData.customAsset, formData],
