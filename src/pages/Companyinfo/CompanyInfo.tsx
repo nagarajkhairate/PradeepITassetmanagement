@@ -14,7 +14,7 @@ import Check from "@mui/icons-material/Check";
 
 const CompanyInfo = () => {
   const [companyFormData, setCompanyFormData] = React.useState({});
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = React.useState(4);
 
 
   console.log(companyFormData)
