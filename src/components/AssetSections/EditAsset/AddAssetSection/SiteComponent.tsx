@@ -10,16 +10,11 @@ import { ThunkDispatch } from "redux-thunk";
 interface SiteProps {
   field: { fieldName: string; name: string; options: { value: string; label: string; }[] };
   formData: any;
-  setFormData: React.Dispatch<React.SetStateAction<any>>;
-  setValidationMessages: React.Dispatch<React.SetStateAction<any>>;
-  handleSelectChange: (
-    event: React.SyntheticEvent<Element, Event> | null,
-    value: string | null,
-    name: string,
-  ) => void;
+  handleSelectChange: (value: string | null, name: string) => void;
 }
 
 interface Site {
+  id: string;
   siteName: string;
   description: string;
   address: string;
@@ -33,8 +28,6 @@ interface Site {
 const SiteComponent: React.FC<SiteProps> = ({
   field, 
   formData, 
-  setFormData, 
-  setValidationMessages, 
   handleSelectChange,
 }) => {
   const [error, setError] = useState<string>("");
@@ -54,17 +47,20 @@ const SiteComponent: React.FC<SiteProps> = ({
     setOpenDialog(null);
   };
 
+  const selectChange = (e: any, newValue: string | null) => {
+    handleSelectChange(newValue, field.name);
+  };
+
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', mt: 2 }}>
       <FormControl sx={{ width: '200px' }}>
         <FormLabel>{field.fieldName}</FormLabel>
         <Select
-        placeholder="Select Site"
-        name={field.name}
-        value={formData[field.name] as string}
-        onChange={(e, newValue) => handleSelectChange(e, newValue, field.name)}
-        // sx={field.stylings}
-      >
+          placeholder="Select Site"
+          name={field.name}
+          value={formData[field.name] as string}
+          onChange={selectChange}
+        >
           {sites.map((site) => (
             <Option key={site.id} value={site.id}>
               {site.siteName}

@@ -1,9 +1,9 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, useEffect } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { Select, Option, Button, Typography, Box, FormControl, FormHelperText, FormLabel } from '@mui/joy';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
-import { addCategory } from "../../../../redux/features/CategorySlice";
+import { fetchCategory } from "../../../../redux/features/CategorySlice";
 import AddCategory from "../../../Companyinfo/Category/AddCategory";
 import { ThunkDispatch } from "redux-thunk";
 
@@ -11,76 +11,36 @@ import { ThunkDispatch } from "redux-thunk";
 interface CategoryProps {
   field: { fieldName: string; name: string; options: { value: string; label: string; }[] };
   formData: any;
-  setFormData: React.Dispatch<React.SetStateAction<any>>;
-  setValidationMessages: React.Dispatch<React.SetStateAction<any>>;
   handleSelectChange: (
-    event: React.SyntheticEvent<Element, Event> | null,
+   
     value: string | null,
     name: string,
   ) => void;
 }
 
-type Category = {
-  id: number
-  categoryName: string
-}
+
 
 const CategoryComponent: React.FC<CategoryProps> = (
   { field, 
     formData, 
-    setFormData, 
-    setValidationMessages, 
     handleSelectChange
     }) => {
   const [error, setError] = useState<string>("");
-  const [openDialog, setOpenDialog] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
   const categories = useSelector((state: RootState) => state.category.data)
-  const [categoryName, setCategoryName] = useState<string>('')
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
-  // const handleSelectChange = (
-  //   event: React.SyntheticEvent<Element, Event> | null,
-  //   newValue: any,
-  //   fieldName: string
-  // ) => {
-  //   if (!event) return;
-  //   setFormData((prevData:any) => ({
-  //     ...prevData,
-  //     [fieldName]: newValue,
-  //   }));
-  //   setValidationMessages((prevState:any) => ({ ...prevState, [fieldName]: '' }));
-  // };
 
-  const validateForm = () => {
-    if (!formData.category) {
-      setError("Category is required");
-      return false;
-    }
-    setError("");
-    return true;
-  };
-  const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const newCategory: Category = {
-      id: categories.length ? categories[categories.length - 1].id + 1 : 1,
-      categoryName: capitalizeWords(categoryName),
-    }
-    // setCategories([...categories, newCategory])
-    setCategoryName('') // Clear the input field after adding
-    dispatch(addCategory(newCategory))
-    console.log(newCategory)
-  }
-  const capitalizeWords = (str: string) => {
-    return str.replace(/\b\w/g, (char) => char.toUpperCase())
-  }
 
-  const handleOpenDialog = (modalName: string) => {
-    setOpenDialog(modalName);
+ 
+
+  const selectChange = (e: any, newValue: string | null) => {
+    handleSelectChange(newValue, field.name);
   };
 
-  const handleCloseDialog = () => {
-    setOpenDialog(null);
-  };
+  useEffect(()=>{
+    dispatch(fetchCategory())
+  },[dispatch])
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', mt: 2 }}>
@@ -91,7 +51,7 @@ const CategoryComponent: React.FC<CategoryProps> = (
           placeholder="Select Category"
           name={field.name}
           value={formData[field.name] as string}
-          onChange={(e, newValue) => handleSelectChange(e, newValue, field.name)}
+          onChange={selectChange}
         >
           {categories.map((category) => (
             <Option key={category.id} value={category.id}>
@@ -103,7 +63,7 @@ const CategoryComponent: React.FC<CategoryProps> = (
       </FormControl>
 
       <Button
-        onClick={() => handleOpenDialog(field.fieldName)}
+        onClick={() => setOpen(false)}
         variant="outlined"
         size="sm"
         sx={{
@@ -125,13 +85,10 @@ const CategoryComponent: React.FC<CategoryProps> = (
         </Typography>
       </Button>
 
-      {openDialog === field.fieldName && (
+      {open && (
         <AddCategory
-          open={openDialog === field.fieldName}
-          handleClose={handleCloseDialog}
-          categoryName={categoryName}
-          setCategoryName={setCategoryName}
-          handleAddCategory={handleAddCategory}
+          open={open}
+          setOpen={setOpen}
         />
       )}
     </Box>

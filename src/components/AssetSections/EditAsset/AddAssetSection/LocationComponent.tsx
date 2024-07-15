@@ -1,58 +1,33 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, useEffect } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { Select, Option, Button, Typography, Box, FormControl, FormHelperText, FormLabel } from '@mui/joy';
 import AddLocation from "../../../Companyinfo/Location/AddLocation";
 import { RootState } from "../../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { addLocation, fetchLocation } from "../../../../redux/features/LocationSlice";
+import { fetchLocation } from "../../../../redux/features/LocationSlice";
 import { ThunkDispatch } from "redux-thunk";
-
 interface LocationProps {
   field: { fieldName: string; name: string; options: { value: string; label: string; }[] };
   formData: any;
-  setFormData: React.Dispatch<React.SetStateAction<any>>;
-  setValidationMessages: React.Dispatch<React.SetStateAction<any>>;
-  handleSelectChange: (
-    event: React.SyntheticEvent<Element, Event> | null,
-    value: string | null,
-    name: string,
-  ) => void;
+  handleSelectChange: (value: string | null, name: string) => void;
 }
 
 const LocationComponent: React.FC<LocationProps> = ({
   field, 
   formData, 
-  setFormData, 
-  setValidationMessages, 
   handleSelectChange
 }) => {
   const [error, setError] = useState<string>("");
-  const [openDialog, setOpenDialog] = useState<string | null>(null);
   const locations = useSelector((state: RootState) => state.location.data);
   const [open, setOpen] = useState<boolean>(false)
-  const [locationForm, setLocationForm] = useState<{ [key: string]: any }>({});
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
-
-  const handleOpenDialog = (modalName: string) => {
-    setOpenDialog(modalName);
+  const selectChange = (e: any, newValue: string | null) => {
+    handleSelectChange(newValue, field.name);
   };
 
-  const handleCloseDialog = () => {
-    setOpenDialog(null);
-  };
-
-  const handleAddLocation = (newLocation: Location) => {
-    dispatch(addLocation(newLocation))
-      .unwrap()
-      .then(() => {
-        dispatch(fetchLocation);
-      })
-      .catch((error) => {
-        console.error('Failed to add location:', error);
-      });
-    handleCloseDialog();
-  };
-
+  useEffect(()=>{
+    dispatch(fetchLocation())
+  },[dispatch])
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', mt: 2 }}>
       <FormControl sx={{ width: '200px' }}>
@@ -61,7 +36,7 @@ const LocationComponent: React.FC<LocationProps> = ({
           placeholder="Select Location"
           name={field.name}
           value={formData[field.name] as string}
-          onChange={(e, newValue) => handleSelectChange(e, newValue, field.name)}
+          onChange={selectChange}
         >
           {locations.map((location) => (
             <Option key={location.id} value={location.id}>
@@ -73,7 +48,7 @@ const LocationComponent: React.FC<LocationProps> = ({
       </FormControl>
 
       <Button
-        onClick={() => handleOpenDialog(field.fieldName)}
+        onClick={() => setOpen(true)}
         variant="outlined"
         size="sm"
         sx={{
@@ -95,10 +70,9 @@ const LocationComponent: React.FC<LocationProps> = ({
         </Typography>
       </Button>
 
-      {openDialog === field.fieldName && (
+      {open && (
         <AddLocation
-          open={openDialog === field.fieldName}
-          handleClose={handleCloseDialog}
+          open={open}
           setOpen={setOpen}
         />
       )}

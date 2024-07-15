@@ -271,4 +271,23 @@ export interface Option {
       isRequired: 'yes',
     },
   ];
+
+  export const customAssetData = [
+    {
+      isVisible: true,
+      fieldName: 'Full Name',
+      name: 'fullName',
+      description: 'string',
+      isRequired: 'yes',
+    },
+    {
+        visible: true,
+        fieldName: "Email",
+        name: "email",
+        isRequired: 'optional',
+        description: "string",
+    },
+    
+
+]
   

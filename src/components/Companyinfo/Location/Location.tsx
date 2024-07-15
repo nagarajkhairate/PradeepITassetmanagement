@@ -24,15 +24,11 @@ import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 import { fetchLocation } from '../../../redux/features/LocationSlice'
 
 interface LocationProps {
-  companyFormData: any
-  setCompanyFormData: any
   activeTab: number
   setActiveTab: (tab: number) => void
 }
 
 const LocationPage: React.FunctionComponent<LocationProps> = ({
-  companyFormData,
-  setCompanyFormData,
   activeTab,
   setActiveTab,
 }) => {
@@ -54,11 +50,11 @@ const LocationPage: React.FunctionComponent<LocationProps> = ({
   }
 
   const handleNext = () => {
-    setActiveTab((prevActiveStep) => prevActiveStep + 1)
+    setActiveTab(activeTab + 1)
   }
 
   const handleBack = () => {
-    setActiveTab((prevActiveStep) => prevActiveStep - 1)
+    setActiveTab(activeTab - 1)
   }
 
   React.useEffect(() => {

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, FunctionComponent } from 'react';
 import {
   Typography,
@@ -8,26 +9,34 @@ import {
   FormControl,
   Table,
   Box,
+  Button,
 } from '@mui/joy';
-
+import AddIcon from "@mui/icons-material/Add";
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined';
 import { FormControlLabel } from '@mui/material';
 import {
   AssetDataValue,
   AssetDefaultDataValue,
   assetDefaultFields,
+  customAssetData,
 } from './DatabaseData';
 import AppView from '../../Common/AppView';
+import AddCustomAssetFields from './AddCustomAssetFields';
+import CommonTable from './CommonTable';
+
 
 interface DataBaseProps {
-  companyFormData: any;
-  setCompanyFormData: any;
   activeTab: number;
   setActiveTab: (tab: number) => void;
 }
 
-const DataBaseAsset: FunctionComponent<DataBaseProps> = () => {
+
+const DataBaseAsset: FunctionComponent<DataBaseProps> = ({
+  activeTab,
+  setActiveTab,}
+) => {
   const [assetDataForm, setAssetDataForm] = useState<AssetDataValue[]>([]);
+  const [openAddAsset, setOpenAddAsset] = useState(false);
 
   useEffect(() => {
     setAssetDataForm(AssetDefaultDataValue);
@@ -52,6 +61,14 @@ const DataBaseAsset: FunctionComponent<DataBaseProps> = () => {
   };
 
   console.log(JSON.stringify(assetDataForm))
+  const handleNext = () => {
+    setActiveTab(activeTab + 1)
+  }
+
+
+  const handleBack = () => {
+    setActiveTab(activeTab - 1)
+  }
 
   return (
     <AppView>
@@ -193,7 +210,55 @@ const DataBaseAsset: FunctionComponent<DataBaseProps> = () => {
           Add custom fields to join the standard fields that we provided. Feel
           free to get creative.
         </Box>
+
+          <Button
+            onClick={()=>setOpenAddAsset(true)}
+            sx={{
+              marginTop: "25px",
+              background: "green",
+              color: "white",
+              borderRadius:'15px',
+            }}
+          >
+            <AddIcon />
+            Add Custom Fields
+          </Button>
+          <CommonTable customAssetFields={customAssetData} />
+
+          {openAddAsset && 
+              <AddCustomAssetFields
+            open={openAddAsset}
+              setOpen={setOpenAddAsset}
+            />
+            }
+             <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+        <Button
+          sx={{
+            background: '#388e3c',
+            color: 'white',
+            '&:hover': { background: '#388e3B' },
+            borderRadius: '10px',
+          }}
+          disabled={activeTab === 0}
+          onClick={handleBack}
+        >
+          Back
+        </Button>
+        <Button
+          sx={{
+            background: '#FABC1E',
+            color: 'black',
+            '&:hover': { background: '#E1A91B' },
+            borderRadius: '10px',
+          }}
+          onClick={handleNext}
+        >
+          Continue
+        </Button>
       </Box>
+          </Box>
+     
+      
     </AppView>
   );
 };

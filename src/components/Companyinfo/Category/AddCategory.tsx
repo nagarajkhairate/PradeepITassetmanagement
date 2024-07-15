@@ -1,19 +1,31 @@
 import { Box, Button, Divider, FormControl, FormLabel, Input, Modal, Sheet, Typography } from '@mui/joy'
-import React from 'react'
+import React, { useState } from 'react'
+import AppForm from '../../Common/AppForm'
 
 
 interface CategoryAddProps {
-    open: boolean
-    handleClose: () => void
-    categoryName: string
-    setCategoryName: React.Dispatch<React.SetStateAction<string>>
-    handleAddCategory: (e: React.FormEvent<HTMLFormElement>) => void
+    open: any
+    setOpen: any
+
 
   }
 
-  const AddCategory: React.FunctionComponent<CategoryAddProps> = ({ open, handleClose, categoryName, setCategoryName, handleAddCategory }) => {
+  const AddCategory: React.FunctionComponent<CategoryAddProps> = ({ open, setOpen }) => {
+    const [formData, setFormData] = useState({})
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
+      const {name, value} = e.target;
+      
+      setFormData((prevData)=>({
+        ...prevData,
+        [name]: value
+      }))
+        }
+      const handleSubmit
+       = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+      }
 
-
+      console.log(formData)
   return (
     <Modal
               aria-labelledby="responsive-dialog-title"
@@ -24,7 +36,7 @@ interface CategoryAddProps {
                 alignItems: 'center',
               }}
               open={open}
-              onClose={handleClose}
+              onClose={setOpen}
             >
               <Sheet
                 variant="outlined"
@@ -49,7 +61,7 @@ interface CategoryAddProps {
                   <Divider />
 
                   <Box sx={{ marginBottom: '10px' }}>
-                    <form onSubmit={handleAddCategory}>
+                    <AppForm onSubmit={handleSubmit}>
                       <FormControl
                         sx={{
                           display: 'flex',
@@ -87,10 +99,8 @@ interface CategoryAddProps {
                             Category*:
                           </FormLabel>
                           <Input
-                            value={categoryName}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
-                            ) => setCategoryName(e.target.value)}
+                            // value={categoryName}
+                            onChange={handleInputChange}
                             placeholder="Type here"
                             sx={{
                               marginLeft: '20px',
@@ -118,7 +128,7 @@ interface CategoryAddProps {
 
                       <Button
                         type="button"
-                        onClick={handleClose}
+                        onClick={()=> setOpen()}
                         autoFocus
                         variant="solid"
                         sx={{
@@ -129,7 +139,7 @@ interface CategoryAddProps {
                       >
                         Cancel
                       </Button>
-                    </form>
+                    </AppForm>
                   </Box>
                 </div>
               </Sheet>
