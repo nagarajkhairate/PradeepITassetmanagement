@@ -22,7 +22,7 @@ import { customAsset } from './EmployeeData'
 interface DataBaseAddProps {
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  dataBases: { customAsset: any[] }
+  empDataBases: { customAsset: any[] }
   handleAddSkill: (formData: any) => void
 }
 

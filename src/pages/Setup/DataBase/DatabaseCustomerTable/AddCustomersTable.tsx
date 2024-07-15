@@ -20,31 +20,35 @@ import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
 import AddDialogCustomer from './AddDialogCustomer'
+import EditDatabaseCustomer from './EditDatabaseCustomers'
 
-interface DataAddProps {
-  dataBases: { customAsset: string[] }
-  setDataBases: React.Dispatch<React.SetStateAction<{ customAsset: any[] }>>
-  addCustomField: (custom: any) => void
-  deleteCustomField: (index: number) => void
-  id: number
-}
 
-const AddCustomersTable: React.FC<DataAddProps> = ({
-  dataBases,
-  setDataBases,
-  addCustomField,
-  deleteCustomField,
-  id,
-}: DataAddProps) => {
+
+const AddCustomersTable: React.FC = () => {
   const [open, setOpen] = useState(false)
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const [customerDataBases, setCustomerDataBases] = useState<{ customCustomer:any[] }>({
+    customCustomer: [],
+  })
 
-  const dataBase = useSelector((state: RootState) => state.dataBase.data)
-  console.log(dataBase)
+  
+  const handleClose = () => {
+    setOpen(false)
+  }
 
-  // React.useEffect(() => {
-  //   dispatch(fetchDataBase())
-  // }, [])
+  const handleAddSkill = (formData:any) => {
+    setCustomerDataBases((prevData) => ({
+      ...prevData,
+      customCustomer: [...prevData.customCustomer, formData],
+    }))
+    handleClose()
+    setOpen(false)
+  }
+
+  const handleCheckboxChange = (index: number) => {
+    setCustomerDataBases((prevData) => ({
+      ...prevData,
+    }))
+  }
 
   return (
     <Box>
@@ -100,17 +104,20 @@ const AddCustomersTable: React.FC<DataAddProps> = ({
               alignItems: 'center',
             }}
             open={open}
-            onClose={setOpen}
+            onClose={()=>setOpen(false)}
           >
             <AddDialogCustomer
               open={open}
               setOpen={setOpen}
-              dataBases={dataBases}
-              setDataBases={setDataBases}
+              customerDataBases={customerDataBases}
+              handleAddSkill={handleAddSkill}
             />
           </Modal>
         )}
       </Box>
+
+      <EditDatabaseCustomer customerDataBases={customerDataBases} setEmpDataBases={setCustomerDataBases} />
+
     </Box>
   )
 }

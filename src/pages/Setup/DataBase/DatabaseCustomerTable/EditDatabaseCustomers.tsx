@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Checkbox,
   FormControl,
   FormLabel,
   Input,
@@ -9,50 +10,51 @@ import {
   Radio,
   RadioGroup,
   Select,
-  selectClasses,
   Sheet,
   Stack,
   Table,
   Typography,
 } from '@mui/joy'
-import { KeyboardArrowDown } from '@mui/icons-material'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { ChangeEvent, useState } from 'react'
-import DeleteEmployeeData from './DeleteEmployeeData'
 import AppForm from '../../../../components/Common/AppForm'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
+import DeleteDatabaseCustomers from './DeleteDatabaseCustomers'
 
-const BackendData=[
+const BackendData = [
   {
- 'fieldName': 'string',
- 'componentsId': 'string',
- 'isRequired': 'string'
-}
+    fieldName: 'string',
+    componentsId: 'string',
+    isRequired: 'string',
+  },
 ]
 
-const customAsset =[
-{
- fieldName: 'Full Name',
- name: 'fullName',
- componentsId: 'string',
- isRequired: 'string'
-},
+const customCustomer = [
+  {
+    fieldName: 'Full Name',
+    name: 'fullName',
+    componentsId: 'string',
+    isRequired: 'string',
+  },
 ]
 
 interface Props {
-  empDataBases: {
-    customAsset: any[];
-  };
+  customerDataBases: {
+    customCustomer: any[]
+  }
   setEmpDataBases: React.Dispatch<
     React.SetStateAction<{
-      customAsset: any[];
+      customCustomer: any[]
     }>
-  >;
+  >
 }
 
-const EditDataBaseEmp: React.FC<Props> = ({ empDataBases, setEmpDataBases, }: Props) => {
+const EditDatabaseCustomer: React.FC<Props> = ({
+  customerDataBases,
+  setEmpDataBases,
+}: Props) => {
   const [editOpen, setEditOpen] = useState(false)
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
@@ -86,16 +88,16 @@ const EditDataBaseEmp: React.FC<Props> = ({ empDataBases, setEmpDataBases, }: Pr
     setEditOpen(true)
   }
   const handleEdit = (index: number) => {
-    setSelectedCell(index);
-    const selectedData = empDataBases.customAsset[index];
+    setSelectedCell(index)
+    const selectedData = customerDataBases.customCustomer[index]
     setFormData({
       custom: selectedData.fieldName,
       componentsId: selectedData.componentsId,
       isRequired: selectedData.isRequired,
       selectedCategories: '',
-    });
-    handleClickEditOpen();
-  };
+    })
+    handleClickEditOpen()
+  }
 
   const handleEditClose = () => {
     setEditOpen(false)
@@ -105,17 +107,17 @@ const EditDataBaseEmp: React.FC<Props> = ({ empDataBases, setEmpDataBases, }: Pr
   }
 
   const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { custom, componentsId, isRequired } = formData;
+    e.preventDefault()
+    const { custom, componentsId, isRequired } = formData
 
     if (selectedCell !== null) {
-      const updatedData = empDataBases.customAsset.map((item, index) =>
+      const updatedData = customerDataBases.customCustomer.map((item, index) =>
         index === selectedCell
           ? { ...item, fieldName: custom, componentsId, isRequired }
           : item,
-      );
-      setEmpDataBases({ ...empDataBases, customAsset: updatedData });
-      handleEditClose();
+      )
+      setEmpDataBases({ ...customerDataBases, customCustomer: updatedData })
+      handleEditClose()
     }
   }
 
@@ -187,8 +189,8 @@ const EditDataBaseEmp: React.FC<Props> = ({ empDataBases, setEmpDataBases, }: Pr
             </tr>
           </thead>
           <tbody>
-            {empDataBases.customAsset.length > 0 ? (
-              empDataBases.customAsset.map((item, index) => (
+            {customerDataBases.customCustomer.length > 0 ? (
+              customerDataBases.customCustomer.map((item, index) => (
                 <tr key={index}>
                   <td
                     style={{
@@ -289,10 +291,9 @@ const EditDataBaseEmp: React.FC<Props> = ({ empDataBases, setEmpDataBases, }: Pr
               level="h4"
               textColor="inherit"
               fontWeight="lg"
-              marginLeft={5}
               mb={1}
             >
-              {'Edit the Custom Fields here'}
+              {'Edit the Customs here'}
             </Typography>
 
             <AppForm onSubmit={handleEditButton}>
@@ -303,8 +304,8 @@ const EditDataBaseEmp: React.FC<Props> = ({ empDataBases, setEmpDataBases, }: Pr
                   justifyContent: 'space-evenly',
                 }}
               >
-                <FormLabel sx={{ paddingTop: '10px',  }}>
-                  Custom Field*
+                <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
+                  Custom Field Label*
                 </FormLabel>
                 <Input
                   variant="outlined"
@@ -314,7 +315,7 @@ const EditDataBaseEmp: React.FC<Props> = ({ empDataBases, setEmpDataBases, }: Pr
                   value={formData.custom}
                   onChange={handleChange}
                   required
-                  sx={{  marginLeft: '30px' }}
+                  sx={{ width: '70%', marginLeft: '10px' }}
                   //   defaultValue={
                   //     selectedCell !== null
                   //       ? dataBase.data[selectedCell]
@@ -324,107 +325,108 @@ const EditDataBaseEmp: React.FC<Props> = ({ empDataBases, setEmpDataBases, }: Pr
               </FormControl>
 
               <FormControl>
-            <FormLabel sx={{ paddingTop: '20px',  }}>
-              Data Types*:
-              <Select
-                placeholder="Select Data Types"
-                sx={{  marginLeft: '40px' }}
-                name="componentsId"
-                value={formData.componentsId}
-                onChange={handleSelectChange}
+                <FormLabel sx={{ paddingTop: '20px' }}>
+                  Data Types*:
+                  <Select
+                    placeholder="Select Data Types"
+                    sx={{ marginLeft: '40px' }}
+                    name="componentsId"
+                    value={formData.componentsId}
+                    onChange={handleSelectChange}
+                  >
+                    {components &&
+                      components.map((comp: any) => (
+                        <Option key={comp.id} value={comp.id}>
+                          {comp.compName}
+                        </Option>
+                      ))}
+                  </Select>
+                </FormLabel>
+              </FormControl>
+
+              <FormControl
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}
               >
-                {components &&
-                  components.map((comp) => (
-                    <Option key={comp.id} value={comp.id}>
-                      {comp.compName}
-                    </Option>
-                  ))}
-              </Select>
-            </FormLabel>
-          </FormControl>
+                <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
+                  {' '}
+                  Data Required{' '}
+                </FormLabel>
+                <RadioGroup
+                  name="isRequired"
+                  value={formData.isRequired}
+                  onChange={handleRadioChange}
+                >
+                  <Box>
+                    <Radio
+                      value="yes"
+                      label="Yes"
+                      variant="outlined"
+                      sx={{ paddingTop: '30px', marginLeft: '50px' }}
+                    />
+                    <Radio
+                      value="optional"
+                      label="Optional"
+                      variant="outlined"
+                      sx={{ paddingTop: '30px', marginLeft: '10px' }}
+                    />
+                  </Box>
+                </RadioGroup>
+              </FormControl>
 
-          <FormControl
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}
-          >
-            <FormLabel sx={{ paddingTop: '20px' }}>Data Required:</FormLabel>
-            <RadioGroup
-              name="isRequired"
-              value={formData.isRequired}
-              onChange={handleRadioChange}
-              sx={{ marginLeft: '20px' }}
-            >
-              <Box>
-                <Radio
-                  value="yes"
-                  label="Yes"
-                  variant="outlined"
-                  sx={{ paddingTop: '10px', marginLeft: '55px' }}
-                />
-                <Radio
-                  value="optional"
-                  label="Optional"
-                  variant="outlined"
-                  sx={{ paddingTop: '30px', marginLeft: '10px' }}
-                />
-              </Box>
-            </RadioGroup>
-          </FormControl>
-
-             
               <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            flexDirection: { md: 'row'},
-            justifyContent: { xs: 'space-between', md: 'flex-end' },
-            gap: '5px',
-            mt: 4,
-            flexWrap:'wrap'
-          }}
-        >
-              <Button
-                autoFocus
-                type="submit"
-                variant="solid"
                 sx={{
-                  background: '#fdd835',
-                  '&:hover': { background: '#E1A91B' },
-                  color: 'black',
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexDirection: { md: 'row' },
+                  justifyContent: { xs: 'space-between', md: 'flex-end' },
+                  gap: '5px',
+                  mt: 4,
+                  flexWrap: 'wrap',
                 }}
               >
-                Update
-              </Button>
+                <Button
+                  autoFocus
+                  type="submit"
+                  variant="solid"
+                  sx={{
+                    background: '#fdd835',
+                    '&:hover': { background: '#E1A91B' },
+                    color: 'black',
+                  }}
+                >
+                  Update
+                </Button>
 
-              <Button
-                type="button"
-                onClick={handleEditClose}
-                autoFocus
-                variant="solid"
-                sx={{
-                  background: 'black',
-                  '&:hover': { background: 'black' },
-                  color: 'white',
-                }}
-              >
-                Cancel
-              </Button>
+                <Button
+                  type="button"
+                  onClick={handleEditClose}
+                  autoFocus
+                  variant="solid"
+                  sx={{
+                    background: 'black',
+                    '&:hover': { background: 'black' },
+                    color: 'white',
+                  }}
+                >
+                  Cancel
+                </Button>
               </Box>
             </AppForm>
           </div>
         </Sheet>
       </Modal>
 
-      <DeleteEmployeeData
+      <DeleteDatabaseCustomers
         open={deleteOpen}
         onClose={handleDeleteClose}
         onDelete={() => {
           setEmpDataBases({
-            ...empDataBases,
-            customAsset: empDataBases.customAsset.filter(
+            ...customerDataBases,
+            customCustomer: customerDataBases.customCustomer.filter(
               (_, index) => index !== selectedCell,
             ),
           })
@@ -434,5 +436,4 @@ const EditDataBaseEmp: React.FC<Props> = ({ empDataBases, setEmpDataBases, }: Pr
     </Stack>
   )
 }
-
-export default EditDataBaseEmp
+export default EditDatabaseCustomer

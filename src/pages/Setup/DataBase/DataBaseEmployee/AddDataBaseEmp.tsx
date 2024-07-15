@@ -2,13 +2,13 @@ import React, { ChangeEvent, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import { Box, Button, Modal, Typography } from '@mui/joy'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
-import AddEmployeeData from './AddEmployeeData'
+import AddEmployeeData from './AddDialogEmployee'
 import EditDataBaseEmp from './EditDataBaseEmp'
 
 
 const AddDataBaseEmp: React.FC = () => {
   const [open, setOpen] = useState(false)
-  const [dataBases, setDataBases] = useState<{ customAsset:any[] }>({
+  const [empDataBases, setEmpDataBases] = useState<{ customAsset:any[] }>({
     customAsset: [],
   })
 
@@ -17,7 +17,7 @@ const AddDataBaseEmp: React.FC = () => {
   }
 
   const handleAddSkill = (formData:any) => {
-    setDataBases((prevData) => ({
+    setEmpDataBases((prevData) => ({
       ...prevData,
       customAsset: [...prevData.customAsset, formData],
     }))
@@ -26,7 +26,7 @@ const AddDataBaseEmp: React.FC = () => {
   }
 
   const handleCheckboxChange = (index: number) => {
-    setDataBases((prevData) => ({
+    setEmpDataBases((prevData) => ({
       ...prevData,
     }))
   }
@@ -85,14 +85,14 @@ const AddDataBaseEmp: React.FC = () => {
             <AddEmployeeData
               open={open}
               setOpen={setOpen}
-              dataBases={dataBases}
+              empDataBases={empDataBases}
               handleAddSkill={handleAddSkill}
             />
           </Modal>
         )}
       </Box>
 
-      <EditDataBaseEmp dataBases={dataBases} setDataBases={setDataBases} />
+      <EditDataBaseEmp empDataBases={empDataBases} setEmpDataBases={setEmpDataBases} />
     </Box>
   )
 }

@@ -95,7 +95,7 @@
 
   export const empData = [
     {
-      isVisible: true,
+      visible: true,
       fieldName: 'Full Name',
       name: 'fullName',
       description: 'string',
