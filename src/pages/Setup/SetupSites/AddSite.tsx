@@ -99,7 +99,18 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
 
   return (
     <Modal open={open} onClose={onClose}>
-      <Box sx={modalStyle}>
+      <Box sx={{ 
+         position: 'absolute',
+         top: '50%',
+         left: '50%',
+         transform: 'translate(-50%, -50%)',
+         bgcolor: 'white',
+         p: 4,
+         borderRadius: 10,
+         maxWidth: '600px',
+         maxHeight: '90vh',
+         overflowY: 'auto',
+      }}>
         <Typography level="h4" sx={{ mb: 2 }}>
           Add New Site
         </Typography>
@@ -183,8 +194,8 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
               onChange={handleChange}
               fullWidth
               sx={{ mb: 2 }}
-              error={!!zipCodeError}
-              helperText={zipCodeError}
+              // error={!!zipCodeError}
+              // helperText={zipCodeError}
             />
           </Grid>
           <Grid xs={12} md={6}>
@@ -245,15 +256,3 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
 
 export default AddSite
 
-const modalStyle = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  bgcolor: 'white',
-  p: 4,
-  borderRadius: 10,
-  maxWidth: '600px',
-  maxHeight: '90vh',
-  overflowY: 'auto',
-}
