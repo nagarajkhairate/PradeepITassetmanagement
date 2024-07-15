@@ -2,18 +2,35 @@ import { Box, Button, Divider, FormControl, FormLabel, Input, Modal, Sheet, Typo
 import { ThunkDispatch } from "redux-thunk"
 import { useDispatch } from "react-redux"
 import AppForm from "../../../components/Common/AppForm"
+import { addDepartment } from "../../../redux/features/DepartmentSlice"
+import { RootState } from "../../../redux/store"
+import { useState } from "react"
 
 
 interface SetupAddDeptProps {
-    open: boolean
-    handleClose: () => void
-    departmentName: string
-    setDepartmentName: React.Dispatch<React.SetStateAction<string>>
-    handleAddDepartment: (e: React.FormEvent<HTMLFormElement>) => void
+    open: any
+    setOpen:any
 
   }
 
-const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({ open, handleClose, departmentName, setDepartmentName, handleAddDepartment }) => {
+const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({ open, setOpen}) => {
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+  const [formData, setFormData] = useState({})
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
+const {name, value} = e.target;
+
+setFormData((prevData)=>({
+  ...prevData,
+  [name]: value
+}))
+  }
+  
+  const handleAddDepartment = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    // setDepartment([...department, newdepartment])
+    dispatch(addDepartment(formData))
+  }
   
 return(
 <Modal
@@ -25,7 +42,7 @@ return(
                 alignItems: 'center',
               }}
               open={open}
-              onClose={handleClose}
+              onClose={setOpen}
             >
               <Sheet
                 variant="outlined"
@@ -36,7 +53,7 @@ return(
                   boxShadow: 'lg',
                 }}
               >
-                <div>
+             
                   <Typography
                     id="responsive-dialog-title"
                     component="h2"
@@ -88,10 +105,9 @@ return(
                             department*:
                           </FormLabel>
                           <Input
-                            value={departmentName}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
-                            ) => setDepartmentName(e.target.value)}
+                            // value={''}
+                            name="department"
+                            onChange={handleInputChange}
                             placeholder="Type here"
                             sx={{
                               width: '70%',
@@ -130,7 +146,7 @@ return(
 
                       <Button
                         type="button"
-                        onClick={handleClose}
+                        onClick={()=>setOpen()}
                         autoFocus
                         variant="solid"
                         sx={{
@@ -144,7 +160,7 @@ return(
                       </Box>
                     </AppForm>
                   </Box>
-                </div>
+        
               </Sheet>
             </Modal>
 )

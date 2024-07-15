@@ -43,15 +43,11 @@ export interface Site {
 }
 
 interface SiteProps {
-  companyFormData: any
-  setCompanyFormData: any
   activeTab: number
   setActiveTab: (tab: number) => void
 }
 
 const Sites: React.FC<SiteProps> = ({
-  companyFormData,
-  setCompanyFormData,
   activeTab,
   setActiveTab,
 }) => {
@@ -102,11 +98,11 @@ const Sites: React.FC<SiteProps> = ({
   }
 
   const handleNext = () => {
-    setActiveTab((prevActiveStep) => prevActiveStep + 1)
+    setActiveTab(activeTab + 1)
   }
 
   const handleBack = () => {
-    setActiveTab((prevActiveStep) => prevActiveStep - 1)
+    setActiveTab(activeTab - 1)
   }
 
   return (
@@ -193,7 +189,8 @@ const Sites: React.FC<SiteProps> = ({
 
                   {matchedSelected.length > 0 && (
                     <Button
-                      onClick={handleDeleteClick}
+                      type="submit"
+                      onClick={handleDelete}
                       sx={{
                         fontSize: '13px',
                         borderRadius: '15px',
@@ -202,7 +199,6 @@ const Sites: React.FC<SiteProps> = ({
                         justifyContent: { md: 'flex-end', xs: 'center' },
                         marginLeft: 'none',
                         border: '1px solid red',
-
                         padding: '.5rem .10rem',
                       }}
                     >

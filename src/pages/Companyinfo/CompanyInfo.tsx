@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Company from "../../components/Companyinfo/Company/Company";
 import Sites from "../../components/Companyinfo/Sites/Sites";
 import TableOptions from "../../components/Companyinfo/TableOptions/TableOptions";
@@ -22,18 +22,12 @@ const CompanyInfo = () => {
 
   const steps: any[] = [
     { label: "Company", component: <Company companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
-    { label: "Sites", component: <Sites companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
-    { label: "Locations", component: <LocationPage companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep}/> },
+    { label: "Sites", component: <Sites activeTab={activeStep} setActiveTab={setActiveStep} /> },
+    { label: "Locations", component: <LocationPage  activeTab={activeStep} setActiveTab={setActiveStep}/> },
     { label: "Categories", component: <Category activeTab={activeStep} setActiveTab={setActiveStep}/>  },
-    { label: "Database", component: <DataBase companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep}/> },
+    { label: "Database", component: <DataBase  activeTab={activeStep} setActiveTab={setActiveStep}/> },
     { label: "TableOptions", component: <TableOptions companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
     { label: "EventOptions", component: <EventOption companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
-    // { label: "Summary", component: (
-    //   <Box>
-    //     <Typography level="h6">Summary</Typography>
-    //     <pre>{JSON.stringify(companyFormData, null, 2)}</pre>
-    //   </Box>
-    // ) },
   ];
 
   return (
