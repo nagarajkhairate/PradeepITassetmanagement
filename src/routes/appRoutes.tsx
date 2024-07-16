@@ -46,6 +46,7 @@ import DatabaseMaintenance from '../pages/Setup/DataBase/DatabaseMaintenance/Dat
 import DatabaseWarranties from '../pages/Setup/DataBase/DatabaseWarranties.tsx/DataBaseWarranties'
 import SetupColumns from '../pages/Assets/SetupColumns'
 import SearchCriteria from '../pages/Assets/SearchCriteria'
+import CheckOutOption from '../components/AssetSections/EditAsset/Check Out/CheckOutOption'
 
 const appRoutes: RouteType[] = [
   {
@@ -170,6 +171,12 @@ const appRoutes: RouteType[] = [
         index: true,
         path: '/assets/edit-an-asset/:id',
         element: <EditAnAsset />,
+        state: 'assets',
+      },
+      {
+        index: true,
+        path: '/assets/checkOutOption',
+        element: <CheckOutOption />,
         state: 'assets',
       },
       {

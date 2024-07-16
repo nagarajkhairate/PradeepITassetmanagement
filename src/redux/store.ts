@@ -20,6 +20,7 @@ import TabsReducer from './features/TabsSlice';
 import componentsReducer from "./features/ComponentsIdSlice";
 import defaultFieldsReducer from './features/DefaultFieldAssetSlice';
 import AssetFieldMappingReducer from './features/AssetFieldMappingSlice';
+import CheckOutSliceReducer from "./features/CheckOutSlice";
 
 export const store = configureStore({
   reducer: {
@@ -43,7 +44,8 @@ export const store = configureStore({
     tabs: TabsReducer,
     components: componentsReducer,
     defaultFields:defaultFieldsReducer,
-    assetFieldMapping:AssetFieldMappingReducer
+    assetFieldMapping:AssetFieldMappingReducer,
+    checkOut:CheckOutSliceReducer
   },
 });
 

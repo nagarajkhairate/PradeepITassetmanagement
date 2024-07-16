@@ -153,7 +153,7 @@ const ListOfAssets = () => {
               </Typography>
             </Box>
           </Button>
-          {/* Uncomment the following section when needed */}
+         
           {/* <Link to="/assets/list-of-assets/set-up-columns" style={{ textDecoration: "none" }}>
             <Button
               size="md" // Medium size
