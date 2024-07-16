@@ -16,8 +16,8 @@ import axios from 'axios';
     error: null,
   };
  
-const base_api_key_url = process.env.BASE_API_KEY;
-const TENANT_ID = process.env.TENANT_ID;
+  const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
+  const TENANT_ID = process.env.REACT_APP_TENANT_ID;  
 
  
 export const fetchEmpDatabase = createAsyncThunk('empDatabase/fetchEmpDatabase', async () => {
@@ -65,8 +65,8 @@ const empDatabaseSlice = createSlice({
   initialState,
   reducers: {
     setSelectedCustomer: (state, action: PayloadAction<number>) => {
-      const categories = state.data.find((u) => u.id === action.payload);
-      state.selectedEmpDatabase = categories || null;
+      const empDatabase = state.data.find((u) => u.id === action.payload);
+      state.selectedEmpDatabase = empDatabase || null;
     },
   },
   extraReducers: (builder) => {

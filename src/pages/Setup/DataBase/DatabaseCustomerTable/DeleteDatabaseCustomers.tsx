@@ -7,7 +7,7 @@ interface DeleteEmployeeDataProps {
   onClose: () => void
   onDelete: () => void
 }
-const DeleteDatabaseMaintenance: React.FC<DeleteEmployeeDataProps> = ({
+const DeleteDatabaseCustomers: React.FC<DeleteEmployeeDataProps> = ({
   open,
   onClose,
   onDelete,
@@ -103,4 +103,4 @@ const DeleteDatabaseMaintenance: React.FC<DeleteEmployeeDataProps> = ({
     </Modal>
   )
 }
-export default DeleteDatabaseMaintenance
+export default DeleteDatabaseCustomers

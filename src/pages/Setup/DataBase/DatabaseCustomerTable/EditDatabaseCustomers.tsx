@@ -1,47 +1,63 @@
 // import {
 //   Box,
+//   Button,
+//   Checkbox,
+//   FormControl,
+//   FormLabel,
+//   Input,
 //   Modal,
+//   Option,
+//   Radio,
+//   RadioGroup,
+//   Select,
+//   Sheet,
 //   Stack,
+//   Table,
+//   Typography,
 // } from '@mui/joy'
-// import { KeyboardArrowDown } from '@mui/icons-material'
-
+// import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
+// import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 // import { ChangeEvent, useState } from 'react'
-// import DeleteEmployeeData from './DeleteEmployeeData'
 // import AppForm from '../../../../components/Common/AppForm'
 // import { useSelector } from 'react-redux'
 // import { RootState } from '../../../../redux/store'
-// import EmployeeTable from './EmployeeFieldsAddingTable'
-// import EditModalEmployee from './EditModalDatabaseEmployee'
+// import DeleteDatabaseCustomers from './DeleteDatabaseCustomers'
+// import CustomerTable from './CustomerFieldsAddingTable'
+// import EditModal from './EditModelDatabaseCustomer'
+// import EditModalCustomer from './EditModelDatabaseCustomer'
 
-// const BackendData=[
+// const BackendData = [
 //   {
-//  'fieldName': 'string',
-//  'componentsId': 'string',
-//  'isRequired': 'string'
-// }
+//     fieldName: 'string',
+//     componentsId: 'string',
+//     isRequired: 'string',
+//   },
 // ]
 
-// const customAsset =[
-// {
-//  fieldName: 'Full Name',
-//  name: 'fullName',
-//  componentsId: 'string',
-//  isRequired: 'string'
-// },
+// const customCustomer = [
+//   {
+//     fieldName: 'Full Name',
+//     name: 'fullName',
+//     componentsId: 'string',
+//     isRequired: 'string',
+//   },
 // ]
 
 // interface Props {
-//   empDataBases: {
-//     customAsset: any[];
-//   };
-//   setEmpDataBases: React.Dispatch<
+//   customerDataBases: {
+//     customCustomer: any[]
+//   }
+//   setCustomerDataBases: React.Dispatch<
 //     React.SetStateAction<{
-//       customAsset: any[];
+//       customCustomer: any[]
 //     }>
-//   >;
+//   >
 // }
 
-// const EditDataBaseEmp: React.FC<Props> = ({ empDataBases, setEmpDataBases, }: Props) => {
+// const EditDatabaseCustomer: React.FC<Props> = ({
+//   customerDataBases,
+//   setCustomerDataBases,
+// }: Props) => {
 //   const [editOpen, setEditOpen] = useState(false)
 //   const [selectedCell, setSelectedCell] = useState<number | null>(null)
 //   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
@@ -75,16 +91,16 @@
 //     setEditOpen(true)
 //   }
 //   const handleEdit = (index: number) => {
-//     setSelectedCell(index);
-//     const selectedData = empDataBases.customAsset[index];
+//     setSelectedCell(index)
+//     const selectedData = customerDataBases.customCustomer[index]
 //     setFormData({
 //       custom: selectedData.fieldName,
 //       componentsId: selectedData.componentsId,
 //       isRequired: selectedData.isRequired,
 //       selectedCategories: '',
-//     });
-//     handleClickEditOpen();
-//   };
+//     })
+//     handleClickEditOpen()
+//   }
 
 //   const handleEditClose = () => {
 //     setEditOpen(false)
@@ -94,17 +110,17 @@
 //   }
 
 //   const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
-//     e.preventDefault();
-//     const { custom, componentsId, isRequired } = formData;
+//     e.preventDefault()
+//     const { custom, componentsId, isRequired } = formData
 
 //     if (selectedCell !== null) {
-//       const updatedData = empDataBases.customAsset.map((item, index) =>
+//       const updatedData = customerDataBases.customCustomer.map((item, index) =>
 //         index === selectedCell
 //           ? { ...item, fieldName: custom, componentsId, isRequired }
 //           : item,
-//       );
-//       setEmpDataBases({ ...empDataBases, customAsset: updatedData });
-//       handleEditClose();
+//       )
+//       setCustomerDataBases({ ...customerDataBases, customCustomer: updatedData })
+//       handleEditClose()
 //     }
 //   }
 
@@ -146,12 +162,11 @@
 //           borderRadius: '5px',
 //         }}
 //       >
-//         <EmployeeTable
-//          empDataBases={empDataBases}
-//          handleEdit={handleEdit}
-//          handleDeleteButton={handleDeleteButton}
-//          />
-       
+//          <CustomerTable
+//           customerDataBases={customerDataBases}
+//           handleEdit={handleEdit}
+//           handleDeleteButton={handleDeleteButton}
+//         />
 //       </Box>
 
 //       <Modal
@@ -161,24 +176,24 @@
 //         aria-describedby="modal-desc"
 //         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
 //       >
-//         <EditModalEmployee
-//          formData={formData}
-//          handleChange={handleChange}
-//          handleSelectChange={handleSelectChange}
-//          handleEditButton={handleEditButton}
-//          handleRadioChange={handleRadioChange}
-//          handleEditClose={handleEditClose}
-//          components={components}
-//          />
+//           <EditModalCustomer
+//           formData={formData}
+//           handleChange={handleChange}
+//           handleSelectChange={handleSelectChange}
+//           handleEditButton={handleEditButton}
+//           handleRadioChange={handleRadioChange}
+//           handleEditClose={handleEditClose}
+//           components={components}
+//         />
 //       </Modal>
 
-//       <DeleteEmployeeData
+//       <DeleteDatabaseCustomers
 //         open={deleteOpen}
 //         onClose={handleDeleteClose}
 //         onDelete={() => {
-//           setEmpDataBases({
-//             ...empDataBases,
-//             customAsset: empDataBases.customAsset.filter(
+//           setCustomerDataBases({
+//             ...customerDataBases,
+//             customCustomer: customerDataBases.customCustomer.filter(
 //               (_, index) => index !== selectedCell,
 //             ),
 //           })
@@ -188,5 +203,4 @@
 //     </Stack>
 //   )
 // }
-
-// export default EditDataBaseEmp
+// export default EditDatabaseCustomer

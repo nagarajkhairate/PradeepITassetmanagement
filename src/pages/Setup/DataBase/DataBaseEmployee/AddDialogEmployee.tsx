@@ -1,3 +1,4 @@
+import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import {
@@ -5,6 +6,7 @@ import {
   Button,
   FormControl,
   FormLabel,
+  Grid,
   Input,
   Modal,
   Option,
@@ -16,24 +18,31 @@ import {
 } from '@mui/joy'
 import AppForm from '../../../../components/Common/AppForm'
 import { RootState } from '../../../../redux/store'
+import { customEmployee } from './EmployeeData'
+import { addEmpCustomDatabase } from '../../../../redux/features/EmpCustomDatabseSlice'
 
-interface DatabaseCustomerProps {
+interface DataBaseAddProps {
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-const AddDialogCustomer: React.FC<DatabaseCustomerProps> = ({
+const AddEmployeeData: React.FC<DataBaseAddProps> = ({
   open,
   setOpen,
-})=>{
-
-  const components = useSelector((state: RootState) => state.components.data)
-
+}) => {
   const [formData, setFormData] = useState({
     fieldName: '',
     componentsId: 1,
     isRequired: '',
   })
+
+  const components = useSelector((state: RootState) => state.components.data)
+
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+
+  const empCustomDatabase = useSelector((state: RootState) => state.empCustomDatabase.data);
+
+
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -56,13 +65,15 @@ const AddDialogCustomer: React.FC<DatabaseCustomerProps> = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    // handleAddSkill(formData)
     setFormData({
       fieldName: '',
       componentsId: 1,
       isRequired: '',
     })
-    setOpen(false) 
+    setOpen(false)
     console.log('Form Data:', formData)
+    dispatch(addEmpCustomDatabase(formData))
   }
 
   const handleClose = () => {
@@ -109,9 +120,9 @@ const AddDialogCustomer: React.FC<DatabaseCustomerProps> = ({
 
         <AppForm onSubmit={handleSubmit}>
           <FormControl>
-            <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
-              Custom Field Label*:
-              <Input
+  <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
+    Custom Field Label*:
+    <Input
       variant="outlined"
       type="text"
       name="fieldName"
@@ -124,8 +135,9 @@ const AddDialogCustomer: React.FC<DatabaseCustomerProps> = ({
       required
       sx={{ width: '45%', marginLeft: '20px' }}
     />
-            </FormLabel>
-          </FormControl>
+  </FormLabel>
+</FormControl>
+
 
           <FormControl>
             <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
@@ -133,7 +145,7 @@ const AddDialogCustomer: React.FC<DatabaseCustomerProps> = ({
               <Select
                 placeholder="Select Data Types"
                 sx={{ width: '50%', marginLeft: '70px' }}
-                name="dataType"
+                name="componentsId"
                 value={formData.componentsId}
                 onChange={handleSelectChange}
               >
@@ -154,13 +166,12 @@ const AddDialogCustomer: React.FC<DatabaseCustomerProps> = ({
               alignItems: 'center',
             }}
           >
-            <FormLabel sx={{ paddingTop: '36px', marginLeft: '20px' }}>
-              Data Required:
-            </FormLabel>
+            <FormLabel sx={{ paddingTop: '20px' }}>Data Required:</FormLabel>
             <RadioGroup
               name="isRequired"
               value={formData.isRequired}
               onChange={handleRadioChange}
+              sx={{ marginLeft: '20px' }}
             >
               <Box>
                 <Radio
@@ -190,32 +201,32 @@ const AddDialogCustomer: React.FC<DatabaseCustomerProps> = ({
               flexWrap: 'wrap',
             }}
           >
-          <Button
-            autoFocus
-            type="submit"
-            variant="solid"
-            sx={{
-              background: '#fdd835',
-              '&:hover': { background: '#E1A91B' },
-              color: 'black',
-            }}
-          >
-            Save
-          </Button>
+            <Button
+              autoFocus
+              type="submit"
+              variant="solid"
+              sx={{
+                background: '#fdd835',
+                '&:hover': { background: '#E1A91B' },
+                color: 'black',
+              }}
+            >
+              Save
+            </Button>
 
-          <Button
-            type="button"
-            onClick={() => setOpen(false)}
-            autoFocus
-            variant="solid"
-            sx={{
-              background: 'black',
-              '&:hover': { background: 'black' },
-              color: 'white',
-            }}        
-          >
-            Cancel
-          </Button>
+            <Button
+              type="button"
+              onClick={() => setOpen(false)}
+              autoFocus
+              variant="solid"
+              sx={{
+                background: 'black',
+                '&:hover': { background: 'black' },
+                color: 'white',
+              }}
+            >
+              Cancel
+            </Button>
           </Box>
         </AppForm>
       </div>
@@ -223,4 +234,4 @@ const AddDialogCustomer: React.FC<DatabaseCustomerProps> = ({
     </Modal>
   )
 }
-export default React.memo(AddDialogCustomer)
+export default React.memo(AddEmployeeData)
