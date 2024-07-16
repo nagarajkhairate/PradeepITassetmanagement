@@ -4,48 +4,36 @@ import {
   Box,
   Grid,
   Input,
-  Select,
-  Option,
   Button,
   FormControl,
   FormLabel,
-  TextField,
-  MenuItem,
-  Checkbox,
+
 } from '@mui/joy'
-import { formConfig, FormFieldConfig } from './formConfig'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-import AddIcon from '@mui/icons-material/Add'
-import DeleteIcon from '@mui/icons-material/Delete'
+import { formConfig } from './formConfig'
+
 import AppView from '../../components/Common/AppView'
 import { ThunkDispatch } from '@reduxjs/toolkit'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { RootState } from '../../redux/store'
 import AppForm from '../../components/Common/AppForm'
-import AddCategory from '../../components/Companyinfo/Category/AddCategory'
-import AddSite from '../Setup/SetupSites/AddSite'
-import AddLocation from '../../components/Companyinfo/Location/AddLocation'
-import SetupAddDept from '../Setup/Departments/SetupAddDept'
+
 import { fetchLocation } from '../../redux/features/LocationSlice'
 import {
-  addDepartment,
   fetchDepartment,
 } from '../../redux/features/DepartmentSlice'
-import { addCategory, fetchCategory } from '../../redux/features/CategorySlice'
+import { fetchCategory } from '../../redux/features/CategorySlice'
 import { addAssets } from '../../redux/features/AssetSlice'
 import { fetchAssetFieldMapping } from '../../redux/features/AssetFieldMappingSlice'
-import SiteComponent from '../../components/AssetSections/EditAsset/AddAssetSection/SiteComponent'
-import LocationComponent from '../../components/AssetSections/EditAsset/AddAssetSection/LocationComponent'
-import DepartmentComponent from '../../components/AssetSections/EditAsset/AddAssetSection/DepartmentComponent'
-import CategoryComponent from '../../components/AssetSections/EditAsset/AddAssetSection/CategoryComponent'
+import SiteComponent from '../../components/AssetSections/SiteComponent'
+import LocationComponent from '../../components/AssetSections/LocationComponent'
+import DepartmentComponent from '../../components/AssetSections/DepartmentComponent'
+import CategoryComponent from '../../components/AssetSections/CategoryComponent'
 import { fetchSubCategories } from '../../redux/features/CategorySubSlice'
-import SubCategoryComponent from '../../components/AssetSections/EditAsset/AddAssetSection/SubCategorycomponent'
-import FileField from '../../components/Common/AppFile/FileField'
 import AssetFileField from '../../components/Common/AppFile/AssetFileField'
+import SelectOption from '../../components/AssetSections/SelectOption'
+import SubCategoryComponent from '../../components/AssetSections/SubCategoryComponent'
 
-interface ValidationMessages {
-  [key: string]: string
-}
+
 
 const AddAnAsset: React.FC = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -53,12 +41,7 @@ const AddAnAsset: React.FC = () => {
   // Initialize state dynamically based on formConfig
 
   const [formData, setFormData] = useState<any>({})
-
-  const [open, setOpen] = useState<boolean>(false)
-  const [validationMessages, setValidationMessages] =
-    useState<ValidationMessages>({})
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([])
-  const [openDialog, setOpenDialog] = useState<string | null>(null)
   const [file, setFile] = useState<File | null>(null)
 
   useEffect(() => {
@@ -70,7 +53,6 @@ const AddAnAsset: React.FC = () => {
   }, [dispatch])
 
   const handleSelectChange = (
-    event: React.SyntheticEvent<Element, Event> | null,
     newValue: any,
     title: string,
   ) => {
@@ -79,24 +61,18 @@ const AddAnAsset: React.FC = () => {
       ...prevData,
       [title]: newValue,
     }))
-    setValidationMessages((prevState) => ({ ...prevState, [title]: '' }))
   }
   
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    title: string,
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const { name, value } = e.target
     setFormData((prevData:any) => ({
       ...prevData,
       [name]: value,
     }))
-    setValidationMessages((prevState) => ({ ...prevState, [title]: '' }))
   }
 
-  const capitalizeWords = (str: string) => {
-    return str.replace(/\b\w/g, (char) => char.toUpperCase())
-  }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, files } = e.target
@@ -123,30 +99,9 @@ const AddAnAsset: React.FC = () => {
     })
   }
 
-  console.log(openDialog)
-
-  const handleCloseDialog = () => {
-    setOpenDialog(null)
-  }
-  const handleClose = () => {
-    setOpen(false)
-  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const newValidationMessages: ValidationMessages = {}
-    formConfig.forEach((field) => {
-      if (field.title !== 'assetPhoto' && !formData[field.title]) {
-        // newValidationMessages[field.validationMessageKey] =
-        //     `${field.title} is required.`;
-      }
-    })
-
-    if (Object.keys(newValidationMessages).length > 0) {
-      setValidationMessages(newValidationMessages)
-      return
-    }
-
     const formDataToSend = new FormData()
     for (const key in formData) {
       if (formData[key] !== null) {
@@ -173,127 +128,61 @@ const AddAnAsset: React.FC = () => {
   const handleInputValue = (
     field: any,
     formData: any,
-    handleInputChange?: (
-      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    handleInputChange: (
+      event: React.ChangeEvent<HTMLInputElement>
     ) => void,
-    handleSelectChange?: (
-      event: React.SyntheticEvent<Element, Event> | null,
-      value: string | null,
-      name: string,
+    handleSelectChange: (
+      value: string | null, name: string
     ) => void,
-    handleFileChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
-    mode?: string,
+    handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    mode?: string
   ) => {
     const commonProps = {
       field,
       formData,
       handleInputChange,
-      handleSelectChange: handleSelectChange || (() => {}),
-      handleFileChange: handleFileChange || (() => {}),
+      handleSelectChange,
+      handleFileChange,
       mode,
-    }
+    };
 
-    // console.log(JSON.stringify(field))
-    console.log(field.name)
+    
+
     switch (field.components.type) {
       case 'text':
-        return (
-          <FormControl>
-            <FormLabel>{field.fieldName}</FormLabel>
-            <Input
-              name={field.name}
-              value={formData[field.name] as string}
-              onChange={handleInputChange}
-              sx={field.stylings}
-            />
-          </FormControl>
-        )
       case 'date':
-        return (
-          <FormControl>
-            <FormLabel>{field.fieldName}</FormLabel>
-            <Input
-              type="date"
-              name={field.name}
-              value={formData[field.name] as string}
-              onChange={handleInputChange}
-              sx={field.stylings}
-            />
-          </FormControl>
-        )
-      case 'select':
-        if (field.name === 'siteId') {
-          return <SiteComponent {...commonProps} />
-        } else if (field.name === 'locationId') {
-          return <LocationComponent {...commonProps} />
-        }
-       else if (field.name === 'departmentId') {
-        return <DepartmentComponent {...commonProps} />
-      } 
-      else if (field.name === 'categoryId') {
-        return <CategoryComponent {...commonProps} />
-      } 
-      else if (field.name === 'subCategoryId') {
-        return <SubCategoryComponent {...commonProps} />
-      } 
-      else {
-          return <FormControl>
-            <FormLabel>{field.fieldName}</FormLabel>
-            <Select
-              name={field.name}
-              value={formData[field.name]}
-              onChange={(event) =>
-                handleSelectChange &&
-                handleSelectChange(event, event.target.value, field.name)
-              }
-              sx={field.stylings}
-            >         
-            </Select>
-          </FormControl>
-        }
-        case 'number':
-          return (
-            <FormControl key={field.name}>
-              <FormLabel>{field.fieldName}</FormLabel>
-              <Input
-                type="number"
-                name={field.name}
-                value={formData[field.name] as number}
-                onChange={handleInputChange}
-                sx={field.stylings}
-              />
-            </FormControl>
-          );
-      //
-      // case 'checkbox':
-      //   return (
-      //     <FormControl
-      //       control={
-      //         <Checkbox
-      //           name={field.name}
-      //           checked={formData[field.name] as boolean}
-      //           onChange={handleInputChange}
-      //         />
-      //       }
-      //       label={field.fieldName}
-      //     />
-      //   )
+      case 'number':
       case 'textarea':
         return (
           <FormControl>
             <FormLabel>{field.fieldName}</FormLabel>
             <Input
-              // multiline
               name={field.name}
               value={formData[field.name] as string}
               onChange={handleInputChange}
               sx={field.stylings}
             />
           </FormControl>
-        )
+        );
+
+      case 'select':
+        if (field.name === 'siteId') {
+          return <SiteComponent {...commonProps} />;
+        } else if (field.name === 'locationId') {
+          return <LocationComponent {...commonProps} />;
+        } else if (field.name === 'departmentId') {
+          return <DepartmentComponent {...commonProps} />;
+        } else if (field.name === 'categoryId') {
+          return <CategoryComponent {...commonProps} />;
+        } else if (field.name === 'subCategoryId') {
+          return <SubCategoryComponent {...commonProps} />;
+        } else {
+          return <SelectOption {...commonProps} />
+        }
+
       case 'file':
         if (field.name === 'assetPhoto') {
-          return <AssetFileField {...commonProps} />
+          return <AssetFileField {...commonProps} />;
         }
         return (
           <FormControl>
@@ -315,12 +204,12 @@ const AddAnAsset: React.FC = () => {
               ))}
             </Box>
           </FormControl>
-        )
-      default:
-        return null
-    }
-  }
+        );
 
+      default:
+        return null;
+    }
+  };
   return (
     <AppForm onSubmit={handleSubmit} encType="multipart/form-data">
       <AppView>

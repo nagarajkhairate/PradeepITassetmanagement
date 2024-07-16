@@ -16,13 +16,13 @@ import axios from 'axios';
     error: null,
   };
  
-const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
-const TENANT_ID = process.env.REACT_APP_TENANT_ID;
+const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
+const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
 
  
 export const fetchAssetCustomDatabase = createAsyncThunk('assetCustomDatabase/fetchAssetCustomDatabase', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/assetCustomDatabase`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/assetCustomDatabase`);
   return response.data;
    
   } catch (error) {
@@ -36,7 +36,7 @@ export const fetchAssetCustomDatabase = createAsyncThunk('assetCustomDatabase/fe
 
 export const fetchAssetCustomDatabaseById = createAsyncThunk('assetCustomDatabase/fetchAssetCustomDatabaseById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/assetCustomDatabase/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/assetCustomDatabase/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -46,20 +46,20 @@ export const fetchAssetCustomDatabaseById = createAsyncThunk('assetCustomDatabas
 });
  
 export const addAssetCustomDatabase = createAsyncThunk('assetCustomDatabase/addAssetCustomDatabase', async (assetCustomDatabase: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/assetCustomDatabase`, assetCustomDatabase);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/assetCustomDatabase`, assetCustomDatabase);
  console.log(response)
   return response.data;
 });
  
 export const updateAssetCustomDatabase = createAsyncThunk('assetCustomDatabase/updateAssetCustomDatabase', async (updatedAssetCustomDatabase: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/assetCustomDatabase/${updatedAssetCustomDatabase.id}`, updatedAssetCustomDatabase);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/assetCustomDatabase/${updatedAssetCustomDatabase.id}`, updatedAssetCustomDatabase);
   
   return response.data;
 });
  
 export const deleteAssetCustomDatabase = createAsyncThunk('assetCustomDatabase/deleteAssetCustomDatabase', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/assetCustomDatabase/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/assetCustomDatabase/${id}`);
   return id;
 });
 

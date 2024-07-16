@@ -16,13 +16,13 @@ import axios from 'axios';
     error: null,
   };
  
-  const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
-  const TENANT_ID = process.env.REACT_APP_TENANT_ID;  
+  const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
+  const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;  
 
  
 export const fetchContractDatabase = createAsyncThunk('contractDatabase/fetchContractDatabase', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons`);
   return response.data;
    
   } catch (error) {
@@ -33,7 +33,7 @@ export const fetchContractDatabase = createAsyncThunk('contractDatabase/fetchCon
 
 export const fetchContractDatabaseById = createAsyncThunk('contractDatabase/fetchContractDatabaseById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -43,20 +43,20 @@ export const fetchContractDatabaseById = createAsyncThunk('contractDatabase/fetc
 });
  
 export const addContractDatabase = createAsyncThunk('contractDatabase/addContractDatabase', async (contractDatabase: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons`, contractDatabase);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons`, contractDatabase);
  console.log(response)
   return response.data;
 });
  
 export const updateContractDatabase = createAsyncThunk('contractDatabase/updateContractDatabase', async (updatedContractDatabase: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons/${updatedContractDatabase.id}`, updatedContractDatabase);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons/${updatedContractDatabase.id}`, updatedContractDatabase);
   
   return response.data;
 });
  
 export const deleteContractDatabase = createAsyncThunk('contractDatabase/deleteContractDatabase', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons/${id}`);
   return id;
 });
 

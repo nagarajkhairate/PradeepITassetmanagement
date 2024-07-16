@@ -11,10 +11,10 @@ import {
   FormLabel,
 } from '@mui/joy'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../../../redux/store'
+import { RootState } from '../../redux/store'
 import { ThunkDispatch } from 'redux-thunk'
-import SetupAddDept from '../../../../pages/Setup/Departments/SetupAddDept'
-import { fetchDepartment } from '../../../../redux/features/DepartmentSlice'
+import SetupAddDept from '../../pages/Setup/Departments/SetupAddDept'
+import { fetchDepartment } from '../../redux/features/DepartmentSlice'
 
 interface DepartmentProps {
   field: {

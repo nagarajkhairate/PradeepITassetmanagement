@@ -46,7 +46,7 @@ import DatabaseMaintenance from '../pages/Setup/DataBase/DatabaseMaintenance/Dat
 import DatabaseWarranties from '../pages/Setup/DataBase/DatabaseWarranties.tsx/DataBaseWarranties'
 import SetupColumns from '../pages/Assets/SetupColumns'
 import SearchCriteria from '../pages/Assets/SearchCriteria'
-import CheckOutOption from '../components/AssetSections/EditAsset/Check Out/CheckOutOption'
+import CheckOutOption from '../components/AssetSections/Check Out/CheckOutOption'
 import DatabaseContractTable from '../pages/Setup/DataBase/DatabaseContract/DatabaseContractTable'
 
 

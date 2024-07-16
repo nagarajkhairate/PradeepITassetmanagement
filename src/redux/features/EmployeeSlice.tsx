@@ -13,19 +13,22 @@ const initialState:addEmployee={
   error:null,
 }
 
+const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
+const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;  
+
 export const fetch_employee = createAsyncThunk('addEmployee/fetch_employee',async()=>{
-  const response = await axios.get("http://127.0.0.1:8000/api/employees")
+  const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employees`)
   return response.data
 })
 
 export const update_employee = createAsyncThunk('addEmployee/update_employee',async()=>{
-  const response = await axios.put("")
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employees`)
   return response.data
 })
 
 export const post_add_Employee = createAsyncThunk('addEmployee/post_addEmployee', async (PostData) => {
   try {
-    const response = await axios.post("http://127.0.0.1:8000/api/employees/", PostData);
+    const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employees`, PostData);
     console.log('ResponsePost:', response.data);
     return response.data;
   } catch (error) {
@@ -49,7 +52,7 @@ export const addEmployeeSlice = createSlice({
       state.error = ''
       state.data = action.payload
     })
-    builder.addCase(fetch_employee.rejected,(state,action)=>{
+    builder.addCase(fetch_employee.rejected,(state, action)=>{
       state.loading = false;
       state.error = ''
       state.data = []

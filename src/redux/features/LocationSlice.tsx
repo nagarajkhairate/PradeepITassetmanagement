@@ -16,13 +16,13 @@ import axios from 'axios';
     error: null,
   };
  
-const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
-const TENANT_ID = process.env.REACT_APP_TENANT_ID;
+const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
+const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
 
  
 export const fetchLocation = createAsyncThunk('location/fetchLocation', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/location`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/location`);
   return response.data;
    
   } catch (error) {
@@ -36,7 +36,7 @@ export const fetchLocation = createAsyncThunk('location/fetchLocation', async ()
 
 export const fetchLocationById = createAsyncThunk('location/fetchLocationById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/location/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/location/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -46,7 +46,7 @@ export const fetchLocationById = createAsyncThunk('location/fetchLocationById', 
 });
  
 export const addLocation = createAsyncThunk('location/addLocation', async (location: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/location`, location);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/location`, location);
  console.log(response)
   return response.data;
 });
@@ -54,13 +54,13 @@ export const addLocation = createAsyncThunk('location/addLocation', async (locat
 
 export const updateLocation = createAsyncThunk('location/updateLocation', async (updatedLocation: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/location/${updatedLocation.id}`, updatedLocation);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/location/${updatedLocation.id}`, updatedLocation);
   
   return response.data;
 });
  
 export const deleteLocation = createAsyncThunk('location/deleteLocation', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/location/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/location/${id}`);
   return id;
 });
 

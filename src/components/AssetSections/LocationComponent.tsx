@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { Select, Option, Button, Typography, Box, FormControl, FormHelperText, FormLabel } from '@mui/joy';
-import AddLocation from "../../../Companyinfo/Location/AddLocation";
-import { RootState } from "../../../../redux/store";
+import AddLocation from "../Companyinfo/Location/AddLocation";
+import { RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchLocation } from "../../../../redux/features/LocationSlice";
+import { fetchLocation } from "../../redux/features/LocationSlice";
 import { ThunkDispatch } from "redux-thunk";
 interface LocationProps {
   field: { fieldName: string; name: string; options: { value: string; label: string; }[] };

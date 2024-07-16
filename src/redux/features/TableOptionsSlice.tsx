@@ -14,12 +14,12 @@ const initialState: TableOptionsState = {
   error: null,
 };
 
-const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
-const TENANT_ID = process.env.REACT_APP_TENANT_ID;
+const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
+const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
 
 export const fetchOptions = createAsyncThunk('options/fetchOptions', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/table-options`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/table-options`);
   return response.data;
    
   } catch (error) {
@@ -32,7 +32,7 @@ export const fetchOptions = createAsyncThunk('options/fetchOptions', async () =>
 
 export const fetchOptionsById = createAsyncThunk('options/fetchOptionsById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/table-options/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/table-options/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -42,19 +42,19 @@ export const fetchOptionsById = createAsyncThunk('options/fetchOptionsById', asy
 });
  
 export const addoptions = createAsyncThunk('options/addoptions', async (options: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/table-options`, options);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/table-options`, options);
  console.log(response)
   return response.data;
 });
  
 export const updateoptions = createAsyncThunk('options/updateoptions', async (updatedoptions: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/table-options/${updatedoptions.id}`, updatedoptions);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/table-options/${updatedoptions.id}`, updatedoptions);
   return response.data;
 });
  
 export const deleteoptions = createAsyncThunk('options/deleteoptions', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/table-options/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/table-options/${id}`);
   return id;
 });
  

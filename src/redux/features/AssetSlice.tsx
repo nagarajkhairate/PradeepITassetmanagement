@@ -14,12 +14,12 @@ const initialState: AssetSliceState = {
   loading: false,
   error: null,
 };
-const TENANT_ID = process.env.REACT_APP_TENANT_ID;
-const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
+const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
+const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
  
 export const fetchAssets = createAsyncThunk('assets/fetchAssets', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/add-asset`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/add-asset`);
   return response.data;
    
   } catch (error) {
@@ -30,7 +30,7 @@ export const fetchAssets = createAsyncThunk('assets/fetchAssets', async () => {
 
 export const fetchAssetsById = createAsyncThunk('assets/fetchAssetsById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/add-asset/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/add-asset/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -40,18 +40,18 @@ export const fetchAssetsById = createAsyncThunk('assets/fetchAssetsById', async 
 });
  
 export const addAssets = createAsyncThunk('assets/addAssets', async (assets: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/add-asset`, assets);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/add-asset`, assets);
   return response.data;
 });
  
 export const updateAssets = createAsyncThunk('assets/updateAssets', async (updatedCustomer: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/add-asset/${updatedCustomer.get('id')}`, updatedCustomer);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/add-asset/${updatedCustomer.get('id')}`, updatedCustomer);
   return response.data;
 });
  
 export const deleteAssets = createAsyncThunk('assets/deleteAssets', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/add-asset/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/add-asset/${id}`);
   return id;
 });
  
