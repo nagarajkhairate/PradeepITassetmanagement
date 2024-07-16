@@ -16,13 +16,13 @@ import axios from 'axios';
     error: null,
   };
  
-const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
-const TENANT_ID = process.env.REACT_APP_TENANT_ID;
+const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
+const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
 
  
 export const fetchEvents = createAsyncThunk('events/fetchEvents', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/events`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/events`);
   return response.data;
    
   } catch (error) {
@@ -36,7 +36,7 @@ export const fetchEvents = createAsyncThunk('events/fetchEvents', async () => {
 
 export const fetchEventsById = createAsyncThunk('events/fetchEventsById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/events/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/events/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -46,20 +46,20 @@ export const fetchEventsById = createAsyncThunk('events/fetchEventsById', async 
 });
  
 export const addEvents = createAsyncThunk('events/addEvents', async (events: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/events`, events);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/events`, events);
  console.log(response)
   return response.data;
 });
  
 export const updateEvents = createAsyncThunk('events/updateevents', async (updatedEvents: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/events/${updatedEvents.id}`, updatedEvents);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/events/${updatedEvents.id}`, updatedEvents);
   
   return response.data;
 });
  
 export const deleteEvents = createAsyncThunk('events/deleteEvents', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/events/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/events/${id}`);
   return id;
 });
 

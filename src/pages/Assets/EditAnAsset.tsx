@@ -20,13 +20,13 @@ import { fetchDepartment } from "../../redux/features/DepartmentSlice";
 import { fetchCategory } from "../../redux/features/CategorySlice";
 import { useNavigate, useParams } from "react-router-dom";
 import AppForm from "../../components/Common/AppForm";
-import SiteComponent from "../../components/AssetSections/EditAsset/AddAssetSection/SiteComponent";
-import LocationComponent from "../../components/AssetSections/EditAsset/AddAssetSection/LocationComponent";
-import DepartmentComponent from "../../components/AssetSections/EditAsset/AddAssetSection/DepartmentComponent";
-import CategoryComponent from "../../components/AssetSections/EditAsset/AddAssetSection/CategoryComponent";
-import SubCategoryComponent from "../../components/AssetSections/EditAsset/AddAssetSection/SubCategorycomponent";
+import SiteComponent from "../../components/AssetSections/SiteComponent";
+import LocationComponent from "../../components/AssetSections/LocationComponent";
+import DepartmentComponent from "../../components/AssetSections/DepartmentComponent";
+import CategoryComponent from "../../components/AssetSections/CategoryComponent";
+import SubCategoryComponent from "../../components/AssetSections/SubCategoryComponent";
 import AssetFileField from "../../components/Common/AppFile/AssetFileField";
-import SelectOption from "../../components/AssetSections/EditAsset/AddAssetSection/SelectOption";
+import SelectOption from "../../components/AssetSections/SelectOption";
 
 interface ValidationMessages {
   [key: string]: string;

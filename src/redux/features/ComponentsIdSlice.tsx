@@ -16,13 +16,13 @@ import axios from 'axios';
     error: null,
   };
  
-const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
-const TENANT_ID = process.env.REACT_APP_TENANT_ID;
+const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
+const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
 
  
 export const fetchComponents = createAsyncThunk('components/fetchComponents', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/components`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/components`);
   return response.data;
    
   } catch (error) {
@@ -36,7 +36,7 @@ export const fetchComponents = createAsyncThunk('components/fetchComponents', as
 
 export const fetchComponentsById = createAsyncThunk('components/fetchComponentsById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/components/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/components/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -46,20 +46,20 @@ export const fetchComponentsById = createAsyncThunk('components/fetchComponentsB
 });
  
 export const addComponents = createAsyncThunk('components/addComponents', async (components: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/components`, components);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/components`, components);
  console.log(response)
   return response.data;
 });
  
 export const updateComponents = createAsyncThunk('components/updateComponents', async (updatedComponents: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/components/${updatedComponents.id}`, updatedComponents);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/components/${updatedComponents.id}`, updatedComponents);
   
   return response.data;
 });
  
 export const deleteComponents = createAsyncThunk('components/deleteComponents', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/components/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/components/${id}`);
   return id;
 });
 

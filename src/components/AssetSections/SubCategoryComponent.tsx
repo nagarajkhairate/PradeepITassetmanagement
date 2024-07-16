@@ -2,32 +2,28 @@ import React, { useState, useEffect } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { Select, Option, Button, Typography, Box, FormControl, FormHelperText, FormLabel } from '@mui/joy';
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
-import { fetchCategory } from "../../../../redux/features/CategorySlice";
-import AddCategory from "../../../Companyinfo/Category/AddCategory";
+import { RootState } from "../../redux/store";
+import { fetchSubCategories } from "../../redux/features/CategorySubSlice";
 import { ThunkDispatch } from "redux-thunk";
+import CategorySubAdd from "../../pages/Setup/SubCategory/CategorySubAdd";
 
-
-interface CategoryProps {
+interface SubCategoryProps {
   field: { fieldName: string; name: string; options: { value: string; label: string; }[] };
   formData: any;
-  handleSelectChange: (
-   
+   handleSelectChange: (
     value: string | null,
     name: string,
   ) => void;
 }
 
-
-
-const CategoryComponent: React.FC<CategoryProps> = (
-  { field, 
-    formData, 
-    handleSelectChange
-    }) => {
+const SubCategoryComponent: React.FC<SubCategoryProps> = ({
+  field, 
+  formData, 
+  handleSelectChange,
+}) => {
   const [error, setError] = useState<string>("");
   const [open, setOpen] = useState(false);
-  const categories = useSelector((state: RootState) => state.category.data)
+  const subCategories = useSelector((state: RootState) => state.subCategories.data);
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
 
@@ -36,31 +32,31 @@ const CategoryComponent: React.FC<CategoryProps> = (
   };
 
   useEffect(()=>{
-    dispatch(fetchCategory())
+    dispatch(fetchSubCategories())
   },[dispatch])
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', mt: 2 }}>
       <FormControl sx={{ width: '200px' }}>
-      <FormLabel>{field.fieldName}</FormLabel>
-
+        <FormLabel>{field.fieldName}</FormLabel>
         <Select
-          placeholder="Select Category"
+          placeholder="Select SubCategory"
           name={field.name}
-          value={formData['category']?.id as string}
+          value={formData[field.name] as string}
           onChange={selectChange}
         >
-          {categories.map((category) => (
-            <Option key={category.id} value={category.id}>
-              {category.categoryName}
+          {subCategories.map((subCategory: { id: number; subCategory: string }) => (
+            <Option key={subCategory.id} value={subCategory.id}>
+              {subCategory.subCategory}
             </Option>
           ))}
         </Select>
-        {error && <FormHelperText >{error}</FormHelperText>}
+
+        {error && <FormHelperText>{error}</FormHelperText>}
       </FormControl>
 
       <Button
-        onClick={() => setOpen(true)}
+        onChange={() => setOpen(true)}
         variant="outlined"
         size="sm"
         sx={{
@@ -78,13 +74,13 @@ const CategoryComponent: React.FC<CategoryProps> = (
           <AddIcon />
         </Typography>
         <Typography sx={{ mr: '25px', color: '#767676' }}>
-          New
+          New Department
         </Typography>
       </Button>
 
       {open && (
-        <AddCategory
-          open={open}
+        <CategorySubAdd
+        open={open}     
           setOpen={setOpen}
         />
       )}
@@ -92,4 +88,4 @@ const CategoryComponent: React.FC<CategoryProps> = (
   );
 };
 
-export default CategoryComponent;
+export default SubCategoryComponent;

@@ -15,12 +15,12 @@ const initialState: AssetFieldMappingSliceState = {
   error: null,
 };
 
-const TENANT_ID = process.env.REACT_APP_TENANT_ID;
-const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
+const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
+const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
  
 export const fetchAssetFieldMapping = createAsyncThunk('assetsFields/fetchAssetFieldMapping', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/asset-mappings`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/asset-mappings`);
   return response.data;
    
   } catch (error) {
@@ -31,7 +31,7 @@ export const fetchAssetFieldMapping = createAsyncThunk('assetsFields/fetchAssetF
 });
 export const fetchAssetFieldMappingById = createAsyncThunk('assetsFields/fetchAssetFieldMappingById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/asset-mappings/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/asset-mappings/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -41,18 +41,18 @@ export const fetchAssetFieldMappingById = createAsyncThunk('assetsFields/fetchAs
 });
  
 export const addAssetFieldMapping = createAsyncThunk('assetsFields/addAssetFieldMapping', async (assets: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/asset-mappings`, assets);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/asset-mappings`, assets);
   return response.data;
 });
  
 export const updateAssetFieldMapping = createAsyncThunk('assetsFields/updateAssetFieldMapping', async (updatedCustomer: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/asset-mappings/${updatedCustomer.id}`, updatedCustomer);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/asset-mappings/${updatedCustomer.id}`, updatedCustomer);
   return response.data;
 });
  
 export const deleteAssetFieldMapping = createAsyncThunk('assetsFields/deleteAssetFieldMapping', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/asset-mappings/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/asset-mappings/${id}`);
   return id;
 });
  

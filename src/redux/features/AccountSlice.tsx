@@ -15,12 +15,12 @@ const initialState: AccountState = {
 };
 
 
-const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
+const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
 export const createAccount = createAsyncThunk(
   'tenant/register',
 
   async (accountData: any) => {
-    const response = await axios.post(`${base_api_key_url}tenant/register`, accountData);
+    const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/register`, accountData);
      return response.data;
    }
  

@@ -16,13 +16,13 @@ import axios from 'axios';
     error: null,
   };
  
-const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
-const TENANT_ID = process.env.REACT_APP_TENANT_ID;
+const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
+const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
 
  
 export const fetchSubCategories = createAsyncThunk('subCategories/fetchSubCategories', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/sub-categories`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/sub-categories`);
   return response.data;
    
   } catch (error) {
@@ -36,7 +36,7 @@ export const fetchSubCategories = createAsyncThunk('subCategories/fetchSubCatego
 
 export const fetchSubCategoryById = createAsyncThunk('subCategories/fetchSubCategoryById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/sub-categories/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/sub-categories/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -46,20 +46,20 @@ export const fetchSubCategoryById = createAsyncThunk('subCategories/fetchSubCate
 });
  
 export const addSubCategories = createAsyncThunk('subCategories/addSubCategories', async (subCategories: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/sub-categories`, subCategories);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/sub-categories`, subCategories);
  console.log(response)
   return response.data;
 });
  
 export const updateSubCategories = createAsyncThunk('subCategories/updateSubCategories', async (updatedSubCategory: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/sub-categories/${updatedSubCategory.id}`, updatedSubCategory);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/sub-categories/${updatedSubCategory.id}`, updatedSubCategory);
   
   return response.data;
 });
  
 export const deleteSubCategories = createAsyncThunk('subCategories/deleteSubCategories', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/sub-categories/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/sub-categories/${id}`);
   return id;
 });
 

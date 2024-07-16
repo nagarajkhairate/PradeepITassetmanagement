@@ -14,12 +14,12 @@ const initialState: SitesState = {
   error: null,
 };
 
-const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
-const TENANT_ID = process.env.REACT_APP_TENANT_ID;
+const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
+const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
 
 export const fetchSites = createAsyncThunk('sites/fetchSites', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/site`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/site`);
   return response.data;
    
   } catch (error) {
@@ -32,7 +32,7 @@ export const fetchSites = createAsyncThunk('sites/fetchSites', async () => {
 
 export const fetchSitesById = createAsyncThunk('sites/fetchSitesById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/site/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/site/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -42,18 +42,18 @@ export const fetchSitesById = createAsyncThunk('sites/fetchSitesById', async (id
 });
  
 export const addSites = createAsyncThunk('sites/addSites', async (sites: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/site`, sites);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/site`, sites);
   return response.data;
 });
  
 export const updateSites = createAsyncThunk('sites/updateSites', async (updatedSites: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/site/${updatedSites.id}`, updatedSites);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/site/${updatedSites.id}`, updatedSites);
   return response.data;
 });
  
 export const deleteSites = createAsyncThunk('sites/deleteSites', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/site/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/site/${id}`);
   return id;
 });
  

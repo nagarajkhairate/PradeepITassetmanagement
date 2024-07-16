@@ -16,13 +16,13 @@ import axios from 'axios';
     error: null,
   };
  
-const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
-const TENANT_ID = process.env.REACT_APP_TENANT_ID;
+const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
+const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
 
  
 export const fetchDepartment = createAsyncThunk('department/fetchDepartment', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/department`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/department`);
   return response.data;
    
   } catch (error) {
@@ -36,7 +36,7 @@ export const fetchDepartment = createAsyncThunk('department/fetchDepartment', as
 
 export const fetchDepartmentById = createAsyncThunk('department/fetchDepartmentById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/department/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/department/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -46,20 +46,20 @@ export const fetchDepartmentById = createAsyncThunk('department/fetchDepartmentB
 });
  
 export const addDepartment = createAsyncThunk('department/addDepartment', async (department: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/department`, department);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/department`, department);
  console.log(response)
   return response.data;
 });
  
 export const updateDepartment = createAsyncThunk('department/updateDepartment', async (updatedDepartment: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/department/${updatedDepartment.id}`, updatedDepartment);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/department/${updatedDepartment.id}`, updatedDepartment);
   
   return response.data;
 });
  
 export const deleteDepartment = createAsyncThunk('department/deleteDepartment', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/departments/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/departments/${id}`);
   return id;
 });
 

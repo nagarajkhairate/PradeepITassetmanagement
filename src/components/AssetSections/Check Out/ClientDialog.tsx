@@ -11,10 +11,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 
-import InputField from "../../../Common/Input";
-import SelectField from "../../../Common/Select";
-import { RootState } from "../../../../redux/store";
-import { post_add_client } from "../../../../redux/features/ClientSlice";
+import InputField from "../../Common/Input";
+import SelectField from "../../Common/Select";
+import { RootState } from "../../../redux/store";
+import { post_add_client } from "../../../redux/features/ClientSlice";
 
 
 

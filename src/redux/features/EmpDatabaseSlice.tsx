@@ -16,13 +16,13 @@ import axios from 'axios';
     error: null,
   };
  
-  const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
-  const TENANT_ID = process.env.REACT_APP_TENANT_ID;  
+  const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
+  const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;  
 
  
 export const fetchEmpDatabase = createAsyncThunk('empDatabase/fetchEmpDatabase', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons`);
   return response.data;
    
   } catch (error) {
@@ -33,7 +33,7 @@ export const fetchEmpDatabase = createAsyncThunk('empDatabase/fetchEmpDatabase',
 
 export const fetchEmpDatabaseById = createAsyncThunk('empDatabase/fetchEmpDatabaseById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -43,20 +43,20 @@ export const fetchEmpDatabaseById = createAsyncThunk('empDatabase/fetchEmpDataba
 });
  
 export const addEmpDatabase = createAsyncThunk('empDatabase/addEmpDatabase', async (empDatabase: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons`, empDatabase);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons`, empDatabase);
  console.log(response)
   return response.data;
 });
  
 export const updateEmpDatabase = createAsyncThunk('empDatabase/updateEmpDatabase', async (updatedEmpDatabase: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons/${updatedEmpDatabase.id}`, updatedEmpDatabase);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons/${updatedEmpDatabase.id}`, updatedEmpDatabase);
   
   return response.data;
 });
  
 export const deleteEmpDatabase = createAsyncThunk('empDatabase/deleteEmpDatabase', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons/${id}`);
   return id;
 });
 

@@ -1,62 +1,59 @@
 import React, { useState, useEffect } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { Select, Option, Button, Typography, Box, FormControl, FormHelperText, FormLabel } from '@mui/joy';
+import AddSite from "../../pages/Setup/SetupSites/AddSite";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
-import { fetchSubCategories } from "../../../../redux/features/CategorySubSlice";
+import { RootState } from "../../redux/store";
+import { fetchSites } from "../../redux/features/SitesSlice";
 import { ThunkDispatch } from "redux-thunk";
-import CategorySubAdd from "../../../../pages/Setup/SubCategory/CategorySubAdd";
 
-interface SubCategoryProps {
-  field: { fieldName: string; name: string; options: { value: string; label: string; }[] };
+interface SiteProps {
+  field: any;
   formData: any;
-   handleSelectChange: (
-    value: string | null,
-    name: string,
-  ) => void;
+  handleSelectChange: (value: string | null, name: string) => void;
 }
 
-const SubCategoryComponent: React.FC<SubCategoryProps> = ({
+const SiteComponent: React.FC<SiteProps> = ({
   field, 
   formData, 
   handleSelectChange,
 }) => {
   const [error, setError] = useState<string>("");
   const [open, setOpen] = useState(false);
-  const subCategories = useSelector((state: RootState) => state.subCategories.data);
+  const sites = useSelector((state: RootState) => state.sites.data);
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchSites());
+  }, [dispatch]);
+
 
 
   const selectChange = (e: any, newValue: string | null) => {
     handleSelectChange(newValue, field.name);
   };
 
-  useEffect(()=>{
-    dispatch(fetchSubCategories())
-  },[dispatch])
-
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', mt: 2 }}>
       <FormControl sx={{ width: '200px' }}>
         <FormLabel>{field.fieldName}</FormLabel>
         <Select
-          placeholder="Select SubCategory"
+          placeholder="Select Site"
           name={field.name}
-          value={formData[field.name] as string}
+          value={formData['site']?.id as string}
           onChange={selectChange}
         >
-          {subCategories.map((subCategory: { id: number; subCategory: string }) => (
-            <Option key={subCategory.id} value={subCategory.id}>
-              {subCategory.subCategory}
+          {sites.map((site) => (
+            <Option key={site.id} value={site.id}>
+              {site.siteName}
             </Option>
           ))}
         </Select>
-
         {error && <FormHelperText>{error}</FormHelperText>}
       </FormControl>
 
       <Button
-        onChange={() => setOpen(true)}
+        onClick={() => setOpen(true)}
         variant="outlined"
         size="sm"
         sx={{
@@ -74,18 +71,19 @@ const SubCategoryComponent: React.FC<SubCategoryProps> = ({
           <AddIcon />
         </Typography>
         <Typography sx={{ mr: '25px', color: '#767676' }}>
-          New Department
+          New
         </Typography>
       </Button>
 
       {open && (
-        <CategorySubAdd
-        open={open}     
+        <AddSite
+          open={open}
           setOpen={setOpen}
+
         />
       )}
     </Box>
   );
 };
 
-export default SubCategoryComponent;
+export default SiteComponent;

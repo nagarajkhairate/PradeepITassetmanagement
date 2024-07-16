@@ -16,12 +16,12 @@ const initialState: CompanyInfoState = {
   error: null,
   activeTab: 0,
 };
-const TENANT_ID = process.env.REACT_APP_TENANT_ID;
-const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
+const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
+const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
  
 export const fetchCompanyInfo = createAsyncThunk('companyInfo/fetchCompanyInfo', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/company`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/company`);
   return response.data;
    
   } catch (error) {
@@ -33,7 +33,7 @@ export const fetchCompanyInfo = createAsyncThunk('companyInfo/fetchCompanyInfo',
 });
 export const fetchCompanyInfoById = createAsyncThunk('company/fetchCompanyById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/company/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/company/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -44,18 +44,18 @@ export const fetchCompanyInfoById = createAsyncThunk('company/fetchCompanyById',
 
   
 export const addCompanyInfo = createAsyncThunk('companyInfo/addCompanyInfo', async (companyInfo: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/company`, companyInfo);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/company`, companyInfo);
   return response.data;
 });
  
 export const updateCompanyInfo = createAsyncThunk('companyInfo/updateCompanyInfo', async (companyInfo: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/company/${companyInfo.id}`, companyInfo);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/company/${companyInfo.id}`, companyInfo);
   return response.data;
 });
  
 export const deleteCompanyInfo = createAsyncThunk('companyInfo/deleteCompanyInfo', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/company/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/company/${id}`);
   return id;
 });
  
