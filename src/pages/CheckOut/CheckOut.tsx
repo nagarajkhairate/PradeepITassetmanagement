@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Typography,
   Box,
@@ -8,80 +8,34 @@ import {
   Input,
   Table,
   Sheet,
+  Chip,
 } from '@mui/joy'
 import SearchIcon from '../../Assets/search.svg'
 import CheckOutForm from './CheckOutForm'
 import MaintenanceEmpty from '../../components/Common/MaintenanceEmpty'
 import AppView from '../../components/Common/AppView'
 import AppButton from '../../components/Common/AppButton'
-
-const assets = [
-  {
-    id: 'BBC-BLR-BKS-1000',
-    description: 'HP laptop',
-    status: 'Checked Out',
-    assignedTo: 'Sanjana H',
-    site: 'Hubli',
-    location: 'Gokul RD/hubli',
-    leaseTo: 'abcd',
-  },
-  {
-    id: 'BBC-BLR-BKS - 1001',
-    description:
-      '12th Gen, Intel Core i3-N305 Processor 1.8 GHz (6MB Cache, up to 3.8 GHz turbo boost, 8 cores, 8 threads)',
-    status: 'Checked Out',
-    assignedTo: 'Kavita G',
-    site: 'Hubli',
-    location: 'Gokul RD',
-    leaseTo: 'efgh',
-  },
-  {
-    id: 'BBC-BLR-BKS - 1001',
-    description:
-      '12th Gen, Intel Core i3-N305 Processor 1.8 GHz (6MB Cache, up to 3.8 GHz turbo boost, 8 cores, 8 threads)',
-    status: 'Checked Out',
-    assignedTo: 'Kavita G',
-    site: 'Hubli',
-    location: 'Gokul RD',
-    leaseTo: 'hijk',
-  },
-  {
-    id: 'BBC-BLR-BKS - 1001',
-    description:
-      '12th Gen, Intel Core i3-N305 Processor 1.8 GHz (6MB Cache, up to 3.8 GHz turbo boost, 8 cores, 8 threads)',
-    status: 'Checked Out',
-    assignedTo: 'Kavita G',
-    site: 'Hubli',
-    location: 'Gokul RD',
-    leaseTo: 'lmno',
-  },
-  {
-    id: 'BBC-BLR-BKS-1002',
-    description:
-      '12th Gen, Intel Core i3-N305 Processor 8/18 GHz (8MB Cache, up to 3.8 GHz Turbo boost, 8 cores, 8 threads)',
-    status: 'Checked Out',
-    assignedTo: 'Shruti K',
-    site: 'Bagalkot',
-    location: 'Old Bagalkot',
-    leaseTo: 'pqrs',
-  },
-  {
-    id: 'BBC-BLR-BKS-1002',
-    description:
-      '12th Gen, Intel Core i3-N305 Processor 8/18 GHz (8MB Cache, up to 3.8 GHz Turbo boost, 8 cores, 8 threads)',
-    status: 'Checked Out',
-    assignedTo: 'Shruti K',
-    site: 'Bagalkot',
-    location: 'Old Bagalkot',
-    leaseTo: 'tuvw',
-  },
-]
+import { fetchAssets } from '../../redux/features/AssetSlice'
+import { ThunkDispatch } from 'redux-thunk'
+import { RootState } from '../../redux/store'
+import { useDispatch, useSelector } from 'react-redux'
 
 const CheckOut: React.FC = () => {
   const [open, setOpen] = useState(false)
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
   const [searchKeyword, setSearchKeyword] = useState('')
   const [selectedAssets, setSelectedAssets] = useState<string[]>([])
-  const [remainingAssets, setRemainingAssets] = useState(assets)
+  const [remainingAssets, setRemainingAssets] = useState<any[]>([]);
+  const assets = useSelector((state: RootState) => state.assets.data);
+
+  useEffect(() => {
+    dispatch(fetchAssets());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setRemainingAssets(assets);
+  }, [assets]);
+  
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
@@ -100,22 +54,31 @@ const CheckOut: React.FC = () => {
 
   const handleAddToList = () => {
     const addedAssets = remainingAssets.filter((asset) =>
-      selectedAssets.includes(asset.id),
+      selectedAssets.includes(asset.assetId),
     )
+    console.log("Selected assets:", selectedAssets);
+    console.log("Added assets:", addedAssets);
+
     setRemainingAssets(
-      remainingAssets.filter((asset) => !selectedAssets.includes(asset.id)),
+      remainingAssets.filter((asset) => !selectedAssets.includes(asset.assetId)),
     )
+    console.log("Remaining assets after addition:", remainingAssets);
+
     handleClose()
   }
   
-
   const filteredAssets = assets.filter((asset) =>
     asset.description.toLowerCase().includes(searchKeyword.toLowerCase()),
   )
 
   const selectedAssetData = assets.filter((asset) =>
-    selectedAssets.includes(asset.id),
+    selectedAssets.includes(asset.assetId),
   )
+
+  const statusColorMap: Record<string, string> = {
+    Available: "success",
+    CheckedOut: "neutral",
+  };
 
   return (
     <AppView>
@@ -142,7 +105,9 @@ const CheckOut: React.FC = () => {
       </Box>
 
       {selectedAssetData.length > 0 ? (
-        <CheckOutForm selectedAssets={selectedAssetData} />
+        <CheckOutForm 
+        selectedAssets={selectedAssetData}
+         />
       ) : (
         <Box>
           <MaintenanceEmpty />
@@ -170,7 +135,7 @@ const CheckOut: React.FC = () => {
               position: 'relative',
               display: 'flex',
               alignItems: 'center',
-              marginRight: '20px',
+              // marginRight: '200px',
               marginBottom: '20px',
             }}
           >
@@ -205,7 +170,7 @@ const CheckOut: React.FC = () => {
           width: '100%',
           borderRadius: 'sm',
           flexShrink: 1,
-          height: '70vh',
+          height: '50vh',
           overflow: 'auto',
           '&::-webkit-scrollbar': {
             width: '6px', 
@@ -227,7 +192,7 @@ const CheckOut: React.FC = () => {
           stickyHeader
         
           sx={{
-            fontSize: '10px',
+            fontSize: '15px',
             border: '1px solid #f2f2f2',
           }}
             >
@@ -235,7 +200,7 @@ const CheckOut: React.FC = () => {
                 <tr>
                   <th
                     style={{
-                      width: 20,
+                      width: 30,
                       border: '1px solid #f2f2f2',
                       background: '#fff8e6',
                     }}
@@ -306,7 +271,7 @@ const CheckOut: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredAssets.map((asset, index) => (
+                 {filteredAssets.map((asset, index) => (
                   <tr key={index}>
                     <td
                       style={{
@@ -326,31 +291,37 @@ const CheckOut: React.FC = () => {
                       style={{  border: '1px solid #f2f2f2' }}
                       color="#4880FF"
                     >
-                      {asset.id}
+                      {asset.assetTagId}
                     </td>
                     <td style={{  border: '1px solid #f2f2f2' }}>
                       {asset.description}
+                    </td>
+                    <td style={{  border: '1px solid #f2f2f2' }}>
+                  <Chip
+          variant="soft"
+          size="sm"
+          color={statusColorMap[asset.status as keyof typeof statusColorMap] as 'success' | 'neutral'}
+        >
+          {asset.status}
+        </Chip>
+                </td>            
+                    <td style={{  border: '1px solid #f2f2f2' }}>
+                      {asset.assignedTo}
                     </td>
                     <td
                       style={{  border: '1px solid #f2f2f2' }}
                       color="#13B457"
                     >
-                      {asset.status}
+                      {asset.site.name}
                     </td>
                     <td style={{  border: '1px solid #f2f2f2' }}>
-                      {asset.assignedTo}
-                    </td>
-                    <td style={{  border: '1px solid #f2f2f2' }}>
-                      {asset.site}
-                    </td>
-                    <td style={{  border: '1px solid #f2f2f2' }}>
-                      {asset.location}
+                      {asset.location.name}
                     </td>
                     <td style={{  border: '1px solid #f2f2f2' }}>
                       {asset.leaseTo}
                     </td>
                   </tr>
-                ))}
+                ))} 
               </tbody>
             </Table>
           </Sheet>

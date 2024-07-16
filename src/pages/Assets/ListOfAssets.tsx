@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Box, Button, Select, Checkbox } from "@mui/joy";
+import { Typography, Box, Button, Select, Checkbox, Chip } from "@mui/joy";
 import Table from "@mui/joy/Table";
 import SearchIcon from '@mui/icons-material/Search';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
@@ -41,6 +41,11 @@ const ListOfAssets = () => {
 
   const camelCaseFirstLetter = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
+  const statusColorMap: Record<string, string> = {
+    Available: "success",
+    CheckedOut: "neutral",
   };
 
   return (
@@ -320,7 +325,15 @@ const ListOfAssets = () => {
                   <td>{item.brand}</td>
                   <td>{item.purchaseDate}</td>
                   <td>{item.cost}</td>
-                  <td>{item.status}</td>
+                  <td>
+                  <Chip
+          variant="soft"
+          size="sm"
+          color={statusColorMap[item.status as keyof typeof statusColorMap] as 'success' | 'neutral'}
+        >
+          {item.status}
+        </Chip>
+                </td>
                   <td>{item.serialNumber}</td>
                   <td style={{ cursor: "pointer" }}>
                     <Link

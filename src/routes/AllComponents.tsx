@@ -50,6 +50,7 @@ import DataBaseAsset from '../pages/Setup/DataBase/DatabseAssets/DataBaseAsset'
 import DataBasesEmp from '../pages/Setup/DataBase/DataBaseEmployee/DataBaseEmp'
 import Event from '../pages/Setup/SetupEventOption/Event'
 import Alerts from '../pages/Alerts/Alerts'
+import CheckOutForm from '../pages/CheckOut/CheckOutForm'
 
 export {
     FormatListBulletedIcon,
@@ -102,6 +103,7 @@ export {
     CreateAccount,
     DataBaseAsset,
     DataBasesEmp,
-    Event
+    Event,
+    CheckOutForm
 }
     
