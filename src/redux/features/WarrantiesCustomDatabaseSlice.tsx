@@ -65,8 +65,8 @@ const empCustomDatabaseSlice = createSlice({
   initialState,
   reducers: {
     setSelectedCustomer: (state, action: PayloadAction<number>) => {
-      const empCustomDatabase = state.data.find((u) => u.id === action.payload);
-      state.selectedEmpCustomDatabase = empCustomDatabase || null;
+      const categories = state.data.find((u) => u.id === action.payload);
+      state.selectedEmpCustomDatabase = categories || null;
     },
   },
   extraReducers: (builder) => {

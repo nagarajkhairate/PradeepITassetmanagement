@@ -148,15 +148,15 @@ export const Customers = [
     },
     {
         visible: true,
-        fieldName: "Employee ID",
-        name: "employeeID",
+        fieldName: "Company",
+        name: "company",
         isRequired: 'optional',
         description: "string",
     },
     {
         visible: true,
-        fieldName: "Title",
-        name: "title",
+        fieldName: "Address",
+        name: "address",
         isRequired: 'optional',
         description: "string",
     },
@@ -169,33 +169,18 @@ export const Customers = [
     },
     {
         visible: true,
+        fieldName: "Mobile Phone",
+        name: "mobilePhone",
+        isRequired: 'optional',
+        description: "string",
+    },
+    {
+        visible: true,
         fieldName: "Notes",
         name: "notes",
         isRequired: 'optional',
         description: "string",
     },
-    {
-        visible: true,
-        fieldName: "Site",
-        name: "site",
-        isRequired: 'optional',
-        description: "string",
-    },
-    {
-        visible: true,
-        fieldName: "Location",
-        name: "location",
-        isRequired: 'optional',
-        description: "string",
-    },
-    {
-        visible: true,
-        fieldName: "Department",
-        name: "department",
-        isRequired: 'optional',
-        description: "string",
-    },
-
 ]
 
 

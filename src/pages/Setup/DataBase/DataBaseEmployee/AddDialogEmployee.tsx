@@ -8,6 +8,7 @@ import {
   FormLabel,
   Grid,
   Input,
+  Modal,
   Option,
   Radio,
   RadioGroup,
@@ -17,19 +18,17 @@ import {
 } from '@mui/joy'
 import AppForm from '../../../../components/Common/AppForm'
 import { RootState } from '../../../../redux/store'
-import { customAsset } from './EmployeeData'
+import { customEmployee } from './EmployeeData'
+import { addEmpCustomDatabase } from '../../../../redux/features/EmpCustomDatabseSlice'
 
 interface DataBaseAddProps {
-  open: boolean
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  empDataBases: { customAsset: any[] }
-  handleAddSkill: (formData: any) => void
+  open: boolean;
+  setOpen: (open: boolean) => void;
 }
 
 const AddEmployeeData: React.FC<DataBaseAddProps> = ({
   open,
   setOpen,
-  handleAddSkill,
 }) => {
   const [formData, setFormData] = useState({
     fieldName: '',
@@ -39,9 +38,11 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
 
   const components = useSelector((state: RootState) => state.components.data)
 
-  const handleClickOpen = () => {
-    setOpen(true)
-  }
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+
+  const empCustomDatabase = useSelector((state: RootState) => state.empCustomDatabase.data);
+
+
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -64,14 +65,15 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    handleAddSkill(formData)
+    // handleAddSkill(formData)
     setFormData({
       fieldName: '',
       componentsId: 1,
       isRequired: '',
     })
-    setOpen(false) // Close modal after submission
+    setOpen(false)
     console.log('Form Data:', formData)
+    dispatch(addEmpCustomDatabase(formData))
   }
 
   const handleClose = () => {
@@ -84,6 +86,17 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
   }
 
   return (
+    <Modal
+    open={open}
+    onClose={() => setOpen(false)}
+            aria-labelledby="responsive-dialog-title"
+            aria-describedby="modal-desc"
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
     <Sheet
       variant="outlined"
       sx={{
@@ -107,19 +120,24 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
 
         <AppForm onSubmit={handleSubmit}>
           <FormControl>
-            <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
-              Custom Field Label*:
-              <Input
-                variant="outlined"
-                type="text"
-                name="fieldName"
-                value={formData.fieldName}
-                onChange={handleChange}
-                required
-                sx={{ width: '45%', marginLeft: '20px' }}
-              />
-            </FormLabel>
-          </FormControl>
+  <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
+    Custom Field Label*:
+    <Input
+      variant="outlined"
+      type="text"
+      name="fieldName"
+      value={formData.fieldName}
+      onChange={handleChange}
+      onInput={(e) => {
+        const target = e.target as HTMLInputElement;
+        target.value = target.value.replace(/[^a-zA-Z0-9-]/g, '');
+      }}
+      required
+      sx={{ width: '45%', marginLeft: '20px' }}
+    />
+  </FormLabel>
+</FormControl>
+
 
           <FormControl>
             <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
@@ -198,7 +216,7 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
 
             <Button
               type="button"
-              onClick={handleClose}
+              onClick={() => setOpen(false)}
               autoFocus
               variant="solid"
               sx={{
@@ -213,6 +231,7 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
         </AppForm>
       </div>
     </Sheet>
+    </Modal>
   )
 }
-export default AddEmployeeData
+export default React.memo(AddEmployeeData)

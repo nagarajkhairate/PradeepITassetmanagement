@@ -166,12 +166,12 @@
 
 
  
- export const customAsset =[
+ export const customEmployee =[
  {
    fieldName: 'fieldName',
    name:'name',
    componentsId: 1,
-   isRequired: 'isRequired',
+   isRequired: 'yes',
    
  },
  ]

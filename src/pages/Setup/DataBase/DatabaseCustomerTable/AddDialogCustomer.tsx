@@ -1,4 +1,3 @@
-import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import {
@@ -7,6 +6,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Modal,
   Option,
   Radio,
   RadioGroup,
@@ -18,25 +18,16 @@ import AppForm from '../../../../components/Common/AppForm'
 import { RootState } from '../../../../redux/store'
 
 interface DatabaseCustomerProps {
-  open: boolean
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  customerDataBases: { customCustomer: any[] }
-  handleAddSkill: (formData: any) => void
+  open: boolean;
+  setOpen: (open: boolean) => void;
 }
 
 const AddDialogCustomer: React.FC<DatabaseCustomerProps> = ({
   open,
   setOpen,
-  handleAddSkill,
 })=>{
 
   const components = useSelector((state: RootState) => state.components.data)
-
- 
-  const handleClickOpen = () => {
-    setOpen(true)
-  }
-
 
   const [formData, setFormData] = useState({
     fieldName: '',
@@ -65,13 +56,12 @@ const AddDialogCustomer: React.FC<DatabaseCustomerProps> = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    handleAddSkill(formData)
     setFormData({
       fieldName: '',
       componentsId: 1,
       isRequired: '',
     })
-    setOpen(false) // Close modal after submission
+    setOpen(false) 
     console.log('Form Data:', formData)
   }
 
@@ -85,6 +75,17 @@ const AddDialogCustomer: React.FC<DatabaseCustomerProps> = ({
   }
 
   return (
+    <Modal
+    open={open}
+    onClose={() => setOpen(false)}
+            aria-labelledby="responsive-dialog-title"
+            aria-describedby="modal-desc"
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
     <Sheet
       variant="outlined"
       sx={{
@@ -111,15 +112,18 @@ const AddDialogCustomer: React.FC<DatabaseCustomerProps> = ({
             <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
               Custom Field Label*:
               <Input
-                variant="outlined"
-                type="text"
-                id="custom"
-                name="custom"
-                value={formData.fieldName}
-                onChange={handleChange}
-                required
-                sx={{ width: '45%', marginLeft: '20px' }}
-              />
+      variant="outlined"
+      type="text"
+      name="fieldName"
+      value={formData.fieldName}
+      onChange={handleChange}
+      onInput={(e) => {
+        const target = e.target as HTMLInputElement;
+        target.value = target.value.replace(/[^a-zA-Z0-9-]/g, '');
+      }}
+      required
+      sx={{ width: '45%', marginLeft: '20px' }}
+    />
             </FormLabel>
           </FormControl>
 
@@ -154,7 +158,7 @@ const AddDialogCustomer: React.FC<DatabaseCustomerProps> = ({
               Data Required:
             </FormLabel>
             <RadioGroup
-              name="dataRequired"
+              name="isRequired"
               value={formData.isRequired}
               onChange={handleRadioChange}
             >
@@ -201,7 +205,7 @@ const AddDialogCustomer: React.FC<DatabaseCustomerProps> = ({
 
           <Button
             type="button"
-            onClick={handleClose}
+            onClick={() => setOpen(false)}
             autoFocus
             variant="solid"
             sx={{
@@ -216,6 +220,7 @@ const AddDialogCustomer: React.FC<DatabaseCustomerProps> = ({
         </AppForm>
       </div>
     </Sheet>
+    </Modal>
   )
 }
-export default AddDialogCustomer
+export default React.memo(AddDialogCustomer)

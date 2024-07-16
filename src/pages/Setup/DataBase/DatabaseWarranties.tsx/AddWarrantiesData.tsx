@@ -8,6 +8,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Modal,
   Option,
   Radio,
   RadioGroup,
@@ -19,84 +20,76 @@ import AppForm from '../../../../components/Common/AppForm'
 import { RootState } from '../../../../redux/store'
 
 interface DataBaseAddProps {
-  open: any
-  setOpen: any
-  dataBases: { customAssetFields: string[] }
-  setDataBases: React.Dispatch<
-    React.SetStateAction<{ customAssetFields: string[] }>
-  >
+  open: boolean;
+  setOpen: (open: boolean) => void;
 }
 
 const AddWarrantiesData: React.FC<DataBaseAddProps> = ({
   open,
   setOpen,
-  setDataBases,
 }) => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
   const components = useSelector((state: RootState) => state.components.data)
 
-  const handleClickOpen = () => {
-    setOpen(true)
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-  }
-
   const [formData, setFormData] = useState({
-    custom: '',
-    componentsId: '',
-    selectedCategories: '',
-    dataRequired: '',
+    fieldName: '',
+    componentsId: 1,
+    isRequired: '',
   })
-
-//   React.useEffect(() => {
-//     dispatch(fetchComponents())
-//   }, [dispatch])
-
-  const handleAddSkill = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    // addCustomField(formData);
-    setDataBases((prevData: any) => ({
-      ...prevData,
-      customAssetFields: [
-        ...prevData.customAssetFields,
-        {
-          fieldName: formData.custom,
-          componentsId: formData.componentsId,
-          category: formData.selectedCategories,
-          isRequired: formData.dataRequired,
-        },
-      ],
-    }))
-    // dispatch(addDataBase(formData))
-    handleClose()
-    setOpen(false)
-    setFormData({
-      custom: '',
-      componentsId: '',
-      dataRequired: '',
-      selectedCategories: '',
-    })
-  }
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target
-    // const val =  value;
     setFormData((prevData) => ({ ...prevData, [name]: value }))
+  }
+
+  const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData((prevData) => ({ ...prevData, isRequired: value }))
   }
 
   const handleSelectChange = (
     event: React.SyntheticEvent | null,
-    newValue: string | null,
+    newValue: number | null,
   ) => {
-    setFormData((prevData) => ({ ...prevData, componentsId: newValue || '' }))
+    setFormData((prevData) => ({ ...prevData, componentsId: newValue || 1 }))
   }
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setFormData({
+      fieldName: '',
+      componentsId: 1,
+      isRequired: '',
+    })
+    setOpen(false) // Close modal after submission
+    console.log('Form Data:', formData)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+    setFormData({
+      fieldName: '',
+      componentsId: 1,
+      isRequired: '',
+    })
+  }
+
+
   return (
+    <Modal
+    open={open}
+    onClose={() => setOpen(false)}
+            aria-labelledby="responsive-dialog-title"
+            aria-describedby="modal-desc"
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
     <Sheet
       variant="outlined"
       sx={{
@@ -118,20 +111,23 @@ const AddWarrantiesData: React.FC<DataBaseAddProps> = ({
           {'Add Custom Fields here'}
         </Typography>
 
-        <AppForm onSubmit={handleAddSkill}>
-          <FormControl>
+        <AppForm onSubmit={handleSubmit}>
+        <FormControl>
             <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
               Custom Field Label*:
               <Input
-                variant="outlined"
-                type="text"
-                id="custom"
-                name="custom"
-                value={formData.custom}
-                onChange={handleChange}
-                required
-                sx={{ width: '45%', marginLeft: '20px' }}
-              />
+      variant="outlined"
+      type="text"
+      name="fieldName"
+      value={formData.fieldName}
+      onChange={handleChange}
+      onInput={(e) => {
+        const target = e.target as HTMLInputElement;
+        target.value = target.value.replace(/[^a-zA-Z0-9-]/g, '');
+      }}
+      required
+      sx={{ width: '45%', marginLeft: '20px' }}
+    />
             </FormLabel>
           </FormControl>
 
@@ -166,9 +162,9 @@ const AddWarrantiesData: React.FC<DataBaseAddProps> = ({
               Data Required:
             </FormLabel>
             <RadioGroup
-              name="dataRequired"
-              value={formData.dataRequired.toString()}
-              onChange={handleChange}
+              name="isRequired"
+              value={formData.isRequired}
+              onChange={handleRadioChange}
             >
               <Box>
                 <Radio
@@ -187,47 +183,17 @@ const AddWarrantiesData: React.FC<DataBaseAddProps> = ({
             </RadioGroup>
           </FormControl>
 
-          {/* <Box>
-            <FormLabel
-              sx={{
-                paddingTop: '25px',
-                marginLeft: '20px',
-                display: 'flex',
-                flexDirection: { md: 'flex-end', xs: 'flex-end' },
-              }}
-            >
-              Selected <span style={{ marginRight: '8px' }}>Categories:</span>
-              <span style={{ marginLeft: '10px' }}>
-                Is this field visible to assets of selective 'Categories'?
-              </span>
-            </FormLabel>
-
-            <RadioGroup
-              name="selectedCategories"
-              value={formData.selectedCategories.toString()}
-              onChange={handleChange}
-            >
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: { md: 'flex-end', xs: 'center' },
-                }}
-              >
-                <Radio
-                  value="All Categories"
-                  label="All Categories"
-                  variant="outlined"
-                  sx={{ paddingTop: '20px', marginLeft: '165px' }}
-                />
-                <Radio
-                  value="Limited Categories"
-                  label="Limited Categories"
-                  variant="outlined"
-                  sx={{ paddingTop: '20px', marginLeft: '15px' }}
-                />
-              </Box>
-            </RadioGroup>
-          </Box> */}
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: { md: 'row' },
+              justifyContent: { xs: 'space-between', md: 'flex-end' },
+              gap: '5px',
+              mt: 4,
+              flexWrap: 'wrap',
+            }}
+          >
 
           <Button
             autoFocus
@@ -235,26 +201,31 @@ const AddWarrantiesData: React.FC<DataBaseAddProps> = ({
             variant="solid"
             sx={{
               background: '#fdd835',
+              '&:hover': { background: '#E1A91B' },
               color: 'black',
-              marginTop: '25px',
-              marginLeft: '30%',
             }}
           >
             Save
           </Button>
 
           <Button
-            type="button"
-            onClick={handleClose}
-            autoFocus
-            variant="solid"
-            sx={{ background: 'black', color: 'white', marginLeft: '25px' }}
+          type="button"
+          onClick={() => setOpen(false)}
+          autoFocus
+          variant="solid"
+          sx={{
+            background: 'black',
+            '&:hover': { background: 'black' },
+            color: 'white',
+          }}
           >
             Cancel
           </Button>
+          </Box>
         </AppForm>
       </div>
     </Sheet>
+    </Modal>
   )
 }
-export default AddWarrantiesData
+export default React.memo(AddWarrantiesData)

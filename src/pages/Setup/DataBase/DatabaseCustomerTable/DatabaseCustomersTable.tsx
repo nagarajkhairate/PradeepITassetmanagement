@@ -1,23 +1,20 @@
 import { Typography, Radio, RadioGroup, Divider, Grid } from '@mui/joy'
-import ButtonGroup from '@mui/joy/ButtonGroup'
 import React, { useState, useEffect } from 'react'
 import { Box } from '@mui/joy'
 import Table from '@mui/joy/Table'
 import Checkbox from '@mui/joy/Checkbox'
 import Button from '@mui/joy/Button'
 import { FormControl } from '@mui/joy'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import { useTheme } from '@mui/material/styles'
 import AppView from '../../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
-import EditCustomersTable from './EditDatabaseCustomers'
-import AddCustomersTable from './AddCustomersTable'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
-import {Customers, customerData } from './CustomersData'
-
+import {Customers, customerData,customCustomer } from './CustomersData'
+import AddDialogCustomer from './AddDialogCustomer'
+import AddIcon from '@mui/icons-material/Add'
+import CustomerFieldsAddingTable from './CustomerFieldsAddingTable'
 
 
 const DatabaseCustomersTable: React.FunctionComponent = () => {
@@ -31,22 +28,23 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
   //   dispatch(fetchDataBase())
   // }, [])
 
-  const [customerDataBases, setEmpDataBases] = useState(customerData)
+  const [openAddCustomer, setOpenAddCustomer] = useState(false);
+  const [customerDataBases, setCustomerDataBases] = useState(customerData)
 
   useEffect(() => {
-    setEmpDataBases(customerData)
+    setCustomerDataBases(customerData)
   }, [])
 
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...customerDataBases]
     updatedForm[index].visible = !updatedForm[index].visible
-    setEmpDataBases(updatedForm)
+    setCustomerDataBases(updatedForm)
   }
 
   const handleRadioChange = (index: number, value: string) => {
     const updatedForm = [...customerDataBases]
     updatedForm[index].isRequired = value
-    setEmpDataBases(updatedForm)
+    setCustomerDataBases(updatedForm)
   }
 
   const handleCancel = () => {}
@@ -255,10 +253,43 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
           </Box>
         </Box>
 
-     
-
         <Box>
-          <AddCustomersTable />
+          <Typography
+            level="h4"
+            sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+          >
+            <SignpostOutlinedIcon
+              style={{ fontSize: '1.4rem', color: '#FBC21E' }}
+            />
+            Customers Custom Fields
+          </Typography>
+          <Typography sx={{ marginTop: '10px' }}>
+          Add custom fields to join the standard fields that we provided.
+          </Typography>
+
+          <Button
+            onClick={() => setOpenAddCustomer(true)}
+            sx={{
+              marginTop: '15px',
+              background: 'green',
+              color: 'white',
+              '&:hover': { background: '#1b5e20' },
+              borderRadius: '15px',
+            }}
+          >
+            <AddIcon />
+            Add Custom Fields
+          </Button>
+
+          {openAddCustomer && (
+            <AddDialogCustomer
+              open={openAddCustomer}
+              setOpen={setOpenAddCustomer}
+            />
+          )}
+
+          <Divider sx={{ my: 2 }} />
+          <CustomerFieldsAddingTable customerDataBases={customCustomer} />
         </Box>
 
         <Divider sx={{ marginTop: '3%' }} />
