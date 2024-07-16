@@ -10,7 +10,7 @@ import { RootState } from '../../../redux/store'
 import { addoptions } from '../../../redux/features/TabsSlice'
 import { addEvents } from '../../../redux/features/EventsSlice'
 import { useNavigate } from 'react-router-dom'
-import { addDataBase } from '../../../redux/features/DataBaseSlice'
+
 
 interface EventOptionProps {
   companyFormData: any
@@ -59,7 +59,7 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
       ...prevData,
       eventOption: eventForm,
     }))
-    dispatch(addDataBase(companyFormData.dataBase))
+
     dispatch(addoptions(companyFormData.tableOption))
     dispatch(addEvents(companyFormData.eventOption))
     // navigate('/dashboard')

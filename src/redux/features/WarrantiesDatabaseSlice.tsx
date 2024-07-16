@@ -2,16 +2,16 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
  
 
-  interface EmpDatabaseState {
+  interface WarrantiesDatabaseState {
     data: any[];
-    selectedEmpDatabase: any | null;
+    selectedWarrantiesDatabase: any | null;
     loading: boolean;
     error: string | null;
   }
 
-  const initialState: EmpDatabaseState = {
+  const initialState: WarrantiesDatabaseState = {
     data: [],
-    selectedEmpDatabase: null,
+    selectedWarrantiesDatabase: null,
     loading: false,
     error: null,
   };
@@ -20,7 +20,7 @@ import axios from 'axios';
   const TENANT_ID = process.env.REACT_APP_TENANT_ID;  
 
  
-export const fetchEmpDatabase = createAsyncThunk('empDatabase/fetchEmpDatabase', async () => {
+export const fetchWarrantiesDatabase = createAsyncThunk('warrantiesDatabase/fetchWarrantiesDatabase', async () => {
   try {
     const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons`);
   return response.data;
@@ -31,7 +31,7 @@ export const fetchEmpDatabase = createAsyncThunk('empDatabase/fetchEmpDatabase',
   }
 });
 
-export const fetchEmpDatabaseById = createAsyncThunk('empDatabase/fetchEmpDatabaseById', async (id: string ) => {
+export const fetchWarrantiesDatabaseById = createAsyncThunk('warrantiesDatabase/fetchWarrantiesDatabaseById', async (id: string ) => {
   try {
     const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons/${id}`);
     return response.data;
@@ -42,68 +42,68 @@ export const fetchEmpDatabaseById = createAsyncThunk('empDatabase/fetchEmpDataba
  
 });
  
-export const addEmpDatabase = createAsyncThunk('empDatabase/addEmpDatabase', async (empDatabase: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons`, empDatabase);
+export const addWarrantiesDatabase = createAsyncThunk('warrantiesDatabase/addWarrantiesDatabase', async (warrantiesDatabase: any) => {
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons`, warrantiesDatabase);
  console.log(response)
   return response.data;
 });
  
-export const updateEmpDatabase = createAsyncThunk('empDatabase/updateEmpDatabase', async (updatedEmpDatabase: any) => {
+export const updateWarrantiesDatabase = createAsyncThunk('warrantiesDatabase/updateWarrantiesDatabase', async (updatedWarrantiesDatabase: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons/${updatedEmpDatabase.id}`, updatedEmpDatabase);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons/${updatedWarrantiesDatabase.id}`, updatedWarrantiesDatabase);
   
   return response.data;
 });
  
-export const deleteEmpDatabase = createAsyncThunk('empDatabase/deleteEmpDatabase', async (id: number) => {
+export const deleteWarrantiesDatabase = createAsyncThunk('warrantiesDatabase/deleteWarrantiesDatabase', async (id: number) => {
   await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons/${id}`);
   return id;
 });
 
-const empDatabaseSlice = createSlice({
-  name: 'empDatabase',
+const warrantiesDatabaseSlice = createSlice({
+  name: 'warrantiesDatabase',
   initialState,
   reducers: {
     setSelectedCustomer: (state, action: PayloadAction<number>) => {
-      const categories = state.data.find((u) => u.id === action.payload);
-      state.selectedEmpDatabase = categories || null;
+      const warrantiesDatabase = state.data.find((u) => u.id === action.payload);
+      state.selectedWarrantiesDatabase = warrantiesDatabase || null;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchEmpDatabase.pending, (state) => {
+      .addCase(fetchWarrantiesDatabase.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchEmpDatabase.fulfilled, (state, action) => {
+      .addCase(fetchWarrantiesDatabase.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload;
       })
-      .addCase(fetchEmpDatabase.rejected, (state, action) => {
+      .addCase(fetchWarrantiesDatabase.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Failed to fetch client';
       })
-      .addCase(fetchEmpDatabaseById.fulfilled, (state, action) => {
+      .addCase(fetchWarrantiesDatabaseById.fulfilled, (state, action) => {
         state.loading = false;
         state.data.push(action.payload);
       })
-      .addCase(addEmpDatabase.fulfilled, (state, action) => {
+      .addCase(addWarrantiesDatabase.fulfilled, (state, action) => {
         state.data.push(action.payload);
       })
-      .addCase(updateEmpDatabase.fulfilled, (state, action) => {
+      .addCase(updateWarrantiesDatabase.fulfilled, (state, action) => {
         const index = state.data.findIndex((u) => u.id === action.payload.id);
         console.log(index)
         if (index !== -1) {
           state.data[index] = action.payload;
         }
       })
-      .addCase(deleteEmpDatabase.fulfilled, (state, action) => {
+      .addCase(deleteWarrantiesDatabase.fulfilled, (state, action) => {
         state.data = state.data.filter((u) => u.id !== action.payload);
       });
   },
 });
  
-export const { setSelectedCustomer } = empDatabaseSlice.actions;
+export const { setSelectedCustomer } = warrantiesDatabaseSlice.actions;
  
-export default empDatabaseSlice.reducer;
+export default warrantiesDatabaseSlice.reducer;
 

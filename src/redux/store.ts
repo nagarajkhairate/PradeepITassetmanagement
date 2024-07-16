@@ -9,7 +9,6 @@ import locationReducer from './features/LocationSlice';
 import categoryReducer from './features/CategorySlice'
 import subCategoryReducer from './features/CategorySubSlice';
 import departmentNameReducer from './features/DepartmentSlice';
-import dataBaseReducer from "./features/DataBaseSlice";
 import eventsReducer from "./features/EventsSlice";
 import companyInfoReducer from './features/CompanyInfoSlice';
 import SitesReducer from './features/SitesSlice';
@@ -18,10 +17,19 @@ import AuthReducer from './features/AuthSlice';
 import AccountReducer from './features/AccountSlice';
 import TabsReducer from './features/TabsSlice';
 import componentsReducer from "./features/ComponentsIdSlice";
-import defaultFieldsReducer from './features/DefaultFieldAssetSlice';
 import AssetFieldMappingReducer from './features/AssetFieldMappingSlice';
+import assetDatabaseReducer from './features/AssetDatabaseSlice';
+import assetCustomDatabaseReducer from './features/AssetCustomDatabaseSlice';
 import empDatabaseReducer from './features/EmpDatabaseSlice';
 import empCustomDatabaseReducer from './features/EmpCustomDatabseSlice';
+import customerDatabaseReducer from './features/CustomerDatabaseSlice';
+import customerCustomDatabaseReducer from './features/CustomerCustomDatabaseSlice';
+import maintenanceDatabaseReducer from './features/MaintenanceDatabaseSlice';
+import maintenanceCustomDatabaseReducer from './features/MaintenanceCustomDatabaseSlice';
+import warrantiesDatabaseReducer from './features/WarrantiesDatabaseSlice';
+import warrantiesCustomDatabaseReducer from './features/WarrantiesCustomDatabaseSlice';
+import contractDatabaseReducer from './features/ContractDatabaseSlice';
+import contractCustomDatabaseReducer from './features/ContractCustomDatabaseSlice';
 
 export const store = configureStore({
   reducer: {
@@ -35,7 +43,6 @@ export const store = configureStore({
     category: categoryReducer,
     subCategories: subCategoryReducer,
     departments: departmentNameReducer,
-    dataBase: dataBaseReducer,
     events: eventsReducer,
     sites: SitesReducer,
     companyInfo: companyInfoReducer,
@@ -44,10 +51,19 @@ export const store = configureStore({
     createAccount: AccountReducer,
     tabs: TabsReducer,
     components: componentsReducer,
-    defaultFields:defaultFieldsReducer,
     assetFieldMapping:AssetFieldMappingReducer,
+    assetDatabase:assetDatabaseReducer,
+    assetCustomDatabase:assetCustomDatabaseReducer,
     empDatabase:empDatabaseReducer,
-    empCustomDatabase:empCustomDatabaseReducer
+    empCustomDatabase:empCustomDatabaseReducer,
+    customerDatabase:customerDatabaseReducer,
+    customerCustomDatabase:customerCustomDatabaseReducer,
+    maintenanceDatabase:maintenanceDatabaseReducer,
+    maintenanceCustomDatabase:maintenanceCustomDatabaseReducer,
+    warrantiesDatabase:warrantiesDatabaseReducer,
+    warrantiesCustomDatabase:warrantiesCustomDatabaseReducer,
+    contractDatabase:contractDatabaseReducer,
+    contractCustomDatabase:contractCustomDatabaseReducer,
   },
 });
 

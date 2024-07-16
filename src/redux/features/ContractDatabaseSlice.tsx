@@ -2,16 +2,16 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
  
 
-  interface EmpDatabaseState {
+  interface ContractDatabaseState {
     data: any[];
-    selectedEmpDatabase: any | null;
+    selectedContractDatabase: any | null;
     loading: boolean;
     error: string | null;
   }
 
-  const initialState: EmpDatabaseState = {
+  const initialState: ContractDatabaseState = {
     data: [],
-    selectedEmpDatabase: null,
+    selectedContractDatabase: null,
     loading: false,
     error: null,
   };
@@ -20,7 +20,7 @@ import axios from 'axios';
   const TENANT_ID = process.env.REACT_APP_TENANT_ID;  
 
  
-export const fetchEmpDatabase = createAsyncThunk('empDatabase/fetchEmpDatabase', async () => {
+export const fetchContractDatabase = createAsyncThunk('contractDatabase/fetchContractDatabase', async () => {
   try {
     const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons`);
   return response.data;
@@ -31,7 +31,7 @@ export const fetchEmpDatabase = createAsyncThunk('empDatabase/fetchEmpDatabase',
   }
 });
 
-export const fetchEmpDatabaseById = createAsyncThunk('empDatabase/fetchEmpDatabaseById', async (id: string ) => {
+export const fetchContractDatabaseById = createAsyncThunk('contractDatabase/fetchContractDatabaseById', async (id: string ) => {
   try {
     const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons/${id}`);
     return response.data;
@@ -42,68 +42,68 @@ export const fetchEmpDatabaseById = createAsyncThunk('empDatabase/fetchEmpDataba
  
 });
  
-export const addEmpDatabase = createAsyncThunk('empDatabase/addEmpDatabase', async (empDatabase: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons`, empDatabase);
+export const addContractDatabase = createAsyncThunk('contractDatabase/addContractDatabase', async (contractDatabase: any) => {
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons`, contractDatabase);
  console.log(response)
   return response.data;
 });
  
-export const updateEmpDatabase = createAsyncThunk('empDatabase/updateEmpDatabase', async (updatedEmpDatabase: any) => {
+export const updateContractDatabase = createAsyncThunk('contractDatabase/updateContractDatabase', async (updatedContractDatabase: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons/${updatedEmpDatabase.id}`, updatedEmpDatabase);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons/${updatedContractDatabase.id}`, updatedContractDatabase);
   
   return response.data;
 });
  
-export const deleteEmpDatabase = createAsyncThunk('empDatabase/deleteEmpDatabase', async (id: number) => {
+export const deleteContractDatabase = createAsyncThunk('contractDatabase/deleteContractDatabase', async (id: number) => {
   await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/employee-persons/${id}`);
   return id;
 });
 
-const empDatabaseSlice = createSlice({
-  name: 'empDatabase',
+const contractDatabaseSlice = createSlice({
+  name: 'contractDatabase',
   initialState,
   reducers: {
     setSelectedCustomer: (state, action: PayloadAction<number>) => {
-      const categories = state.data.find((u) => u.id === action.payload);
-      state.selectedEmpDatabase = categories || null;
+      const contractDatabase = state.data.find((u) => u.id === action.payload);
+      state.selectedContractDatabase = contractDatabase || null;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchEmpDatabase.pending, (state) => {
+      .addCase(fetchContractDatabase.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchEmpDatabase.fulfilled, (state, action) => {
+      .addCase(fetchContractDatabase.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload;
       })
-      .addCase(fetchEmpDatabase.rejected, (state, action) => {
+      .addCase(fetchContractDatabase.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Failed to fetch client';
       })
-      .addCase(fetchEmpDatabaseById.fulfilled, (state, action) => {
+      .addCase(fetchContractDatabaseById.fulfilled, (state, action) => {
         state.loading = false;
         state.data.push(action.payload);
       })
-      .addCase(addEmpDatabase.fulfilled, (state, action) => {
+      .addCase(addContractDatabase.fulfilled, (state, action) => {
         state.data.push(action.payload);
       })
-      .addCase(updateEmpDatabase.fulfilled, (state, action) => {
+      .addCase(updateContractDatabase.fulfilled, (state, action) => {
         const index = state.data.findIndex((u) => u.id === action.payload.id);
         console.log(index)
         if (index !== -1) {
           state.data[index] = action.payload;
         }
       })
-      .addCase(deleteEmpDatabase.fulfilled, (state, action) => {
+      .addCase(deleteContractDatabase.fulfilled, (state, action) => {
         state.data = state.data.filter((u) => u.id !== action.payload);
       });
   },
 });
  
-export const { setSelectedCustomer } = empDatabaseSlice.actions;
+export const { setSelectedCustomer } = contractDatabaseSlice.actions;
  
-export default empDatabaseSlice.reducer;
+export default contractDatabaseSlice.reducer;
 
