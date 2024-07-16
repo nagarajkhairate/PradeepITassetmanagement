@@ -13,7 +13,6 @@ import AddCategory from './AddCategory'
 import { useDispatch, useSelector } from 'react-redux'
 import { ThunkDispatch } from 'redux-thunk'
 import {
-  addCategory,
   fetchCategory,
 } from '../../../redux/features/CategorySlice'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
@@ -21,10 +20,7 @@ import DeleteCategory from './DeleteCategory'
 import { RootState } from '../../../redux/store'
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 
-type Category = {
-  id: number
-  categoryName: string
-}
+
 
 interface CategoryProps {
   activeTab: number
@@ -40,8 +36,6 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
   const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
 
-  const [categoryName, setCategoryName] = useState<string>('')
-  // const [categories, setCategories] = useState<Category[]>([])
 
   const categories = useSelector((state: RootState) => state.category.data)
   // const dispatch = useDispatch<AppDispatch>()
@@ -51,25 +45,7 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
     setOpen(true)
   }
 
-  const handleClose = () => {
-    setOpen(false)
-  }
 
-  const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const newCategory: Category = {
-      id: categories.length ? categories[categories.length - 1].id + 1 : 1,
-      categoryName: capitalizeWords(categoryName),
-    }
-    // setCategories([...categories, newCategory])
-    setCategoryName('') // Clear the input field after adding
-    dispatch(addCategory(newCategory))
-    console.log(newCategory)
-    handleClose()
-  }
-  const capitalizeWords = (str: string) => {
-    return str.replace(/\b\w/g, (char) => char.toUpperCase())
-  }
   const handleDeleteOpen = () => {
     setDeleteOpen(true)
   }
@@ -80,11 +56,11 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
   }
 
   const handleNext = () => {
-    setActiveTab((prevActiveStep) => prevActiveStep + 1)
+    setActiveTab(activeTab + 1)
   }
 
   const handleBack = () => {
-    setActiveTab((prevActiveStep) => prevActiveStep - 1)
+    setActiveTab(activeTab - 1)
   }
 
   React.useEffect(() => {
@@ -206,8 +182,8 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
             <Typography>
               Add the type of groups of assets. To start with, commonly used
               categories have already been created for you. Make them as broad
-              or as specific as you want. Categories can be 'laptops and
-              printers', 'equipment', or 'chairs'. Customize to your particular
+              or as specific as you want. Categories can be laptops and
+              printers, equipment, or chairs. Customize to your particular
               need.
             </Typography>
           </Box>
@@ -312,10 +288,7 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
 
       <AddCategory
         open={open}
-        handleClose={handleClose}
-        categoryName={categoryName}
-        setCategoryName={setCategoryName}
-        handleAddCategory={handleAddCategory}
+        setOpen={setOpen}
       />
 
       <DeleteCategory

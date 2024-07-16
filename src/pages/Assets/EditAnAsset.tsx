@@ -4,8 +4,6 @@ import {
   Box,
   Grid,
   Input,
-  Select,
-  Option,
   Button,
   FormLabel,
   FormControl
@@ -28,6 +26,7 @@ import DepartmentComponent from "../../components/AssetSections/EditAsset/AddAss
 import CategoryComponent from "../../components/AssetSections/EditAsset/AddAssetSection/CategoryComponent";
 import SubCategoryComponent from "../../components/AssetSections/EditAsset/AddAssetSection/SubCategorycomponent";
 import AssetFileField from "../../components/Common/AppFile/AssetFileField";
+import SelectOption from "../../components/AssetSections/EditAsset/AddAssetSection/SelectOption";
 
 interface ValidationMessages {
   [key: string]: string;
@@ -79,6 +78,8 @@ const { name, value} = event.target
     });
   };
 
+  console.log(JSON.stringify(formData))
+
   const handleInputValue = (
     field: any,
     formData: any,
@@ -95,10 +96,12 @@ const { name, value} = event.target
       field,
       formData,
       handleInputChange,
-      handleSelectChange: handleSelectChange,
-      handleFileChange: handleFileChange,
+      handleSelectChange,
+      handleFileChange,
       mode,
     };
+
+    
 
     switch (field.components.type) {
       case 'text':
@@ -129,26 +132,7 @@ const { name, value} = event.target
         } else if (field.name === 'subCategoryId') {
           return <SubCategoryComponent {...commonProps} />;
         } else {
-          return (
-            <FormControl>
-              <FormLabel>{field.fieldName}</FormLabel>
-              <Select
-                name={field.name}
-                value={formData[field.name]}
-                onChange={(event) =>
-                  handleSelectChange &&
-                  handleSelectChange(event, event.target.value, field.name)
-                }
-                sx={field.stylings}
-              >
-                {field.options?.map((option: any) => (
-                  <Option key={option.value} value={option.value}>
-                    {option.label}
-                  </Option>
-                ))}
-              </Select>
-            </FormControl>
-          );
+          return <SelectOption {...commonProps} />
         }
 
       case 'file':

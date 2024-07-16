@@ -35,7 +35,7 @@ const LocationComponent: React.FC<LocationProps> = ({
         <Select
           placeholder="Select Location"
           name={field.name}
-          value={formData[field.name] as string}
+          value={formData['location']?.id as string}
           onChange={selectChange}
         >
           {locations.map((location) => (

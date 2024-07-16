@@ -20,6 +20,7 @@ import componentsReducer from "./features/ComponentsIdSlice";
 import AssetFieldMappingReducer from './features/AssetFieldMappingSlice';
 import assetDatabaseReducer from './features/AssetDatabaseSlice';
 import assetCustomDatabaseReducer from './features/AssetCustomDatabaseSlice';
+import CheckOutSliceReducer from "./features/CheckOutSlice";
 import empDatabaseReducer from './features/EmpDatabaseSlice';
 import empCustomDatabaseReducer from './features/EmpCustomDatabseSlice';
 import customerDatabaseReducer from './features/CustomerDatabaseSlice';
@@ -30,6 +31,7 @@ import warrantiesDatabaseReducer from './features/WarrantiesDatabaseSlice';
 import warrantiesCustomDatabaseReducer from './features/WarrantiesCustomDatabaseSlice';
 import contractDatabaseReducer from './features/ContractDatabaseSlice';
 import contractCustomDatabaseReducer from './features/ContractCustomDatabaseSlice';
+
 
 export const store = configureStore({
   reducer: {
@@ -54,6 +56,7 @@ export const store = configureStore({
     assetFieldMapping:AssetFieldMappingReducer,
     assetDatabase:assetDatabaseReducer,
     assetCustomDatabase:assetCustomDatabaseReducer,
+    checkOut:CheckOutSliceReducer
     empDatabase:empDatabaseReducer,
     empCustomDatabase:empCustomDatabaseReducer,
     customerDatabase:customerDatabaseReducer,

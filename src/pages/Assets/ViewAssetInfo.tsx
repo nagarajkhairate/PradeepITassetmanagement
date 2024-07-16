@@ -9,9 +9,9 @@ import {
   MenuButton,
   Dropdown,
   Chip,
+  Option,
+  IconButton,
 } from "@mui/joy";
-import { MenuItem } from "@mui/material";
-
 import PrintIcon from '@mui/icons-material/Print';
 import EditIcon from '@mui/icons-material/Edit';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -26,21 +26,29 @@ import SellIcon from '@mui/icons-material/Sell';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EmailIcon from '@mui/icons-material/Email';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import CheckOutDialog from "../../components/AssetSections/EditAsset/Check Out/CheckOutDialog";
-import { Link } from "react-router-dom";
-
+import CheckOutDialog from "../../components/AssetSections/EditAsset/Check Out/CheckOutOption";
+import { Link, useNavigate } from "react-router-dom";
 import AppView from "../../components/Common/AppView";
 import HPLaptopImg from "../../Assets/hp-15.png"
 import { OutboundOutlined } from "@mui/icons-material";
+import CheckOutOption from "../../components/AssetSections/EditAsset/Check Out/CheckOutOption";
+import moreOptionsConfig from "./moreOptionsConfig";
 
 interface AssetInfoProps {
   id:string,
   assets:any
 }
 
+interface Option {
+  label: string;
+  icon: React.ElementType; // Using React.ElementType for icon
+  divider?: boolean;
+}
 const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
 
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
   const openPopUp = () => {
     setOpen(true);
   };
@@ -48,11 +56,27 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
   const closePopUp = () => {
     setOpen(false);
   };
+  const openDropdown = () => {
+    setOpen(true);
+  };
+
+  const closeDropdown = () => {
+    setOpen(false);
+  };
+
+  const handleMenuItemClick = (option: any) => {
+    if (option.label === "Check Out") {
+      openPopUp();
+    } else if (option.path) {
+      navigate(option.path);
+    }
+  };
 
   const statusColorMap: Record<string, string> = {
-    Available: 'success',
-    CheckedOut: 'neutral',
+    Available: "success",
+    CheckedOut: "neutral",
   };
+
 
   return (
     <AppView>
@@ -101,59 +125,35 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
               <EditIcon sx={{ size: "23" }} /> Edit Asset
             </Button>
           </Link>
-           <Dropdown>
-            <MenuButton
-              sx={{
-                background: "#13b457",
-                borderRadius: "15px",
-                "&:hover": {
-                  backgroundColor: "#0d903f",
-                },
-                color: "#ffffff",
-              }}
-            >
-              More Action <KeyboardArrowDownIcon sx={{ size: "23" }} />
-            </MenuButton>
-            <Menu>
-              <MenuItem onClick={openPopUp}>
-                <PersonIcon />
-                Check Out
-              </MenuItem>
-              <MenuItem>
-                <SendIcon /> Lease
-              </MenuItem>
-              <MenuItem>
-                <ThumbDownIcon /> Lost/Missing
-              </MenuItem>
-              <MenuItem>
-                <BuildIcon /> Repair
-              </MenuItem>
-              <Divider></Divider>
-              <MenuItem>
-                <BrokenImageIcon /> Broken
-              </MenuItem>
-              <MenuItem>
-                <RecyclingIcon /> Dispose
-              </MenuItem>
-              <MenuItem>
-                <FavoriteIcon /> Donate
-              </MenuItem>
-              <MenuItem>
-                <SellIcon /> Sell
-              </MenuItem>
-              <Divider></Divider>
-              <MenuItem>
-                <DeleteIcon /> Delete
-              </MenuItem>
-              <MenuItem>
-                <EmailIcon /> Email
-              </MenuItem>
-              <MenuItem>
-                <ContentCopyIcon /> Replicate
-              </MenuItem>
-            </Menu>
-          </Dropdown> 
-          {/* <CheckOutDialog closePopUp={closePopUp} open={open} />  */}
+          <Dropdown>
+        <MenuButton
+          sx={{
+            background: "#13b457",
+            borderRadius: "15px",
+            "&:hover": {
+              backgroundColor: "#0d903f",
+            },
+            color: "#ffffff",
+          }}
+        >
+          More Actions <KeyboardArrowDownIcon />
+        </MenuButton>
+        <Menu>
+          {moreOptionsConfig.map((option, index) =>
+            option.divider ? (
+              <Divider key={index} />
+            ) : (
+              <IconButton key={index} sx={{ color: "#000000" }} onClick={() => handleMenuItemClick(option)}>
+                {React.createElement(option.icon)} {/* Render the icon component */}
+                {option.label}
+              </IconButton>
+            )
+          )}
+        </Menu>
+      </Dropdown>
+
+      <CheckOutOption open={open} closePopUp={closePopUp} />
+          {/* <CheckOutOption open={open} />  */}
         </Box>
         <Box
           sx={{
@@ -259,7 +259,7 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
             </Table>
           </Box>
         </Box>
-      </Box>
+        </Box>
     </AppView>
   );
 };

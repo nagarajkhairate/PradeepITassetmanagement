@@ -14,6 +14,11 @@ import {
   FormLabel,
 } from "@mui/joy";
 import AppView from "../../components/Common/AppView";
+import AppForm from "../../components/Common/AppForm";
+import { addCheckOut } from "../../redux/features/CheckOutSlice";
+import { ThunkDispatch } from "redux-thunk";
+import { RootState } from "../../redux/store";
+import { useDispatch } from "react-redux";
 
 interface CheckOutFormProps {
   selectedAssets: {
@@ -28,23 +33,26 @@ interface CheckOutFormProps {
 }
 
 const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets}) => {
-  const [open, setOpen] = useState(false)
-
+  const [open, setOpen] = useState(false);
+  const [checkOutTo, setCheckOutTo] = useState("person"); // State to manage radio option
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [formData, setFormData] = useState({
     id: "",
-    assigned_to: "",
-    checkout_to:"",
-    check_out_date: "",
-    due_date: "",
-    check_out_site: "",
-    check_out_location: "",
-    check_out_department: "",
-    check_out_notes: "",
-    send_email: false,
-    email_address: "",
+    assignedTo: "",
+    checkoutTo:"",
+    checkOutDate: "",
+    dueDate: "",
+    checkOutSiteId: "",
+    checkOutLocationId: "",
+    checkOutDepartmentId: "",
+    checkOutNotes: "",
+    sendEmail: false,
+    emailAddress: "",
   });
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    await dispatch(addCheckOut(formData))
     console.log(formData);
   };
   
@@ -54,12 +62,10 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets}) => {
       ...formData,
       [name]: type === 'checkbox' ? checked : value
     });
-
-    handleClose()
   };
 
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleSelectChange = (name: string, newValue: string | null) => {
     setFormData({
@@ -68,9 +74,12 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets}) => {
     });
   };
 
+  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckOutTo(e.target.value); 
+  };
 
   return (
-    <AppView>
+    <AppForm onSubmit={handleFormSubmit}>
     <Box
     sx={{
       borderRadius: '16px',
@@ -84,18 +93,6 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets}) => {
       alignItems: 'center',
       p:4,
     }}
-
-      // sx={{
-      //   borderRadius: "16px",
-      //   boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-      //   background: "#ffffff",
-      //   padding: "20px",
-      //   flexGrow: 1,
-      //   marginLeft: "52px",
-      //   marginTop: "22px",
-      //   width: { xs: "100%", sm: "90%", md: "1100px" },
-      //   height: "auto",
-      // }}
     >
       <Typography component="h2" sx={{ mb: 2 }}>
         Assets Pending Check-Out
@@ -136,7 +133,6 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets}) => {
         </tbody>
       </Table>
       </Box>
-     
 
       <Box mt={4}>
         <Box
@@ -148,20 +144,22 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets}) => {
         >
           <Box sx={{ display: "flex" }}>
             <FormLabel>Check-out Date:</FormLabel>
-            <Input placeholder="Check-out Date"
-             type="date" 
-             fullWidth 
-             onChange={(e) =>
-              setFormData({ ...formData, check_out_date: e.target.value })}/>
+            <Input 
+              placeholder="Check-out Date"
+              type="date" 
+              fullWidth 
+              onChange={(e) =>
+                setFormData({ ...formData, checkOutDate: e.target.value })
+              }
+            />
           </Box>
 
-
-          <FormLabel >Optionally select Site, Location , Department of Asset to :</FormLabel>
+          <FormLabel>Optionally select Site, Location, Department of Asset to:</FormLabel>
 
           <Box
             sx={{
               display: "flex",
-              flexDirection: {md:"row" , xs:"column"},
+              flexDirection: { md: "row", xs: "column" },
               alignItems: "center",
               gap: 2,
             }}
@@ -171,9 +169,9 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets}) => {
             </Box>
             <RadioGroup
               name="checkout_to"
-              defaultValue="person"
+              value={checkOutTo} // Use the state for radio group
               sx={{ display: "flex", alignItems: "center" }}
-              onChange={handleChange}
+              onChange={handleRadioChange}
             >
               <Box>
                 <Radio value="person" label="Person" />
@@ -182,174 +180,146 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets}) => {
             </RadioGroup>
           </Box>
 
-          
+          {checkOutTo === "person" && (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { md: "row", xs: "column" },
+                alignItems: "center",
+                gap: 2,
+              }}
+            >
+              <FormLabel>Assigned to:</FormLabel>
+              <Select
+                name="assignedTo"
+                placeholder="Assign to"
+                sx={{ width: "80%" }}
+                value={formData.assignedTo}
+                onChange={(event, newValue) =>
+                  handleSelectChange('assignedTo', newValue as string)
+                }
+              >
+                <Option value="Person 1">Person 1</Option>
+                <Option value="Person 2">Person 2</Option>
+              </Select>
+            </Box>
+          )}
+
           <Box
             sx={{
               display: "flex",
-              flexDirection: {md:"row" , xs:"column"},
+              flexDirection: { md: "row", xs: "column" },
               alignItems: "center",
               gap: 2,
             }}
           >
             <FormLabel>Site:</FormLabel>
-            <Select 
-            name="check_out_site"
-            placeholder="Site" 
-            sx={{ ml:"60px",
-            width:"80%"}}
-            value={formData.check_out_site}
-            onChange={(event, newValue)=> handleSelectChange('check_out_site', newValue as string)}
-            >
-              <Option value="site1">Site 1</Option>
-              <Option value="site2">Site 2</Option>
-            </Select>
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: {md:"row" , xs:"column"},
-              alignItems: "center",
-              gap: 2,
-            }}
-          >
-            <FormLabel>Assigned to:</FormLabel>
             <Select
-            name="assigned_to"
-            placeholder="Assign to"
-            sx={{width:"80%"}}
-            value={formData.assigned_to}
-            onChange={(event, newValue)=> handleSelectChange('assigned_to', newValue as string)}
+              name="checkOutSiteId"
+              placeholder="Site"
+              sx={{ ml: "60px", width: "80%" }}
+              value={formData.checkOutSiteId}
+              onChange={(event, newValue) =>
+                handleSelectChange('checkOutSiteId', newValue as string)
+              }
             >
-              <Option value="person1">Person 1</Option>
-              <Option value="person2">Person 2</Option>
+              <Option value="1">Site 1</Option>
+              <Option value="2">Site 2</Option>
             </Select>
           </Box>
 
           <Box
             sx={{
               display: "flex",
-              flexDirection: {md:"row" , xs:"column"},
+              flexDirection: { md: "row", xs: "column" },
               alignItems: "center",
               gap: 2,
             }}
           >
             <FormLabel>Location:</FormLabel>
             <Select
-            name="check_out_location"
-            placeholder="Location"
-            value={formData.check_out_location}
-            onChange={(event, newValue) => handleSelectChange ('check_out_location', newValue as string)}
-            sx={{
-                ml:"25px",
-                width:"80%"
-              }}
-             >
-              <Option value="location1">Location 1</Option>
-              <Option value="location2">Location 2</Option>
+              name="checkOutLocationId"
+              placeholder="Location"
+              sx={{ ml: "40px", width: "80%" }}
+              value={formData.checkOutLocationId}
+              onChange={(event, newValue) =>
+                handleSelectChange('checkOutLocationId', newValue as string)
+              }
+            >
+              <Option value="1">Location 1</Option>
+              <Option value="2">Location 2</Option>
             </Select>
           </Box>
 
-
           <Box
             sx={{
               display: "flex",
-              flexDirection: {md:"row" , xs:"column"},
-              alignItems: "center",
-              gap: 2,
-            }}
-          >
-            <FormLabel>Due date:</FormLabel>
-            <Input
-              placeholder="Due date"
-              type="date"
-              fullWidth
-              onChange={(e) =>
-                setFormData({ ...formData, due_date: e.target.value })
-              }
-            />
-          </Box>
-
-          
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: {md:"row" , xs:"column"},
+              flexDirection: { md: "row", xs: "column" },
               alignItems: "center",
               gap: 2,
             }}
           >
             <FormLabel>Department:</FormLabel>
             <Select
-            name="check_out_department"
-            placeholder="Department"
-            value={formData.check_out_department}
-            onChange={(event, newValue) => handleSelectChange('check_out_department' , newValue as string)}
-            sx={{
-                width:"80%"
-              }}>
-              <Option value="department1">Department 1</Option>
-              <Option value="department2">Department 2</Option>
+              name="checkOutDepartmentId"
+              placeholder="Department"
+              sx={{ ml: "20px", width: "80%" }}
+              value={formData.checkOutDepartmentId}
+              onChange={(event, newValue) =>
+                handleSelectChange('checkOutDepartmentId', newValue as string)
+              }
+            >
+              <Option value="1">Department 1</Option>
+              <Option value="2">Department 2</Option>
             </Select>
           </Box>
 
-          <Box
-            mt={4}
-            sx={{
-              display: "flex",
-              flexDirection: {md:"row" , xs:"column"},
-              alignItems: "center",
-              gap: 2,
-            }}
-          >
-            <FormLabel>Check-out Notes:</FormLabel>
-            <Textarea
-            sx={{width:'80%'}}
-              placeholder="Check-out Notes"
-              minRows={4}
+          <Box sx={{ display: "flex" }}>
+            <FormLabel>Due Date:</FormLabel>
+            <Input 
+              placeholder="Due Date"
+              type="date" 
+              fullWidth 
               onChange={(e) =>
-                setFormData({ ...formData, check_out_notes: e.target.value })
+                setFormData({ ...formData, dueDate: e.target.value })
               }
             />
           </Box>
 
-          <Box
-            mt={4}
-            sx={{
-              display: "flex",
-              flexDirection: {md:"row" , xs:"column"},
-              alignItems: "center",
-              gap: 2,
-            }}
-          >
-            <Checkbox
-              label="Send Email"
-              sx={{ marginRight: 2 }}
-              onChange={(e) =>
-                setFormData({ ...formData, send_email: e.target.checked })
-              }
-            />
-            <Input
-              placeholder="Enter Email Address"
-              fullWidth
-              onChange={(e) =>
-                setFormData({ ...formData, email_address: e.target.value })
-              }
-            />
-          </Box>
+          <Textarea
+            placeholder="Check Out Notes"
+            minRows={3}
+            name="checkOutNotes"
+            value={formData.checkOutNotes}
+            onChange={handleChange}
+            sx={{ width: "100%" }}
+          />
         </Box>
 
-        <Box mt={4} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button variant="plain" color="neutral" sx={{ marginRight: 2 }} onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button variant="solid" color="primary" onClick={handleFormSubmit}>
-            Check-Out
-          </Button>
+        <Box sx={{ mt: 2 }}>
+          <Checkbox
+            label="Send email to assigned person"
+            name="sendEmail"
+            checked={formData.sendEmail}
+            onChange={handleChange}
+          />
+          {formData.sendEmail && (
+            <Input
+              placeholder="Email Address"
+              name="emailAddress"
+              value={formData.emailAddress}
+              onChange={handleChange}
+              sx={{ mt: 2, width: "100%" }}
+            />
+          )}
         </Box>
       </Box>
+
+      <Box mt={4}>
+        <Button type="submit">Check Out</Button>
+      </Box>
     </Box>
-    </AppView>
+    </AppForm>
   );
 };
 
