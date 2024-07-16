@@ -21,6 +21,9 @@ import componentsReducer from "./features/ComponentsIdSlice";
 import defaultFieldsReducer from './features/DefaultFieldAssetSlice';
 import AssetFieldMappingReducer from './features/AssetFieldMappingSlice';
 import CheckOutSliceReducer from "./features/CheckOutSlice";
+import empDatabaseReducer from './features/EmpDatabaseSlice';
+import empCustomDatabaseReducer from './features/EmpCustomDatabseSlice';
+
 
 export const store = configureStore({
   reducer: {
@@ -46,6 +49,8 @@ export const store = configureStore({
     defaultFields:defaultFieldsReducer,
     assetFieldMapping:AssetFieldMappingReducer,
     checkOut:CheckOutSliceReducer
+    empDatabase:empDatabaseReducer,
+    empCustomDatabase:empCustomDatabaseReducer
   },
 });
 

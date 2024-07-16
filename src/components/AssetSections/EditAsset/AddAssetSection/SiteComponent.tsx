@@ -10,16 +10,11 @@ import { ThunkDispatch } from "redux-thunk";
 interface SiteProps {
   field: { fieldName: string; name: string; options: { value: string; label: string; }[] };
   formData: any;
-  setFormData: React.Dispatch<React.SetStateAction<any>>;
-  setValidationMessages: React.Dispatch<React.SetStateAction<any>>;
-  handleSelectChange: (
-    event: React.SyntheticEvent<Element, Event> | null,
-    value: string | null,
-    name: string,
-  ) => void;
+  handleSelectChange: (value: string | null, name: string) => void;
 }
 
 interface Site {
+  id: string;
   siteName: string;
   description: string;
   address: string;
@@ -33,12 +28,10 @@ interface Site {
 const SiteComponent: React.FC<SiteProps> = ({
   field, 
   formData, 
-  setFormData, 
-  setValidationMessages, 
   handleSelectChange,
 }) => {
   const [error, setError] = useState<string>("");
-  const [openDialog, setOpenDialog] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
   const sites = useSelector((state: RootState) => state.sites.data);
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
@@ -46,12 +39,10 @@ const SiteComponent: React.FC<SiteProps> = ({
     dispatch(fetchSites());
   }, [dispatch]);
 
-  const handleOpenDialog = (modalName: string) => {
-    setOpenDialog(modalName);
-  };
 
-  const handleCloseDialog = () => {
-    setOpenDialog(null);
+
+  const selectChange = (e: any, newValue: string | null) => {
+    handleSelectChange(newValue, field.name);
   };
 
   return (
@@ -59,12 +50,11 @@ const SiteComponent: React.FC<SiteProps> = ({
       <FormControl sx={{ width: '200px' }}>
         <FormLabel>{field.fieldName}</FormLabel>
         <Select
-        placeholder="Select Site"
-        name={field.name}
-        value={formData[field.name] as string}
-        onChange={(e, newValue) => handleSelectChange(e, newValue, field.name)}
-        // sx={field.stylings}
-      >
+          placeholder="Select Site"
+          name={field.name}
+          value={formData['site']?.id as string}
+          onChange={selectChange}
+        >
           {sites.map((site) => (
             <Option key={site.id} value={site.id}>
               {site.siteName}
@@ -75,7 +65,7 @@ const SiteComponent: React.FC<SiteProps> = ({
       </FormControl>
 
       <Button
-        onClick={() => handleOpenDialog(field.fieldName)}
+        onClick={() => setOpen(true)}
         variant="outlined"
         size="sm"
         sx={{
@@ -97,14 +87,11 @@ const SiteComponent: React.FC<SiteProps> = ({
         </Typography>
       </Button>
 
-      {openDialog === field.fieldName && (
+      {open && (
         <AddSite
-          open={openDialog === field.fieldName}
-          onClose={handleCloseDialog}
-          onSave={(newSite: Site) => {
-            dispatch(fetchSites()); 
-            handleCloseDialog();
-          }}
+          open={open}
+          setOpen={setOpen}
+
         />
       )}
     </Box>

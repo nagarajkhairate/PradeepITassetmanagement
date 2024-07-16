@@ -2,18 +2,35 @@ import { Box, Button, Divider, FormControl, FormLabel, Input, Modal, Sheet, Typo
 import { ThunkDispatch } from "redux-thunk"
 import { useDispatch } from "react-redux"
 import AppForm from "../../../components/Common/AppForm"
+import { addDepartment } from "../../../redux/features/DepartmentSlice"
+import { RootState } from "../../../redux/store"
+import { useState } from "react"
 
 
 interface SetupAddDeptProps {
-    open: boolean
-    handleClose: () => void
-    departmentName: string
-    setDepartmentName: React.Dispatch<React.SetStateAction<string>>
-    handleAddDepartment: (e: React.FormEvent<HTMLFormElement>) => void
+    open: any
+    setOpen:any
 
   }
 
-const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({ open, handleClose, departmentName, setDepartmentName, handleAddDepartment }) => {
+const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({ open, setOpen}) => {
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+  const [formData, setFormData] = useState({})
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
+const {name, value} = e.target;
+
+setFormData((prevData)=>({
+  ...prevData,
+  [name]: value
+}))
+  }
+  
+  const handleAddDepartment = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    // setDepartment([...department, newdepartment])
+    dispatch(addDepartment(formData))
+  }
   
 return(
 <Modal
@@ -25,7 +42,7 @@ return(
                 alignItems: 'center',
               }}
               open={open}
-              onClose={handleClose}
+              onClose={setOpen}
             >
               <Sheet
                 variant="outlined"
@@ -36,7 +53,7 @@ return(
                   boxShadow: 'lg',
                 }}
               >
-                <div>
+             
                   <Typography
                     id="responsive-dialog-title"
                     component="h2"
@@ -88,10 +105,9 @@ return(
                             department*:
                           </FormLabel>
                           <Input
-                            value={departmentName}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
-                            ) => setDepartmentName(e.target.value)}
+                            // value={''}
+                            name="department"
+                            onChange={handleInputChange}
                             placeholder="Type here"
                             sx={{
                               width: '70%',
@@ -101,50 +117,41 @@ return(
                         </FormControl>
                       </Box>
                       <Divider />
-
-                      
-            <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            flexDirection: { md: 'row'},
-            justifyContent: { xs: 'space-between', md: 'flex-end' },
-            gap: '5px',
-            mt: 4,
-            flexWrap:'wrap'
-          }}
-        >
-
+                      <Box sx={{ display: 'flex', justifyContent: 'flex-end', m: 2 }}>
                       <Button
-                        autoFocus
-                        type="submit"
-                        variant="solid"
-                        sx={{
-                          background: '#fdd835',
-                          color: 'black',
-                          '&:hover': { background: '#E1A91B' },
-                        }}
-                      >
-                        Add
-                      </Button>
+                       onClick={()=> setOpen()}
+                       autoFocus
+                       variant="solid"
+                       sx={{
+                        mr: 1,
+                        background: 'black',
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: '#333', // Darker shade of black
+                        },
+                       }}
+                     >
+                       Cancel
+                     </Button>
+                     <Button
+                       autoFocus
+                       type="submit"
+                       variant="solid"
+                       sx={{
+                        background: '#fdd835',
+                        color: 'black',
+                        '&:hover': {
+                          backgroundColor: '#c6a700', // Darker shade of #fdd835
+                        },
 
-                      <Button
-                        type="button"
-                        onClick={handleClose}
-                        autoFocus
-                        variant="solid"
-                        sx={{
-                          background: 'black',
-                          color: 'white',
-                          '&:hover': { background: 'black' },
-                        }}
-                      >
-                        Cancel
-                      </Button>
+                       }}
+                     >
+                       Add Department
+                     </Button>
                       </Box>
                     </AppForm>
                   </Box>
-                </div>
+        
               </Sheet>
             </Modal>
 )

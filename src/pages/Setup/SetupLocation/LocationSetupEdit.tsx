@@ -106,7 +106,22 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
           justifyContent: 'space-between',
         }}
       >
-      <Table borderAxis="both" style={{ borderCollapse: 'collapse', }}>
+      <Box
+              sx={{
+                overflowX: 'auto',
+                fontSize: '14px',
+                whiteSpace: 'nowrap',
+                borderRadius:'5px'
+              }}
+            >
+        <Table 
+        borderAxis="both" aria-label="basic table" 
+        style={{
+                  borderCollapse: 'collapse',
+                  border: '1px solid grey',
+                  minWidth: '500px',
+                  borderRadius:'5px'
+                }}>
           <thead>
             <tr>
               <th style={{ width: 30,background: '#fff8e6',verticalAlign:'middle' }}>
@@ -210,6 +225,7 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
                      )): <tr ><td colSpan={4} style={{ textAlign: 'center' }}>No Data Found</td></tr> }
               </tbody>
         </Table>
+        </Box>
 
         <Modal
           open={editOpen}
@@ -313,5 +329,4 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
 }
 
 export default LocationSetupEdit
-
 

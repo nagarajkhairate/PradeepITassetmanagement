@@ -1,114 +1,98 @@
 import React, { ChangeEvent, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Grid,
-  Input,
-  Modal,
-  Option,
-  Radio,
-  RadioGroup,
-  Select,
-  Sheet,
-  Typography,
-} from '@mui/joy'
+import { Box, Button, Modal, Typography } from '@mui/joy'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
-import { ThunkDispatch } from 'redux-thunk'
-import { useDispatch, useSelector } from 'react-redux'
 import AddEmployeeData from './AddEmployeeData'
-import { RootState } from '../../../../redux/store'
+import EditDataBaseEmp from './EditDataBaseEmp'
 
-interface DataAddProps {
-  dataBases: { customAsset: string[] }
-  setDataBases: React.Dispatch<React.SetStateAction<{ customAsset: any[] }>>
-  addCustomField: (custom: any) => void
-  deleteCustomField: (index: number) => void
-  id: number
-}
 
-const AddDataBaseEmp: React.FC<DataAddProps> = ({
-  dataBases,
-  setDataBases,
-  addCustomField,
-  deleteCustomField,
-  id,
-}: DataAddProps) => {
+const AddDataBaseEmp: React.FC = () => {
   const [open, setOpen] = useState(false)
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const [dataBases, setDataBases] = useState<{ customAsset:any[] }>({
+    customAsset: [],
+  })
 
-  const dataBase = useSelector((state: RootState) => state.dataBase.data)
-  console.log(dataBase)
+  const handleClose = () => {
+    setOpen(false)
+  }
 
-  // React.useEffect(() => {
-  //   dispatch(fetchDataBase())
-  // }, [])
+  const handleAddSkill = (formData:any) => {
+    setDataBases((prevData) => ({
+      ...prevData,
+      customAsset: [...prevData.customAsset, formData],
+    }))
+    handleClose()
+    setOpen(false)
+  }
 
+  const handleCheckboxChange = (index: number) => {
+    setDataBases((prevData) => ({
+      ...prevData,
+    }))
+  }
 
   return (
     <Box>
       <Box>
-      <Typography
-    level="h4"
-    sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-  >
-    <SignpostOutlinedIcon
-      style={{ fontSize: '1.4rem', color: '#FBC21E' }}
-    />
-    Persons/Employees Custom Fields
-  </Typography>
-  <Typography
-  sx={{marginTop:'10px'}}
-  >
-    Add custom fields to join the standard fields that we provided.
-  </Typography>
-  </Box>
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: { md: 'row', xs: 'column' },
-        justifyContent: { xs: 'center', md: 'space-between' },
-        gap: '5px',
-      }}
-    >
-      <Button
-        onClick={() => setOpen(true)}
+        <Typography
+          level="h4"
+          sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+        >
+          <SignpostOutlinedIcon
+            style={{ fontSize: '1.4rem', color: '#FBC21E' }}
+          />
+          Persons/Employees Custom Fields
+        </Typography>
+        <Typography sx={{ marginTop: '10px' }}>
+          Add custom fields to join the standard fields that we provided.
+        </Typography>
+      </Box>
+      <Box
         sx={{
-          marginTop: '15px',
-          background: 'green',
-          color: 'white',
-          '&:hover': { background: '#1b5e20' },
-          borderRadius: '15px',
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: { md: 'row', xs: 'column' },
+          justifyContent: { xs: 'center', md: 'space-between' },
+          gap: '5px',
         }}
       >
-        <AddIcon />
-        Add Custom Fields
-      </Button>
-
-      {open && (
-        <Modal
-          aria-labelledby="responsive-dialog-title"
-          aria-describedby="modal-desc"
+        <Button
+          onClick={() => setOpen(true)}
           sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
+            marginTop: '15px',
+            background: 'green',
+            color: 'white',
+            '&:hover': { background: '#1b5e20' },
+            borderRadius: '15px',
           }}
-          open={open}
-          onClose={setOpen}
         >
-          <AddEmployeeData
+          <AddIcon />
+          Add Custom Fields
+        </Button>
+
+        {open && (
+          <Modal
+            aria-labelledby="responsive-dialog-title"
+            aria-describedby="modal-desc"
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
             open={open}
-            setOpen={setOpen}
-            dataBases={dataBases}
-            setDataBases={setDataBases}
-          />
-        </Modal>
-      )}
-    </Box>
+            onClose={() => setOpen(false)}
+          >
+            <AddEmployeeData
+              open={open}
+              setOpen={setOpen}
+              dataBases={dataBases}
+              handleAddSkill={handleAddSkill}
+            />
+          </Modal>
+        )}
+      </Box>
+
+      <EditDataBaseEmp dataBases={dataBases} setDataBases={setDataBases} />
     </Box>
   )
 }

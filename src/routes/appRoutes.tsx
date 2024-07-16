@@ -47,6 +47,8 @@ import DatabaseWarranties from '../pages/Setup/DataBase/DatabaseWarranties.tsx/D
 import SetupColumns from '../pages/Assets/SetupColumns'
 import SearchCriteria from '../pages/Assets/SearchCriteria'
 import CheckOutOption from '../components/AssetSections/EditAsset/Check Out/CheckOutOption'
+import DatabaseContractTable from '../pages/Setup/DataBase/DatabaseContract/DatabaseContractTable'
+
 
 const appRoutes: RouteType[] = [
   {
@@ -350,7 +352,7 @@ const appRoutes: RouteType[] = [
             element: <DatabaseCustomersTable />,
             state: 'DataBasescustomerstable',
             sidebarProps: {
-              displayText: 'dataBases Customers Table',
+              displayText: 'DataBases Customers Table',
               icon: <ICONS.person />,
             },
           },
@@ -359,7 +361,7 @@ const appRoutes: RouteType[] = [
             element: <DatabaseMaintenance />,
             state: 'DataBasemaintenance',
             sidebarProps: {
-              displayText: 'dataBases Maintenance Table',
+              displayText: 'DataBases Maintenance Table',
               icon: <ICONS.person />,
             },
           },
@@ -368,7 +370,16 @@ const appRoutes: RouteType[] = [
             element: <DatabaseWarranties />,
             state: 'DataBaseWarranties',
             sidebarProps: {
-              displayText: 'dataBases Warranties Table',
+              displayText: 'DataBases Warranties Table',
+              icon: <ICONS.person />,
+            },
+          },
+          {
+            path: '/setup/database/databases-contract',
+            element: <DatabaseContractTable />,
+            state: 'DataBaseContract',
+            sidebarProps: {
+              displayText: 'DataBases Contract Table',
               icon: <ICONS.person />,
             },
           },

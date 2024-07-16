@@ -1,3 +1,5 @@
+
+
 import { Box, Button, FormControl, FormLabel, Input, Modal, Option, Radio, RadioGroup, Select, Sheet, Stack, Table, Typography } from "@mui/joy";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -7,26 +9,6 @@ import { RootState } from "../../../../redux/store";
 import { fetchComponents } from "../../../../redux/features/ComponentsIdSlice";
 import { ThunkDispatch } from "redux-thunk";
 import { addDefaultFields, updateDefaultFieldsById } from "../../../../redux/features/DefaultFieldAssetSlice";
- 
-
-const initialDatabase = [
-    {
-     id:1,
-      fieldName: "swde",
-      componentsId: 0,
-      categoryId: 0,
-      isRequired: false,
-    },
-  ];
-
-  const addCustomField = (fieldName: { 
-    fieldName: string; 
-    componentsId:number; 
-    categoryId: number; 
-    isRequired: boolean; 
-  }) => {
-    // Your implementation logic here
-  };
   
    
   interface dataItem {
@@ -60,6 +42,11 @@ interface DataProps {
   }
  
  
+const categoryOptions = [
+  { label: "Category 1", value: "Category1" },
+  { label: "Category 2", value: "Category2" },
+  { label: "Category 3", value: "Category3" },
+];
  
 const EditDataBaseAsset: React.FC<DataProps>= ({ matchedSelected,
     setMatchedSelected,
@@ -86,7 +73,6 @@ const EditDataBaseAsset: React.FC<DataProps>= ({ matchedSelected,
         dataRequired: false,
         categoryId: 0,
       });
-    const [showDepreciationOptions, setShowDepreciationOptions] =useState<boolean>(false);
  
     const components = useSelector((state: RootState) => state.components.data)
 
@@ -96,14 +82,6 @@ const EditDataBaseAsset: React.FC<DataProps>= ({ matchedSelected,
         const categoryIdValue = name === 'categoryId' ? parseInt(value, 10) : value;
         setFormData((prevData) => ({ ...prevData, [name]: categoryIdValue }));
       };
-
-      // const handleSelectChange = (event: ChangeEvent<{ value: unknown }>) => {
-      //   const newValue = event.target.value as string;
-      //   setFormData((prevData) => ({
-      //     ...prevData,
-      //     componentsId: newValue
-      //   }));
-      // };
 
       const handleSelectChange = (event: ChangeEvent<{ value: unknown }>) => {
         const newValue = event.target.value as string;
@@ -132,10 +110,10 @@ const EditDataBaseAsset: React.FC<DataProps>= ({ matchedSelected,
       const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const fieldName = formData.fieldName;
+    // const fieldName = formData.fieldName;
     if (selectedCell !== null) {
         const updatedData = dataBases.customAsset.map((item, index) =>
-            index === selectedCell ? { ...item, fieldName: fieldName } : item
+            index === selectedCell ? { ...item, ...formData } : item
         );
         setDataBases({ ...dataBases, customAsset: updatedData });
         dispatch(updateDefaultFieldsById(updatedData)); 
@@ -148,15 +126,6 @@ const handleDeleteButton = (index:number) => {
     handleDeleteOpen()
   
 }
-
-const getComponentName =((componentsId)=>{
-  components.map((component)=>{
-    if(component.id===componentsId)
-      return component.type
-    return null
-  })
- 
-})
 
   useEffect(() => {
     dispatch(fetchComponents())
@@ -205,17 +174,10 @@ const getComponentName =((componentsId)=>{
                     {dataBases.customAsset.length > 0 ? (
                     dataBases.customAsset.map((item, index) => (
                       <tr key={index}>
-                        {/* <td>
-                          <Checkbox
-                            checked={matchedSelected.includes(index)}
-                            onChange={() => handleCheckboxChange(index)}
-                            color="primary"
-                          />
-                        </td> */}
                         <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{item.fieldName}</td>
-                        <td>{getComponentName(item.componentsId)}</td>
+                        <td>{components.find((component) => component.id === item.componentsId)?.type || ''}</td>
                         <td>{item.isRequired}</td>
-                        <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{item.categoryId}</td>
+                        <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{item.categoryId === 0 ? 'All Categories' : 'Limited Categories'}</td>
                         <td>
                           <Button 
                            sx={{
@@ -389,7 +351,8 @@ const getComponentName =((componentsId)=>{
                           <FormLabel sx={{ paddingTop: "40px", marginLeft: "20px" }}> Selected Categories</FormLabel>
                           <FormLabel sx={{ marginLeft: "165px", paddingBottom:'30px' }}> Is this field visible to assets of selective 'Categories'?</FormLabel>
                           <RadioGroup
-                           name="categoryId" value={formData.categoryId}
+                           name="categoryId" 
+                           value={formData.categoryId}
                           
                           onChange={handleChange}
                         >
@@ -508,3 +471,8 @@ const getComponentName =((componentsId)=>{
     )
 }
 export default EditDataBaseAsset;
+
+
+
+
+

@@ -16,8 +16,8 @@ import axios from 'axios';
     error: null,
   };
  
-const base_api_key_url = process.env.BASE_API_KEY;
-const TENANT_ID = process.env.TENANT_ID;
+const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
+const TENANT_ID = process.env.REACT_APP_TENANT_ID;
 
  
 export const fetchSubCategories = createAsyncThunk('subCategories/fetchSubCategories', async () => {

@@ -18,10 +18,10 @@ import DatabaseButtons from '../../../../components/Common/DatabaseButton'
 const customDefaultFields = [
   {
     id: 1,
-    fieldName: 'Title ',
+    fieldName: 'Title',
+    value: 'title',
     visible: false,
-    isRequired: '',
-    name: 'title',
+    isRequired: false,
     description: 'Title of the maintenance.',
     example: 'Monthly Calibration',
     option: [
@@ -34,9 +34,9 @@ const customDefaultFields = [
   {
     id: 2,
     fieldName: 'Details',
+    value: 'details',
     visible: false,
-    isRequired: '',
-    name: 'details',
+    isRequired: false,
     description: '	Details of the maintenance',
     example: 'Calibrate to 120 units',
     option: [
@@ -54,8 +54,8 @@ const customDefaultFields = [
     id: 3,
     fieldName: 'Due Date',
     visible: false,
-    isRequired: '',
-    name: 'dueDate',
+    isRequired: false,
+    value: 'dueDate',
     description: 'Date when maintenance is due',
     example: '3/5/2020',
     option: [
@@ -73,8 +73,8 @@ const customDefaultFields = [
     id: 4,
     fieldName: 'Maintenance By',
     visible: false,
-    isRequired: '',
-    name: 'maintenanceBy',
+    isRequired: false,
+    value: 'maintenanceBy',
     description: 'Person doing maintenance',
     example: '	John Doe',
     option: [
@@ -92,8 +92,8 @@ const customDefaultFields = [
     id: 5,
     fieldName: 'Maintenance Status',
     visible: false,
-    isRequired: '',
-    name: 'maintenanceStatus',
+    isRequired: false,
+    value: 'maintenanceStatus',
     description:
       ' System field to show current status of the maintenance. The possible values are Scheduled, In progress, On Hold, Cancelled, Completed.',
     example: ' Scheduled',
@@ -112,8 +112,8 @@ const customDefaultFields = [
     id: 6,
     fieldName: 'Date Completed',
     visible: false,
-    isRequired: '',
-    name: 'dateCompleted',
+    isRequired: false,
+    value: 'dateCompleted',
     description: '	Date when maintenance is completed',
     example: '3/5/2020',
     option: [
@@ -131,8 +131,8 @@ const customDefaultFields = [
     id: 7,
     fieldName: 'Maintenance Cost',
     visible: false,
-    isRequired: '',
-    name: 'maintenanceCost',
+    isRequired: false,
+    value: 'maintenanceCost',
     description: 'Total cost spent on this maintenance',
     example: '	$97.50',
     option: [
@@ -150,8 +150,8 @@ const customDefaultFields = [
     id: 8,
     fieldName: 'Repeating',
     visible: false,
-    isRequired: '',
-    name: 'repeating',
+    isRequired: false,
+    value: 'repeating',
     description: 'System fields to define repeating maintenances',
     example: '---',
     option: [
@@ -159,10 +159,7 @@ const customDefaultFields = [
         id: 1,
         value: 'yes',
       },
-      {
-        id: 2,
-        value: 'optional',
-      },
+     
     ],
   },
 ]
@@ -174,19 +171,13 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
   const dataBase = useSelector((state: RootState) => state.dataBase.data)
   console.log(dataBase)
 
-  // React.useEffect(() => {
-  //   dispatch(fetchDataBase())
-  // }, [])
-
   const [dataBases, setDataBases] = useState({
     customAssetFields: [],
     customDefaultFields: customDefaultFields.map((item) => ({
       ...item,
       id: item.id,
-
-      visible: item.visible,
-
-      isRequired: item.isRequired,
+      visible: true,
+      isRequired: item.fieldName=== 'Title' ||item.fieldName=== 'Repeating'  ? true : item.isRequired,
       description: item.description,
     })),
   })
@@ -230,10 +221,17 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
     setDataBases((prevData) => ({
       ...prevData,
       customDefaultFields: prevData.customDefaultFields.map((item, i) =>
-        i === index ? { ...item, visible: !item.visible } : item,
+        i === index
+          ? {
+              ...item,
+              visible: ['Title', 'Due Date','Maintenance Status', 'Repeating' ].includes(item.fieldName) ? true : !item.visible,
+              isRequired: item.fieldName === 'Title' || item.fieldName==='Repeating'  ? true
+              : !item.visible ? false : item.isRequired,
+            }
+          : item,
       ),
-    }))
-  }
+    }));
+  };
 
   const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -260,10 +258,11 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
     index: number,
   ) => {
     const { value } = event.target
+     const booleanValue = value === 'yes'
     setDataBases((prevData) => ({
       ...prevData,
       customDefaultFields: prevData.customDefaultFields.map((item, i) =>
-        i === index ? { ...item, isRequired: value } : item,
+        i === index ? { ...item, isRequired: booleanValue } : item,
       ),
     }))
   }
@@ -272,10 +271,11 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
   const generateJson = () => {
     const jsonData = {
       customDefaultFields:dataBases.customDefaultFields.map(
-      ({ id, visible, fieldName, isRequired, description }) => ({
+      ({ id,  fieldName,value,  visible,isRequired, description }) => ({
         id,
-        visible,
         fieldName,
+        value,
+        visible,
         isRequired,
         description,
       })),
@@ -398,18 +398,29 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                       {data.visible && (
                         <FormControl>
                           <RadioGroup
-                            defaultValue="outlined"
+                              defaultValue={
+                                data.visible &&
+                                (data.fieldName === 'Title' ||
+                                  data.fieldName === 'Repeating')
+                                  ? 'yes'
+                                  : 'optional'
+                              }
                             name="radio-buttons-group"
+                            onChange={(event) =>
+                              HandleRadioSelect(event, index)
+                            }
                           >
                             {data.option.map((opt: any) => (
                               <Radio
-                                onChange={(event) =>
-                                  HandleRadioSelect(event, index)
-                                }
+                                
                                 key={opt.id}
+                                name={opt.name}
                                 value={opt.value}
                                 label={opt.value}
                                 variant="outlined"
+                                checked={
+                                  data.isRequired === (opt.value === 'yes')
+                                }
                               />
                             ))}
                           </RadioGroup>

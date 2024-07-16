@@ -1,19 +1,31 @@
 import { Box, Button, Divider, FormControl, FormLabel, Input, Modal, Sheet, Typography } from '@mui/joy'
-import React from 'react'
+import React, { useState } from 'react'
+import AppForm from '../../Common/AppForm'
 
 
 interface CategoryAddProps {
-    open: boolean
-    handleClose: () => void
-    categoryName: string
-    setCategoryName: React.Dispatch<React.SetStateAction<string>>
-    handleAddCategory: (e: React.FormEvent<HTMLFormElement>) => void
+    open: any
+    setOpen: any
+
 
   }
 
-  const AddCategory: React.FunctionComponent<CategoryAddProps> = ({ open, handleClose, categoryName, setCategoryName, handleAddCategory }) => {
+  const AddCategory: React.FunctionComponent<CategoryAddProps> = ({ open, setOpen }) => {
+    const [formData, setFormData] = useState({})
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
+      const {name, value} = e.target;
+      
+      setFormData((prevData)=>({
+        ...prevData,
+        [name]: value
+      }))
+        }
+      const handleSubmit
+       = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+      }
 
-
+      console.log(formData)
   return (
     <Modal
               aria-labelledby="responsive-dialog-title"
@@ -24,7 +36,7 @@ interface CategoryAddProps {
                 alignItems: 'center',
               }}
               open={open}
-              onClose={handleClose}
+              onClose={setOpen}
             >
               <Sheet
                 variant="outlined"
@@ -35,7 +47,6 @@ interface CategoryAddProps {
                   boxShadow: 'lg',
                 }}
               >
-                <div>
                   <Typography
                     id="responsive-dialog-title"
                     component="h2"
@@ -49,7 +60,7 @@ interface CategoryAddProps {
                   <Divider />
 
                   <Box sx={{ marginBottom: '10px' }}>
-                    <form onSubmit={handleAddCategory}>
+                    <AppForm onSubmit={handleSubmit}>
                       <FormControl
                         sx={{
                           display: 'flex',
@@ -87,10 +98,8 @@ interface CategoryAddProps {
                             Category*:
                           </FormLabel>
                           <Input
-                            value={categoryName}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
-                            ) => setCategoryName(e.target.value)}
+                            // value={categoryName}
+                            onChange={handleInputChange}
                             placeholder="Type here"
                             sx={{
                               marginLeft: '20px',
@@ -102,36 +111,44 @@ interface CategoryAddProps {
                       </Box>
                       <Divider />
 
+                      <Box sx={{ display: 'flex', justifyContent: 'flex-end', m: 2 }}>
                       <Button
-                        autoFocus
-                        type="submit"
-                        variant="solid"
-                        sx={{
-                          background: '#fdd835',
-                          color: 'black',
-                          marginTop: '25px',
-                          marginLeft: '40%',
-                        }}
-                      >
-                        Add
-                      </Button>
+                       
+                       onClick={()=> setOpen()}
+                       autoFocus
+                       variant="solid"
+                       sx={{
+                        mr: 1,
+                        background: 'black',
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: '#333', // Darker shade of black
+                        },
+                       }}
+                     >
+                       Cancel
+                     </Button>
+                     <Button
+                       autoFocus
+                       type="submit"
+                       variant="solid"
+                       sx={{
+                        background: '#fdd835',
+                        color: 'black',
+                        '&:hover': {
+                          backgroundColor: '#c6a700', // Darker shade of #fdd835
+                        },
 
-                      <Button
-                        type="button"
-                        onClick={handleClose}
-                        autoFocus
-                        variant="solid"
-                        sx={{
-                          background: 'black',
-                          color: 'white',
-                          marginLeft: '50px',
-                        }}
-                      >
-                        Cancel
-                      </Button>
-                    </form>
+                       }}
+                     >
+                       Add Category
+                     </Button>
+                      </Box>
+
+                     
+                    </AppForm>
                   </Box>
-                </div>
+          
               </Sheet>
             </Modal>
   )

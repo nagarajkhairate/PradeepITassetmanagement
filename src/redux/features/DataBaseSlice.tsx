@@ -16,13 +16,13 @@ import axios from 'axios';
     error: null,
   };
  
-const base_api_key_url = process.env.BASE_API_KEY;
-const TENANT_ID = process.env.TENANT_ID;
+const base_api_key_url = process.env.REACT_APP_BASE_API_KEY;
+const TENANT_ID = process.env.REACT_APP_TENANT_ID;
 
  
 export const fetchDataBase = createAsyncThunk('dataBase/fetchDataBase', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/database-fields`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/asset-default-fields`);
   return response.data;
    
   } catch (error) {
@@ -36,7 +36,7 @@ export const fetchDataBase = createAsyncThunk('dataBase/fetchDataBase', async ()
 
 export const fetchDataBaseById = createAsyncThunk('dataBase/fetchDataBaseById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/database-fields/${id}`);
+    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/asset-default-fields/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -46,20 +46,20 @@ export const fetchDataBaseById = createAsyncThunk('dataBase/fetchDataBaseById', 
 });
  
 export const addDataBase = createAsyncThunk('dataBase/addDataBase', async (dataBase: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/database-fields`, dataBase);
+ const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/asset-default-fields`, dataBase);
  console.log(response)
   return response.data;
 });
  
 export const updateDataBase = createAsyncThunk('dataBase/updateDataBase', async (updatedDataBase: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/database-fields/${updatedDataBase.id}`, updatedDataBase);
+  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/asset-default-fields/${updatedDataBase.id}`, updatedDataBase);
   
   return response.data;
 });
  
 export const deleteDataBase = createAsyncThunk('dataBase/deleteDataBase', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/database-fields/${id}`);
+  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/asset-default-fields/${id}`);
   return id;
 });
 

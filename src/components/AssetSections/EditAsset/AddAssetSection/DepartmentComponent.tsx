@@ -1,86 +1,59 @@
-import React, { useState, ChangeEvent } from "react";
-import AddIcon from '@mui/icons-material/Add';
-import { Select, Option, Button, Typography, Box, FormControl, FormHelperText, FormLabel } from '@mui/joy';
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
-import { ThunkDispatch } from "redux-thunk";
-import SetupAddDept from "../../../../pages/Setup/Departments/SetupAddDept";
-import { addDepartment } from "../../../../redux/features/DepartmentSlice";
-
+import React, { useState, useEffect } from 'react'
+import AddIcon from '@mui/icons-material/Add'
+import {
+  Select,
+  Option,
+  Button,
+  Typography,
+  Box,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+} from '@mui/joy'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../../../redux/store'
+import { ThunkDispatch } from 'redux-thunk'
+import SetupAddDept from '../../../../pages/Setup/Departments/SetupAddDept'
+import { fetchDepartment } from '../../../../redux/features/DepartmentSlice'
 
 interface DepartmentProps {
-  field: { fieldName: string; name: string; options: { value: string; label: string; }[] };
-  formData: any;
-  setFormData: React.Dispatch<React.SetStateAction<any>>;
-  setValidationMessages: React.Dispatch<React.SetStateAction<any>>;
-  handleSelectChange: (
-    event: React.SyntheticEvent<Element, Event> | null,
-    value: string | null,
-    name: string,
-  ) => void;
+  field: {
+    fieldName: string
+    name: string
+    options: { value: string; label: string }[]
+  }
+  formData: any
+  handleSelectChange: (value: string | null, name: string) => void
 }
 
-type Department = {
-  id: number
-  departmentName: string
-}
-
-const DepartmentComponent: React.FC<DepartmentProps> = (
-  {   field, 
-    formData, 
-    setFormData, 
-    setValidationMessages, 
-    handleSelectChange
-    }) => {
-  const [error, setError] = useState<string>("");
-  const [openDialog, setOpenDialog] = useState<string | null>(null);
+const DepartmentComponent: React.FC<DepartmentProps> = ({
+  field,
+  formData,
+  handleSelectChange,
+}) => {
+  const [error, setError] = useState<string>('')
   const departments = useSelector((state: RootState) => state.departments.data)
   const [open, setOpen] = useState<boolean>(false)
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
-  const [departmentName, setDepartmentName] = useState<string>('')
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
-
-  const validateForm = () => {
-    if (!formData.site) {
-      setError("Department is required");
-      return false;
-    }
-    setError("");
-    return true;
-  };
-
-  const handleAddDepartment = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const newdepartment: Department = {
-      id: departments.length ? departments[departments.length - 1].id + 1 : 1,
-      departmentName: capitalizeWords(departmentName),
-    }
-    // setDepartment([...department, newdepartment])
-    dispatch(addDepartment(newdepartment))
-    setDepartmentName('') // Clear the input field after adding
-  }
-  const capitalizeWords = (str: string) => {
-    return str.replace(/\b\w/g, (char) => char.toUpperCase())
+  const selectChange = (e: any, newValue: string | null) => {
+    handleSelectChange(newValue, field.name)
   }
 
-  const handleOpenDialog = (modalName: string) => {
-    setOpenDialog(modalName);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(null);
-  };
+  useEffect(() => {
+    dispatch(fetchDepartment())
+  }, [dispatch])
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', mt: 2 }}>
       <FormControl sx={{ width: '200px' }}>
-      <FormLabel>{field.fieldName}</FormLabel>
+        <FormLabel>{field.fieldName}</FormLabel>
 
         <Select
           placeholder="Select Department"
           name={field.name}
-          value={formData[field.name] as string}
-          onChange={(e, newValue) => handleSelectChange(e, newValue, field.name)}
+          value={formData['department']?.id as string}
+          onChange={selectChange}
         >
           {departments.map((department) => (
             <Option key={department.id} value={department.id}>
@@ -88,11 +61,11 @@ const DepartmentComponent: React.FC<DepartmentProps> = (
             </Option>
           ))}
         </Select>
-        {error && <FormHelperText >{error}</FormHelperText>}
+        {error && <FormHelperText>{error}</FormHelperText>}
       </FormControl>
 
       <Button
-        onClick={() => handleOpenDialog(field.fieldName)}
+        onClick={() => setOpen(true)}
         variant="outlined"
         size="sm"
         sx={{
@@ -109,21 +82,11 @@ const DepartmentComponent: React.FC<DepartmentProps> = (
         <Typography sx={{ mr: '25px', color: '#767676' }}>
           <AddIcon />
         </Typography>
-        <Typography sx={{ mr: '25px', color: '#767676' }}>
-          New
-        </Typography>
+        <Typography sx={{ mr: '25px', color: '#767676' }}>New</Typography>
       </Button>
-{openDialog ===  field.fieldName && (
-          <SetupAddDept
-            open={openDialog === field.fieldName}
-            handleClose={handleCloseDialog}
-            departmentName={departmentName}
-            setDepartmentName={setDepartmentName}
-            handleAddDepartment={handleAddDepartment}
-          />
-        )}
+      {open && <SetupAddDept open={open} setOpen={setOpen} />}
     </Box>
-  );
-};
+  )
+}
 
-export default DepartmentComponent;
+export default DepartmentComponent
