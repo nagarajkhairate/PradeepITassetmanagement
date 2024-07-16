@@ -17,9 +17,8 @@ import { ThunkDispatch } from '@reduxjs/toolkit'
 import { RootState } from '../../../redux/store'
 
 interface AddSiteProps {
-  open: boolean
-  onClose: () => void
-  onSave: (site: Site) => void
+  open: any
+  setOpen: any
 }
 
 interface Site {
@@ -44,9 +43,8 @@ const initialSiteData: Site = {
   country: '',
 }
 
-const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
-  const [newSite, setNewSite] = useState<Site>(initialSiteData)
-  const [zipCodeError, setZipCodeError] = useState<string | null>(null)
+const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
+  const [formData, setFormData] = useState<Site>(initialSiteData)
 
   // const users=useSelector((state: { users: SitesState }) =>state.users);
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -57,48 +55,29 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
     field: string,
   ) => {
     if (newValue !== null) {
-      setNewSite((prevState) => ({ ...prevState, [field]: newValue }))
+      setFormData((prevState) => ({ ...prevState, [field]: newValue }))
     }
   }
 
-  const capitalizeWords = (str: string) => {
-    return str.replace(/\b\w/g, (char) => char.toUpperCase())
-  }
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
-
-    if (name === 'zipCode') {
-      const zipCodeRegex = /^\d*$/
-      if (!zipCodeRegex.test(value)) {
-        setZipCodeError('Zip Code must be numeric')
-        return
-      } else {
-        setZipCodeError(null)
-      }
-    }
-    setNewSite((prevState) => ({ ...prevState, [name]: value }))
+    setFormData((prevState) => ({ ...prevState, [name]: value }))
   }
 
   const handleAddSite = async () => {
-    const capitalizedSite = {
-      ...newSite,
-      siteName: capitalizeWords(newSite.siteName),
-      description: capitalizeWords(newSite.description),
-      address: capitalizeWords(newSite.address),
-      aptSuite: capitalizeWords(newSite.aptSuite),
-      city: capitalizeWords(newSite.city),
-      state: capitalizeWords(newSite.state),
-      country: capitalizeWords(newSite.country),
+    try {
+      await dispatch(addSites(formData))
+      setOpen()
+    } catch (error) {
+      
     }
-    onSave(capitalizedSite)
-    await dispatch(addSites(capitalizedSite))
-    setNewSite(initialSiteData)
-    onClose()
-  }
+      
+  
+    }
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={setOpen}>
       <Box sx={{ 
          position: 'absolute',
          top: '50%',
@@ -126,7 +105,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
             <Input
               placeholder="Select Site"
               name="siteName"
-              value={newSite.siteName}
+              value={formData.siteName}
               onChange={handleChange}
               fullWidth
               sx={{ mb: 2 }}
@@ -138,7 +117,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
             <Input
               placeholder="Description"
               name="description"
-              value={newSite.description}
+              value={formData.description}
               onChange={handleChange}
               fullWidth
               sx={{ mb: 2 }}
@@ -151,7 +130,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
               name="country"
               required
               sx={{ height: '36px', mb: 2 }}
-              value={newSite.country}
+              value={formData.country}
               onChange={(event, newValue) =>
                 handleSelectChange(event, newValue, 'country')
               }
@@ -167,7 +146,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
             <Input
               placeholder="State"
               name="state"
-              value={newSite.state}
+              value={formData.state}
               onChange={handleChange}
               fullWidth
               sx={{ mb: 2 }}
@@ -178,7 +157,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
             <Input
               placeholder="city"
               name="city"
-              value={newSite.city}
+              value={formData.city}
               onChange={handleChange}
               fullWidth
               sx={{ mb: 2 }}
@@ -190,7 +169,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
             <Input
               placeholder="ZipCode"
               name="zipCode"
-              value={newSite.zipCode}
+              value={formData.zipCode}
               onChange={handleChange}
               fullWidth
               sx={{ mb: 2 }}
@@ -204,7 +183,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
             <Input
               placeholder="Address"
               name="address"
-              value={newSite.address}
+              value={formData.address}
               onChange={handleChange}
               fullWidth
               sx={{ mb: 2 }}
@@ -215,7 +194,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
             <Input
               placeholder="Apt./ Suite"
               name="aptSuite"
-              value={newSite.aptSuite}
+              value={formData.aptSuite}
               onChange={handleChange}
               fullWidth
               sx={{ mb: 2 }}
@@ -224,7 +203,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, onClose, onSave }) => {
         </Grid>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
           <Button
-            onClick={onClose}
+            onClick={()=> setOpen()}
             sx={{
               mr: 1,
               background: 'black',

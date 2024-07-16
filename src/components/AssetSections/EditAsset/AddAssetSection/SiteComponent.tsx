@@ -31,7 +31,7 @@ const SiteComponent: React.FC<SiteProps> = ({
   handleSelectChange,
 }) => {
   const [error, setError] = useState<string>("");
-  const [openDialog, setOpenDialog] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
   const sites = useSelector((state: RootState) => state.sites.data);
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
@@ -39,13 +39,7 @@ const SiteComponent: React.FC<SiteProps> = ({
     dispatch(fetchSites());
   }, [dispatch]);
 
-  const handleOpenDialog = (modalName: string) => {
-    setOpenDialog(modalName);
-  };
 
-  const handleCloseDialog = () => {
-    setOpenDialog(null);
-  };
 
   const selectChange = (e: any, newValue: string | null) => {
     handleSelectChange(newValue, field.name);
@@ -58,7 +52,7 @@ const SiteComponent: React.FC<SiteProps> = ({
         <Select
           placeholder="Select Site"
           name={field.name}
-          value={formData[field.name] as string}
+          value={formData['site']?.id as string}
           onChange={selectChange}
         >
           {sites.map((site) => (
@@ -71,7 +65,7 @@ const SiteComponent: React.FC<SiteProps> = ({
       </FormControl>
 
       <Button
-        onClick={() => handleOpenDialog(field.fieldName)}
+        onClick={() => setOpen(true)}
         variant="outlined"
         size="sm"
         sx={{
@@ -93,14 +87,11 @@ const SiteComponent: React.FC<SiteProps> = ({
         </Typography>
       </Button>
 
-      {openDialog === field.fieldName && (
+      {open && (
         <AddSite
-          open={openDialog === field.fieldName}
-          onClose={handleCloseDialog}
-          onSave={(newSite: Site) => {
-            dispatch(fetchSites()); 
-            handleCloseDialog();
-          }}
+          open={open}
+          setOpen={setOpen}
+
         />
       )}
     </Box>

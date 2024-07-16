@@ -1,51 +1,58 @@
-import React, { useState, useEffect } from "react";
-import AddIcon from '@mui/icons-material/Add';
-import { Select, Option, Button, Typography, Box, FormControl, FormHelperText, FormLabel } from '@mui/joy';
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../redux/store";
-import { ThunkDispatch } from "redux-thunk";
-import SetupAddDept from "../../../../pages/Setup/Departments/SetupAddDept";
-import {fetchDepartment } from "../../../../redux/features/DepartmentSlice";
-
+import React, { useState, useEffect } from 'react'
+import AddIcon from '@mui/icons-material/Add'
+import {
+  Select,
+  Option,
+  Button,
+  Typography,
+  Box,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+} from '@mui/joy'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../../../redux/store'
+import { ThunkDispatch } from 'redux-thunk'
+import SetupAddDept from '../../../../pages/Setup/Departments/SetupAddDept'
+import { fetchDepartment } from '../../../../redux/features/DepartmentSlice'
 
 interface DepartmentProps {
-  field: { fieldName: string; name: string; options: { value: string; label: string; }[] };
-  formData: any;
-  handleSelectChange: (
-    value: string | null,
-    name: string,
-  ) => void;
+  field: {
+    fieldName: string
+    name: string
+    options: { value: string; label: string }[]
+  }
+  formData: any
+  handleSelectChange: (value: string | null, name: string) => void
 }
 
-
-const DepartmentComponent: React.FC<DepartmentProps> = (
-  {   field, 
-    formData, 
-    handleSelectChange
-    }) => {
-  const [error, setError] = useState<string>("");
+const DepartmentComponent: React.FC<DepartmentProps> = ({
+  field,
+  formData,
+  handleSelectChange,
+}) => {
+  const [error, setError] = useState<string>('')
   const departments = useSelector((state: RootState) => state.departments.data)
   const [open, setOpen] = useState<boolean>(false)
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
   const selectChange = (e: any, newValue: string | null) => {
-    handleSelectChange(newValue, field.name);
-  };
+    handleSelectChange(newValue, field.name)
+  }
 
-
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(fetchDepartment())
-  },[dispatch])
+  }, [dispatch])
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', mt: 2 }}>
       <FormControl sx={{ width: '200px' }}>
-      <FormLabel>{field.fieldName}</FormLabel>
+        <FormLabel>{field.fieldName}</FormLabel>
 
         <Select
           placeholder="Select Department"
           name={field.name}
-          value={formData[field.name] as string}
+          value={formData['department']?.id as string}
           onChange={selectChange}
         >
           {departments.map((department) => (
@@ -54,7 +61,7 @@ const DepartmentComponent: React.FC<DepartmentProps> = (
             </Option>
           ))}
         </Select>
-        {error && <FormHelperText >{error}</FormHelperText>}
+        {error && <FormHelperText>{error}</FormHelperText>}
       </FormControl>
 
       <Button
@@ -75,19 +82,11 @@ const DepartmentComponent: React.FC<DepartmentProps> = (
         <Typography sx={{ mr: '25px', color: '#767676' }}>
           <AddIcon />
         </Typography>
-        <Typography sx={{ mr: '25px', color: '#767676' }}>
-          New
-        </Typography>
+        <Typography sx={{ mr: '25px', color: '#767676' }}>New</Typography>
       </Button>
-{open && (
-          <SetupAddDept
-            open={open}
-            setOpen={setOpen}
-
-          />
-        )}
+      {open && <SetupAddDept open={open} setOpen={setOpen} />}
     </Box>
-  );
-};
+  )
+}
 
-export default DepartmentComponent;
+export default DepartmentComponent
