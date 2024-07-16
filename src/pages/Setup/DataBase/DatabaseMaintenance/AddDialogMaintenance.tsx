@@ -6,8 +6,8 @@ import {
   Button,
   FormControl,
   FormLabel,
-  Grid,
   Input,
+  Modal,
   Option,
   Radio,
   RadioGroup,
@@ -17,31 +17,25 @@ import {
 } from '@mui/joy'
 import AppForm from '../../../../components/Common/AppForm'
 import { RootState } from '../../../../redux/store'
-import { customAsset } from './EmployeeData'
 
 interface DataBaseAddProps {
-  open: boolean
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  dataBases: { customAsset: any[] }
-  handleAddSkill: (formData: any) => void
+  open: boolean;
+  setOpen: (open: boolean) => void;
 }
 
-const AddEmployeeData: React.FC<DataBaseAddProps> = ({
+const AddDialogMaintenance: React.FC<DataBaseAddProps> = ({
   open,
   setOpen,
-  handleAddSkill,
 }) => {
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+
+  const components = useSelector((state: RootState) => state.components.data)
+ 
   const [formData, setFormData] = useState({
     fieldName: '',
     componentsId: 1,
     isRequired: '',
   })
-
-  const components = useSelector((state: RootState) => state.components.data)
-
-  const handleClickOpen = () => {
-    setOpen(true)
-  }
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -64,7 +58,6 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    handleAddSkill(formData)
     setFormData({
       fieldName: '',
       componentsId: 1,
@@ -84,6 +77,17 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
   }
 
   return (
+    <Modal
+    open={open}
+    onClose={() => setOpen(false)}
+            aria-labelledby="responsive-dialog-title"
+            aria-describedby="modal-desc"
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
     <Sheet
       variant="outlined"
       sx={{
@@ -106,18 +110,22 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
         </Typography>
 
         <AppForm onSubmit={handleSubmit}>
-          <FormControl>
+        <FormControl>
             <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
               Custom Field Label*:
               <Input
-                variant="outlined"
-                type="text"
-                name="fieldName"
-                value={formData.fieldName}
-                onChange={handleChange}
-                required
-                sx={{ width: '45%', marginLeft: '20px' }}
-              />
+      variant="outlined"
+      type="text"
+      name="fieldName"
+      value={formData.fieldName}
+      onChange={handleChange}
+      onInput={(e) => {
+        const target = e.target as HTMLInputElement;
+        target.value = target.value.replace(/[^a-zA-Z0-9-]/g, '');
+      }}
+      required
+      sx={{ width: '45%', marginLeft: '20px' }}
+    />
             </FormLabel>
           </FormControl>
 
@@ -127,7 +135,7 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
               <Select
                 placeholder="Select Data Types"
                 sx={{ width: '50%', marginLeft: '70px' }}
-                name="componentsId"
+                name="dataType"
                 value={formData.componentsId}
                 onChange={handleSelectChange}
               >
@@ -148,12 +156,13 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
               alignItems: 'center',
             }}
           >
-            <FormLabel sx={{ paddingTop: '20px' }}>Data Required:</FormLabel>
+            <FormLabel sx={{ paddingTop: '36px', marginLeft: '20px' }}>
+              Data Required:
+            </FormLabel>
             <RadioGroup
               name="isRequired"
               value={formData.isRequired}
               onChange={handleRadioChange}
-              sx={{ marginLeft: '20px' }}
             >
               <Box>
                 <Radio
@@ -172,6 +181,7 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
             </RadioGroup>
           </FormControl>
 
+         
           <Box
             sx={{
               display: 'flex',
@@ -183,36 +193,37 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
               flexWrap: 'wrap',
             }}
           >
-            <Button
-              autoFocus
-              type="submit"
-              variant="solid"
-              sx={{
-                background: '#fdd835',
-                '&:hover': { background: '#E1A91B' },
-                color: 'black',
-              }}
-            >
-              Save
-            </Button>
+          <Button
+            autoFocus
+            type="submit"
+            variant="solid"
+            sx={{
+              background: '#fdd835',
+              '&:hover': { background: '#E1A91B' },
+              color: 'black',
+            }}
+          >
+            Save
+          </Button>
 
-            <Button
-              type="button"
-              onClick={handleClose}
-              autoFocus
-              variant="solid"
-              sx={{
-                background: 'black',
-                '&:hover': { background: 'black' },
-                color: 'white',
-              }}
+          <Button
+            type="button"
+            onClick={() => setOpen(false)}
+            autoFocus
+            variant="solid"
+            sx={{
+              background: 'black',
+              '&:hover': { background: 'black' },
+              color: 'white',
+            }}
             >
-              Cancel
-            </Button>
+            Cancel
+          </Button>
           </Box>
         </AppForm>
       </div>
     </Sheet>
+    </Modal>
   )
 }
-export default AddEmployeeData
+export default React.memo(AddDialogMaintenance)

@@ -1,4 +1,4 @@
-import { Typography, Radio, RadioGroup, Divider, Grid } from '@mui/joy'
+import { Typography, Radio, RadioGroup, Divider, Grid, Button } from '@mui/joy'
 import React, { useState, useEffect } from 'react'
 import { Box } from '@mui/joy'
 import Table from '@mui/joy/Table'
@@ -8,36 +8,65 @@ import AppView from '../../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-import AddDataBaseEmp from './AddDataBaseEmp'
+// import AddDataBaseEmp from './AddDataBaseEmp'
 import { RootState } from '../../../../redux/store'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
-import { EmployeePerson, empData } from './EmployeeData'
+import { EmployeePerson, customEmployee, empData } from './EmployeeData'
+import {
+  fetchEmpDatabase,
+  updateEmpDatabase,
+} from '../../../../redux/features/EmpDatabaseSlice'
+import AddIcon from '@mui/icons-material/Add'
+import AddDialogEmployee from './AddDialogEmployee'
+import EmployeeFieldsAddingTable from './EmployeeFieldsAddingTable'
 
 const DataBaseEmp: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
-  const [empDataBases, setEmpDataBases] = useState(empData)
+  const empDatabase = useSelector((state: RootState) => state.empDatabase.data)
+  const [openAddEmployee, setOpenAddEmployee] = useState(false)
+  const [empForm, setEmpForm] = useState<any>({})
+
+  // const [empDataBases, setEmpDataBases] = useState(empData)
+
+  React.useEffect(() => {
+    dispatch(fetchEmpDatabase())
+  }, [dispatch])
+
+  React.useEffect(() => {
+    if (empDatabase.length > 0) {
+      setEmpForm(empDatabase[0])
+    }
+  }, [empDatabase])
 
   useEffect(() => {
-    setEmpDataBases(empData)
-  }, [])
+    const initialDatabase = empDatabase.map((item) => ({
+      ...item,
+      isRequired: item.isRequired || 'optional',
+    }))
+    dispatch(updateEmpDatabase(initialDatabase)) // Update Redux state initially
+  }, [empDatabase, dispatch])
 
   const handleCheckboxChange = (index: number) => {
-    const updatedForm = [...empDataBases]
+    const updatedForm = [...empDatabase]
     updatedForm[index].visible = !updatedForm[index].visible
-    setEmpDataBases(updatedForm)
+    // setEmpDataBases(updatedForm)
+    dispatch(updateEmpDatabase(updatedForm))
   }
 
   const handleRadioChange = (index: number, value: string) => {
-    const updatedForm = [...empDataBases]
-    updatedForm[index].isRequired = value
-    setEmpDataBases(updatedForm)
+    const updatedForm = empDatabase.map((item, i) =>
+      i === index ? { ...item, isRequired: value } : item,
+    )
+    dispatch(updateEmpDatabase(updatedForm))
   }
 
   const handleCancel = () => {}
 
   const handleSubmit = () => {
-    console.log(empDataBases)
+    const updatedEmpForm = { ...empForm }
+    console.log(empDatabase)
+    dispatch(updateEmpDatabase(updatedEmpForm))
   }
 
   return (
@@ -160,7 +189,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
                 </tr>
               </thead>
               <tbody>
-                {empDataBases.map((opt, index) => {
+                {empDatabase.map((opt, index) => {
                   const data = EmployeePerson.find(
                     (field) => field.fieldName === opt.fieldName,
                   )
@@ -192,18 +221,22 @@ const DataBaseEmp: React.FunctionComponent = () => {
                         {data.isVisible && (
                           <FormControl>
                             <RadioGroup
-                              value={opt.isRequired ? 'yes' : 'optional'}
+                              value={opt.isRequired || 'optional'}
                               name={`radio-buttons-group-${index}`}
                               onChange={(e) =>
                                 handleRadioChange(index, e.target.value)
                               }
-                              sx={{gap:2}}
+                              // onChange={handleRadioChange}
+                              sx={{ gap: 2 }}
                             >
                               <FormControl
                                 key={`${index}-yes`}
                                 disabled={!opt.visible}
-                                sx={{ display: 'inline-flex', 
-                                  alignItems: 'center',flexDirection:"row" , gap:2 ,
+                                sx={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  flexDirection: 'row',
+                                  gap: 2,
                                   // visibility: opt.fieldName === 'Full Name' ? 'visible' : 'hidden',
                                 }}
                               >
@@ -213,6 +246,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
                                   onChange={(e) =>
                                     handleRadioChange(index, e.target.value)
                                   }
+                                  // onChange={handleRadioChange}
                                   color="primary" // Adjust color as needed
                                   sx={{ mr: 1 }}
                                 />
@@ -221,7 +255,11 @@ const DataBaseEmp: React.FunctionComponent = () => {
                               <FormControl
                                 key={`${index}-optional`}
                                 disabled={!opt.visible}
-                                sx={{ display: 'inline-flex', alignItems: 'center', flexDirection:"row" }}
+                                sx={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  flexDirection: 'row',
+                                }}
                               >
                                 <Radio
                                   value="optional"
@@ -229,7 +267,8 @@ const DataBaseEmp: React.FunctionComponent = () => {
                                   onChange={(e) =>
                                     handleRadioChange(index, e.target.value)
                                   }
-                                  color="primary" 
+                                  // onChange={handleRadioChange}
+                                  color="primary"
                                   sx={{ mr: 1 }}
                                 />
                                 Optional
@@ -265,8 +304,44 @@ const DataBaseEmp: React.FunctionComponent = () => {
           </Box>
         </Box>
 
+
         <Box>
-          <AddDataBaseEmp />
+          <Typography
+            level="h4"
+            sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+          >
+            <SignpostOutlinedIcon
+              style={{ fontSize: '1.4rem', color: '#FBC21E' }}
+            />
+            Persons/Employees Custom Fields
+          </Typography>
+          <Typography sx={{ marginTop: '10px' }}>
+            Add custom fields to join the standard fields that we provided.
+          </Typography>
+
+          <Button
+            onClick={() => setOpenAddEmployee(true)}
+            sx={{
+              marginTop: '15px',
+              background: 'green',
+              color: 'white',
+              '&:hover': { background: '#1b5e20' },
+              borderRadius: '15px',
+            }}
+          >
+            <AddIcon />
+            Add Custom Fields
+          </Button>
+
+          {openAddEmployee && (
+            <AddDialogEmployee
+              open={openAddEmployee}
+              setOpen={setOpenAddEmployee}
+            />
+          )}
+
+          <Divider sx={{ my: 2 }} />
+          <EmployeeFieldsAddingTable empDataBases={customEmployee} />
         </Box>
 
         <Divider sx={{ marginTop: '3%' }} />

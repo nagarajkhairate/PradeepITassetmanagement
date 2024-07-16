@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 import { fetchComponents } from "../../../../redux/features/ComponentsIdSlice";
 import { ThunkDispatch } from "redux-thunk";
-import { addDefaultFields, updateDefaultFieldsById } from "../../../../redux/features/DefaultFieldAssetSlice";
+import { addDefaultFields, updateDefaultFieldsById } from "../../../../redux/features/AssetCustomDatabaseSlice";
   
    
   interface dataItem {

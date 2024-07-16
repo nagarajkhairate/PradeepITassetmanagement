@@ -19,32 +19,36 @@ import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
-import AddMaintenanceData from './AddMaintenanceData'
+import AddMaintenanceData from './AddDialogMaintenance'
+import EditDataBaseMaintenance from './EditDataBaseMaintenance'
 
-interface DataAddProps {
-  dataBases: { customAssetFields: string[] }
-  setDataBases: React.Dispatch<React.SetStateAction<{ customAssetFields: any[] }>>
-  addCustomField: (custom: any) => void
-  deleteCustomField: (index: number) => void
-  id: number
-}
 
-const AddDataBaseMaintenance: React.FC<DataAddProps> = ({
-  dataBases,
-  setDataBases,
-  addCustomField,
-  deleteCustomField,
-  id,
-}: DataAddProps) => {
+const AddDataBaseMaintenance: React.FC = () => {
   const [open, setOpen] = useState(false)
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const [maintenanceDataBases, setMaintenanceDataBases] = useState<{ customMaintenance:any[] }>({
+    customMaintenance: [],
+  })
 
-  const dataBase = useSelector((state: RootState) => state.dataBase.data)
-  console.log(dataBase)
 
-  // React.useEffect(() => {
-  //   dispatch(fetchDataBase())
-  // }, [])
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const handleAddSkill = (formData:any) => {
+    setMaintenanceDataBases((prevData) => ({
+      ...prevData,
+      customMaintenance: [...prevData.customMaintenance, formData],
+    }))
+    handleClose()
+    setOpen(false)
+  }
+
+  const handleCheckboxChange = (index: number) => {
+    setMaintenanceDataBases((prevData) => ({
+      ...prevData,
+    }))
+  }
 
 
   return (
@@ -103,12 +107,15 @@ const AddDataBaseMaintenance: React.FC<DataAddProps> = ({
           <AddMaintenanceData
             open={open}
             setOpen={setOpen}
-            dataBases={dataBases}
-            setDataBases={setDataBases}
+            maintenanceDataBases={maintenanceDataBases}
+              handleAddSkill={handleAddSkill}
           />
         </Modal>
       )}
     </Box>
+
+    <EditDataBaseMaintenance maintenanceDataBases={maintenanceDataBases} setMaintenanceDataBases={setMaintenanceDataBases} />
+
     </Box>
   )
 }

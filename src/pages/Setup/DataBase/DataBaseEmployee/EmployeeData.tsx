@@ -95,7 +95,7 @@
 
   export const empData = [
     {
-      isVisible: true,
+      visible: true,
       fieldName: 'Full Name',
       name: 'fullName',
       description: 'string',
@@ -166,12 +166,12 @@
 
 
  
- export const customAsset =[
+ export const customEmployee =[
  {
    fieldName: 'fieldName',
    name:'name',
    componentsId: 1,
-   isRequired: 'isRequired',
+   isRequired: 'yes',
    
  },
  ]

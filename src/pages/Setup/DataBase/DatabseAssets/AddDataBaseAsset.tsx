@@ -5,7 +5,7 @@ import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import AddDialogData from './AddDialogData'
 import { RootState } from '../../../../redux/store'
-import { fetchDefaultFields } from '../../../../redux/features/DefaultFieldAssetSlice'
+import { fetchDefaultFields } from '../../../../redux/features/AssetCustomDatabaseSlice'
 
 
 interface DataAddProps {

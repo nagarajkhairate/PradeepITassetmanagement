@@ -20,8 +20,8 @@ import {
 } from '@mui/joy'
 import AppForm from '../../../../components/Common/AppForm'
 import { RootState } from '../../../../redux/store'
-import { addDefaultFields } from '../../../../redux/features/DefaultFieldAssetSlice'
-import { addDataBase, updateDataBase } from '../../../../redux/features/DataBaseSlice'
+import { addDefaultFields } from '../../../../redux/features/AssetCustomDatabaseSlice'
+import { addDataBase, updateDataBase } from '../../../../redux/features/AssetDatabaseSlice'
 
 interface DataBaseAddProps {
   open: any
