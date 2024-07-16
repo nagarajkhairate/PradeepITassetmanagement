@@ -14,12 +14,14 @@ const initialState: CheckOutState = {
   error: null,
 };
 
-const base_api_key_url = process.env.BASE_API_KEY;
-const TENANT_ID = process.env.TENANT_ID;
+const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
+const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
+
+console.log(REACT_APP_TENANT_ID)
 
 export const fetchCheckOut = createAsyncThunk('sites/fetchCheckOut', async () => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/site`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/site`);
   return response.data;
    
   } catch (error) {
@@ -32,7 +34,7 @@ export const fetchCheckOut = createAsyncThunk('sites/fetchCheckOut', async () =>
 
 export const fetchCheckOutById = createAsyncThunk('transaction/fetchCheckOutById', async (id: string ) => {
   try {
-    const response = await axios.get(`${base_api_key_url}tenant/${TENANT_ID}/transaction/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/transaction/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -42,18 +44,18 @@ export const fetchCheckOutById = createAsyncThunk('transaction/fetchCheckOutById
 });
  
 export const addCheckOut = createAsyncThunk('transaction/addCheckOut', async (transaction: any) => {
- const response = await axios.post(`${base_api_key_url}tenant/${TENANT_ID}/transaction`, transaction);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/transaction`, transaction);
   return response.data;
 });
  
 export const updateCheckOut = createAsyncThunk('transaction/updateCheckOut', async (transaction: any) => {
  
-  const response = await axios.put(`${base_api_key_url}tenant/${TENANT_ID}/transaction/${transaction.id}`, transaction);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/transaction/${transaction.id}`, transaction);
   return response.data;
 });
  
 export const deleteCheckOut = createAsyncThunk('transaction/deleteCheckOut', async (id: number) => {
-  await axios.delete(`${base_api_key_url}tenant/${TENANT_ID}/transaction/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/transaction/${id}`);
   return id;
 });
  
