@@ -1,20 +1,16 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, useEffect } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { Select, Option, Button, Typography, Box, FormControl, FormHelperText, FormLabel } from '@mui/joy';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
-import { addSubCategories, fetchSubCategories } from "../../../../redux/features/CategorySubSlice";
+import { fetchSubCategories } from "../../../../redux/features/CategorySubSlice";
 import { ThunkDispatch } from "redux-thunk";
 import CategorySubAdd from "../../../../pages/Setup/SubCategory/CategorySubAdd";
 
 interface SubCategoryProps {
   field: { fieldName: string; name: string; options: { value: string; label: string; }[] };
   formData: any;
-  mode: string;
-  setFormData: React.Dispatch<React.SetStateAction<any>>;
-  setValidationMessages: React.Dispatch<React.SetStateAction<any>>;
    handleSelectChange: (
-    event: React.SyntheticEvent<Element, Event> | null,
     value: string | null,
     name: string,
   ) => void;
@@ -23,36 +19,21 @@ interface SubCategoryProps {
 const SubCategoryComponent: React.FC<SubCategoryProps> = ({
   field, 
   formData, 
-  setFormData, 
-  setValidationMessages, 
   handleSelectChange,
 }) => {
   const [error, setError] = useState<string>("");
   const [open, setOpen] = useState(false);
-  const [openDialog, setOpenDialog] = useState<string | null>(null);
   const subCategories = useSelector((state: RootState) => state.subCategories.data);
-  const [subCategory, setSubCategory] = useState<string>("");
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
-  const capitalizeWords = (str: string) => {
-    return str.replace(/\b\w/g, (char) => char.toUpperCase())
-  }
-  const validateForm = () => {
-    if (!formData.subCategory) {
-      setError("SubCategory is required");
-      return false;
-    }
-    setError("");
-    return true;
+
+  const selectChange = (e: any, newValue: string | null) => {
+    handleSelectChange(newValue, field.name);
   };
 
-  const handleOpenDialog = (modalName: string) => {
-    setOpenDialog(modalName);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(null);
-  };
+  useEffect(()=>{
+    dispatch(fetchSubCategories())
+  },[dispatch])
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', mt: 2 }}>
@@ -62,7 +43,7 @@ const SubCategoryComponent: React.FC<SubCategoryProps> = ({
           placeholder="Select SubCategory"
           name={field.name}
           value={formData[field.name] as string}
-          onChange={(e, newValue) => handleSelectChange(e, newValue, field.name)}
+          onChange={selectChange}
         >
           {subCategories.map((subCategory: { id: number; subCategory: string }) => (
             <Option key={subCategory.id} value={subCategory.id}>
@@ -75,7 +56,7 @@ const SubCategoryComponent: React.FC<SubCategoryProps> = ({
       </FormControl>
 
       <Button
-         onClick={() => handleOpenDialog(field.fieldName)}
+        onChange={() => setOpen(true)}
         variant="outlined"
         size="sm"
         sx={{
@@ -93,14 +74,13 @@ const SubCategoryComponent: React.FC<SubCategoryProps> = ({
           <AddIcon />
         </Typography>
         <Typography sx={{ mr: '25px', color: '#767676' }}>
-          New
+          New Department
         </Typography>
       </Button>
 
-      {openDialog === field.fieldName && (
+      {open && (
         <CategorySubAdd
-        open={openDialog === field.fieldName}
-          handleClose={handleCloseDialog}       
+        open={open}     
           setOpen={setOpen}
         />
       )}

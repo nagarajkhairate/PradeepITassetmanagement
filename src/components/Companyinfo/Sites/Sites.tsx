@@ -567,10 +567,7 @@ const Sites: React.FC<SiteProps> = ({
 
       <AddSite
         open={open}
-        onClose={() => setOpen(false)}
-        onSave={(newSite: Site) => {
-          setOpen(false)
-        }}
+          setOpen={setOpen}
       />
 
       <EditSite

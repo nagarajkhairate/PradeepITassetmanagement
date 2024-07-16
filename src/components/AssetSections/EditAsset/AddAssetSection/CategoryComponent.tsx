@@ -31,9 +31,6 @@ const CategoryComponent: React.FC<CategoryProps> = (
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
 
-
- 
-
   const selectChange = (e: any, newValue: string | null) => {
     handleSelectChange(newValue, field.name);
   };
@@ -50,7 +47,7 @@ const CategoryComponent: React.FC<CategoryProps> = (
         <Select
           placeholder="Select Category"
           name={field.name}
-          value={formData[field.name] as string}
+          value={formData['category']?.id as string}
           onChange={selectChange}
         >
           {categories.map((category) => (
@@ -63,7 +60,7 @@ const CategoryComponent: React.FC<CategoryProps> = (
       </FormControl>
 
       <Button
-        onClick={() => setOpen(false)}
+        onClick={() => setOpen(true)}
         variant="outlined"
         size="sm"
         sx={{

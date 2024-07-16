@@ -47,7 +47,6 @@ interface CategoryAddProps {
                   boxShadow: 'lg',
                 }}
               >
-                <div>
                   <Typography
                     id="responsive-dialog-title"
                     component="h2"
@@ -112,36 +111,44 @@ interface CategoryAddProps {
                       </Box>
                       <Divider />
 
+                      <Box sx={{ display: 'flex', justifyContent: 'flex-end', m: 2 }}>
                       <Button
-                        autoFocus
-                        type="submit"
-                        variant="solid"
-                        sx={{
-                          background: '#fdd835',
-                          color: 'black',
-                          marginTop: '25px',
-                          marginLeft: '40%',
-                        }}
-                      >
-                        Add
-                      </Button>
+                       
+                       onClick={()=> setOpen()}
+                       autoFocus
+                       variant="solid"
+                       sx={{
+                        mr: 1,
+                        background: 'black',
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: '#333', // Darker shade of black
+                        },
+                       }}
+                     >
+                       Cancel
+                     </Button>
+                     <Button
+                       autoFocus
+                       type="submit"
+                       variant="solid"
+                       sx={{
+                        background: '#fdd835',
+                        color: 'black',
+                        '&:hover': {
+                          backgroundColor: '#c6a700', // Darker shade of #fdd835
+                        },
 
-                      <Button
-                        type="button"
-                        onClick={()=> setOpen()}
-                        autoFocus
-                        variant="solid"
-                        sx={{
-                          background: 'black',
-                          color: 'white',
-                          marginLeft: '50px',
-                        }}
-                      >
-                        Cancel
-                      </Button>
+                       }}
+                     >
+                       Add Category
+                     </Button>
+                      </Box>
+
+                     
                     </AppForm>
                   </Box>
-                </div>
+          
               </Sheet>
             </Modal>
   )
