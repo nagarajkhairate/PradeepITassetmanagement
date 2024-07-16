@@ -56,7 +56,7 @@ export const store = configureStore({
     assetFieldMapping:AssetFieldMappingReducer,
     assetDatabase:assetDatabaseReducer,
     assetCustomDatabase:assetCustomDatabaseReducer,
-    checkOut:CheckOutSliceReducer
+    checkOut:CheckOutSliceReducer,
     empDatabase:empDatabaseReducer,
     empCustomDatabase:empCustomDatabaseReducer,
     customerDatabase:customerDatabaseReducer,
