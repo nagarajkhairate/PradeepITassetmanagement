@@ -1,22 +1,19 @@
 import React, { useState } from "react";
-import { Box, Typography, Button, Divider } from "@mui/joy";
+import { Box, Typography, Button, Divider, Modal, IconButton } from "@mui/joy";
 import {
   Dialog,
   DialogActions,
   DialogTitle,
   DialogContent,
-  IconButton,
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 
-import InputField from "../../Common/Input";
-import SelectField from "../../Common/Select";
-import { RootState } from "../../../redux/store";
-import { post_add_client } from "../../../redux/features/ClientSlice";
-
-
+import InputField from "../../components/Common/Input";
+import SelectField from "../../components/Common/Select";
+import { RootState } from "../../redux/store";
+import { post_add_client } from "../../redux/features/ClientSlice";
 
 interface ClientData {
   person_name: string;
@@ -52,7 +49,7 @@ interface ClientErrors {
   status?: string;
 }
 
-const ClientDialog = (props: any) => {
+const AddClient = (props: any) => {
   const [client, setClient] = useState<ClientData>({
     person_name: "",
     company: "",
@@ -71,7 +68,7 @@ const ClientDialog = (props: any) => {
   });
 
   const [errors, setErrors] = useState<ClientErrors>({});
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+  // const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
   const validateForm = (): boolean => {
     let tempErrors: ClientErrors = {};
@@ -157,17 +154,17 @@ const ClientDialog = (props: any) => {
   };
 
   return (
-    <Dialog open={props.open} onClose={props.onClose} fullWidth>
-      <DialogTitle>
+    <Modal open={props.open} onClose={props.onClose} fullWidth>
+      <Typography level="h4">
         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Typography>Add Client</Typography>
           <IconButton onClick={props.onClose}>
             <CloseIcon />
           </IconButton>
         </Box>
-      </DialogTitle>
+      </Typography>
       <Divider />
-      <DialogContent>
+      <Box>
         <InputField
           label="Name"
           value={client.person_name}
@@ -255,8 +252,8 @@ const ClientDialog = (props: any) => {
           options={["Active", "Inactive"]}
           error={errors.status}
         />
-      </DialogContent>
-      <DialogActions sx={{border:"1px solid #E0E1E3"}}>
+      </Box>
+      <Box sx={{border:"1px solid #E0E1E3"}}>
         <Button
           sx={{
             background: "rgb(245,193,67)",
@@ -279,9 +276,9 @@ const ClientDialog = (props: any) => {
         >
           Cancel
         </Button>
-      </DialogActions>
-    </Dialog>
+      </Box>
+    </Modal>
   );
 };
 
-export default ClientDialog;
+export default AddClient;

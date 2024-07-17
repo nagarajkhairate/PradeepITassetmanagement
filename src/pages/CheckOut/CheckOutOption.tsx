@@ -15,13 +15,13 @@ import {
   Typography,
 } from "@mui/joy";
 import CloseIcon from "@mui/icons-material/Close";
-// import EmployeeDialog from "./EmployeeDialog";
-// import ClientDialog from "./ClientDialog";
+import EmployeeDialog from "./EmployeeDialog";
+import ClientDialog from "./ClientDialog";
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { RootState } from "../../../redux/store";
+import { RootState } from "../../redux/store";
 import { useDispatch } from "react-redux";
-import { addCheckOut } from "../../../redux/features/CheckOutSlice";
-import AppForm from "../../Common/AppForm";
+import { addCheckOut } from "../../redux/features/CheckOutSlice";
+import AppForm from "../../components/Common/AppForm";
 
 // Define a type for the checkout and employee data
 interface CheckoutData {

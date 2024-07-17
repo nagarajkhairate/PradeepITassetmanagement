@@ -1,20 +1,18 @@
 import React, { useState } from "react";
-import { Box, Typography, Button, Divider, Input, Textarea } from "@mui/joy";
+import { Box, Typography, Button, Divider, Input, Textarea, Modal, IconButton, Option, ButtonGroup, Select } from "@mui/joy";
 import {
-  Select,
   Dialog,
   DialogActions,
   DialogTitle,
   DialogContent,
-  IconButton,
   MenuItem,
 } from "@mui/material";
-
 import CloseIcon from '@mui/icons-material/Close';
-import { RootState } from "../../../redux/store";
+import { RootState } from "../../redux/store";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { post_add_Employee } from "../../../redux/features/EmployeeSlice";
+import { post_add_Employee } from "../../redux/features/EmployeeSlice";
+import AppForm from "../../components/Common/AppForm";
 
 interface EmployeeData {
   emp_name: string;
@@ -38,7 +36,7 @@ interface EmployeeErrors {
   notes?: string;
 }
 
-const EmployeeDialog = (props: any) => {
+const AddEmployee: React.FC = (props:any) => {
   const [employee, setEmployee] = useState<EmployeeData>({
     emp_name: "",
     title: "",
@@ -101,7 +99,7 @@ const EmployeeDialog = (props: any) => {
       console.log(employee);
       // Proceed with your onAdd logic
       props.onAddEmployee(employee.emp_name);
-      dispatch(post_add_Employee(employee))
+      // dispatch(post_add_Employee(employee))
       
       // Reset form and errors if needed
       setEmployee({
@@ -122,8 +120,9 @@ const EmployeeDialog = (props: any) => {
 
   return (
     <>
-      <Dialog open={props.open} onClose={props.onClose} fullWidth>
-        <DialogTitle>
+    <AppForm onSubmit={handleAdd}>
+      <Modal open={props.open}>
+        <Typography level="h4">
           <Box
             sx={{
               display: "flex",
@@ -132,13 +131,15 @@ const EmployeeDialog = (props: any) => {
             }}
           >
             <Typography>Add an Person/Employee</Typography>
-            <IconButton onClick={props.onClose}>
+            <IconButton 
+            onClick={props.onClose}
+            >
               <CloseIcon />
             </IconButton>
           </Box>
-        </DialogTitle>
+        </Typography>
         <Divider></Divider>
-        <DialogContent>
+        <Box>
           <Box
             sx={{
               display: "flex",
@@ -157,7 +158,9 @@ const EmployeeDialog = (props: any) => {
               onChange={(e) =>
                 setEmployee({ ...employee, emp_name: e.target.value })
               }
-              sx={{borderRadius:"15px",height:"56px",width:"300px"}}
+              sx={{
+                // borderRadius:"15px",
+                height:"56px",width:"300px"}}
             />
             {errors.emp_name && (
               <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
@@ -183,7 +186,9 @@ const EmployeeDialog = (props: any) => {
               onChange={(e) =>
                 setEmployee({ ...employee, title: e.target.value })
               }
-              sx={{borderRadius:"15px",height:"56px",width:"300px"}}
+              sx={{
+                // borderRadius:"15px",
+                height:"56px",width:"300px"}}
             />
             {errors.title && (
               <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
@@ -209,7 +214,9 @@ const EmployeeDialog = (props: any) => {
               onChange={(e) =>
                 setEmployee({ ...employee, phone: e.target.value })
               }
-              sx={{borderRadius:"15px",height:"56px",width:"300px"}}
+              sx={{
+                // borderRadius:"15px",
+                height:"56px",width:"300px"}}
             />
             {errors.phone && (
               <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
@@ -235,7 +242,9 @@ const EmployeeDialog = (props: any) => {
               onChange={(e) =>
                 setEmployee({ ...employee, email: e.target.value })
               }
-              sx={{borderRadius:"15px",height:"56px",width:"300px"}}
+              sx={{
+                // borderRadius:"15px",
+                height:"56px",width:"300px"}}
             />
             {errors.email && (
               <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
@@ -258,23 +267,25 @@ const EmployeeDialog = (props: any) => {
             </Box>
             <Select
               value={employee.emp_site}
-              onChange={(e) =>
-                setEmployee({ ...employee, emp_site: e.target.value })
-              }
-              renderValue={(selected) => {
-                if (selected?.length === 0 || selected === undefined) {
-                  return "Select Site";
-                }
-                return selected;
-              }}
-              sx={{ borderRadius: "15px",width:"300px" }}
+              // onChange={(e) =>
+              //   setEmployee({ ...employee, emp_site: e.target.value })
+              // }
+              // renderValue={(selected) => {
+              //   if (selected?.length === 0 || selected === undefined) {
+              //     return "Select Site";
+              //   }
+              //   return selected;
+              // }}
+              sx={{ 
+                // borderRadius: "15px",
+                width:"300px" }}
             >
-              <MenuItem>Search Asset Tag ID or Description</MenuItem>
-              <MenuItem value="Asset 1 asdfasdfa adas">Asset 1</MenuItem>
-              <MenuItem value="Asset 2 adfa sdfasfadf ">Asset 2</MenuItem>
-              <MenuItem value="Asset 3 asdf asfdasfaf">Asset 3</MenuItem>
-              <MenuItem value="Asset 4 asdfasdfasfasf ">Asset 3</MenuItem>
-              <MenuItem value="Asset 5 afadfasdfasdff">Asset 3</MenuItem>
+              {/* <Option>Search Asset Tag ID or Description</Option> */}
+              <Option value="Asset 1 asdfasdfa adas">Asset 1</Option>
+              <Option value="Asset 2 adfa sdfasfadf ">Asset 2</Option>
+              <Option value="Asset 3 asdf asfdasfaf">Asset 3</Option>
+              <Option value="Asset 4 asdfasdfasfasf ">Asset 3</Option>
+              <Option value="Asset 5 afadfasdfasdff">Asset 3</Option>
             </Select>
             {errors.emp_site && (
               <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
@@ -297,23 +308,25 @@ const EmployeeDialog = (props: any) => {
             </Box>
             <Select
               value={employee.emp_location}
-              onChange={(e) =>
-                setEmployee({ ...employee, emp_location: e.target.value })
-              }
-              renderValue={(selected) => {
-                if (selected?.length === 0 || selected === undefined) {
-                  return "Select Location";
-                }
-                return selected;
-              }}
-              sx={{ borderRadius: "15px",width:"300px" }}
+              // onChange={(e) =>
+              //   setEmployee({ ...employee, emp_location: e.target.value })
+              // }
+              // renderValue={(selected) => {
+              //   if (selected?.length === 0 || selected === undefined) {
+              //     return "Select Location";
+              //   }
+              //   return selected;
+              // }}
+              sx={{
+                //  borderRadius: "15px",
+                width:"300px" }}
             >
-              <MenuItem>Search Asset Tag ID or Description</MenuItem>
-              <MenuItem value="Asset 1asdfasdfa adas">Asset 1</MenuItem>
-              <MenuItem value="Asset 2 adfa sdfasfadf ">Asset 2</MenuItem>
-              <MenuItem value="Asset 3 asdf asfdasfaf">Asset 3</MenuItem>
-              <MenuItem value="Asset 4 asdfasdfasfasf ">Asset 3</MenuItem>
-              <MenuItem value="Asset 5 afadfasdfasdff">Asset 3</MenuItem>
+              {/* <MenuItem>Search Asset Tag ID or Description</MenuItem> */}
+              <Option value="Asset 1asdfasdfa adas">Asset 1</Option>
+              <Option value="Asset 2 adfa sdfasfadf ">Asset 2</Option>
+              <Option value="Asset 3 asdf asfdasfaf">Asset 3</Option>
+              <Option value="Asset 4 asdfasdfasfasf ">Asset 3</Option>
+              <Option value="Asset 5 afadfasdfasdff">Asset 3</Option>
             </Select>
             {errors.emp_location && (
               <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
@@ -337,23 +350,25 @@ const EmployeeDialog = (props: any) => {
             </Box>
             <Select
               value={employee.emp_department}
-              onChange={(e) =>
-                setEmployee({ ...employee, emp_department: e.target.value })
-              }
-              renderValue={(selected) => {
-                if (selected?.length === 0 || selected === undefined) {
-                  return "Select Department";
-                }
-                return selected;
-              }}
-              sx={{ borderRadius: "15px",width:"300px" }}
+              // onChange={(e) =>
+              //   setEmployee({ ...employee, emp_department: e.target.value })
+              // }
+              // renderValue={(selected) => {
+              //   if (selected?.length === 0 || selected === undefined) {
+              //     return "Select Department";
+              //   }
+              //   return selected;
+              // }}
+              sx={{ 
+                // borderRadius: "15px",
+                width:"300px" }}
             >
-              <MenuItem>Search Asset Tag ID or Description</MenuItem>
-              <MenuItem value="Asset 1asdfasdfa adas">Asset 1</MenuItem>
-              <MenuItem value="Asset 2 adfa sdfasfadf ">Asset 2</MenuItem>
-              <MenuItem value="Asset 3 asdf asfdasfaf">Asset 3</MenuItem>
-              <MenuItem value="Asset 4 asdfasdfasfasf ">Asset 3</MenuItem>
-              <MenuItem value="Asset 5 afadfasdfasdff">Asset 3</MenuItem>
+              {/* <MenuItem>Search Asset Tag ID or Description</MenuItem> */}
+              <Option value="Asset 1asdfasdfa adas">Asset 1</Option>
+              <Option value="Asset 2 adfa sdfasfadf ">Asset 2</Option>
+              <Option value="Asset 3 asdf asfdasfaf">Asset 3</Option>
+              <Option value="Asset 4 asdfasdfasfasf ">Asset 3</Option>
+              <Option value="Asset 5 afadfasdfasdff">Asset 3</Option>
             </Select>
             {errors.emp_department && (
               <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
@@ -381,7 +396,9 @@ const EmployeeDialog = (props: any) => {
                 setEmployee({ ...employee, notes: e.target.value })
               }
               minRows={6}
-              sx={{borderRadius:"15px",width:"300px"}}
+              sx={{
+                // borderRadius:"15px",
+                width:"300px"}}
             />
             {errors.notes && (
               <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
@@ -389,17 +406,18 @@ const EmployeeDialog = (props: any) => {
               </Typography>
             )}
           </Box>
-        </DialogContent>
-        <DialogActions sx={{border:"1px solid #E0E1E3"}}>
+        </Box>
+        <ButtonGroup sx={{border:"1px solid #E0E1E3"}}>
           <Button
+          type="submit"
             sx={{
               background: "rgb(245,193,67)",
               "&:hover": {
                 backgroundColor: "rgb(255,199,79)",
               },
-              borderRadius:"15px"
+              // borderRadius:"15px"
             }}
-            onClick={handleAdd}
+            // onClick={handleAdd}
           >
             Add
           </Button>
@@ -412,15 +430,16 @@ const EmployeeDialog = (props: any) => {
               "&:hover": {
                 backgroundColor: "#f9f9f9",
               },
-              borderRadius:"15px"
+              // borderRadius:"15px"
             }}
           >
             Cancel
           </Button>
-        </DialogActions>
-      </Dialog>
+        </ButtonGroup>
+      </Modal>
+      </AppForm>
     </>
   );
 };
 
-export default EmployeeDialog;
+export default AddEmployee;
