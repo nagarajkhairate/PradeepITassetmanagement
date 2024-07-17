@@ -20,6 +20,7 @@ import React, { useState } from 'react'
 import { fetchCategory } from '../../../redux/features/CategorySlice'
 import AppForm from '../../../components/Common/AppForm'
 import { addSubCategories } from '../../../redux/features/CategorySubSlice'
+import AppView from '../../../components/Common/AppView'
 
 interface CategorySubAddProps {
   open: any
@@ -30,7 +31,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({
   open,
   setOpen,
 }) => {
-  const [formData, setFormData] = useState<{ [key: string]: any }>({})
+  const [formData, setFormData] = useState({})
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const categories = useSelector((state: RootState) => state.category.data)
 
@@ -97,7 +98,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({
         <Divider />
 
         <Box sx={{ marginBottom: '10px' }}>
-          <AppForm onSubmit={handleAddCategory}>
+          <AppView onSubmit={handleAddCategory}>
             <FormControl
               sx={{
                 display: 'flex',
@@ -204,7 +205,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({
               </Button>
               <Button
                 autoFocus
-                type="submit"
+                type="button"
                 variant="solid"
                 sx={{
                   background: '#fdd835',
@@ -215,7 +216,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({
                 Add Sub Category
               </Button>
             </Box>
-          </AppForm>
+          </AppView>
         </Box>
       </Sheet>
     </Modal>

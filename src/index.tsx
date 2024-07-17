@@ -12,9 +12,9 @@ if (!rootElement) throw Error('connot find root element with that id')
 const root = ReactDOM.createRoot(rootElement)
 root.render(
   <Provider store={store}>
-        <CssVarsProvider>
-        <CssBaseline />
-    <App />
+    <CssVarsProvider>
+      <CssBaseline />
+      <App />
     </CssVarsProvider>
-  </Provider>
+  </Provider>,
 )
