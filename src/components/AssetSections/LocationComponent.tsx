@@ -52,8 +52,7 @@ const LocationComponent: React.FC<LocationProps> = ({
         variant="outlined"
         size="sm"
         sx={{
-          width: '187px',
-          fontSize: '20px',
+          mt:3,
           borderRadius: '15px',
           background: '#E4E4E4',
           '&:hover': {
@@ -62,10 +61,10 @@ const LocationComponent: React.FC<LocationProps> = ({
           color: '#767676',
         }}
       >
-        <Typography sx={{ mr: '25px', color: '#767676' }}>
+        <Typography sx={{ mr: '10px', color: '#767676' }}>
           <AddIcon />
         </Typography>
-        <Typography sx={{ mr: '25px', color: '#767676' }}>
+        <Typography sx={{ mr: '10px', color: '#767676' }}>
           New
         </Typography>
       </Button>

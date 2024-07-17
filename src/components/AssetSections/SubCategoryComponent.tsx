@@ -35,6 +35,8 @@ const SubCategoryComponent: React.FC<SubCategoryProps> = ({
     dispatch(fetchSubCategories())
   },[dispatch])
 
+  console.log(open)
+
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', mt: 2 }}>
       <FormControl sx={{ width: '200px' }}>
@@ -56,12 +58,11 @@ const SubCategoryComponent: React.FC<SubCategoryProps> = ({
       </FormControl>
 
       <Button
-        onChange={() => setOpen(true)}
+        onClick={() => setOpen(true)}
         variant="outlined"
         size="sm"
         sx={{
-          width: '187px',
-          fontSize: '20px',
+          mt:3,
           borderRadius: '15px',
           background: '#E4E4E4',
           '&:hover': {
@@ -70,11 +71,11 @@ const SubCategoryComponent: React.FC<SubCategoryProps> = ({
           color: '#767676',
         }}
       >
-        <Typography sx={{ mr: '25px', color: '#767676' }}>
+        <Typography sx={{ mr: '10px', color: '#767676' }}>
           <AddIcon />
         </Typography>
-        <Typography sx={{ mr: '25px', color: '#767676' }}>
-          New Department
+        <Typography sx={{ mr: '10px', color: '#767676' }}>
+          New 
         </Typography>
       </Button>
 

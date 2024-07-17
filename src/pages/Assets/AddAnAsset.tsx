@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
   Typography,
   Box,
@@ -10,25 +10,15 @@ import {
 
 } from '@mui/joy'
 import { formConfig } from './formConfig'
-
-import AppView from '../../components/Common/AppView'
 import { ThunkDispatch } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
 import { RootState } from '../../redux/store'
 import AppForm from '../../components/Common/AppForm'
-
-import { fetchLocation } from '../../redux/features/LocationSlice'
-import {
-  fetchDepartment,
-} from '../../redux/features/DepartmentSlice'
-import { fetchCategory } from '../../redux/features/CategorySlice'
 import { addAssets } from '../../redux/features/AssetSlice'
-import { fetchAssetFieldMapping } from '../../redux/features/AssetFieldMappingSlice'
 import SiteComponent from '../../components/AssetSections/SiteComponent'
 import LocationComponent from '../../components/AssetSections/LocationComponent'
 import DepartmentComponent from '../../components/AssetSections/DepartmentComponent'
 import CategoryComponent from '../../components/AssetSections/CategoryComponent'
-import { fetchSubCategories } from '../../redux/features/CategorySubSlice'
 import AssetFileField from '../../components/Common/AppFile/AssetFileField'
 import SelectOption from '../../components/AssetSections/SelectOption'
 import SubCategoryComponent from '../../components/AssetSections/SubCategoryComponent'
@@ -44,19 +34,13 @@ const AddAnAsset: React.FC = () => {
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([])
   const [file, setFile] = useState<File | null>(null)
 
-  useEffect(() => {
-    dispatch(fetchLocation())
-    dispatch(fetchDepartment())
-    dispatch(fetchCategory())
-    dispatch(fetchSubCategories())
-    dispatch(fetchAssetFieldMapping())
-  }, [dispatch])
+ 
 
   const handleSelectChange = (
     newValue: any,
     title: string,
   ) => {
-    if (!event) return
+   
     setFormData((prevData:any) => ({
       ...prevData,
       [title]: newValue,
@@ -157,6 +141,7 @@ const AddAnAsset: React.FC = () => {
           <FormControl>
             <FormLabel>{field.fieldName}</FormLabel>
             <Input
+            type={field.components.type}
               name={field.name}
               value={formData[field.name] as string}
               onChange={handleInputChange}
@@ -210,13 +195,12 @@ const AddAnAsset: React.FC = () => {
         return null;
     }
   };
+
   return (
     <AppForm onSubmit={handleSubmit} encType="multipart/form-data">
-      <AppView>
         <Typography level="h3" sx={{ ml: '52px' }}>
           Add An Asset
         </Typography>
-
         <Box
           sx={{
             borderRadius: 'none',
@@ -533,26 +517,26 @@ const AddAnAsset: React.FC = () => {
                 }}
               >
                 <Button
-                  size="lg"
+                  size="md"
                   type="submit"
                   sx={{
                     color: '#000000',
                     borderRadius: '15px',
-                    padding: '18px 70px',
+                    
                     background: '#FABC1E',
                     '&:hover': {
                       background: '#e0a71b',
                     },
                   }}
                 >
-                  Save
+                  Submit
                 </Button>
-                <Button
-                  size="lg"
+                {/* <Button
+                  size="md"
                   // onClick={handleCancel}
                   sx={{
                     borderRadius: '15px',
-                    padding: '18px 70px',
+                    
                     background: '#000000',
                     '&:hover': {
                       background: '#333333',
@@ -560,12 +544,12 @@ const AddAnAsset: React.FC = () => {
                   }}
                 >
                   Cancel
-                </Button>
+                </Button> */}
               </Box>
             </Box>
           </Box>
         </Box>
-      </AppView>
+   
     </AppForm>
   )
 }
