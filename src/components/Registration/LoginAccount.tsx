@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
-import { Box, Typography, Button, Input, FormLabel, IconButton } from '@mui/joy';
+import { Box, Typography, Button, Input, FormLabel, IconButton, Grid, FormControl } from '@mui/joy';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginAccount } from '../../redux/features/AuthSlice';
@@ -56,10 +56,8 @@ const LoginAccount: React.FC = () => {
         const response = await dispatch(loginAccount(formData));
 
         if (response.meta.requestStatus === 'fulfilled') {
-          // Assuming successful response contains status 201
           navigate('/dashboard');
         } else {
-          // Handle failed login
           setErrors({ ...newErrors, email: 'Email or Password is not valid' });
         }
       } catch (error) {
@@ -67,8 +65,6 @@ const LoginAccount: React.FC = () => {
       }
     }
   };
-
-
 
   return (
     <Box minHeight="100vh" display="flex" alignItems="center">
@@ -84,100 +80,92 @@ const LoginAccount: React.FC = () => {
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              width: { xs: '90%', sm: '450px' },
               justifyContent: 'center',
               alignItems: 'center',
               gap: '10px',
-              
               borderRadius: '15px',
               padding: '20px',
               background: '#ffffff',
             }}
           >
             <Typography level="h3">Login</Typography>
-            <Box sx={{ width: '100%' }}>
-              <FormLabel htmlFor="email" sx={{ ml: '10px' }}>
-                Email :
-              </FormLabel>
-              <Input
-                type="text"
-                name="email"
-                id="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-                sx={{ width: '100%', m: '10px', borderRadius: '15px' }}
-                error={!!errors.email}
-              />
-              {errors.email && (
-                <Typography
-                  level="body-sm"
-                  sx={{ ml: '10px', color: '#dc3545' }}
-                >
-                  {errors.email}
-                </Typography>
-              )}
-            </Box>
-
-            <Box sx={{ width: '100%', position: 'relative' }}>
-              <FormLabel htmlFor="password" sx={{ ml: '10px' }}>
-                Password :
-              </FormLabel>
-              <div style={{ position: 'relative', marginBottom: '20px' }}>
-                <Input
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  id="password"
-                  placeholder="Password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  sx={{
-                    width: '100%',
-                    m: '10px',
-                    borderRadius: '15px',
-                    paddingRight: '40px',
-                  }}
-                  error={!!errors.password}
-                />
-                <IconButton
-                  onClick={()=> setShowPassword(!showPassword)}
-                  sx={{
-                    position: 'absolute',
-                    right: '20px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    verticalAlign: 'middle',
-                    padding: '10px',
-                    '&:hover': {
-                      background: 'none',
-                    },
-                  }}
-                >
-                  {showPassword ? (
-                    <VisibilityOff fontSize="small" />
-                  ) : (
-                    <Visibility fontSize="small" />
+            <Grid container spacing={2}>
+              <Grid xs={12}>
+                <FormControl>
+                  <FormLabel htmlFor="email">Email :</FormLabel>
+                  <Input
+                    type="text"
+                    name="email"
+                    id="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    error={!!errors.email}
+                  />
+                  {errors.email && (
+                    <Typography
+                      level="body-sm"
+                      sx={{ ml: '10px', color: '#dc3545' }}
+                    >
+                      {errors.email}
+                    </Typography>
                   )}
-                </IconButton>
-              </div>
-              {errors.password && (
-                <Typography
-                  level="body-sm"
-                  sx={{ ml: '10px', color: '#dc3545' }}
-                >
-                  {errors.password}
-                </Typography>
-              )}
-            </Box>
+                </FormControl>
+              </Grid>
+              <Grid xs={12}>
+                <FormControl>
+                  <FormLabel htmlFor="password" >
+                    Password :
+                  </FormLabel>
+         
+                    <Input
+                      type={showPassword ? 'text' : 'password'}
+                      name="password"
+                      id="password"
+                      placeholder="Password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      error={!!errors.password}
+                    />
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      sx={{
+                        position: 'absolute',
+                        right: '10px',
+                        top: '65%',
+                        transform: 'translateY(-50%)',
+                        verticalAlign: 'middle',
+                        padding: '10px',
+                        '&:hover': {
+                          background: 'none',
+                        },
+                      }}
+                    >
+                      {showPassword ? (
+                        <VisibilityOff fontSize="small" />
+                      ) : (
+                        <Visibility fontSize="small" />
+                      )}
+                    </IconButton>
+            
+                  {errors.password && (
+                    <Typography
+                      level="body-sm"
+                      sx={{ ml: '10px', color: '#dc3545' }}
+                    >
+                      {errors.password}
+                    </Typography>
+                  )}
+                </FormControl>
+              </Grid>
+            </Grid>
             <Typography>Forgot Password?</Typography>
-
             <Button
               type="submit"
               size="md"
               sx={{
                 background: '#FABC1E',
                 color: 'black',
-                borderRadius: '15px',
                 '&:hover': {
                   background: '#e0a800',
                 },
@@ -186,7 +174,6 @@ const LoginAccount: React.FC = () => {
               Sign In
             </Button>
             <Link to="/register">
-              {' '}
               <Typography>Sign up for Asset Management</Typography>
             </Link>
           </Box>
