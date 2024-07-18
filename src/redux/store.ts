@@ -50,7 +50,7 @@ export const store = configureStore({
     companyInfo: companyInfoReducer,
     tableOptions: TableOptionsReducer,
     login: AuthReducer,
-    createAccount: AccountReducer,
+    tenant: AccountReducer,
     tabs: TabsReducer,
     components: componentsReducer,
     assetFieldMapping:AssetFieldMappingReducer,

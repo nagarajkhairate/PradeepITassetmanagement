@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { Box, Typography, Button, Input, Checkbox, FormLabel, IconButton } from "@mui/joy";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { createAccount } from "../../redux/features/AccountSlice";
 import AppForm from "../Common/AppForm";
@@ -34,10 +34,11 @@ const CreateAccount: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-
+  const account = useSelector((state: RootState)=> state.tenant.data)
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked, type } = e.target;
     const newValue = type === "checkbox" ? checked : value;
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: newValue,
