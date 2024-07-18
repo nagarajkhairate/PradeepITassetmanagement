@@ -23,7 +23,7 @@ const Sidebar = () => {
           md: 'none',
         },
         transition: 'transform 0.4s, width 0.4s',
-        zIndex: 10000,
+        zIndex: 1,
         height: '100dvh',
         width: 'var(--Sidebar-width)',
         top: 0,
@@ -52,7 +52,7 @@ const Sidebar = () => {
         sx={
           {
             position: 'fixed',
-            zIndex: 10,
+            zIndex: 2,
             top: 0,
             left: 0,
             width: '100vw',
@@ -90,7 +90,9 @@ const Sidebar = () => {
           flexGrow: 1,
           display: 'flex',
           flexDirection: 'column',
+          
           [`& .${listItemButtonClasses.root}`]: {},
+          
         }}
       >
         <List
