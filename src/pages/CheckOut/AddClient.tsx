@@ -1,284 +1,208 @@
-import React, { useState } from "react";
-import { Box, Typography, Button, Divider, Modal, IconButton } from "@mui/joy";
-import {
-  Dialog,
-  DialogActions,
-  DialogTitle,
-  DialogContent,
-} from "@mui/material";
+import React, { FunctionComponent, useState } from "react";
+import { Box, Typography, Button, Divider, Input, Textarea, Modal, IconButton, Option, ButtonGroup, Select, FormControl, FormLabel, Checkbox, RadioGroup, Grid } from "@mui/joy";
 import CloseIcon from '@mui/icons-material/Close';
+import { RootState } from "../../redux/store";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
+import { addEmployee} from "../../redux/features/EmployeeSlice";
+import AppForm from "../../components/Common/AppForm";
+import { EmpConfig, FieldConfig } from "./EmpCofig";
+import SiteComponent from "../../components/AssetSections/SiteComponent";
+import LocationComponent from "../../components/AssetSections/LocationComponent";
+import DepartmentComponent from "../../components/AssetSections/DepartmentComponent";
+import SelectOption from "../../components/AssetSections/SelectOption";
+import { ClientConfig } from "./ClientConfig";
+import { addClient } from "../../redux/features/ClientSlice";
 
-import InputField from "../../components/Common/Input";
-import SelectField from "../../components/Common/Select";
-import { RootState } from "../../redux/store";
-import { post_add_client } from "../../redux/features/ClientSlice";
-
-interface ClientData {
-  person_name: string;
-  company: string;
-  email: string;
-  street: string;
-  city: string;
-  state: string;
-  zip_code: string;
-  country: string;
-  phone_number: string;
-  website: string;
-  registration_date: string;
-  tele_phone: string;
-  industry: string;
-  status: string;
+interface AddClientProps {
+  open: boolean;
+  onClose: any;
+  onAddClient: any;
 }
 
-interface ClientErrors {
-  person_name?: string;
-  company?: string;
-  email?: string;
-  street?: string;
-  city?: string;
-  state?: string;
-  zip_code?: string;
-  country?: string;
-  phone_number?: string;
-  website?: string;
-  registration_date?: string;
-  tele_phone?: string;
-  industry?: string;
-  status?: string;
-}
+const AddClient: FunctionComponent<AddClientProps> = ({ open, onClose, onAddClient}) => {
+  const [employee, setClient] = useState<any>({});
+  const [formData, setFormData] = useState<any>({})
+  // const [errors, setErrors] = useState<EmployeeErrors>({});
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
-const AddClient = (props: any) => {
-  const [client, setClient] = useState<ClientData>({
-    person_name: "",
-    company: "",
-    email: "",
-    street: "",
-    city: "",
-    state: "",
-    zip_code: "",
-    country: "",
-    phone_number: "",
-    tele_phone: "",
-    website: "",
-    registration_date: "",
-    industry: "",
-    status: "",
-  });
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | { name?: string; value: unknown }
+    >,
+  ) => {
+    const { name, value, type, checked } = e.target as HTMLInputElement
+    setFormData({
+      ...formData,
+      [name]: type === 'checkbox' ? checked : value,
+    })
+  }
 
-  const [errors, setErrors] = useState<ClientErrors>({});
-  // const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
-
-  const validateForm = (): boolean => {
-    let tempErrors: ClientErrors = {};
-    let isValid = true;
-
-    if (!client.person_name) {
-      tempErrors.person_name = "Full name is required";
-      isValid = false;
-    }
-    if (!client.company) {
-      tempErrors.company = "Company is required";
-      isValid = false;
-    }
-    if (!client.email) {
-      tempErrors.email = "Email is required";
-      isValid = false;
-    }
-    if (!client.street) {
-      tempErrors.street = "Street is required";
-      isValid = false;
-    }
-    if (!client.city) {
-      tempErrors.city = "City is required";
-      isValid = false;
-    }
-    if (!client.state) {
-      tempErrors.state = "State is required";
-      isValid = false;
-    }
-    if (!client.zip_code) {
-      tempErrors.zip_code = "Zip code is required";
-      isValid = false;
-    }
-    if (!client.country) {
-      tempErrors.country = "Country is required";
-      isValid = false;
-    }
-    if (!client.phone_number) {
-      tempErrors.phone_number = "Phone number is required";
-      isValid = false;
-    }
-    if (!client.registration_date) {
-      tempErrors.registration_date = "Registration date is required";
-      isValid = false;
-    }
-    if (!client.industry) {
-      tempErrors.industry = "Industry is required";
-      isValid = false;
-    }
-    if (!client.status) {
-      tempErrors.status = "Status is required";
-      isValid = false;
-    }
-
-    setErrors(tempErrors);
-    return isValid;
+  const handleSelectChange = (name: string, value: string | null) => {
+    setFormData({
+      ...formData,
+      [name]: value || '',
+    });
   };
 
-  const handleAdd = () => {
-    if (validateForm()) {
+  const handleInputValue = (
+    field: any,
+    formData: any,
+    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    handleSelectChange: (value: string | null, name: string) => void,
+    mode?: string
+  ) => {
+    const commonProps = {
+      field,
+      formData,
+      handleChange,
+      handleSelectChange,
+      mode,
+    };
 
-      console.log("Client Data: ", client);
-      props.onAddClient(client.person_name);
-      // dispatch(post_add_client(client))
-    }
-    setClient({
-      person_name: "",
-      company: "",
-      email: "",
-      street: "",
-      city: "",
-      state: "",
-      zip_code: "",
-      country: "",
-      phone_number: "",
-      tele_phone: "",
-      website: "",
-      registration_date: "",
-      industry: "",
-      status: "",
-    }) 
-    setErrors({})
+    switch (field.components.type) {
+      case "text":
+        return (
+          <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+              type={field.components.type}
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleChange}
+              sx={field.stylings}
+            />
+          </FormControl>
+        );
+      case "date":
+      case "number":
+      case "email":
+        return (
+          <FormControl key={field.name}>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+              type={field.components.type}
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleChange}
+            />
+          </FormControl>
+        );
+      case "radio":
+      case "textarea":
+      case "checkbox":
+
+      case "select":
+            return <SelectOption {...commonProps} />
+
+  };
+  // const validateForm = (): boolean => {
+  //   let tempErrors: EmployeeErrors = {};
+  //   let isValid = true;
+
+  //   EmpConfig.forEach((field) => {
+  //     if (field.isRequired === "true" && !employee[field.name]) {
+  //       tempErrors[field.name] = `${field.fieldName} is required`;
+  //       isValid = false;
+  //     }
+  //   });
+  //   setErrors(tempErrors);
+  //   return isValid;  
+  // };
+
+  const handleAdd = () => {
+    //  onAddEmployee(employee.empName);
+    console.log(formData)
+      dispatch(addClient(formData));
+      setClient({});
+      // setErrors({});
   };
 
   return (
-    <Modal open={props.open} onClose={props.onClose} fullWidth>
-      <Typography level="h4">
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <Typography>Add Client</Typography>
-          <IconButton onClick={props.onClose}>
-            <CloseIcon />
-          </IconButton>
-        </Box>
-      </Typography>
-      <Divider />
-      <Box>
-        <InputField
-          label="Name"
-          value={client.person_name}
-          onChange={(e) => setClient({ ...client, person_name: e.target.value })}
-          error={errors.person_name}
-        />
-        <InputField
-          label="company"
-          value={client.company}
-          onChange={(e) => setClient({ ...client, company: e.target.value })}
-          error={errors.company}
-        />
-        <InputField
-          label="Email"
-          value={client.email}
-          onChange={(e) => setClient({ ...client, email: e.target.value })}
-          error={errors.email}
-        />
-        <InputField
-          label="Street"
-          value={client.street}
-          onChange={(e) => setClient({ ...client, street: e.target.value })}
-          error={errors.street}
-        />
-        <InputField
-          label="City"
-          value={client.city}
-          onChange={(e) => setClient({ ...client, city: e.target.value })}
-          error={errors.city}
-        />
-        <InputField
-          label="State"
-          value={client.state}
-          onChange={(e) => setClient({ ...client, state: e.target.value })}
-          error={errors.state}
-        />
-        <InputField
-          label="Zip Code"
-          value={client.zip_code}
-          onChange={(e) => setClient({ ...client, zip_code: e.target.value })}
-          error={errors.zip_code}
-        />
-        <InputField
-          label="Country"
-          value={client.country}
-          onChange={(e) => setClient({ ...client, country: e.target.value })}
-          error={errors.country}
-        />
-        <InputField
-          label="Phone Number"
-          value={client.phone_number}
-          onChange={(e) => setClient({ ...client, phone_number: e.target.value })}
-          error={errors.phone_number}
-        />
-        <InputField
-          label="TelePhone"
-          value={client.tele_phone}
-          onChange={(e) => setClient({ ...client, tele_phone: e.target.value })}
-          error={errors.tele_phone}
-        />
-        <InputField
-          label="Website"
-          value={client.website}
-          onChange={(e) => setClient({ ...client, website: e.target.value })}
-          error={errors.website}
-        />
-        <InputField
-          label="Registration Date"
-          value={client.registration_date}
-          onChange={(e) => setClient({ ...client, registration_date: e.target.value })}
-          error={errors.registration_date}
-          type="date"
-        />
-        <SelectField
-          label="Industry"
-          value={client.industry}
-          onChange={(value) => setClient({ ...client, industry: value })}
-          options={["Technology", "Finance", "Healthcare", "Education"]}
-          error={errors.industry}
-        />
-        <SelectField
-          label="Status"
-          value={client.status}
-          onChange={(value) => setClient({ ...client, status: value })}
-          options={["Active", "Inactive"]}
-          error={errors.status}
-        />
+     <Modal open={open} onClose={onClose}>
+      <Box 
+      sx={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: 500,
+        borderRadius: 1,
+        bgcolor:'#fff',
+        p: 4,
+        maxHeight: "80vh",
+        display: "flex",
+        flexDirection: "column",
+      }}
+      >
+    <AppForm onSubmit={handleAdd}>
+     
+        <Typography level="h4">
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography>Add Client</Typography>
+            <IconButton 
+            onClick={onClose}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Box>
+        </Typography>
+        <Divider></Divider>
+        <Box>
+        {ClientConfig && ClientConfig.map((field , index) => (
+      <FormControl key={index}>
+       <Grid key={index}>
+        {handleInputValue(
+          field,
+          formData,
+          handleChange,
+          handleSelectChange,
+        )}
+        </Grid>
+      </FormControl>
+    ))}
+          </Box>
+
+        <ButtonGroup sx={{border:"1px solid #E0E1E3"}}>
+          <Button
+          type="submit"
+            sx={{
+              background: "rgb(245,193,67)",
+              "&:hover": {
+                backgroundColor: "rgb(255,199,79)",
+              },
+              borderRadius:"15px"
+            }}
+          >
+            Add
+          </Button>
+          <Button
+            onClick={onClose}
+            sx={{
+              background: "white",
+              color: "black",
+              border: "1px solid black",
+              "&:hover": {
+                backgroundColor: "#f9f9f9",
+              },
+              borderRadius:"15px"
+            }}
+          >
+            Cancel
+          </Button>
+        </ButtonGroup>
+      
+      </AppForm>
       </Box>
-      <Box sx={{border:"1px solid #E0E1E3"}}>
-        <Button
-          sx={{
-            background: "rgb(245,193,67)",
-            "&:hover": { backgroundColor: "rgb(255,199,79)" },
-            borderRadius: "15px"
-          }}
-          onClick={handleAdd}
-        >
-          Add
-        </Button>
-        <Button
-          onClick={props.onClose}
-          sx={{
-            background: "white",
-            color: "black",
-            border: "1px solid black",
-            "&:hover": { backgroundColor: "#f9f9f9" },
-            borderRadius: "15px"
-          }}
-        >
-          Cancel
-        </Button>
-      </Box>
-    </Modal>
+      </Modal>
   );
 };
+}
 
 export default AddClient;

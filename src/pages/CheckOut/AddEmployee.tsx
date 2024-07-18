@@ -1,127 +1,172 @@
 import React, { useState } from "react";
-import { Box, Typography, Button, Divider, Input, Textarea, Modal, IconButton, Option, ButtonGroup, Select } from "@mui/joy";
-import {
-  Dialog,
-  DialogActions,
-  DialogTitle,
-  DialogContent,
-  MenuItem,
-} from "@mui/material";
+import { Box, Typography, Button, Divider, Input, Textarea, Modal, IconButton, Option, ButtonGroup, Select, FormControl, FormLabel, Checkbox, RadioGroup, Grid } from "@mui/joy";
 import CloseIcon from '@mui/icons-material/Close';
 import { RootState } from "../../redux/store";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { post_add_Employee } from "../../redux/features/EmployeeSlice";
+import { addEmployee} from "../../redux/features/EmployeeSlice";
 import AppForm from "../../components/Common/AppForm";
+import { EmpConfig, FieldConfig } from "./EmpCofig";
+import SiteComponent from "../../components/AssetSections/SiteComponent";
+import LocationComponent from "../../components/AssetSections/LocationComponent";
+import DepartmentComponent from "../../components/AssetSections/DepartmentComponent";
+import SelectOption from "../../components/AssetSections/SelectOption";
 
-interface EmployeeData {
-  emp_name: string;
-  title: string;
-  phone: string;
-  email: string;
-  emp_site: string;
-  emp_location: string;
-  emp_department: string;
-  notes: string;
+// interface EmployeeErrors {
+//   fullName?: string;
+//   title?: string;
+//   employeeID? :string;
+//   phone?: string;
+//   email?: string;
+//   empSite?: string;
+//   empLocation?: string;
+//   empDepartment?: string;
+//   notes?: string;
+// }
+
+interface AddEmployeeProps {
+  open: boolean;
+  onClose: () => void;
+  onAddEmployee: (name: string) => void;
 }
 
-interface EmployeeErrors {
-  emp_name?: string;
-  title?: string;
-  phone?: string;
-  email?: string;
-  emp_site?: string;
-  emp_location?: string;
-  emp_department?: string;
-  notes?: string;
-}
-
-const AddEmployee: React.FC = (props:any) => {
-  const [employee, setEmployee] = useState<EmployeeData>({
-    emp_name: "",
-    title: "",
-    phone: "",
-    email: "",
-    emp_site: "",
-    emp_location: "",
-    emp_department: "",
-    notes: "",
-  });
-
-  const [errors, setErrors] = useState<EmployeeErrors>({});
+const AddEmployee: React.FC<AddEmployeeProps> = ({ open, onClose, onAddEmployee }) => {
+  const [employee, setEmployee] = useState<any>({});
+  const [formData, setFormData] = useState<any>({})
+  // const [errors, setErrors] = useState<EmployeeErrors>({});
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
-  const validateForm = (): boolean => {
-    let tempErrors: EmployeeErrors = {};
-    let isValid = true;
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | { name?: string; value: unknown }
+    >,
+  ) => {
+    const { name, value, type, checked } = e.target as HTMLInputElement
+    setFormData({
+      ...formData,
+      [name]: type === 'checkbox' ? checked : value,
+    })
+  }
 
-    // Validation logic here
-    if (!employee.emp_name) {
-      tempErrors.emp_name = "Full name is required";
-      isValid = false;
-    }
-    if (!employee.title) {
-      tempErrors.title = "Title is required";
-      isValid = false;
-    }
-    if (!employee.phone) {
-      tempErrors.phone = "Phone is required";
-      isValid = false;
-    }
-    if (!employee.email) {
-      tempErrors.email = "Email is required";
-      isValid = false;
-    }
-    if (!employee.emp_site) {
-      tempErrors.emp_site = "Site is required";
-      isValid = false;
-    }
-    if (!employee.emp_location) {
-      tempErrors.emp_location = "Location is required";
-      isValid = false;
-    }
-    if (!employee.emp_department) {
-      tempErrors.emp_department = "Department is required";
-      isValid = false;
-    }
-    if (!employee.notes) {
-      tempErrors.notes = "Notes are required";
-      isValid = false;
-    }
-    // Add similar checks for other fields
-
-    setErrors(tempErrors);
-    return isValid;
+  const handleSelectChange = (name: string, value: string | null) => {
+    setFormData({
+      ...formData,
+      [name]: value || '',
+    });
   };
 
-  const handleAdd = () => {
-    if (validateForm()) {
-      console.log(employee);
-      // Proceed with your onAdd logic
-      props.onAddEmployee(employee.emp_name);
-      // dispatch(post_add_Employee(employee))
-      
-      // Reset form and errors if needed
-      setEmployee({
-        emp_name: "",
-        title: "",
-        phone: "",
-        email: "",
-        emp_site: "",
-        emp_location: "",
-        emp_department: "",
-        notes: "",
-      });
-      
-      // Optionally reset errors as well
-      setErrors({});
+  const handleInputValue = (
+    field: any,
+    formData: any,
+    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    handleSelectChange: (value: string | null, name: string) => void,
+    mode?: string
+  ) => {
+    const commonProps = {
+      field,
+      formData,
+      handleChange,
+      handleSelectChange,
+      mode,
+    };
+
+    switch (field.components.type) {
+      case "text":
+        return (
+          <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+              type={field.components.type}
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleChange}
+              sx={field.stylings}
+            />
+          </FormControl>
+        );
+      case "date":
+      case "number":
+      case "email":
+        return (
+          <FormControl key={field.name}>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+              type={field.components.type}
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleChange}
+            />
+          </FormControl>
+        );
+      case "radio":
+      case "textarea":
+        return (
+          <FormControl key={field.name}>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Textarea
+            type={field.components.type}
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleChange}
+            />
+          </FormControl>
+        );
+      case "checkbox":
+
+      case "select":
+          if (field.name === "checkOutSiteId") {
+            return <SiteComponent {...commonProps} />;
+          } else if (field.name === "checkOutLocationId") {
+            return <LocationComponent {...commonProps} />;
+          } else if (field.name === "checkOutDepartmentId") {
+            return <DepartmentComponent {...commonProps} />;
+          } 
+          else {
+            return <SelectOption {...commonProps} />
+          }
     }
+  };
+  // const validateForm = (): boolean => {
+  //   let tempErrors: EmployeeErrors = {};
+  //   let isValid = true;
+
+  //   EmpConfig.forEach((field) => {
+  //     if (field.isRequired === "true" && !employee[field.name]) {
+  //       tempErrors[field.name] = `${field.fieldName} is required`;
+  //       isValid = false;
+  //     }
+  //   });
+  //   setErrors(tempErrors);
+  //   return isValid;  
+  // };
+
+  const handleAdd = () => {
+    //  onAddEmployee(employee.empName);
+    console.log(formData)
+      dispatch(addEmployee(formData));
+      setEmployee({});
+      // setErrors({});
   };
 
   return (
-    <>
+     <Modal open={open} onClose={onClose}>
+      <Box 
+      sx={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: 500,
+        borderRadius: 1,
+        bgcolor:'#fff',
+        p: 4,
+        maxHeight: "80vh",
+        display: "flex",
+        flexDirection: "column",
+      }}
+      >
     <AppForm onSubmit={handleAdd}>
-      <Modal open={props.open}>
+     
         <Typography level="h4">
           <Box
             sx={{
@@ -132,7 +177,7 @@ const AddEmployee: React.FC = (props:any) => {
           >
             <Typography>Add an Person/Employee</Typography>
             <IconButton 
-            onClick={props.onClose}
+            onClick={onClose}
             >
               <CloseIcon />
             </IconButton>
@@ -140,273 +185,20 @@ const AddEmployee: React.FC = (props:any) => {
         </Typography>
         <Divider></Divider>
         <Box>
-          <Box
-            sx={{
-              display: "flex",
-              gap: "15px",
-              alignItems: "center",
-              width: "100%",
-              justifyContent: "center",
-              mb: "25px",
-            }}
-          >
-            <Box sx={{mr:"5px",width:"100px"}}>
-            <Typography>Full Name</Typography>
-            </Box>
-            <Input
-              value={employee.emp_name}
-              onChange={(e) =>
-                setEmployee({ ...employee, emp_name: e.target.value })
-              }
-              sx={{
-                // borderRadius:"15px",
-                height:"56px",width:"300px"}}
-            />
-            {errors.emp_name && (
-              <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
-                {errors.emp_name}
-              </Typography>
-            )}
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              gap: "15px",
-              alignItems: "center",
-              width: "100%",
-              justifyContent: "center",
-              mb: "25px",
-            }}
-          >
-            <Box sx={{mr:"5px",width:"100px"}}>
-            <Typography>Title</Typography>
-            </Box>
-            <Input
-              value={employee.title}
-              onChange={(e) =>
-                setEmployee({ ...employee, title: e.target.value })
-              }
-              sx={{
-                // borderRadius:"15px",
-                height:"56px",width:"300px"}}
-            />
-            {errors.title && (
-              <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
-                {errors.title}
-              </Typography>
-            )}
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              gap: "15px",
-              alignItems: "center",
-              width: "100%",
-              justifyContent: "center",
-              mb: "25px",
-            }}
-          >
-            <Box sx={{mr:"5px",width:"100px"}}>
-            <Typography>Phone</Typography>
-            </Box>
-            <Input
-              value={employee.phone}
-              onChange={(e) =>
-                setEmployee({ ...employee, phone: e.target.value })
-              }
-              sx={{
-                // borderRadius:"15px",
-                height:"56px",width:"300px"}}
-            />
-            {errors.phone && (
-              <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
-                {errors.phone}
-              </Typography>
-            )}
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              gap: "15px",
-              alignItems: "center",
-              width: "100%",
-              justifyContent: "center",
-              mb: "25px",
-            }}
-          >
-            <Box sx={{mr:"5px",width:"100px"}}>
-            <Typography>Email</Typography>
-            </Box>
-            <Input
-              value={employee.email}
-              onChange={(e) =>
-                setEmployee({ ...employee, email: e.target.value })
-              }
-              sx={{
-                // borderRadius:"15px",
-                height:"56px",width:"300px"}}
-            />
-            {errors.email && (
-              <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
-                {errors.email}
-              </Typography>
-            )}
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              gap: "15px",
-              alignItems: "center",
-              width: "100%",
-              justifyContent: "center",
-              mb: "25px",
-            }}
-          >
-            <Box sx={{mr:"5px",width:"100px"}}>
-            <Typography>Site</Typography>
-            </Box>
-            <Select
-              value={employee.emp_site}
-              // onChange={(e) =>
-              //   setEmployee({ ...employee, emp_site: e.target.value })
-              // }
-              // renderValue={(selected) => {
-              //   if (selected?.length === 0 || selected === undefined) {
-              //     return "Select Site";
-              //   }
-              //   return selected;
-              // }}
-              sx={{ 
-                // borderRadius: "15px",
-                width:"300px" }}
-            >
-              {/* <Option>Search Asset Tag ID or Description</Option> */}
-              <Option value="Asset 1 asdfasdfa adas">Asset 1</Option>
-              <Option value="Asset 2 adfa sdfasfadf ">Asset 2</Option>
-              <Option value="Asset 3 asdf asfdasfaf">Asset 3</Option>
-              <Option value="Asset 4 asdfasdfasfasf ">Asset 3</Option>
-              <Option value="Asset 5 afadfasdfasdff">Asset 3</Option>
-            </Select>
-            {errors.emp_site && (
-              <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
-                {errors.emp_site}
-              </Typography>
-            )}
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              gap: "15px",
-              alignItems: "center",
-              width: "100%",
-              justifyContent: "center",
-              mb: "25px",
-            }}
-          >
-            <Box sx={{mr:"5px",width:"100px"}}>
-            <Typography>Location</Typography>
-            </Box>
-            <Select
-              value={employee.emp_location}
-              // onChange={(e) =>
-              //   setEmployee({ ...employee, emp_location: e.target.value })
-              // }
-              // renderValue={(selected) => {
-              //   if (selected?.length === 0 || selected === undefined) {
-              //     return "Select Location";
-              //   }
-              //   return selected;
-              // }}
-              sx={{
-                //  borderRadius: "15px",
-                width:"300px" }}
-            >
-              {/* <MenuItem>Search Asset Tag ID or Description</MenuItem> */}
-              <Option value="Asset 1asdfasdfa adas">Asset 1</Option>
-              <Option value="Asset 2 adfa sdfasfadf ">Asset 2</Option>
-              <Option value="Asset 3 asdf asfdasfaf">Asset 3</Option>
-              <Option value="Asset 4 asdfasdfasfasf ">Asset 3</Option>
-              <Option value="Asset 5 afadfasdfasdff">Asset 3</Option>
-            </Select>
-            {errors.emp_location && (
-              <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
-                {errors.emp_location}
-              </Typography>
-            )}
+        {EmpConfig && EmpConfig.map((field , index) => (
+      <FormControl key={index}>
+       <Grid key={index}>
+        {handleInputValue(
+          field,
+          formData,
+          handleChange,
+          handleSelectChange,
+        )}
+        </Grid>
+      </FormControl>
+    ))}
           </Box>
 
-          <Box
-            sx={{
-              display: "flex",
-              gap: "15px",
-              alignItems: "center",
-              width: "100%",
-              justifyContent: "center",
-              mb: "25px",
-            }}
-          >
-            <Box sx={{mr:"5px",width:"100px"}}>
-            <Typography>Department</Typography>
-            </Box>
-            <Select
-              value={employee.emp_department}
-              // onChange={(e) =>
-              //   setEmployee({ ...employee, emp_department: e.target.value })
-              // }
-              // renderValue={(selected) => {
-              //   if (selected?.length === 0 || selected === undefined) {
-              //     return "Select Department";
-              //   }
-              //   return selected;
-              // }}
-              sx={{ 
-                // borderRadius: "15px",
-                width:"300px" }}
-            >
-              {/* <MenuItem>Search Asset Tag ID or Description</MenuItem> */}
-              <Option value="Asset 1asdfasdfa adas">Asset 1</Option>
-              <Option value="Asset 2 adfa sdfasfadf ">Asset 2</Option>
-              <Option value="Asset 3 asdf asfdasfaf">Asset 3</Option>
-              <Option value="Asset 4 asdfasdfasfasf ">Asset 3</Option>
-              <Option value="Asset 5 afadfasdfasdff">Asset 3</Option>
-            </Select>
-            {errors.emp_department && (
-              <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
-                {errors.emp_department}
-              </Typography>
-            )}
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              gap: "15px",
-              alignItems: "center",
-              width: "100%",
-              justifyContent: "center",
-              mb: "25px",
-            }}
-          >
-            <Box sx={{mr:"5px",width:"100px"}}>
-            <Typography>Notes</Typography>
-            </Box>
-            <Textarea
-              value={employee.notes}
-              onChange={(e) =>
-                setEmployee({ ...employee, notes: e.target.value })
-              }
-              minRows={6}
-              sx={{
-                // borderRadius:"15px",
-                width:"300px"}}
-            />
-            {errors.notes && (
-              <Typography level="body-xs" sx={{ color: "red", mt: 1 }}>
-                {errors.notes}
-              </Typography>
-            )}
-          </Box>
-        </Box>
         <ButtonGroup sx={{border:"1px solid #E0E1E3"}}>
           <Button
           type="submit"
@@ -415,14 +207,13 @@ const AddEmployee: React.FC = (props:any) => {
               "&:hover": {
                 backgroundColor: "rgb(255,199,79)",
               },
-              // borderRadius:"15px"
+              borderRadius:"15px"
             }}
-            // onClick={handleAdd}
           >
             Add
           </Button>
           <Button
-            onClick={props.onClose}
+            onClick={onClose}
             sx={{
               background: "white",
               color: "black",
@@ -430,15 +221,16 @@ const AddEmployee: React.FC = (props:any) => {
               "&:hover": {
                 backgroundColor: "#f9f9f9",
               },
-              // borderRadius:"15px"
+              borderRadius:"15px"
             }}
           >
             Cancel
           </Button>
         </ButtonGroup>
-      </Modal>
+      
       </AppForm>
-    </>
+      </Box>
+      </Modal>
   );
 };
 

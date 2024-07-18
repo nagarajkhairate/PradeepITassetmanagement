@@ -14,6 +14,7 @@ import {
   FormLabel,
   FormControl,
   Grid,
+  Chip,
 } from '@mui/joy'
 import AppView from '../../components/Common/AppView'
 import AppForm from '../../components/Common/AppForm'
@@ -25,11 +26,9 @@ import { checkOutConfig } from './checkOutConfig'
 import SiteComponent from '../../components/AssetSections/SiteComponent'
 import LocationComponent from '../../components/AssetSections/LocationComponent'
 import DepartmentComponent from '../../components/AssetSections/DepartmentComponent'
-import CategoryComponent from '../../components/AssetSections/CategoryComponent'
-import SubCategoryComponent from '../../components/AssetSections/SubCategoryComponent'
 import SelectOption from '../../components/AssetSections/SelectOption'
-import AddEmployee from './AddEmployee'
-import AddClient from './AddClient'
+import AddNewEmpployee from './AddNewEmpployee'
+import AddNewClient from './AddNewClient'
 
 interface CheckOutFormProps {
   selectedAssets: any;
@@ -37,42 +36,46 @@ interface CheckOutFormProps {
 
 const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
   const [open, setOpen] = useState(false)
-  const [checkOutTo, setCheckOutTo] = useState('person') // State to manage radio option
+  const [checkOutTo, setCheckOutTo] = useState('person')
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [formData, setFormData] = useState<any>({})
-console.log(JSON.stringify(selectedAssets))
 
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setFormData((prevData: any) => ({
-      ...prevData,
-      assetId:selectedAssets[0].id
-    }))
-    await dispatch(addCheckOut(formData))
-  }
-
+  console.log(formData)
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | { name?: string; value: unknown }
-    >,
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    const { name, value, type, checked } = e.target as HTMLInputElement
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value,
-    })
+    const { name, value } = e.target
+    setFormData((prevData:any) => ({
+      ...prevData,
+      [name]: value,
+    }))
   }
 
-  const handleSelectChange = (name: string, value: string | null) => {
-    setFormData({
-      ...formData,
-      [name]: value || '',
-    })
+  const handleSelectChange = (
+    newValue: any,
+    title: string,
+  ) => {
+   
+    setFormData((prevData:any) => ({
+      ...prevData,
+      [title]: newValue,
+    }))
   }
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckOutTo(e.target.value) // Update radio option state
+  }
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    
+    setFormData((prevData: any) => ({
+      ...prevData,
+      assetId:selectedAssets[0].id
+    }))
+    console.log(JSON.stringify(formData))
+    await dispatch(addCheckOut(formData))
   }
 
   const handleInputValue = (
@@ -91,7 +94,7 @@ console.log(JSON.stringify(selectedAssets))
       handleRadioChange,
       mode,
     };
- console.log(field.components.type)
+
     switch (field.components.type) {
       case "text":
         return (
@@ -126,6 +129,7 @@ console.log(JSON.stringify(selectedAssets))
             <FormControl key={field.id}>
               <FormLabel>{field.fieldName}</FormLabel>
               <RadioGroup
+              type={field.components.type}
                 name={field.name}
                 value={formData[field.name] as string}
                 onChange={handleRadioChange}
@@ -155,6 +159,7 @@ console.log(JSON.stringify(selectedAssets))
         <FormControl>
           <FormLabel>{field.fieldName}</FormLabel>
           <Checkbox
+          type={field.components.type}
             name={field.name}
             checked={formData[field.name] as boolean}
             onChange={handleChange}
@@ -171,11 +176,12 @@ console.log(JSON.stringify(selectedAssets))
         } else if (field.name === "checkOutDepartmentId") {
           return <DepartmentComponent {...commonProps} />;
         } 
-        // else if (field.name === "assignedTo") {
-        //   return <AddEmployee {...commonProps} />;
-        // } else if (field.name === "clientId") {
-        //   return <AddClient {...commonProps} />;
-        // } 
+        else if (field.name === "assignedTo") {
+          return <AddNewEmpployee {...commonProps} />;
+        } 
+        else if (field.name === "clientId") {
+          return <AddNewClient {...commonProps} />;
+        } 
         else {
           return <SelectOption {...commonProps} />;
         }
@@ -184,6 +190,11 @@ console.log(JSON.stringify(selectedAssets))
     }
   };
  
+  const statusColorMap: Record<string, string> = {
+    Available: "success",
+    CheckedOut: "neutral",
+  };
+
   return (
     <AppForm onSubmit={handleFormSubmit}>
       <Box
@@ -294,7 +305,15 @@ console.log(JSON.stringify(selectedAssets))
               <td style={{ padding: "8px", border: "1px solid #f2f2f2" , width:"20px"}}><Checkbox /></td>
               <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.assetTagId}</td>
               <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.description}</td>
-              <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.status}</td>
+              <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>
+                  <Chip
+          variant="soft"
+          size="sm"
+          color={statusColorMap[asset.status as keyof typeof statusColorMap] as 'success' | 'neutral'}
+        >
+          {asset.status}
+        </Chip>
+                </td>
               <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.assignedTo}</td>
               <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.site.name}</td>
               <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.location.name}</td>

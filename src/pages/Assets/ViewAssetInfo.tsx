@@ -77,7 +77,6 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
     CheckedOut: "neutral",
   };
 
-
   return (
     <AppView>
       <Box
