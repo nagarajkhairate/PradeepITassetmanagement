@@ -3,31 +3,34 @@ import axios from "axios";
 
 interface addClient{
   data:any[];
-  selectedCustomer: any | null;
+  selectedEmployee: any | null;
   loading:boolean;
   error:string|null;
 }
 
 const initialState:addClient={
   data:[],
-  selectedCustomer:  null,
+  selectedEmployee: null,
   loading:false,
   error:null,
 }
 
-export const fetch_client = createAsyncThunk('addClient/fetch_client',async()=>{
-  const response = await axios.get("")
+const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
+const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;  
+
+export const fetchClient = createAsyncThunk('addClient/fetchClient',async()=>{
+  const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/clients`)
   return response.data
 })
 
-export const update_client = createAsyncThunk('addClient/update_client',async()=>{
-  const response = await axios.put("")
+export const updateClient = createAsyncThunk('addClient/updateClient',async()=>{
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/clients`)
   return response.data
 })
 
-export const post_add_client = createAsyncThunk('addClient/post_addClient', async (PostData) => {
+export const addClient = createAsyncThunk('addClient/addClient', async (addclient:any) => {
   try {
-    const response = await axios.post("https://jsonplaceholder.typicode.com/users", PostData);
+    const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/clients`, addclient);
     console.log('ResponsePost:', response.data);
     return response.data;
   } catch (error) {
@@ -36,39 +39,40 @@ export const post_add_client = createAsyncThunk('addClient/post_addClient', asyn
   }
 });
 
-export const ClientSlice = createSlice({
-  name:"client",
+export const addClientSlice = createSlice({
+  name:"addClient",
   initialState,
-  reducers: {
+  reducers:  {
     setSelectedCustomer: (state, action: PayloadAction<number>) => {
-      const user = state.data.find((u) => u.id === action.payload);
-      state.selectedCustomer = user || null;
+      const  addClient = state.data.find((u) => u.id === action.payload);
+      state.selectedEmployee = addClient || null;
     },
   },
   extraReducers:(builder)=>{
-    builder.addCase(fetch_client.pending,(state)=>{
+    builder.addCase(fetchClient.pending,(state)=>{
       state.loading = true;
       state.error = ''
     })
-    builder.addCase(fetch_client.fulfilled,(state,action)=>{
+    builder.addCase(fetchClient.fulfilled,(state,action)=>{
       state.loading = false;
       state.error = ''
       state.data = action.payload
     })
-    builder.addCase(fetch_client.rejected,(state,action)=>{
+    builder.addCase(fetchClient.rejected,(state, action)=>{
       state.loading = false;
       state.error = ''
       state.data = []
     })
-    builder.addCase(post_add_client.fulfilled,(state,action)=>{
-      //state.data.push(action.payload)
+    builder.addCase(addClient.fulfilled,(state,action)=>{
+      state.data.push(action.payload)
     })
-    builder.addCase(update_client.fulfilled,(state,action)=>{
+    builder.addCase(updateClient.fulfilled,(state,action)=>{
       state.loading = false;
       state.error = ''
       state.data = action.payload
     })
   }
 })
-export const { setSelectedCustomer } = ClientSlice.actions;
-export default ClientSlice.reducer
+
+export const { setSelectedCustomer } = addClientSlice.actions;
+export default addClientSlice.reducer

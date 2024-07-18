@@ -1,34 +1,46 @@
 import React, { useState, useEffect } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { Select, Option, Button, Typography, Box, FormControl, FormHelperText, FormLabel } from '@mui/joy';
-import AddSite from "../../pages/Setup/SetupSites/AddSite";
+import AddSite from "../Setup/SetupSites/AddSite";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { fetchSites } from "../../redux/features/SitesSlice";
 import { ThunkDispatch } from "redux-thunk";
+import { fetchEmployee } from "../../redux/features/EmployeeSlice";
 
-interface SiteProps {
+import { fetchClient } from "../../redux/features/ClientSlice";
+import AddClient from "./AddClient";
+
+interface AddClientProps {
   field: any;
   formData: any;
   handleSelectChange: (value: string | null, name: string) => void;
 }
 
-const SiteComponent: React.FC<SiteProps> = ({
+const AddNewClient: React.FC<AddClientProps> = ({
   field, 
   formData, 
   handleSelectChange,
 }) => {
   const [error, setError] = useState<string>("");
   const [open, setOpen] = useState(false);
-  const sites = useSelector((state: RootState) => state.sites.data);
+  const addClient = useSelector((state: RootState) => state.addClient.data);
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchSites());
+    dispatch(fetchClient());
   }, [dispatch]);
 
   const selectChange = (e: any, newValue: string | null) => {
     handleSelectChange(newValue, field.name);
+  };
+
+  const handleModalClose = () => {
+    setOpen(false);
+  };
+
+  const handleClientAdd = (newEmployeeName: string) => {
+    setOpen(false);
+    dispatch(fetchClient());
   };
 
   return (
@@ -36,14 +48,14 @@ const SiteComponent: React.FC<SiteProps> = ({
       <FormControl sx={{ width: '200px' }}>
         <FormLabel>{field.fieldName}</FormLabel>
         <Select
-          placeholder="Select Site"
+          placeholder="Select Client"
           name={field.name}
-          value={formData['site']?.id as string}
+          value={formData[field.name] as string}
           onChange={selectChange}
         >
-          {sites.map((site) => (
-            <Option key={site.id} value={site.id}>
-              {site.siteName}
+          {addClient.map((client) => (
+            <Option key={client.id} value={client.name}>
+              {client.personName}
             </Option>
           ))}
         </Select>
@@ -73,14 +85,14 @@ const SiteComponent: React.FC<SiteProps> = ({
       </Button>
 
       {open && (
-        <AddSite
-          open={open}
-          setOpen={setOpen}
-
+        <AddClient
+        open={open}
+        onClose={setOpen}
+        onAddClient={handleClientAdd}
         />
       )}
     </Box>
   );
 };
 
-export default SiteComponent;
+export default AddNewClient;

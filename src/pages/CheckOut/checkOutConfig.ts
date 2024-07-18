@@ -3,7 +3,7 @@ export interface Field {
     fieldName: string;
     name: string;
     sequence: number;
-    components: number;
+    components: any;
     isRequired: boolean;
     isActive: boolean;
     stylings: string;
@@ -16,7 +16,9 @@ export const checkOutConfig: Field[] =  [
                 fieldName: "Check-out Date",
                 name: "checkOutDate",
                 sequence: 1,
-                components:3,
+                components:{
+                    type:"date"
+                },
                 isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
@@ -26,7 +28,9 @@ export const checkOutConfig: Field[] =  [
                 fieldName: "Check-out to",
                 name: "checkOutTo",
                 sequence: 2,
-                components:11,
+                components:{
+                    type:'radio'
+                },
                 isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
@@ -36,7 +40,9 @@ export const checkOutConfig: Field[] =  [
                 fieldName: "Assign to",
                 name: "assignedTo",
                 sequence: 3,
-                components:5,
+                components:{
+                    type:"select"
+                },
                 isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
@@ -46,7 +52,9 @@ export const checkOutConfig: Field[] =  [
                 fieldName: "Client Name",
                 name: "clientId",
                 sequence: 4,
-                components:5,
+                components:{
+                    type:"select"
+                },
                 isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
@@ -56,7 +64,9 @@ export const checkOutConfig: Field[] =  [
                 fieldName: "Due date",
                 name: "dueDate",
                 sequence: 5,
-                components:3,
+                components:{
+                    type:"date"
+                },
                 isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
@@ -66,7 +76,9 @@ export const checkOutConfig: Field[] =  [
                 fieldName: "Site",
                 name: "checkOutSiteId",
                 sequence: 6,
-                components:5,
+                components:{
+                    type:"select"
+                },
                 isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
@@ -76,7 +88,9 @@ export const checkOutConfig: Field[] =  [
                 fieldName: "Location",
                 name: "checkOutLocationId",
                 sequence: 7,
-                components:5,
+                components:{
+                    type:"select"
+                },
                 isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
@@ -86,7 +100,9 @@ export const checkOutConfig: Field[] =  [
                 fieldName: "Department",
                 name: "checkOutDepartmentId",
                 sequence: 8,
-                components:5,
+                components:{
+                    type:"select"
+                },
                 isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
@@ -96,7 +112,9 @@ export const checkOutConfig: Field[] =  [
                 fieldName: "Check-out Notes",
                 name: "checkOutNotes",
                 sequence: 9,
-                components:13,
+                components:{
+                    type:"textarea"
+                },
                 isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
@@ -106,7 +124,9 @@ export const checkOutConfig: Field[] =  [
                 fieldName: "Send Email",
                 name: "sendEmail",
                 sequence: 10,
-                components:1,
+                components:{
+                    type:"checkbox"
+                },
                 isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
@@ -116,7 +136,9 @@ export const checkOutConfig: Field[] =  [
                 fieldName: "Enter Email Address",
                 name: "emailAddress",
                 sequence: 11,
-                components:6,
+                components:{
+                    type:"email"
+                },
                 isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"

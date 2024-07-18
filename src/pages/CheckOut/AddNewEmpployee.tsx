@@ -1,49 +1,59 @@
 import React, { useState, useEffect } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { Select, Option, Button, Typography, Box, FormControl, FormHelperText, FormLabel } from '@mui/joy';
-import AddSite from "../../pages/Setup/SetupSites/AddSite";
+import AddSite from "../Setup/SetupSites/AddSite";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { fetchSites } from "../../redux/features/SitesSlice";
 import { ThunkDispatch } from "redux-thunk";
+import AddEmployee from "./AddEmployee";
+import { fetchEmployee } from "../../redux/features/EmployeeSlice";
 
-interface SiteProps {
+interface AddEmpProps {
   field: any;
   formData: any;
   handleSelectChange: (value: string | null, name: string) => void;
 }
 
-const SiteComponent: React.FC<SiteProps> = ({
+const AddNewEmpployee: React.FC<AddEmpProps> = ({
   field, 
   formData, 
   handleSelectChange,
 }) => {
   const [error, setError] = useState<string>("");
   const [open, setOpen] = useState(false);
-  const sites = useSelector((state: RootState) => state.sites.data);
+  const addEmployee = useSelector((state: RootState) => state.addEmployee.data);
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchSites());
+    dispatch(fetchEmployee());
   }, [dispatch]);
 
   const selectChange = (e: any, newValue: string | null) => {
     handleSelectChange(newValue, field.name);
   };
 
+  const handleModalClose = () => {
+    setOpen(false);
+  };
+
+  const handleEmployeeAdd = (newEmployeeName: string) => {
+    setOpen(false);
+    dispatch(fetchEmployee());
+  };
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', mt: 2 }}>
       <FormControl sx={{ width: '200px' }}>
         <FormLabel>{field.fieldName}</FormLabel>
         <Select
-          placeholder="Select Site"
+          placeholder="Select Person"
           name={field.name}
-          value={formData['site']?.id as string}
+          value={formData[field.name] as string}
           onChange={selectChange}
         >
-          {sites.map((site) => (
-            <Option key={site.id} value={site.id}>
-              {site.siteName}
+          {addEmployee.map((employee) => (
+            <Option key={employee.id} value={employee.id}>
+              {employee.empName}
             </Option>
           ))}
         </Select>
@@ -72,15 +82,16 @@ const SiteComponent: React.FC<SiteProps> = ({
         </Typography>
       </Button>
 
-      {open && (
-        <AddSite
-          open={open}
-          setOpen={setOpen}
-
+{open &&
+  <AddEmployee
+        open={open}
+          onClose={handleModalClose}
+          onAddEmployee={handleEmployeeAdd}
         />
-      )}
+      
+}
     </Box>
   );
 };
 
-export default SiteComponent;
+export default AddNewEmpployee;

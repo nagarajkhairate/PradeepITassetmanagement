@@ -23,8 +23,6 @@ import AssetFileField from '../../components/Common/AppFile/AssetFileField'
 import SelectOption from '../../components/AssetSections/SelectOption'
 import SubCategoryComponent from '../../components/AssetSections/SubCategoryComponent'
 
-
-
 const AddAnAsset: React.FC = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
@@ -33,8 +31,6 @@ const AddAnAsset: React.FC = () => {
   const [formData, setFormData] = useState<any>({})
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([])
   const [file, setFile] = useState<File | null>(null)
-
- 
 
   const handleSelectChange = (
     newValue: any,
@@ -129,8 +125,6 @@ const AddAnAsset: React.FC = () => {
       handleFileChange,
       mode,
     };
-
-    
 
     switch (field.components.type) {
       case 'text':

@@ -17,8 +17,6 @@ const initialState: CheckOutState = {
 const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
 const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
 
-console.log(REACT_APP_TENANT_ID)
-
 export const fetchCheckOut = createAsyncThunk('sites/fetchCheckOut', async () => {
   try {
     const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/site`);

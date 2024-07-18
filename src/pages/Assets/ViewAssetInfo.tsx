@@ -26,13 +26,13 @@ import SellIcon from '@mui/icons-material/Sell';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EmailIcon from '@mui/icons-material/Email';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import CheckOutDialog from "../../components/AssetSections/Check Out/CheckOutOption";
 import { Link, useNavigate } from "react-router-dom";
 import AppView from "../../components/Common/AppView";
 import HPLaptopImg from "../../Assets/hp-15.png"
 import { OutboundOutlined } from "@mui/icons-material";
-import CheckOutOption from "../../components/AssetSections/Check Out/CheckOutOption";
+
 import moreOptionsConfig from "./moreOptionsConfig";
+import CheckOutOption from "../CheckOut/CheckOutOption";
 
 interface AssetInfoProps {
   id:string,
@@ -76,7 +76,6 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
     Available: "success",
     CheckedOut: "neutral",
   };
-
 
   return (
     <AppView>
