@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import {
   Typography,
   Box,
@@ -20,65 +20,66 @@ import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 
+interface Asset {
+  id: string
+  assetTagId: string
+  description: string
+  status: string
+  assignedTo: string
+  site: { name: string }
+  location: { name: string }
+  leaseTo: string
+}
+
 const CheckOut: React.FC = () => {
   const [open, setOpen] = useState(false)
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [searchKeyword, setSearchKeyword] = useState('')
-  const [selectedAssets, setSelectedAssets] = useState<string[]>([])
-  const [remainingAssets, setRemainingAssets] = useState<any[]>([]);
-  const assets = useSelector((state: RootState) => state.assets.data);
+  const [selectedAssetIds, setSelectedAssetIds] = useState<string[]>([])
+  const assets = useSelector((state: RootState) => state.assets.data)
+  const [getAllAssets, setGetAllAssets] = useState<Asset[] | undefined>()
+  const [selectedAssets, setSelectedAssets] = useState<Asset[]>()
 
-  useEffect(() => {
-    dispatch(fetchAssets());
-  }, [dispatch]);
+  const handleSearchChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchKeyword(event.target.value)
+    },
+    [],
+  )
 
-  useEffect(() => {
-    setRemainingAssets(assets);
-  }, [assets]);
-  
-
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
-
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchKeyword(event.target.value)
-  }
-
-  const handleCheckboxChange = (id: string) => {  
-    setSelectedAssets((prevSelectedAssets) =>
+  const handleCheckboxChange = useCallback((id: string) => {
+    setSelectedAssetIds((prevSelectedAssets) =>
       prevSelectedAssets.includes(id)
         ? prevSelectedAssets.filter((assetId) => assetId !== id)
         : [...prevSelectedAssets, id],
     )
-  }
+  }, [])
 
-  const handleAddToList = () => {
-    const addedAssets = remainingAssets.filter((asset) =>
-      selectedAssets.includes(asset.assetId),
+  const handleAddToList = useCallback(() => {
+    setSelectedAssets(
+      getAllAssets?.filter((asset) => selectedAssetIds.includes(asset.id)),
     )
-    console.log("Selected assets:", selectedAssets);
-    console.log("Added assets:", addedAssets);
-
-    setRemainingAssets(
-      remainingAssets.filter((asset) => !selectedAssets.includes(asset.assetId)),
+    setGetAllAssets((prevData) =>
+      prevData?.filter((asset) => !selectedAssetIds.includes(asset.id)),
     )
-    console.log("Remaining assets after addition:", remainingAssets);
+    setOpen()
+  }, [getAllAssets, selectedAssetIds])
 
-    handleClose()
-  }
-  
-  const filteredAssets = assets.filter((asset) =>
-    asset.description.toLowerCase().includes(searchKeyword.toLowerCase()),
+  const statusColorMap: Record<string, string> = useMemo(
+    () => ({
+      Available: 'success',
+      CheckedOut: 'neutral',
+    }),
+    [],
   )
 
-  const selectedAssetData = assets.filter((asset) =>
-    selectedAssets.includes(asset.assetId),
-  )
+  useEffect(() => {
+    dispatch(fetchAssets())
+  }, [dispatch])
 
-  const statusColorMap: Record<string, string> = {
-    Available: "success",
-    CheckedOut: "neutral",
-  };
+  useEffect(() => {
+    setGetAllAssets(assets)
+  }, [assets])
 
   return (
     <AppView>
@@ -93,7 +94,7 @@ const CheckOut: React.FC = () => {
       >
         <Typography level="h4">Check-Out</Typography>
         <Button
-          onClick={handleOpen}
+          onClick={() => setOpen(true)}
           sx={{
             backgroundColor: '#13B457',
             color: 'white',
@@ -104,27 +105,29 @@ const CheckOut: React.FC = () => {
         </Button>
       </Box>
 
-      {selectedAssetData.length > 0 ? (
-        <CheckOutForm 
-        selectedAssets={selectedAssetData}
-         />
+      {selectedAssets && selectedAssets.length > 0 ? (
+        <CheckOutForm selectedAssets={selectedAssets} />
       ) : (
         <Box>
           <MaintenanceEmpty />
         </Box>
       )}
 
-      <Modal open={open} onClose={handleClose} sx={{
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        sx={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-        }}>
+        }}
+      >
         <Box
           sx={{
             background: '#fff',
             padding: 2,
             borderRadius: '10px',
-            width: '80%'
+            width: '50%',
           }}
         >
           <Typography level="h4" sx={{ marginBottom: 2 }}>
@@ -135,7 +138,6 @@ const CheckOut: React.FC = () => {
               position: 'relative',
               display: 'flex',
               alignItems: 'center',
-              // marginRight: '200px',
               marginBottom: '20px',
             }}
           >
@@ -165,36 +167,34 @@ const CheckOut: React.FC = () => {
             />
           </Box>
           <Sheet
-        
-        sx={{ 
-          width: '100%',
-          borderRadius: 'sm',
-          flexShrink: 1,
-          height: '50vh',
-          overflow: 'auto',
-          '&::-webkit-scrollbar': {
-            width: '6px', 
-          },
-          '&::-webkit-scrollbar-track': {
-            background: '#f1f1f1', 
-          },
-          '&::-webkit-scrollbar-thumb': {
-            background: '#888', 
-            borderRadius: '10px', 
-          },
-          '&::-webkit-scrollbar-thumb:hover': {
-            background: '#555', 
-          },
-        }}
-      >
+            sx={{
+              width: '100%',
+              borderRadius: 'sm',
+              flexShrink: 1,
+              height: '50vh',
+              overflow: 'auto',
+              '&::-webkit-scrollbar': {
+                width: '6px',
+              },
+              '&::-webkit-scrollbar-track': {
+                background: '#f1f1f1',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                background: '#888',
+                borderRadius: '10px',
+              },
+              '&::-webkit-scrollbar-thumb:hover': {
+                background: '#555',
+              },
+            }}
+          >
             <Table
               aria-labelledby="tableTitle"
-          stickyHeader
-        
-          sx={{
-            fontSize: '15px',
-            border: '1px solid #f2f2f2',
-          }}
+              stickyHeader
+              sx={{
+                fontSize: '15px',
+                border: '1px solid #f2f2f2',
+              }}
             >
               <thead>
                 <tr>
@@ -209,7 +209,6 @@ const CheckOut: React.FC = () => {
                   </th>
                   <th
                     style={{
-                      
                       border: '1px solid #f2f2f2',
                       background: '#fff8e6',
                     }}
@@ -218,7 +217,6 @@ const CheckOut: React.FC = () => {
                   </th>
                   <th
                     style={{
-                      
                       border: '1px solid #f2f2f2',
                       background: '#fff8e6',
                     }}
@@ -243,7 +241,6 @@ const CheckOut: React.FC = () => {
                   </th>
                   <th
                     style={{
-                      
                       border: '1px solid #f2f2f2',
                       background: '#fff8e6',
                     }}
@@ -252,7 +249,6 @@ const CheckOut: React.FC = () => {
                   </th>
                   <th
                     style={{
-                      
                       border: '1px solid #f2f2f2',
                       background: '#fff8e6',
                     }}
@@ -261,7 +257,6 @@ const CheckOut: React.FC = () => {
                   </th>
                   <th
                     style={{
-                      
                       border: '1px solid #f2f2f2',
                       background: '#fff8e6',
                     }}
@@ -271,70 +266,61 @@ const CheckOut: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                 {filteredAssets.map((asset, index) => (
-                  <tr key={index}>
-                    <td
-                      style={{
-                        
-                        border: '1px solid #f2f2f2',
-                        
-                      }}
-                      color="#FFFFFF33"
-                    >
-                      <Checkbox
-                      size="sm"
-                        checked={selectedAssets.includes(asset.id)}
-                        onChange={() => handleCheckboxChange(asset.id)}
-                      />
-                    </td>
-                    <td
-                      style={{  border: '1px solid #f2f2f2' }}
-                      color="#4880FF"
-                    >
-                      {asset.assetTagId}
-                    </td>
-                    <td style={{  border: '1px solid #f2f2f2' }}>
-                      {asset.description}
-                    </td>
-                    <td style={{  border: '1px solid #f2f2f2' }}>
-                  <Chip
-          variant="soft"
-          size="sm"
-          color={statusColorMap[asset.status as keyof typeof statusColorMap] as 'success' | 'neutral'}
-        >
-          {asset.status}
-        </Chip>
-                </td>            
-                    <td style={{  border: '1px solid #f2f2f2' }}>
-                      {asset.assignedTo}
-                    </td>
-                    <td
-                      style={{  border: '1px solid #f2f2f2' }}
-                      color="#13B457"
-                    >
-                      {asset.site.name}
-                    </td>
-                    <td style={{  border: '1px solid #f2f2f2' }}>
-                      {asset.location.name}
-                    </td>
-                    <td style={{  border: '1px solid #f2f2f2' }}>
-                      {asset.leaseTo}
-                    </td>
-                  </tr>
-                ))} 
+                {assets &&
+                  assets.map((asset) => (
+                    <tr key={asset.id}>
+                      <td
+                        style={{
+                          border: '1px solid #f2f2f2',
+                        }}
+                      >
+                        <Checkbox
+                          size="sm"
+                          checked={selectedAssetIds.includes(asset.id)}
+                          onChange={() => handleCheckboxChange(asset.id)}
+                        />
+                      </td>
+                      <td style={{ border: '1px solid #f2f2f2' }}>
+                        {asset.assetTagId}
+                      </td>
+                      <td style={{ border: '1px solid #f2f2f2' }}>
+                        {asset.description}
+                      </td>
+                      <td style={{ border: '1px solid #f2f2f2' }}>
+                        <Chip
+                          variant="soft"
+                          size="sm"
+                          color={
+                            statusColorMap[
+                              asset.status as keyof typeof statusColorMap
+                            ] as 'success' | 'neutral'
+                          }
+                        >
+                          {asset.status}
+                        </Chip>
+                      </td>
+                      <td style={{ border: '1px solid #f2f2f2' }}>
+                        {asset.assignedTo}
+                      </td>
+                      <td style={{ border: '1px solid #f2f2f2' }}>
+                        {asset.site.name}
+                      </td>
+                      <td style={{ border: '1px solid #f2f2f2' }}>
+                        {asset.location.name}
+                      </td>
+                      <td style={{ border: '1px solid #f2f2f2' }}>
+                        {asset.leaseTo}
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </Table>
           </Sheet>
           <Box sx={{ display: 'flex', mt: 2, justifyContent: 'flex-end' }}>
-            <AppButton
-            
-              onClick={handleClose}
-            
-              size='sm'
-            >
+            <AppButton onClick={() => setOpen(false)} size="sm">
               Cancel
             </AppButton>
-            <AppButton onClick={handleAddToList} size='sm'>
+            <AppButton onClick={handleAddToList} size="sm">
               Add to List
             </AppButton>
           </Box>

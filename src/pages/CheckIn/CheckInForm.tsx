@@ -8,14 +8,14 @@ interface CheckInFormProps {
 
 const CheckInForm: React.FC<CheckInFormProps> = ({ selectedAssets }) => {
   const [formData, setFormData] = useState({
-    check_in_from: 'person',
-    check_in_date: '',
-    send_email: false,
-    email_address: '',
-    check_in_site: '',
-    check_in_location: '',
-    check_in_department: '',
-    check_in_notes: ''
+    checkInFrom: 'person',
+    returnDate: '',
+    sendEmail: false,
+    emailAddress: '',
+    checkInSiteId: '',
+    checkInLocationId: '',
+    checkInDepartmentId: '',
+    CheckInNotes: ''
   });
 
   const handleFormSubmit = () => {
@@ -103,7 +103,7 @@ const CheckInForm: React.FC<CheckInFormProps> = ({ selectedAssets }) => {
           <FormLabel>Check-in from:</FormLabel>
           </Box>
           <RadioGroup
-           name="check_in_from"
+           name="checkInFrom"
            defaultValue="person"
             sx={{ display: "flex", alignItems:'center' }}
              onChange={handleChange}
@@ -117,16 +117,16 @@ const CheckInForm: React.FC<CheckInFormProps> = ({ selectedAssets }) => {
 
         <FormControl>
           <FormLabel>Return Date</FormLabel>
-          <Input name="check_in_date" type="date"  required   onChange={(e) =>
-                setFormData({ ...formData, check_in_date: e.target.value })
+          <Input name="returnDate" type="date"  required   onChange={(e) =>
+                setFormData({ ...formData, returnDate: e.target.value })
               } />
         </FormControl>
 
         <Box mt={2} sx={{ display: 'flex', alignItems: 'center' }}>
-          <Checkbox name="send_email" label="Send Email" sx={{ marginRight: 2 }} onChange={handleChange} />
+          <Checkbox name="sendEmail" label="Send Email" sx={{ marginRight: 2 }} onChange={handleChange} />
           <FormControl>
             {/* <FormLabel>Email Address</FormLabel> */}
-            <Input name="email_address" placeholder="Enter Email Address" fullWidth onChange={handleChange} />
+            <Input name="emailAddress" placeholder="Enter Email Address" fullWidth onChange={handleChange} />
           </FormControl>
         </Box>
         </Box>
@@ -135,10 +135,10 @@ const CheckInForm: React.FC<CheckInFormProps> = ({ selectedAssets }) => {
           <FormControl>
             <FormLabel>Site</FormLabel>
             <Select
-             name="check_in_site"
+             name="checkInSiteId"
              placeholder="Select Site"
-             value={formData.check_in_site}
-             onChange={(event, newValue) => handleSelectChange('check_in_site', newValue as string)}
+             value={formData.checkInSiteId}
+             onChange={(event, newValue) => handleSelectChange('checkInSiteId', newValue as string)}
              >
              <Option value="site1">Site 1</Option>
               <Option value="site2">Site 2</Option>
@@ -147,10 +147,10 @@ const CheckInForm: React.FC<CheckInFormProps> = ({ selectedAssets }) => {
           <FormControl>
             <FormLabel>Location</FormLabel>
             <Select 
-            name="check_in_location"
+            name="checkInLocationId"
             placeholder="Select Location"
-            value={formData.check_in_location}
-            onChange={(event, newValue) => handleSelectChange('check_in_location', newValue as string)}
+            value={formData.checkInLocationId}
+            onChange={(event, newValue) => handleSelectChange('checkInLocationId', newValue as string)}
             >
               <Option value="location1">Location 1</Option>
               <Option value="location2">Location 2</Option>
@@ -159,10 +159,10 @@ const CheckInForm: React.FC<CheckInFormProps> = ({ selectedAssets }) => {
           <FormControl>
             <FormLabel>Department</FormLabel>
             <Select
-              name="check_in_department"
+              name="checkInDepartmentId"
               placeholder="Select Department"
-              value={formData.check_in_department}
-              onChange={(event, newValue) => handleSelectChange('check_in_department', newValue as string)}
+              value={formData.checkInDepartmentId}
+              onChange={(event, newValue) => handleSelectChange('checkInDepartmentId', newValue as string)}
             >
               <Option value="department1">Department 1</Option>
               <Option value="department2">Department 2</Option>
@@ -173,7 +173,7 @@ const CheckInForm: React.FC<CheckInFormProps> = ({ selectedAssets }) => {
         <Box mt={4}>
           <FormControl>
             <FormLabel>Check-in Notes</FormLabel>
-            <Textarea name="check_in_notes" placeholder="Check-in Notes" minRows={4} onChange={handleChange} />
+            <Textarea name="checkInNotes" placeholder="Check-in Notes" minRows={4} onChange={handleChange} />
           </FormControl>
         </Box>
 

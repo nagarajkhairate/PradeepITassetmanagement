@@ -12,6 +12,9 @@ import {
   RadioGroup,
   Textarea,
   FormLabel,
+  FormControl,
+  Grid,
+  Chip,
 } from '@mui/joy'
 import AppView from '../../components/Common/AppView'
 import AppForm from '../../components/Common/AppForm'
@@ -20,68 +23,177 @@ import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../redux/store'
 import { useDispatch } from 'react-redux'
 import { checkOutConfig } from './checkOutConfig'
+import SiteComponent from '../../components/AssetSections/SiteComponent'
+import LocationComponent from '../../components/AssetSections/LocationComponent'
+import DepartmentComponent from '../../components/AssetSections/DepartmentComponent'
+import SelectOption from '../../components/AssetSections/SelectOption'
+import AddNewEmpployee from './AddNewEmpployee'
+import AddNewClient from './AddNewClient'
 
-// interface CheckOutFormProps {
-//   selectedAssets: {
-//     id: string;
-//     description: string;
-//     status: string;
-//     assignedTo: string;
-//     site: string;
-//     location: string;
-//     leaseTo: string;
-//   }[];
-// }
+interface CheckOutFormProps {
+  selectedAssets: any;
+}
 
-const CheckOutForm: React.FC = () => {
+const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
   const [open, setOpen] = useState(false)
-  const [checkOutTo, setCheckOutTo] = useState('person') // State to manage radio option
+  const [checkOutTo, setCheckOutTo] = useState('person')
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const [formData, setFormData] = useState({
-    id: '',
-    assignedTo: '',
-    checkoutTo: '',
-    checkOutDate: '',
-    dueDate: '',
-    checkOutSiteId: '',
-    checkOutLocationId: '',
-    checkOutDepartmentId: '',
-    checkOutNotes: '',
-    sendEmail: false,
-    emailAddress: '',
-  })
+  const [formData, setFormData] = useState<any>({})
 
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    await dispatch(addCheckOut(formData))
-    console.log(formData)
-  }
+  console.log(formData)
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | { name?: string; value: unknown }
-    >,
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    const { name, value, type, checked } = e.target as HTMLInputElement
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value,
-    })
+    const { name, value } = e.target
+    setFormData((prevData:any) => ({
+      ...prevData,
+      [name]: value,
+    }))
   }
 
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
-
-  const handleSelectChange = (name: string, newValue: string | null) => {
-    setFormData({
-      ...formData,
-      [name]: newValue || '',
-    })
+  const handleSelectChange = (
+    newValue: any,
+    title: string,
+  ) => {
+   
+    setFormData((prevData:any) => ({
+      ...prevData,
+      [title]: newValue,
+    }))
   }
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCheckOutTo(e.target.value) // Update radio option state
   }
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    
+    setFormData((prevData: any) => ({
+      ...prevData,
+      assetId:selectedAssets[0].id
+    }))
+    console.log(JSON.stringify(formData))
+    await dispatch(addCheckOut(formData))
+  }
+
+  const handleInputValue = (
+    field: any,
+    formData: any,
+    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+    handleSelectChange: (value: string | null, name: string) => void,
+    handleRadioChange:(e: React.ChangeEvent<HTMLInputElement>) => void,
+    mode?: string
+  ) => {
+    const commonProps = {
+      field,
+      formData,
+      handleChange,
+      handleSelectChange,
+      handleRadioChange,
+      mode,
+    };
+
+    switch (field.components.type) {
+      case "text":
+        return (
+          <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+              type={field.components.type}
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleChange}
+              sx={field.stylings}
+            />
+          </FormControl>
+        );
+      case "date":
+      case "number":
+        case "email":
+          return (
+            <FormControl>
+              <FormLabel>{field.fieldName}</FormLabel>
+              <Input
+              type={field.components.type}
+                name={field.name}
+                value={formData[field.name] as string}
+                onChange={handleChange}
+                sx={field.stylings}
+              />
+            </FormControl>
+          );
+          case "radio":
+          return (
+            <FormControl key={field.id}>
+              <FormLabel>{field.fieldName}</FormLabel>
+              <RadioGroup
+              type={field.components.type}
+                name={field.name}
+                value={formData[field.name] as string}
+                onChange={handleRadioChange}
+                sx={field.stylings}
+              >
+                <Radio value="person" label="Person" />
+                <Radio value="site" label="Site / Location" />
+              </RadioGroup>
+            </FormControl>
+          );
+      case "textarea":
+        return (
+          <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <textarea
+              type={field.components.type}
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleChange}
+              sx={field.stylings}
+            />
+          </FormControl>
+        );
+
+        case "checkbox":
+      return (
+        <FormControl>
+          <FormLabel>{field.fieldName}</FormLabel>
+          <Checkbox
+          type={field.components.type}
+            name={field.name}
+            checked={formData[field.name] as boolean}
+            onChange={handleChange}
+            sx={field.stylings}
+          />
+        </FormControl>
+      );
+ 
+      case "select":
+        if (field.name === "checkOutSiteId") {
+          return <SiteComponent {...commonProps} />;
+        } else if (field.name === "checkOutLocationId") {
+          return <LocationComponent {...commonProps} />;
+        } else if (field.name === "checkOutDepartmentId") {
+          return <DepartmentComponent {...commonProps} />;
+        } 
+        else if (field.name === "assignedTo") {
+          return <AddNewEmpployee {...commonProps} />;
+        } 
+        else if (field.name === "clientId") {
+          return <AddNewClient {...commonProps} />;
+        } 
+        else {
+          return <SelectOption {...commonProps} />;
+        }
+      default:
+        return null;
+    }
+  };
+ 
+  const statusColorMap: Record<string, string> = {
+    Available: "success",
+    CheckedOut: "neutral",
+  };
 
   return (
     <AppForm onSubmit={handleFormSubmit}>
@@ -186,277 +298,62 @@ const CheckOutForm: React.FC = () => {
                 </th>
               </tr>
             </thead>
-            {/* 
+            
         <tbody>
-          {selectedAssets.map((asset) => (
+          {selectedAssets && selectedAssets.map((asset: any) => (
             <tr key={asset.id}>
               <td style={{ padding: "8px", border: "1px solid #f2f2f2" , width:"20px"}}><Checkbox /></td>
-              <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.id}</td>
+              <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.assetTagId}</td>
               <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.description}</td>
-              <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.status}</td>
+              <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>
+                  <Chip
+          variant="soft"
+          size="sm"
+          color={statusColorMap[asset.status as keyof typeof statusColorMap] as 'success' | 'neutral'}
+        >
+          {asset.status}
+        </Chip>
+                </td>
               <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.assignedTo}</td>
-              <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.site}</td>
-              <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.location}</td>
+              <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.site.name}</td>
+              <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.location.name}</td>
               <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.leaseTo}</td>
             </tr>
           ))}
-        </tbody> */}
+        </tbody>
           </Table>
         </Box>
 
-        {/* <Box mt={4}>
-        <Box
-          sx={{
-            display: "grid",
-            gap: 2,
-            gridTemplateColumns: { xs: "1fr", md: "repeat(2, 1fr)" },
-          }}
-        >
-          <Box sx={{ display: "flex" }}>
-            <FormLabel>Check-out Date:</FormLabel>
-            <Input 
-              placeholder="Check-out Date"
-              type="date" 
-              fullWidth 
-              onChange={(e) =>
-                setFormData({ ...formData, checkOutDate: e.target.value })
-              }
-            />
-          </Box>
-
-          <FormLabel>Optionally select Site, Location, Department of Asset to:</FormLabel>
-
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: { md: "row", xs: "column" },
-              alignItems: "center",
-              gap: 2,
-            }}
-          >
-            <Box>
-              <FormLabel>Check-out to:</FormLabel>
-            </Box>
-            <RadioGroup
-              name="checkout_to"
-              value={checkOutTo} // Use the state for radio group
-              sx={{ display: "flex", alignItems: "center" }}
-              onChange={handleRadioChange}
-            >
-              <Box>
-                <Radio value="person" label="Person" />
-                <Radio value="site" label="Site / Location" />
-              </Box>
-            </RadioGroup>
-          </Box>
-
-          {checkOutTo === "person" && (
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: { md: "row", xs: "column" },
-                alignItems: "center",
-                gap: 2,
-              }}
-            >
-              <FormLabel>Assigned to:</FormLabel>
-              <Select
-                name="assignedTo"
-                placeholder="Assign to"
-                sx={{ width: "80%" }}
-                value={formData.assignedTo}
-                onChange={(event, newValue) =>
-                  handleSelectChange('assignedTo', newValue as string)
-                }
-              >
-                <Option value="1">Person 1</Option>
-                <Option value="2">Person 2</Option>
-              </Select>
-            </Box>
-          )}
-
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: { md: "row", xs: "column" },
-              alignItems: "center",
-              gap: 2,
-            }}
-          >
-            <FormLabel>Site:</FormLabel>
-            <Select
-              name="checkOutSiteId"
-              placeholder="Site"
-              sx={{ ml: "60px", width: "80%" }}
-              value={formData.checkOutSiteId}
-              onChange={(event, newValue) =>
-                handleSelectChange('checkOutSiteId', newValue as string)
-              }
-            >
-              <Option value="1">Site 1</Option>
-              <Option value="2">Site 2</Option>
-            </Select>
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: { md: "row", xs: "column" },
-              alignItems: "center",
-              gap: 2,
-            }}
-          >
-            <FormLabel>Location:</FormLabel>
-            <Select
-              name="checkOutLocationId"
-              placeholder="Location"
-              sx={{ ml: "40px", width: "80%" }}
-              value={formData.checkOutLocationId}
-              onChange={(event, newValue) =>
-                handleSelectChange('checkOutLocationId', newValue as string)
-              }
-            >
-              <Option value="1">Location 1</Option>
-              <Option value="2">Location 2</Option>
-            </Select>
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: { md: "row", xs: "column" },
-              alignItems: "center",
-              gap: 2,
-            }}
-          >
-            <FormLabel>Department:</FormLabel>
-            <Select
-              name="checkOutDepartmentId"
-              placeholder="Department"
-              sx={{ ml: "20px", width: "80%" }}
-              value={formData.checkOutDepartmentId}
-              onChange={(event, newValue) =>
-                handleSelectChange('checkOutDepartmentId', newValue as string)
-              }
-            >
-              <Option value="1">Department 1</Option>
-              <Option value="2">Department 2</Option>
-            </Select>
-          </Box>
-
-          <Box sx={{ display: "flex" }}>
-            <FormLabel>Due Date:</FormLabel>
-            <Input 
-              placeholder="Due Date"
-              type="date" 
-              fullWidth 
-              onChange={(e) =>
-                setFormData({ ...formData, dueDate: e.target.value })
-              }
-            />
-          </Box>
-
-          <Textarea
-            placeholder="Check Out Notes"
-            minRows={3}
-            name="checkOutNotes"
-            value={formData.checkOutNotes}
-            onChange={handleChange}
-            sx={{ width: "100%" }}
-          />
-        </Box>
-
-        <Box sx={{ mt: 2 }}>
-          <Checkbox
-            label="Send email to assigned person"
-            name="sendEmail"
-            checked={formData.sendEmail}
-            onChange={handleChange}
-          />
-          {formData.sendEmail && (
-            <Input
-              placeholder="Email Address"
-              name="emailAddress"
-              value={formData.emailAddress}
-              onChange={handleChange}
-              sx={{ mt: 2, width: "100%" }}
-            />
-          )}
-        </Box>
-      </Box> */}
-
-        <Box mt={4}>
-          <Box
-            sx={{
-              display: 'grid',
-              gap: 2,
-              gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' },
-            }}
-          >
-            {checkOutConfig.map((field) => (
-              <Box key={field.id}>
-                <FormLabel>{field.fieldName}</FormLabel>
-                {field.components === 11 ? (
-                  <RadioGroup
-                    name={field.name}
-                    value={checkOutTo}
-                    onChange={handleRadioChange}
-                    sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}
-                  >
-                    <Radio value="person" label="Person" />
-                    <Radio value="site" label="Site / Location" />
-                  </RadioGroup>
-                ) : field.components === 5 ? (
-                  <Select
-                    name={field.name}
-                    placeholder={`Select ${field.fieldName}`}
-                    // value={formData[field.name]}
-                    onChange={(event, newValue) =>
-                      handleSelectChange(field.name, newValue as string)
-                    }
-                    sx={{ width: '100%' }}
-                  >
-                    <Option value="1">Option 1</Option>
-                    <Option value="2">Option 2</Option>
-                  </Select>
-                ) : field.components === 13 ? (
-                  <Textarea
-                    name={field.name}
-                    placeholder={`Enter ${field.fieldName}`}
-                    minRows={3}
-                    // value={formData[field.name]}
-                    onChange={handleChange}
-                    sx={{ width: '100%' }}
-                  />
-                ) : field.components === 1 ? (
-                  <Checkbox
-                    name={field.name}
-                    // checked={formData[field.name] as boolean}
-                    onChange={handleChange}
-                    label={field.fieldName}
-                  />
-                ) : (
-                  <Input
-                    type={
-                      field.name === 'checkOutDate' || field.name === 'dueDate'
-                        ? 'date'
-                        : 'text'
-                    }
-                    name={field.name}
-                    placeholder={`Enter ${field.fieldName}`}
-                    // value={formData[field.name]}
-                    onChange={handleChange}
-                    sx={{ width: '100%' }}
-                  />
-                )}
-              </Box>
-            ))}
+<AppView>
+<Box mt={2}>
+  <Box
+    sx={{
+      display: 'grid',
+      gap: 2,
+      gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' },
+    }}
+  >
+    {checkOutConfig && checkOutConfig.map((field , index) => (
+      <FormControl key={index}>
+       <Grid key={index}>
+        {handleInputValue(
+          field,
+          formData,
+          handleChange,
+          handleSelectChange,
+          handleRadioChange
+        )}
+        </Grid>
+      </FormControl>
+    ))}
           </Box>
         </Box>
-
-        <Box mt={4}>
+        <Box mt={2}>
           <Button type="submit">Check Out</Button>
         </Box>
+        </AppView>
+
+       
       </Box>
     </AppForm>
   )

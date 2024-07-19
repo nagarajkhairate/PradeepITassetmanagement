@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import AssetsReducer from "./features/AssetSlice"
 import transactionsReducer from "./features/TransactionSlice"; // Ensure this matches the file name's casing
-import addEmployeesReducer from "./features/EmployeeSlice";
-import clientReducer from "./features/ClientSlice"; // Ensure this matches the file name's casing
+import addEmployeeReducer from "./features/EmployeeSlice"
+import addClientReducer from "./features/ClientSlice"
 import appStateReducer from "./features/StateSlice";
 import darkModeReducer from "./features/DarkModeSlice";
 import locationReducer from './features/LocationSlice';
@@ -38,8 +38,8 @@ export const store = configureStore({
     appState: appStateReducer,
     assets: AssetsReducer,
     transactions: transactionsReducer,
-    employees: addEmployeesReducer,
-    client: clientReducer,
+    addEmployee: addEmployeeReducer,
+    addClient: addClientReducer,
     location: locationReducer,
     mode: darkModeReducer,
     category: categoryReducer,
@@ -50,7 +50,7 @@ export const store = configureStore({
     companyInfo: companyInfoReducer,
     tableOptions: TableOptionsReducer,
     login: AuthReducer,
-    createAccount: AccountReducer,
+    tenant: AccountReducer,
     tabs: TabsReducer,
     components: componentsReducer,
     assetFieldMapping:AssetFieldMappingReducer,

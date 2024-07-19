@@ -1,14 +1,16 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 interface addEmployee{
   data:any[];
+  selectedEmployee: any | null;
   loading:boolean;
   error:string|null;
 }
 
 const initialState:addEmployee={
   data:[],
+  selectedEmployee: null,
   loading:false,
   error:null,
 }
@@ -16,19 +18,19 @@ const initialState:addEmployee={
 const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
 const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;  
 
-export const fetch_employee = createAsyncThunk('addEmployee/fetch_employee',async()=>{
-  const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employees`)
+export const fetchEmployee = createAsyncThunk('addEmployee/fetchEmployee',async()=>{
+  const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee`)
   return response.data
 })
 
-export const update_employee = createAsyncThunk('addEmployee/update_employee',async()=>{
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employees`)
+export const updateEmployee = createAsyncThunk('addEmployee/updateEmployee',async()=>{
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee`)
   return response.data
 })
 
-export const post_add_Employee = createAsyncThunk('addEmployee/post_addEmployee', async (PostData) => {
+export const addEmployee = createAsyncThunk('addEmployee/addEmployee', async (addemp:any) => {
   try {
-    const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employees`, PostData);
+    const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee`, addemp);
     console.log('ResponsePost:', response.data);
     return response.data;
   } catch (error) {
@@ -38,33 +40,39 @@ export const post_add_Employee = createAsyncThunk('addEmployee/post_addEmployee'
 });
 
 export const addEmployeeSlice = createSlice({
-  name:"addEmployees",
+  name:"addEmployee",
   initialState,
-  reducers: {
+  reducers:  {
+    setSelectedCustomer: (state, action: PayloadAction<number>) => {
+      const  addEmployee = state.data.find((u) => u.id === action.payload);
+      state.selectedEmployee = addEmployee || null;
+    },
   },
   extraReducers:(builder)=>{
-    builder.addCase(fetch_employee.pending,(state)=>{
+    builder.addCase(fetchEmployee.pending,(state)=>{
       state.loading = true;
       state.error = ''
     })
-    builder.addCase(fetch_employee.fulfilled,(state,action)=>{
+    builder.addCase(fetchEmployee.fulfilled,(state,action)=>{
       state.loading = false;
       state.error = ''
       state.data = action.payload
     })
-    builder.addCase(fetch_employee.rejected,(state, action)=>{
+    builder.addCase(fetchEmployee.rejected,(state, action)=>{
       state.loading = false;
       state.error = ''
       state.data = []
     })
-    builder.addCase(post_add_Employee.fulfilled,(state,action)=>{
+    builder.addCase(addEmployee.fulfilled,(state,action)=>{
       state.data.push(action.payload)
     })
-    builder.addCase(update_employee.fulfilled,(state,action)=>{
+    builder.addCase(updateEmployee.fulfilled,(state,action)=>{
       state.loading = false;
       state.error = ''
       state.data = action.payload
     })
   }
 })
+
+export const { setSelectedCustomer } = addEmployeeSlice.actions;
 export default addEmployeeSlice.reducer
