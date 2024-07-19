@@ -1,27 +1,24 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { useState } from "react";
 import { Box, Typography, Button, Divider, Input, Textarea, Modal, IconButton, Option, ButtonGroup, Select, FormControl, FormLabel, Checkbox, RadioGroup, Grid } from "@mui/joy";
 import CloseIcon from '@mui/icons-material/Close';
 import { RootState } from "../../redux/store";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
-import { addEmployee} from "../../redux/features/EmployeeSlice";
 import AppForm from "../../components/Common/AppForm";
-import { EmpConfig, FieldConfig } from "./EmpCofig";
 import SiteComponent from "../../components/AssetSections/SiteComponent";
-import LocationComponent from "../../components/AssetSections/LocationComponent";
-import DepartmentComponent from "../../components/AssetSections/DepartmentComponent";
 import SelectOption from "../../components/AssetSections/SelectOption";
 import { ClientConfig } from "./ClientConfig";
 import { addClient } from "../../redux/features/ClientSlice";
+import IndustryComponent from "./IndustryComponent";
 
 interface AddClientProps {
   open: boolean;
-  onClose: any;
-  onAddClient: any;
+  onClose: () => void;
+  onAddClient: (name: string) => void;
 }
 
-const AddClient: FunctionComponent<AddClientProps> = ({ open, onClose, onAddClient}) => {
-  const [employee, setClient] = useState<any>({});
+const AddClient: React.FC<AddClientProps> = ({ open, onClose, onAddClient}) => {
+  const [client, setClient] = useState<any>({});
   const [formData, setFormData] = useState<any>({})
   // const [errors, setErrors] = useState<EmployeeErrors>({});
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
@@ -70,7 +67,7 @@ const AddClient: FunctionComponent<AddClientProps> = ({ open, onClose, onAddClie
               name={field.name}
               value={formData[field.name] as string}
               onChange={handleChange}
-              sx={field.stylings}
+
             />
           </FormControl>
         );
@@ -93,9 +90,16 @@ const AddClient: FunctionComponent<AddClientProps> = ({ open, onClose, onAddClie
       case "checkbox":
 
       case "select":
-            return <SelectOption {...commonProps} />
-
-  };
+        if (field.name === "checkOutSiteId") {
+          return <SiteComponent {...commonProps} />;
+        } else if (field.name === "industry") {
+          return <IndustryComponent {...commonProps} />;
+        } 
+        else {
+          return <SelectOption {...commonProps} />
+        }
+  }    
+    } 
   // const validateForm = (): boolean => {
   //   let tempErrors: EmployeeErrors = {};
   //   let isValid = true;
@@ -127,12 +131,13 @@ const AddClient: FunctionComponent<AddClientProps> = ({ open, onClose, onAddClie
         left: "50%",
         transform: "translate(-50%, -50%)",
         width: 500,
+        maxHeight: '80vh',
         borderRadius: 1,
         bgcolor:'#fff',
         p: 4,
-        maxHeight: "80vh",
         display: "flex",
         flexDirection: "column",
+        overflowY: "scroll"
       }}
       >
     <AppForm onSubmit={handleAdd}>
@@ -154,20 +159,23 @@ const AddClient: FunctionComponent<AddClientProps> = ({ open, onClose, onAddClie
           </Box>
         </Typography>
         <Divider></Divider>
-        <Box>
-        {ClientConfig && ClientConfig.map((field , index) => (
-      <FormControl key={index}>
-       <Grid key={index}>
-        {handleInputValue(
-          field,
-          formData,
-          handleChange,
-          handleSelectChange,
-        )}
-        </Grid>
-      </FormControl>
-    ))}
-          </Box>
+       
+          <Grid container spacing={1}>
+          {ClientConfig && ClientConfig.map((field , index) => (
+
+<Grid key={index} xs={12} sm={12} md={12} lg={12}>
+ {handleInputValue(
+   field,
+   formData,
+   handleChange,
+   handleSelectChange,
+ )}
+ </Grid>
+
+))}
+          </Grid>
+        
+      
 
         <ButtonGroup sx={{border:"1px solid #E0E1E3"}}>
           <Button
@@ -202,7 +210,5 @@ const AddClient: FunctionComponent<AddClientProps> = ({ open, onClose, onAddClie
       </Box>
       </Modal>
   );
-};
 }
-
 export default AddClient;

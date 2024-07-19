@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Box,
   Typography,
@@ -18,10 +18,10 @@ import {
 } from '@mui/joy'
 import AppView from '../../components/Common/AppView'
 import AppForm from '../../components/Common/AppForm'
-import { addCheckOut } from '../../redux/features/CheckOutSlice'
+import { addCheckOut, fetchCheckOut } from '../../redux/features/CheckOutSlice'
 import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../redux/store'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { checkOutConfig } from './checkOutConfig'
 import SiteComponent from '../../components/AssetSections/SiteComponent'
 import LocationComponent from '../../components/AssetSections/LocationComponent'
@@ -39,8 +39,11 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
   const [checkOutTo, setCheckOutTo] = useState('person')
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [formData, setFormData] = useState<any>({})
+  const checkOut = useSelector((state: RootState) => state.checkOut.data);
 
-  console.log(formData)
+  useEffect(() => {
+    dispatch(fetchCheckOut());
+  }, [dispatch]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -63,20 +66,33 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
     }))
   }
 
-  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCheckOutTo(e.target.value) // Update radio option state
-  }
+   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    
-    setFormData((prevData: any) => ({
+  const handleAssignAssetId = ()=>{
+     setFormData((prevData: any) => ({
       ...prevData,
       assetId:selectedAssets[0].id
     }))
-    console.log(JSON.stringify(formData))
-    await dispatch(addCheckOut(formData))
   }
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    await handleAssignAssetId()
+    
+    console.log(JSON.stringify(formData))
+    // await dispatch(addCheckOut(formData))
+  }
+
+  const radioOptions = [
+    { value: "person", label: "Person" },
+    { value: "site", label: "Site / Location" },
+  ];
 
   const handleInputValue = (
     field: any,
@@ -126,7 +142,7 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
           );
           case "radio":
           return (
-            <FormControl key={field.id}>
+            <FormControl>
               <FormLabel>{field.fieldName}</FormLabel>
               <RadioGroup
               type={field.components.type}
@@ -135,8 +151,9 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
                 onChange={handleRadioChange}
                 sx={field.stylings}
               >
-                <Radio value="person" label="Person" />
-                <Radio value="site" label="Site / Location" />
+                   {radioOptions.map((option) => (
+              <Radio key={option.value} value={option.value} label={option.label} />
+            ))}
               </RadioGroup>
             </FormControl>
           );
@@ -189,7 +206,13 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
         return null;
     }
   };
- 
+
+  const getAssignTo = (id:any) => {
+    const assignment = checkOut && checkOut.find(assign => assign.assetId === id);
+    console.log(assignment)
+    return assignment ? assignment.assignedTo : null;
+  };
+  
   const statusColorMap: Record<string, string> = {
     Available: "success",
     CheckedOut: "neutral",
@@ -314,7 +337,8 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
           {asset.status}
         </Chip>
                 </td>
-              <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.assignedTo}</td>
+              
+              <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{getAssignTo(asset.id)}</td>
               <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.site.name}</td>
               <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.location.name}</td>
               <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.leaseTo}</td>
@@ -353,7 +377,6 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
         </Box>
         </AppView>
 
-       
       </Box>
     </AppForm>
   )
