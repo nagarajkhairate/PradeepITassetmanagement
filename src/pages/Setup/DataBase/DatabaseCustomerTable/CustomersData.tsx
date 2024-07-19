@@ -3,7 +3,7 @@ export const Customers = [
       id: 1,
       fieldName: 'Full Name',
       value: 'fullName',
-      isVisible: 'visible',
+      visible: 'visible',
       isRequired: true,
       description: 'Full name of the customer',
       example: 'John Doe',
@@ -18,7 +18,7 @@ export const Customers = [
       id: 2,
       fieldName: 'Email',
       value: 'email',
-      isVisible: 'visible',
+      visible: 'visible',
       isRequired: false,
       description: 'Email of the customer',
       example: 'johndoe@example.com',
@@ -37,7 +37,7 @@ export const Customers = [
       id: 3,
       fieldName: 'Company',
       value: 'company',
-      isVisible: 'visible',
+      visible: 'visible',
       isRequired: false,
       description: 'Customers company name',
       example: 'Jane Doe Company',
@@ -56,7 +56,7 @@ export const Customers = [
       id: 4,
       fieldName: 'Address',
       value: 'address',
-      isVisible: 'visible',
+      visible: 'visible',
       isRequired: false,
       description: ' All address fields of the customer',
       example: ' ---',
@@ -75,7 +75,7 @@ export const Customers = [
       id: 5,
       fieldName: 'Phone',
       value: 'phone',
-      isVisible: 'visible',
+      visible: 'visible',
       isRequired: false,
       description: 'Phone number of the customer',
       example: '(555) 123-4567',
@@ -94,7 +94,7 @@ export const Customers = [
       id: 6,
       fieldName: 'Mobile Phone',
       value: 'mobilePhone',
-      isVisible: 'visible',
+      visible: 'visible',
       isRequired: false,
       description: 'Mobile Cell of the customer',
       example: '	(123) 456-7890',
@@ -113,7 +113,7 @@ export const Customers = [
       id: 7,
       fieldName: 'Notes',
       value: 'notes',
-      isVisible: 'visible',
+      visible: 'visible',
       isRequired: false,
       description: 'Text area for notes',
       example: 'Leases equipment for 12 months.',
@@ -131,53 +131,55 @@ export const Customers = [
     
   ]
 
+  
+
   export const customerData = [
     {
-      isVisible: true,
+      visible: true,
       fieldName: 'Full Name',
-      name: 'fullName',
+      value: 'fullName',
       description: 'string',
       isRequired: 'yes',
     },
     {
         visible: true,
         fieldName: "Email",
-        name: "email",
+        value: "email",
         isRequired: 'optional',
         description: "string",
     },
     {
         visible: true,
         fieldName: "Company",
-        name: "company",
+        value: "company",
         isRequired: 'optional',
         description: "string",
     },
     {
         visible: true,
         fieldName: "Address",
-        name: "address",
+        value: "address",
         isRequired: 'optional',
         description: "string",
     },
     {
         visible: true,
         fieldName: "Phone",
-        name: "phone",
+        value: "phone",
         isRequired: 'optional',
         description: "string",
     },
     {
         visible: true,
         fieldName: "Mobile Phone",
-        name: "mobilePhone",
+        value: "mobilePhone",
         isRequired: 'optional',
         description: "string",
     },
     {
         visible: true,
         fieldName: "Notes",
-        name: "notes",
+        value: "notes",
         isRequired: 'optional',
         description: "string",
     },
@@ -188,10 +190,10 @@ export const Customers = [
  
 export const customCustomer =[
     {
-      fieldName: 'fieldName',
-      name:'name',
-      componentsId: 1,
-      isRequired: 'isRequired',
+      fieldName: 'Full Name',
+      value:'value',
+      componentsId: '',
+      isRequired: 'yes',
       
     },
     ]
@@ -199,9 +201,9 @@ export const customCustomer =[
    
     export const BackendData=[
        {
-      fieldName: 'full Name',
-      name:'fullName',
-      componentsId: 1,
+      fieldName: 'Full Name',
+      value:'fullName',
+      componentsId: '',
       isRequired: 'yes'
     }
     ]

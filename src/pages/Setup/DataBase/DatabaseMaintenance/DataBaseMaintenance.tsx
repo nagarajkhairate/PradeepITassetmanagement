@@ -14,11 +14,24 @@ import { customMaintenance, Maintenance, maintenanceData } from './MaintenanceDa
 import AddIcon from '@mui/icons-material/Add'
 import AddDialogMaintenance from './AddDialogMaintenance'
 import MaintenanceFieldsAddingTable from './MaintennaceFieldsAddingTable'
+import { fetchMaintenanceDatabase } from '../../../../redux/features/MaintenanceDatabaseSlice'
+import { fetchMaintenanceCustomDatabase } from '../../../../redux/features/MaintenanceCustomDatabaseSlice'
 
 const DatabaseMaintenance: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
 
+  const maintenanceDatabase = useSelector((state: RootState) => state.maintenanceDatabase.data)
+  const maintenanceCustomDatabase = useSelector((state: RootState) => state.maintenanceCustomDatabase.data)
+
+  React.useEffect(() => {
+    dispatch(fetchMaintenanceDatabase())
+  }, [])
+
+
+  React.useEffect(() => {
+    dispatch(fetchMaintenanceCustomDatabase())
+  }, [])
 
  const [openAddMaintenance, setOpenAddMaintenance] = useState(false);
   const [maintenanceDataBases, setMaintenanceDataBases] = useState(maintenanceData)
@@ -191,7 +204,7 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                           whiteSpace: 'normal',
                         }}
                       >
-                        {data.isVisible && (
+                        {data.visible && (
                           <FormControl>
                             <RadioGroup
                               value={opt.isRequired ? 'yes' : 'optional'}
@@ -310,7 +323,7 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
           )}
 
           <Divider sx={{ my: 2 }} />
-          <MaintenanceFieldsAddingTable maintenanceDataBases={customMaintenance} />
+          <MaintenanceFieldsAddingTable maintenanceDataBases={maintenanceCustomDatabase} />
         </Box>
 
         {/* <Box>

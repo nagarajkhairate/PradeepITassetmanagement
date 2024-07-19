@@ -1,8 +1,11 @@
 import { Box, Button, FormControl, FormLabel, Input, Modal, Option, Radio, RadioGroup, Select, Sheet, Typography } from "@mui/joy"
 import AppForm from "../../../../components/Common/AppForm"
-import { ChangeEvent, useState } from "react"
-import { useSelector } from "react-redux";
+import React, { ChangeEvent, useState } from "react"
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
+import { fetchComponents } from "../../../../redux/features/ComponentsIdSlice";
+import { ThunkDispatch } from "redux-thunk";
+import { updateEmpCustomDatabase } from "../../../../redux/features/EmpCustomDatabseSlice";
 
 interface EditModalProps {
   
@@ -15,11 +18,18 @@ interface EditModalProps {
 
     open, setOpen, selectedItem 
   }) => {
+    const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
     const components = useSelector((state: RootState) => state.components.data);
-    const [formData, setFormData] = useState({});
+
+    React.useEffect(() => {
+      dispatch(fetchComponents())
+    }, [dispatch])
+
+
+    const [formData, setFormData] = useState(selectedItem);
     const handleSelectChange = (event: React.SyntheticEvent | null, newValue: string | null) => {
-      setFormData((prevData) => ({
+      setFormData((prevData:any) => ({
         ...prevData,
         componentsId: newValue || "",
       }));
@@ -27,12 +37,14 @@ interface EditModalProps {
   
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       const { name, value } = e.target;
-      setFormData((prevData) => ({ ...prevData, [name]: value }));
+      setFormData((prevData:any) => ({ ...prevData, [name]: value }));
     };
   
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       setOpen(false);
+      dispatch(updateEmpCustomDatabase(formData))
+      console.log(formData)
     };
 
     
@@ -75,7 +87,7 @@ return(
       variant="outlined"
       type="text"
       name="fieldName"
-      // value={formData.fieldName}
+      value={formData.fieldName}
       onChange={handleChange}
       onInput={(e) => {
         const target = e.target as HTMLInputElement;
@@ -94,13 +106,13 @@ return(
                 placeholder="Select Data Types"
                 sx={{  marginLeft: '40px' }}
                 name="componentsId"
-                // value={formData.componentsId}
+                value={formData.componentsId}
                 onChange={handleSelectChange}
               >
                 {components &&
                   components.map((comp) => (
                     <Option key={comp.id} value={comp.id}>
-                      {comp.compName}
+                      {comp.title}
                     </Option>
                   ))}
               </Select>
@@ -117,7 +129,7 @@ return(
             <FormLabel sx={{ paddingTop: '20px' }}>Data Required:</FormLabel>
             <RadioGroup
               name="isRequired"
-              // value={formData.isRequired}
+              value={formData.isRequired}
               onChange={handleChange}
               sx={{ marginLeft: '20px' }}
             >

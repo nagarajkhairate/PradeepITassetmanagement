@@ -3,12 +3,15 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { useState } from "react"
 import EditModalDatabaseMaintenance from "./EditModelDatabaseMaintenance"
+import { useSelector } from "react-redux"
+import { RootState } from "../../../../redux/store"
 
 interface CustomerTableProps {
     maintenanceDataBases: any[]
   }
 
   const MaintenanceFieldsAddingTable: React.FC<CustomerTableProps> = ({maintenanceDataBases}) => {
+    const components = useSelector((state: RootState) => state.components.data)
 
     const [openAddMaintenance, setOpenAddMaintenance] = useState(false)
     const [selectedItem, setSelectedItem] = useState(null)
@@ -73,7 +76,7 @@ interface CustomerTableProps {
                 >
                   {item.fieldName}
                 </td>
-                <td>{item.componentsId}</td>
+                <td>{components.find((component) => component.id === item.componentsId)?.type || ''}</td>
                 <td>{item.isRequired}</td>
                 <td>
                   <Button

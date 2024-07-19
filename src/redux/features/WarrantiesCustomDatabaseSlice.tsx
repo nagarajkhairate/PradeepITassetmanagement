@@ -16,13 +16,13 @@ import axios from 'axios';
     error: null,
   };
  
-const REACT_APP_BASE_API_KEY = process.env.BASE_API_KEY;
-const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
+  const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
+  const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;  
 
  
 export const fetchWarrantiesCustomDatabase = createAsyncThunk('warrantiesCustomDatabase/fetchWarrantiesCustomDatabase', async () => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-employee-persons`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/warrenties`);
   return response.data;
    
   } catch (error) {
@@ -33,7 +33,7 @@ export const fetchWarrantiesCustomDatabase = createAsyncThunk('warrantiesCustomD
 
 export const fetchWarrantiesCustomDatabaseById = createAsyncThunk('warrantiesCustomDatabase/fetchWarrantiesCustomDatabaseById', async (id: string ) => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-employee-persons/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/warrenties/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -43,20 +43,20 @@ export const fetchWarrantiesCustomDatabaseById = createAsyncThunk('warrantiesCus
 });
  
 export const addWarrantiesCustomDatabase = createAsyncThunk('warrantiesCustomDatabase/addWarrantiesCustomDatabase', async (warrantiesCustomDatabase: any) => {
- const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-employee-persons`, warrantiesCustomDatabase);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/warrenties`, warrantiesCustomDatabase);
  console.log(response)
   return response.data;
 });
  
 export const updateWarrantiesCustomDatabase = createAsyncThunk('warrantiesCustomDatabase/updateWarrantiesCustomDatabase', async (updatedWarrantiesCustomDatabase: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-employee-persons/${updatedWarrantiesCustomDatabase.id}`, updatedWarrantiesCustomDatabase);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/warrenties/${updatedWarrantiesCustomDatabase.id}`, updatedWarrantiesCustomDatabase);
   
   return response.data;
 });
  
 export const deleteWarrantiesCustomDatabase = createAsyncThunk('warrantiesCustomDatabase/deleteWarrantiesCustomDatabase', async (id: number) => {
-  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-employee-persons/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/warrenties/${id}`);
   return id;
 });
 

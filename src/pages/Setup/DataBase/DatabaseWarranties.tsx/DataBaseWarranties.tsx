@@ -14,10 +14,24 @@ import {warranties, customWarranties, warrantyData} from './WarrantiesData'
 import AddIcon from '@mui/icons-material/Add'
 import AddWarrantiesData from './AddWarrantiesData'
 import WarrantyFieldsAddingTable from './WarrantyFieldsAddingTable'
+import { fetchWarrantiesCustomDatabase } from '../../../../redux/features/WarrantiesCustomDatabaseSlice'
+import { fetchWarrantiesDatabase } from '../../../../redux/features/WarrantiesDatabaseSlice'
 
 const DatabaseWarranties: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
+
+  const warrantiesDatabase = useSelector((state: RootState) => state.warrantiesDatabase.data)
+  const warrantiesCustomDatabase = useSelector((state: RootState) => state.warrantiesCustomDatabase.data)
+
+  React.useEffect(() => {
+    dispatch(fetchWarrantiesDatabase())
+  }, [])
+
+
+  React.useEffect(() => {
+    dispatch(fetchWarrantiesCustomDatabase())
+  }, [])
 
   const [openAddWarranties, setOpenAddWarranties] = useState(false);
   const [warrantyDataBases, setWarrantyDataBases] = useState(warrantyData)
@@ -170,7 +184,7 @@ const DatabaseWarranties: React.FunctionComponent = () => {
                           whiteSpace: 'normal',
                         }}
                       >
-                        {data.isVisible && (
+                        {data.visible && (
                           <FormControl>
                             <RadioGroup
                               value={opt.isRequired ? 'yes' : 'optional'}
@@ -291,7 +305,7 @@ const DatabaseWarranties: React.FunctionComponent = () => {
           )}
 
           <Divider sx={{ my: 2 }} />
-          <WarrantyFieldsAddingTable warrantyDataBases={customWarranties} />
+          <WarrantyFieldsAddingTable warrantyDataBases={warrantiesCustomDatabase} />
         </Box>
 
         {/* <Box>

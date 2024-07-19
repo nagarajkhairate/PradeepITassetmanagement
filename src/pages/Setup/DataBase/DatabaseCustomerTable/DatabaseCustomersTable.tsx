@@ -11,24 +11,32 @@ import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
-import {Customers, customerData,customCustomer } from './CustomersData'
+import { Customers, customerData, customCustomer } from './CustomersData'
 import AddDialogCustomer from './AddDialogCustomer'
 import AddIcon from '@mui/icons-material/Add'
 import CustomerFieldsAddingTable from './CustomerFieldsAddingTable'
-
+import {
+  fetchCustomerDatabase,
+  updateCustomerDatabase,
+} from '../../../../redux/features/CustomerDatabaseSlice'
+import { fetchCustomerCustomDatabase } from '../../../../redux/features/CustomerCustomDatabaseSlice'
 
 const DatabaseCustomersTable: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
 
-  const dataBase = useSelector((state: RootState) => state.dataBase.data)
-  console.log(dataBase)
+  const customerDatabase = useSelector((state: RootState) => state.customerDatabase.data)
+  const customerCustomDatabase = useSelector((state: RootState) => state.customerCustomDatabase.data)
+  
+  React.useEffect(() => {
+    dispatch(fetchCustomerDatabase())
+  }, [])
 
-  // React.useEffect(() => {
-  //   dispatch(fetchDataBase())
-  // }, [])
+  React.useEffect(() => {
+    dispatch(fetchCustomerCustomDatabase())
+  }, [])
 
-  const [openAddCustomer, setOpenAddCustomer] = useState(false);
+  const [openAddCustomer, setOpenAddCustomer] = useState(false)
   const [customerDataBases, setCustomerDataBases] = useState(customerData)
 
   useEffect(() => {
@@ -51,8 +59,8 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
 
   const handleSubmit = () => {
     console.log(customerDataBases)
+    dispatch(updateCustomerDatabase(customerDatabase))
   }
-
 
   return (
     <AppView>
@@ -94,25 +102,30 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
           }}
         >
           <Box sx={{ mt: 3 }}>
-            <Typography >
-            Customers are the individuals or organizations to whom you  lease out your equipment. Select the fields you would like to use for your customers.
+            <Typography>
+              Customers are the individuals or organizations to whom you lease
+              out your equipment. Select the fields you would like to use for
+              your customers.
             </Typography>
           </Box>
 
-          <Box sx={{
-                overflowX: 'auto',
-                fontSize: '14px',
-                whiteSpace: 'nowrap',
-                borderRadius:'5px'
-              }}>
-            <Table 
-             borderAxis="both" aria-label="basic table" 
-             style={{
-                   borderCollapse: 'collapse',
-                   border: '1px solid grey',
-                   minWidth: '500px',
-                   borderRadius:'5px'
-                 }}
+          <Box
+            sx={{
+              overflowX: 'auto',
+              fontSize: '14px',
+              whiteSpace: 'nowrap',
+              borderRadius: '5px',
+            }}
+          >
+            <Table
+              borderAxis="both"
+              aria-label="basic table"
+              style={{
+                borderCollapse: 'collapse',
+                border: '1px solid grey',
+                minWidth: '500px',
+                borderRadius: '5px',
+              }}
             >
               <thead>
                 <tr>
@@ -126,22 +139,42 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
                     <Checkbox />
                   </th>
                   <th
-                   style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
+                    style={{
+                      background: '#fff8e6',
+                      verticalAlign: 'middle',
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                    }}
                   >
                     Field Name
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
+                    style={{
+                      background: '#fff8e6',
+                      verticalAlign: 'middle',
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                    }}
                   >
                     Data Required
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
+                    style={{
+                      background: '#fff8e6',
+                      verticalAlign: 'middle',
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                    }}
                   >
                     Description
                   </th>
                   <th
-                    style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
+                    style={{
+                      background: '#fff8e6',
+                      verticalAlign: 'middle',
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                    }}
                   >
                     Example
                   </th>
@@ -177,7 +210,7 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
                           whiteSpace: 'normal',
                         }}
                       >
-                        {data.isVisible && (
+                        {data.visible && (
                           <FormControl>
                             <RadioGroup
                               value={opt.isRequired ? 'yes' : 'optional'}
@@ -185,13 +218,16 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
                               onChange={(e) =>
                                 handleRadioChange(index, e.target.value)
                               }
-                              sx={{gap:2}}
+                              sx={{ gap: 2 }}
                             >
                               <FormControl
                                 key={`${index}-yes`}
                                 disabled={!opt.visible}
-                                sx={{ display: 'inline-flex', 
-                                  alignItems: 'center',flexDirection:"row" , gap:2 ,
+                                sx={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  flexDirection: 'row',
+                                  gap: 2,
                                   // visibility: opt.fieldName === 'Full Name' ? 'visible' : 'hidden',
                                 }}
                               >
@@ -209,7 +245,11 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
                               <FormControl
                                 key={`${index}-optional`}
                                 disabled={!opt.visible}
-                                sx={{ display: 'inline-flex', alignItems: 'center', flexDirection:"row" }}
+                                sx={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  flexDirection: 'row',
+                                }}
                               >
                                 <Radio
                                   value="optional"
@@ -217,7 +257,7 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
                                   onChange={(e) =>
                                     handleRadioChange(index, e.target.value)
                                   }
-                                  color="primary" 
+                                  color="primary"
                                   sx={{ mr: 1 }}
                                 />
                                 Optional
@@ -264,7 +304,7 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
             Customers Custom Fields
           </Typography>
           <Typography sx={{ marginTop: '10px' }}>
-          Add custom fields to join the standard fields that we provided.
+            Add custom fields to join the standard fields that we provided.
           </Typography>
 
           <Button
@@ -289,7 +329,10 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
           )}
 
           <Divider sx={{ my: 2 }} />
-          <CustomerFieldsAddingTable customerDataBases={customCustomer} />
+          <CustomerFieldsAddingTable
+            customerDataBases={customerCustomDatabase}
+            // setCustomerDataBases={setCustomerDataBases}
+          />
         </Box>
 
         <Divider sx={{ marginTop: '3%' }} />
@@ -298,7 +341,7 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
           onCancel={() => handleCancel()}
           onSubmit={() => handleSubmit()}
         />
-       </Box>
+      </Box>
     </AppView>
   )
 }

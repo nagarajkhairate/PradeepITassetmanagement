@@ -10,11 +10,28 @@ import { Contract, contractData, customContract } from './ContractData'
 import AddIcon from '@mui/icons-material/Add'
 import AddDialogContract from './AddDialogContract'
 import ContractFieldsAddingTable from './ContractFieldsAddingTable'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchContractDatabase } from '../../../../redux/features/ContractDatabaseSlice'
+import { ThunkDispatch } from 'redux-thunk'
+import { fetchContractCustomDatabase } from '../../../../redux/features/ContractCustomDatabaseSlice'
 
 
 
 const DatabaseContractTable: React.FunctionComponent = () => {
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const contractDatabase = useSelector((state: RootState) => state.contractDatabase.data)
+  const contractCustomDatabase = useSelector((state: RootState) => state.contractCustomDatabase.data)
+
+  React.useEffect(() => {
+    dispatch(fetchContractDatabase())
+  }, [])
+
+
+  React.useEffect(() => {
+    dispatch(fetchContractCustomDatabase())
+  }, [])
+
 
   const [openAddContract, setOpenAddContract] = useState(false);
   const [contractDataBases, setContractDataBases] = useState(contractData)
@@ -165,7 +182,7 @@ const DatabaseContractTable: React.FunctionComponent = () => {
                           whiteSpace: 'normal',
                         }}
                       >
-                        {data.isVisible && (
+                        {data.visible && (
                           <FormControl>
                             <RadioGroup
                               value={opt.isRequired ? 'yes' : 'optional'}
@@ -285,7 +302,7 @@ const DatabaseContractTable: React.FunctionComponent = () => {
           )}
 
           <Divider sx={{ my: 2 }} />
-          <ContractFieldsAddingTable contractDataBases={customContract} />
+          <ContractFieldsAddingTable contractDataBases={contractCustomDatabase} />
         </Box>
 
 

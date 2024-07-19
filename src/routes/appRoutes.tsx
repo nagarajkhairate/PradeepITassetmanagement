@@ -48,6 +48,7 @@ import SetupColumns from '../pages/Assets/SetupColumns'
 import SearchCriteria from '../pages/Assets/SearchCriteria'
 import CheckOutOption from '../components/AssetSections/Check Out/CheckOutOption'
 import DatabaseContractTable from '../pages/Setup/DataBase/DatabaseContract/DatabaseContractTable'
+import EditModalDatabaseCustomer from '../pages/Setup/DataBase/DatabaseCustomerTable/EditModelDatabaseCustomer'
 
 
 const appRoutes: RouteType[] = [
@@ -356,6 +357,7 @@ const appRoutes: RouteType[] = [
               icon: <ICONS.person />,
             },
           },
+       
           {
             path: '/setup/database/databases-maintenance',
             element: <DatabaseMaintenance />,

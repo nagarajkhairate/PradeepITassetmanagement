@@ -2,7 +2,7 @@ export const warranties = [
   {
     id: 1,
     fieldName: 'Length',
-    isVisible: 'visible',
+    visible: 'visible',
     isRequired: 'optional',
     value: 'length',
     description: 'Length of the warranty (in months).',
@@ -21,7 +21,7 @@ export const warranties = [
   {
     id: 2,
     fieldName: 'Expiration Date',
-    isVisible: 'visible',
+    visible: 'visible',
     isRequired: 'optional',
     value: 'expirationDate ',
     description: 'Date when warranty expires.',
@@ -37,7 +37,7 @@ export const warranties = [
   {
     id: 3,
     fieldName: 'Notes',
-    isVisible: 'visible',
+    visible: 'visible',
     isRequired: 'optional',
     value: 'notes',
     description: 'Text area for notes.',
@@ -60,21 +60,21 @@ export const warrantyData = [
     {
       visible: true,
       fieldName: 'Length',
-      name: 'length',
+      value: 'length',
       description: 'string',
       isRequired: 'yes',
     },
     {
         visible: true,
         fieldName: "Expiration Date",
-        name: "expirationDate",
+        value: "expirationDate",
         isRequired: 'optional',
         description: "string",
     },
     {
         visible: true,
         fieldName: "Notes",
-        name: "notes",
+        value: "notes",
         isRequired: 'optional',
         description: "string",
     },
@@ -86,10 +86,10 @@ export const warrantyData = [
  
 export const customWarranties =[
     {
-      fieldName: 'fieldName',
-      name:'name',
+      fieldName: 'full Name',
+      value:'value',
       componentsId: 1,
-      isRequired: 'isRequired',
+      isRequired: 'yes',
       
     },
     ]
@@ -98,7 +98,7 @@ export const customWarranties =[
     export const BackendData=[
        {
       fieldName: 'full Name',
-      name:'fullName',
+      value:'fullName',
       componentsId: 1,
       isRequired: 'yes'
     }

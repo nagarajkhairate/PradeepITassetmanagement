@@ -1,8 +1,12 @@
 import { Box, Button, Table } from "@mui/joy"
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import { useState } from "react"
+import React, { useState } from "react"
 import EditModalDatabaseCustomer from "./EditModelDatabaseCustomer"
+import { ThunkDispatch } from "redux-thunk"
+import { RootState } from "../../../../redux/store"
+import { useDispatch, useSelector } from "react-redux"
+import { Link } from "react-router-dom"
 
 
 interface CustomerTableProps {
@@ -13,15 +17,18 @@ interface CustomerTableProps {
   const CustomerFieldsAddingTable: React.FC<CustomerTableProps> = ({customerDataBases,
   }) => {
     const [openAddCustomer, setOpenAddCustomer] = useState(false)
-    const [selectedItem, setSelectedItem] = useState(null)
+    const [selectedItem, setSelectedItem] = useState<any | null>(null);
+    const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   
+    const components = useSelector((state: RootState) => state.components.data)
+
     const handleEdit = (item: any) => {
       setSelectedItem(item)
       setOpenAddCustomer(true)
     }
   
-    const handleDeleteButton = () => {
-      // Add your delete logic here
+    const handleDeleteButton = (index: number) => {
+      selectedItem(index)
     }
   
     return (
@@ -75,7 +82,7 @@ interface CustomerTableProps {
                 >
                   {item.fieldName}
                 </td>
-                <td>{item.componentsId}</td>
+                <td>{components.find((component) => component.id === item.componentsId)?.type || ''}</td>
                 <td>{item.isRequired}</td>
                 <td>
                   <Button
@@ -103,6 +110,7 @@ interface CustomerTableProps {
                     <EditOutlinedIcon sx={{ fontSize: '15px' }} />
                     Edit
                   </Button>
+                  
                 </td>
                 <td>
                   <Button
@@ -123,7 +131,7 @@ interface CustomerTableProps {
                       },
                       padding: '.5rem .10rem',
                     }}
-                    onClick={ handleDeleteButton}
+                    onClick={()=>handleDeleteButton(index)}
                   >
                     <DeleteForeverIcon sx={{ fontSize: '15px' }} />
                     Delete
@@ -148,6 +156,7 @@ interface CustomerTableProps {
           selectedItem={selectedItem}
         />
       )}
+      
       </Box>
     )
 }
