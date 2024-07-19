@@ -27,7 +27,7 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
 
   const customerDatabase = useSelector((state: RootState) => state.customerDatabase.data)
   const customerCustomDatabase = useSelector((state: RootState) => state.customerCustomDatabase.data)
-  
+
   React.useEffect(() => {
     dispatch(fetchCustomerDatabase())
   }, [])
@@ -45,7 +45,7 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
 
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...customerDataBases]
-    updatedForm[index].visible = !updatedForm[index].visible
+    updatedForm[index].isVisible = !updatedForm[index].isVisible
     setCustomerDataBases(updatedForm)
   }
 
@@ -191,7 +191,7 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
                     <tr key={`${data.fieldName}-${index}`}>
                       <td>
                         <Checkbox
-                          checked={opt.visible || false}
+                          checked={opt.isVisible || false}
                           onChange={() => handleCheckboxChange(index)}
                         />
                       </td>
@@ -210,7 +210,7 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
                           whiteSpace: 'normal',
                         }}
                       >
-                        {data.visible && (
+                        {data.isVisible && (
                           <FormControl>
                             <RadioGroup
                               value={opt.isRequired ? 'yes' : 'optional'}
@@ -222,7 +222,7 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
                             >
                               <FormControl
                                 key={`${index}-yes`}
-                                disabled={!opt.visible}
+                                disabled={!opt.isVisible}
                                 sx={{
                                   display: 'inline-flex',
                                   alignItems: 'center',
@@ -244,7 +244,7 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
                               </FormControl>
                               <FormControl
                                 key={`${index}-optional`}
-                                disabled={!opt.visible}
+                                disabled={!opt.isVisible}
                                 sx={{
                                   display: 'inline-flex',
                                   alignItems: 'center',
