@@ -4,6 +4,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import {
   Box,
   Button,
+  Divider,
   FormControl,
   FormLabel,
   Grid,
@@ -20,6 +21,7 @@ import AppForm from '../../../../components/Common/AppForm'
 import { RootState } from '../../../../redux/store'
 import { customEmployee } from './EmployeeData'
 import { addEmpCustomDatabase } from '../../../../redux/features/EmpCustomDatabseSlice'
+import { fetchComponents } from '../../../../redux/features/ComponentsIdSlice'
 
 interface DataBaseAddProps {
   open: boolean;
@@ -37,12 +39,15 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
   })
 
   const components = useSelector((state: RootState) => state.components.data)
+  console.log(components)
 
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
   const empCustomDatabase = useSelector((state: RootState) => state.empCustomDatabase.data);
 
-
+  React.useEffect(() => {
+    dispatch(fetchComponents())
+  }, [dispatch])
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -56,12 +61,23 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
     setFormData((prevData) => ({ ...prevData, isRequired: value }))
   }
 
+  // const handleSelectChange = (
+  //   event: React.SyntheticEvent | null,
+  //   newValue: number | null,
+  // ) => {
+  //   setFormData((prevData) => ({ ...prevData, componentsId: newValue || 1 }))
+  // }
+
   const handleSelectChange = (
-    event: React.SyntheticEvent | null,
-    newValue: number | null,
+    event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element> | React.FocusEvent<Element, Element> | null,
+    value: unknown
   ) => {
-    setFormData((prevData) => ({ ...prevData, componentsId: newValue || 1 }))
+    setFormData((prevData:any) => ({
+      ...prevData,
+      componentsId: value ? parseInt(value as string, 10) : 1,
+    }))
   }
+
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -117,6 +133,7 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
         >
           {'Add Custom Fields here'}
         </Typography>
+        <Divider />
 
         <AppForm onSubmit={handleSubmit}>
           <FormControl>
@@ -152,7 +169,7 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
                 {components &&
                   components.map((comp) => (
                     <Option key={comp.id} value={comp.id}>
-                      {comp.compName}
+                      {comp.title}
                     </Option>
                   ))}
               </Select>

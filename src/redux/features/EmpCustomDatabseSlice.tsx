@@ -16,8 +16,8 @@ import axios from 'axios';
     error: null,
   };
  
-const REACT_APP_BASE_API_KEY = process.env.BASE_API_KEY;
-const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
+  const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
+  const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID; 
 
  
 export const fetchEmpCustomDatabase = createAsyncThunk('empCustomDatabase/fetchEmpCustomDatabase', async () => {

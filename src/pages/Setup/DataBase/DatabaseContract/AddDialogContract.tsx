@@ -18,6 +18,8 @@ import {
 } from '@mui/joy'
 import AppForm from '../../../../components/Common/AppForm'
 import { RootState } from '../../../../redux/store'
+import { fetchComponents } from '../../../../redux/features/ComponentsIdSlice'
+import { addContractCustomDatabase } from '../../../../redux/features/ContractCustomDatabaseSlice'
 
 interface DataBaseAddProps {
   open: boolean;
@@ -31,7 +33,9 @@ const AddDialogContract: React.FC<DataBaseAddProps> = ({
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
   const components = useSelector((state: RootState) => state.components.data)
-
+  React.useEffect(() => {
+    dispatch(fetchComponents())
+  }, [dispatch])
   const [formData, setFormData] = useState({
     fieldName: '',
     componentsId: 1,
@@ -51,10 +55,13 @@ const AddDialogContract: React.FC<DataBaseAddProps> = ({
   }
 
   const handleSelectChange = (
-    event: React.SyntheticEvent | null,
-    newValue: number | null,
+    event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element> | React.FocusEvent<Element, Element> | null,
+    value: unknown
   ) => {
-    setFormData((prevData) => ({ ...prevData, componentsId: newValue || 1 }))
+    setFormData((prevData:any) => ({
+      ...prevData,
+      componentsId: value ? parseInt(value as string, 10) : 1,
+    }))
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -64,7 +71,8 @@ const AddDialogContract: React.FC<DataBaseAddProps> = ({
       componentsId: 1,
       isRequired: '',
     })
-    setOpen(false) // Close modal after submission
+    setOpen(false) 
+    dispatch(addContractCustomDatabase(formData))
     console.log('Form Data:', formData)
   }
 
@@ -144,7 +152,7 @@ const AddDialogContract: React.FC<DataBaseAddProps> = ({
                 {components &&
                   components.map((comp) => (
                     <Option key={comp.id} value={comp.id}>
-                      {comp.compName}
+                      {comp.title}
                     </Option>
                   ))}
               </Select>

@@ -3,21 +3,30 @@ import { useState } from 'react'
 import AppForm from '../../../../components/Common/AppForm'
 
 interface DeleteEmployeeDataProps {
-  open: boolean
-  onClose: () => void
-  onDelete: () => void
+  open: boolean;
+  setOpen: (open: boolean) => void; 
+  setCustomerDataBases:React.Dispatch<React.SetStateAction<any[]>>
+  selectedItem: any;
 }
 const DeleteDatabaseCustomers: React.FC<DeleteEmployeeDataProps> = ({
-  open,
-  onClose,
-  onDelete,
+  open, setOpen,setCustomerDataBases,selectedItem
 }) => {
 
 
+  const handleDelete = () => {
+    // Filter out the selected item from the customerDataBases array
+    setCustomerDataBases(prevData => prevData.filter(item => item !== selectedItem));
+    setOpen(false); // Close the modal after deletion
+  };
+
+  const handleClose = () => {
+    setOpen(false); // Just close the modal without deleting
+  };
+
   return (
     <Modal
-      open={open}
-      onClose={onClose}
+    open={open}
+    onClose={handleClose}
       aria-labelledby="responsive-dialog-title"
       aria-describedby="modal-desc"
       sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
@@ -43,7 +52,7 @@ const DeleteDatabaseCustomers: React.FC<DeleteEmployeeDataProps> = ({
             {'Edit the Customs here'}
           </Typography>
 
-          <AppForm onSubmit={onDelete}>
+          <AppForm onSubmit={handleDelete}>
             <FormControl
               sx={{
                 display: 'flex',
@@ -76,13 +85,14 @@ const DeleteDatabaseCustomers: React.FC<DeleteEmployeeDataProps> = ({
                 '&:hover': { background: '#E1A91B' },
                 color: 'black',
               }}
+              onClick={handleDelete}
             >
               Confirm Delete
             </Button>
 
             <Button
               type="button"
-              onClick={onDelete}
+               onClick={() => setOpen(false)}
               autoFocus
               variant="solid"
               sx={{

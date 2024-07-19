@@ -16,6 +16,9 @@ import {
 } from '@mui/joy'
 import AppForm from '../../../../components/Common/AppForm'
 import { RootState } from '../../../../redux/store'
+import { fetchComponents } from '../../../../redux/features/ComponentsIdSlice'
+import { ThunkDispatch } from 'redux-thunk'
+import { addCustomerCustomDatabase } from '../../../../redux/features/CustomerCustomDatabaseSlice'
 
 interface DatabaseCustomerProps {
   open: boolean;
@@ -28,10 +31,15 @@ const AddDialogCustomer: React.FC<DatabaseCustomerProps> = ({
 })=>{
 
   const components = useSelector((state: RootState) => state.components.data)
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  
+  React.useEffect(() => {
+    dispatch(fetchComponents())
+  }, [dispatch])
 
   const [formData, setFormData] = useState({
     fieldName: '',
-    componentsId: 1,
+    componentsId: components.length > 0 ? components[0].id : null,
     isRequired: '',
   })
 
@@ -47,29 +55,43 @@ const AddDialogCustomer: React.FC<DatabaseCustomerProps> = ({
     setFormData((prevData) => ({ ...prevData, isRequired: value }))
   }
 
+  // const handleSelectChange = (
+  //   event: React.SyntheticEvent | null,
+  //   newValue: string | number | null,
+  // ) => {
+  //   setFormData((prevData) => ({ ...prevData, componentsId: newValue || null }))
+  // }
+
   const handleSelectChange = (
-    event: React.SyntheticEvent | null,
-    newValue: number | null,
+    event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element> | React.FocusEvent<Element, Element> | null,
+    value: unknown
   ) => {
-    setFormData((prevData) => ({ ...prevData, componentsId: newValue || 1 }))
+    setFormData((prevData:any) => ({
+      ...prevData,
+      componentsId: value ? parseInt(value as string, 10) : 0,
+    }))
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
+    console.log('Form Data:', {
+      ...formData,
+    });
     setFormData({
       fieldName: '',
-      componentsId: 1,
+      componentsId:  components.length > 0 ? components[0].id : null,
       isRequired: '',
-    })
-    setOpen(false) 
-    console.log('Form Data:', formData)
-  }
+    });
+    setOpen(false);
+    dispatch(addCustomerCustomDatabase(formData))
+  };
+  
 
   const handleClose = () => {
     setOpen(false)
     setFormData({
       fieldName: '',
-      componentsId: 1,
+      componentsId: components.length > 0 ? components[0].id : null,
       isRequired: '',
     })
   }
@@ -104,7 +126,7 @@ const AddDialogCustomer: React.FC<DatabaseCustomerProps> = ({
           fontWeight="lg"
           mb={1}
         >
-          {'Add Custom Fields here'}
+          Add Custom Fields here
         </Typography>
 
         <AppForm onSubmit={handleSubmit}>
@@ -140,7 +162,8 @@ const AddDialogCustomer: React.FC<DatabaseCustomerProps> = ({
                 {components &&
                   components.map((comp) => (
                     <Option key={comp.id} value={comp.id}>
-                      {comp.compName}
+                      {comp.title}
+                      
                     </Option>
                   ))}
               </Select>

@@ -8,7 +8,6 @@ import AppView from '../../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-// import AddDataBaseEmp from './AddDataBaseEmp'
 import { RootState } from '../../../../redux/store'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
 import { EmployeePerson, customEmployee, empData } from './EmployeeData'
@@ -19,53 +18,46 @@ import {
 import AddIcon from '@mui/icons-material/Add'
 import AddDialogEmployee from './AddDialogEmployee'
 import EmployeeFieldsAddingTable from './EmployeeFieldsAddingTable'
+import { fetchEmpCustomDatabase } from '../../../../redux/features/EmpCustomDatabseSlice'
 
 const DataBaseEmp: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
   const empDatabase = useSelector((state: RootState) => state.empDatabase.data)
-  const [openAddEmployee, setOpenAddEmployee] = useState(false)
-  const [empForm, setEmpForm] = useState<any>({})
+  const empCustomDatabase = useSelector((state: RootState) => state.empCustomDatabase.data)
 
-  // const [empDataBases, setEmpDataBases] = useState(empData)
+
+  const [empDataBases, setEmpDataBases] = useState(empData)
+  const [openAddEmployee, setOpenAddEmployee] = useState(false)
+
+  useEffect(() => {setEmpDataBases(empData)}, [])
 
   React.useEffect(() => {
     dispatch(fetchEmpDatabase())
-  }, [dispatch])
+  }, [])
+
 
   React.useEffect(() => {
-    if (empDatabase.length > 0) {
-      setEmpForm(empDatabase[0])
-    }
-  }, [empDatabase])
-
-  useEffect(() => {
-    const initialDatabase = empDatabase.map((item) => ({
-      ...item,
-      isRequired: item.isRequired || 'optional',
-    }))
-    dispatch(updateEmpDatabase(initialDatabase)) // Update Redux state initially
-  }, [empDatabase, dispatch])
+    dispatch(fetchEmpCustomDatabase())
+  }, [])
 
   const handleCheckboxChange = (index: number) => {
-    const updatedForm = [...empDatabase]
+    const updatedForm = [...empDataBases]
     updatedForm[index].visible = !updatedForm[index].visible
-    // setEmpDataBases(updatedForm)
-    dispatch(updateEmpDatabase(updatedForm))
+    setEmpDataBases(updatedForm)
   }
 
   const handleRadioChange = (index: number, value: string) => {
-    const updatedForm = empDatabase.map((item, i) =>
-      i === index ? { ...item, isRequired: value } : item,
-    )
-    dispatch(updateEmpDatabase(updatedForm))
+    const updatedForm = [...empDataBases]
+    updatedForm[index].isRequired = value
+    setEmpDataBases(updatedForm)
   }
-
-  const handleCancel = () => {}
+  const handleCancel = () => {  }
 
   const handleSubmit = () => {
-    const updatedEmpForm = { ...empForm }
-    console.log(empDatabase)
+    const updatedEmpForm = { ...empDatabase }
+    console.log(JSON.stringify(empDatabase, null, 2))
+    // console.log(empDatabase)
     dispatch(updateEmpDatabase(updatedEmpForm))
   }
 
@@ -218,7 +210,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
                           whiteSpace: 'normal',
                         }}
                       >
-                        {data.isVisible && (
+                        {data.visible && (
                           <FormControl>
                             <RadioGroup
                               value={opt.isRequired || 'optional'}
@@ -341,7 +333,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
           )}
 
           <Divider sx={{ my: 2 }} />
-          <EmployeeFieldsAddingTable empDataBases={customEmployee} />
+          <EmployeeFieldsAddingTable empDataBases={empCustomDatabase} />
         </Box>
 
         <Divider sx={{ marginTop: '3%' }} />

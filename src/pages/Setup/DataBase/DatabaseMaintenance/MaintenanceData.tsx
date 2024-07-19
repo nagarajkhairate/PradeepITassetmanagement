@@ -3,7 +3,7 @@ export const Maintenance = [
       id: 1,
       fieldName: 'Title',
       value: 'title',
-      isVisible: 'visible',
+      visible: 'visible',
       isRequired: 'optional',
       description: 'Title of the maintenance.',
       example: 'Monthly Calibration',
@@ -18,7 +18,7 @@ export const Maintenance = [
       id: 2,
       fieldName: 'Details',
       value: 'details',
-      isVisible: 'visible',
+      visible: 'visible',
       isRequired: 'optional',
       description: '	Details of the maintenance',
       example: 'Calibrate to 120 units',
@@ -36,7 +36,7 @@ export const Maintenance = [
     {
       id: 3,
       fieldName: 'Due Date',
-      isVisible: 'visible',
+      visible: 'visible',
       isRequired: 'optional',
       value: 'dueDate',
       description: 'Date when maintenance is due',
@@ -55,7 +55,7 @@ export const Maintenance = [
     {
       id: 4,
       fieldName: 'Maintenance By',
-      isVisible: 'visible',
+      visible: 'visible',
       isRequired: 'optional',
       value: 'maintenanceBy',
       description: 'Person doing maintenance',
@@ -74,7 +74,7 @@ export const Maintenance = [
     {
       id: 5,
       fieldName: 'Maintenance Status',
-      isVisible: 'visible',
+      visible: 'visible',
       isRequired: 'optional',
       value: 'maintenanceStatus',
       description:
@@ -94,7 +94,7 @@ export const Maintenance = [
     {
       id: 6,
       fieldName: 'Date Completed',
-      isVisible: 'visible',
+      visible: 'visible',
       isRequired: 'optional',
       value: 'dateCompleted',
       description: '	Date when maintenance is completed',
@@ -113,7 +113,7 @@ export const Maintenance = [
     {
       id: 7,
       fieldName: 'Maintenance Cost',
-      isVisible: 'visible',
+      visible: 'visible',
       isRequired: 'optional',
       value: 'maintenanceCost',
       description: 'Total cost spent on this maintenance',
@@ -132,7 +132,7 @@ export const Maintenance = [
     {
       id: 8,
       fieldName: 'Repeating',
-      isVisible: 'visible',
+      visible: 'visible',
       isRequired: 'optional',
       value: 'repeating',
       description: 'System fields to define repeating maintenances',
@@ -152,56 +152,56 @@ export const Maintenance = [
     {
       visible: true,
       fieldName: 'Title',
-      name: 'title',
+      value: 'title',
       description: 'string',
       isRequired: 'yes',
     },
     {
         visible: true,
         fieldName: "Details",
-        name: "details",
+        value: "details",
         isRequired: 'optional',
         description: "string",
     },
     {
         visible: true,
         fieldName: "Due Date",
-        name: "dueDate",
+        value: "dueDate",
         isRequired: 'optional',
         description: "string",
     },
     {
         visible: true,
         fieldName: "Maintenance By",
-        name: "maintenanceBy",
+        value: "maintenanceBy",
         isRequired: 'optional',
         description: "string",
     },
     {
         visible: true,
         fieldName: "Maintenance Status",
-        name: "maintenanceStatus",
+        value: "maintenanceStatus",
         isRequired: 'optional',
         description: "string",
     },
     {
         visible: true,
         fieldName: "Date Completed",
-        name: "dateCompleted",
+        value: "dateCompleted",
         isRequired: 'optional',
         description: "string",
     },
     {
         visible: true,
         fieldName: "Maintenance Cost",
-        name: "maintenanceCost",
+        value: "maintenanceCost",
         isRequired: 'optional',
         description: "string",
     },
     {
         visible: true,
         fieldName: "Repeating",
-        name: "repeating",
+        value: "repeating",
         isRequired: 'optional',
         description: "string",
     },
@@ -212,10 +212,10 @@ export const Maintenance = [
  
 export const customMaintenance =[
     {
-      fieldName: 'fieldName',
-      name:'name',
+      fieldName: 'full Name',
+      value:'value',
       componentsId: 1,
-      isRequired: 'isRequired',
+      isRequired: 'yes',
       
     },
     ]
@@ -224,7 +224,7 @@ export const customMaintenance =[
     export const BackendData=[
        {
       fieldName: 'full Name',
-      name:'fullName',
+      value:'fullName',
       componentsId: 1,
       isRequired: 'yes'
     }

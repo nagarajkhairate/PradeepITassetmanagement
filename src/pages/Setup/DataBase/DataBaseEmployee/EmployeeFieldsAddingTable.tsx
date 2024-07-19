@@ -4,6 +4,8 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { useState } from 'react'
 import EditModalEmployee from './EditModalDatabaseEmployee'
 import EditModalDatabaseEmployee from './EditModalDatabaseEmployee'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../../redux/store'
 
 interface EmployeeTableProps {
   empDataBases: any[]
@@ -14,6 +16,8 @@ const EmployeeFieldsAddingTable: React.FC<EmployeeTableProps> = ({
 }) => {
   const [openAddEmployee, setOpenAddEmployee] = useState(false)
   const [selectedItem, setSelectedItem] = useState(null)
+
+  const components = useSelector((state: RootState) => state.components.data)
 
   const handleEdit = (item: any) => {
     setSelectedItem(item)
@@ -75,7 +79,7 @@ const EmployeeFieldsAddingTable: React.FC<EmployeeTableProps> = ({
                 >
                   {item.fieldName}
                 </td>
-                <td>{item.componentsId}</td>
+                <td>{components.find((component) => component.id === item.componentsId)?.type || ''}</td>
                 <td>{item.isRequired}</td>
                 <td>
                   <Button

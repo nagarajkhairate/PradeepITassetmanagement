@@ -17,6 +17,8 @@ import {
 } from '@mui/joy'
 import AppForm from '../../../../components/Common/AppForm'
 import { RootState } from '../../../../redux/store'
+import { fetchComponents } from '../../../../redux/features/ComponentsIdSlice'
+import { addMaintenanceCustomDatabase } from '../../../../redux/features/MaintenanceCustomDatabaseSlice'
 
 interface DataBaseAddProps {
   open: boolean;
@@ -30,6 +32,10 @@ const AddDialogMaintenance: React.FC<DataBaseAddProps> = ({
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
   const components = useSelector((state: RootState) => state.components.data)
+
+  React.useEffect(() => {
+    dispatch(fetchComponents())
+  }, [dispatch])
  
   const [formData, setFormData] = useState({
     fieldName: '',
@@ -49,11 +55,21 @@ const AddDialogMaintenance: React.FC<DataBaseAddProps> = ({
     setFormData((prevData) => ({ ...prevData, isRequired: value }))
   }
 
+  // const handleSelectChange = (
+  //   event: React.SyntheticEvent | null,
+  //   newValue: number | null,
+  // ) => {
+  //   setFormData((prevData) => ({ ...prevData, componentsId: newValue || 1 }))
+  // }
+
   const handleSelectChange = (
-    event: React.SyntheticEvent | null,
-    newValue: number | null,
+    event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element> | React.FocusEvent<Element, Element> | null,
+    value: unknown
   ) => {
-    setFormData((prevData) => ({ ...prevData, componentsId: newValue || 1 }))
+    setFormData((prevData:any) => ({
+      ...prevData,
+      componentsId: value ? parseInt(value as string, 10) : 1,
+    }))
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -64,6 +80,7 @@ const AddDialogMaintenance: React.FC<DataBaseAddProps> = ({
       isRequired: '',
     })
     setOpen(false) // Close modal after submission
+    dispatch(addMaintenanceCustomDatabase(formData))
     console.log('Form Data:', formData)
   }
 
@@ -142,7 +159,7 @@ const AddDialogMaintenance: React.FC<DataBaseAddProps> = ({
                 {components &&
                   components.map((comp) => (
                     <Option key={comp.id} value={comp.id}>
-                      {comp.compName}
+                      {comp.title}
                     </Option>
                   ))}
               </Select>

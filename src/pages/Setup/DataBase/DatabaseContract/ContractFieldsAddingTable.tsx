@@ -3,6 +3,8 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useState } from "react";
 import EditModalDatabaseContract from "./EditModalDatabaseContract";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store";
 
 
 interface WarrantyTableProps {
@@ -10,7 +12,7 @@ interface WarrantyTableProps {
   }
 
   const ContractFieldsAddingTable: React.FC<WarrantyTableProps> = ({contractDataBases}) => {
-
+    const components = useSelector((state: RootState) => state.components.data)
 
     const [openAddContract, setOpenAddContract] = useState(false)
     const [selectedItem, setSelectedItem] = useState(null)
@@ -56,7 +58,7 @@ style={{
       contractDataBases.map((item, index) => (
         <tr key={index}>
           <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{item.fieldName}</td>
-          <td>{item.componentsId}</td>
+          <td>{components.find((component) => component.id === item.componentsId)?.type || ''}</td>
           <td>{item.isRequired}</td>
           <td>
             <Button 
