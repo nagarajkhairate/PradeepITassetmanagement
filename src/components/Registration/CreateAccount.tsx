@@ -118,7 +118,7 @@ const CreateAccount: React.FC = () => {
     if (Object.keys(newErrors).length === 0) {
       try {
         await dispatch(createAccount(formData))
-        // navigate('/');
+        navigate('/');
       } catch (error) {
         console.error('Account creation failed:', error)
       }
