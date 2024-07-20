@@ -3,7 +3,7 @@ export interface Field {
     fieldName: string;
     name: string;
     sequence: number;
-    components: number;
+    components: any;
     isRequired: boolean;
     isActive: boolean;
     stylings: string;
@@ -15,7 +15,11 @@ export const checkInConfig: Field[] =  [
                 fieldName: "Check-In from",
                 name: "checkInFrom",
                 sequence: 1,
-                components:11,
+                components:
+                { 
+                      id:11,
+                    type:'radio'
+                },
                 isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
@@ -25,7 +29,10 @@ export const checkInConfig: Field[] =  [
                 fieldName: "Return Date",
                 name: "returnDate",
                 sequence: 2,
-                components:3,
+                components: { 
+                    id:3,
+                  type:'date'
+              },
                 isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
@@ -35,7 +42,11 @@ export const checkInConfig: Field[] =  [
                 fieldName: "Send Email",
                 name: "sendEmail",
                 sequence: 3,
-                components:1,
+                components:
+                { 
+                    id:1,
+                  type:'checkbox'
+              },
                 isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
@@ -45,7 +56,10 @@ export const checkInConfig: Field[] =  [
                 fieldName: "Enter Email Address",
                 name: "emailAddress",
                 sequence: 4,
-                components:6,
+                components: { 
+                    id:6,
+                  type:'email'
+              },
                 isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
@@ -55,7 +69,10 @@ export const checkInConfig: Field[] =  [
                 fieldName: "Site",
                 name: "checkInSiteId",
                 sequence: 5,
-                components:5,
+                components: { 
+                    id:5,
+                  type:'select'
+              },
                 isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
@@ -65,7 +82,10 @@ export const checkInConfig: Field[] =  [
                 fieldName: "Location",
                 name: "checkInLocationId",
                 sequence: 6,
-                components:5,
+                components:{ 
+                    id:5,
+                  type:'select'
+              },
                 isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
@@ -75,7 +95,10 @@ export const checkInConfig: Field[] =  [
                 fieldName: "Department",
                 name: "checkInDepartmentId",
                 sequence: 7,
-                components:5,
+                components:{ 
+                    id:5,
+                  type:'select'
+              },
                 isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
@@ -85,7 +108,10 @@ export const checkInConfig: Field[] =  [
                 fieldName: "Check-in Notes",
                 name: "checkInNotes",
                 sequence: 8,
-                components:13,
+                components:{ 
+                    id:15,
+                  type:'textarea'
+              },
                 isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
