@@ -209,7 +209,7 @@ interface LocationAddProps {
                         variant="solid"
                         sx={{
                           background: 'black',
-                          '&:hover': { background: 'black' },
+                          '&:hover': { background:"#424242"  },
                           color: 'white',
                           // marginLeft: '50px',
                         }}

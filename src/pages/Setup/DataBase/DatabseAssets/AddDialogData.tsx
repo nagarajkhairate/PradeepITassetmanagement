@@ -137,7 +137,7 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
         sx={{
           maxWidth: 600,
           borderRadius: 'md',
-          p: 3,
+          p: 4,
           boxShadow: 'lg',
         }}
       >
@@ -156,7 +156,7 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
 
           <AppForm onSubmit={handleSubmit}>
             <FormControl>
-              <FormLabel sx={{ paddingTop: '20px', marginLeft: '15%' }}>
+              <FormLabel sx={{ paddingTop: '20px', marginLeft: '8%' }}>
                 Custom Field Label*:
                 <Input
                   variant="outlined"
@@ -170,20 +170,19 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
                     target.value = target.value.replace(/[^a-zA-Z0-9-]/g, '')
                   }}
                   required
-                  sx={{  marginLeft: '30px' }}
+                  sx={{ marginLeft: '40px', }}
                 />
               </FormLabel>
             </FormControl>
 
             <FormControl>
-              <FormLabel sx={{ paddingTop: '30px', marginLeft: '24%' }}>
+              <FormLabel sx={{ paddingTop: '30px', marginLeft: '18%' }}>
                 Data Types*:
                 <Select
-                  placeholder="Select Data Types in your fields"
-                  sx={{ marginLeft: '35px', width:'13.5rem' }}
+                  placeholder="Select Data Types "
+                  sx={{ marginLeft: '42px', width:'13.5rem'}}
                   name="componentsId"
                   value={formData.componentsId}
-                 
                   onChange={(event, value) => handleSelectChange(event, value)}
                 >
                   {components &&
@@ -203,8 +202,8 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
                 alignItems: 'center',
               }}
             >
-              <FormLabel sx={{ paddingTop: '36px', marginLeft: '22%' }}>
-                Data Required:
+              <FormLabel sx={{ paddingTop: '36px', marginLeft: '15%' }}>
+                Data Required :
               </FormLabel>
               <RadioGroup
                 name="isRequired"
@@ -229,22 +228,23 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
             </FormControl>
 
             <Box>
-              <FormLabel
+              <Box
                 sx={{
-                  paddingTop: '25px',
-                  marginLeft: '15%',
+                  paddingTop: '15px',
+                  marginLeft: '20%',
                   display: 'flex',
-                  flexDirection: { md: 'flex-end', xs: 'flex-end' },
+                  alignItems: 'center',
                 }}
               >
-                Selected Categories:
-               
-              </FormLabel>
-              <FormLabel>
-              <span style={{ marginLeft: '40%', wordBreak:'normal' }}>
-                  Is this field visible to assets of selective 'Categories'?
-                </span>
+                <FormLabel sx={{ marginRight: '4px' }}>
+                  Selected Categories :
                 </FormLabel>
+                <FormLabel>
+                  <span >
+                    Is this field visible to assets of selective 'Categories'?
+                  </span>
+                </FormLabel>
+              </Box>
               <RadioGroup
                 name="categoryId"
                 value={formData.categoryId}
@@ -260,44 +260,42 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
                     value={0}
                     label="All Categories"
                     variant="outlined"
-                    sx={{ paddingTop: '20px', marginLeft: '165px' }}
+                    sx={{ paddingTop: '25px', marginLeft: '210px',  }}
                   />
                   <Radio
                     value={1}
                     label="Limited Categories"
                     variant="outlined"
-                    sx={{ paddingTop: '20px', marginLeft: '80px' }}
+                    sx={{ paddingTop: '25px', marginLeft: '70px' }}
                   />
-                
-              {formData.categoryId === 1 && (
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    mt: 'none',
-                  }}
-                >
-                  <FormLabel
-                  sx={{marginTop:'80px'}}
-                  >Limited Categories:</FormLabel>
-                  <Select
-                    placeholder="Select Category"
-                  
-                    name="categoryId"
-                    // value={formData.categoryId}
-                    onChange={handleCategorySelectChange}
-                  >
-                    {category &&
-                      category.map((opt, index) => (
-                        <Option key={index} value={opt.id}>
-                          {opt.categoryName}
-                        </Option>
-                      ))}
-                  </Select>
+
+                  {formData.categoryId === 1 && (
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        mt: 'none',
+                      }}
+                    >
+                      <FormLabel sx={{ marginTop: '80px' }}>
+                        Limited Categories:
+                      </FormLabel>
+                      <Select
+                        placeholder="Select Category"
+                        name="categoryId"
+                        onChange={handleCategorySelectChange}
+                      >
+                        {category &&
+                          category.map((opt, index) => (
+                            <Option key={index} value={opt.id}>
+                              {opt.categoryName}
+                            </Option>
+                          ))}
+                      </Select>
+                    </Box>
+                  )}
                 </Box>
-              )}
-              </Box>
               </RadioGroup>
             </Box>
 

@@ -148,7 +148,6 @@ const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] 
               }}
             >
         <Table 
-        // borderAxis="both" style={{ width: "100%", borderCollapse: "collapse" }}
         borderAxis="both" aria-label="basic table" 
         style={{
                   borderCollapse: 'collapse',
@@ -159,7 +158,7 @@ const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] 
         >
           <thead>
             <tr>
-              <th style={{width:30, background: '#fff8e6',verticalAlign:'middle'}}>
+              <th style={{width:35, background: '#fff8e6',verticalAlign:'middle'}}>
                 <Checkbox
                   size="sm"
                   indeterminate={
@@ -252,7 +251,8 @@ const selectedSubCategory = selectedCell !== null ? subCategories[selectedCell] 
           onClose={handleEditClose}
           aria-labelledby="responsive-dialog-title"
           aria-describedby="modal-desc"
-          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',p:3 }}
+          
           > 
           <Sheet
               variant="outlined"

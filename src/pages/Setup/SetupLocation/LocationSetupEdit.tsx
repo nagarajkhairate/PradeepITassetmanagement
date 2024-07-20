@@ -124,7 +124,7 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
                 }}>
           <thead>
             <tr>
-              <th style={{ width: 30,background: '#fff8e6',verticalAlign:'middle' }}>
+              <th style={{ width: 35,background: '#fff8e6',verticalAlign:'middle' }}>
                 <Checkbox
                   size="sm"
                   indeterminate={
@@ -236,6 +236,7 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            p:3
           }}
         >
           <Sheet
@@ -313,7 +314,7 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
                   sx={{
                     background: 'black',
                     color: 'white',
-                    '&:hover': { background: 'black' },
+                    '&:hover': { background: "#424242" },
                   }}
                 >
                   Cancel

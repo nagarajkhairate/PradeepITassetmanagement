@@ -95,6 +95,10 @@ const SetupSites: React.FC = ({}) => {
     setEditOpen(true)
   }
 
+  const handleClose = () => {
+    setOpen(false)
+  }
+
   React.useEffect(() => {
     dispatch(fetchSites())
   }, [dispatch])
@@ -135,16 +139,18 @@ const SetupSites: React.FC = ({}) => {
               <Box
                 sx={{
                   textAlign: { xs: 'center', md: 'left' },
+                  
                 }}
               >
                 <Typography
                 sx={{ 
-                  fontsize:"20px", 
-                  display:"flex",
-                  fontWeight: 500,
-                  lineHeight: '30px',
-                  textAlign: { xs: 'center', md: 'left' },
-                  whiteSpace: 'nowrap',
+                  fontSize: '20px',
+                fontWeight: 500,
+                lineHeight: '30px',
+                textAlign: { xs: 'center', md: 'left' },
+                whiteSpace: 'nowrap',
+                justifyContent:'center',
+                mt: 0,
                   
                 }}
 
@@ -172,15 +178,17 @@ const SetupSites: React.FC = ({}) => {
                   }}
                 >
                   <Button
-                    sx={{
+                     sx={{
                       background: '#388e3c',
+                      '&:hover': {
+                      backgroundColor: "#4caf50",
+                    },
                       borderRadius: '15px',
                       color: 'white',
-                      '&:hover': { background: 'green' },
                     }}
                     onClick={() => setOpen(true)}
                   >
-                    <AddIcon sx={{ mr: 1, fontSize: '20px' }} />
+                    <AddIcon  style={{color:'white'}}/>
                     Add New Site
                   </Button>
 
@@ -211,10 +219,11 @@ const SetupSites: React.FC = ({}) => {
                     background: 'black',
                     borderRadius: '15px',
                     color: 'white',
-                    '&:hover': { background: 'black' },
+                    '&:hover': { background: "#616161" },
                   }}
                   >
                     <PublishOutlinedIcon
+                    style={{color:'white'}}
                     />
                     Import Sites
                   </Button>
@@ -354,7 +363,7 @@ const SetupSites: React.FC = ({}) => {
               >
                 <thead>
                   <tr>
-                    <th style={{ width: 30, background: '#fff8e6', verticalAlign:"middle"}}>
+                    <th style={{ width: 35, background: '#fff8e6', verticalAlign:"middle"}}>
                       <Checkbox
                         size="sm"
                         indeterminate={
@@ -483,7 +492,7 @@ const SetupSites: React.FC = ({}) => {
       </Box>
       <AddSite
         open={open}
-        onClose={() => setOpen(false)}
+        handleClose={  handleClose}
         onSave={(newSite: Site) => {
           setOpen(false)
         }}

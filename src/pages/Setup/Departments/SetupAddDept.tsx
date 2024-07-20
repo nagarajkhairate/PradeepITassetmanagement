@@ -19,11 +19,13 @@ import { useState } from 'react'
 interface SetupAddDeptProps {
   open: any
   setOpen: any
+  handleClose: () => void
 }
 
 const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
   open,
   setOpen,
+  handleClose
 }) => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [formData, setFormData] = useState({})
@@ -50,9 +52,10 @@ const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        p:8
       }}
       open={open}
-      onClose={setOpen}
+      onClose={handleClose}
     >
       <Sheet
         variant="outlined"
@@ -111,7 +114,7 @@ const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
                     marginLeft: '5px',
                   }}
                 >
-                  department*:
+                  depart*:
                 </FormLabel>
                 <Input
                   // value={''}
@@ -126,22 +129,18 @@ const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
               </FormControl>
             </Box>
             <Divider />
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', m: 2 }}>
-              <Button
-                onClick={() => setOpen()}
-                autoFocus
-                variant="solid"
-                sx={{
-                  mr: 1,
-                  background: 'black',
-                  color: 'white',
-                  '&:hover': {
-                    backgroundColor: '#333', // Darker shade of black
-                  },
-                }}
-              >
-                Cancel
-              </Button>
+            <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: { md: 'row'},
+            justifyContent: { xs: 'space-between', md: 'flex-end' },
+            gap: '5px',
+            mt: 4,
+            flexWrap:'wrap'
+          }}
+        >
+              
               <Button
                 autoFocus
                 type="submit"
@@ -152,9 +151,26 @@ const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
                   '&:hover': {
                     backgroundColor: '#c6a700', // Darker shade of #fdd835
                   },
+                  gap:4
                 }}
               >
                 Add 
+              </Button>
+
+              <Button
+                onClick={handleClose}
+                autoFocus
+                variant="solid"
+                sx={{
+                  mr: 1,
+                  background: 'black',
+                  color: 'white',
+                 '&:hover': {
+                backgroundColor: "#616161",
+              },
+                }}
+              >
+                Cancel
               </Button>
             </Box>
           </AppForm>

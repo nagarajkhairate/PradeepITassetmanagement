@@ -59,7 +59,8 @@ const category=useSelector((state:RootState) => state.category.data)
           overflowX: 'auto',
           fontSize: '14px',
           whiteSpace: 'nowrap',
-          borderRadius: '5px',
+          borderRadius: '8px',
+          marginTop:'10px'
         }}
       >
         <Table
@@ -68,8 +69,8 @@ const category=useSelector((state:RootState) => state.category.data)
         style={{
           borderCollapse: 'collapse',
           border: '1px solid grey',
-          minWidth: '500px',
-          borderRadius: '5px',
+          minWidth: '600px',
+          borderRadius: '10px',
         }}
       >
         <thead>
@@ -170,7 +171,7 @@ const category=useSelector((state:RootState) => state.category.data)
             ))
           ) : (
             <tr>
-              <td colSpan={5} style={{ textAlign: 'center' }}>
+              <td colSpan={6} style={{ textAlign: 'center' }}>
                 No Data Found
               </td>
             </tr>

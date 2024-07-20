@@ -152,6 +152,9 @@ const SetupDept: React.FunctionComponent = () => {
               variant="solid"
               sx={{
                 background: '#388e3c',
+                '&:hover': {
+                  backgroundColor: "#4caf50",
+                },
                 borderRadius: '15px',
                 color: 'white',
               }}
@@ -169,8 +172,10 @@ const SetupDept: React.FunctionComponent = () => {
               fontSize: '13px',
               // background: '#ffffff',
               borderRadius: '15px',
-              // color: '#d32f2f',
               background: '#d32f2f',
+              '&:hover': {
+                backgroundColor: "#e57373",
+              },
               display: 'flex',
               justifyContent: { md: 'flex-end', xs: 'center' },
               marginLeft: 'none',
@@ -190,6 +195,9 @@ const SetupDept: React.FunctionComponent = () => {
               variant="solid"
               sx={{
                 background: 'black',
+                '&:hover': {
+                backgroundColor: "#616161",
+              },
                 borderRadius: '15px',
                 color: 'white',
               }}
