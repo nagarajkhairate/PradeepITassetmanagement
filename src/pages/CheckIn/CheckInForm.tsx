@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Table, Input, Button, Option, Radio, Checkbox, Select, RadioGroup, Textarea, FormControl, FormLabel, Chip, Grid } from '@mui/joy';
 import { DisplaySettings } from '@mui/icons-material';
-import { addCheckOut, fetchCheckOut } from '../../redux/features/CheckOutSlice';
+import { addCheckOut, fetchCheckOut, updateCheckOut } from '../../redux/features/CheckOutSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { ThunkDispatch } from 'redux-thunk';
@@ -62,7 +62,7 @@ const CheckInForm: React.FC<CheckInFormProps> = ({ selectedAssets }) => {
    await handleAssignAssetId()
    
    console.log(JSON.stringify(formData))
-   await dispatch(addCheckOut(formData))
+   await dispatch(updateCheckOut(formData))
  }
  const radioOptions = [
   { value: "person", label: "Person" },
