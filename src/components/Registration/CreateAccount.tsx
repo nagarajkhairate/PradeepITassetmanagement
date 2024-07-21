@@ -126,7 +126,7 @@ const CreateAccount: React.FC = () => {
   }
 
   return (
-    <Box minHeight="100vh" display="flex" alignItems="center">
+    <Box minHeight="100vh" display="flex" alignItems="center" >
       <Box
         margin="auto"
         maxWidth="30rem"

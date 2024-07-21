@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   Box,
-  Typography,
   Button,
   Table,
   Divider,
@@ -9,30 +8,20 @@ import {
   MenuButton,
   Dropdown,
   Chip,
-  Option,
   IconButton,
 } from "@mui/joy";
 import PrintIcon from '@mui/icons-material/Print';
 import EditIcon from '@mui/icons-material/Edit';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import PersonIcon from '@mui/icons-material/Person';
-import SendIcon from '@mui/icons-material/Send';
-import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import BuildIcon from '@mui/icons-material/Build';
-import BrokenImageIcon from '@mui/icons-material/BrokenImage';
-import RecyclingIcon from '@mui/icons-material/Recycling';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import SellIcon from '@mui/icons-material/Sell';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EmailIcon from '@mui/icons-material/Email';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { Link, useNavigate } from "react-router-dom";
 import AppView from "../../components/Common/AppView";
 import HPLaptopImg from "../../Assets/hp-15.png"
-import { OutboundOutlined } from "@mui/icons-material";
-
 import moreOptionsConfig from "./moreOptionsConfig";
 import CheckOutOption from "../CheckOut/CheckOutOption";
+import { fetchCheckOut } from "../../redux/features/CheckOutSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { ThunkDispatch } from "redux-thunk";
 
 interface AssetInfoProps {
   id:string,
@@ -41,13 +30,18 @@ interface AssetInfoProps {
 
 interface Option {
   label: string;
-  icon: React.ElementType; // Using React.ElementType for icon
+  icon: React.ElementType; 
   divider?: boolean;
 }
 const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
-
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const checkOut = useSelector((state: RootState) => state.checkOut.data);
+
+  useEffect(() => {
+    dispatch(fetchCheckOut());
+  }, [dispatch]);
 
   const openPopUp = () => {
     setOpen(true);
@@ -63,6 +57,13 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
   const closeDropdown = () => {
     setOpen(false);
   };
+ 
+  const handleAssignAssetId = ()=>{
+    setOpen((prevData: any) => ({
+      ...prevData,
+     assetId:assets[0].id
+   }))
+  }
 
   const handleMenuItemClick = (option: any) => {
     if (option.label === "Check Out") {
@@ -70,6 +71,7 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
     } else if (option.path) {
       navigate(option.path);
     }
+     handleAssignAssetId()
   };
 
   const statusColorMap: Record<string, string> = {
@@ -77,6 +79,12 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
     CheckedOut: "neutral",
   };
 
+  const getAssignTo = (id:any) => {
+    const assignment = checkOut && checkOut.find(assign => assign.assetId === id);
+    console.log(assignment)
+    return assignment ? assignment.assignedTo : null;
+  };
+  
   return (
     <AppView>
       <Box
@@ -143,7 +151,7 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
               <Divider key={index} />
             ) : (
               <IconButton key={index} sx={{ color: "#000000" }} onClick={() => handleMenuItemClick(option)}>
-                {React.createElement(option.icon)} {/* Render the icon component */}
+                {React.createElement(option.icon)}
                 {option.label}
               </IconButton>
             )
@@ -240,7 +248,7 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
                 </tr>
                 <tr>
                   <th scope="row">Assigned To</th>
-                  <td>{assets.assignedTo}</td>
+                  <td>{getAssignTo(assets.assignedTo)}</td>
                 </tr>
                 <tr>
                   <th scope="row">Status</th>

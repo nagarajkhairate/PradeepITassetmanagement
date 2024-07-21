@@ -23,7 +23,7 @@ const SelectOption:FunctionComponent<SelectOptionProps> = ({  field,
       name={field.name}
       value={formData[field.name]}
       onChange={selectChange}
-    //   sx={field.stylings}
+      sx={{width:"100%"}}
     >
       {field.options?.map((option: any) => (
         <Option key={option.value} value={option.value}>

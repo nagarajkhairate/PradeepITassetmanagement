@@ -62,7 +62,7 @@ const CheckOut: React.FC = () => {
     setGetAllAssets((prevData) =>
       prevData?.filter((asset) => !selectedAssetIds.includes(asset.id)),
     )
-    setOpen()
+    setOpen(false)
   }, [getAllAssets, selectedAssetIds])
 
   const statusColorMap: Record<string, string> = useMemo(
