@@ -60,21 +60,21 @@ export const warrantyData = [
     {
       isVisible: true,
       fieldName: 'Length',
-      name: 'length',
+      value: 'length',
       description: 'string',
       isRequired: 'yes',
     },
     {
         isVisible: true,
         fieldName: "Expiration Date",
-        name: "expirationDate",
+        value: "expirationDate",
         isRequired: 'optional',
         description: "string",
     },
     {
         isVisible: true,
         fieldName: "Notes",
-        name: "notes",
+        value: "notes",
         isRequired: 'optional',
         description: "string",
     },
@@ -98,7 +98,7 @@ export const customWarranties =[
     export const BackendData=[
        {
       fieldName: 'full Name',
-      name:'fullName',
+      value:'fullName',
       componentsId: 1,
       isRequired: 'yes'
     }

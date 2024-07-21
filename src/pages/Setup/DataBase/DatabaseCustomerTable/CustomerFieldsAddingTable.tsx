@@ -11,6 +11,7 @@ import { deleteCustomerCustomDatabase } from "../../../../redux/features/Custome
 import DeleteDatabaseCustomers from "./DeleteDatabaseCustomers"
 
 
+
 interface CustomerTableProps {
     customerDataBases: any[]
     // setCustomerDataBases:React.Dispatch<React.SetStateAction<any[]>>
@@ -49,7 +50,6 @@ interface CustomerTableProps {
       }
       handleDeleteClose();
   };
-
 
   
     return (
@@ -152,7 +152,9 @@ interface CustomerTableProps {
                       },
                       padding: '.5rem .10rem',
                     }}
+
                     onClick={()=>handleDeleteOpen(item)}
+
                   >
                     <DeleteForeverIcon sx={{ fontSize: '15px' }} />
                     Delete
@@ -178,6 +180,7 @@ interface CustomerTableProps {
         />
       )}
 
+
    {deleteOpen && (
     <DeleteDatabaseCustomers
         open={deleteOpen}
@@ -185,6 +188,7 @@ interface CustomerTableProps {
         onDelete={handleDeleteConfirm}
     />
 )}
+
       </Box>
     )
 }

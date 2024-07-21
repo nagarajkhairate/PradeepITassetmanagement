@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { Select, Option, Button, Typography, Box, FormControl, FormHelperText, FormLabel } from '@mui/joy';
-import AddSite from "../Setup/SetupSites/AddSite";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { fetchSites } from "../../redux/features/SitesSlice";
 import { ThunkDispatch } from "redux-thunk";
 import AddEmployee from "./AddEmployee";
 import { fetchEmployee } from "../../redux/features/EmployeeSlice";
@@ -41,12 +39,13 @@ const AddNewEmpployee: React.FC<AddEmpProps> = ({
     setOpen(false);
     dispatch(fetchEmployee());
   };
+
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', mt: 2 }}>
-      <FormControl sx={{ width: '200px' }}>
+      <FormControl sx={{ width: '300px' }}>
         <FormLabel>{field.fieldName}</FormLabel>
         <Select
-          placeholder="Select Person"
+          placeholder="Select Employee"
           name={field.name}
           value={formData[field.name] as string}
           onChange={selectChange}

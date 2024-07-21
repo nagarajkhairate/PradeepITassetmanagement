@@ -33,7 +33,7 @@ const SiteComponent: React.FC<SiteProps> = ({
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', mt: 2 }}>
-      <FormControl sx={{ width: '200px' }}>
+      <FormControl sx={{ width: '300px' }}>
         <FormLabel>{field.fieldName}</FormLabel>
         <Select
           placeholder="Select Site"

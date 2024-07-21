@@ -182,7 +182,7 @@ const DatabaseContractTable: React.FunctionComponent = () => {
                           whiteSpace: 'normal',
                         }}
                       >
-                        {data.isVisible && (
+                        {data.visible && (
                           <FormControl>
                             <RadioGroup
                               value={opt.isRequired ? 'yes' : 'optional'}

@@ -43,7 +43,9 @@ const DataBaseEmp: React.FunctionComponent = () => {
 
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...empDataBases]
+
     updatedForm[index].isVisible = !updatedForm[index].isVisible
+
     setEmpDataBases(updatedForm)
   }
 
@@ -210,7 +212,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
                           whiteSpace: 'normal',
                         }}
                       >
-                        {data.isVisible && (
+                        {data.visible && (
                           <FormControl>
                             <RadioGroup
                               value={opt.isRequired || 'optional'}

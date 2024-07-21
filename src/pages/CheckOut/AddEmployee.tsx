@@ -30,7 +30,8 @@ interface AddEmployeeProps {
   onAddEmployee: (name: string) => void;
 }
 
-const AddEmployee: React.FC<AddEmployeeProps> = ({ open, onClose, onAddEmployee }) => {
+const AddEmployee: React.FC<AddEmployeeProps> = ({ open, onClose, onAddEmployee }) =>
+   {
   const [employee, setEmployee] = useState<any>({});
   const [formData, setFormData] = useState<any>({})
   // const [errors, setErrors] = useState<EmployeeErrors>({});
@@ -47,7 +48,7 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ open, onClose, onAddEmployee 
       [name]: type === 'checkbox' ? checked : value,
     })
   }
-
+ 
   const handleSelectChange = (name: string, value: string | null) => {
     setFormData({
       ...formData,
@@ -114,11 +115,11 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ open, onClose, onAddEmployee 
       case "checkbox":
 
       case "select":
-          if (field.name === "checkOutSiteId") {
+          if (field.name === "empSite") {
             return <SiteComponent {...commonProps} />;
-          } else if (field.name === "checkOutLocationId") {
+          } else if (field.name === "empLocation") {
             return <LocationComponent {...commonProps} />;
-          } else if (field.name === "checkOutDepartmentId") {
+          } else if (field.name === "empDepartment") {
             return <DepartmentComponent {...commonProps} />;
           } 
           else {
@@ -157,12 +158,13 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ open, onClose, onAddEmployee 
         left: "50%",
         transform: "translate(-50%, -50%)",
         width: 500,
+        maxHeight: '80vh',
         borderRadius: 1,
         bgcolor:'#fff',
         p: 4,
-        maxHeight: "80vh",
         display: "flex",
         flexDirection: "column",
+        overflowY: "scroll"
       }}
       >
     <AppForm onSubmit={handleAdd}>
@@ -184,10 +186,10 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ open, onClose, onAddEmployee 
           </Box>
         </Typography>
         <Divider></Divider>
-        <Box>
-        {EmpConfig && EmpConfig.map((field , index) => (
-      <FormControl key={index}>
-       <Grid key={index}>
+
+          <Grid container spacing={1}>
+          {EmpConfig && EmpConfig.map((field , index) => (
+       <Grid key={index} xs={12} sm={12} md={12} lg={12}>
         {handleInputValue(
           field,
           formData,
@@ -195,9 +197,8 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ open, onClose, onAddEmployee 
           handleSelectChange,
         )}
         </Grid>
-      </FormControl>
     ))}
-          </Box>
+  </Grid>
 
         <ButtonGroup sx={{border:"1px solid #E0E1E3"}}>
           <Button

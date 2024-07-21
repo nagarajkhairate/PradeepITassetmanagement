@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
  
-interface CheckOutState {
+interface CheckInState {
   data: any[];
   selectedSites: any | null;
   loading: boolean;
   error: string | null;
 }
-const initialState: CheckOutState = {
+const initialState: CheckInState = {
   data: [],
   selectedSites: null,
   loading: false,

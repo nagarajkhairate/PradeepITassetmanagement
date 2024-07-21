@@ -1,73 +1,82 @@
-import React, { useState } from "react";
-import { Typography, Box, Button, Grid, Checkbox, Modal, Input, Table, Sheet } from "@mui/joy";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { Typography, Box, Button, Grid, Checkbox, Modal, Input, Table, Sheet, Chip } from "@mui/joy";
 import SearchIcon from "../../Assets/search.svg";
 import CheckInForm from "./CheckInForm";
 import AppView from "../../components/Common/AppView";
 import MaintenanceEmpty from "../../components/Common/MaintenanceEmpty";
 import AppButton from "../../components/Common/AppButton";
+import { RootState } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { fetchAssets } from "../../redux/features/AssetSlice";
 
-const assets = [
-  {
-    id: 'BBC-BLR-BKS-1000',
-    description: '12th Gen, Intel Core i3-N305 Processor 8/18 GHz (8MB Cache, up to 3.8 GHz Turbo boost, 8 cores, 8 threads)',
-    status: 'Checked Out',
-    assignedTo: 'Sanjana H',
-    site: 'Hubli',
-    location: 'Gokul RD/hubli',
-    leaseTo: ''
-  },
-  {
-    id: 'BBC-BLR-BKS - 1001',
-    description: '12th Gen, Intel Core i3-N305 Processor 1.8 GHz (6MB Cache, up to 3.8 GHz turbo boost, 8 cores, 8 threads)',
-    status: 'Checked Out',
-    assignedTo: 'Kavita G',
-    site: 'Hubli',
-    location: 'Gokul RD',
-    leaseTo: ''
-  },
-  {
-    id: 'BBC-BLR-BKS-1002',
-    description: '12th Gen, Intel Core i3-N305 Processor 8/18 GHz (8MB Cache, up to 3.8 GHz Turbo boost, 8 cores, 8 threads)',
-    status: 'Checked Out',
-    assignedTo: 'Shruti K',
-    site: 'Bagalkot',
-    location: 'Old Bagalkot',
-    leaseTo: ''
-  },
-];
+interface Asset {
+  id: string
+  assetTagId: string
+  description: string
+  status: string
+  assignedTo: string
+  site: { name: string }
+  location: { name: string }
+  leaseTo: string
+}
 
 const CheckIn: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [selectedAssets, setSelectedAssets] = useState<string[]>([]);
-  const [remainingAssets, setRemainingAssets] = useState(assets);
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const [selectedAssetIds, setSelectedAssetIds] = useState<string[]>([])
+  const [getAllAssets, setGetAllAssets] = useState<Asset[] | undefined>()
+  // const [remainingAssets, setRemainingAssets] = useState(assets);
+  const assets = useSelector((state: RootState) => state.assets.data)
+  const [selectedAssets, setSelectedAssets] = useState<Asset[]>()
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleSearchChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchKeyword(event.target.value)
+    },
+    [],
+  )
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchKeyword(event.target.value);
-  };
-
-  const handleCheckboxChange = (id: string) => {
-    setSelectedAssets((prevSelectedAssets) =>
+  const handleCheckboxChange = useCallback((id: string) => {
+    setSelectedAssetIds((prevSelectedAssets) =>
       prevSelectedAssets.includes(id)
         ? prevSelectedAssets.filter((assetId) => assetId !== id)
-        : [...prevSelectedAssets, id]
-    );
-  };
+        : [...prevSelectedAssets, id],
+    )
+  }, [])
 
-  const handleAddToList = () => {
-    const addedAssets = remainingAssets.filter(asset => selectedAssets.includes(asset.id));
-    setRemainingAssets(remainingAssets.filter(asset => !selectedAssets.includes(asset.id)));
-    handleClose();
-  };
+  const handleAddToList = useCallback(() => {
+    setSelectedAssets(
+      getAllAssets?.filter((asset) => selectedAssetIds.includes(asset.id)),
+    )
+    setGetAllAssets((prevData) =>
+      prevData?.filter((asset) => !selectedAssetIds.includes(asset.id)),
+    )
+    setOpen(false)
+  }, [getAllAssets, selectedAssetIds])
 
-  const filteredAssets = assets.filter((asset) =>
-    asset.description.toLowerCase().includes(searchKeyword.toLowerCase())
-  );
+  const statusColorMap: Record<string, string> = useMemo(
+    () => ({
+      Available: 'success',
+      CheckedOut: 'neutral',
+    }),
+    [],
+  )
 
-  const selectedAssetData = assets.filter(asset => selectedAssets.includes(asset.id));
+  useEffect(() => {
+    dispatch(fetchAssets())
+  }, [dispatch])
+
+  useEffect(() => {
+    setGetAllAssets(assets)
+  }, [assets])
+
+  // const filteredAssets = assets.filter((asset) =>
+  //   asset.description.toLowerCase().includes(searchKeyword.toLowerCase())
+  // );
+
+  // const selectedAssetData = assets.filter(asset => selectedAssets.includes(asset.id));
 
   return (
     <AppView>
@@ -83,7 +92,7 @@ const CheckIn: React.FC = () => {
       <Typography level="h4">Check-In</Typography>
       
       <Button
-        onClick={handleOpen}
+        onClick={() => setOpen(true)}
         sx={{
           backgroundColor: '#13B457',
           color: 'white',
@@ -94,15 +103,15 @@ const CheckIn: React.FC = () => {
       </Button>
     </Box>
 
-      {selectedAssetData.length > 0 ? (
-        <CheckInForm selectedAssets={selectedAssetData} />
+      {selectedAssets && selectedAssets.length > 0 ? (
+        <CheckInForm selectedAssets={selectedAssets} />
       ) : (
 <Box>
           <MaintenanceEmpty />
         </Box>     
        )}
 
-      <Modal open={open} onClose={handleClose}
+      <Modal open={open} onClose={()=> setOpen(false)}
       sx={{
         display: 'flex',
         alignItems: 'center',
@@ -114,7 +123,7 @@ const CheckIn: React.FC = () => {
           background: '#fff', 
           padding: 2, 
           borderRadius: "10px",
-           width: "80%" 
+           width: "50%" 
           }}
           >
           <Typography level="h4" sx={{ marginBottom: 2 }}>Select Assets</Typography>
@@ -149,7 +158,7 @@ const CheckIn: React.FC = () => {
             width: '100%',
             borderRadius: 'sm',
             flexShrink: 1,
-            height: '70vh',
+            height: '50vh',
             overflow: 'auto',
             '&::-webkit-scrollbar': {
               width: '6px', 
@@ -171,13 +180,13 @@ const CheckIn: React.FC = () => {
             stickyHeader
             
             sx={{
-            fontSize: '10px',
+            fontSize: '15px',
             border: '1px solid #f2f2f2',
           }}
           >
             <thead>
         <tr>
-            <th style={{  border: "1px solid #f2f2f2", width:20,background: "#fff8e6" }}><Checkbox  size="sm"/></th>
+            <th style={{  border: "1px solid #f2f2f2", width:30,background: "#fff8e6" }}><Checkbox  size="sm"/></th>
             <th style={{  border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Asset Tag ID</th>
             <th style={{  border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Description</th>
             <th style={{  border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Status</th>
@@ -188,21 +197,33 @@ const CheckIn: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-        {filteredAssets.map((asset, index) => (
-              <tr key={index}>
+        {assets && assets.map((asset) => (
+              <tr key={asset.id}>
                 <td  style={{ border: "1px solid #f2f2f2"}} color="#FFFFFF33">
                   <Checkbox
                   size="sm"
-                    checked={selectedAssets.includes(asset.id)}
+                    checked={selectedAssetIds.includes(asset.id)}
                     onChange={() => handleCheckboxChange(asset.id)}
                   />
                 </td>
-                <td style={{ padding: "8px", border: "1px solid #f2f2f2" }} color="#4880FF">{asset.id}</td>
+                <td style={{ padding: "8px", border: "1px solid #f2f2f2" }} color="#4880FF">{asset.assetTagId}</td>
                 <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.description}</td>
-                <td  style={{ padding: "8px", border: "1px solid #f2f2f2" }} color="#13B457">{asset.status}</td>
-                <td  style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.assignedTo}</td>
-                <td  style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.site}</td>
-                <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.location}</td>
+                <td style={{ border: '1px solid #f2f2f2' }}>
+                        <Chip
+                          variant="soft"
+                          size="sm"
+                          color={
+                            statusColorMap[
+                              asset.status as keyof typeof statusColorMap
+                            ] as 'success' | 'neutral'
+                          }
+                        >
+                          {asset.status}
+                        </Chip>
+                      </td>               
+                 <td  style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.assignedTo}</td>
+                <td  style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.site.name}</td>
+                <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.location.name}</td>
                 <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.leaseTo}</td>
               </tr>
             ))}
@@ -211,7 +232,7 @@ const CheckIn: React.FC = () => {
             </Sheet>
             
           <Box sx={{ display: 'flex',mt:2, justifyContent: 'flex-end' }}>
-            <AppButton onClick={handleClose} size="sm">Cancel</AppButton>
+            <AppButton onClick={()=> setOpen(false)} size="sm">Cancel</AppButton>
             <AppButton onClick={handleAddToList} size="sm">Add to List</AppButton>
           </Box>
         </Box>
