@@ -42,7 +42,7 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
 
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...maintenanceDataBases]
-    updatedForm[index].visible = !updatedForm[index].visible
+    updatedForm[index].isVisible = !updatedForm[index].isVisible
     setMaintenanceDataBases(updatedForm)
   }
 
@@ -185,7 +185,7 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                     <tr key={`${data.fieldName}-${index}`}>
                       <td>
                         <Checkbox
-                          checked={opt.visible || false}
+                          checked={opt.isVisible || false}
                           onChange={() => handleCheckboxChange(index)}
                         />
                       </td>
@@ -216,7 +216,7 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                             >
                               <FormControl
                                 key={`${index}-yes`}
-                                disabled={!opt.visible}
+                                disabled={!opt.isVisible}
                                 sx={{
                                   display: 'inline-flex',
                                   alignItems: 'center',
@@ -238,7 +238,7 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                               </FormControl>
                               <FormControl
                                 key={`${index}-optional`}
-                                disabled={!opt.visible}
+                                disabled={!opt.isVisible}
                                 sx={{
                                   display: 'inline-flex',
                                   alignItems: 'center',

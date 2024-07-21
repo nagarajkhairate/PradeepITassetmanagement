@@ -19,6 +19,7 @@ import { RootState } from '../../../redux/store'
 interface AddSiteProps {
   open: any
   setOpen: any
+  handleClose: () => void
 }
 
 interface Site {
@@ -43,7 +44,7 @@ const initialSiteData: Site = {
   country: '',
 }
 
-const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
+const AddSite: React.FC<AddSiteProps> = ({ open, setOpen,handleClose }) => {
   const [formData, setFormData] = useState<Site>(initialSiteData)
 
   // const users=useSelector((state: { users: SitesState }) =>state.users);
@@ -77,7 +78,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
     }
 
   return (
-    <Modal open={open} onClose={setOpen}>
+    <Modal open={open} onClose={ handleClose}>
       <Box sx={{ 
          position: 'absolute',
          top: '50%',
@@ -203,7 +204,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
         </Grid>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
           <Button
-            onClick={()=> setOpen()}
+            onClick={ handleClose}
             sx={{
               mr: 1,
               background: 'black',

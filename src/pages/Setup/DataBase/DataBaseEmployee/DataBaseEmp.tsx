@@ -43,7 +43,9 @@ const DataBaseEmp: React.FunctionComponent = () => {
 
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...empDataBases]
-    updatedForm[index].visible = !updatedForm[index].visible
+
+    updatedForm[index].isVisible = !updatedForm[index].isVisible
+
     setEmpDataBases(updatedForm)
   }
 

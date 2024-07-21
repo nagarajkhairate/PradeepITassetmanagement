@@ -2,34 +2,34 @@ import { Box, Button, Table } from "@mui/joy"
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import React, { useState } from "react"
-import EditModalDatabaseCustomer from "./EditModelDatabaseCustomer"
 import { ThunkDispatch } from "redux-thunk"
 import { RootState } from "../../../../redux/store"
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { deleteCustomerCustomDatabase } from "../../../../redux/features/CustomerCustomDatabaseSlice"
-import DeleteDatabaseCustomers from "./DeleteDatabaseCustomers"
+import EditModalDatabaseAsset from "./EditModalDatabaseAsset"
+import { deleteAssetCustomDatabase } from "../../../../redux/features/AssetCustomDatabaseSlice"
+import DeleteDatabaseAsset from "./DeleteDatabaseAsset"
 
 
-
-interface CustomerTableProps {
-    customerDataBases: any[]
+interface AssetTableProps {
+    assetDataForm: any[]
     // setCustomerDataBases:React.Dispatch<React.SetStateAction<any[]>>
   }
 
-  const CustomerFieldsAddingTable: React.FC<CustomerTableProps> = ({customerDataBases,
+  const AssetDbFieldsAddingTable: React.FC<AssetTableProps> = ({assetDataForm,
   }) => {
-    const [openAddCustomer, setOpenAddCustomer] = useState(false)
+    const [openAddAsset, setOpenAddAsset] = useState(false)
     const [selectedItem, setSelectedItem] = useState<any | null>(null);
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
     const [selectedCell, setSelectedCell] = useState<any | null>(null)
     const [deleteOpen, setDeleteOpen] = useState(false)
 
     const components = useSelector((state: RootState) => state.components.data)
-
+const category=useSelector((state:RootState) => state.category.data)
     const handleEdit = (item: any) => {
       setSelectedItem(item)
-      setOpenAddCustomer(true)
+      setOpenAddAsset(true)
     }
   
     const handleDeleteOpen = (item: any) => {
@@ -46,10 +46,11 @@ interface CustomerTableProps {
   const handleDeleteConfirm = () => {
       if (selectedCell) {
         console.log(`Deleting item with id: ${selectedCell.id}`);
-          dispatch(deleteCustomerCustomDatabase(selectedCell.id));
+          dispatch(deleteAssetCustomDatabase(selectedCell.id));
       }
       handleDeleteClose();
   };
+
 
   
     return (
@@ -58,7 +59,8 @@ interface CustomerTableProps {
           overflowX: 'auto',
           fontSize: '14px',
           whiteSpace: 'nowrap',
-          borderRadius: '5px',
+          borderRadius: '8px',
+          marginTop:'10px'
         }}
       >
         <Table
@@ -67,8 +69,8 @@ interface CustomerTableProps {
         style={{
           borderCollapse: 'collapse',
           border: '1px solid grey',
-          minWidth: '500px',
-          borderRadius: '5px',
+          minWidth: '600px',
+          borderRadius: '10px',
         }}
       >
         <thead>
@@ -82,6 +84,7 @@ interface CustomerTableProps {
             <th style={{ background: '#fff8e6', verticalAlign: 'middle' }}>
               Required
             </th>
+            <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Category</th>
             <th style={{ background: '#fff8e6', verticalAlign: 'middle' }}>
               Edit
             </th>
@@ -91,8 +94,8 @@ interface CustomerTableProps {
           </tr>
         </thead>
         <tbody>
-          {customerDataBases.length > 0 ? (
-            customerDataBases.map((item, index) => (
+          {assetDataForm.length > 0 ? (
+            assetDataForm.map((item, index) => (
               <tr key={index}>
                 <td
                   style={{
@@ -105,6 +108,12 @@ interface CustomerTableProps {
                 </td>
                 <td>{components.find((component) => component.id === item.componentsId)?.type || ''}</td>
                 <td>{item.isRequired}</td>
+                <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>
+
+                {category.find((opt) => opt.id === item.categoryId)?.type || ''}
+                </td>
+
+                
                 <td>
                   <Button
                     sx={{
@@ -152,9 +161,7 @@ interface CustomerTableProps {
                       },
                       padding: '.5rem .10rem',
                     }}
-
                     onClick={()=>handleDeleteOpen(item)}
-
                   >
                     <DeleteForeverIcon sx={{ fontSize: '15px' }} />
                     Delete
@@ -164,7 +171,7 @@ interface CustomerTableProps {
             ))
           ) : (
             <tr>
-              <td colSpan={5} style={{ textAlign: 'center' }}>
+              <td colSpan={6} style={{ textAlign: 'center' }}>
                 No Data Found
               </td>
             </tr>
@@ -172,25 +179,23 @@ interface CustomerTableProps {
         </tbody>
       </Table>
 
-      {openAddCustomer && (
-        <EditModalDatabaseCustomer
-          open={openAddCustomer}
-          setOpen={setOpenAddCustomer}
+      {openAddAsset && (
+        <EditModalDatabaseAsset
+          open={openAddAsset}
+          setOpen={setOpenAddAsset}
           selectedItem={selectedItem}
         />
       )}
 
-
    {deleteOpen && (
-    <DeleteDatabaseCustomers
+    <DeleteDatabaseAsset
         open={deleteOpen}
         onClose={handleDeleteClose}
         onDelete={handleDeleteConfirm}
     />
 )}
-
       </Box>
     )
 }
 
-export default CustomerFieldsAddingTable
+export default AssetDbFieldsAddingTable

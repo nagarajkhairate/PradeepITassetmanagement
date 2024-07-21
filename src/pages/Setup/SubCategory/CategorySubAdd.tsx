@@ -72,6 +72,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        p:3
       }}
       open={open}
       onClose={setOpen}
@@ -83,11 +84,14 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({
           borderRadius: 'md',
           p: 3,
           boxShadow: 'lg',
+          maxHeight: {md:'70vh', xs:'55vh'}, // Set a max height for the Sheet
+          // overflow: 'auto',
         }}
       >
+        <div>
         <Typography
           id="responsive-dialog-title"
-          component="h2"
+        
           level="h4"
           textColor="inherit"
           fontWeight="lg"
@@ -97,7 +101,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({
         </Typography>
         <Divider />
 
-        <Box sx={{ marginBottom: '10px' }}>
+        <Box sx={{ marginBottom: '5px' }}>
           <AppView onSubmit={handleAddCategory}>
             <FormControl
               sx={{
@@ -109,9 +113,8 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({
 
             <Box
               sx={{
-                marginTop: '1px',
+             
                 marginBottom: '15px',
-                padding: '10px',
               }}
             >
               <Typography sx={{ padding: 'none', width: '100%' }}>
@@ -185,9 +188,31 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({
                 />
               </FormControl>
             </Box>
-            <Divider />
 
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', m: 2 }}>
+            <Box 
+            sx={{  display: 'flex',
+              alignItems: 'center',
+              flexDirection: { md: 'row'},
+              justifyContent: { xs: 'space-between', md: 'flex-end' },
+              gap: '4px',
+              
+              flexWrap:'wrap'
+             }}
+            >
+              
+              <Button
+                autoFocus
+                type="button"
+                variant="solid"
+                sx={{
+                  background: '#fdd835',
+                  color: 'black',
+                  '&:hover': { background: '#E1A91B' },
+                }}
+              >
+                Add Sub Category
+              </Button>
+
               <Button
                 onClick={() => setOpen()}
                 autoFocus
@@ -203,21 +228,10 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({
               >
                 Cancel
               </Button>
-              <Button
-                autoFocus
-                type="button"
-                variant="solid"
-                sx={{
-                  background: '#fdd835',
-                  color: 'black',
-                  '&:hover': { background: '#E1A91B' },
-                }}
-              >
-                Add Sub Category
-              </Button>
             </Box>
           </AppView>
         </Box>
+        </div>
       </Sheet>
     </Modal>
   )

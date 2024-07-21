@@ -168,7 +168,7 @@ export function SetupEditDept({
               <tr>
                 <th
                   style={{
-                    width: 30,
+                    width: 35,
                     background: '#fff8e6',
                     verticalAlign: 'middle',
                   }}

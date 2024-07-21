@@ -2,9 +2,9 @@ export const warranties = [
   {
     id: 1,
     fieldName: 'Length',
-    visible: 'visible',
+    isVisible: 'isVisible',
     isRequired: 'optional',
-    value: 'length',
+    name: 'length',
     description: 'Length of the warranty (in months).',
     example: '24',
     option: [
@@ -21,9 +21,9 @@ export const warranties = [
   {
     id: 2,
     fieldName: 'Expiration Date',
-    visible: 'visible',
+    isVisible: 'isVisible',
     isRequired: 'optional',
-    value: 'expirationDate ',
+    name: 'expirationDate ',
     description: 'Date when warranty expires.',
     example: '12/12/2022',
     option: [
@@ -37,9 +37,9 @@ export const warranties = [
   {
     id: 3,
     fieldName: 'Notes',
-    visible: 'visible',
+    isVisible: 'isVisible',
     isRequired: 'optional',
-    value: 'notes',
+    name: 'notes',
     description: 'Text area for notes.',
     example: 'Renew warranty if equipment in good condition.',
     option: [
@@ -58,21 +58,21 @@ export const warranties = [
 
 export const warrantyData = [
     {
-      visible: true,
+      isVisible: true,
       fieldName: 'Length',
       value: 'length',
       description: 'string',
       isRequired: 'yes',
     },
     {
-        visible: true,
+        isVisible: true,
         fieldName: "Expiration Date",
         value: "expirationDate",
         isRequired: 'optional',
         description: "string",
     },
     {
-        visible: true,
+        isVisible: true,
         fieldName: "Notes",
         value: "notes",
         isRequired: 'optional',
@@ -87,7 +87,7 @@ export const warrantyData = [
 export const customWarranties =[
     {
       fieldName: 'full Name',
-      value:'value',
+      name:'fullName',
       componentsId: 1,
       isRequired: 'yes',
       

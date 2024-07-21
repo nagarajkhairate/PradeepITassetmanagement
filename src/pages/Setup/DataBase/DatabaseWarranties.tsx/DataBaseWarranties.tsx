@@ -42,7 +42,7 @@ const DatabaseWarranties: React.FunctionComponent = () => {
 
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...warrantyDataBases]
-    updatedForm[index].visible = !updatedForm[index].visible
+    updatedForm[index].isVisible = !updatedForm[index].isVisible
     setWarrantyDataBases(updatedForm)
   }
 
@@ -165,7 +165,7 @@ const DatabaseWarranties: React.FunctionComponent = () => {
                     <tr key={`${data.fieldName}-${index}`}>
                       <td>
                         <Checkbox
-                          checked={opt.visible || false}
+                          checked={opt.isVisible || false}
                           onChange={() => handleCheckboxChange(index)}
                         />
                       </td>
@@ -196,13 +196,13 @@ const DatabaseWarranties: React.FunctionComponent = () => {
                             >
                               <FormControl
                                 key={`${index}-yes`}
-                                disabled={!opt.visible}
+                                disabled={!opt.isVisible}
                                 sx={{
                                   display: 'inline-flex',
                                   alignItems: 'center',
                                   flexDirection: 'row',
                                   gap: 2,
-                                  // visibility: opt.fieldName === 'Full Name' ? 'visible' : 'hidden',
+                                  // visibility: opt.fieldName === 'Full Name' ? 'isVisible' : 'hidden',
                                 }}
                               >
                                 <Radio
@@ -218,7 +218,7 @@ const DatabaseWarranties: React.FunctionComponent = () => {
                               </FormControl>
                               <FormControl
                                 key={`${index}-optional`}
-                                disabled={!opt.visible}
+                                disabled={!opt.isVisible}
                                 sx={{
                                   display: 'inline-flex',
                                   alignItems: 'center',

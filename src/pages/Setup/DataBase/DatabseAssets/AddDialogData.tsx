@@ -1,8 +1,13 @@
-
-
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
-import React, { ChangeEvent, FormEvent, forwardRef, Ref, useEffect, useState } from 'react'
+import React, {
+  ChangeEvent,
+  FormEvent,
+  forwardRef,
+  Ref,
+  useEffect,
+  useState,
+} from 'react'
 import { fetchComponents } from '../../../../redux/features/ComponentsIdSlice'
 import {
   Box,
@@ -17,325 +22,325 @@ import {
   Sheet,
   Typography,
   Divider,
+  Modal,
 } from '@mui/joy'
 import AppForm from '../../../../components/Common/AppForm'
 import { RootState } from '../../../../redux/store'
-import { addDefaultFields } from '../../../../redux/features/AssetCustomDatabaseSlice'
-import { addDataBase, updateDataBase } from '../../../../redux/features/AssetDatabaseSlice'
+import { addAssetCustomDatabase } from '../../../../redux/features/AssetCustomDatabaseSlice'
+import { fetchCategory } from '../../../../redux/features/CategorySlice'
 
 interface DataBaseAddProps {
-  open: any
-  setOpen: any
-  dataBases: { customAsset: string[] }
-  setDataBases: React.Dispatch<React.SetStateAction<{ customAsset: string[] }>>
-  handleClose: () => void;
-  isEditMode: boolean;
-  existingFieldData?: any; // Adjust the type based on your actual data
-}
-interface AddDialogDataProps {
-  open: boolean;
-  handleClose: () => void;
-  isEditMode: boolean;
-  existingFieldData?: any; // Adjust the type based on your actual data
+  open: boolean
+  setOpen: (open: boolean) => void
 }
 
-
-const AddDialogData = forwardRef(({
-  open,
-  setOpen,
-  setDataBases,
-  isEditMode,
-}: DataBaseAddProps, ref: Ref<HTMLDivElement>) => {
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const [limitedCategories, setLimitedCategories] = useState<string[]>([])
+const AddDialogData: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
   const components = useSelector((state: RootState) => state.components.data)
-
-  const categoryOptions = useSelector((state: RootState) => state.dataBase.data); // Assuming this is where your category options are stored
-
-  const handleClickOpen = () => {
-    setOpen(true)
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-  }
-
-  const [formData, setFormData] = useState({
-    fieldName: '',
-    componentsId: 0,
-    categoryId: 0,
-    dataRequired: '',
-    limitedCategories: [] as string[],
-  })
+  const category = useSelector((state: RootState) => state.category.data)
+  console.log(category)
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
   React.useEffect(() => {
     dispatch(fetchComponents())
   }, [dispatch])
 
-  console.log(components)
+  React.useEffect(() => {
+    dispatch(fetchCategory())
+  }, [dispatch])
 
-  const handleAddSkill = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    // addCustomField(formData);
-    const selectedComponent = components.find(
-      (component) => component.id === formData.componentsId
-    )
-    setDataBases((prevData: any) => ({
-      ...prevData,
-      customAsset: [
-        ...prevData.customAsset,
-        {
-          fieldName: formData.fieldName,
-          componentsId: formData.componentsId,
-          categoryId: formData.categoryId,
-          isRequired: formData.dataRequired,
-          componentType: selectedComponent ? selectedComponent.type : '',
-          limitedCategories,
-        },
-      ],
-    }))
-    dispatch(addDefaultFields(formData)); 
-    handleClose()
-    setOpen(false)
-  }
+  const [formData, setFormData] = useState({
+    fieldName: '',
+    componentsId: 1,
+    isRequired: '',
+    categoryId: 1,
+  })
+
+  console.log(components)
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
-    const { name, value } = e.target as HTMLInputElement | HTMLSelectElement;
-    // const val =  value;
-    const categoryIdValue = name === 'categoryId' ? parseInt(value, 10) : value;
-    setFormData((prevData) => ({ ...prevData, [name]: categoryIdValue }))
+    const { name, value } = e.target
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: name === 'categoryId' ? parseInt(value, 10) : value,
+    }))
   }
-  
+
+  const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData((prevData) => ({ ...prevData, isRequired: value }))
+  }
 
   const handleSelectChange = (
-    event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element> | React.FocusEvent<Element, Element> | null,
-    value: unknown
+    event:
+      | React.MouseEvent<Element, MouseEvent>
+      | React.KeyboardEvent<Element>
+      | React.FocusEvent<Element, Element>
+      | null,
+    value: unknown,
   ) => {
-    setFormData((prevData:any) => ({
+    setFormData((prevData: any) => ({
       ...prevData,
       componentsId: value ? parseInt(value as string, 10) : 0,
     }))
   }
-  
-  // const handleLimitedCategoryChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   const { value } = event.target
-  //   setLimitedCategories((prevCategories) =>
-  //     prevCategories.includes(value)
-  //       ? prevCategories.filter((category) => category !== value)
-  //       : [...prevCategories, value]
-  //   )
-  // }
 
-  const handleLimitedCategoryChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setFormData((prevData) => ({
+  const handleCategorySelectChange = (
+    event:
+      | React.MouseEvent<Element, MouseEvent>
+      | React.KeyboardEvent<Element>
+      | React.FocusEvent<Element, Element>
+      | null,
+    value: unknown,
+  ) => {
+    setFormData((prevData: any) => ({
       ...prevData,
-      limitedCategories: prevData.limitedCategories.includes(value)
-        ? prevData.limitedCategories.filter((category) => category !== value)
-        : [...prevData.limitedCategories, value],
-    }));
-    console.log("Updated Limited Categories:", formData.limitedCategories);
-  };
+      categoryId: value ? parseInt(value as string, 10) : 0,
+    }))
+  }
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    if (isEditMode) {
-      dispatch(updateDataBase(formData));
-    } else {
-      dispatch(addDataBase(formData));
-    }
-    handleClose();
-  };
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    console.log('Form Data:', {
+      ...formData,
+    })
+
+    setOpen(false)
+    dispatch(addAssetCustomDatabase(formData))
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+    // setFormData({
+    //   fieldName: '',
+    //   componentsId: components.length > 0 ? components[0].id : null,
+    //   isRequired: '',
+    //   categoryId: components.length > 0 ? components[0].id : null,
+    // })
+  }
 
   return (
-    <Sheet
-      variant="outlined"
+    <Modal
+      open={open}
+      onClose={() => setOpen(false)}
+      aria-labelledby="responsive-dialog-title"
+      aria-describedby="modal-desc"
       sx={{
-        maxWidth: 500,
-        borderRadius: 'md',
-        p: 3,
-        boxShadow: 'lg',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
       }}
     >
-      <div>
-        <Typography
-          id="responsive-dialog-title"
-          component="h2"
-          level="h4"
-          textColor="inherit"
-          fontWeight="lg"
-          mb={1}
-        >
-          {'Add Custom Fields here'}
-        </Typography>
-
-        <AppForm onSubmit={handleAddSkill}>
-          <FormControl>
-            <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
-              Custom Field Label*:
-              <Input
-                variant="outlined"
-                type="text"
-                id="fieldName"
-                name="fieldName"
-                value={formData.fieldName}
-                onChange={handleChange}
-                required
-                sx={{ width: '45%', marginLeft: '20px' }}
-              />
-            </FormLabel>
-          </FormControl>
-
-          <FormControl>
-            <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
-              Data Types*:
-              <Select
-                placeholder="Select Data Types"
-                sx={{ width: '50%', marginLeft: '70px' }}
-                name="componentsId"
-                value={formData.componentsId}
-                onChange={(event, value)=> handleSelectChange(event,value)}
-              >
-                {components &&
-                  components.map((option, index) => (
-                    <Option 
-                    key={index}
-                     value={option.id}
-                    >
-                      {option.type}
-                      {/* <Components  /> */}
-                    </Option>
-                  ))}
-              </Select>
-            </FormLabel>
-          </FormControl>
-
-          <FormControl
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}
+      <Sheet
+        variant="outlined"
+        sx={{
+          maxWidth: 600,
+          borderRadius: 'md',
+          p: 4,
+          boxShadow: 'lg',
+        }}
+      >
+        <div>
+          <Typography
+            id="responsive-dialog-title"
+            component="h2"
+            level="h4"
+            textColor="inherit"
+            fontWeight="lg"
+            mb={1}
           >
-            <FormLabel sx={{ paddingTop: '36px', marginLeft: '20px' }}>
-              Data Required:
-            </FormLabel>
-            <RadioGroup
-              name="dataRequired"
-              value={formData.dataRequired}
-              onChange={handleChange}
-            >
-              <Box>
-                <Radio
-                  value="yes"
-                  label="Yes"
-                  variant="outlined"
-                  sx={{ paddingTop: '10px', marginLeft: '55px' }}
-                />
-                <Radio
-                  value="optional"
-                  label="Optional"
-                  variant="outlined"
-                  sx={{ paddingTop: '30px', marginLeft: '10px' }}
-                />
-              </Box>
-            </RadioGroup>
-          </FormControl>
+            {'Add Custom Fields here'}
+          </Typography>
+          <Divider />
 
-          <Box>
-            <FormLabel
+          <AppForm onSubmit={handleSubmit}>
+            <FormControl>
+              <FormLabel sx={{ paddingTop: '20px', marginLeft: '8%' }}>
+                Custom Field Label*:
+                <Input
+                  variant="outlined"
+                  type="text"
+                  id="fieldName"
+                  name="fieldName"
+                  value={formData.fieldName}
+                  onChange={handleChange}
+                  onInput={(e) => {
+                    const target = e.target as HTMLInputElement
+                    target.value = target.value.replace(/[^a-zA-Z0-9-]/g, '')
+                  }}
+                  required
+                  sx={{ marginLeft: '40px', }}
+                />
+              </FormLabel>
+            </FormControl>
+
+            <FormControl>
+              <FormLabel sx={{ paddingTop: '30px', marginLeft: '18%' }}>
+                Data Types*:
+                <Select
+                  placeholder="Select Data Types "
+                  sx={{ marginLeft: '42px', width:'13.5rem'}}
+                  name="componentsId"
+                  value={formData.componentsId}
+                  onChange={(event, value) => handleSelectChange(event, value)}
+                >
+                  {components &&
+                    components.map((option, index) => (
+                      <Option key={index} value={option.id}>
+                        {option.title}
+                      </Option>
+                    ))}
+                </Select>
+              </FormLabel>
+            </FormControl>
+
+            <FormControl
               sx={{
-                paddingTop: '25px',
-                marginLeft: '20px',
                 display: 'flex',
-                flexDirection: { md: 'flex-end', xs: 'flex-end' },
+                flexDirection: 'row',
+                alignItems: 'center',
               }}
             >
-              Selected <span style={{ marginRight: '8px' }}>Categories:</span>
-              <span style={{ marginLeft: '10px' }}>
-                Is this field visible to assets of selective 'Categories'?
-              </span>
-            </FormLabel>
-
-            <RadioGroup
-              name="categoryId"
-              value={formData.categoryId}
-              onChange={handleChange}
-            >
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: { md: 'flex-end', xs: 'center' },
-                }}
+              <FormLabel sx={{ paddingTop: '36px', marginLeft: '15%' }}>
+                Data Required :
+              </FormLabel>
+              <RadioGroup
+                name="isRequired"
+                value={formData.isRequired}
+                onChange={handleRadioChange}
               >
-                <Radio
-                  value={0}
-                  label="All Categories"
-                  variant="outlined"
-                  sx={{ paddingTop: '20px', marginLeft: '165px' }}
-                />
-                <Radio
-                  value={1}
-                  label="Limited Categories"
-                  variant="outlined"
-                  sx={{ paddingTop: '20px', marginLeft: '15px' }}
-                />
-              </Box>
-            </RadioGroup>
-
-            {formData.categoryId === 1 && (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  mt: 2,
-                }}
-              >
-                <FormLabel>Limited Categories:</FormLabel>
-                {categoryOptions.map((option) => (
+                <Box>
                   <Radio
-                    key={option.value}
-                    value={option.value}
-                    label={option.label}
-                    checked={formData.limitedCategories.includes(option.value)}
-                    onChange={handleLimitedCategoryChange}
+                    value="yes"
+                    label="Yes"
                     variant="outlined"
-                    sx={{ paddingTop: '10px', marginLeft: '55px' }}
+                    sx={{ paddingTop: '10px', marginLeft: '40px' }}
                   />
-                ))}
+                  <Radio
+                    value="optional"
+                    label="Optional"
+                    variant="outlined"
+                    sx={{ paddingTop: '30px', marginLeft: '30px' }}
+                  />
+                </Box>
+              </RadioGroup>
+            </FormControl>
+
+            <Box>
+              <Box
+                sx={{
+                  paddingTop: '15px',
+                  marginLeft: '20%',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <FormLabel sx={{ marginRight: '4px' }}>
+                  Selected Categories :
+                </FormLabel>
+                <FormLabel>
+                  <span >
+                    Is this field visible to assets of selective 'Categories'?
+                  </span>
+                </FormLabel>
               </Box>
-            )}
-          </Box>
+              <RadioGroup
+                name="categoryId"
+                value={formData.categoryId}
+                onChange={handleChange}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: { md: 'flex-end', xs: 'center' },
+                  }}
+                >
+                  <Radio
+                    value={0}
+                    label="All Categories"
+                    variant="outlined"
+                    sx={{ paddingTop: '25px', marginLeft: '210px',  }}
+                  />
+                  <Radio
+                    value={1}
+                    label="Limited Categories"
+                    variant="outlined"
+                    sx={{ paddingTop: '25px', marginLeft: '70px' }}
+                  />
 
-          <Button
-            autoFocus
-            type="submit"
-            variant="solid"
-            sx={{
-              background: '#fdd835',
-              color: 'black',
-              marginTop: '25px',
-              marginLeft: '30%',
-            }}
-          >
-            Save
-          </Button>
+                  {formData.categoryId === 1 && (
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        mt: 'none',
+                      }}
+                    >
+                      <FormLabel sx={{ marginTop: '80px' }}>
+                        Limited Categories:
+                      </FormLabel>
+                      <Select
+                        placeholder="Select Category"
+                        name="categoryId"
+                        onChange={handleCategorySelectChange}
+                      >
+                        {category &&
+                          category.map((opt, index) => (
+                            <Option key={index} value={opt.id}>
+                              {opt.categoryName}
+                            </Option>
+                          ))}
+                      </Select>
+                    </Box>
+                  )}
+                </Box>
+              </RadioGroup>
+            </Box>
 
-          <Button
-            type="button"
-            onClick={handleClose}
-            autoFocus
-            variant="solid"
-            sx={{ background: 'black', color: 'white', marginLeft: '25px' }}
-          >
-            Cancel
-          </Button>
-        </AppForm>
-      </div>
-    </Sheet>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: { md: 'row' },
+                justifyContent: { xs: 'space-between', md: 'flex-end' },
+                gap: '5px',
+                mt: 4,
+                flexWrap: 'wrap',
+              }}
+            >
+              <Button
+                autoFocus
+                type="submit"
+                variant="solid"
+                sx={{
+                  background: '#fdd835',
+                  '&:hover': { background: '#E1A91B' },
+                  color: 'black',
+                }}
+              >
+                Save
+              </Button>
+
+              <Button
+                type="button"
+                onClick={() => setOpen(false)}
+                autoFocus
+                variant="solid"
+                sx={{
+                  background: 'black',
+                  '&:hover': { background: 'black' },
+                  color: 'white',
+                }}
+              >
+                Cancel
+              </Button>
+            </Box>
+          </AppForm>
+        </div>
+      </Sheet>
+    </Modal>
   )
-})
-export default AddDialogData
+}
+export default React.memo(AddDialogData)

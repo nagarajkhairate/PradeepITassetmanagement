@@ -23,6 +23,7 @@ interface CategoryAddProps {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                p:4
               }}
               open={open}
               onClose={handleClose}
@@ -134,7 +135,7 @@ interface CategoryAddProps {
                         variant="solid"
                         sx={{
                           background: 'black',
-                          '&:hover': { background: 'black' },
+                          '&:hover': { background: "#424242" },
                           color: 'white',
 
                         }}

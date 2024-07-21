@@ -42,7 +42,7 @@ const DatabaseContractTable: React.FunctionComponent = () => {
 
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...contractDataBases]
-    updatedForm[index].visible = !updatedForm[index].visible
+    updatedForm[index].isVisible = !updatedForm[index].isVisible
     setContractDataBases(updatedForm)
   }
 
@@ -163,7 +163,7 @@ const DatabaseContractTable: React.FunctionComponent = () => {
                     <tr key={`${data.fieldName}-${index}`}>
                       <td>
                         <Checkbox
-                          checked={opt.visible || false}
+                          checked={opt.isVisible || false}
                           onChange={() => handleCheckboxChange(index)}
                         />
                       </td>
@@ -194,13 +194,13 @@ const DatabaseContractTable: React.FunctionComponent = () => {
                             >
                               <FormControl
                                 key={`${index}-yes`}
-                                disabled={!opt.visible}
+                                disabled={!opt.isVisible}
                                 sx={{
                                   display: 'inline-flex',
                                   alignItems: 'center',
                                   flexDirection: 'row',
                                   gap: 2,
-                                  // visibility: opt.fieldName === 'Full Name' ? 'visible' : 'hidden',
+                                  // visibility: opt.fieldName === 'Full Name' ? 'isVisible' : 'hidden',
                                 }}
                               >
                                 <Radio
@@ -216,7 +216,7 @@ const DatabaseContractTable: React.FunctionComponent = () => {
                               </FormControl>
                               <FormControl
                                 key={`${index}-optional`}
-                                disabled={!opt.visible}
+                                disabled={!opt.isVisible}
                                 sx={{
                                   display: 'inline-flex',
                                   alignItems: 'center',
