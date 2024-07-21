@@ -10,16 +10,17 @@ import {
   FormLabel,
   Grid,
   Divider,
+  FormControl,
 } from '@mui/joy'
 import { addSites } from '../../../redux/features/SitesSlice'
 import { useDispatch } from 'react-redux'
 import { ThunkDispatch } from '@reduxjs/toolkit'
 import { RootState } from '../../../redux/store'
+import AppForm from '../../../components/Common/AppForm'
 
 interface AddSiteProps {
   open: any
   setOpen: any
-  handleClose: () => void
 }
 
 interface Site {
@@ -44,10 +45,8 @@ const initialSiteData: Site = {
   country: '',
 }
 
-const AddSite: React.FC<AddSiteProps> = ({ open, setOpen,handleClose }) => {
+const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
   const [formData, setFormData] = useState<Site>(initialSiteData)
-
-  // const users=useSelector((state: { users: SitesState }) =>state.users);
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
   const handleSelectChange = (
@@ -66,31 +65,33 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen,handleClose }) => {
     setFormData((prevState) => ({ ...prevState, [name]: value }))
   }
 
-  const handleAddSite = async () => {
+  const handleSubmit = async () => {
     try {
       await dispatch(addSites(formData))
       setOpen()
     } catch (error) {
-      
+      console.log(error)
     }
       
   
     }
 
   return (
-    <Modal open={open} onClose={ handleClose}>
-      <Box sx={{ 
-         position: 'absolute',
-         top: '50%',
-         left: '50%',
-         transform: 'translate(-50%, -50%)',
-         bgcolor: 'white',
-         p: 4,
-         borderRadius: 10,
-         maxWidth: '600px',
-         maxHeight: '90vh',
-         overflowY: 'auto',
-      }}>
+    <Modal open={open} onClose={setOpen}>
+      <Box
+        sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          bgcolor: 'white',
+          p: 4,
+          borderRadius: 10,
+          maxWidth: '600px',
+          maxHeight: '90vh',
+          overflowY: 'auto',
+        }}
+      >
         <Typography level="h4" sx={{ mb: 2 }}>
           Add New Site
         </Typography>
@@ -100,111 +101,125 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen,handleClose }) => {
           Enter the data about your new site in the fields below and we will add
           it to your list.
         </Typography>
+        <AppForm onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid xs={12} md={6}>
-            <FormLabel>Site</FormLabel>
-            <Input
-              placeholder="Select Site"
-              name="siteName"
-              value={formData.siteName}
-              onChange={handleChange}
-              fullWidth
-              sx={{ mb: 2 }}
-            />
+            <FormControl>
+              <FormLabel>Site</FormLabel>
+              <Input
+                placeholder="Select Site"
+                name="siteName"
+                value={formData.siteName}
+                onChange={handleChange}
+                fullWidth
+                sx={{ mb: 2 }}
+              />
+            </FormControl>
           </Grid>
           <Grid xs={12} md={6}>
-            <FormLabel>Description</FormLabel>
-
-            <Input
-              placeholder="Description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              fullWidth
-              sx={{ mb: 2 }}
-            />
+            <FormControl>
+              {' '}
+              <FormLabel>Description</FormLabel>
+              <Input
+                placeholder="Description"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                fullWidth
+                sx={{ mb: 2 }}
+              />
+            </FormControl>
           </Grid>
           <Grid xs={12} md={6}>
-            <FormLabel>Country</FormLabel>
-            <Select
-              placeholder="Select Country"
-              name="country"
-              required
-              sx={{ height: '36px', mb: 2 }}
-              value={formData.country}
-              onChange={(event, newValue) =>
-                handleSelectChange(event, newValue, 'country')
-              }
-            >
-              <Option value="india">India</Option>
-              <Option value="usa">USA</Option>
-              <Option value="canada">Canada</Option>
-              <Option value="shrilankha">Shrilankha</Option>
-            </Select>{' '}
+            <FormControl>
+              {' '}
+              <FormLabel>Country</FormLabel>
+              <Select
+                placeholder="Select Country"
+                name="country"
+                required
+                sx={{ height: '36px', mb: 2 }}
+                value={formData.country}
+                onChange={(event, newValue) =>
+                  handleSelectChange(event, newValue, 'country')
+                }
+              >
+                <Option value="india">India</Option>
+                <Option value="usa">USA</Option>
+                <Option value="canada">Canada</Option>
+                <Option value="shrilankha">Shrilankha</Option>
+              </Select>
+            </FormControl>
           </Grid>
           <Grid xs={12} md={6}>
-            <FormLabel>State</FormLabel>
-            <Input
-              placeholder="State"
-              name="state"
-              value={formData.state}
-              onChange={handleChange}
-              fullWidth
-              sx={{ mb: 2 }}
-            />
+            <FormControl>
+              <FormLabel>State</FormLabel>
+              <Input
+                placeholder="State"
+                name="state"
+                value={formData.state}
+                onChange={handleChange}
+                fullWidth
+                sx={{ mb: 2 }}
+              />
+            </FormControl>
           </Grid>
           <Grid xs={12} md={6}>
-            <FormLabel>City</FormLabel>
-            <Input
-              placeholder="city"
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-              fullWidth
-              sx={{ mb: 2 }}
-            />
+            <FormControl>
+              <FormLabel>City</FormLabel>
+              <Input
+                placeholder="city"
+                name="city"
+                value={formData.city}
+                onChange={handleChange}
+                fullWidth
+                sx={{ mb: 2 }}
+              />
+            </FormControl>
           </Grid>
           <Grid xs={12} md={6}>
-            {' '}
-            <FormLabel>Zip Code</FormLabel>
-            <Input
-              placeholder="ZipCode"
-              name="zipCode"
-              value={formData.zipCode}
-              onChange={handleChange}
-              fullWidth
-              sx={{ mb: 2 }}
-              // error={!!zipCodeError}
-              // helperText={zipCodeError}
-            />
+            <FormControl>
+              <FormLabel>Zip Code</FormLabel>
+              <Input
+                placeholder="ZipCode"
+                name="zipCode"
+                value={formData.zipCode}
+                onChange={handleChange}
+                fullWidth
+                sx={{ mb: 2 }}
+              />
+            </FormControl>
           </Grid>
           <Grid xs={12} md={6}>
-            {' '}
-            <FormLabel>Address</FormLabel>
-            <Input
-              placeholder="Address"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              fullWidth
-              sx={{ mb: 2 }}
-            />{' '}
+            <FormControl>
+              <FormLabel>Address</FormLabel>
+              <Input
+                placeholder="Address"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                fullWidth
+                sx={{ mb: 2 }}
+              />
+            </FormControl>
           </Grid>
           <Grid xs={12} md={6}>
-            <FormLabel>Apt. / Suite</FormLabel>
-            <Input
-              placeholder="Apt./ Suite"
-              name="aptSuite"
-              value={formData.aptSuite}
-              onChange={handleChange}
-              fullWidth
-              sx={{ mb: 2 }}
-            />
+            <FormControl>
+              <FormLabel>Apt. / Suite</FormLabel>
+              <Input
+                placeholder="Apt./ Suite"
+                name="aptSuite"
+                value={formData.aptSuite}
+                onChange={handleChange}
+                fullWidth
+                sx={{ mb: 2 }}
+              />
+            </FormControl>
           </Grid>
         </Grid>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
           <Button
-            onClick={ handleClose}
+            onClick={() => setOpen(false)}
             sx={{
               mr: 1,
               background: 'black',
@@ -217,7 +232,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen,handleClose }) => {
             Cancel
           </Button>
           <Button
-            onClick={handleAddSite}
+          type="Submit"
             sx={{
               background: '#fdd835',
               color: 'black',
@@ -228,7 +243,10 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen,handleClose }) => {
           >
             Add Site
           </Button>
-        </Box>
+          </Box>
+        </AppForm>
+       
+      
       </Box>
     </Modal>
   )

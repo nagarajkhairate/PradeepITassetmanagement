@@ -88,11 +88,11 @@ const Company: React.FC<CompanyProps> = ({
       company: { ...prevData, company: companyFormDataToSend },
     }))
     await dispatch(addCompanyInfo(companyFormDataToSend))
-    setActiveTab((prevActiveStep: any) => prevActiveStep + 1)
+    setActiveTab(activeTab + 1)
   }
 
   const handleBack = () => {
-    setActiveTab((prevActiveStep: any) => prevActiveStep - 1)
+    setActiveTab(activeTab - 1)
   }
 
   return (

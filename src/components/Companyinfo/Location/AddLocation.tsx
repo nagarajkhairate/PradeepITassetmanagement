@@ -25,11 +25,11 @@ import { fetchSites } from '../../../redux/features/SitesSlice'
 
 interface LocationAddProps {
   open: any
-  setOpen: any
+  setOpen: ()=> void
 }
 
 const AddLocation: React.FC<LocationAddProps> = ({ open, setOpen }) => {
-  const [locationForm, setLocationForm] = useState<{ [key: string]: any }>({})
+  const [formData, setFormData] = useState<{ [key: string]: any }>({})
   const sites = useSelector((state: RootState) => state.sites.data)
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
@@ -39,22 +39,15 @@ const AddLocation: React.FC<LocationAddProps> = ({ open, setOpen }) => {
 
   const handleAddLocation = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const capitalizedForm = {
-      ...locationForm,
-      location: capitalizeWords(locationForm.location || ''),
-    }
-    console.log(JSON.stringify(capitalizedForm))
-    dispatch(addLocation(capitalizedForm))
-    setOpen(false)
+    
+    dispatch(addLocation(formData))
+    setOpen()
   }
 
-  const capitalizeWords = (str: string) => {
-    return str.replace(/\b\w/g, (char) => char.toUpperCase())
-  }
 
   const HandleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setLocationForm((prevData: any) => ({
+    setFormData((prevData: any) => ({
       ...prevData,
       [name]: value,
     }))
@@ -64,7 +57,7 @@ const AddLocation: React.FC<LocationAddProps> = ({ open, setOpen }) => {
     event: React.SyntheticEvent | null,
     newValue: string | null,
   ) => {
-    setLocationForm((prevData: any) => ({
+    setFormData((prevData: any) => ({
       ...prevData,
       siteId: newValue,
     }))
@@ -181,7 +174,7 @@ const AddLocation: React.FC<LocationAddProps> = ({ open, setOpen }) => {
                   Location*:
                 </FormLabel>
                 <Input
-                  // value={locationForm.location}
+                  // value={formData.location}
                   name="location"
                   onChange={HandleInputChange}
                   placeholder="Type here"
@@ -202,7 +195,7 @@ const AddLocation: React.FC<LocationAddProps> = ({ open, setOpen }) => {
                   color: 'white',
                   mr: 1,
                 }}
-                onClick={() => setOpen(false)}
+                onClick={() => setOpen()}
               >
                 Cancel
               </Button>

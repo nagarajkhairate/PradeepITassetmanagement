@@ -44,7 +44,7 @@ const AddCategory: React.FunctionComponent<CategoryAddProps> = ({
     }
   }
 
-  console.log(formData)
+ 
   return (
     <Modal
       aria-labelledby="responsive-dialog-title"
