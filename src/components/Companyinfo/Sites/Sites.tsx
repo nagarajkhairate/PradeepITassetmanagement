@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useEffect } from 'react'
 import {
   Box,
   Divider,
@@ -25,6 +25,7 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import {
   deleteSites,
+  fetchSites,
   updateSites,
 } from '../../../redux/features/SitesSlice'
 import { ThunkDispatch } from 'redux-thunk'
@@ -47,10 +48,7 @@ interface SiteProps {
   setActiveTab: (tab: number) => void
 }
 
-const Sites: React.FC<SiteProps> = ({
-  activeTab,
-  setActiveTab,
-}) => {
+const Sites: React.FC<SiteProps> = ({ activeTab, setActiveTab }) => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [open, setOpen] = useState(false)
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
@@ -58,7 +56,6 @@ const Sites: React.FC<SiteProps> = ({
   const [isEditDialogOpen, setEditDialogOpen] = useState(false)
   const [selectedSite, setSelectedSite] = useState<any>(null)
   const [deleteOpen, setDeleteOpen] = useState(false)
- 
 
   const sites = useSelector((state: RootState) => state.sites.data)
 
@@ -67,11 +64,8 @@ const Sites: React.FC<SiteProps> = ({
     setDeleteOpen(true)
   }
 
-  console.log(JSON.stringify(sites))
-
   const handleDelete = () => {
     if (selectedSite) {
-      
       dispatch(deleteSites(selectedSite))
       setDeleteOpen(false)
       setSelectedSite(null)
@@ -99,11 +93,16 @@ const Sites: React.FC<SiteProps> = ({
 
   const handleNext = () => {
     setActiveTab(activeTab + 1)
+    
   }
 
   const handleBack = () => {
     setActiveTab(activeTab - 1)
   }
+
+  useEffect(() => {
+    dispatch(fetchSites())
+  }, [dispatch])
 
   return (
     <AppView>
@@ -113,7 +112,7 @@ const Sites: React.FC<SiteProps> = ({
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
           gap: '5px',
-          p:2
+          p: 2,
         }}
       >
         <Box
@@ -263,7 +262,6 @@ const Sites: React.FC<SiteProps> = ({
             <Select
               placeholder="1"
               sx={{
-                // marginLeft: { md: '20px' },
                 alignItems: 'center',
                 background: 'none',
                 color: 'black',
@@ -467,33 +465,31 @@ const Sites: React.FC<SiteProps> = ({
                           {site.country}
                         </td>
                         <td>
-                          <div>
-                            <Button
-                              onClick={() => handleEditClick(site)}
-                              sx={{
-                                fontWeight: '400',
-                                fontSize: '14px',
-                                background: '#ffffff',
-                                color: 'green',
-                                display: 'flex',
-                                justifyContent: {
-                                  md: 'flex-end',
-                                  xs: 'center',
-                                },
-                                marginLeft: 'none',
-                                border: '1px solid green ',
-                                borderRadius: '13px',
-                                '&:hover': {
-                                  color: 'white',
-                                  background: 'green',
-                                },
-                                padding: '.25rem .55rem',
-                              }}
-                            >
-                              <EditOutlinedIcon sx={{ fontSize: '14px' }} />
-                              Edit
-                            </Button>
-                          </div>
+                          <Button
+                            onClick={() => handleEditClick(site)}
+                            sx={{
+                              fontWeight: '400',
+                              fontSize: '14px',
+                              background: '#ffffff',
+                              color: 'green',
+                              display: 'flex',
+                              justifyContent: {
+                                md: 'flex-end',
+                                xs: 'center',
+                              },
+                              marginLeft: 'none',
+                              border: '1px solid green ',
+                              borderRadius: '13px',
+                              '&:hover': {
+                                color: 'white',
+                                background: 'green',
+                              },
+                              padding: '.25rem .55rem',
+                            }}
+                          >
+                            <EditOutlinedIcon sx={{ fontSize: '14px' }} />
+                            Edit
+                          </Button>
                         </td>
                         <td>
                           <Button
@@ -537,52 +533,39 @@ const Sites: React.FC<SiteProps> = ({
           </Stack>
         </Box>
 
-
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-        <Button
-          sx={{
-            background: '#388e3c',
-            color: 'white',
-            '&:hover': { background: '#388e3B' },
-            borderRadius: '10px',
-          }}
-          disabled={activeTab === 0}
-          onClick={handleBack}
-        >
-          Back
-        </Button>
-        <Button
-          sx={{
-            background: '#FABC1E',
-            color: 'black',
-            '&:hover': { background: '#E1A91B' },
-            borderRadius: '10px',
-          }}
-          onClick={handleNext}
-        >
-          Continue
-        </Button>
-      </Box>
+          <Button
+            sx={{
+              background: '#388e3c',
+              color: 'white',
+              '&:hover': { background: '#388e3B' },
+              borderRadius: '10px',
+            }}
+            disabled={activeTab === 0}
+            onClick={handleBack}
+          >
+            Back
+          </Button>
+          <Button
+            sx={{
+              background: '#FABC1E',
+              color: 'black',
+              '&:hover': { background: '#E1A91B' },
+              borderRadius: '10px',
+            }}
+            onClick={handleNext}
+          >
+            Continue
+          </Button>
+        </Box>
       </Box>
 
-      <AddSite
-        open={open}
-          setOpen={setOpen}
-      />
+      <AddSite open={open} setOpen={setOpen} />
 
       <EditSite
         open={isEditDialogOpen}
         onClose={() => setEditDialogOpen(false)}
         site={selectedSite}
-        onSave={(updatedSite: Site) => {
-          const updatedSites = sites.map((site) =>
-            site === selectedSite ? updatedSite : site,
-          )
-          // setSites(updatedSites)
-          setEditDialogOpen(false)
-          setSelectedSite(null)
-          // handleDelete={handleDelete}
-        }}
       />
 
       <DeleteSite
@@ -590,9 +573,8 @@ const Sites: React.FC<SiteProps> = ({
         handleDelete={handleDelete}
         handleDeleteClose={handleDeleteClose}
       />
-      
     </AppView>
   )
 }
 
-export default Sites
+export default React.memo(Sites)
