@@ -12,7 +12,6 @@ import {
 } from '@mui/joy'
 import AppView from '../../../../components/Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
-import { FormControlLabel } from '@mui/material'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
 import { AssetDefaultFields, dataValue } from './AssetData'
 import { useDispatch, useSelector } from 'react-redux'
@@ -45,12 +44,18 @@ const DataBaseAsset: React.FunctionComponent = () => {
     dispatch(fetchAssetCustomDatabase())
   }, [])
 
-  const [openAddAsset, setOpenAddAsset] = useState(false)
+  const [openAddAsset, setOpenAddAsset] = useState<any>({id:1})
   const [assetDataForm, setAssetDataForm] = useState(dataValue)
 
   useEffect(() => {
     setAssetDataForm(dataValue)
   }, [])
+
+  React.useEffect(() => {
+    if(assetDatabase.length > 0){
+      setOpenAddAsset(assetDatabase[0])
+    }
+  }, [assetDatabase]);
 
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...assetDataForm]

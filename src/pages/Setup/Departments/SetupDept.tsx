@@ -88,6 +88,7 @@ const SetupDept: React.FunctionComponent = () => {
   React.useEffect(() => {
     dispatch(fetchDepartment())
   }, [])
+  console.log(departmentName)
   return (
     <AppView>
       <Typography level="h3" sx={{ display: 'flex', alignItems: 'center' }}>
@@ -345,10 +346,9 @@ const SetupDept: React.FunctionComponent = () => {
             
           <SetupAddDept
         open={open}
-        handleClose={handleClose}
-        departmentName={departmentName}
-        setDepartmentName={setDepartmentName}
-        handleAddDepartment={handleAddDepartment}
+        // handleClose={handleClose}
+        setOpen={setOpen}
+       
         />
       </Box>
 

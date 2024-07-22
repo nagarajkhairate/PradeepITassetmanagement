@@ -19,13 +19,13 @@ import { useState } from 'react'
 interface SetupAddDeptProps {
   open: any
   setOpen: any
-  handleClose: () => void
+ 
 }
 
 const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
   open,
   setOpen,
-  handleClose
+
 }) => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [formData, setFormData] = useState({})
@@ -42,6 +42,7 @@ const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
   const handleAddDepartment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     dispatch(addDepartment(formData))
+    setOpen(false)
   }
 
   return (
@@ -55,7 +56,7 @@ const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
         p:8
       }}
       open={open}
-      onClose={handleClose}
+      onClose={setOpen}
     >
       <Sheet
         variant="outlined"
@@ -117,8 +118,7 @@ const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
                   depart*:
                 </FormLabel>
                 <Input
-                  // value={''}
-                  name="department"
+                  name="departmentName"
                   onChange={handleInputChange}
                   placeholder="Type here"
                   sx={{
@@ -158,7 +158,7 @@ const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
               </Button>
 
               <Button
-                onClick={handleClose}
+                onClick={()=>setOpen()}
                 autoFocus
                 variant="solid"
                 sx={{
