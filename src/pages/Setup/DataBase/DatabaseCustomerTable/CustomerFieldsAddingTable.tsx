@@ -8,7 +8,6 @@ import { RootState } from "../../../../redux/store"
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { deleteCustomerCustomDatabase } from "../../../../redux/features/CustomerCustomDatabaseSlice"
-import DeleteDatabaseCustomers from "./DeleteDatabaseCustomers"
 
 
 
@@ -103,7 +102,7 @@ interface CustomerTableProps {
                 >
                   {item.fieldName}
                 </td>
-                <td>{components.find((component) => component.id === item.componentsId)?.type || ''}</td>
+                <td>{item.componentsId.title}</td>
                 <td>{item.isRequired}</td>
                 <td>
                   <Button
@@ -179,15 +178,6 @@ interface CustomerTableProps {
           selectedItem={selectedItem}
         />
       )}
-
-
-   {deleteOpen && (
-    <DeleteDatabaseCustomers
-        open={deleteOpen}
-        onClose={handleDeleteClose}
-        onDelete={handleDeleteConfirm}
-    />
-)}
 
       </Box>
     )

@@ -76,7 +76,7 @@ interface CustomerTableProps {
                 >
                   {item.fieldName}
                 </td>
-                <td>{components.find((component) => component.id === item.componentsId)?.type || ''}</td>
+                <td>{item.componentsId.title}</td>
                 <td>{item.isRequired}</td>
                 <td>
                   <Button

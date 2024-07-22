@@ -14,6 +14,7 @@ interface EmployeeTableProps {
 const EmployeeFieldsAddingTable: React.FC<EmployeeTableProps> = ({
   empDataBases,
 }) => {
+  console.log(empDataBases)
   const [openAddEmployee, setOpenAddEmployee] = useState(false)
   const [selectedItem, setSelectedItem] = useState(null)
 
@@ -79,7 +80,7 @@ const EmployeeFieldsAddingTable: React.FC<EmployeeTableProps> = ({
                 >
                   {item.fieldName}
                 </td>
-                <td>{components.find((component) => component.id === item.componentsId)?.type || ''}</td>
+                <td>{item.componentsId.title}</td>
                 <td>{item.isRequired}</td>
                 <td>
                   <Button

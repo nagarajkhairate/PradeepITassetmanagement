@@ -18,7 +18,7 @@ import {
 import AddIcon from '@mui/icons-material/Add'
 import AddDialogEmployee from './AddDialogEmployee'
 import EmployeeFieldsAddingTable from './EmployeeFieldsAddingTable'
-import { fetchEmpCustomDatabase } from '../../../../redux/features/EmpCustomDatabaseSlice'
+import { fetchEmpCustomDatabase } from '../../../../redux/features/EmpCustomDatabseSlice'
 
 const DataBaseEmp: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -34,6 +34,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
     dispatch(fetchEmpCustomDatabase())
   }, [])
 
+  console.log(empCustomDatabase)
   const [empDataBases, setEmpDataBases] = useState(empData)
   const [openAddEmployee, setOpenAddEmployee] = useState(false)
 

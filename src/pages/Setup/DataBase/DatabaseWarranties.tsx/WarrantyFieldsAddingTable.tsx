@@ -58,7 +58,7 @@ style={{
       warrantyDataBases.map((item, index) => (
         <tr key={index}>
           <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{item.fieldName}</td>
-          <td>{components.find((component) => component.id === item.componentsId)?.type || ''}</td>
+          <td>{item.componentsId.title}</td>
           <td>{item.isRequired}</td>
           <td>
             <Button 
