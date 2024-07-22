@@ -5,6 +5,7 @@
       fieldName: 'Full Name',
       name: 'fullName',
       isVisible: "isVisible",
+
       isRequired: 'yes',
       description: 'Full value of the person / employee.',
       example: 'John Doe',
@@ -15,6 +16,7 @@
       fieldName: 'Email',
       name: "email",
       isVisible: 'isVisible',
+
       isRequired: 'optional',
       
       description: 'Email of the person',
@@ -26,6 +28,7 @@
       fieldName: 'Employee ID',
       name: "employeeID",
       isVisible: 'isVisible',
+
       isRequired: 'optional',
       description: 'For example Employee ID, Student ID, etc.',
       example: 'IT-1234',
@@ -36,6 +39,7 @@
       fieldName: 'Title',
       name: "title",
       isVisible: 'isVisible',
+
       isRequired: 'optional',
       description: '  fieldName of the person.',
       example: '  Sales Manager',
@@ -44,8 +48,10 @@
     {
       id: 5,
       fieldName: 'Phone',
+
       name: "phone",
       isVisible: 'isVisible',
+
       isRequired: 'optional',    
       description: 'Phone number of the person',
       example: '(555) 123-4567',
@@ -54,8 +60,10 @@
     {
       id: 6,
       fieldName: 'Notes',
+
       name: "notes",
       isVisible: 'isVisible',
+
       isRequired: 'optional',
       description: 'Text area for notes',
       example: 'Reports to CEO',
@@ -64,8 +72,10 @@
     {
       id: 7,
       fieldName: 'Site',
+
       name: "site",
       isVisible: 'isVisible',
+
       isRequired: 'optional',
       description: 'System field to link person to a Site',
       example: '-',
@@ -97,63 +107,63 @@
     {
       isVisible: true,
       fieldName: 'Full Name',
-      name: 'fullName',
+      value: 'fullName',
       description: 'string',
       isRequired: 'yes',
     },
     {
         isVisible: true,
         fieldName: "Email",
-        name: "email",
+        value: "email",
         isRequired: 'optional',
         description: "string",
     },
     {
         isVisible: true,
         fieldName: "Employee ID",
-        name: "employeeID",
+        value: "employeeID",
         isRequired: 'optional',
         description: "string",
     },
     {
         isVisible: true,
         fieldName: "Title",
-        name: "title",
+        value: "title",
         isRequired: 'optional',
         description: "string",
     },
     {
         isVisible: true,
         fieldName: "Phone",
-        name: "phone",
+        value: "phone",
         isRequired: 'optional',
         description: "string",
     },
     {
         isVisible: true,
         fieldName: "Notes",
-        name: "notes",
+        value: "notes",
         isRequired: 'optional',
         description: "string",
     },
     {
         isVisible: true,
         fieldName: "Site",
-        name: "site",
+        value: "site",
         isRequired: 'optional',
         description: "string",
     },
     {
         isVisible: true,
         fieldName: "Location",
-        name: "location",
+        value: "location",
         isRequired: 'optional',
         description: "string",
     },
     {
         isVisible: true,
         fieldName: "Department",
-        name: "department",
+        value: "department",
         isRequired: 'optional',
         description: "string",
     },

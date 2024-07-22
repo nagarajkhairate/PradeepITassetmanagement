@@ -18,8 +18,6 @@ interface CategoryProps {
   ) => void;
 }
 
-
-
 const CategoryComponent: React.FC<CategoryProps> = (
   { field, 
     formData, 

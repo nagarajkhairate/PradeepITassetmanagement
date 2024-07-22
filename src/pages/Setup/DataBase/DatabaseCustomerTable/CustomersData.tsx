@@ -4,6 +4,7 @@ export const Customers = [
       fieldName: 'Full Name',
       value: 'fullName',
       isVisible: 'isVisible',
+
       isRequired: true,
       description: 'Full name of the customer',
       example: 'John Doe',
@@ -38,6 +39,7 @@ export const Customers = [
       fieldName: 'Company',
       value: 'company',
       isVisible: 'isVisible',
+
       isRequired: false,
       description: 'Customers company name',
       example: 'Jane Doe Company',
@@ -135,7 +137,7 @@ export const Customers = [
 
   export const customerData = [
     {
-      isVisible: true,
+      visible: true,
       fieldName: 'Full Name',
       value: 'fullName',
       description: 'string',
