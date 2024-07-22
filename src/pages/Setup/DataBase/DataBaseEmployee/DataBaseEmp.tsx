@@ -18,7 +18,7 @@ import {
 import AddIcon from '@mui/icons-material/Add'
 import AddDialogEmployee from './AddDialogEmployee'
 import EmployeeFieldsAddingTable from './EmployeeFieldsAddingTable'
-import { fetchEmpCustomDatabase } from '../../../../redux/features/EmpCustomDatabseSlice'
+import { fetchEmpCustomDatabase } from '../../../../redux/features/EmpCustomDatabaseSlice'
 
 const DataBaseEmp: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -193,7 +193,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
                     <tr key={`${data.fieldName}-${index}`}>
                       <td>
                         <Checkbox
-                          checked={opt.visible || false}
+                          checked={opt.isVisible || false}
                           onChange={() => handleCheckboxChange(index)}
                         />
                       </td>
@@ -212,7 +212,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
                           whiteSpace: 'normal',
                         }}
                       >
-                        {data.visible && (
+                        {data.isVisible && (
                           <FormControl>
                             <RadioGroup
                               value={opt.isRequired || 'optional'}
@@ -225,13 +225,13 @@ const DataBaseEmp: React.FunctionComponent = () => {
                             >
                               <FormControl
                                 key={`${index}-yes`}
-                                disabled={!opt.visible}
+                                disabled={!opt.isVisible}
                                 sx={{
                                   display: 'inline-flex',
                                   alignItems: 'center',
                                   flexDirection: 'row',
                                   gap: 2,
-                                  // visibility: opt.fieldName === 'Full Name' ? 'visible' : 'hidden',
+                                  // visibility: opt.fieldName === 'Full Name' ? 'isVisible' : 'hidden',
                                 }}
                               >
                                 <Radio
@@ -248,7 +248,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
                               </FormControl>
                               <FormControl
                                 key={`${index}-optional`}
-                                disabled={!opt.visible}
+                                disabled={!opt.isVisible}
                                 sx={{
                                   display: 'inline-flex',
                                   alignItems: 'center',
