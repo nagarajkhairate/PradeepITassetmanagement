@@ -16,15 +16,14 @@ import {
 import { RootState } from '../../../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { ThunkDispatch } from 'redux-thunk'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { fetchCategory } from '../../../redux/features/CategorySlice'
 import AppForm from '../../../components/Common/AppForm'
 import { addSubCategories } from '../../../redux/features/CategorySubSlice'
-import AppView from '../../../components/Common/AppView'
 
 interface CategorySubAddProps {
   open: any
-  setOpen: any
+  setOpen: ()=> void
 }
 
 const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({
@@ -35,12 +34,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const categories = useSelector((state: RootState) => state.category.data)
 
-  const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-
-    dispatch(addSubCategories(formData))
-    setOpen(false)
-  }
+ 
 
   const HandleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -60,9 +54,18 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({
     }))
   }
 
-  React.useEffect(() => {
+  const handleAddCategory = async(e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+   await dispatch(addSubCategories(formData))
+    setOpen()
+  }
+
+  useEffect(() => {
     dispatch(fetchCategory())
   }, [dispatch])
+
+
+
 
   return (
     <Modal
@@ -102,7 +105,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({
         <Divider />
 
         <Box sx={{ marginBottom: '5px' }}>
-          <AppView onSubmit={handleAddCategory}>
+          <AppForm onSubmit={handleAddCategory}>
             <FormControl
               sx={{
                 display: 'flex',
@@ -202,7 +205,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({
               
               <Button
                 autoFocus
-                type="button"
+                type="submit"
                 variant="solid"
                 sx={{
                   background: '#fdd835',
@@ -229,7 +232,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({
                 Cancel
               </Button>
             </Box>
-          </AppView>
+          </AppForm>
         </Box>
         </div>
       </Sheet>
