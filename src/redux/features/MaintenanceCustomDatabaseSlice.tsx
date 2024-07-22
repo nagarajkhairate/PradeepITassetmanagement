@@ -22,7 +22,7 @@ import axios from 'axios';
  
 export const fetchMaintenanceCustomDatabase = createAsyncThunk('maintenanceCustomDatabase/fetchMaintenanceCustomDatabase', async () => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-employee-persons`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-maintenance`);
   return response.data;
    
   } catch (error) {
@@ -33,7 +33,7 @@ export const fetchMaintenanceCustomDatabase = createAsyncThunk('maintenanceCusto
 
 export const fetchMaintenanceCustomDatabaseById = createAsyncThunk('MaintenanceCustomDatabase/fetchMaintenanceCustomDatabaseById', async (id: string ) => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-employee-persons/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-maintenance/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -43,20 +43,20 @@ export const fetchMaintenanceCustomDatabaseById = createAsyncThunk('MaintenanceC
 });
  
 export const addMaintenanceCustomDatabase = createAsyncThunk('maintenanceCustomDatabase/addMaintenanceCustomDatabase', async (maintenanceCustomDatabase: any) => {
- const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-employee-persons`, maintenanceCustomDatabase);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-maintenance`, maintenanceCustomDatabase);
  console.log(response)
   return response.data;
 });
  
 export const updateMaintenanceCustomDatabase = createAsyncThunk('maintenanceCustomDatabase/updateMaintenanceCustomDatabase', async (updatedMaintenanceCustomDatabase: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-employee-persons/${updatedMaintenanceCustomDatabase.id}`, updatedMaintenanceCustomDatabase);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-maintenance/${updatedMaintenanceCustomDatabase.id}`, updatedMaintenanceCustomDatabase);
   
   return response.data;
 });
  
 export const deleteMaintenanceCustomDatabase = createAsyncThunk('maintenanceCustomDatabase/deleteMaintenanceCustomDatabase', async (id: number) => {
-  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-employee-persons/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-maintenance/${id}`);
   return id;
 });
 
