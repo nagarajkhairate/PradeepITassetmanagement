@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Table, Input, Button, Option, Radio, Checkbox, Select, RadioGroup, Textarea, FormControl, FormLabel, Chip, Grid } from '@mui/joy';
 import { DisplaySettings } from '@mui/icons-material';
-import { addCheckOut, fetchCheckOut, updateCheckOut } from '../../redux/features/CheckOutSlice';
+import { addCheckOut, fetchCheckOut, fetchCheckOutById, updateCheckOut } from '../../redux/features/CheckOutSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { ThunkDispatch } from 'redux-thunk';
@@ -9,6 +9,9 @@ import SelectOption from '../../components/AssetSections/SelectOption';
 import AppForm from '../../components/Common/AppForm';
 import { checkInConfig } from './checkInConfig';
 import AppView from '../../components/Common/AppView';
+import SiteComponent from '../../components/AssetSections/SiteComponent';
+import LocationComponent from '../../components/AssetSections/LocationComponent';
+import DepartmentComponent from '../../components/AssetSections/DepartmentComponent';
 
 interface CheckInFormProps {
   selectedAssets: any;
@@ -17,11 +20,14 @@ interface CheckInFormProps {
 const CheckInForm: React.FC<CheckInFormProps> = ({ selectedAssets }) => {
   const [formData, setFormData] = useState<any>({});
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const checkOut = useSelector((state: RootState) => state.checkOut.data);
-
+  const checkOut = useSelector((state: RootState) => state.checkOut.data)
+  
   useEffect(() => {
-    dispatch(fetchCheckOut());
-  }, [dispatch]);
+    const selectedAssetId = selectedAssets && selectedAssets.length > 0 ? selectedAssets[0].id : null;
+    if (selectedAssetId) {
+      dispatch(fetchCheckOutById(selectedAssetId));
+    }
+  }, [selectedAssets]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -33,14 +39,13 @@ const CheckInForm: React.FC<CheckInFormProps> = ({ selectedAssets }) => {
     }))
   }
 
-  const handleSelectChange = (name: string, newValue: string | null) => {
+  const handleSelectChange = (newValue: string | null, name: string) => {
     setFormData({
       ...formData,
       [name]: newValue || ''
     });
   };
 
-  
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
@@ -49,26 +54,13 @@ const CheckInForm: React.FC<CheckInFormProps> = ({ selectedAssets }) => {
     });
   };
 
+  // console.log(JSON.stringify(formData))
 
-  const handleAssignAssetId = ()=>{
-    setFormData((prevData: any) => ({
-     ...prevData,
-     assetId:selectedAssets[0].id
-   }))
- }
- const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-   e.preventDefault()
-
-   await handleAssignAssetId()
-   
-   console.log(JSON.stringify(formData))
-   await dispatch(updateCheckOut(formData))
- }
- const radioOptions = [
-  { value: "person", label: "Person" },
-  { value: "site", label: "Site / Location" },
-];
-
+  const radioOptions = [
+    { value: "person", label: "Person" },
+    { value: "site", label: "Site / Location" },
+    ];
+    
 const handleInputValue = (
   field: any,
   formData: any,
@@ -94,7 +86,7 @@ const handleInputValue = (
           <Input
             type={field.components.type}
             name={field.name}
-            value={formData[field.name] as string}
+            value={formData && formData[field.name] as string}
             onChange={handleChange}
             sx={field.stylings}
           />
@@ -109,7 +101,7 @@ const handleInputValue = (
             <Input
             type={field.components.type}
               name={field.name}
-              value={formData[field.name] as string}
+              value={formData && formData[field.name] as string}
               onChange={handleChange}
               sx={field.stylings}
             />
@@ -122,7 +114,7 @@ const handleInputValue = (
             <RadioGroup
             type={field.components.type}
               name={field.name}
-              value={formData[field.name] as string}
+              value={formData && formData[field.name]? formData[field.name]: '' }
               onChange={handleRadioChange}
               sx={field.stylings}
             >
@@ -139,7 +131,7 @@ const handleInputValue = (
           <textarea
             type={field.components.type}
             name={field.name}
-            value={formData[field.name] as string}
+            value={formData && formData[field.name] as string}
             onChange={handleChange}
             sx={field.stylings}
           />
@@ -153,7 +145,7 @@ const handleInputValue = (
         <Checkbox
         type={field.components.type}
           name={field.name}
-          checked={formData[field.name] as boolean}
+          checked={formData && formData[field.name] as boolean}
           onChange={handleChange}
           sx={field.stylings}
         />
@@ -161,19 +153,13 @@ const handleInputValue = (
     );
 
     case "select":
-      if (field.name === "checkOutSiteId") {
+      if (field.name === "checkInSiteId") {
         return <SiteComponent {...commonProps} />;
-      } else if (field.name === "checkOutLocationId") {
+      } else if (field.name === "checkInLocationId") {
         return <LocationComponent {...commonProps} />;
-      } else if (field.name === "checkOutDepartmentId") {
+      } else if (field.name === "checkInDepartmentId") {
         return <DepartmentComponent {...commonProps} />;
-      } 
-      else if (field.name === "assignedTo") {
-        return <AddNewEmpployee {...commonProps} />;
-      } 
-      else if (field.name === "clientId") {
-        return <AddNewClient {...commonProps} />;
-      } 
+      }  
       else {
         return <SelectOption {...commonProps} />;
       }
@@ -184,9 +170,32 @@ const handleInputValue = (
 
 const getAssignTo = (id:any) => {
   const assignment = checkOut && checkOut.find(assign => assign.assetId === id);
-  console.log(assignment)
+  // console.log(assignment)
   return assignment ? assignment.assignedTo : null;
 };
+
+useEffect(()=>{
+  if(checkOut) {
+    setFormData(checkOut[0])
+  }
+},
+[checkOut])
+
+
+const handleAssignAssetId = ()=>{
+  setFormData((prevData: any) => ({
+   ...prevData,
+   assetId:selectedAssets[0].id
+ }))
+}
+const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+ e.preventDefault()
+
+ await handleAssignAssetId()
+ 
+ console.log(JSON.stringify(formData))
+ await dispatch(updateCheckOut(formData))
+}
 
 const statusColorMap: Record<string, string> = {
   Available: "success",
@@ -197,28 +206,29 @@ const statusColorMap: Record<string, string> = {
     <AppForm onSubmit={handleFormSubmit}>
       <Box
       sx={{
-        borderRadius: "16px",
+        borderRadius: "15px",
         boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
         background: "#ffffff",
-        padding: "20px",
         flexGrow: 1,
-        marginLeft: "52px",
-        marginTop: "22px",
-        width: "1100px",
-        height: "auto",
+        marginTop: { xs: '10px', sm: '22px' },
+        height: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        p: 4,
       }}
     >
       <Typography component="h2" sx={{ mb: 2 }}>Assets Pending Check-In</Typography>
       <Box
-          sx={{
+           sx={{
             overflowX: 'auto',
-            marginBottom: '20px',
+            fontSize: '14px',
+            whiteSpace: 'nowrap',
           }}
         >
-      <Table sx={{ border: "1px solid #f2f2f2", width: "100%" }}>
+      <Table sx={{ border: "1px solid #f2f2f2", width: "100%" , minWidth:"900px"}}>
         <thead>
         <tr>
-            <th style={{ padding: "8px", border: "1px solid #f2f2f2", width:"20px",background: "#fff8e6" }}><Checkbox /></th>
+            <th style={{ padding: "8px", border: "1px solid #f2f2f2", width:"30px",background: "#fff8e6" }}><Checkbox /></th>
             <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Asset Tag ID</th>
             <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Description</th>
             <th style={{ padding: "8px", border: "1px solid #f2f2f2" ,background: "#fff8e6" }}>Status</th>
@@ -231,7 +241,7 @@ const statusColorMap: Record<string, string> = {
         <tbody>
           {selectedAssets && selectedAssets.map((asset:any) => (
             <tr key={asset.id}>
-              <td style={{ padding: "8px", border: "1px solid #f2f2f2" , width:"20px"}}><Checkbox /></td>
+              <td style={{ padding: "8px", border: "1px solid #f2f2f2" , width:"30px"}}><Checkbox /></td>
               <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.assetTagId}</td>
               <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.description}</td>
               <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>
@@ -279,7 +289,7 @@ const statusColorMap: Record<string, string> = {
           </Box>
         </Box>
         <Box mt={2}>
-          <Button type="submit">Check In</Button>
+          <Button type='submit'>Check In</Button>
         </Box>
         </AppView>
 </Box>

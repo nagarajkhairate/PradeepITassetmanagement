@@ -104,10 +104,11 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
         <AppForm onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid xs={12} md={6}>
+
             <FormControl>
               <FormLabel>Site</FormLabel>
               <Input
-                placeholder="Select Site"
+                placeholder="Site"
                 name="siteName"
                 value={formData.siteName}
                 onChange={handleChange}
@@ -115,6 +116,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
                 sx={{ mb: 2 }}
               />
             </FormControl>
+
           </Grid>
           <Grid xs={12} md={6}>
             <FormControl>
