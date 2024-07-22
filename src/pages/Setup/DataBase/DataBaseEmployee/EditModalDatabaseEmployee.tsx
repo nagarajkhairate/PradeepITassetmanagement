@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 import { fetchComponents } from "../../../../redux/features/ComponentsIdSlice";
 import { ThunkDispatch } from "redux-thunk";
-import { updateEmpCustomDatabase } from "../../../../redux/features/EmpCustomDatabseSlice";
+import { updateEmpCustomDatabase } from "../../../../redux/features/EmpCustomDatabaseSlice";
 
 interface EditModalProps {
   

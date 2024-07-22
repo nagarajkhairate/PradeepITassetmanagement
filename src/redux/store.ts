@@ -22,7 +22,7 @@ import assetDatabaseReducer from './features/AssetDatabaseSlice';
 import assetCustomDatabaseReducer from './features/AssetCustomDatabaseSlice';
 import CheckOutSliceReducer from "./features/CheckOutSlice";
 import empDatabaseReducer from './features/EmpDatabaseSlice';
-import empCustomDatabaseReducer from './features/EmpCustomDatabseSlice';
+import empCustomDatabaseReducer from './features/EmpCustomDatabaseSlice';
 import customerDatabaseReducer from './features/CustomerDatabaseSlice';
 import customerCustomDatabaseReducer from './features/CustomerCustomDatabaseSlice';
 import maintenanceDatabaseReducer from './features/MaintenanceDatabaseSlice';

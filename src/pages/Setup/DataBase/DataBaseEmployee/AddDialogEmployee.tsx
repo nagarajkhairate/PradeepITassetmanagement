@@ -20,7 +20,7 @@ import {
 import AppForm from '../../../../components/Common/AppForm'
 import { RootState } from '../../../../redux/store'
 import { customEmployee } from './EmployeeData'
-import { addEmpCustomDatabase } from '../../../../redux/features/EmpCustomDatabseSlice'
+import { addEmpCustomDatabase } from '../../../../redux/features/EmpCustomDatabaseSlice'
 import { fetchComponents } from '../../../../redux/features/ComponentsIdSlice'
 
 interface DataBaseAddProps {
