@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Company from "../../components/Companyinfo/Company/Company";
 import Sites from "../../components/Companyinfo/Sites/Sites";
 import TableOptions from "../../components/Companyinfo/TableOptions/TableOptions";
@@ -10,15 +10,18 @@ import AppView from "../../components/Common/AppView";
 
 import { Box, Step, StepButton, StepIndicator, Stepper } from "@mui/joy";
 import Check from "@mui/icons-material/Check";
+import { ThunkDispatch } from "redux-thunk";
+import { RootState } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSteps } from "../../redux/features/StepsSlice";
 
 
 const CompanyInfo = () => {
   const [companyFormData, setCompanyFormData] = React.useState({});
-  const [activeStep, setActiveStep] = React.useState(4);
+  const [activeStep, setActiveStep] = useState(2);
+  const step = useSelector((state: RootState) => state.steps.data)
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
-
-
-  console.log(companyFormData)
 
   const steps: any[] = [
     { label: "Company", component: <Company companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
@@ -29,6 +32,14 @@ const CompanyInfo = () => {
     { label: "TableOptions", component: <TableOptions companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
     { label: "EventOptions", component: <EventOption companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
   ];
+  useEffect(()=>{
+    if(step.length)
+      setActiveStep(parseInt(step[0].step))
+  },[step])
+
+  useEffect(()=>{
+    dispatch(fetchSteps())
+  },[dispatch])
 
   return (
     <AppView>

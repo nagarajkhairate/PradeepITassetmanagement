@@ -133,6 +133,9 @@ const LocationSetup: React.FunctionComponent = () => {
             variant="solid"
             sx={{
               background: '#388e3c',
+              '&:hover': {
+                backgroundColor: "#4caf50",
+              },
               borderRadius: '15px',
               color: 'white',
             }}
@@ -154,6 +157,9 @@ const LocationSetup: React.FunctionComponent = () => {
               borderRadius: '15px',
               // color: '#d32f2f',
               background: '#d32f2f',
+              '&:hover': {
+                backgroundColor: "#e57373",
+              },
               display: 'flex',
               justifyContent: { md: 'flex-end', xs: 'center' },
               marginLeft: 'none',
@@ -173,6 +179,9 @@ const LocationSetup: React.FunctionComponent = () => {
               variant="solid"
               sx={{
                 background: 'black',
+                '&:hover': {
+                backgroundColor: "#616161",
+              },
                 borderRadius: '15px',
                 color: 'white',
               }}
@@ -189,6 +198,7 @@ const LocationSetup: React.FunctionComponent = () => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                p:5
               }}
               open={open}
               onClose={setOpen}
@@ -230,7 +240,7 @@ const LocationSetup: React.FunctionComponent = () => {
                 flexDirection: { xs: 'column', md: 'row' },
               }}
             >
-              <FormLabel
+              {/* <FormLabel
                 sx={{
                   marginTop: '6px',
                   mb: { xs: 1, md: 1 },
@@ -238,9 +248,9 @@ const LocationSetup: React.FunctionComponent = () => {
                 }}
               ><Typography>Select a Site:</Typography>
                 
-              </FormLabel>
+              </FormLabel> */}
 
-              <Select
+              {/* <Select
                 placeholder="Nothing Selected"
                 sx={{
                   marginLeft: { md: '20px' },
@@ -252,7 +262,7 @@ const LocationSetup: React.FunctionComponent = () => {
                 required
               >
                 <Option value="Location1">Location1</Option>
-              </Select>
+              </Select> */}
             </FormControl>
           </Box>
 

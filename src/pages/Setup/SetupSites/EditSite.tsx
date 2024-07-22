@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, ChangeEvent, memo } from 'react'
 import {
   Modal,
   Box,
   Typography,
-
   Button,
   FormControl,
   FormLabel,
@@ -12,85 +11,42 @@ import {
   Input,
 } from '@mui/joy'
 import { Site } from './SetupSites'
-import { UseSelector, useDispatch } from 'react-redux'
-import { UseDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { updateSites } from '../../../redux/features/SitesSlice'
 import AppForm from '../../../components/Common/AppForm'
 
 import { ThunkDispatch } from 'redux-thunk'
-import { useNavigate } from 'react-router-dom'
 import { RootState } from '../../../redux/store'
 
 interface EditSiteProps {
   open: boolean
   onClose: () => void
   site: Site | null
-  onSave: (updateSites: Site) => void
 }
 
-const initialSitesData = {
-  siteName: '',
-  description: '',
-  address: '',
-  aptSuite: '',
-  city: '',
-  state: '',
-  zipCode: '',
-  country: '',
-}
-
-const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
-  const [editedSite, setEditedSite] = useState<Site | null>(site)
-  const [zipCodeError, setZipCodeError] = useState<string | null>(null)
+const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site }) => {
+  const [formData, setFormData] = useState<any>(site)
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
-  React.useEffect(() => {
-    setEditedSite(site)
+  useEffect(() => {
+    setFormData(site)
   }, [site])
 
-
-  const capitalizeWords = (str: string) => {
-    return str.replace(/\b\w/g, (char) => char.toUpperCase())
-  }
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
 
-    if (name === 'zipCode') {
-      const zipCodeRegex = /^\d*$/
-      if (!zipCodeRegex.test(value)) {
-        setZipCodeError('Zip Code must be numeric')
-        return
-      } else {
-        setZipCodeError(null)
-      }
-    }
-    if (editedSite) {
-      setEditedSite({
-        ...editedSite,
-        [event.target.name]: event.target.value,
-      })
-    }
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }))
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (editedSite) {
-      const capitalizedSite = {
-        ...editedSite,
-        siteName: capitalizeWords(editedSite.siteName),
-        description: capitalizeWords(editedSite.description),
-        address: capitalizeWords(editedSite.address),
-        aptSuite: capitalizeWords(editedSite.aptSuite),
-        city: capitalizeWords(editedSite.city),
-        state: capitalizeWords(editedSite.state),
-        country: capitalizeWords(editedSite.country),
-      }
-    await dispatch(updateSites(capitalizedSite))
+
+    await dispatch(updateSites(formData))
     onClose()
   }
-  }
-
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -99,7 +55,7 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
           Edit Site
         </Typography>
         <Divider />
-        {editedSite && (
+        {formData && (
           <AppForm onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid xs={12} md={6}>
@@ -109,7 +65,7 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
                   <Input
                     placeholder="Site Name"
                     name="siteName"
-                    value={editedSite.siteName}
+                    value={formData.siteName}
                     onChange={handleChange}
                     fullWidth
                     sx={{ mb: 2 }}
@@ -120,7 +76,7 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
                   <Input
                     placeholder="Description"
                     name="description"
-                    value={editedSite.description}
+                    value={formData.description}
                     onChange={handleChange}
                     fullWidth
                     sx={{ mb: 2 }}
@@ -131,7 +87,7 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
                   <Input
                     placeholder="Address"
                     name="address"
-                    value={editedSite.address}
+                    value={formData.address}
                     onChange={handleChange}
                     fullWidth
                     sx={{ mb: 2 }}
@@ -142,7 +98,7 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
                   <Input
                     placeholder="Apt. / Suite"
                     name="aptSuite"
-                    value={editedSite.aptSuite}
+                    value={formData.aptSuite}
                     onChange={handleChange}
                     fullWidth
                     sx={{ mb: 2 }}
@@ -155,7 +111,7 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
                   <Input
                     placeholder="City"
                     name="city"
-                    value={editedSite.city}
+                    value={formData.city}
                     onChange={handleChange}
                     fullWidth
                     sx={{ mb: 2 }}
@@ -166,7 +122,7 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
                   <Input
                     placeholder="State"
                     name="state"
-                    value={editedSite.state}
+                    value={formData.state}
                     onChange={handleChange}
                     fullWidth
                     sx={{ mb: 2 }}
@@ -177,12 +133,12 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
                   <Input
                     placeholder="ZipCode"
                     name="zipCode"
-                    value={editedSite.zipCode}
+                    value={formData.zipCode}
                     onChange={handleChange}
                     fullWidth
                     sx={{ mb: 2 }}
-                    error={!!zipCodeError}
-                    helperText={zipCodeError}
+                    // error={!!zipCodeError}
+                    // helperText={zipCodeError}
                   />
                 </FormControl>
                 <FormControl sx={{ mb: 2 }}>
@@ -190,7 +146,7 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
                   <Input
                     placeholder="Country"
                     name="country"
-                    value={editedSite.country}
+                    value={formData.country}
                     onChange={handleChange}
                     fullWidth
                     sx={{ mb: 2 }}
@@ -199,34 +155,37 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site, onSave }) => {
               </Grid>
             </Grid>
 
-              
             <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            flexDirection: { md: 'row'},
-            justifyContent: { xs: 'space-between', md: 'flex-end' },
-            gap: '5px',
-            flexWrap:'wrap',
-            mt:4
-          }}
-        >
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: { md: 'row' },
+                justifyContent: { xs: 'space-between', md: 'flex-end' },
+                gap: '5px',
+                flexWrap: 'wrap',
+                mt: 4,
+              }}
+            >
               <Button
-sx={{
-  background: '#fdd835',
-  color: 'black',
-  '&:hover': { background: '#E1A91B' },
-}}
-              onClick={onClose}>
+                sx={{
+                  background: '#fdd835',
+                  color: 'black',
+                  '&:hover': { background: '#E1A91B' },
+                }}
+                onClick={onClose}
+              >
                 Cancel
               </Button>
-              <Button type="Submit"
-               sx={{
-                background: 'black',
-                color: 'white',
-                '&:hover': { background: 'black' },
-              }}
-              >Update</Button>
+              <Button
+                type="Submit"
+                sx={{
+                  background: 'black',
+                  color: 'white',
+                  '&:hover': { background: 'black' },
+                }}
+              >
+                Update
+              </Button>
             </Box>
           </AppForm>
         )}
@@ -235,10 +194,10 @@ sx={{
   )
 }
 
-export default EditSite
+export default memo(EditSite)
 
 const modalStyle = {
-  position: 'absolute' as 'absolute',
+  position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',

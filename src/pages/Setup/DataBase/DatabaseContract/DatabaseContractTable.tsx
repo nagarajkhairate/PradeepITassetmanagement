@@ -11,7 +11,7 @@ import AddIcon from '@mui/icons-material/Add'
 import AddDialogContract from './AddDialogContract'
 import ContractFieldsAddingTable from './ContractFieldsAddingTable'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchContractDatabase } from '../../../../redux/features/ContractDatabaseSlice'
+import { fetchContractDatabase, updateContractDatabase } from '../../../../redux/features/ContractDatabaseSlice'
 import { ThunkDispatch } from 'redux-thunk'
 import { fetchContractCustomDatabase } from '../../../../redux/features/ContractCustomDatabaseSlice'
 
@@ -40,9 +40,15 @@ const DatabaseContractTable: React.FunctionComponent = () => {
     setContractDataBases(contractData)
   }, [])
 
+  useEffect(()=>{
+if(contractDatabase.length > 0){
+  setOpenAddContract(contractDatabase[0])
+}
+  }, [contractDatabase])
+
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...contractDataBases]
-    updatedForm[index].visible = !updatedForm[index].visible
+    updatedForm[index].isVisible = !updatedForm[index].isVisible
     setContractDataBases(updatedForm)
   }
 
@@ -56,6 +62,7 @@ const DatabaseContractTable: React.FunctionComponent = () => {
 
   const handleSubmit = () => {
     console.log(contractDataBases)
+    dispatch(updateContractDatabase(contractDatabase))
   }
 
 
@@ -163,7 +170,7 @@ const DatabaseContractTable: React.FunctionComponent = () => {
                     <tr key={`${data.fieldName}-${index}`}>
                       <td>
                         <Checkbox
-                          checked={opt.visible || false}
+                          checked={opt.isVisible || false}
                           onChange={() => handleCheckboxChange(index)}
                         />
                       </td>
@@ -182,7 +189,7 @@ const DatabaseContractTable: React.FunctionComponent = () => {
                           whiteSpace: 'normal',
                         }}
                       >
-                        {data.visible && (
+                        {data.isVisible && (
                           <FormControl>
                             <RadioGroup
                               value={opt.isRequired ? 'yes' : 'optional'}
@@ -194,13 +201,13 @@ const DatabaseContractTable: React.FunctionComponent = () => {
                             >
                               <FormControl
                                 key={`${index}-yes`}
-                                disabled={!opt.visible}
+                                disabled={!opt.isVisible}
                                 sx={{
                                   display: 'inline-flex',
                                   alignItems: 'center',
                                   flexDirection: 'row',
                                   gap: 2,
-                                  // visibility: opt.fieldName === 'Full Name' ? 'visible' : 'hidden',
+                                  // visibility: opt.fieldName === 'Full Name' ? 'isVisible' : 'hidden',
                                 }}
                               >
                                 <Radio
@@ -216,7 +223,7 @@ const DatabaseContractTable: React.FunctionComponent = () => {
                               </FormControl>
                               <FormControl
                                 key={`${index}-optional`}
-                                disabled={!opt.visible}
+                                disabled={!opt.isVisible}
                                 sx={{
                                   display: 'inline-flex',
                                   alignItems: 'center',

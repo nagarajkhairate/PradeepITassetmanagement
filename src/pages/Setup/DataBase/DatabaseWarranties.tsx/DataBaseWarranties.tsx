@@ -15,7 +15,7 @@ import AddIcon from '@mui/icons-material/Add'
 import AddWarrantiesData from './AddWarrantiesData'
 import WarrantyFieldsAddingTable from './WarrantyFieldsAddingTable'
 import { fetchWarrantiesCustomDatabase } from '../../../../redux/features/WarrantiesCustomDatabaseSlice'
-import { fetchWarrantiesDatabase } from '../../../../redux/features/WarrantiesDatabaseSlice'
+import { fetchWarrantiesDatabase, updateWarrantiesDatabase } from '../../../../redux/features/WarrantiesDatabaseSlice'
 
 const DatabaseWarranties: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -40,9 +40,15 @@ const DatabaseWarranties: React.FunctionComponent = () => {
     setWarrantyDataBases(warrantyData)
   }, [])
 
+  React.useEffect(() => {
+    if(warrantiesDatabase.length > 0){
+      setOpenAddWarranties(warrantiesDatabase[0])
+    }
+  }, [warrantiesDatabase]);
+
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...warrantyDataBases]
-    updatedForm[index].visible = !updatedForm[index].visible
+    updatedForm[index].isVisible = !updatedForm[index].isVisible
     setWarrantyDataBases(updatedForm)
   }
 
@@ -56,6 +62,7 @@ const DatabaseWarranties: React.FunctionComponent = () => {
 
   const handleSubmit = () => {
     console.log(warrantyDataBases)
+    dispatch(updateWarrantiesDatabase(warrantiesDatabase))
   }
 
 
@@ -165,7 +172,7 @@ const DatabaseWarranties: React.FunctionComponent = () => {
                     <tr key={`${data.fieldName}-${index}`}>
                       <td>
                         <Checkbox
-                          checked={opt.visible || false}
+                          checked={opt.isVisible || false}
                           onChange={() => handleCheckboxChange(index)}
                         />
                       </td>
@@ -184,7 +191,7 @@ const DatabaseWarranties: React.FunctionComponent = () => {
                           whiteSpace: 'normal',
                         }}
                       >
-                        {data.visible && (
+                        {data.isVisible && (
                           <FormControl>
                             <RadioGroup
                               value={opt.isRequired ? 'yes' : 'optional'}
@@ -196,13 +203,13 @@ const DatabaseWarranties: React.FunctionComponent = () => {
                             >
                               <FormControl
                                 key={`${index}-yes`}
-                                disabled={!opt.visible}
+                                disabled={!opt.isVisible}
                                 sx={{
                                   display: 'inline-flex',
                                   alignItems: 'center',
                                   flexDirection: 'row',
                                   gap: 2,
-                                  // visibility: opt.fieldName === 'Full Name' ? 'visible' : 'hidden',
+                                  // visibility: opt.fieldName === 'Full Name' ? 'isVisible' : 'hidden',
                                 }}
                               >
                                 <Radio
@@ -218,7 +225,7 @@ const DatabaseWarranties: React.FunctionComponent = () => {
                               </FormControl>
                               <FormControl
                                 key={`${index}-optional`}
-                                disabled={!opt.visible}
+                                disabled={!opt.isVisible}
                                 sx={{
                                   display: 'inline-flex',
                                   alignItems: 'center',

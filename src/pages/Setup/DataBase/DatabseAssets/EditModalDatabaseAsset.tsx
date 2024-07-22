@@ -7,6 +7,8 @@ import { fetchCustomerCustomDatabaseById, updateCustomerCustomDatabase } from ".
 import { ThunkDispatch } from "redux-thunk";
 import { fetchComponents } from "../../../../redux/features/ComponentsIdSlice";
 import { useNavigate, useParams } from "react-router-dom";
+import { updateAssetCustomDatabase } from "../../../../redux/features/AssetCustomDatabaseSlice";
+import { fetchCategory } from "../../../../redux/features/CategorySlice";
 
 
 
@@ -17,45 +19,73 @@ interface EditModalProps {
   selectedItem: any;
   }
   
-  const EditModalDatabaseCustomer: React.FC<EditModalProps> = ({
+  const EditModalDatabaseAsset: React.FC<EditModalProps> = ({
     open, setOpen, selectedItem }) => {
 
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
     const components = useSelector((state: RootState) => state.components.data);
-      
+    const category = useSelector((state: RootState) => state.category.data)
+
     
     React.useEffect(() => {
       dispatch(fetchComponents())
     }, [dispatch])
 
 
-
+    React.useEffect(() => {
+        dispatch(fetchCategory())
+      }, [dispatch])
 
 
     const [formData, setFormData] = useState(selectedItem);
 
-    const handleSelectChange = (event: React.SyntheticEvent | null, 
-      newValue: string | null) => {
-      setFormData((prevData:any) => ({
-        ...prevData,
-        componentsId: newValue || '',
-      }));
-    };
-  
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      const { name, value } = e.target;
-      setFormData((prevData:any) => ({ ...prevData, [name]: value }));
-    };
-  
+    // const [formData, setFormData] = useState({
+    //     fieldName: '',
+    //     componentsId: 1,
+    //     isRequired: '',
+    //     categoryId: 1,
+    //   })
+    
+      console.log(components)
+    
+      const handleChange = (
+        e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+      ) => {
+        const { name, value } = e.target
+        setFormData((prevData:any) => ({
+          ...prevData,
+          [name]: name === 'categoryId' ? parseInt(value, 10) : value,
+        }))
+      }
+    
+      const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target
+        setFormData((prevData:any) => ({ ...prevData, isRequired: value }))
+      }
+    
+      const handleSelectChange = (
+        event:
+          | React.MouseEvent<Element, MouseEvent>
+          | React.KeyboardEvent<Element>
+          | React.FocusEvent<Element, Element>
+          | null,
+        value: unknown,
+      ) => {
+        setFormData((prevData: any) => ({
+          ...prevData,
+          componentsId: value ? parseInt(value as string, 10) : 0,
+        }))
+      }
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      // setFormData({
-      //   fieldName: '',
-      //   componentsId:  components.length > 0 ? components[0].id : '',
-      //   isRequired: '',
-      // });
-      dispatch(updateCustomerCustomDatabase(formData))
+    //   setFormData({
+    //     fieldName: '',
+    //     componentsId:  components.length > 0 ? components[0].id : null,
+    //     isRequired: '',
+    //     categoryId: category.length > 0 ? category[0].id : null,
+    //   });
+      dispatch(updateAssetCustomDatabase(formData))
    
       setOpen(false);
     };
@@ -164,6 +194,78 @@ return(
                   </Box>
                 </RadioGroup>
               </FormControl>
+              <Box>
+              <FormLabel
+                sx={{
+                  paddingTop: '25px',
+                  marginLeft: '15%',
+                  display: 'flex',
+                  flexDirection: { md: 'flex-end', xs: 'flex-end' },
+                }}
+              >
+                Selected Categories:
+               
+              </FormLabel>
+              <FormLabel>
+              <span style={{ marginLeft: '40%', wordBreak:'normal' }}>
+                  Is this field visible to assets of selective 'Categories'?
+                </span>
+                </FormLabel>
+              <RadioGroup
+                name="categoryId"
+                value={formData.categoryId}
+                onChange={handleChange}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: { md: 'flex-end', xs: 'center' },
+                  }}
+                >
+                  <Radio
+                    value={0}
+                    label="All Categories"
+                    variant="outlined"
+                    sx={{ paddingTop: '20px', marginLeft: '165px' }}
+                  />
+                  <Radio
+                    value={1}
+                    label="Limited Categories"
+                    variant="outlined"
+                    sx={{ paddingTop: '20px', marginLeft: '80px' }}
+                  />
+                
+              {formData.categoryId === 1 && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    mt: 'none',
+                  }}
+                >
+                  <FormLabel
+                  sx={{marginTop:'80px'}}
+                  >Limited Categories:</FormLabel>
+                  <Select
+                    placeholder="Select Category"
+                  
+                    name="categoryId"
+                    // value={formData.categoryId}
+                    onChange={handleSelectChange}
+                  >
+                    {category &&
+                      category.map((opt, index) => (
+                        <Option key={index} value={opt.id}>
+                          {opt.categoryName}
+                        </Option>
+                      ))}
+                  </Select>
+                </Box>
+              )}
+              </Box>
+              </RadioGroup>
+            </Box>
 
               <Box
                 sx={{
@@ -210,4 +312,4 @@ return(
         </Modal>
 )
 }
-export default EditModalDatabaseCustomer
+export default EditModalDatabaseAsset

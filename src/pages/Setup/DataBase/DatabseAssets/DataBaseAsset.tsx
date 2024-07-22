@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import {
   Typography,
   Radio,
@@ -8,44 +8,83 @@ import {
   FormControl,
   Table,
   Box,
-} from '@mui/joy';
-import AppView from '../../../../components/Common/AppView';
-import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined';
-import { FormControlLabel } from '@mui/material';
-import DatabaseButtons from '../../../../components/Common/DatabaseButton';
-import { AssetDefaultFields, dataValue } from './Data';
+  Button,
+} from '@mui/joy'
+import AppView from '../../../../components/Common/AppView'
+import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
+import DatabaseButtons from '../../../../components/Common/DatabaseButton'
+import { AssetDefaultFields, dataValue } from './AssetData'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../../../redux/store'
+import { ThunkDispatch } from 'redux-thunk'
+import {
+  fetchAssetDatabase,
+  updateAssetDatabase,
+} from '../../../../redux/features/AssetDatabaseSlice'
+import { fetchAssetCustomDatabase } from '../../../../redux/features/AssetCustomDatabaseSlice'
+import AddIcon from '@mui/icons-material/Add'
+import AddDialogData from './AddDialogData'
+import AssetDbFieldsAddingTable from './AssetDbFieldsAddingTable'
 
 const DataBaseAsset: React.FunctionComponent = () => {
-  const [assetDataForm, setAssetDataForm] = useState(dataValue);
-
-  useEffect(() => {
-    setAssetDataForm(dataValue);
-  }, []);
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const assetDatabase = useSelector(
+    (state: RootState) => state.assetDatabase.data,
+  )
+  const assetCustomDatabase = useSelector(
+    (state: RootState) => state.assetCustomDatabase.data,
+  )
 
   
+  React.useEffect(() => {
+    dispatch(fetchAssetDatabase())
+  }, [])
+
+  React.useEffect(() => {
+    dispatch(fetchAssetCustomDatabase())
+  }, [dispatch])
+
+  const [openAddAsset, setOpenAddAsset] = useState(false)
+  const [assetDataForm, setAssetDataForm] = useState(dataValue)
+
+  useEffect(() => {
+    setAssetDataForm(dataValue)
+  }, [])
+
+  React.useEffect(() => {
+    if(assetDatabase.length > 0){
+      setOpenAddAsset(assetDatabase[0])
+    }
+  }, [assetDatabase]);
 
   const handleCheckboxChange = (index: number) => {
-    const updatedForm = [...assetDataForm];
-    updatedForm[index].visible = !updatedForm[index].visible;
-    setAssetDataForm(updatedForm);
-  };
+    const updatedForm = [...assetDataForm]
+    updatedForm[index].isVisible = !updatedForm[index].isVisible
+    setAssetDataForm(updatedForm)
+  }
 
   const handleRadioChange = (index: number, value: string) => {
-    const updatedForm = [...assetDataForm];
-    updatedForm[index].isRequired = value === 'yes';
-    setAssetDataForm(updatedForm);
-  };
+    const updatedForm = [...assetDataForm]
+    updatedForm[index].isRequired = value
+    setAssetDataForm(updatedForm)
+  }
 
-  const handleCancel=()=>{}
+  const handleCancel = () => {}
 
-  const handleSubmit=()=>{
-    console.log(assetDataForm);
+  const handleSubmit = () => {
+    dispatch(updateAssetDatabase(assetDatabase))
+    console.log(assetDataForm)
   }
 
   return (
     <AppView>
-      <Typography level="h4" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <SignpostOutlinedIcon style={{ fontSize: '1.4rem', color: '#FBC21E' }} />
+      <Typography
+        level="h4"
+        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+      >
+        <SignpostOutlinedIcon
+          style={{ fontSize: '1.4rem', color: '#FBC21E' }}
+        />
         Database Assets
       </Typography>
 
@@ -58,8 +97,16 @@ const DataBaseAsset: React.FunctionComponent = () => {
           p: 2,
         }}
       >
-        <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
-          <Typography level="h4" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Box sx={{ textAlign: { xs: 'center', md: 'left' },flexDirection:{md:'left', xs:'center'}, }}>
+          <Typography
+            level="h4"
+            sx={{
+              display: 'flex',
+              textAlign: { xs: 'center', md: 'left' },
+              justifyContent:{md:'left', xs:'center'},
+              gap: 1,
+            }}
+          >
             Asset Database Fields
           </Typography>
         </Box>
@@ -67,9 +114,10 @@ const DataBaseAsset: React.FunctionComponent = () => {
         <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
           <Box sx={{ mt: 3 }}>
             <Typography>
-              Fill in the appropriate fields for your assets. <b>Asset Tag ID</b> and{' '}
-              <b>Asset Description</b> are the only required fields. Check the boxes
-              next to the field names you want to include.
+              Fill in the appropriate fields for your assets.{' '}
+              <b>Asset Tag ID</b> and <b>Asset Description</b> are the only
+              required fields. Check the boxes next to the field names you want
+              to include.
             </Typography>
           </Box>
 
@@ -78,7 +126,7 @@ const DataBaseAsset: React.FunctionComponent = () => {
               overflowX: 'auto',
               fontSize: '14px',
               whiteSpace: 'nowrap',
-              borderRadius: '5px',
+              borderRadius: '10px',
             }}
           >
             <Table
@@ -88,14 +136,14 @@ const DataBaseAsset: React.FunctionComponent = () => {
                 borderCollapse: 'collapse',
                 border: '1px solid grey',
                 minWidth: '500px',
-                borderRadius: '5px',
+                borderRadius: '10px',
               }}
             >
               <thead>
                 <tr>
                   <th
                     style={{
-                      width: 30,
+                      width: 40,
                       background: '#fff8e6',
                       verticalAlign: 'middle',
                     }}
@@ -146,78 +194,172 @@ const DataBaseAsset: React.FunctionComponent = () => {
               </thead>
               <tbody>
                 {assetDataForm.map((opt, index) => {
-                  const data = AssetDefaultFields.find(field => field.fieldName === opt.fieldName);
-                  if (!data) return null;
+                  const data = AssetDefaultFields.find(
+                    (field) => field.fieldName === opt.fieldName,
+                  )
+                  if (!data) return null
 
                   return (
                     <tr key={`${data.fieldName}-${index}`}>
                       <td>
                         <Checkbox
-                          checked={opt.visible || false}
+                          checked={opt.isVisible || false}
                           onChange={() => handleCheckboxChange(index)}
                         />
                       </td>
-                      <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>
+                      <td
+                        style={{
+                          wordBreak: 'break-word',
+                          whiteSpace: 'normal',
+                          textAlign: 'left',
+                        }}
+                      >
                         {data.fieldName}
                       </td>
-                      <td style={{ wordBreak: 'break-word', whiteSpace: 'normal' }}>
+                      <td
+                        style={{
+                          wordBreak: 'break-word',
+                          whiteSpace: 'normal',
+                        }}
+                      >
                         {data.isVisible && (
                           <FormControl>
                             <RadioGroup
                               value={opt.isRequired ? 'yes' : 'optional'}
                               name={`radio-buttons-group-${index}`}
-                              onChange={(e) => handleRadioChange(index, e.target.value)}
+                              onChange={(e) =>
+                                handleRadioChange(index, e.target.value)
+                              }
+                              sx={{ gap: 2 }}
                             >
-                              <FormControlLabel
+                              <FormControl
                                 key={`${index}-yes`}
-                                value="yes"
-                                control={<Radio variant="outlined" />}
-                                label="Yes"
-                                checked={opt.isRequired === true}
-                                disabled={!opt.visible}
-                              />
-                              <FormControlLabel
+                                disabled={!opt.isVisible}
+                                sx={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  flexDirection: 'row',
+                                  gap: 2,
+                                  // visibility: opt.fieldName === 'Full Name' ? 'visible' : 'hidden',
+                                }}
+                              >
+                                <Radio
+                                  value="yes"
+                                  checked={opt.isRequired === 'yes'}
+                                  onChange={(e) =>
+                                    handleRadioChange(index, e.target.value)
+                                  }
+                                  color="primary" // Adjust color as needed
+                                  sx={{ mr: 1 }}
+                                />
+                                Yes
+                              </FormControl>
+                              <FormControl
                                 key={`${index}-optional`}
-                                value="optional"
-                                control={<Radio variant="outlined" />}
-                                label="Optional"
-                                checked={opt.isRequired === false}
-                                disabled={!opt.visible}
-                              />
+                                disabled={!opt.isVisible}
+                                sx={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  flexDirection: 'row',
+                                }}
+                              >
+                                <Radio
+                                  value="optional"
+                                  checked={opt.isRequired === 'optional'}
+                                  onChange={(e) =>
+                                    handleRadioChange(index, e.target.value)
+                                  }
+                                  color="primary"
+                                  sx={{ mr: 1 }}
+                                />
+                                Optional
+                              </FormControl>
                             </RadioGroup>
                           </FormControl>
                         )}
                       </td>
-                      <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>
+                      <td
+                        style={{
+                          wordBreak: 'break-word',
+                          whiteSpace: 'normal',
+                          textAlign: 'left',
+                        }}
+                      >
                         {data.description}
                       </td>
-                      <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>
+                      <td
+                        style={{
+                          wordBreak: 'break-word',
+                          whiteSpace: 'normal',
+                          textAlign: 'left',
+                        }}
+                      >
                         {data.example}
                       </td>
                     </tr>
-                  );
+                  )
                 })}
               </tbody>
             </Table>
-            <Divider sx={{ my: '30px' }} />
+            <Divider sx={{ my: '20px' }} />
           </Box>
         </Box>
 
-        <Typography level="h4" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <SignpostOutlinedIcon style={{ fontSize: '1.4rem', color: '#FBC21E' }} />
+        <Typography
+          level="h4"
+          sx={{ display: 'flex', alignItems: 'center',
+          flexDirection:{md:'left', xs:"center"},
+          justifyContent:{md:'left', xs:'center'},
+           gap: 1 }}
+        >
+          <SignpostOutlinedIcon
+            style={{ fontSize: '1.4rem', color: '#FBC21E' }}
+          />
           Asset Custom Fields
         </Typography>
         <Box>
-          Add custom fields to join the standard fields that we provided. Feel free to
-          get creative.
+          Add custom fields to join the standard fields that we provided. Feel
+          free to get creative.
         </Box>
 
-        <Divider sx={{ marginTop: '3%' }} />
+        <Box
+         sx={{ display: 'flex', alignItems: 'center',
+          flexDirection:{md:'left', xs:"center"},
+          justifyContent:{md:'left', xs:'center'},
+           gap: 1 }}
+        >
+
+        <Button
+          onClick={() => setOpenAddAsset(true)}
+          sx={{
+            marginTop: '15px',
+            background: 'green',
+            color: 'white',
+            '&:hover': { background: '#1b5e20' },
+            borderRadius: '15px',
+          }}
+        >
+          <AddIcon />
+          Add Custom Fields
+        </Button>
+        </Box>
+
+        {openAddAsset && (
+          <AddDialogData open={openAddAsset} setOpen={setOpenAddAsset} />
+        )}
+
+        <AssetDbFieldsAddingTable
+          assetDataForm={assetCustomDatabase}
+          // setCustomerDataBases={setCustomerDataBases}
+        />
       </Box>
 
-      <DatabaseButtons onCancel={() => handleCancel()} onSubmit={() =>handleSubmit()} />
+      <DatabaseButtons
+        onCancel={() => handleCancel()}
+        onSubmit={() => handleSubmit()}
+      />
     </AppView>
-  );
-};
+  )
+}
 
-export default DataBaseAsset;
+export default DataBaseAsset

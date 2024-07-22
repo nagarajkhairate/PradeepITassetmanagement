@@ -53,7 +53,7 @@ export const addAssetDatabase = createAsyncThunk('assetDatabase/addAssetDatabase
  
 export const updateAssetDatabase = createAsyncThunk('assetDatabase/updateAssetDatabase', async (updatedAssetDatabase: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/asset-default-fields/${updatedAssetDatabase.id}`, updatedAssetDatabase);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/asset-default-fields`, updatedAssetDatabase);
   
   return response.data;
 });

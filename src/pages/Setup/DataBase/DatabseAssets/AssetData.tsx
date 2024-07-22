@@ -3,8 +3,8 @@ export const AssetDefaultFields = [
     {
       fieldName: 'Asset Tag ID',
       name: 'assetTagId',
-      isVisible: 'visible',
-      isRequired: false,
+      isVisible: 'isVisible',
+      isRequired: 'yes',
       description:
         'This holds unique asset id number that your company assigns to identify each asset',
       example: 'A-1001',
@@ -17,9 +17,9 @@ export const AssetDefaultFields = [
     },
     {
       fieldName: 'Asset Description',
-      isVisible: 'visible',
+      isVisible: 'isVisible',
       name: 'assetDescription',
-      isRequired: false,
+      isRequired: 'yes',
       description: 'Description of the asset.',
       example: 'HP - Envy Desktop - 12GB Memory - 2TB Hard Drive',
       option: [
@@ -31,9 +31,9 @@ export const AssetDefaultFields = [
     },
     {
       fieldName: 'Purchase Date',
-      isVisible: 'visible',
+      isVisible: 'isVisible',
       name: 'purchaseDate',
-      isRequired: false,
+      isRequired: 'optional',
       description: 'Date asset was purchased',
       example: '08/22/2014',
       option: [
@@ -49,9 +49,9 @@ export const AssetDefaultFields = [
     },
     {
       fieldName: 'Cost',
-      isVisible: 'visible',
+      isVisible: 'isVisible',
       name: 'cost',
-      isRequired: false,
+      isRequired: 'optional',
       description: 'Cost of the asset',
       example: 'Bs225.75',
       option: [
@@ -68,8 +68,8 @@ export const AssetDefaultFields = [
     {
       fieldName: 'Purchased From',
       name: 'purchasedForm',
-      isVisible: 'visible',
-      isRequired: false,
+      isVisible: 'isVisible',
+      isRequired: 'optional',
       description: 'Vendor/Supplier name',
       example: 'Amazon',
       option: [
@@ -85,9 +85,9 @@ export const AssetDefaultFields = [
     },
     {
       fieldName: 'Brand',
-      isVisible: 'visible',
+      isVisible: 'isVisible',
       name: 'brand',
-      isRequired: false,
+      isRequired: 'optional',
       description: 'Manufacturer of the asset',
       example: 'HP',
       option: [
@@ -103,9 +103,9 @@ export const AssetDefaultFields = [
     },
     {
       fieldName: 'Model',
-      isVisible: 'visible',
+      isVisible: 'isVisible',
       name: 'model',
-      isRequired: false,
+      isRequired: 'optional',
       description: 'Model name of the asset',
       example: 'Envy',
       option: [
@@ -121,9 +121,9 @@ export const AssetDefaultFields = [
     },
     {
       fieldName: 'Serial No',
-      isVisible: 'visible',
+      isVisible: 'isVisible',
       name: 'serialNo',
-      isRequired: false,
+      isRequired: 'optional',
       description: "Manufacturer's serial number",
       example: 'HG9C3X',
       option: [
@@ -141,60 +141,84 @@ export const AssetDefaultFields = [
   
  export const dataValue = [
     {
-      visible: true,
+      isVisible: true,
       fieldName: 'Asset Tag ID',
       name: 'assetId',
       description: 'string',
-      isRequired: true,
+      isRequired: 'yes',
     },
     {
-      visible: true,
+      isVisible: true,
       fieldName: 'Asset Description',
       name: 'assetDec',
       description: 'string',
-      isRequired: true,
+      isRequired: 'yes',
     },
     {
-      visible: true,
+      isVisible: true,
       fieldName: 'Purchase Date',
       name: 'purchasedDate',
       description: 'string',
-      isRequired: false,
+      isRequired: 'optional',
     },
     {
-      visible: true,
+      isVisible: true,
       fieldName: 'Cost',
       name: 'cost',
       description: 'string',
-      isRequired: false,
+      isRequired: 'optional',
     },
     {
-      visible: true,
+      isVisible: true,
       fieldName: 'Purchased From',
       name: 'purchasedForm',
       description: 'string',
-      isRequired: false,
+      isRequired: 'optional',
     },
     {
-      visible: true,
+      isVisible: true,
       fieldName: 'Brand',
       name: 'brand',
       description: 'string',
-      isRequired: false,
+      isRequired: 'optional',
     },
     {
-      visible: true,
+      isVisible: true,
       fieldName: 'Model',
       name: 'model',
       description: 'string',
-      isRequired: false,
+      isRequired: 'optional',
     },
     {
-      visible: true,
+      isVisible: true,
       fieldName: 'Serial No',
       name: 'serialNo',
       description: 'string',
-      isRequired: false,
+      isRequired: 'optional',
     },
   ];
   
+
+  
+ 
+export const customAsset =[
+  {
+    fieldName: 'Full Name',
+    value:'value',
+    componentsId: '',
+    isRequired: 'yes',
+    
+  },
+  ]
+ 
+ 
+  export const BackendData=[
+     {
+    fieldName: 'Full Name',
+    value:'fullName',
+    componentsId: '',
+    isRequired: 'yes'
+  }
+  ]
+ 
+ 

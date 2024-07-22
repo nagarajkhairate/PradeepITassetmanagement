@@ -123,7 +123,7 @@ export function CategorySetupEdit({ categories1,
           <thead>
             <tr>
               <th
-               style={{ width: 30, background: '#fff8e6',verticalAlign:'middle' }}
+               style={{ width: 35, background: '#fff8e6',verticalAlign:'middle' }}
                >
                 <Checkbox
                   size="sm"
@@ -314,7 +314,7 @@ export function CategorySetupEdit({ categories1,
                   sx={{
                     background: 'black',
                     color: 'white',
-                    '&:hover': { background: 'black' },
+                    '&:hover': { background: "#424242" },
                   }}
                 >
                   Cancel

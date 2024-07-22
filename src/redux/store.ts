@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import AssetsReducer from "./features/AssetSlice"
-import transactionsReducer from "./features/TransactionSlice"; // Ensure this matches the file name's casing
+import transactionsReducer from "./features/TransactionSlice"; 
 import addEmployeeReducer from "./features/EmployeeSlice"
 import addClientReducer from "./features/ClientSlice"
 import appStateReducer from "./features/StateSlice";
@@ -22,7 +22,7 @@ import assetDatabaseReducer from './features/AssetDatabaseSlice';
 import assetCustomDatabaseReducer from './features/AssetCustomDatabaseSlice';
 import CheckOutSliceReducer from "./features/CheckOutSlice";
 import empDatabaseReducer from './features/EmpDatabaseSlice';
-import empCustomDatabaseReducer from './features/EmpCustomDatabseSlice';
+import empCustomDatabaseReducer from './features/EmpCustomDatabaseSlice';
 import customerDatabaseReducer from './features/CustomerDatabaseSlice';
 import customerCustomDatabaseReducer from './features/CustomerCustomDatabaseSlice';
 import maintenanceDatabaseReducer from './features/MaintenanceDatabaseSlice';
@@ -31,12 +31,14 @@ import warrantiesDatabaseReducer from './features/WarrantiesDatabaseSlice';
 import warrantiesCustomDatabaseReducer from './features/WarrantiesCustomDatabaseSlice';
 import contractDatabaseReducer from './features/ContractDatabaseSlice';
 import contractCustomDatabaseReducer from './features/ContractCustomDatabaseSlice';
+import StepsReducer from './features/StepsSlice';
 
 
 export const store = configureStore({
   reducer: {
     appState: appStateReducer,
     assets: AssetsReducer,
+    steps: StepsReducer,
     transactions: transactionsReducer,
     addEmployee: addEmployeeReducer,
     addClient: addClientReducer,

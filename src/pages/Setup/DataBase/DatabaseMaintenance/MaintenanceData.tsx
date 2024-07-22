@@ -2,8 +2,8 @@ export const Maintenance = [
     {
       id: 1,
       fieldName: 'Title',
-      value: 'title',
-      visible: 'visible',
+      name: 'title',
+      isVisible: 'isVisible',
       isRequired: 'optional',
       description: 'Title of the maintenance.',
       example: 'Monthly Calibration',
@@ -17,8 +17,8 @@ export const Maintenance = [
     {
       id: 2,
       fieldName: 'Details',
-      value: 'details',
-      visible: 'visible',
+      name: 'details',
+      isVisible: 'isVisible',
       isRequired: 'optional',
       description: '	Details of the maintenance',
       example: 'Calibrate to 120 units',
@@ -36,9 +36,9 @@ export const Maintenance = [
     {
       id: 3,
       fieldName: 'Due Date',
-      visible: 'visible',
+      isVisible: 'isVisible',
       isRequired: 'optional',
-      value: 'dueDate',
+      name: 'dueDate',
       description: 'Date when maintenance is due',
       example: '3/5/2020',
       option: [
@@ -55,9 +55,9 @@ export const Maintenance = [
     {
       id: 4,
       fieldName: 'Maintenance By',
-      visible: 'visible',
+      isVisible: 'isVisible',
       isRequired: 'optional',
-      value: 'maintenanceBy',
+      name: 'maintenanceBy',
       description: 'Person doing maintenance',
       example: '	John Doe',
       option: [
@@ -74,9 +74,9 @@ export const Maintenance = [
     {
       id: 5,
       fieldName: 'Maintenance Status',
-      visible: 'visible',
+      isVisible: 'isVisible',
       isRequired: 'optional',
-      value: 'maintenanceStatus',
+      name: 'maintenanceStatus',
       description:
         ' System field to show current status of the maintenance. The possible values are Scheduled, In progress, On Hold, Cancelled, Completed.',
       example: ' Scheduled',
@@ -94,9 +94,9 @@ export const Maintenance = [
     {
       id: 6,
       fieldName: 'Date Completed',
-      visible: 'visible',
+      isVisible: 'isVisible',
       isRequired: 'optional',
-      value: 'dateCompleted',
+      name: 'dateCompleted',
       description: '	Date when maintenance is completed',
       example: '3/5/2020',
       option: [
@@ -113,9 +113,9 @@ export const Maintenance = [
     {
       id: 7,
       fieldName: 'Maintenance Cost',
-      visible: 'visible',
+      isVisible: 'isVisible',
       isRequired: 'optional',
-      value: 'maintenanceCost',
+      name: 'maintenanceCost',
       description: 'Total cost spent on this maintenance',
       example: '	$97.50',
       option: [
@@ -132,9 +132,9 @@ export const Maintenance = [
     {
       id: 8,
       fieldName: 'Repeating',
-      visible: 'visible',
+      isVisible: 'isVisible',
       isRequired: 'optional',
-      value: 'repeating',
+      name: 'repeating',
       description: 'System fields to define repeating maintenances',
       example: '---',
       option: [
@@ -150,56 +150,56 @@ export const Maintenance = [
 
   export const maintenanceData = [
     {
-      visible: true,
+      isVisible: true,
       fieldName: 'Title',
       value: 'title',
       description: 'string',
       isRequired: 'yes',
     },
     {
-        visible: true,
+        isVisible: true,
         fieldName: "Details",
         value: "details",
         isRequired: 'optional',
         description: "string",
     },
     {
-        visible: true,
+        isVisible: true,
         fieldName: "Due Date",
         value: "dueDate",
         isRequired: 'optional',
         description: "string",
     },
     {
-        visible: true,
+        isVisible: true,
         fieldName: "Maintenance By",
         value: "maintenanceBy",
         isRequired: 'optional',
         description: "string",
     },
     {
-        visible: true,
+        isVisible: true,
         fieldName: "Maintenance Status",
         value: "maintenanceStatus",
         isRequired: 'optional',
         description: "string",
     },
     {
-        visible: true,
+        isVisible: true,
         fieldName: "Date Completed",
         value: "dateCompleted",
         isRequired: 'optional',
         description: "string",
     },
     {
-        visible: true,
+        isVisible: true,
         fieldName: "Maintenance Cost",
         value: "maintenanceCost",
         isRequired: 'optional',
         description: "string",
     },
     {
-        visible: true,
+        isVisible: true,
         fieldName: "Repeating",
         value: "repeating",
         isRequired: 'optional',

@@ -18,7 +18,7 @@ import {
 import AddIcon from '@mui/icons-material/Add'
 import AddDialogEmployee from './AddDialogEmployee'
 import EmployeeFieldsAddingTable from './EmployeeFieldsAddingTable'
-import { fetchEmpCustomDatabase } from '../../../../redux/features/EmpCustomDatabseSlice'
+import { fetchEmpCustomDatabase } from '../../../../redux/features/EmpCustomDatabaseSlice'
 
 const DataBaseEmp: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -26,24 +26,29 @@ const DataBaseEmp: React.FunctionComponent = () => {
   const empDatabase = useSelector((state: RootState) => state.empDatabase.data)
   const empCustomDatabase = useSelector((state: RootState) => state.empCustomDatabase.data)
 
+  useEffect(() => {
+    dispatch(fetchEmpDatabase())
+  }, [])
+  
+  useEffect(() => {
+    dispatch(fetchEmpCustomDatabase())
+  }, [])
 
   const [empDataBases, setEmpDataBases] = useState(empData)
   const [openAddEmployee, setOpenAddEmployee] = useState(false)
 
-  useEffect(() => {setEmpDataBases(empData)}, [])
+  useEffect(() => {
+    if(empDatabase.length > 0){
+      setOpenAddEmployee(empDatabase[0])
+    }
+  }, [empDatabase]);
 
-  React.useEffect(() => {
-    dispatch(fetchEmpDatabase())
-  }, [])
-
-
-  React.useEffect(() => {
-    dispatch(fetchEmpCustomDatabase())
-  }, [])
 
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...empDataBases]
-    updatedForm[index].visible = !updatedForm[index].visible
+
+    updatedForm[index].isVisible = !updatedForm[index].isVisible
+
     setEmpDataBases(updatedForm)
   }
 
@@ -55,10 +60,10 @@ const DataBaseEmp: React.FunctionComponent = () => {
   const handleCancel = () => {  }
 
   const handleSubmit = () => {
-    const updatedEmpForm = { ...empDatabase }
+    // const updatedEmpForm = { ...empDatabase }
     console.log(JSON.stringify(empDatabase, null, 2))
     // console.log(empDatabase)
-    dispatch(updateEmpDatabase(updatedEmpForm))
+    dispatch(updateEmpDatabase(empDatabase))
   }
 
   return (
@@ -191,7 +196,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
                     <tr key={`${data.fieldName}-${index}`}>
                       <td>
                         <Checkbox
-                          checked={opt.visible || false}
+                          checked={opt.isVisible || false}
                           onChange={() => handleCheckboxChange(index)}
                         />
                       </td>
@@ -210,7 +215,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
                           whiteSpace: 'normal',
                         }}
                       >
-                        {data.visible && (
+                        {data.isVisible && (
                           <FormControl>
                             <RadioGroup
                               value={opt.isRequired || 'optional'}
@@ -223,13 +228,13 @@ const DataBaseEmp: React.FunctionComponent = () => {
                             >
                               <FormControl
                                 key={`${index}-yes`}
-                                disabled={!opt.visible}
+                                disabled={!opt.isVisible}
                                 sx={{
                                   display: 'inline-flex',
                                   alignItems: 'center',
                                   flexDirection: 'row',
                                   gap: 2,
-                                  // visibility: opt.fieldName === 'Full Name' ? 'visible' : 'hidden',
+                                  // visibility: opt.fieldName === 'Full Name' ? 'isVisible' : 'hidden',
                                 }}
                               >
                                 <Radio
@@ -246,7 +251,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
                               </FormControl>
                               <FormControl
                                 key={`${index}-optional`}
-                                disabled={!opt.visible}
+                                disabled={!opt.isVisible}
                                 sx={{
                                   display: 'inline-flex',
                                   alignItems: 'center',
