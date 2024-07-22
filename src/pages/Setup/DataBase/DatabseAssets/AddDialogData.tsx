@@ -132,6 +132,7 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
         alignItems: 'center',
       }}
     >
+      
       <Sheet
         variant="outlined"
         sx={{

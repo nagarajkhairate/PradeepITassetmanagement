@@ -106,6 +106,7 @@ const AddDialogCustomer: React.FC<DatabaseCustomerProps> = ({
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
+             
             }}
           >
     <Sheet

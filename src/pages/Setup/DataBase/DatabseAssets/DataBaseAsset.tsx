@@ -36,6 +36,7 @@ const DataBaseAsset: React.FunctionComponent = () => {
     (state: RootState) => state.assetCustomDatabase.data,
   )
 
+  
   React.useEffect(() => {
     dispatch(fetchAssetDatabase())
   }, [])
