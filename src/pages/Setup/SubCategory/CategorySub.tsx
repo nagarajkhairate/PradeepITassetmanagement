@@ -1,12 +1,11 @@
 import React from "react";
-import { Box, Sheet } from "@mui/joy";
+import { Box, Checkbox, Sheet, Table } from "@mui/joy";
 import { Typography, Divider } from "@mui/joy";
 import Button from "@mui/joy/Button";
 import { FormControl, FormLabel } from "@mui/joy";
 import AddIcon from "@mui/icons-material/Add";
 import NavigateNextOutlinedIcon from "@mui/icons-material/NavigateNextOutlined";
 import NavigateBeforeOutlinedIcon from "@mui/icons-material/NavigateBeforeOutlined";
-import Input from "@mui/joy/Input";
 import SignpostOutlinedIcon from "@mui/icons-material/SignpostOutlined";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -23,6 +22,8 @@ import { fetchSubCategories } from "../../../redux/features/CategorySubSlice";
 import CategorySubDelete from "./CategorySubDelete";
 import { RootState } from "../../../redux/store";
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 type SubCategory = {
   id: number
@@ -36,24 +37,28 @@ const CategorySub: React.FunctionComponent = () => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
   const [subCategory, setSubCategory] = useState<string>("");
+  const [selectedCell, setSelectedCell] = useState<number | null>(null);
   const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
+  const [editOpen, setEditOpen] = useState<boolean>(false);
 
   const subCategories = useSelector((state: RootState) => state.subCategories.data)
   // const dispatch = useDispatch<AppDispatch>()
   console.log(subCategories)
 
-  const handleCategoryChange = (updatedCategories: SubCategory[]) => {
-    // setCategories(updatedCategories);
-    console.log("subCategory: ", JSON.stringify(updatedCategories));
+  const handleEdit = (subCategories:number) => {
+    setEditOpen(true)
+    setSelectedCell(subCategories);
+    
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleCheckboxChange = (index: number) => {
+    setMatchedSelected((prevSelected) =>
+      prevSelected.includes(index)
+        ? prevSelected.filter((item) => item !== index)
+        : [...prevSelected, index]
+    );
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -175,11 +180,6 @@ const CategorySub: React.FunctionComponent = () => {
                   <CategorySubAdd
                    open={open}
                    setOpen={()=>setOpen(false)}
-        // open={open}
-        handleClose={handleClose}
-        // subCategory={subCategory}
-        // setSubCategory={setSubCategory}
-        // handleAddCategory={handleAddCategory}
       />
       </Modal>}
 
@@ -384,7 +384,122 @@ const CategorySub: React.FunctionComponent = () => {
           </Box>
             </Box>
 
-            <Box>
+            <Box
+              sx={{
+                overflowX: 'auto',
+                fontSize: '14px',
+                whiteSpace: 'nowrap',
+                borderRadius:'5px'
+              }}
+            >
+        <Table 
+        borderAxis="both" aria-label="basic table" 
+        style={{
+                  borderCollapse: 'collapse',
+                  border: '1px solid grey',
+                  minWidth: '500px',
+                  borderRadius:'5px'
+                }}
+        >
+          <thead>
+            <tr>
+              <th style={{width:35, background: '#fff8e6',verticalAlign:'middle'}}>
+                <Checkbox
+                  size="sm"
+                  indeterminate={
+                    matchedSelected.length > 0 && matchedSelected.length < subCategories.length
+                  }
+                  checked={
+                    matchedSelected.length > 0 && matchedSelected.length === subCategories.length
+                  }
+                  onChange={(event) => {
+                    const isChecked = event.target.checked;
+                    setMatchedSelected(
+                      isChecked ? subCategories.map((_, index) => index) : []
+                    );
+                  }}
+                  color={
+                    matchedSelected.length > 0 && matchedSelected.length === subCategories.length
+                      ? "primary"
+                      : undefined
+                  }
+                  sx={{ verticalAlign: "text-bottom" }}
+                />
+              </th>
+              <th style={{ background: '#fff8e6',verticalAlign:'middle' }}>Sub Category</th>
+              <th style={{ background: '#fff8e6',verticalAlign:'middle' }}>Edit</th>
+              <th style={{ background: '#fff8e6' ,verticalAlign:'middle'}}>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+              {subCategories.length > 0 ? subCategories.map((subCategories, index) => (
+                <tr key={subCategories.id}>
+                  <td>
+                    <Checkbox
+                      checked={matchedSelected.includes(index)}
+                      onChange={() => handleCheckboxChange(index)}
+                      color="primary"
+                    />
+                  </td>
+                  <td>{subCategories.subCategory}</td>
+
+                  <td>
+                    <Button onClick={()=> handleEdit(subCategories)}
+                     sx={{
+                      background: "#ffffff",
+                      color: "green",
+                      display:'flex',
+                      justifyContent:'flex-end',
+                      marginLeft:'none',
+                      border: "1px solid green ",
+                      borderRadius: "15px",
+                      "&:hover": {
+                        color: "white",
+                        background: "green",
+                      
+                      },
+                    }}
+                    >
+                      <EditOutlinedIcon />Edit
+                    </Button>
+                  </td>
+
+                  <td>  
+                    <Button onClick={()=>handleDeleteOpen}
+                     sx={{
+                      background: "#ffffff",
+                      color: '#d32f2f',
+                      display:'flex',
+                      justifyContent:'flex-end',
+                      marginLeft:'none',
+                      border: "1px solid red ",
+                      borderRadius: "15px",
+                      "&:hover": {
+                        color: "white",
+                        background:'#d32f2f',
+                       
+                      },
+                    }}
+                    >
+                      <DeleteForeverIcon />Delete
+                    </Button>
+                  </td>
+                </tr>
+              )):<tr><td colSpan={4} style={{ textAlign: 'center'}}>Add Sub Category</td></tr>}
+            
+          </tbody>
+        </Table>
+              </Box>
+
+              {editOpen && (
+          <CategorySubEdit
+            subCategories={selectedCell}
+            editOpen={editOpen}
+            setEditOpen={()=>setEditOpen(false)}
+          />
+        )}
+
+            {/* <Box>
               <CategorySubEdit
                 categories1={subCategories}
                 matchedSelected={matchedSelected}
@@ -392,7 +507,7 @@ const CategorySub: React.FunctionComponent = () => {
                 handleDeleteOpen={handleDeleteOpen}
                 // onCategoryChange={handleCategoryChange}
               />
-            </Box>
+            </Box> */}
             <Divider />
           </Box>
 

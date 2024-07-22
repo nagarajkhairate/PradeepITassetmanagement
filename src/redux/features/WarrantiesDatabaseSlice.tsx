@@ -50,7 +50,7 @@ export const addWarrantiesDatabase = createAsyncThunk('warrantiesDatabase/addWar
  
 export const updateWarrantiesDatabase = createAsyncThunk('warrantiesDatabase/updateWarrantiesDatabase', async (updatedWarrantiesDatabase: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/warranties/${updatedWarrantiesDatabase.id}`, updatedWarrantiesDatabase);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/warranties`, updatedWarrantiesDatabase);
   
   return response.data;
 });

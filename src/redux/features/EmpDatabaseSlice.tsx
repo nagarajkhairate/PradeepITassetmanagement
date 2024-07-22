@@ -50,7 +50,7 @@ export const addEmpDatabase = createAsyncThunk('empDatabase/addEmpDatabase', asy
  
 export const updateEmpDatabase = createAsyncThunk('empDatabase/updateEmpDatabase', async (updatedEmpDatabase: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons/${updatedEmpDatabase.id}`, updatedEmpDatabase);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons`, updatedEmpDatabase);
   
   return response.data;
 });

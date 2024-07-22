@@ -50,7 +50,7 @@ export const addCustomerDatabase = createAsyncThunk('customerDatabase/addCustome
  
 export const updateCustomerDatabase = createAsyncThunk('customerDatabase/updateCustomerDatabase', async (updatedCustomerDatabase: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/customers/${updatedCustomerDatabase.id}`, updatedCustomerDatabase);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/customers`, updatedCustomerDatabase);
   
   return response.data;
 });
