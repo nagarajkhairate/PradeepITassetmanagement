@@ -174,7 +174,7 @@ const CategorySub: React.FunctionComponent = () => {
             >
                   <CategorySubAdd
                    open={open}
-                   setOpen={setOpen}
+                   setOpen={()=>setOpen(false)}
         // open={open}
         handleClose={handleClose}
         // subCategory={subCategory}
