@@ -76,15 +76,6 @@ const AddDialogContract: React.FC<DataBaseAddProps> = ({
     console.log('Form Data:', formData)
   }
 
-  const handleClose = () => {
-    setOpen(false)
-    setFormData({
-      fieldName: '',
-      componentsId: 1,
-      isRequired: '',
-    })
-  }
-
 
   return (
     <Modal

@@ -26,20 +26,23 @@ const DataBaseEmp: React.FunctionComponent = () => {
   const empDatabase = useSelector((state: RootState) => state.empDatabase.data)
   const empCustomDatabase = useSelector((state: RootState) => state.empCustomDatabase.data)
 
+  useEffect(() => {
+    dispatch(fetchEmpDatabase())
+  }, [])
+  
+  useEffect(() => {
+    dispatch(fetchEmpCustomDatabase())
+  }, [])
 
   const [empDataBases, setEmpDataBases] = useState(empData)
   const [openAddEmployee, setOpenAddEmployee] = useState(false)
 
-  useEffect(() => {setEmpDataBases(empData)}, [])
+  useEffect(() => {
+    if(empDatabase.length > 0){
+      setOpenAddEmployee(empDatabase[0])
+    }
+  }, [empDatabase]);
 
-  React.useEffect(() => {
-    dispatch(fetchEmpDatabase())
-  }, [])
-
-
-  React.useEffect(() => {
-    dispatch(fetchEmpCustomDatabase())
-  }, [])
 
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...empDataBases]
@@ -57,10 +60,10 @@ const DataBaseEmp: React.FunctionComponent = () => {
   const handleCancel = () => {  }
 
   const handleSubmit = () => {
-    const updatedEmpForm = { ...empDatabase }
+    // const updatedEmpForm = { ...empDatabase }
     console.log(JSON.stringify(empDatabase, null, 2))
     // console.log(empDatabase)
-    dispatch(updateEmpDatabase(updatedEmpForm))
+    dispatch(updateEmpDatabase(empDatabase))
   }
 
   return (

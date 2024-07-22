@@ -14,7 +14,7 @@ import { customMaintenance, Maintenance, maintenanceData } from './MaintenanceDa
 import AddIcon from '@mui/icons-material/Add'
 import AddDialogMaintenance from './AddDialogMaintenance'
 import MaintenanceFieldsAddingTable from './MaintennaceFieldsAddingTable'
-import { fetchMaintenanceDatabase } from '../../../../redux/features/MaintenanceDatabaseSlice'
+import { fetchMaintenanceDatabase, updateMaintenanceDatabase } from '../../../../redux/features/MaintenanceDatabaseSlice'
 import { fetchMaintenanceCustomDatabase } from '../../../../redux/features/MaintenanceCustomDatabaseSlice'
 
 const DatabaseMaintenance: React.FunctionComponent = () => {
@@ -40,6 +40,12 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
     setMaintenanceDataBases(maintenanceData)
   }, [])
 
+  React.useEffect(() => {
+    if(maintenanceDatabase.length > 0){
+      setOpenAddMaintenance(maintenanceDatabase[0])
+    }
+  }, [maintenanceDatabase]);
+
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...maintenanceDataBases]
     updatedForm[index].isVisible = !updatedForm[index].isVisible
@@ -56,6 +62,7 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
 
   const handleSubmit = () => {
     console.log(maintenanceDataBases)
+    dispatch(updateMaintenanceDatabase(maintenanceDatabase))
   }
 
   return (
@@ -204,7 +211,7 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                           whiteSpace: 'normal',
                         }}
                       >
-                        {data.visible && (
+                        {data.isVisible && (
                           <FormControl>
                             <RadioGroup
                               value={opt.isRequired ? 'yes' : 'optional'}
@@ -222,7 +229,7 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                                   alignItems: 'center',
                                   flexDirection: 'row',
                                   gap: 2,
-                                  // visibility: opt.fieldName === 'Full Name' ? 'visible' : 'hidden',
+                                  // visibility: opt.fieldName === 'Full Name' ? 'isVisible' : 'hidden',
                                 }}
                               >
                                 <Radio

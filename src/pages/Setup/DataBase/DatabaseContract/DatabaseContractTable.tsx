@@ -11,7 +11,7 @@ import AddIcon from '@mui/icons-material/Add'
 import AddDialogContract from './AddDialogContract'
 import ContractFieldsAddingTable from './ContractFieldsAddingTable'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchContractDatabase } from '../../../../redux/features/ContractDatabaseSlice'
+import { fetchContractDatabase, updateContractDatabase } from '../../../../redux/features/ContractDatabaseSlice'
 import { ThunkDispatch } from 'redux-thunk'
 import { fetchContractCustomDatabase } from '../../../../redux/features/ContractCustomDatabaseSlice'
 
@@ -40,6 +40,12 @@ const DatabaseContractTable: React.FunctionComponent = () => {
     setContractDataBases(contractData)
   }, [])
 
+  useEffect(()=>{
+if(contractDatabase.length > 0){
+  setOpenAddContract(contractDatabase[0])
+}
+  }, [contractDatabase])
+
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...contractDataBases]
     updatedForm[index].isVisible = !updatedForm[index].isVisible
@@ -56,6 +62,7 @@ const DatabaseContractTable: React.FunctionComponent = () => {
 
   const handleSubmit = () => {
     console.log(contractDataBases)
+    dispatch(updateContractDatabase(contractDatabase))
   }
 
 
@@ -182,7 +189,7 @@ const DatabaseContractTable: React.FunctionComponent = () => {
                           whiteSpace: 'normal',
                         }}
                       >
-                        {data.visible && (
+                        {data.isVisible && (
                           <FormControl>
                             <RadioGroup
                               value={opt.isRequired ? 'yes' : 'optional'}

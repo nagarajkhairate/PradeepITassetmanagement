@@ -42,9 +42,9 @@ const DataBaseAsset: React.FunctionComponent = () => {
 
   React.useEffect(() => {
     dispatch(fetchAssetCustomDatabase())
-  }, [])
+  }, [dispatch])
 
-  const [openAddAsset, setOpenAddAsset] = useState<any>({id:1})
+  const [openAddAsset, setOpenAddAsset] = useState(false)
   const [assetDataForm, setAssetDataForm] = useState(dataValue)
 
   useEffect(() => {

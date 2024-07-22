@@ -171,7 +171,7 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
                     target.value = target.value.replace(/[^a-zA-Z0-9-]/g, '')
                   }}
                   required
-                  sx={{ marginLeft: '40px', }}
+                  sx={{ marginLeft: '40px', textTransform:'capitalize' }}
                 />
               </FormLabel>
             </FormControl>
@@ -344,4 +344,4 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
     </Modal>
   )
 }
-export default React.memo(AddDialogData)
+export default AddDialogData

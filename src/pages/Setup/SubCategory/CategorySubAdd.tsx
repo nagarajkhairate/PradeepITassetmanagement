@@ -30,7 +30,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({
   open,
   setOpen,
 }) => {
-  const [formData, setFormData] = useState({})
+  const [formData, setFormData] = useState<{ [key: string]: any }>({})
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const categories = useSelector((state: RootState) => state.category.data)
 
