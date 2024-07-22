@@ -3,13 +3,13 @@ import axios from 'axios';
  
 interface CheckOutState {
   data: any[];
-  selectedSites: any | null;
+  selectedCustomer: any | null;
   loading: boolean;
   error: string | null;
 }
 const initialState: CheckOutState = {
   data: [],
-  selectedSites: null,
+  selectedCustomer: null,
   loading: false,
   error: null,
 };
@@ -38,7 +38,7 @@ export const fetchCheckOutById = createAsyncThunk('transaction/fetchCheckOutById
     console.error('Error Message'+ error);
     throw error;
   }
- 
+
 });
  
 export const addCheckOut = createAsyncThunk('transaction/addCheckOut', async (transaction: any) => {
@@ -46,9 +46,9 @@ export const addCheckOut = createAsyncThunk('transaction/addCheckOut', async (tr
   return response.data;
 });
  
-export const updateCheckOut = createAsyncThunk('transaction/updateCheckOut', async (transaction: any) => {
+export const updateCheckOut = createAsyncThunk('transaction/updateCheckOut', async (updatedCustomer: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/transaction/${transaction.id}`, transaction);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/transaction/${updatedCustomer.id}`, updatedCustomer);
   return response.data;
 });
  
@@ -63,7 +63,7 @@ const CheckOutSlice = createSlice({
   reducers: {
     setSelectedCustomer: (state, action: PayloadAction<number>) => {
       const user = state.data.find((u) => u.id === action.payload);
-      state.selectedSites = user || null;
+      state.selectedCustomer = user || null;
     },
   },
   extraReducers: (builder) => {

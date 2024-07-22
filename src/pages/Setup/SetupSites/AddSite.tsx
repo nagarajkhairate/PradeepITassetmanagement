@@ -103,7 +103,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
           <Grid xs={12} md={6}>
             <FormLabel>Site</FormLabel>
             <Input
-              placeholder="Select Site"
+              placeholder="Site"
               name="siteName"
               value={formData.siteName}
               onChange={handleChange}
