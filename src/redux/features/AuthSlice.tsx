@@ -37,13 +37,15 @@ const AuthSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
+      .addCase(loginAccount.fulfilled, (state, action) => {
+        state.loading = false;
+        state.data = action.payload;
+      })
       .addCase(loginAccount.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Failed to fetch client';
       })
-      .addCase(loginAccount.fulfilled, (state, action) => {
-        state.data.push(action.payload);
-      })
+      
 
 
   },
