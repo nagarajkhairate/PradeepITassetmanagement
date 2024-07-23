@@ -31,7 +31,7 @@ const CheckIn: React.FC = () => {
   const assets = useSelector((state: RootState) => state.assets.data)
   const [selectedAssets, setSelectedAssets] = useState<Asset[]>()
 
-  const handleSearchChange = useCallback(
+   const handleSearchChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchKeyword(event.target.value)
     },

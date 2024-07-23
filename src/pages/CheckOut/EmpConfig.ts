@@ -29,7 +29,7 @@
     tenantId: null;
   }
   
-  export const EmpConfig: FieldConfig[] = [
+  export const EmpConfig: any[] = [
     {
       id: 1,
       fieldName: "Full Name",

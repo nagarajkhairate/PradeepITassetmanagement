@@ -68,6 +68,7 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
 
    const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    setCheckOutTo(value)
     setFormData({
       ...formData,
       [name]: value,
@@ -86,7 +87,7 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
     await handleAssignAssetId()
     
     console.log(JSON.stringify(formData))
-    // await dispatch(addCheckOut(formData))
+    await dispatch(addCheckOut(formData))
   }
 
   const radioOptions = [
@@ -193,7 +194,7 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
         } else if (field.name === "checkOutDepartmentId") {
           return <DepartmentComponent {...commonProps} />;
         } 
-        else if (field.name === "assignedTo") {
+        else if (field.name === "assignedTo"){
           return <AddNewEmpployee {...commonProps} />;
         } 
         else if (field.name === "clientId") {
@@ -222,7 +223,7 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
     <AppForm onSubmit={handleFormSubmit}>
       <Box
         sx={{
-          borderRadius: '16px',
+          borderRadius: '15px',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#FFF',
           flexGrow: 1,
@@ -230,7 +231,7 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
           height: 'auto',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
+          // alignItems: 'center',
           p: 4,
         }}
       >
@@ -239,11 +240,13 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
         </Typography>
         <Box
           sx={{
-            overflowX: 'auto',
+              overflowX: 'auto',
+              fontSize: '14px',
+              whiteSpace: 'nowrap',
             marginBottom: '20px',
           }}
         >
-          <Table sx={{ border: '1px solid #f2f2f2', width: '100%' }}>
+          <Table sx={{ border: '1px solid #f2f2f2', width: '100%', minWidth:"900px" }}>
             <thead>
               <tr>
                 <th
@@ -360,13 +363,8 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
     {checkOutConfig && checkOutConfig.map((field , index) => (
       <FormControl key={index}>
        <Grid key={index}>
-        {handleInputValue(
-          field,
-          formData,
-          handleChange,
-          handleSelectChange,
-          handleRadioChange
-        )}
+       {checkOutTo === 'person' || (field.name !== 'assignedTo' && field.name !== 'clientId') ?
+        handleInputValue(field, formData, handleChange, handleSelectChange, handleRadioChange) : null}
         </Grid>
       </FormControl>
     ))}

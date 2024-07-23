@@ -9,8 +9,7 @@ export interface Field {
     stylings: string;
 }
 
-
-export const checkOutConfig: Field[] =  [
+export const checkOutConfig: any[] =  [
             {
                 id: 1,
                 fieldName: "Check-out Date",

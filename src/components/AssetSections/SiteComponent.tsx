@@ -38,7 +38,7 @@ const SiteComponent: React.FC<SiteProps> = ({
         <Select
           placeholder="Select Site"
           name={field.name}
-          value={formData['site']?.id as string}
+          value={formData && formData['site']?.id as string}
           onChange={selectChange}
         >
           {sites.map((site) => (

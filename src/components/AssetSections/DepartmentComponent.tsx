@@ -52,7 +52,7 @@ const DepartmentComponent: React.FC<DepartmentProps> = ({
         <Select
           placeholder="Select Department"
           name={field.name}
-          value={formData['department']?.id as string}
+          value={formData && formData['department']?.id as string}
           onChange={selectChange}
         >
           {departments.map((department) => (
