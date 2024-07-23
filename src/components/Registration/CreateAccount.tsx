@@ -44,8 +44,8 @@ const CreateAccount: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [submitted, setSubmitted] = useState<boolean>(false)
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
-  const { account, loading } = useSelector(
-    (state: RootState) => state.tenant.data,
+  const { loading, data, error } = useSelector(
+    (state: RootState) => state.tenant,
   )
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked, type } = e.target
@@ -113,12 +113,13 @@ const CreateAccount: React.FC = () => {
     }
     setErrors(newErrors)
 
-    console.log(JSON.stringify(account))
-
     if (Object.keys(newErrors).length === 0) {
       try {
         await dispatch(createAccount(formData))
-        navigate('/');
+        if(data){
+          navigate('/')
+        }
+        
       } catch (error) {
         console.error('Account creation failed:', error)
       }
@@ -126,7 +127,7 @@ const CreateAccount: React.FC = () => {
   }
 
   return (
-    <Box minHeight="100vh" display="flex" alignItems="center" >
+    <Box minHeight="100vh" display="flex" alignItems="center">
       <Box
         margin="auto"
         maxWidth="30rem"
@@ -148,10 +149,7 @@ const CreateAccount: React.FC = () => {
             }}
           >
             <Typography level="h3">Create an Account</Typography>
-            <Grid
-              container
-              spacing={2}
-            >
+            <Grid container spacing={2}>
               <Grid xs={12} sm={12} md={12} lg={12}>
                 <FormControl>
                   <FormLabel htmlFor="firstName" sx={{ ml: '10px' }}>
@@ -164,7 +162,6 @@ const CreateAccount: React.FC = () => {
                     placeholder="First Name"
                     value={formData.firstName}
                     onChange={handleChange}
-                    sx={{borderRadius: '15px' }}
                     error={!!errors.firstName}
                   />
                   {errors.firstName && (
@@ -189,7 +186,6 @@ const CreateAccount: React.FC = () => {
                     placeholder="Last Name"
                     value={formData.lastName}
                     onChange={handleChange}
-                    sx={{borderRadius: '15px' }}
                     error={!!errors.lastName}
                   />
                   {errors.lastName && (
@@ -215,7 +211,6 @@ const CreateAccount: React.FC = () => {
                     placeholder="Email"
                     value={formData.email}
                     onChange={handleChange}
-                    sx={{borderRadius: '15px' }}
                     error={!!errors.email}
                   />
                   {errors.email && (
@@ -242,33 +237,26 @@ const CreateAccount: React.FC = () => {
                     placeholder="Password"
                     value={formData.password}
                     onChange={handleChange}
-                    sx={{borderRadius: '15px' }}
                     error={!!errors.password}
                   />
                   <IconButton
                     onClick={() => setShowPassword(!showPassword)}
-                    sx={{
-                      position: 'absolute',
-                      right: '10px',
-                      top: '70%',
-                      transform: 'translateY(-50%)',
-                      padding: '10px',
-                      '&:hover': {
-                        background: 'none',
-                      },
-                    }}
+                    sx={{ position: 'absolute', right: '10px', top: '25px' ,'&:hover': {
+                          background: 'none',
+                        }}}
                   >
-                    {showPassword ? (
-                      <VisibilityOff fontSize="small" />
-                    ) : (
-                      <Visibility fontSize="small" />
-                    )}
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
 
                   {errors.password && (
                     <Typography
                       level="body-sm"
-                      sx={{ ml: '10px', color: '#dc3545', fontSize: '12px' }}
+                      sx={{
+                        ml: '10px',
+                        color: '#dc3545',
+                        fontSize: '12px',
+                        
+                      }}
                     >
                       {errors.password}
                     </Typography>
@@ -288,7 +276,6 @@ const CreateAccount: React.FC = () => {
                     placeholder="Re-type Your Password"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    sx={{borderRadius: '15px' }}
                     error={!!errors.confirmPassword}
                   />
                   <IconButton
@@ -296,19 +283,13 @@ const CreateAccount: React.FC = () => {
                     sx={{
                       position: 'absolute',
                       right: '10px',
-                      top: '70%',
-                      transform: 'translateY(-50%)',
-                      padding: '10px',
+                      top: '25px',
                       '&:hover': {
                         background: 'none',
                       },
                     }}
                   >
-                    {showConfirmPassword ? (
-                      <VisibilityOff fontSize="small" />
-                    ) : (
-                      <Visibility fontSize="small" />
-                    )}
+                    {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
 
                   {errors.confirmPassword && (
@@ -353,12 +334,19 @@ const CreateAccount: React.FC = () => {
                   background: '#e0a800',
                 },
               }}
+              disabled={loading}
             >
               Sign Up
             </Button>
-
+            {error && (
+                    <Typography
+                      level="body-sm"
+                      sx={{ ml: '10px', color: '#dc3545', fontSize: '12px' }}
+                    >
+                      {error}
+                    </Typography>
+                  )}
             <Link to="/">
-              {' '}
               <Typography> Already have an account?</Typography>
             </Link>
           </Box>

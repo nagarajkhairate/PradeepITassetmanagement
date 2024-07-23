@@ -1,70 +1,81 @@
-import React, { useState, ChangeEvent } from 'react';
-import { Box, Typography, Button, Input, FormLabel, IconButton, Grid, FormControl } from '@mui/joy';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { loginAccount } from '../../redux/features/AuthSlice';
-import { ThunkDispatch } from 'redux-thunk';
-import AppForm from '../Common/AppForm';
-import { RootState } from '../../redux/store';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import React, { useState, ChangeEvent } from 'react'
+import {
+  Box,
+  Typography,
+  Button,
+  Input,
+  FormLabel,
+  IconButton,
+  Grid,
+  FormControl,
+} from '@mui/joy'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { loginAccount } from '../../redux/features/AuthSlice'
+import { ThunkDispatch } from 'redux-thunk'
+import AppForm from '../Common/AppForm'
+import { RootState } from '../../redux/store'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 
 const LoginAccount: React.FC = () => {
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
-  const navigate = useNavigate();
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const navigate = useNavigate()
+  const { loading, error } = useSelector(
+    (state: RootState) => state.login,
+  )
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-  });
+  })
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
   const [errors, setErrors] = useState({
     email: '',
     password: '',
-  });
+  })
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
-    }));
+    }))
     setErrors((prevErrors) => ({
       ...prevErrors,
       [name]: '',
-    }));
-  };
+    }))
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    let valid = true;
-    const newErrors = { email: '', password: '' };
+    let valid = true
+    const newErrors = { email: '', password: '' }
 
     if (!formData.email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
-      newErrors.email = 'Please enter a valid email address.';
-      valid = false;
+      newErrors.email = 'Please enter a valid email address.'
+      valid = false
     }
 
     if (formData.password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters.';
-      valid = false;
+      newErrors.password = 'Password must be at least 8 characters.'
+      valid = false
     }
-
-    setErrors(newErrors);
+    setErrors(newErrors)
     if (valid) {
       try {
-        const response = await dispatch(loginAccount(formData));
-
-        if (response.meta.requestStatus === 'fulfilled') {
-          navigate('/dashboard');
+      const LoginDetails=   await dispatch(loginAccount(formData))
+        if (LoginDetails) {
+          sessionStorage.setItem('user', JSON.stringify(LoginDetails.payload))
+        
         } else {
-          setErrors({ ...newErrors, email: 'Email or Password is not valid' });
+          setErrors({ ...newErrors, email: 'Email or Password is not valid' })
         }
       } catch (error) {
-        console.error('Login failed:', error);
+        console.error('Login failed:', error)
       }
     }
-  };
+  }
 
   return (
     <Box minHeight="100vh" display="flex" alignItems="center">
@@ -114,40 +125,35 @@ const LoginAccount: React.FC = () => {
               </Grid>
               <Grid xs={12}>
                 <FormControl>
-                  <FormLabel htmlFor="password" >
-                    Password :
-                  </FormLabel>
-         
-                    <Input
-                      type={showPassword ? 'text' : 'password'}
-                      name="password"
-                      id="password"
-                      placeholder="Password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      error={!!errors.password}
-                    />
-                    <IconButton
-                      onClick={() => setShowPassword(!showPassword)}
-                      sx={{
-                        position: 'absolute',
-                        right: '10px',
-                        top: '65%',
-                        transform: 'translateY(-50%)',
-                        verticalAlign: 'middle',
-                        padding: '10px',
-                        '&:hover': {
-                          background: 'none',
-                        },
-                      }}
-                    >
-                      {showPassword ? (
-                        <VisibilityOff fontSize="small" />
-                      ) : (
-                        <Visibility fontSize="small" />
-                      )}
-                    </IconButton>
-            
+                  <FormLabel htmlFor="password">Password :</FormLabel>
+
+                  <Input
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    id="password"
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    error={!!errors.password}
+                  />
+                  <IconButton
+                    onClick={() => setShowPassword(!showPassword)}
+                    sx={{
+                      position: 'absolute',
+                      right: '10px',
+                      top: '25px',
+                      '&:hover': {
+                        background: 'none',
+                      },
+                    }}
+                  >
+                    {showPassword ? (
+                      <VisibilityOff fontSize="small" />
+                    ) : (
+                      <Visibility fontSize="small" />
+                    )}
+                  </IconButton>
+
                   {errors.password && (
                     <Typography
                       level="body-sm"
@@ -170,9 +176,18 @@ const LoginAccount: React.FC = () => {
                   background: '#e0a800',
                 },
               }}
+              disabled={loading}
             >
-              Sign In
+              {loading ? 'Loading' : 'Sign In'}
             </Button>
+            {error && (
+              <Typography
+                level="body-sm"
+                sx={{ ml: '10px', color: '#dc3545', fontSize: '12px' }}
+              >
+                {error}
+              </Typography>
+            )}
             <Link to="/register">
               <Typography>Sign up for Asset Management</Typography>
             </Link>
@@ -180,7 +195,7 @@ const LoginAccount: React.FC = () => {
         </AppForm>
       </Box>
     </Box>
-  );
-};
+  )
+}
 
-export default LoginAccount;
+export default LoginAccount

@@ -43,7 +43,7 @@ const AccountSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(createAccount.pending, (state) => {
-        state.status = 'loading'
+        state.loading = true;
       })
       .addCase(createAccount.fulfilled, (state, action) => {
         state.loading = false;

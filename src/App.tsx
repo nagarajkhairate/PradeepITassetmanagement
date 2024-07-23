@@ -6,6 +6,7 @@ import { routes } from './routes'
 import { CreateAccount, LoginAccount } from './routes/AllComponents'
 
 const App = () => {
+  let user = sessionStorage.getItem("user");
   return (
     <BrowserRouter>
       <Routes>
