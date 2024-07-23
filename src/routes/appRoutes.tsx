@@ -53,7 +53,7 @@ import EditModalDatabaseCustomer from '../pages/Setup/DataBase/DatabaseCustomerT
 
 const appRoutes: RouteType[] = [
   {
-    path: '/',
+    path: '/dashboard',
     element: <Dashboard />,
     state: 'dashboard',
     sidebarProps: {
