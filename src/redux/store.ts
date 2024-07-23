@@ -32,7 +32,10 @@ import warrantiesCustomDatabaseReducer from './features/WarrantiesCustomDatabase
 import contractDatabaseReducer from './features/ContractDatabaseSlice';
 import contractCustomDatabaseReducer from './features/ContractCustomDatabaseSlice';
 import StepsReducer from './features/StepsSlice';
-
+import EmpFieldReducer from './features/EmpFieldSlice'
+import CheckOutFieldReducer from './features/CheckOutFieldSlice'
+import CheckInFieldReducer from './features/CheckInFieldSlice'
+import ClientFieldReducer from './features/ClientFieldSlice'
 
 export const store = configureStore({
   reducer: {
@@ -69,6 +72,10 @@ export const store = configureStore({
     warrantiesCustomDatabase:warrantiesCustomDatabaseReducer,
     contractDatabase:contractDatabaseReducer,
     contractCustomDatabase:contractCustomDatabaseReducer,
+    empField:EmpFieldReducer,
+    checkOutField:CheckOutFieldReducer,
+    checkInField:CheckInFieldReducer,
+    clientField:ClientFieldReducer,
   },
 });
 

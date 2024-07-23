@@ -39,12 +39,16 @@ const CheckInForm: React.FC<CheckInFormProps> = ({ selectedAssets }) => {
     }))
   }
 
-  const handleSelectChange = (newValue: string | null, name: string) => {
-    setFormData({
-      ...formData,
-      [name]: newValue || ''
-    });
-  };
+  const handleSelectChange = (
+    newValue: any,
+    title: string,
+  ) => {
+   
+    setFormData((prevData:any) => ({
+      ...prevData,
+      [title]: newValue,
+    }))
+  }
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -181,20 +185,20 @@ useEffect(()=>{
 },
 [checkOut])
 
-
-const handleAssignAssetId = ()=>{
-  setFormData((prevData: any) => ({
-   ...prevData,
-   assetId:selectedAssets[0].id
- }))
-}
 const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
  e.preventDefault()
 
- await handleAssignAssetId()
+ setFormData((prevData: any) => {
+  const formData = {
+    ...prevData,
+    assetId: selectedAssets[0].id
+  };
  
  console.log(JSON.stringify(formData))
- await dispatch(updateCheckOut(formData))
+  dispatch(updateCheckOut(formData))
+
+ return formData;
+});
 }
 
 const statusColorMap: Record<string, string> = {

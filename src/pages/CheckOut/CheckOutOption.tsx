@@ -52,6 +52,12 @@ interface CheckoutErrors {
   emailAddress?: string;
 }
 
+interface CheckOutModalProps {
+  selectedAssets: any;
+  open: boolean;
+  onClose: () => void;
+}
+
 const CheckOutOption = (props: any) => {
   const [checkoutData, setCheckoutData] = useState({
     employeeId:"" ,
