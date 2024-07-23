@@ -67,7 +67,7 @@ const LoginAccount: React.FC = () => {
       const LoginDetails=   await dispatch(loginAccount(formData))
         if (LoginDetails) {
           sessionStorage.setItem('user', JSON.stringify(LoginDetails.payload))
-        
+          navigate('/dashboard');
         } else {
           setErrors({ ...newErrors, email: 'Email or Password is not valid' })
         }
