@@ -94,11 +94,6 @@ export const formConfig: FormFieldConfig[] = [
           "stylings": {
               "borderRadius": "15px",
               "padding": "12.25px",
-              "width": {
-                "xs": "100%",
-                "sm": "100%",
-                "md": "100%"
-              }
           }
         },
         {
@@ -130,11 +125,6 @@ export const formConfig: FormFieldConfig[] = [
           "stylings": {
                        "borderRadius": "15px",
               "padding": "12.25px",
-              "width": {
-                "xs": "100%",
-                "sm": "100%",
-                "md": "100%"
-              }
             
           }
         },
@@ -159,11 +149,6 @@ export const formConfig: FormFieldConfig[] = [
           "stylings": {
                        "borderRadius": "15px",
               "padding": "12.25px",
-              "width": {
-                "xs": "100%",
-                "sm": "100%",
-                "md": "100%"
-              }
             
           },
           "visible": false,
@@ -204,11 +189,6 @@ export const formConfig: FormFieldConfig[] = [
           "stylings": {
                        "borderRadius": "15px",
               "padding": "12.25px",
-              "width": {
-                "xs": "100%",
-                "sm": "100%",
-                "md": "100%"
-              }
             
           }
         },
@@ -241,11 +221,6 @@ export const formConfig: FormFieldConfig[] = [
           "stylings": {
                        "borderRadius": "15px",
               "padding": "12.25px",
-              "width": {
-                "xs": "100%",
-                "sm": "100%",
-                "md": "100%"
-              }
             
           } 
         },
@@ -278,11 +253,6 @@ export const formConfig: FormFieldConfig[] = [
           "stylings": {
                        "borderRadius": "15px",
               "padding": "12.25px",
-              "width": {
-                "xs": "100%",
-                "sm": "100%",
-                "md": "100%"
-              }
             
           }
         },
@@ -315,11 +285,6 @@ export const formConfig: FormFieldConfig[] = [
           "stylings": {
                        "borderRadius": "15px",
               "padding": "12.25px",
-              "width": {
-                "xs": "100%",
-                "sm": "100%",
-                "md": "100%"
-              }
             
           }
         },
@@ -352,11 +317,6 @@ export const formConfig: FormFieldConfig[] = [
           "stylings": {
                        "borderRadius": "15px",
               "padding": "12.25px",
-              "width": {
-                "xs": "100%",
-                "sm": "100%",
-                "md": "100%"
-              }
             
           }
         },
@@ -389,11 +349,6 @@ export const formConfig: FormFieldConfig[] = [
           "stylings": {
                        "borderRadius": "15px",
               "padding": "12.25px",
-              "width": {
-                "xs": "100%",
-                "sm": "100%",
-                "md": "100%"
-              }
             
           }
         }
@@ -432,11 +387,6 @@ export const formConfig: FormFieldConfig[] = [
           "stylings": {
                        "borderRadius": "15px",
               "padding": "12.25px",
-              "width": {
-                "xs": "100%",
-                "sm": "100%",
-                "md": "100%"
-              }
             
           }
         },
@@ -469,11 +419,6 @@ export const formConfig: FormFieldConfig[] = [
           "stylings": {
                        "borderRadius": "15px",
               "padding": "12.25px",
-              "width": {
-                "xs": "100%",
-                "sm": "100%",
-                "md": "100%"
-              }
             
           }
         },
@@ -506,11 +451,6 @@ export const formConfig: FormFieldConfig[] = [
           "stylings": {
                        "borderRadius": "15px",
               "padding": "12.25px",
-              "width": {
-                "xs": "100%",
-                "sm": "100%",
-                "md": "100%"
-              }
             
           }
         },
@@ -543,11 +483,6 @@ export const formConfig: FormFieldConfig[] = [
           "stylings": {
                        "borderRadius": "15px",
               "padding": "12.25px",
-              "width": {
-                "xs": "100%",
-                "sm": "100%",
-                "md": "100%"
-              }
             
           }
         },
@@ -580,11 +515,6 @@ export const formConfig: FormFieldConfig[] = [
           "stylings": {
                        "borderRadius": "15px",
               "padding": "12.25px",
-              "width": {
-                "xs": "100%",
-                "sm": "100%",
-                "md": "100%"
-              }
             
           }
   
@@ -624,11 +554,6 @@ export const formConfig: FormFieldConfig[] = [
           "stylings": {
               "borderRadius": "15px",
               "padding": "12.25px",
-              "width": {
-                "xs": "100%",
-                "sm": "100%",
-                "md": "100%"
-              }
           }
         }
       ] 

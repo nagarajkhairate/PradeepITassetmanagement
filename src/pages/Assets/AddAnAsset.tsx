@@ -7,7 +7,6 @@ import {
   Button,
   FormControl,
   FormLabel,
-
 } from '@mui/joy'
 import { formConfig } from './formConfig'
 import { ThunkDispatch } from '@reduxjs/toolkit'
@@ -207,17 +206,17 @@ const AddAnAsset: React.FC = () => {
             <Box>
               <Grid
                 container
-                spacing={1}
+                spacing={2}
                 sx={{
                   padding: '20px',
                   display: 'flex',
                   flexDirection: { xs: 'column', md: 'row' },
                 }}
               >
-                <Grid xs={12}>
+                <Grid  xs={12}>
                   {formConfig &&
                     formConfig.map((group, index) => (
-                      <Grid key={index}>
+                      <Grid key={index} xs={12}>
                         <Typography
                           sx={{
                             fontWeight: 'bold',
@@ -227,10 +226,14 @@ const AddAnAsset: React.FC = () => {
                         >
                           {group.title}
                         </Typography>
-
+                        <Grid container spacing={2}>
                         {group.fields &&
                           group.fields.map((field, index) => (
-                            <Grid key={index}>
+                            <Grid key={index}
+                            xs={12}
+                            md={4}
+                            sx={{ paddingLeft: '32px' }}
+                            >
                               {handleInputValue(
                                 field,
                                 formData,
@@ -240,6 +243,7 @@ const AddAnAsset: React.FC = () => {
                               )}
                             </Grid>
                           ))}
+                      </Grid>
                       </Grid>
                     ))}
                 </Grid>

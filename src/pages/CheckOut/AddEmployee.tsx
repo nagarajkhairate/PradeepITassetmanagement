@@ -6,11 +6,11 @@ import { useDispatch } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { addEmployee} from "../../redux/features/EmployeeSlice";
 import AppForm from "../../components/Common/AppForm";
-import { EmpConfig, FieldConfig } from "./EmpCofig";
 import SiteComponent from "../../components/AssetSections/SiteComponent";
 import LocationComponent from "../../components/AssetSections/LocationComponent";
 import DepartmentComponent from "../../components/AssetSections/DepartmentComponent";
 import SelectOption from "../../components/AssetSections/SelectOption";
+import { EmpConfig } from "./EmpConfig";
 
 // interface EmployeeErrors {
 //   fullName?: string;
@@ -49,13 +49,16 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ open, onClose, onAddEmployee 
     })
   }
  
-  const handleSelectChange = (name: string, value: string | null) => {
-    setFormData({
-      ...formData,
-      [name]: value || '',
-    });
-  };
-
+  const handleSelectChange = (
+    newValue: any,
+    title: string,
+  ) => {
+   
+    setFormData((prevData:any) => ({
+      ...prevData,
+      [title]: newValue,
+    }))
+  }
   const handleInputValue = (
     field: any,
     formData: any,
@@ -202,7 +205,7 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ open, onClose, onAddEmployee 
 
         <ButtonGroup sx={{border:"1px solid #E0E1E3"}}>
           <Button
-          type="submit"
+       onClick={handleAdd}
             sx={{
               background: "rgb(245,193,67)",
               "&:hover": {

@@ -101,8 +101,6 @@ const { name, value} = event.target
       mode,
     };
 
-    
-
     switch (field.components.type) {
       case 'text':
       case 'date':

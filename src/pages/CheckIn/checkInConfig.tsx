@@ -9,7 +9,7 @@ export interface Field {
     stylings: string;
 }
 
-export const checkInConfig: Field[] =  [
+export const checkInConfig: any[] =  [
             {
                 id: 1,
                 fieldName: "Check-In from",
@@ -27,7 +27,7 @@ export const checkInConfig: Field[] =  [
             {
                 id: 2,
                 fieldName: "Return Date",
-                name: "returnDate",
+                name: "checkInDate",
                 sequence: 2,
                 components: { 
                     id:3,
@@ -35,7 +35,7 @@ export const checkInConfig: Field[] =  [
               },
                 isRequired: true,
                 isActive: true,
-                stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
+                stylings: "width:400px"
             },
             {
                 id: 3,
@@ -62,7 +62,7 @@ export const checkInConfig: Field[] =  [
               },
                 isRequired: true,
                 isActive: true,
-                stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
+                stylings: "width:400px"
             },
             {
                 id: 5,
@@ -114,7 +114,7 @@ export const checkInConfig: Field[] =  [
               },
                 isRequired: true,
                 isActive: true,
-                stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
+                stylings: "width:400px"
             },           
            
         ]
