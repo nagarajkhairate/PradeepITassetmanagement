@@ -40,11 +40,7 @@ const DatabaseContractTable: React.FunctionComponent = () => {
     setContractDataBases(contractData)
   }, [])
 
-  useEffect(()=>{
-if(contractDatabase.length > 0){
-  setOpenAddContract(contractDatabase[0])
-}
-  }, [contractDatabase])
+
 
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...contractDataBases]

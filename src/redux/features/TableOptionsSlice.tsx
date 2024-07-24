@@ -49,7 +49,7 @@ export const addoptions = createAsyncThunk('options/addoptions', async (options:
  
 export const updateoptions = createAsyncThunk('options/updateoptions', async (updatedoptions: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/table-options/${updatedoptions.id}`, updatedoptions);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/table-options`, updatedoptions);
   return response.data;
 });
  

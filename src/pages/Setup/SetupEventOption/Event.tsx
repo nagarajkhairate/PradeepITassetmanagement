@@ -1,13 +1,5 @@
-
 import React, { useState } from 'react'
-import {
-  Typography,
-  Box,
-  Button,
-  Radio,
-  RadioGroup,
-  Divider,
-} from '@mui/joy'
+import { Typography, Box, Button, Radio, RadioGroup, Divider } from '@mui/joy'
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import AppView from '../../../components/Common/AppView'
@@ -15,16 +7,18 @@ import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
-import {  fetchEvents, updateEvents } from '../../../redux/features/EventsSlice'
+import { fetchEvents, updateEvents } from '../../../redux/features/EventsSlice'
 
 const options = [
   {
     id: 1,
     value: 'yes',
+    label: 'Yes',
   },
   {
     id: 2,
     value: 'no',
+    lable: 'No',
   },
 ]
 
@@ -36,38 +30,34 @@ interface CustomButtonBoxProps {
 interface AssetRadioGroupProps {
   name: string
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  value: boolean |''
+  value: boolean | ''
 }
 
-const Event: React.FunctionComponent= () => {
+const Event: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const [eventForm, setEventForm] = useState<any>({id:1})
-  const events = useSelector((state: RootState) => state.events.data);
-  
+  const [eventForm, setEventForm] = useState<any>({ id: 1 })
+  const events = useSelector((state: RootState) => state.events.data)
+
   const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
-    setEventForm((prevData: any) => ({ ...prevData, [name]: value==="yes"}))
+    setEventForm((prevData: any) => ({ ...prevData, [name]: value === 'yes' }))
   }
   const handleSubmit = () => {
-    const updatedEventForm = { ...eventForm };
+    const updatedEventForm = { ...eventForm }
     console.log(JSON.stringify(eventForm, null, 2))
     dispatch(updateEvents(updatedEventForm))
-    console.log(JSON.stringify(eventForm, null, 2));
+    console.log(JSON.stringify(eventForm, null, 2))
   }
 
-
-
   React.useEffect(() => {
-    if(events.length > 0){
+    if (events.length > 0) {
       setEventForm(events[0])
     }
-  }, [events]);
+  }, [events])
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     dispatch(fetchEvents())
-  },[dispatch])
-  
-
+  }, [dispatch])
 
   const AssetRadioGroup: React.FC<AssetRadioGroupProps> = ({
     name,
@@ -79,8 +69,18 @@ const Event: React.FunctionComponent= () => {
       defaultValue="outlined"
       onChange={onChange}
       value={value === true ? 'yes' : value === false ? 'no' : ''}
+      sx={{ display: 'flex', gap: 2 }}
     >
-      <Box>
+      <Box
+        sx={{
+          display: 'flex',
+          gap: 2,
+          textAlign: { xs: 'center', md: 'left' },
+          justifyContent: { md: 'left', xs: 'center' },
+          flexDirection: { md: 'left', xs: 'center' },
+          mt:1,
+        }}
+      >
         {options.map((option) => (
           <Radio
             key={option.id}
@@ -100,7 +100,14 @@ const Event: React.FunctionComponent= () => {
     customizeFormText,
   }) => {
     return (
-      <Box>
+      <Box
+        sx={{
+          display: 'flex',
+          textAlign: { xs: 'center', md: 'left' },
+          justifyContent: { md: 'left', xs: 'center' },
+          flexDirection: { md: 'left', xs: 'center' },
+        }}
+      >
         <a href="_blank">
           <Button
             sx={{
@@ -123,10 +130,11 @@ const Event: React.FunctionComponent= () => {
               background: '#ffffff',
               color: 'green',
               border: '1px solid green ',
+
               borderRadius: '15px',
               '&:hover': {
                 color: 'white',
-                background: 'green',  
+                background: 'green',
               },
             }}
           >
@@ -137,15 +145,14 @@ const Event: React.FunctionComponent= () => {
     )
   }
 
-
   return (
     <AppView>
       <Typography
-        level="h4"
+        level="h3"
         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
       >
         <SignpostOutlinedIcon
-          style={{ fontSize: '1.4rem', color: '#FBC21E' }}
+          style={{ fontSize: '1.6rem', color: '#FBC21E' }}
         />
         EventOption
       </Typography>
@@ -156,16 +163,35 @@ const Event: React.FunctionComponent= () => {
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
           gap: '5px',
-          p: 2,
+          p: 1,
         }}
       >
         <Box>
-          <Typography level="body-md">Asset-related Events</Typography>
+          <Typography
+            level="h4"
+            sx={{
+              display: 'flex',
+              textAlign: { xs: 'center', md: 'left' },
+              justifyContent: { md: 'left', xs: 'center' },
+              flexDirection: { md: 'left', xs: 'center' },
+            }}
+          >
+            Asset-related Events
+          </Typography>
         </Box>
 
-        <Box sx={{ ml: '20px', py: '10px' }}>
-          <Typography level="body-sm">
-            Do you want to register these event for the assets?
+        <Box
+          sx={{
+            display: 'flex',
+            textAlign: { xs: 'center', md: 'left' },
+            justifyContent: { md: 'left', xs: 'center' },
+            flexDirection: { md: 'left', xs: 'center' },
+            gap: 1,
+            py: '10px',
+          }}
+        >
+          <Typography>
+            <strong>Do you want to register these event for the assets?</strong>
           </Typography>
         </Box>
         <Divider></Divider>
@@ -180,38 +206,61 @@ const Event: React.FunctionComponent= () => {
             py: '20px',
           }}
         >
-          <Box>
-            <Typography level="body-sm">
+          <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: { md: 'flex-start', xs: 'center' },
+            textAlign: { xs: 'center', md: 'left' },
+            flex: '1 1 auto',
+          }}
+          >
+            <Typography
+              sx={{
+                display: 'flex',
+                textAlign: { xs: 'center', md: 'left' },
+                justifyContent: { md: 'left', xs: 'center' },
+                flexDirection: { md: 'left', xs: 'center' },
+              }}
+            >
               {/* <HowToRegOutlinedIcon /> */}
-              Check-out assets:
+              <strong>Check-out assets:</strong>
             </Typography>
           </Box>
+          <Box
+            sx={{
+              flex: '3 3 auto',
+              display: 'flex',
+              justifyContent: 'center', // Center radio buttons
+            }}
+          >
           <AssetRadioGroup
             name="checkout"
             onChange={HandleRadioSelect}
             value={eventForm.checkout}
           />
+          </Box>
           <>
             <CustomButtonBox
               setupCheckoutText="Setup 'Check out'"
               customizeFormText="Customize Form"
             />
             <CustomButtonBox
-              setupCheckoutText="Setup 'Check in'"
+              setupCheckoutText="Setup 'Check inn'"
               customizeFormText="Customize Form"
             />
           </>
         </Box>
 
-        <Box sx={{ ml: { md: '260px', xs: 'none' }, paddingBottom: '20px' }}>
-          <Typography level="body-xs">
+        <Box sx={{ ml: { md: '260px', xs: 'none' }, paddingBottom: '10px' }}>
+          <Typography>
             Assets are 'checked out' or 'assigned to' individuals. Enter
             individuals in 'Advanced &gt; Persons/Employee' table.{' '}
           </Typography>
         </Box>
         <Divider></Divider>
         <Box
-           sx={{
+          sx={{
             display: 'flex',
 
             flexDirection: { md: 'row', xs: 'column' },
@@ -220,17 +269,42 @@ const Event: React.FunctionComponent= () => {
             py: '20px',
           }}
         >
-          <Box>
-            <Typography level="body-sm">
+          <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: { md: 'flex-start', xs: 'center' },
+            textAlign: { xs: 'center', md: 'left' },
+            flex: '1 1 auto',
+          }}
+          >
+            <Typography
+              sx={{
+                display: 'flex',
+                textAlign: { xs: 'center', md: 'left' },
+                justifyContent: { md: 'left', xs: 'center' },
+                flexDirection: { md: 'left', xs: 'center' },
+                
+              }}
+            >
               {/* <SendTwoToneIcon /> */}
-              Lease assets:
+              <strong>Lease assets:</strong>
             </Typography>
           </Box>
+
+          <Box
+            sx={{
+              flex: '3 3 auto',
+              display: 'flex',
+              justifyContent: 'center', // Center radio buttons
+            }}
+          >
           <AssetRadioGroup
             name="leaseAssets"
             onChange={HandleRadioSelect}
             value={eventForm.leaseAssets}
           />
+          </Box>
 
           <>
             <CustomButtonBox
@@ -243,8 +317,8 @@ const Event: React.FunctionComponent= () => {
             />
           </>
         </Box>
-        <Box sx={{ ml: { md: '260px', xs: 'none' }, paddingBottom: '20px' }}>
-          <Typography level="body-xs">
+        <Box sx={{ ml: { md: '260px', xs: 'none' }, paddingBottom: '10px' }}>
+          <Typography>
             Assets are 'leased' or 'rented/loaned' to customers. Maintain a list
             of customers in the 'Advanced &gt; Customers' table.
           </Typography>
@@ -259,18 +333,40 @@ const Event: React.FunctionComponent= () => {
             py: '20px',
           }}
         >
-          <Box>
-            <Typography level="body-sm">
+          <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: { md: 'flex-start', xs: 'center' },
+            textAlign: { xs: 'center', md: 'left' },
+            flex: '1 1 auto',
+          }}
+          >
+            <Typography
+              sx={{
+                display: 'flex',
+                textAlign: { xs: 'center', md: 'left' },
+                justifyContent: { md: 'left', xs: 'center' },
+                flexDirection: { md: 'left', xs: 'center' },
+              }}
+            >
               {/* <ThumbDownAltOutlinedIcon /> */}
-              Lost/Found assets:
+              <strong>Lost/Found assets:</strong>
             </Typography>
           </Box>
+          <Box
+            sx={{
+              flex: '3 3 auto',
+              display: 'flex',
+              justifyContent: 'center', // Center radio buttons
+            }}
+          >
           <AssetRadioGroup
             name="lostFound"
             onChange={HandleRadioSelect}
             value={eventForm.lostFound}
           />
-
+</Box>
           <>
             <CustomButtonBox
               setupCheckoutText="Setup 'Lost/Missing'"
@@ -283,8 +379,8 @@ const Event: React.FunctionComponent= () => {
           </>
         </Box>
 
-        <Box sx={{ ml: { md: '260px', xs: 'none' }, paddingBottom: '20px' }}>
-          <Typography level="body-xs">
+        <Box sx={{ ml: { md: '260px', xs: 'none' }, paddingBottom: '10px' }}>
+          <Typography>
             Assets are sometimes lost/found to customers. Maintain a list of
             customers in the 'Advanced &gt; Customers' table.
           </Typography>
@@ -301,21 +397,44 @@ const Event: React.FunctionComponent= () => {
           }}
         >
           <Box>
-            <Typography level="body-sm">
+            <Typography
+              sx={{
+                display: 'flex',
+                textAlign: { xs: 'center', md: 'left' },
+                justifyContent: { md: 'left', xs: 'center' },
+                flexDirection: { md: 'left', xs: 'center' },
+              }}
+            >
               {/* <ConstructionOutlinedIcon />  */}
-              Repair assets:
+              <strong>Repair assets:</strong>
             </Typography>
           </Box>
-          <AssetRadioGroup
-            name="repairAssets"
-            onChange={HandleRadioSelect}
-            value={eventForm.repairAssets}
-          />
 
-          <CustomButtonBox
-            setupCheckoutText="Setup 'Repair'"
-            customizeFormText="Customize Form"
-          />
+          <Box
+            sx={{
+              flex: '4 4 auto',
+              display: 'flex',
+              justifyContent: 'center', // Center radio buttons
+            }}
+          >
+            <AssetRadioGroup
+              name="repairAssets"
+              onChange={HandleRadioSelect}
+              value={eventForm.repairAssets}
+            />
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center', // Vertically align items
+              justifyContent: { md: 'flex-end', xs: 'center' }, // Align content to the right or center
+            }}
+          >
+            <CustomButtonBox
+              setupCheckoutText="Setup 'Repair'"
+              customizeFormText="Customize Form"
+            />
+          </Box>
         </Box>
         <Divider></Divider>
         <Box
@@ -328,21 +447,45 @@ const Event: React.FunctionComponent= () => {
           }}
         >
           <Box>
-            <Typography level="body-sm">
+            <Typography
+              sx={{
+                display: 'flex',
+                textAlign: { xs: 'center', md: 'left' },
+                justifyContent: { md: 'left', xs: 'center' },
+                flexDirection: { md: 'left', xs: 'center' },
+              }}
+            >
               {/* <PiLinkBreakLight />  */}
-              Broken assets:
+              <strong>Broken assets:</strong>
             </Typography>
           </Box>
-          <AssetRadioGroup
-            name="brokenAssets"
-            onChange={HandleRadioSelect}
-            value={eventForm.brokenAssets}
-          />
 
-          <CustomButtonBox
-            setupCheckoutText="Setup 'Broken'"
-            customizeFormText="Customize Form"
-          />
+          <Box
+            sx={{
+              flex: '4 4 auto',
+              display: 'flex',
+              justifyContent: 'center', // Center radio buttons
+            }}
+          >
+            <AssetRadioGroup
+              name="brokenAssets"
+              onChange={HandleRadioSelect}
+              value={eventForm.brokenAssets}
+            />
+          </Box>
+
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center', // Vertically align items
+              justifyContent: { md: 'flex-end', xs: 'center' }, // Align content to the right or center
+            }}
+          >
+            <CustomButtonBox
+              setupCheckoutText="Setup 'Broken'"
+              customizeFormText="Customize Form"
+            />
+          </Box>
         </Box>
 
         <Divider></Divider>
@@ -356,21 +499,44 @@ const Event: React.FunctionComponent= () => {
           }}
         >
           <Box>
-            <Typography level="body-sm">
+            <Typography
+              sx={{
+                display: 'flex',
+                textAlign: { xs: 'center', md: 'left' },
+                justifyContent: { md: 'left', xs: 'center' },
+                flexDirection: { md: 'left', xs: 'center' },
+              }}
+            >
               {/* <PiRecycleLight />  */}
-              Dispose assets:
+              <strong>Dispose assets:</strong>
             </Typography>
           </Box>
-          <AssetRadioGroup
-            name="disposeAssets"
-            onChange={HandleRadioSelect}
-            value={eventForm.disposeAssets}
-          />
 
-          <CustomButtonBox
-            setupCheckoutText="Setup 'Dispose'"
-            customizeFormText="Customize Form"
-          />
+          <Box
+            sx={{
+              flex: '4 4 auto',
+              display: 'flex',
+              justifyContent: 'center', // Center radio buttons
+            }}
+          >
+            <AssetRadioGroup
+              name="disposeAssets"
+              onChange={HandleRadioSelect}
+              value={eventForm.disposeAssets}
+            />
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center', // Vertically align items
+              justifyContent: { md: 'flex-end', xs: 'center' }, // Align content to the right or center
+            }}
+          >
+            <CustomButtonBox
+              setupCheckoutText="Setup 'Dispose'"
+              customizeFormText="Customize Form"
+            />
+          </Box>
         </Box>
 
         <Divider></Divider>
@@ -384,21 +550,45 @@ const Event: React.FunctionComponent= () => {
           }}
         >
           <Box>
-            <Typography level="body-sm">
+            <Typography
+              sx={{
+                display: 'flex',
+                textAlign: { xs: 'center', md: 'left' },
+                justifyContent: { md: 'left', xs: 'center' },
+                flexDirection: { md: 'left', xs: 'center' },
+              }}
+            >
               {/* <FaRegHeart />  */}
-              Donate assets:
+              <strong>Donate assets:</strong>
             </Typography>
           </Box>
-          <AssetRadioGroup
-            name="donateAssets"
-            onChange={HandleRadioSelect}
-            value={eventForm.donateAssets}
-          />
 
-          <CustomButtonBox
-            setupCheckoutText="Setup 'Donate"
-            customizeFormText="Customize Form"
-          />
+          <Box
+           sx={{
+            flex: '4 4 auto',
+            display: 'flex',
+            justifyContent: 'center', // Center radio buttons
+          }}
+          >
+            <AssetRadioGroup
+              name="donateAssets"
+              onChange={HandleRadioSelect}
+              value={eventForm.donateAssets}
+            />
+          </Box>
+
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center', // Vertically align items
+              justifyContent: { md: 'flex-end', xs: 'center' }, // Align content to the right or center
+            }}
+          >
+            <CustomButtonBox
+              setupCheckoutText="Setup 'Donate"
+              customizeFormText="Customize Form"
+            />
+          </Box>
         </Box>
 
         <Divider></Divider>
@@ -412,21 +602,44 @@ const Event: React.FunctionComponent= () => {
           }}
         >
           <Box>
-            <Typography level="body-sm">
+            <Typography
+              sx={{
+                display: 'flex',
+                textAlign: { xs: 'center', md: 'left' },
+                justifyContent: { md: 'left', xs: 'center' },
+                flexDirection: { md: 'left', xs: 'center' },
+              }}
+            >
               {/* <GavelOutlinedIcon />  */}
-              Sell assets:
+              <strong>Sell assets:</strong>
             </Typography>
           </Box>
-          <AssetRadioGroup
-            name="sellAssets"
-            onChange={HandleRadioSelect}
-            value={eventForm.sellAssets}
-          />
 
-          <CustomButtonBox
-            setupCheckoutText="Setup 'Sell'"
-            customizeFormText="Customize Form"
-          />
+          <Box
+             sx={{
+              flex: '4 4 auto',
+              display: 'flex',
+              justifyContent: 'center', // Center radio buttons
+            }}
+          >
+            <AssetRadioGroup
+              name="sellAssets"
+              onChange={HandleRadioSelect}
+              value={eventForm.sellAssets}
+            />
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center', // Vertically align items
+              justifyContent: { md: 'flex-end', xs: 'center' }, // Align content to the right or center
+            }}
+          >
+            <CustomButtonBox
+              setupCheckoutText="Setup 'Sell'"
+              customizeFormText="Customize Form"
+            />
+          </Box>
         </Box>
         <Divider />
 
@@ -435,10 +648,10 @@ const Event: React.FunctionComponent= () => {
             display: 'flex',
             mt: 2,
             alignItems: 'center',
-            flexDirection: { md: 'row'},
+            flexDirection: { md: 'row' },
             justifyContent: { xs: 'space-between', md: 'flex-end' },
             gap: '5px',
-            flexWrap:'wrap'
+            flexWrap: 'wrap',
           }}
         >
           <Button

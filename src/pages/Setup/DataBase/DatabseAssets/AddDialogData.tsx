@@ -100,25 +100,15 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
     }))
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log('Form Data:', {
-      ...formData,
-    })
+ 
 
+    await dispatch(addAssetCustomDatabase(formData))
     setOpen(false)
-    dispatch(addAssetCustomDatabase(formData))
   }
 
-  const handleClose = () => {
-    setOpen(false)
-    // setFormData({
-    //   fieldName: '',
-    //   componentsId: components.length > 0 ? components[0].id : null,
-    //   isRequired: '',
-    //   categoryId: components.length > 0 ? components[0].id : null,
-    // })
-  }
+
 
   return (
     <Modal

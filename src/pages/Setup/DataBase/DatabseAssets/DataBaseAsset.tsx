@@ -35,27 +35,20 @@ const DataBaseAsset: React.FunctionComponent = () => {
     (state: RootState) => state.assetCustomDatabase.data,
   )
 
-  
-  React.useEffect(() => {
-    dispatch(fetchAssetDatabase())
-  }, [])
-
-  React.useEffect(() => {
-    dispatch(fetchAssetCustomDatabase())
-  }, [dispatch])
 
   const [openAddAsset, setOpenAddAsset] = useState(false)
   const [assetDataForm, setAssetDataForm] = useState(dataValue)
+
 
   useEffect(() => {
     setAssetDataForm(dataValue)
   }, [])
 
-  React.useEffect(() => {
-    if(assetDatabase.length > 0){
-      setOpenAddAsset(assetDatabase[0])
-    }
-  }, [assetDatabase]);
+  // React.useEffect(() => {
+  //   if(assetDatabase.length > 0){
+  //     setOpenAddAsset(assetDatabase[0])
+  //   }
+  // }, [assetDatabase]);
 
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...assetDataForm]
@@ -75,6 +68,16 @@ const DataBaseAsset: React.FunctionComponent = () => {
     dispatch(updateAssetDatabase(assetDatabase))
     console.log(assetDataForm)
   }
+
+  useEffect(() => {
+    dispatch(fetchAssetCustomDatabase())
+  }, [!openAddAsset])
+
+  useEffect(() => {
+    dispatch(fetchAssetDatabase())
+  }, [dispatch])
+
+ 
 
   return (
     <AppView>

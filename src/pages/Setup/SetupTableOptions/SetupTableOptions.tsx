@@ -21,7 +21,7 @@ import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import AppView from "../../../components/Common/AppView";
 import { ThunkDispatch } from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
-import { addoptions, fetchOptions, fetchOptionsById, updateoptions } from "../../../redux/features/TableOptionsSlice";
+import { addoptions, fetchOptions, updateoptions } from "../../../redux/features/TableOptionsSlice";
 import { RootState } from "../../../redux/store";
 
 const depreciationOptions = {
@@ -147,8 +147,7 @@ const SetupTableOptions: React.FC = ({}) => {
     }
 
     const updatedOption = { ...companyFormData };
-    // dispatch(updateoptions(updatedOption))
-    dispatch(addoptions(formData))
+    dispatch(updateoptions(updatedOption))
     console.log(JSON.stringify(formData, null, 2));
   };
 
@@ -181,7 +180,7 @@ const SetupTableOptions: React.FC = ({}) => {
   return (
     <AppView>
       <Box sx={{boxSizing:"border-box"}}> 
-      <Typography level="h4" style={{ display: 'flex', alignItems: 'center' }}>
+      <Typography level="h4" style={{ display: 'flex', alignItems: 'center', gap:5 }}>
         <TableChartOutlinedIcon style={{ fontSize: '1.4rem', color: '#FBC21E' }} />
         Table-Options
       </Typography>
@@ -209,10 +208,9 @@ const SetupTableOptions: React.FC = ({}) => {
               <form>
                 <Typography
                   sx={{
-                    fontSize: '14px',
                     margin: {
                       xs: "4px",
-                      md: "22px",
+                      md: "2px",
                     },
                   }}
                 >
@@ -228,10 +226,10 @@ const SetupTableOptions: React.FC = ({}) => {
                       display: "flex",
                       alignItems: "center",
                       marginBottom: "10px",
-                      marginTop: "10px",
+                      marginTop: "25px",
                     }}
                   >
-                    <div style={{ width: 25, height: 25, color: "#FBC21E" }}>
+                    <div style={{ fontSize: '1.4rem', color: '#FBC21E' }}>
                       <depreciationOptions.icon />
                     </div>
 

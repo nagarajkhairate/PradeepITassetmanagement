@@ -40,11 +40,6 @@ const DatabaseWarranties: React.FunctionComponent = () => {
     setWarrantyDataBases(warrantyData)
   }, [])
 
-  React.useEffect(() => {
-    if(warrantiesDatabase.length > 0){
-      setOpenAddWarranties(warrantiesDatabase[0])
-    }
-  }, [warrantiesDatabase]);
 
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...warrantyDataBases]

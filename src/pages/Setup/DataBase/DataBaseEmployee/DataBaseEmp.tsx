@@ -38,12 +38,6 @@ const DataBaseEmp: React.FunctionComponent = () => {
   const [empDataBases, setEmpDataBases] = useState(empData)
   const [openAddEmployee, setOpenAddEmployee] = useState(false)
 
-  useEffect(() => {
-    if(empDatabase.length > 0){
-      setOpenAddEmployee(empDatabase[0])
-    }
-  }, [empDatabase]);
-
 
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...empDataBases]
