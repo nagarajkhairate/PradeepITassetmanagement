@@ -11,6 +11,7 @@ import { ClientConfig } from "./ClientConfig";
 import { addClient } from "../../redux/features/ClientSlice";
 import IndustryComponent from "./IndustryComponent";
 import { fetchClientField } from "../../redux/features/ClientFieldSlice";
+import AppButton from "../../components/Common/AppButton";
 
 interface AddClientProps {
   open: boolean;
@@ -99,9 +100,7 @@ useEffect(()=>{
       case "checkbox":
 
       case "select":
-        if (field.name === "checkOutSiteId") {
-          return <SiteComponent {...commonProps} />;
-        } else if (field.name === "industry") {
+        if (field.name === "industry") {
           return <IndustryComponent {...commonProps} />;
         } 
         else {
@@ -159,7 +158,7 @@ useEffect(()=>{
               alignItems: "center",
             }}
           >
-            <Typography>Add Client</Typography>
+            <Typography sx={{ marginBottom: 2, position: 'sticky', top: 0, background: '#fff', zIndex: 1 }}>Add Client</Typography>
             <IconButton 
             onClick={onClose}
             >
@@ -186,34 +185,24 @@ useEffect(()=>{
         
       
 
-        <ButtonGroup sx={{border:"1px solid #E0E1E3"}}>
-          <Button
-          type="submit"
+        <Box sx={{ display: 'flex',mt:2, justifyContent: 'flex-end', position: 'sticky', bottom: 0, background: '#fff', zIndex: 1 , gap:"10px"  }}>
+          <AppButton
+         onClick={handleAdd}
             sx={{
-              background: "rgb(245,193,67)",
-              "&:hover": {
-                backgroundColor: "rgb(255,199,79)",
-              },
               borderRadius:"15px"
             }}
           >
             Add
-          </Button>
-          <Button
+          </AppButton>
+          <AppButton
             onClick={onClose}
             sx={{
-              background: "white",
-              color: "black",
-              border: "1px solid black",
-              "&:hover": {
-                backgroundColor: "#f9f9f9",
-              },
               borderRadius:"15px"
             }}
           >
             Cancel
-          </Button>
-        </ButtonGroup>
+          </AppButton>
+        </Box>
       
       </AppForm>
       </Box>

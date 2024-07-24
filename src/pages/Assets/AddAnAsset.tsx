@@ -24,9 +24,6 @@ import SubCategoryComponent from '../../components/AssetSections/SubCategoryComp
 
 const AddAnAsset: React.FC = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-
-  // Initialize state dynamically based on formConfig
-
   const [formData, setFormData] = useState<any>({})
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([])
   const [file, setFile] = useState<File | null>(null)
@@ -140,6 +137,7 @@ useEffect(()=>{
               value={formData[field.name] as string}
               onChange={handleInputChange}
               sx={{
+                 padding: '10px',
                   display:"grid",
               }}
             />
@@ -155,7 +153,8 @@ useEffect(()=>{
               value={formData[field.name] as string}
               onChange={handleInputChange}
               sx={{
-                minWidth:"210px",
+                minWidth:"205px",
+                padding: '10px',
                   display:"grid",
               }}
             />
@@ -171,6 +170,7 @@ useEffect(()=>{
               value={formData[field.name] as string}
               onChange={handleInputChange}
               sx={{
+                padding: '10px',
                   display:"grid",
               }}
             />
@@ -185,7 +185,9 @@ useEffect(()=>{
               name={field.name}
               value={formData[field.name] as string}
               onChange={handleInputChange}
-              sx={{}}
+              sx={{
+                padding: '10px',
+              }}
             />
           </FormControl>
         );
@@ -216,7 +218,7 @@ useEffect(()=>{
               type="file"
               name={field.name}
               onChange={handleFileChange}
-              sx={field.stylings}
+              // sx={field.stylings}
             />
             <Box>
               {photoPreviews.map((preview, index) => (
@@ -238,7 +240,7 @@ useEffect(()=>{
 
   return (
     <AppForm onSubmit={handleSubmit} encType="multipart/form-data">
-        <Typography level="h3" sx={{ ml: '52px', mb:"4" }}>
+        <Typography level="h3" sx={{ ml: '32px', mb:"30px" }}>
           Add An Asset
         </Typography>
         <Box
@@ -267,7 +269,8 @@ useEffect(()=>{
                         <Typography
                           sx={{
                             fontWeight: 'bold',
-                            mb: 2,
+                            mb: "20px",
+                            mt:"20px",
                             paddingLeft: '32px',
                           }}
                         >
@@ -576,7 +579,7 @@ useEffect(()=>{
                 >
                   Submit
                 </Button>
-                {/* <Button
+                <Button
                   size="md"
                   // onClick={handleCancel}
                   sx={{
@@ -589,7 +592,7 @@ useEffect(()=>{
                   }}
                 >
                   Cancel
-                </Button> */}
+                </Button>
               </Box>
             </Box>
           </Box>

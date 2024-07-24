@@ -12,6 +12,7 @@ import DepartmentComponent from "../../components/AssetSections/DepartmentCompon
 import SelectOption from "../../components/AssetSections/SelectOption";
 import { EmpConfig } from "./EmpConfig";
 import { fetchEmpField } from "../../redux/features/EmpFieldSlice";
+import AppButton from "../../components/Common/AppButton";
 
 // interface EmployeeErrors {
 //   fullName?: string;
@@ -86,11 +87,12 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ open, onClose, onAddEmployee 
           <FormControl>
             <FormLabel>{field.fieldName}</FormLabel>
             <Input
+
               type={field.components.type}
               name={field.name}
               value={formData[field.name] as string}
               onChange={handleChange}
-              sx={field.stylings}
+              sx={{padding:"10px"}}
             />
           </FormControl>
         );
@@ -113,7 +115,7 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ open, onClose, onAddEmployee 
         return (
           <FormControl key={field.name}>
             <FormLabel>{field.fieldName}</FormLabel>
-            <Textarea
+            <Input
             type={field.components.type}
               name={field.name}
               value={formData[field.name] as string}
@@ -124,11 +126,11 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ open, onClose, onAddEmployee 
       case "checkbox":
 
       case "select":
-          if (field.name === "empSite") {
+          if (field.name === "Site") {
             return <SiteComponent {...commonProps} />;
-          } else if (field.name === "empLocation") {
+          } else if (field.name === "location") {
             return <LocationComponent {...commonProps} />;
-          } else if (field.name === "empDepartment") {
+          } else if (field.name === "department") {
             return <DepartmentComponent {...commonProps} />;
           } 
           else {
@@ -209,34 +211,24 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ open, onClose, onAddEmployee 
     ))}
   </Grid>
 
-        <ButtonGroup sx={{border:"1px solid #E0E1E3"}}>
-          <Button
-       onClick={handleAdd}
+  <Box sx={{ display: 'flex',mt:2, justifyContent: 'flex-end', position: 'sticky', bottom: 0, background: '#fff', zIndex: 1 , gap:"10px"  }}>
+          <AppButton
+         onClick={handleAdd}
             sx={{
-              background: "rgb(245,193,67)",
-              "&:hover": {
-                backgroundColor: "rgb(255,199,79)",
-              },
               borderRadius:"15px"
             }}
           >
             Add
-          </Button>
-          <Button
+          </AppButton>
+          <AppButton
             onClick={onClose}
             sx={{
-              background: "white",
-              color: "black",
-              border: "1px solid black",
-              "&:hover": {
-                backgroundColor: "#f9f9f9",
-              },
               borderRadius:"15px"
             }}
           >
             Cancel
-          </Button>
-        </ButtonGroup>
+          </AppButton>
+        </Box>
       
       </AppForm>
       </Box>

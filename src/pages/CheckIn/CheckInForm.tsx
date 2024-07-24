@@ -12,15 +12,18 @@ import AppView from '../../components/Common/AppView';
 import SiteComponent from '../../components/AssetSections/SiteComponent';
 import LocationComponent from '../../components/AssetSections/LocationComponent';
 import DepartmentComponent from '../../components/AssetSections/DepartmentComponent';
+import { fetchCheckInField } from '../../redux/features/CheckInFieldSlice';
 
 interface CheckInFormProps {
   selectedAssets: any;
 }
 
 const CheckInForm: React.FC<CheckInFormProps> = ({ selectedAssets }) => {
+  const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState<any>({});
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const checkOut = useSelector((state: RootState) => state.checkOut.data)
+  const checkInFields= useSelector((state:RootState)=> state.checkInField.data)
   
   useEffect(() => {
     const selectedAssetId = selectedAssets && selectedAssets.length > 0 ? selectedAssets[0].id : null;
@@ -28,6 +31,10 @@ const CheckInForm: React.FC<CheckInFormProps> = ({ selectedAssets }) => {
       dispatch(fetchCheckOutById(selectedAssetId));
     }
   }, [selectedAssets]);
+
+  useEffect(()=>{
+    dispatch(fetchCheckInField())
+  },[dispatch])
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -193,7 +200,7 @@ const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     ...prevData,
     assetId: selectedAssets[0].id
   };
- 
+  setOpen(false)
  console.log(JSON.stringify(formData))
   dispatch(updateCheckOut(formData))
 
@@ -277,7 +284,7 @@ const statusColorMap: Record<string, string> = {
            }}
            >
           
-        {checkInConfig && checkInConfig.map((field , index) => (
+        {checkInFields && checkInFields.map((field , index) => (
       <FormControl key={index}>
        <Grid key={index}>
         {handleInputValue(
@@ -292,8 +299,30 @@ const statusColorMap: Record<string, string> = {
     ))}
           </Box>
         </Box>
-        <Box mt={2}>
-          <Button type='submit'>Check In</Button>
+        <Box sx={{
+                  display: 'flex',
+                  flexDirection: {
+                    xs: 'column',
+                    md: 'row',
+                  },
+                  justifyContent: 'flex-end',
+                  gap: '15px',
+                  mx: '35px',
+                  mt: '40px',
+                }}>
+          <Button type='submit' sx={{ background: '#FABC1E',}}>Check In</Button>
+          <Button
+                  size="md"
+                  onClick={()=> setOpen(false)}
+                  sx={{
+                    background: '#000000',
+                    '&:hover': {
+                      background: '#333333',
+                    },
+                  }}
+                >
+                  Cancel
+                </Button>
         </Box>
         </AppView>
 </Box>

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Typography, Box, Button, Grid, Checkbox, Modal, Input, Table, Sheet, Chip } from "@mui/joy";
+import { Typography, Box, Button, Grid, Checkbox, Modal, Input, Table, Sheet, Chip, Divider } from "@mui/joy";
 import SearchIcon from "../../Assets/search.svg";
 import CheckInForm from "./CheckInForm";
 import AppView from "../../components/Common/AppView";
@@ -119,15 +119,31 @@ const CheckIn: React.FC = () => {
       }}
       >
         <Box 
-        sx={{ 
-          background: '#fff', 
-          padding: 2, 
-          borderRadius: "10px",
-           width: "50%" 
-          }}
+       sx={{
+        background: '#fff',
+        padding: 2,
+        borderRadius: '10px',
+        width: '90%', // Adjust width for mobile view
+        maxWidth: '600px', // Ensure the modal doesn't get too wide
+        height: '80vh', // Adjust height to ensure overflow effect
+        display: 'flex',
+        flexDirection: 'column',
+      }}
           >
-          <Typography level="h4" sx={{ marginBottom: 2 }}>Select Assets</Typography>
-          <Box sx={{ position: "relative", display: "flex", alignItems: "center", marginRight: "20px", marginBottom: "20px" }}>
+          <Typography level="h4" sx={{ marginBottom: 2, position: 'sticky', top: 0, background: '#fff', zIndex: 1 }}>Select Assets</Typography>
+          <Divider sx={{ position: "sticky", top: 40, background: '#fff', zIndex: 1  }}/>
+          <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: '20px',
+        marginTop: '20px',
+        position: 'sticky',
+        top: 60,
+        background: '#fff',
+        zIndex: 1,
+      }}
+    >
             <Input
               placeholder="Search type of keywords"
               value={searchKeyword}
@@ -152,38 +168,31 @@ const CheckIn: React.FC = () => {
                 height: "20px"
               }}
             />
-          </Box>
+            </Box>
+    <Box
+      sx={{
+        flexGrow: 1,
+        overflow: 'auto',
+      }}
+    >
           <Sheet
-           sx={{ 
-            width: '100%',
-            borderRadius: 'sm',
-            flexShrink: 1,
-            height: '50vh',
-            overflow: 'auto',
-            '&::-webkit-scrollbar': {
-              width: '6px', 
-            },
-            '&::-webkit-scrollbar-track': {
-              background: '#f1f1f1', 
-            },
-            '&::-webkit-scrollbar-thumb': {
-              background: '#888', 
-              borderRadius: '10px', 
-            },
-            '&::-webkit-scrollbar-thumb:hover': {
-              background: '#555', 
-            },
-          }}
-          >
-            <Table   
-            aria-labelledby="tableTitle"
-            stickyHeader
-            
             sx={{
+              width: '100%',
+              borderRadius: 'sm',
+              flexShrink: 1,
+              height: '100%', 
+              overflow: 'auto',
+            }}
+          >
+          <Table
+          aria-labelledby="tableTitle"
+          stickyHeader
+          sx={{
             fontSize: '15px',
             border: '1px solid #f2f2f2',
+            minWidth: "700px",
           }}
-          >
+        >
             <thead>
         <tr>
             <th style={{  border: "1px solid #f2f2f2", width:30,background: "#fff8e6" }}><Checkbox  size="sm"/></th>
@@ -230,8 +239,9 @@ const CheckIn: React.FC = () => {
         </tbody>
             </Table>
             </Sheet>
-            
-          <Box sx={{ display: 'flex',mt:2, justifyContent: 'flex-end' }}>
+            </Box>
+            <Divider/>
+          <Box sx={{ display: 'flex',mt:2, justifyContent: 'flex-end', position: 'sticky', bottom: 0, background: '#fff', zIndex: 1  }}>
             <AppButton onClick={()=> setOpen(false)} size="sm">Cancel</AppButton>
             <AppButton onClick={handleAddToList} size="sm">Add to List</AppButton>
           </Box>

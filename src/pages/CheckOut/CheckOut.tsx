@@ -9,6 +9,7 @@ import {
   Table,
   Sheet,
   Chip,
+  Divider,
 } from '@mui/joy'
 import SearchIcon from '../../Assets/search.svg'
 import CheckOutForm from './CheckOutForm'
@@ -113,219 +114,227 @@ const CheckOut: React.FC = () => {
         </Box>
       )}
 
-      <Modal
-        open={open}
-        onClose={() => setOpen(false)}
+<Modal
+  open={open}
+  onClose={() => setOpen(false)}
+  sx={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}
+>
+  <Box
+    sx={{
+      background: '#fff',
+      padding: 2,
+      borderRadius: '10px',
+      width: '90%', // Adjust width for mobile view
+      maxWidth: '600px', // Ensure the modal doesn't get too wide
+      height: '80vh', // Adjust height to ensure overflow effect
+      display: 'flex',
+      flexDirection: 'column',
+    }}
+  >
+    <Typography level="h4" sx={{ marginBottom: 2, position: 'sticky', top: 0, background: '#fff', zIndex: 1 }}>
+      Select Assets
+    </Typography>
+    <Divider sx={{ position: 'sticky', top: 40, background: '#fff', zIndex: 1 }} />
+    <Box
+      sx={{
+        // position: 'relative',
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: '20px',
+        marginTop: '20px',
+        position: 'sticky',
+        top: 60,
+        background: '#fff',
+        zIndex: 1,
+      }}
+    >
+      <Input
+        placeholder="Search type of keywords"
+        value={searchKeyword}
+        onChange={handleSearchChange}
         sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          width: '100%',
+          paddingLeft: '40px',
+          height: '20px',
+          borderColor: '#7676764D',
+          lineHeight: '24px',
+          fontSize: '10px',
+          border: '1px solid #7676764D',
+        }}
+      />
+      <Box
+        component="img"
+        src={SearchIcon}
+        alt="Search Icon"
+        sx={{
+          position: 'absolute',
+          left: '10px',
+          height: '20px',
+        }}
+      />
+    </Box>
+    <Box
+      sx={{
+        flexGrow: 1,
+        overflow: 'auto',
+      }}
+    >
+      <Sheet
+        sx={{
+          width: '100%',
+          borderRadius: 'sm',
+          flexShrink: 1,
+          height: '100%', 
+          overflow: 'auto',
         }}
       >
-        <Box
+        <Table
+          aria-labelledby="tableTitle"
+          stickyHeader
           sx={{
-            background: '#fff',
-            padding: 2,
-            borderRadius: '10px',
-            width: '50%',
+            fontSize: '15px',
+            border: '1px solid #f2f2f2',
+            minWidth: "700px",
           }}
         >
-          <Typography level="h4" sx={{ marginBottom: 2 }}>
-            Select Assets
-          </Typography>
-          <Box
-            sx={{
-              position: 'relative',
-              display: 'flex',
-              alignItems: 'center',
-              marginBottom: '20px',
-            }}
-          >
-            <Input
-              placeholder="Search type of keywords"
-              value={searchKeyword}
-              onChange={handleSearchChange}
-              sx={{
-                width: '300px',
-                paddingLeft: '40px',
-                height: '20px',
-                borderColor: '#7676764D',
-                lineHeight: '24px',
-                fontSize: '10px',
-                border: '1px solid #7676764D',
-              }}
-            />
-            <Box
-              component="img"
-              src={SearchIcon}
-              alt="Search Icon"
-              sx={{
-                position: 'absolute',
-                left: '10px',
-                height: '20px',
-              }}
-            />
-          </Box>
-          <Sheet
-            sx={{
-              width: '100%',
-              borderRadius: 'sm',
-              flexShrink: 1,
-              height: '50vh',
-              overflow: 'auto',
-              '&::-webkit-scrollbar': {
-                width: '6px',
-              },
-              '&::-webkit-scrollbar-track': {
-                background: '#f1f1f1',
-              },
-              '&::-webkit-scrollbar-thumb': {
-                background: '#888',
-                borderRadius: '10px',
-              },
-              '&::-webkit-scrollbar-thumb:hover': {
-                background: '#555',
-              },
-            }}
-          >
-            <Table
-              aria-labelledby="tableTitle"
-              stickyHeader
-              sx={{
-                fontSize: '15px',
-                border: '1px solid #f2f2f2',
-              }}
-            >
-              <thead>
-                <tr>
-                  <th
-                    style={{
-                      width: 30,
-                      border: '1px solid #f2f2f2',
-                      background: '#fff8e6',
-                    }}
-                  >
-                    <Checkbox size="sm" />
-                  </th>
-                  <th
+          <thead>
+            <tr>
+              <th
+                style={{
+                  width: 30,
+                  border: '1px solid #f2f2f2',
+                  background: '#fff8e6',
+                }}
+              >
+                <Checkbox size="sm" />
+              </th>
+              <th
+                style={{
+                  border: '1px solid #f2f2f2',
+                  background: '#fff8e6',
+                }}
+              >
+                Asset Tag ID
+              </th>
+              <th
+                style={{
+                  border: '1px solid #f2f2f2',
+                  background: '#fff8e6',
+                }}
+              >
+                Description
+              </th>
+              <th
+                style={{
+                  border: '1px solid #f2f2f2',
+                  background: '#fff8e6',
+                }}
+              >
+                Status
+              </th>
+              <th
+                style={{
+                  border: '1px solid #f2f2f2',
+                  background: '#fff8e6',
+                }}
+              >
+                Assigned to
+              </th>
+              <th
+                style={{
+                  border: '1px solid #f2f2f2',
+                  background: '#fff8e6',
+                }}
+              >
+                Site
+              </th>
+              <th
+                style={{
+                  border: '1px solid #f2f2f2',
+                  background: '#fff8e6',
+                }}
+              >
+                Location
+              </th>
+              <th
+                style={{
+                  border: '1px solid #f2f2f2',
+                  background: '#fff8e6',
+                }}
+              >
+                Lease To
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {assets &&
+              assets.map((asset) => (
+                <tr key={asset.id}>
+                  <td
                     style={{
                       border: '1px solid #f2f2f2',
-                      background: '#fff8e6',
                     }}
+                    color="#FFFFFF33"
                   >
-                    Asset Tag ID
-                  </th>
-                  <th
-                    style={{
-                      border: '1px solid #f2f2f2',
-                      background: '#fff8e6',
-                    }}
-                  >
-                    Description
-                  </th>
-                  <th
-                    style={{
-                      border: '1px solid #f2f2f2',
-                      background: '#fff8e6',
-                    }}
-                  >
-                    Status
-                  </th>
-                  <th
-                    style={{
-                      border: '1px solid #f2f2f2',
-                      background: '#fff8e6',
-                    }}
-                  >
-                    Assigned to
-                  </th>
-                  <th
-                    style={{
-                      border: '1px solid #f2f2f2',
-                      background: '#fff8e6',
-                    }}
-                  >
-                    Site
-                  </th>
-                  <th
-                    style={{
-                      border: '1px solid #f2f2f2',
-                      background: '#fff8e6',
-                    }}
-                  >
-                    Location
-                  </th>
-                  <th
-                    style={{
-                      border: '1px solid #f2f2f2',
-                      background: '#fff8e6',
-                    }}
-                  >
-                    Lease To
-                  </th>
+                    <Checkbox
+                      size="sm"
+                      checked={selectedAssetIds.includes(asset.id)}
+                      onChange={() => handleCheckboxChange(asset.id)}
+                    />
+                  </td>
+                  <td style={{ border: '1px solid #f2f2f2' }} color="#4880FF">
+                    {asset.assetTagId}
+                  </td>
+                  <td style={{ border: '1px solid #f2f2f2' }}>
+                    {asset.description}
+                  </td>
+                  <td style={{ border: '1px solid #f2f2f2' }}>
+                    <Chip
+                      variant="soft"
+                      size="sm"
+                      color={
+                        statusColorMap[
+                          asset.status as keyof typeof statusColorMap
+                        ] as 'success' | 'neutral'
+                      }
+                    >
+                      {asset.status}
+                    </Chip>
+                  </td>
+                  <td style={{ border: '1px solid #f2f2f2' }}>
+                    {asset.assignedTo}
+                  </td>
+                  <td style={{ border: '1px solid #f2f2f2' }}>
+                    {asset.site.name}
+                  </td>
+                  <td style={{ border: '1px solid #f2f2f2' }}>
+                    {asset.location.name}
+                  </td>
+                  <td style={{ border: '1px solid #f2f2f2' }}>
+                    {asset.leaseTo}
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {assets &&
-                  assets.map((asset) => (
-                    <tr key={asset.id}>
-                      <td
-                        style={{
-                          border: '1px solid #f2f2f2',
-                        }}
-                      >
-                        <Checkbox
-                          size="sm"
-                          checked={selectedAssetIds.includes(asset.id)}
-                          onChange={() => handleCheckboxChange(asset.id)}
-                        />
-                      </td>
-                      <td style={{ border: '1px solid #f2f2f2' }}>
-                        {asset.assetTagId}
-                      </td>
-                      <td style={{ border: '1px solid #f2f2f2' }}>
-                        {asset.description}
-                      </td>
-                      <td style={{ border: '1px solid #f2f2f2' }}>
-                        <Chip
-                          variant="soft"
-                          size="sm"
-                          color={
-                            statusColorMap[
-                              asset.status as keyof typeof statusColorMap
-                            ] as 'success' | 'neutral'
-                          }
-                        >
-                          {asset.status}
-                        </Chip>
-                      </td>
-                      <td style={{ border: '1px solid #f2f2f2' }}>
-                        {asset.assignedTo}
-                      </td>
-                      <td style={{ border: '1px solid #f2f2f2' }}>
-                        {asset.site.name}
-                      </td>
-                      <td style={{ border: '1px solid #f2f2f2' }}>
-                        {asset.location.name}
-                      </td>
-                      <td style={{ border: '1px solid #f2f2f2' }}>
-                        {asset.leaseTo}
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </Table>
-          </Sheet>
-          <Box sx={{ display: 'flex', mt: 2, justifyContent: 'flex-end' }}>
-            <AppButton onClick={() => setOpen(false)} size="sm">
-              Cancel
-            </AppButton>
-            <AppButton onClick={handleAddToList} size="sm">
-              Add to List
-            </AppButton>
-          </Box>
-        </Box>
-      </Modal>
+              ))}
+          </tbody>
+        </Table>
+      </Sheet>
+    </Box>
+    <Divider />
+    <Box sx={{ display: 'flex', mt: 2, justifyContent: 'flex-end', position: 'sticky', bottom: 0, background: '#fff', zIndex: 1 }}>
+      <AppButton onClick={() => setOpen(false)} size="sm">
+        Cancel
+      </AppButton>
+      <AppButton onClick={handleAddToList} size="sm">
+        Add to List
+      </AppButton>
+    </Box>
+  </Box>
+</Modal>
+
     </AppView>
   )
 }
