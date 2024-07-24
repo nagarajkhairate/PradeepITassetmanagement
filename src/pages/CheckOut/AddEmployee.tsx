@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, Button, Divider, Input, Textarea, Modal, IconButton, Option, ButtonGroup, Select, FormControl, FormLabel, Checkbox, RadioGroup, Grid } from "@mui/joy";
 import CloseIcon from '@mui/icons-material/Close';
 import { RootState } from "../../redux/store";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { addEmployee} from "../../redux/features/EmployeeSlice";
 import AppForm from "../../components/Common/AppForm";
@@ -11,6 +11,7 @@ import LocationComponent from "../../components/AssetSections/LocationComponent"
 import DepartmentComponent from "../../components/AssetSections/DepartmentComponent";
 import SelectOption from "../../components/AssetSections/SelectOption";
 import { EmpConfig } from "./EmpConfig";
+import { fetchEmpField } from "../../redux/features/EmpFieldSlice";
 
 // interface EmployeeErrors {
 //   fullName?: string;
@@ -36,6 +37,11 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ open, onClose, onAddEmployee 
   const [formData, setFormData] = useState<any>({})
   // const [errors, setErrors] = useState<EmployeeErrors>({});
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+  const empFields = useSelector((state: RootState) => state.empField.data);
+
+  useEffect(()=>{
+    dispatch(fetchEmpField())
+  },[dispatch])
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -191,7 +197,7 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ open, onClose, onAddEmployee 
         <Divider></Divider>
 
           <Grid container spacing={1}>
-          {EmpConfig && EmpConfig.map((field , index) => (
+          {empFields && empFields.map((field:any , index:any) => (
        <Grid key={index} xs={12} sm={12} md={12} lg={12}>
         {handleInputValue(
           field,

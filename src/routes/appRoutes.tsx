@@ -49,6 +49,7 @@ import SearchCriteria from '../pages/Assets/SearchCriteria'
 import CheckOutOption from '../pages/CheckOut/CheckOutOption'
 import DatabaseContractTable from '../pages/Setup/DataBase/DatabaseContract/DatabaseContractTable'
 import EditModalDatabaseCustomer from '../pages/Setup/DataBase/DatabaseCustomerTable/EditModelDatabaseCustomer'
+import CheckoutButton from '../pages/Lease/CheckoutButton'
 
 
 const appRoutes: RouteType[] = [
@@ -208,6 +209,12 @@ const appRoutes: RouteType[] = [
           displayText: 'Lease',
           icon: <ICONS.person />,
         },
+      },
+      {
+        index: true,
+        path: '/assets/checkout-sample',
+        element: <CheckoutButton />,
+        state: 'lease',
       },
       {
         path: '/assets/lease-return',

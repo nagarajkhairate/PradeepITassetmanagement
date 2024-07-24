@@ -9,6 +9,7 @@ import {
   Dropdown,
   Chip,
   IconButton,
+  Typography,
 } from "@mui/joy";
 import PrintIcon from '@mui/icons-material/Print';
 import EditIcon from '@mui/icons-material/Edit';
@@ -64,6 +65,10 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
      assetId:assets[0].id
    }))
   }
+const baseUrl = process.env.REACT_APP_BASE_MAIN_URL || '';
+const photoUrl = assets.assetPhoto ? `${baseUrl}${assets.assetPhoto}` : null;
+
+console.log(photoUrl)
 
   const handleMenuItemClick = (option: any) => {
     if (option.label === "Check Out") {
@@ -82,7 +87,7 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
   const getAssignTo = (id:any) => {
     const assignment = checkOut && checkOut.find(assign => assign.assetId === id);
     console.log(assignment)
-    return assignment ? assignment.assignedTo : null;
+    return assignment ? assignment.assignedTo.empName : null;
   };
   
   return (
@@ -178,11 +183,15 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
               height: "265px",
             }}
           >
+           {photoUrl ? (
             <img
-              src={HPLaptopImg}
+              src={photoUrl}
               style={{ width: "100%", height: "200px" }}
-              alt=""
+              alt="Asset" 
             />
+          ) : (
+            <Typography>No Image Available</Typography>
+          )}
           </Box>
           <Box
             sx={{

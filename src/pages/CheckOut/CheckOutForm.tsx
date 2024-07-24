@@ -5,12 +5,9 @@ import {
   Table,
   Input,
   Button,
-  Option,
   Radio,
   Checkbox,
-  Select,
   RadioGroup,
-  Textarea,
   FormLabel,
   FormControl,
   Grid,
@@ -75,19 +72,20 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
     });
   };
 
-  const handleAssignAssetId = ()=>{
-     setFormData((prevData: any) => ({
-      ...prevData,
-      assetId:selectedAssets[0].id
-    }))
-  }
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-
-    await handleAssignAssetId()
-    
-    console.log(JSON.stringify(formData))
-    await dispatch(addCheckOut(formData))
+    e.preventDefault();
+  
+    setFormData((prevData: any) => {
+      const formData = {
+        ...prevData,
+        assetId: selectedAssets[0].id
+      };
+  
+      console.log(JSON.stringify(formData));
+      dispatch(addCheckOut(formData));
+      
+      return formData;
+    });
   }
 
   const radioOptions = [
@@ -211,7 +209,7 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
   const getAssignTo = (id:any) => {
     const assignment = checkOut && checkOut.find(assign => assign.assetId === id);
     console.log(assignment)
-    return assignment ? assignment.assignedTo : null;
+    return assignment ? assignment.assignedTo.empName : null;
   };
   
   const statusColorMap: Record<string, string> = {
