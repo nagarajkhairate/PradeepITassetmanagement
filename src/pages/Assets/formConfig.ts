@@ -19,15 +19,7 @@ export interface FormField {
   isDelete: boolean;
   tenantId: number;
   groupId: number;
-  stylings?: {
-      borderRadius?: string;
-      padding?: string;
-      width?: {
-        xs?: string;
-        sm?: string;
-        md?: string;
-      }
-  };
+  stylings?: any;
   options?: { name: string; label: string }[];
 }
 
@@ -92,8 +84,7 @@ export const formConfig: FormFieldConfig[] = [
           "tenantId": 1,
           "groupId": 1,
           "stylings": {
-              "borderRadius": "15px",
-              "padding": "12.25px",
+              
           }
         },
         {
@@ -122,11 +113,7 @@ export const formConfig: FormFieldConfig[] = [
           "isDelete": false,
           "tenantId": 1,
           "groupId": 1,
-          "stylings": {
-                       "borderRadius": "15px",
-              "padding": "12.25px",
-            
-          }
+          "stylings": "{xs: 12, sm: 6, md: 4, lg: 3}"
         },
         {
           "id": 3,
@@ -146,11 +133,7 @@ export const formConfig: FormFieldConfig[] = [
             "isDelete": null,
             "tenantId": null
           },
-          "stylings": {
-                       "borderRadius": "15px",
-              "padding": "12.25px",
-            
-          },
+          "stylings": "{xs: 12, sm: 6, md: 4, lg: 3}",
           "visible": false,
           "createdOn": "2024-07-04T09:42:45.427377Z",
           "updatedOn": "2024-07-04T09:42:45.427377Z",
@@ -186,11 +169,7 @@ export const formConfig: FormFieldConfig[] = [
           "isDelete": false,
           "tenantId": 1,
           "groupId": 1,
-          "stylings": {
-                       "borderRadius": "15px",
-              "padding": "12.25px",
-            
-          }
+          "stylings": "{xs: 12, sm: 6, md: 4, lg: 3}"
         },
         {
           "id": 6,
@@ -218,11 +197,7 @@ export const formConfig: FormFieldConfig[] = [
           "isDelete": false,
           "tenantId": 1,
           "groupId": 1,
-          "stylings": {
-                       "borderRadius": "15px",
-              "padding": "12.25px",
-            
-          } 
+          "stylings": "{xs: 12, sm: 6, md: 4, lg: 3}" 
         },
         {
           "id": 7,
@@ -250,11 +225,7 @@ export const formConfig: FormFieldConfig[] = [
           "isDelete": false,
           "tenantId": 1,
           "groupId": 1,
-          "stylings": {
-                       "borderRadius": "15px",
-              "padding": "12.25px",
-            
-          }
+          "stylings": "{xs: 12, sm: 6, md: 4, lg: 3}"
         },
         {
           "id": 8,
@@ -282,11 +253,7 @@ export const formConfig: FormFieldConfig[] = [
           "isDelete": false,
           "tenantId": 1,
           "groupId": 1,
-          "stylings": {
-                       "borderRadius": "15px",
-              "padding": "12.25px",
-            
-          }
+          "stylings": "{xs: 12, sm: 6, md: 4, lg: 3}"
         },
         {
           "id": 9,
@@ -314,11 +281,7 @@ export const formConfig: FormFieldConfig[] = [
           "isDelete": false,
           "tenantId": 1,
           "groupId": 1,
-          "stylings": {
-                       "borderRadius": "15px",
-              "padding": "12.25px",
-            
-          }
+          "stylings": "{xs: 12, sm: 6, md: 4, lg: 3}"
         },
         {
           "id": 10,
@@ -346,11 +309,7 @@ export const formConfig: FormFieldConfig[] = [
           "isDelete": false,
           "tenantId": 1,
           "groupId": 1,
-          "stylings": {
-                       "borderRadius": "15px",
-              "padding": "12.25px",
-            
-          }
+          "stylings": "{xs: 12, sm: 6, md: 4, lg: 3}"
         }
       ]
     },
@@ -384,11 +343,7 @@ export const formConfig: FormFieldConfig[] = [
           "isDelete": false,
           "tenantId": 1,
           "groupId": 2,
-          "stylings": {
-                       "borderRadius": "15px",
-              "padding": "12.25px",
-            
-          }
+          "stylings": "{xs: 12, sm: 6, md: 4, lg: 3}"
         },
         {
           "id": 13,
@@ -416,11 +371,7 @@ export const formConfig: FormFieldConfig[] = [
           "isDelete": false,
           "tenantId": 1,
           "groupId": 2,
-          "stylings": {
-                       "borderRadius": "15px",
-              "padding": "12.25px",
-            
-          }
+          "stylings": "{xs: 12, sm: 6, md: 4, lg: 3}"
         },
         {
           "id": 14,
@@ -448,11 +399,7 @@ export const formConfig: FormFieldConfig[] = [
           "isDelete": false,
           "tenantId": 1,
           "groupId": 2,
-          "stylings": {
-                       "borderRadius": "15px",
-              "padding": "12.25px",
-            
-          }
+          "stylings": "{xs: 12, sm: 6, md: 4, lg: 3}"
         },
         {
           "id": 15,
@@ -480,11 +427,7 @@ export const formConfig: FormFieldConfig[] = [
           "isDelete": false,
           "tenantId": 1,
           "groupId": 2,
-          "stylings": {
-                       "borderRadius": "15px",
-              "padding": "12.25px",
-            
-          }
+          "stylings": "{xs: 12, sm: 6, md: 4, lg: 3}"
         },
         {
           "id": 16,
@@ -512,11 +455,7 @@ export const formConfig: FormFieldConfig[] = [
           "isDelete": false,
           "tenantId": 1,
           "groupId": 2,
-          "stylings": {
-                       "borderRadius": "15px",
-              "padding": "12.25px",
-            
-          }
+          "stylings": "{xs: 12, sm: 6, md: 4, lg: 3}"
   
         }
       ]
@@ -552,8 +491,7 @@ export const formConfig: FormFieldConfig[] = [
           "tenantId": 1,
           "groupId": 1,
           "stylings": {
-              "borderRadius": "15px",
-              "padding": "12.25px",
+              
           }
         }
       ] 

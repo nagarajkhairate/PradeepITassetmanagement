@@ -36,6 +36,7 @@ import EmpFieldReducer from './features/EmpFieldSlice'
 import CheckOutFieldReducer from './features/CheckOutFieldSlice'
 import CheckInFieldReducer from './features/CheckInFieldSlice'
 import ClientFieldReducer from './features/ClientFieldSlice'
+import AssetDefaultFieldsReducer from './features/AssetsDefaultFieldsSlice'
 
 export const store = configureStore({
   reducer: {
@@ -76,6 +77,7 @@ export const store = configureStore({
     checkOutField:CheckOutFieldReducer,
     checkInField:CheckInFieldReducer,
     clientField:ClientFieldReducer,
+    assetsDefaultField:AssetDefaultFieldsReducer
   },
 });
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Typography,
   Box,
@@ -10,10 +10,10 @@ import {
 } from '@mui/joy'
 import { formConfig } from './formConfig'
 import { ThunkDispatch } from '@reduxjs/toolkit'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import AppForm from '../../components/Common/AppForm'
-import { addAssets } from '../../redux/features/AssetSlice'
+import { addAssets, fetchAssetsDefaultFields } from '../../redux/features/AssetSlice'
 import SiteComponent from '../../components/AssetSections/SiteComponent'
 import LocationComponent from '../../components/AssetSections/LocationComponent'
 import DepartmentComponent from '../../components/AssetSections/DepartmentComponent'
@@ -30,6 +30,11 @@ const AddAnAsset: React.FC = () => {
   const [formData, setFormData] = useState<any>({})
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([])
   const [file, setFile] = useState<File | null>(null)
+  const assetsDefaultFields = useSelector((state: RootState) => state.assetsDefaultField.data);
+
+useEffect(()=>{
+  dispatch(fetchAssetsDefaultFields())
+},[dispatch])
 
   const handleSelectChange = (
     newValue: any,
@@ -77,7 +82,6 @@ const AddAnAsset: React.FC = () => {
       return updatedPreviews
     })
   }
-
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -127,8 +131,51 @@ const AddAnAsset: React.FC = () => {
 
     switch (field.components.type) {
       case 'text':
+        return (
+          <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+            type={field.components.type}
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleInputChange}
+              sx={{
+                  display:"grid",
+              }}
+            />
+          </FormControl>
+        );
       case 'date':
+        return (
+          <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+            type={field.components.type}
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleInputChange}
+              sx={{
+                minWidth:"210px",
+                  display:"grid",
+              }}
+            />
+          </FormControl>
+        );
       case 'number':
+        return (
+          <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+            type={field.components.type}
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleInputChange}
+              sx={{
+                  display:"grid",
+              }}
+            />
+          </FormControl>
+        );
       case 'textarea':
         return (
           <FormControl>
@@ -138,7 +185,7 @@ const AddAnAsset: React.FC = () => {
               name={field.name}
               value={formData[field.name] as string}
               onChange={handleInputChange}
-              sx={field.stylings}
+              sx={{}}
             />
           </FormControl>
         );
@@ -191,7 +238,7 @@ const AddAnAsset: React.FC = () => {
 
   return (
     <AppForm onSubmit={handleSubmit} encType="multipart/form-data">
-        <Typography level="h3" sx={{ ml: '52px' }}>
+        <Typography level="h3" sx={{ ml: '52px', mb:"4" }}>
           Add An Asset
         </Typography>
         <Box
@@ -208,7 +255,7 @@ const AddAnAsset: React.FC = () => {
                 container
                 spacing={2}
                 sx={{
-                  padding: '20px',
+                  // padding: '20px',
                   display: 'flex',
                   flexDirection: { xs: 'column', md: 'row' },
                 }}
@@ -220,7 +267,7 @@ const AddAnAsset: React.FC = () => {
                         <Typography
                           sx={{
                             fontWeight: 'bold',
-                            mb: 0,
+                            mb: 2,
                             paddingLeft: '32px',
                           }}
                         >
