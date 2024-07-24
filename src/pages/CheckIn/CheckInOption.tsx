@@ -25,60 +25,28 @@ import AppForm from "../../components/Common/AppForm";
 import SiteComponent from "../../components/AssetSections/SiteComponent";
 import LocationComponent from "../../components/AssetSections/LocationComponent";
 import DepartmentComponent from "../../components/AssetSections/DepartmentComponent";
-// import AddNewEmpployee from "./AddNewEmpployee";
-// import AddNewClient from "./AddNewClient";
 import SelectOption from "../../components/AssetSections/SelectOption";
 import { checkOutConfig } from "../CheckOut/checkOutConfig";
 import { fetchCheckOutField } from "../../redux/features/CheckOutFieldSlice";
 import AppButton from "../../components/Common/AppButton";
-import AddNewEmpployee from "./AddNewEmpployee";
-import AddNewClient from "./AddNewClient";
+import { fetchCheckInField } from "../../redux/features/CheckInFieldSlice";
 
-interface FormData {
-  employeeId: string;
-  assetId: string;
-  checkOutDate: string;
-  assignedTo: string;
-  client: string;
-  dueDate: string;
-  checkOutSiteId: string;
-  checkOutLocationId: string;
-  checkOutDepartmentId: string;
-  checkOutNotes: string;
-  emailAddress?: string;
-}
-
-interface CheckoutErrors {
-  employeeId?: string;
-  assetId?: string;
-  checkOutDate?: string;
-  assignedTo?: string;
-  client?: string;
-  dueDate?: string;
-  checkOutSiteId?: string;
-  checkOutLocationId?: string;
-  checkOutDepartmentId?: string;
-  checkOutNotes?: string;
-  emailAddress?: string;
-}
-
-interface CheckOutModalProps {
+interface CheckInProps {
   open: boolean;
   onClose: () => void;
 }
 
-const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
+const CheckInOption: React.FC<CheckInProps> = ({  open, onClose }) => {
   const [formData, setFormData] = useState<any>({});
   const [sendEmail, setSendEmail] = useState<boolean>(false);
-  const [checkOutTo, setCheckOutTo] = useState("person");
+  // const [checkOutTo, setCheckOutTo] = useState("person");
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
   const checkOut = useSelector((state: RootState) => state.checkOut.data);
-  const [errors, setErrors] = useState<CheckoutErrors>({});
-  const checkOutFields = useSelector((state: RootState) => state.checkOutField.data);
+  const checkInFields = useSelector((state: RootState) => state.checkInField.data);
 
   useEffect(() => {
     dispatch(fetchCheckOut());
-    dispatch(fetchCheckOutField())
+    dispatch(fetchCheckInField())
   }, [dispatch]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,14 +66,14 @@ const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setCheckOutTo(value);
+    // setCheckOutTo(value);
     setFormData({
       ...formData,
       [name]: value,
     });
   };
 
-  const handleCheckOut = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleCheckIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setFormData((prevData:any) => {
@@ -216,19 +184,14 @@ const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
           </FormControl>
         );
       case "select":
-        if (field.name === "checkOutSiteId") {
+        if (field.name === "checkInSiteId") {
           return <SiteComponent {...commonProps} />;
-        } else if (field.name === "checkOutLocationId") {
+        } else if (field.name === "checkInLocationId") {
           return <LocationComponent {...commonProps} />;
-        } else if (field.name === "checkOutDepartmentId") {
+        } else if (field.name === "checkInDepartmentId") {
           return <DepartmentComponent {...commonProps} />;
         }
-        else if (field.name === "assignedTo") {
-          return <AddNewEmpployee {...commonProps} />;
-        }
-        else if (field.name === "clientId") {
-          return <AddNewClient {...commonProps} />;
-        }else {
+       else {
           return <SelectOption {...commonProps} />;
         }
       default:
@@ -236,9 +199,8 @@ const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
     }
   };
 
-
   return (
-    <AppForm onSubmit={handleCheckOut}>
+    <AppForm onSubmit={handleCheckIn}>
       <Modal open={open} onClose={onClose}>
         <Box
           sx={{
@@ -264,7 +226,7 @@ const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
               pb: 1,
             }}
           >
-            <Typography level="h4">Check Out</Typography>
+            <Typography level="h4">Check In</Typography>
             <IconButton onClick={onClose}>
               <CloseIcon />
             </IconButton>
@@ -280,7 +242,7 @@ const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
               }
             }}
           >
-            {checkOutFields && checkOutFields.map((field) => (
+            {checkInFields && checkInFields.map((field) => (
               <React.Fragment key={field.fieldName}>
                 {handleInputValue(field, formData, handleChange, handleSelectChange, handleRadioChange)}
               </React.Fragment>
@@ -301,4 +263,4 @@ const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
   );
 };
 
-export default CheckOutOption;
+export default CheckInOption;

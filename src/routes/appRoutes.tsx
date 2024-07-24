@@ -50,6 +50,7 @@ import CheckOutOption from '../pages/CheckOut/CheckOutOption'
 import DatabaseContractTable from '../pages/Setup/DataBase/DatabaseContract/DatabaseContractTable'
 import EditModalDatabaseCustomer from '../pages/Setup/DataBase/DatabaseCustomerTable/EditModelDatabaseCustomer'
 import CheckoutButton from '../pages/Lease/CheckoutButton'
+import CheckInOption from '../pages/CheckIn/CheckInOption'
 
 
 const appRoutes: RouteType[] = [
@@ -175,12 +176,6 @@ const appRoutes: RouteType[] = [
         index: true,
         path: '/assets/edit-an-asset/:id',
         element: <EditAnAsset />,
-        state: 'assets',
-      },
-      {
-        index: true,
-        path: '/assets/checkOutOption',
-        element: <CheckOutOption />,
         state: 'assets',
       },
       {

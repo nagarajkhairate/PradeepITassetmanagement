@@ -182,7 +182,7 @@ const handleInputValue = (
 const getAssignTo = (id:any) => {
   const assignment = checkOut && checkOut.find(assign => assign.assetId === id);
   // console.log(assignment)
-  return assignment ? assignment.assignedTo : null;
+  return assignment ? assignment.assignedTo.empName : null;
 };
 
 useEffect(()=>{

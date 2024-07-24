@@ -240,7 +240,7 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
   const getAssignTo = (id:any) => {
     const assignment = checkOut && checkOut.find(assign => assign.assetId === id);
     console.log(assignment)
-    return assignment ? assignment.assignedTo: null;
+    return assignment ? assignment.assignedTo.empName: null;
   };
   
   const statusColorMap: Record<string, string> = {
@@ -381,6 +381,7 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
     <Grid
                 container
                 spacing={2}
+                xs={12}
                 sx={{
                   padding: '30px',
                   display: 'flex',
@@ -389,7 +390,7 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
               >
     {checkOutFields && checkOutFields.map((field , index) => (
       <FormControl key={index}>
-       <Grid key={index} xs={12}>
+       <Grid key={index}>
        {checkOutTo === 'person' || (field.name !== 'assignedTo' && field.name !== 'clientId') ?
         handleInputValue(field, formData, handleChange, handleSelectChange, handleRadioChange) : null}
         </Grid>
