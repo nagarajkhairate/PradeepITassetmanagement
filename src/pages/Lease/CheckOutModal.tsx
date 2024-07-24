@@ -25,9 +25,10 @@ import AppForm from "../../components/Common/AppForm";
 import SiteComponent from "../../components/AssetSections/SiteComponent";
 import LocationComponent from "../../components/AssetSections/LocationComponent";
 import DepartmentComponent from "../../components/AssetSections/DepartmentComponent";
-import AddNewEmpployee from "./AddNewEmpployee";
-import AddNewClient from "./AddNewClient";
+// import AddNewEmpployee from "./AddNewEmpployee";
+// import AddNewClient from "./AddNewClient";
 import SelectOption from "../../components/AssetSections/SelectOption";
+import { checkOutConfig } from "../CheckOut/checkOutConfig";
 
 interface FormData {
   employeeId: string;
@@ -58,24 +59,12 @@ interface CheckoutErrors {
 }
 
 interface CheckOutModalProps {
-  selectedAssets: any;
   open: boolean;
   onClose: () => void;
 }
 
-const CheckOutModal: React.FC<CheckOutModalProps> = ({ selectedAssets, open, onClose }) => {
-  const [formData, setFormData] = useState<FormData>({
-    employeeId: "",
-    assetId: "",
-    checkOutDate: "",
-    assignedTo: "",
-    client: "",
-    dueDate: "",
-    checkOutSiteId: "",
-    checkOutLocationId: "",
-    checkOutDepartmentId: "",
-    checkOutNotes: "",
-  });
+const CheckOutModal: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
+  const [formData, setFormData] = useState<any>({});
   const [sendEmail, setSendEmail] = useState<boolean>(false);
   const [checkOutTo, setCheckOutTo] = useState("person");
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
@@ -88,14 +77,14 @@ const CheckOutModal: React.FC<CheckOutModalProps> = ({ selectedAssets, open, onC
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
+    setFormData((prevData:any) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
   const handleSelectChange = (newValue: any, title: string) => {
-    setFormData((prevData) => ({
+    setFormData((prevData:any) => ({
       ...prevData,
       [title]: newValue,
     }));
@@ -113,10 +102,10 @@ const CheckOutModal: React.FC<CheckOutModalProps> = ({ selectedAssets, open, onC
   const handleCheckOut = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setFormData((prevData) => {
+    setFormData((prevData:any) => {
       const formData = {
         ...prevData,
-        assetId: selectedAssets[0].id,
+        // assetId:selectedAssets[0].id,
       };
 
       console.log(JSON.stringify(formData));
@@ -227,11 +216,7 @@ const CheckOutModal: React.FC<CheckOutModalProps> = ({ selectedAssets, open, onC
           return <LocationComponent {...commonProps} />;
         } else if (field.name === "checkOutDepartmentId") {
           return <DepartmentComponent {...commonProps} />;
-        } else if (field.name === "assignedTo") {
-          return <AddNewEmpployee {...commonProps} />;
-        } else if (field.name === "clientId") {
-          return <AddNewClient {...commonProps} />;
-        } else {
+        }else {
           return <SelectOption {...commonProps} />;
         }
       default:
@@ -304,7 +289,7 @@ const CheckOutModal: React.FC<CheckOutModalProps> = ({ selectedAssets, open, onC
               },
             }}
           >
-            {fields.map((field) => (
+            {checkOutConfig.map((field) => (
               <React.Fragment key={field.fieldName}>
                 {handleInputValue(field, formData, handleChange, handleSelectChange, handleRadioChange)}
               </React.Fragment>

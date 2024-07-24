@@ -13,7 +13,7 @@ const CheckoutButton: React.FC= () => {
       <Button onClick={handleOpen} color="primary" variant="contained">
         Checkout
       </Button>
-      <CheckOutModal  open={open} onClose={handleClose} />
+      <CheckOutModal open={open} onClose={handleClose} />
     </>
   );
 };
