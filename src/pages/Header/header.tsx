@@ -10,14 +10,14 @@ const Header = () => {
   const navigate = useNavigate();
 
   function logoutUser() {
-    localStorage.clear();
+    sessionStorage.clear();
     navigate('/login');
   }
 
   return (
     <Sheet
       sx={{
-        display:'flex',
+        display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         position: 'fixed',
@@ -42,15 +42,8 @@ const Header = () => {
           },
         })}
       />
-      
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-end', // Align items to the right
-        }}
-      >
-      
+
+      <Box sx={{ ml: 'auto', display: 'flex', alignItems: 'center' }}>
         <Dropdown>
           <MenuButton
             slots={{ root: IconButton }}
@@ -63,17 +56,30 @@ const Header = () => {
               right: 0, // Align the menu to the right
             }}
           >
-            <MenuItem>
+            <MenuItem
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              My account
               <IconButton>
                 <PermIdentityIcon />
               </IconButton>
-              My account
             </MenuItem>
-            <MenuItem onClick={logoutUser}>
+            <MenuItem
+              onClick={logoutUser}
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              Logout
               <IconButton>
                 <LogoutIcon />
               </IconButton>
-              Logout
             </MenuItem>
           </Menu>
         </Dropdown>
