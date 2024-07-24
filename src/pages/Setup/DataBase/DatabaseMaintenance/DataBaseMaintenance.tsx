@@ -40,11 +40,6 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
     setMaintenanceDataBases(maintenanceData)
   }, [])
 
-  React.useEffect(() => {
-    if(maintenanceDatabase.length > 0){
-      setOpenAddMaintenance(maintenanceDatabase[0])
-    }
-  }, [maintenanceDatabase]);
 
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...maintenanceDataBases]

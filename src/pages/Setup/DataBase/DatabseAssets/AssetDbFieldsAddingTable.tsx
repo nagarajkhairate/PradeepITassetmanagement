@@ -106,11 +106,11 @@ const category=useSelector((state:RootState) => state.category.data)
                 >
                   {item.fieldName}
                 </td>
-                <td>{components.find((component) => component.id === item.componentsId)?.type || ''}</td>
+                <td>{item.componentsId.title}</td>
                 <td>{item.isRequired}</td>
                 <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>
 
-                {category.find((opt) => opt.id === item.categoryId)?.type || ''}
+                {item.categoryId.categoryName}
                 </td>
 
                 

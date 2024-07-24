@@ -20,7 +20,7 @@ import {
 import AppForm from '../../../../components/Common/AppForm'
 import { RootState } from '../../../../redux/store'
 import { customEmployee } from './EmployeeData'
-import { addEmpCustomDatabase } from '../../../../redux/features/EmpCustomDatabaseSlice'
+import { addEmpCustomDatabase } from '../../../../redux/features/EmpCustomDatabseSlice'
 import { fetchComponents } from '../../../../redux/features/ComponentsIdSlice'
 
 interface DataBaseAddProps {
@@ -39,7 +39,7 @@ const AddEmployeeData: React.FC<DataBaseAddProps> = ({
   })
 
   const components = useSelector((state: RootState) => state.components.data)
-  console.log(components)
+  // console.log(components)
 
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
