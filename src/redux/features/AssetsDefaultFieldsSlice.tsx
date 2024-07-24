@@ -56,7 +56,7 @@ export const deleteAssetsDefaultFields = createAsyncThunk('assetsDefaultFields/d
   return id;
 });
  
-const AssetsDefaultFieldslice = createSlice({
+const AssetsDefaultFieldSlice = createSlice({
   name: 'assetsDefaultField',
   initialState,
   reducers: {
@@ -102,6 +102,6 @@ const AssetsDefaultFieldslice = createSlice({
   },
 });
  
-export const { setSelectedCustomer } = AssetsDefaultFieldslice.actions;
+export const { setSelectedCustomer } = AssetsDefaultFieldSlice.actions;
  
-export default AssetsDefaultFieldslice.reducer;
+export default AssetsDefaultFieldSlice.reducer;

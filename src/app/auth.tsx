@@ -15,8 +15,8 @@ const checkAuth = () => {
   const PUBLIC_ROUTES = ["login", "forgot-password", "register", "documentation"];
   const isPublicPage = PUBLIC_ROUTES.some(r => window.location.href.includes(r));
 
-  if (TOKEN) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${TOKEN.token?.access}`;
+  if (TOKEN.token?.refresh) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${TOKEN.token?.refresh}`;
 
     axios.interceptors.request.use(function (config) {
       // Show global loading indicator
@@ -35,7 +35,7 @@ const checkAuth = () => {
       return Promise.reject(error);
     });
 
-    return TOKEN;
+    return TOKEN.token?.refresh;
   } else {
     if (!isPublicPage) {
       window.location.href = '/login';

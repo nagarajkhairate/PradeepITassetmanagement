@@ -8,7 +8,7 @@ import checkAuth from './app/auth';
 
 const App = () => {
   // const token = checkAuth();
-
+// console.log((token))
   return (
     <BrowserRouter>
       <Routes>

@@ -25,7 +25,6 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 1,
     title: 'Company name',
-    // value: 'companyName',
     name: 'companyName', 
     required: true,
     sequence: 1,
@@ -35,7 +34,6 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 2,
     title: 'Country',
-    // value: 'country',
     name: 'country', 
     required: true,
     sequence: 2,
@@ -45,7 +43,6 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 3,
     title: 'Address',
-    // value: 'address',
     name: 'address', 
     required: true,
     sequence: 3,
@@ -55,7 +52,6 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 4,
     title: 'Apt./Suite',
-    // value: 'aptSuite',
     name: 'aptSuite', 
     required: true,
     sequence: 4,
@@ -65,7 +61,6 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 5,
     title: 'City',
-    // value: 'city',
     name: 'city', 
     required: true,
     sequence: 5,
@@ -75,7 +70,6 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 6,
     title: 'State',
-    // value: 'state',
     name: 'state', 
     required: true,
     sequence: 6,
@@ -85,7 +79,6 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 7,
     title: 'Zip Code',
-    // value: 'zipCode',
     name: 'zipCode',
     required: true,
     sequence: 7,
@@ -95,7 +88,6 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 8,
     title: 'Time Zone',
-    // value: 'timeZone',
     name: 'timeZone', 
     required: true,
     sequence: 8,
@@ -157,7 +149,6 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 9,
     title: 'Currency Symbol',
-    // value: 'currencySymbol',
     name: 'currencySymbol', 
     required: true,
     sequence: 9,
@@ -194,7 +185,6 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 10,
     title: 'Date format',
-    // value: 'dateFormat',
     name: 'dateFormat', 
     required: false,
     sequence: 10,
@@ -209,7 +199,6 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 11,
     title: 'Financial Year begins on Month',
-    // value: 'financialMonth',
     name: 'financialMonth', 
     required: true,
     sequence: 11,
@@ -233,7 +222,6 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 12,
     title: 'Financial Year begins on Day',
-    // value: 'financialDays',
     name: 'financialDays', 
     required: true,
     sequence: 12,
@@ -276,7 +264,6 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
   {
     id: 13,
     title: 'Logo',
-    // value: 'companyLogo',
     name: 'companyLogo', 
     required: false,
     sequence: 13,

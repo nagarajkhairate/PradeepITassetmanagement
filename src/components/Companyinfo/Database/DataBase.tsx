@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect, FunctionComponent } from 'react';
+import React, { useState, useEffect, FunctionComponent, FormEvent } from 'react'
 import {
   Typography,
   Radio,
@@ -10,68 +9,96 @@ import {
   Table,
   Box,
   Button,
-} from '@mui/joy';
-import AddIcon from "@mui/icons-material/Add";
-import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined';
-import { FormControlLabel } from '@mui/material';
+} from '@mui/joy'
+import AddIcon from '@mui/icons-material/Add'
+import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
+import { FormControlLabel } from '@mui/material'
 import {
   AssetDataValue,
-  AssetDefaultDataValue,
   assetDefaultFields,
   customAssetData,
-} from './DatabaseData';
-import AppView from '../../Common/AppView';
-import AddCustomAssetFields from './AddCustomAssetFields';
-import CommonTable from './CommonTable';
-
+} from './DatabaseData'
+import AppView from '../../Common/AppView'
+import AddCustomAssetFields from './AddCustomAssetFields'
+import CommonTable from './CommonTable'
+import { ThunkDispatch } from 'redux-thunk'
+import { RootState } from '../../../redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchAssetDatabase, updateAssetDatabase } from '../../../redux/features/AssetDatabaseSlice'
+import { fetchAssetCustomDatabase } from '../../../redux/features/AssetCustomDatabaseSlice'
+import AppForm from '../../Common/AppForm'
 
 interface DataBaseProps {
-  activeTab: number;
-  setActiveTab: (tab: number) => void;
+  activeTab: number
+  setActiveTab: (tab: number) => void
 }
-
 
 const DataBaseAsset: FunctionComponent<DataBaseProps> = ({
   activeTab,
-  setActiveTab,}
-) => {
-  const [assetDataForm, setAssetDataForm] = useState<AssetDataValue[]>([]);
-  const [openAddAsset, setOpenAddAsset] = useState(false);
+  setActiveTab,
+}) => {
+  const [assetDataForm, setAssetDataForm] = useState<AssetDataValue[]>([])
+  const [openAddAsset, setOpenAddAsset] = useState(false)
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const assetDatabase = useSelector((state: RootState) => state.assetDatabase.data)
+  const assetCustomDatabase = useSelector((state: RootState) => state.assetCustomDatabase.data)
+ 
 
-  useEffect(() => {
-    setAssetDataForm(AssetDefaultDataValue);
-  }, []);
-
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
-
-    if(fieldName !=='assetName' && fieldName !=='assetTagId' && fieldName !=='assetDescription')
-    setAssetDataForm(prevState =>
-      prevState.map(item =>
-        item.name === fieldName ? { ...item, isVisible: event.target.checked } : item
+  const handleCheckboxChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    fieldName: string,
+  ) => {
+    if (
+      fieldName !== 'assetName' &&
+      fieldName !== 'assetTagId' &&
+      fieldName !== 'assetDescription'
+    )
+      setAssetDataForm((prevState) =>
+        prevState.map((item) =>
+          item.name === fieldName
+            ? { ...item, isVisible: event.target.checked }
+            : item,
+        ),
       )
-    );
-  };
-
-  const handleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
-    setAssetDataForm(prevState =>
-      prevState.map(item =>
-        item.name === fieldName ? { ...item, isRequired: event.target.value } : item
-      )
-    );
-  };
-
-  console.log(JSON.stringify(assetDataForm))
-  const handleNext = () => {
-    setActiveTab(activeTab + 1)
   }
 
+
+  const handleRadioSelect = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    fieldName: string,
+  ) => {
+    setAssetDataForm((prevState) =>
+      prevState.map((item) =>
+        item.name === fieldName
+          ? { ...item, isRequired: event.target.value }
+          : item,
+      ),
+    )
+  }
+console.log(JSON.stringify(assetDataForm))
+
+  const handleNext = async(e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+await dispatch(updateAssetDatabase(assetDataForm))
+
+    setActiveTab(activeTab + 1)
+  }
 
   const handleBack = () => {
     setActiveTab(activeTab - 1)
   }
+  useEffect(() => {
+    setAssetDataForm(assetDatabase)
+  }, [assetDatabase])
+
+  useEffect(()=>{
+    dispatch(fetchAssetDatabase())
+    dispatch(fetchAssetCustomDatabase())
+
+  },[dispatch])
 
   return (
-    <AppView>
+    <AppForm onSubmit={handleNext}>
       <Typography
         level="h4"
         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
@@ -118,10 +145,7 @@ const DataBaseAsset: FunctionComponent<DataBaseProps> = ({
               borderRadius: '5px',
             }}
           >
-            <Table
-              borderAxis="both"
-              aria-label="basic table"
-            >
+            <Table borderAxis="both" aria-label="basic table">
               <thead>
                 <tr>
                   <th>
@@ -138,7 +162,7 @@ const DataBaseAsset: FunctionComponent<DataBaseProps> = ({
                   assetDefaultFields.map((data, index) => {
                     const filterData = assetDataForm.find(
                       (opt: any) => opt.name === data.name,
-                    );
+                    )
                     return (
                       <tr key={`${data.fieldName}-${filterData?.id}`}>
                         <td>
@@ -147,25 +171,28 @@ const DataBaseAsset: FunctionComponent<DataBaseProps> = ({
                             onChange={(e) => handleCheckboxChange(e, data.name)}
                           />
                         </td>
-                        <td>
-                          {data.fieldName}
-                        </td>
+                        <td>{data.fieldName}</td>
                         <td>
                           {filterData?.isVisible && (
                             <FormControl>
                               <RadioGroup
                                 name={`radio-buttons-group-${index}-${data.name}`}
-                                onChange={(e) => handleRadioSelect(e, data.name)}  
+                                onChange={(e) =>
+                                  handleRadioSelect(e, data.name)
+                                }
                               >
-                                {data.option && data.option.map((list, idx) => (
-                                  <FormControlLabel
-                                    key={idx}
-                                    value={list.value}
-                                    control={<Radio variant="outlined" />}
-                                    label={list.label}
-                                    checked={filterData?.isRequired === list.value}
-                                  />
-                                ))}
+                                {data.option &&
+                                  data.option.map((list, idx) => (
+                                    <FormControlLabel
+                                      key={idx}
+                                      value={list.value}
+                                      control={<Radio variant="outlined" />}
+                                      label={list.label}
+                                      checked={
+                                        filterData?.isRequired === list.value
+                                      }
+                                    />
+                                  ))}
                               </RadioGroup>
                             </FormControl>
                           )}
@@ -189,7 +216,7 @@ const DataBaseAsset: FunctionComponent<DataBaseProps> = ({
                           {data.example}
                         </td>
                       </tr>
-                    );
+                    )
                   })}
               </tbody>
             </Table>
@@ -211,56 +238,52 @@ const DataBaseAsset: FunctionComponent<DataBaseProps> = ({
           free to get creative.
         </Box>
 
-          <Button
-            onClick={()=>setOpenAddAsset(true)}
-            sx={{
-              marginTop: "25px",
-              background: "green",
-              color: "white",
-              borderRadius:'15px',
-            }}
-          >
-            <AddIcon />
-            Add Custom Fields
-          </Button>
-          <CommonTable customAssetFields={customAssetData} />
-
-          {openAddAsset && 
-              <AddCustomAssetFields
-            open={openAddAsset}
-              setOpen={setOpenAddAsset}
-            />
-            }
-             <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
         <Button
+          onClick={() => setOpenAddAsset(true)}
           sx={{
-            background: '#388e3c',
+            margin: '25px 0',
+            background: 'green',
             color: 'white',
-            '&:hover': { background: '#388e3B' },
-            borderRadius: '10px',
+            borderRadius: '15px',
           }}
-          disabled={activeTab === 0}
-          onClick={handleBack}
         >
-          Back
+          <AddIcon />
+          Add Custom Fields
         </Button>
-        <Button
-          sx={{
-            background: '#FABC1E',
-            color: 'black',
-            '&:hover': { background: '#E1A91B' },
-            borderRadius: '10px',
-          }}
-          onClick={handleNext}
-        >
-          Continue
-        </Button>
-      </Box>
-          </Box>
-     
-      
-    </AppView>
-  );
-};
+        <CommonTable customAssetFields={assetCustomDatabase} />
 
-export default DataBaseAsset;
+        {openAddAsset && (
+          <AddCustomAssetFields open={openAddAsset} setOpen={setOpenAddAsset} />
+        )}
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+          <Button
+            sx={{
+              background: '#388e3c',
+              color: 'white',
+              '&:hover': { background: '#388e3B' },
+              borderRadius: '10px',
+            }}
+            disabled={activeTab === 0}
+            onClick={handleBack}
+          >
+            Back
+          </Button>
+          <Button
+          type='submit'
+            sx={{
+              background: '#FABC1E',
+              color: 'black',
+              '&:hover': { background: '#E1A91B' },
+              borderRadius: '10px',
+            }}
+            
+          >
+            Continue
+          </Button>
+        </Box>
+      </Box>
+    </AppForm>
+  )
+}
+
+export default DataBaseAsset

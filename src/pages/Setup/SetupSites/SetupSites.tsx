@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 import {
   Box,
@@ -116,7 +115,7 @@ const SetupSites: React.FC = ({}) => {
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
           gap: '5px',
-          p:1,
+          p: 1,
         }}
       >
         <Box
@@ -135,25 +134,21 @@ const SetupSites: React.FC = ({}) => {
             sx={{ flexGrow: 1, paddingTop: '10px', paddingBottom: '10px' }}
           >
             <Grid xs={4}>
-            
               <Box
                 sx={{
                   textAlign: { xs: 'center', md: 'left' },
-                  
                 }}
               >
                 <Typography
-                sx={{ 
-                  fontSize: '20px',
-                fontWeight: 500,
-                lineHeight: '30px',
-                textAlign: { xs: 'center', md: 'left' },
-                whiteSpace: 'nowrap',
-                justifyContent:'center',
-                mt: 0,
-                  
-                }}
-
+                  sx={{
+                    fontSize: '20px',
+                    fontWeight: 500,
+                    lineHeight: '30px',
+                    textAlign: { xs: 'center', md: 'left' },
+                    whiteSpace: 'nowrap',
+                    justifyContent: 'center',
+                    mt: 0,
+                  }}
                 >
                   <TuneOutlinedIcon
                     style={{ fontSize: '1.1rem', color: '#FBC12E' }}
@@ -178,70 +173,65 @@ const SetupSites: React.FC = ({}) => {
                   }}
                 >
                   <Button
-                     sx={{
+                    sx={{
                       background: '#388e3c',
                       '&:hover': {
-                      backgroundColor: "#4caf50",
-                    },
+                        backgroundColor: '#4caf50',
+                      },
                       borderRadius: '15px',
                       color: 'white',
                     }}
                     onClick={() => setOpen(true)}
                   >
-                    <AddIcon  style={{color:'white'}}/>
+                    <AddIcon style={{ color: 'white' }} />
                     Add New Site
                   </Button>
 
-
                   {matchedSelected.length > 0 && (
-          <Button
-          onClick={()=>handleDeleteClick}
-            autoFocus
-              variant="solid"
-            sx={{
-              fontSize: '15px',
-              background: '#d32f2f',
-              width: { xs: '100%', sm: 'auto', md: '150px' },
-              display: 'flex',
-              justifyContent: { md: 'flex-end', xs: 'center' },
-              marginLeft: 'none',
-              border: '1px solid red',
-              padding: '.2rem .5rem',
-              borderRadius: '40px',
-            }}
-          >
-            <DeleteForeverIcon />
-            Delete Site
-          </Button>
-        )}
+                    <Button
+                      onClick={() => handleDeleteClick}
+                      autoFocus
+                      variant="solid"
+                      sx={{
+                        fontSize: '15px',
+                        background: '#d32f2f',
+                        width: { xs: '100%', sm: 'auto', md: '150px' },
+                        display: 'flex',
+                        justifyContent: { md: 'flex-end', xs: 'center' },
+                        marginLeft: 'none',
+                        border: '1px solid red',
+                        padding: '.2rem .5rem',
+                        borderRadius: '40px',
+                      }}
+                    >
+                      <DeleteForeverIcon />
+                      Delete Site
+                    </Button>
+                  )}
                   <Button
-                   sx={{
-                    background: 'black',
-                    borderRadius: '15px',
-                    color: 'white',
-                    '&:hover': { background: "#616161" },
-                  }}
+                    sx={{
+                      background: 'black',
+                      borderRadius: '15px',
+                      color: 'white',
+                      '&:hover': { background: '#616161' },
+                    }}
                   >
-                    <PublishOutlinedIcon
-                    style={{color:'white'}}
-                    />
+                    <PublishOutlinedIcon style={{ color: 'white' }} />
                     Import Sites
                   </Button>
                 </ButtonGroup>
               </React.Fragment>
             </Grid>
           </Grid>
-        
         </Box>
         <Divider />
         <Box sx={{ marginTop: '5px', padding: '10px', fontSize: '14px' }}>
           <Typography>
-        AssetTiger allows you to enter multiple
-            Sites. For example, the Site may
-            be a building or address. This means that you can better track each
-            asset that is assigned to a given Site. A detailed
-          Site makes it easy to find and count each asset.
-            </Typography>
+            AssetTiger allows you to enter multiple Sites. For example, the Site
+            may be a building or address. This means that you can better track
+            each asset that is assigned to a given Site. A detailed Site makes
+            it easy to find and count each asset.
+          </Typography>
         </Box>
         <Divider />
 
@@ -280,7 +270,7 @@ const SetupSites: React.FC = ({}) => {
               }}
               required
             > */}
-              {/* <Option value="10">10</Option>
+            {/* <Option value="10">10</Option>
                 <Option value="9">9</Option>
                 <Option value="8">8</Option> */}
             {/* </Select> */}
@@ -363,7 +353,13 @@ const SetupSites: React.FC = ({}) => {
               >
                 <thead>
                   <tr>
-                    <th style={{ width: 35, background: '#fff8e6', verticalAlign:"middle"}}>
+                    <th
+                      style={{
+                        width: 35,
+                        background: '#fff8e6',
+                        verticalAlign: 'middle',
+                      }}
+                    >
                       <Checkbox
                         size="sm"
                         indeterminate={
@@ -387,16 +383,117 @@ const SetupSites: React.FC = ({}) => {
                         }}
                       />
                     </th>
-                    <th style={{ background: '#fff8e6', fontSize:"14px", verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal'}}>Site</th>
-                    <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Description</th>
-                    <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Address</th>
-                    <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Apt. / Suite</th>
-                    <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>City</th>
-                    <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>State</th>
-                    <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Zip Code</th>
-                    <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Country</th>
-                    <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Edit</th>
-                    <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}> Delete</th>
+                    <th
+                      style={{
+                        background: '#fff8e6',
+                        fontSize: '14px',
+                        verticalAlign: 'middle',
+                        wordBreak: 'break-word',
+                        whiteSpace: 'normal',
+                      }}
+                    >
+                      Site
+                    </th>
+                    <th
+                      style={{
+                        wordBreak: 'break-word',
+                        whiteSpace: 'normal',
+                        background: '#fff8e6',
+                        verticalAlign: 'middle',
+                        fontSize: '14px',
+                      }}
+                    >
+                      Description
+                    </th>
+                    <th
+                      style={{
+                        wordBreak: 'break-word',
+                        whiteSpace: 'normal',
+                        background: '#fff8e6',
+                        verticalAlign: 'middle',
+                        fontSize: '14px',
+                      }}
+                    >
+                      Address
+                    </th>
+                    <th
+                      style={{
+                        wordBreak: 'break-word',
+                        whiteSpace: 'normal',
+                        background: '#fff8e6',
+                        verticalAlign: 'middle',
+                        fontSize: '14px',
+                      }}
+                    >
+                      Apt. / Suite
+                    </th>
+                    <th
+                      style={{
+                        wordBreak: 'break-word',
+                        whiteSpace: 'normal',
+                        background: '#fff8e6',
+                        verticalAlign: 'middle',
+                        fontSize: '14px',
+                      }}
+                    >
+                      City
+                    </th>
+                    <th
+                      style={{
+                        wordBreak: 'break-word',
+                        whiteSpace: 'normal',
+                        background: '#fff8e6',
+                        verticalAlign: 'middle',
+                        fontSize: '14px',
+                      }}
+                    >
+                      State
+                    </th>
+                    <th
+                      style={{
+                        wordBreak: 'break-word',
+                        whiteSpace: 'normal',
+                        background: '#fff8e6',
+                        verticalAlign: 'middle',
+                        fontSize: '14px',
+                      }}
+                    >
+                      Zip Code
+                    </th>
+                    <th
+                      style={{
+                        wordBreak: 'break-word',
+                        whiteSpace: 'normal',
+                        background: '#fff8e6',
+                        verticalAlign: 'middle',
+                        fontSize: '14px',
+                      }}
+                    >
+                      Country
+                    </th>
+                    <th
+                      style={{
+                        wordBreak: 'break-word',
+                        whiteSpace: 'normal',
+                        background: '#fff8e6',
+                        verticalAlign: 'middle',
+                        fontSize: '14px',
+                      }}
+                    >
+                      Edit
+                    </th>
+                    <th
+                      style={{
+                        wordBreak: 'break-word',
+                        whiteSpace: 'normal',
+                        background: '#fff8e6',
+                        verticalAlign: 'middle',
+                        fontSize: '14px',
+                      }}
+                    >
+                      {' '}
+                      Delete
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -411,16 +508,78 @@ const SetupSites: React.FC = ({}) => {
                             color="primary"
                           />
                         </td>
-                        <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.siteName}</td>
+                        <td
+                          style={{
+                            wordBreak: 'break-word',
+                            whiteSpace: 'normal',
+                            textAlign: 'left',
+                          }}
+                        >
+                          {site.siteName}
+                        </td>
                         <td>{site.description}</td>
-                        <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.address}</td>
-                        <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.aptSuite}</td>
-                        <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.city}</td>
-                        <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.state}</td>
-                        <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.zipCode}</td>
-                        <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>{site.country}</td>
+                        <td
+                          style={{
+                            wordBreak: 'break-word',
+                            whiteSpace: 'normal',
+                            textAlign: 'left',
+                          }}
+                        >
+                          {site.address}
+                        </td>
+                        <td
+                          style={{
+                            wordBreak: 'break-word',
+                            whiteSpace: 'normal',
+                            textAlign: 'left',
+                          }}
+                        >
+                          {site.aptSuite}
+                        </td>
+                        <td
+                          style={{
+                            wordBreak: 'break-word',
+                            whiteSpace: 'normal',
+                            textAlign: 'left',
+                          }}
+                        >
+                          {site.city}
+                        </td>
+                        <td
+                          style={{
+                            wordBreak: 'break-word',
+                            whiteSpace: 'normal',
+                            textAlign: 'left',
+                          }}
+                        >
+                          {site.state}
+                        </td>
+                        <td
+                          style={{
+                            wordBreak: 'break-word',
+                            whiteSpace: 'normal',
+                            textAlign: 'left',
+                          }}
+                        >
+                          {site.zipCode}
+                        </td>
+                        <td
+                          style={{
+                            wordBreak: 'break-word',
+                            whiteSpace: 'normal',
+                            textAlign: 'left',
+                          }}
+                        >
+                          {site.country}
+                        </td>
                         <td>
-                          <div style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>
+                          <div
+                            style={{
+                              wordBreak: 'break-word',
+                              whiteSpace: 'normal',
+                              textAlign: 'left',
+                            }}
+                          >
                             <Button
                               aria-label="edit"
                               onClick={() => handleEditClick(site)}
@@ -432,7 +591,7 @@ const SetupSites: React.FC = ({}) => {
                                 display: 'flex',
                                 justifyContent: {
                                   md: 'flex-end',
-                                  xs:'center'
+                                  xs: 'center',
                                 },
                                 marginLeft: 'none',
                                 border: '1px solid green ',
@@ -441,7 +600,7 @@ const SetupSites: React.FC = ({}) => {
                                   color: 'white',
                                   background: 'green',
                                 },
-                                padding: ".15rem .50rem"
+                                padding: '.15rem .50rem',
                               }}
                             >
                               <EditIcon sx={{ fontSize: '14px' }} />
@@ -449,7 +608,13 @@ const SetupSites: React.FC = ({}) => {
                             </Button>
                           </div>
                         </td>
-                        <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>
+                        <td
+                          style={{
+                            wordBreak: 'break-word',
+                            whiteSpace: 'normal',
+                            textAlign: 'left',
+                          }}
+                        >
                           <Button
                             aria-label="delete"
                             onClick={() => handleDeleteClick(site)}
@@ -460,7 +625,7 @@ const SetupSites: React.FC = ({}) => {
                               // display: 'inline-flex',
                               display: 'flex',
                               justifyContent: { md: 'flex-end', xs: 'center' },
-                              
+
                               marginLeft: 'none',
                               border: '1px solid red ',
                               borderRadius: '10px',
@@ -468,7 +633,7 @@ const SetupSites: React.FC = ({}) => {
                                 color: 'white',
                                 background: '#d32f2f',
                               },
-                              padding: ".5rem .35rem"
+                              padding: '.5rem .35rem',
                             }}
                           >
                             <DeleteIcon sx={{ fontSize: '14px' }} />
@@ -492,7 +657,7 @@ const SetupSites: React.FC = ({}) => {
       </Box>
       <AddSite
         open={open}
-        handleClose={  handleClose}
+        handleClose={handleClose}
         onSave={(newSite: Site) => {
           setOpen(false)
         }}
