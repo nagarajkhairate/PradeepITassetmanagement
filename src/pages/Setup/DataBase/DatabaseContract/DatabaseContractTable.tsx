@@ -8,12 +8,13 @@ import { RootState } from '../../../../redux/store'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
 import { Contract, contractData, customContract } from './ContractData'
 import AddIcon from '@mui/icons-material/Add'
-import AddDialogContract from './AddDialogContract'
+import AddDialogContract from './AddCustomContract'
 import ContractFieldsAddingTable from './ContractFieldsAddingTable'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchContractDatabase, updateContractDatabase } from '../../../../redux/features/ContractDatabaseSlice'
 import { ThunkDispatch } from 'redux-thunk'
 import { fetchContractCustomDatabase } from '../../../../redux/features/ContractCustomDatabaseSlice'
+import AddCustomContract from './AddCustomContract'
 
 
 
@@ -22,16 +23,6 @@ const DatabaseContractTable: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const contractDatabase = useSelector((state: RootState) => state.contractDatabase.data)
   const contractCustomDatabase = useSelector((state: RootState) => state.contractCustomDatabase.data)
-
-  React.useEffect(() => {
-    dispatch(fetchContractDatabase())
-  }, [])
-
-
-  React.useEffect(() => {
-    dispatch(fetchContractCustomDatabase())
-  }, [])
-
 
   const [openAddContract, setOpenAddContract] = useState(false);
   const [contractDataBases, setContractDataBases] = useState(contractData)
@@ -60,6 +51,15 @@ const DatabaseContractTable: React.FunctionComponent = () => {
     console.log(contractDataBases)
     dispatch(updateContractDatabase(contractDatabase))
   }
+
+  React.useEffect(() => {
+    dispatch(fetchContractDatabase())
+  }, [dispatch])
+
+
+  React.useEffect(() => {
+    dispatch(fetchContractCustomDatabase())
+  }, [!openAddContract])
 
 
   return (
@@ -298,18 +298,15 @@ const DatabaseContractTable: React.FunctionComponent = () => {
           </Button>
 
           {openAddContract && (
-            <AddDialogContract
+            <AddCustomContract
               open={openAddContract}
               setOpen={setOpenAddContract}
             />
           )}
 
-          <Divider sx={{ my: 2 }} />
           <ContractFieldsAddingTable contractDataBases={contractCustomDatabase} />
         </Box>
 
-
-        <Divider sx={{ marginTop: '3%' }} />
         <DatabaseButtons
           onCancel={() => handleCancel()}
           onSubmit={() => handleSubmit()}

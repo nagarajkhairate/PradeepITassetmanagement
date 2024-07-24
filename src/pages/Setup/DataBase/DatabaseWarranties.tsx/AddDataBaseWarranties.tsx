@@ -19,7 +19,7 @@ import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
-import AddWarrantiesData from './AddWarrantiesData'
+import AddWarrantiesData from './AddCustomWarranties'
 
 
 interface DataAddProps {

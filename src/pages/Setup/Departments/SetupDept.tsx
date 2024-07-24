@@ -30,6 +30,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addDepartment, fetchDepartment } from '../../../redux/features/DepartmentSlice'
 import SetupDeleteDept from './SetupDeleteDept'
 import { RootState } from '../../../redux/store'
+import { GridDeleteForeverIcon } from '@mui/x-data-grid'
 
 const SetupDept: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -161,7 +162,7 @@ const SetupDept: React.FunctionComponent = () => {
               }}
               onClick={handleClickOpen}
             >
-              <AddIcon /> Add New dept
+              <AddIcon /> Add New department
             </Button>
 
             {matchedSelected.length > 0 && (
@@ -169,24 +170,22 @@ const SetupDept: React.FunctionComponent = () => {
             onClick={handleDeleteOpen}
             autoFocus
               variant="solid"
-            sx={{
-              fontSize: '13px',
-              // background: '#ffffff',
-              borderRadius: '15px',
-              background: '#d32f2f',
-              '&:hover': {
-                backgroundColor: "#e57373",
-              },
-              display: 'flex',
-              justifyContent: { md: 'flex-end', xs: 'center' },
-              marginLeft: 'none',
-              border: '1px solid red',
-              
-              padding: '.5rem .10rem',
-            }}
+              sx={{
+                // fontSize: '13px',
+                borderRadius: '15px',
+                background: '#d32f2f',
+                '&:hover': {
+                  backgroundColor: "#e57373",
+                },
+                display: 'flex',
+                justifyContent: { md: 'flex-end', xs: 'center' },
+                // marginLeft: 'none',
+                // border: '1px solid red',
+                padding: '.30rem .55rem',
+              }}
           >
-            {/* <DeleteForeverIcon sx={{ fontSize: '15px' }} /> */}
-            Delete Categories
+            <GridDeleteForeverIcon sx={{ fontSize: '15px' }} />
+            Delete Department
           </Button>
         )}
 
@@ -236,7 +235,7 @@ const SetupDept: React.FunctionComponent = () => {
                 flexDirection: { xs: 'column', md: 'row' },
               }}
             >
-              <Select
+              {/* <Select
                 placeholder="10"
                 sx={{
                   alignItems: 'center',
@@ -257,8 +256,8 @@ const SetupDept: React.FunctionComponent = () => {
                 }}
               >
                 Department
-              </FormLabel>
-            </FormControl>
+              </FormLabel> */}
+            </FormControl> 
 
             <Box
               sx={{

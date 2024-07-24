@@ -219,7 +219,18 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
             </FormControl>
           </Grid>
         </Grid>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+
+
+        <Box 
+ sx={{
+  display: 'flex',
+  alignItems: 'center',
+  flexDirection: { md: 'row'},
+  justifyContent: { xs: 'space-between', md: 'flex-end' },
+  gap: '5px',
+  mt: 4,
+  flexWrap:'wrap'
+}}        >
           <Button
             onClick={() => setOpen(false)}
             sx={{

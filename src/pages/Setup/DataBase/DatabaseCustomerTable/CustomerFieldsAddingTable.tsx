@@ -149,7 +149,7 @@ interface CustomerTableProps {
                         color: 'white',
                         background: '#d32f2f',
                       },
-                      padding: '.5rem .10rem',
+                      padding: '.5rem .55rem',
                     }}
 
                     onClick={()=>handleDeleteOpen(item)}

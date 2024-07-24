@@ -16,23 +16,15 @@ import {
   updateEmpDatabase,
 } from '../../../../redux/features/EmpDatabaseSlice'
 import AddIcon from '@mui/icons-material/Add'
-import AddDialogEmployee from './AddDialogEmployee'
 import EmployeeFieldsAddingTable from './EmployeeFieldsAddingTable'
 import { fetchEmpCustomDatabase } from '../../../../redux/features/EmpCustomDatabseSlice'
+import AddDatabaseCustomEmployee from './AddDatabaseCustomEmployee'
 
 const DataBaseEmp: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
   const empDatabase = useSelector((state: RootState) => state.empDatabase.data)
   const empCustomDatabase = useSelector((state: RootState) => state.empCustomDatabase.data)
-
-  useEffect(() => {
-    dispatch(fetchEmpDatabase())
-  }, [])
-  
-  useEffect(() => {
-    dispatch(fetchEmpCustomDatabase())
-  }, [])
 
   console.log(empCustomDatabase)
   const [empDataBases, setEmpDataBases] = useState(empData)
@@ -60,6 +52,14 @@ const DataBaseEmp: React.FunctionComponent = () => {
     // console.log(empDatabase)
     dispatch(updateEmpDatabase(empDatabase))
   }
+
+  useEffect(() => {
+    dispatch(fetchEmpDatabase())
+  }, [dispatch])
+  
+  useEffect(() => {
+    dispatch(fetchEmpCustomDatabase())
+  }, [!openAddEmployee])
 
   return (
     <AppView>
@@ -131,7 +131,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
                 <tr>
                   <th
                     style={{
-                      width: 30,
+                      width: 40,
                       background: '#fff8e6',
                       verticalAlign: 'middle',
                     }}
@@ -326,7 +326,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
           </Button>
 
           {openAddEmployee && (
-            <AddDialogEmployee
+            <AddDatabaseCustomEmployee
               open={openAddEmployee}
               setOpen={setOpenAddEmployee}
             />

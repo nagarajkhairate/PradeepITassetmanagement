@@ -2,16 +2,16 @@ import { Box, Button, Table } from "@mui/joy"
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { useState } from "react"
-import EditModalDatabaseMaintenance from "./EditModelDatabaseMaintenance"
+import EditModalDatabaseMaintenance from "./EditModelCustomMaintenance"
 import { useSelector } from "react-redux"
 import { RootState } from "../../../../redux/store"
+import EditModalCustomMaintenance from "./EditModelCustomMaintenance"
 
 interface CustomerTableProps {
     maintenanceDataBases: any[]
   }
 
   const MaintenanceFieldsAddingTable: React.FC<CustomerTableProps> = ({maintenanceDataBases}) => {
-    const components = useSelector((state: RootState) => state.components.data)
 
     const [openAddMaintenance, setOpenAddMaintenance] = useState(false)
     const [selectedItem, setSelectedItem] = useState(null)
@@ -31,7 +31,8 @@ interface CustomerTableProps {
           overflowX: 'auto',
           fontSize: '14px',
           whiteSpace: 'nowrap',
-          borderRadius: '5px',
+          borderRadius: '10px',
+          mt:3
         }}
       >
         <Table
@@ -42,6 +43,7 @@ interface CustomerTableProps {
           border: '1px solid grey',
           minWidth: '500px',
           borderRadius: '5px',
+          
         }}
       >
         <thead>
@@ -143,7 +145,7 @@ interface CustomerTableProps {
       </Table>
 
       {openAddMaintenance && (
-        <EditModalDatabaseMaintenance
+        <EditModalCustomMaintenance
           open={openAddMaintenance}
           setOpen={setOpenAddMaintenance}
           selectedItem={selectedItem}

@@ -75,20 +75,6 @@ export function SetupEditDept({
     // console.log(JSON.stringify(editOpen))
   }
 
-  // const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   const departmentName = (e.target as any).departmentName.value;
-  //   if (selectedCell !== null) {
-  //     const updatedData = depart.data.map((item, index) =>
-  //       index === selectedCell ? {...item, departmentName} : item
-  //     );
-  //     setDepart({ ...depart, data: updatedData });
-  //     handleEditClose();
-  //     dispatch(updateDepartment(updatedData))
-  //     // onDeptChange(updatedData);
-  //   }
-  // };
-
   const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (selectedDepartment !== null) {
@@ -110,24 +96,6 @@ export function SetupEditDept({
     setSelectedCell(index)
     handleDeleteOpen()
   }
-
-  // const handleDeleteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   const updatedData = depart.data.filter((_, index) => index !== selectedCell);
-  //   setDepart({ ...depart, data: updatedData });
-  //   setMatchedSelected([]);
-  //   setDeleteOpen(false); // Close the delete dialog after deletion
-  //   // onDeptChange(updatedData);
-  // };
-
-  // const handleDeleteOpen = () => {
-  //   setDeleteOpen(true);
-  // };
-
-  // const handleDeleteClose = () => {
-  //   setDeleteOpen(false);
-  //   setMatchedSelected([]);
-  // };
 
   useEffect(() => {
     setSelectedCell(null)
@@ -302,14 +270,15 @@ export function SetupEditDept({
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            p:2
           }}
         >
           <Sheet
             variant="outlined"
             sx={{
-              maxWidth: 500,
+              // maxWidth: 500,
               borderRadius: 'md',
-              p: 3,
+              p: 2,
               boxShadow: 'lg',
             }}
           >
@@ -342,7 +311,7 @@ export function SetupEditDept({
                     id="departmentName"
                     name="departmentName"
                     required
-                    sx={{ width: '70%', marginLeft: '10px' }}
+                    sx={{  marginLeft: '10px' }}
                     defaultValue={
                       selectedDepartment
                         ? selectedDepartment.departmentName
@@ -364,6 +333,19 @@ export function SetupEditDept({
                   }}
                 >
                   <Button
+                    type="button"
+                    onClick={handleEditClose}
+                    autoFocus
+                    variant="solid"
+                    sx={{
+                      background: 'black',
+                      color: 'white',
+                      '&:hover': { background: "#424242" },
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
                     autoFocus
                     type="submit"
                     variant="solid"
@@ -376,19 +358,7 @@ export function SetupEditDept({
                     Update
                   </Button>
 
-                  <Button
-                    type="button"
-                    onClick={handleEditClose}
-                    autoFocus
-                    variant="solid"
-                    sx={{
-                      background: 'black',
-                      color: 'white',
-                      '&:hover': { background: 'black' },
-                    }}
-                  >
-                    Cancel
-                  </Button>
+                  
                 </Box>
               </AppForm>
             </div>

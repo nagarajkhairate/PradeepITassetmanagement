@@ -23,8 +23,10 @@ import {
 } from '../../../../redux/features/AssetDatabaseSlice'
 import { fetchAssetCustomDatabase } from '../../../../redux/features/AssetCustomDatabaseSlice'
 import AddIcon from '@mui/icons-material/Add'
-import AddDialogData from './AddDialogData'
-import AssetDbFieldsAddingTable from './AssetDbFieldsAddingTable'
+import AddDialogData from './AddCustomAsset'
+import AssetDbFieldsAddingTable from './AssetFieldsAddingTable'
+import AddCustomAsset from './AddCustomAsset'
+import AssetFieldsAddingTable from './AssetFieldsAddingTable'
 
 const DataBaseAsset: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -348,19 +350,19 @@ const DataBaseAsset: React.FunctionComponent = () => {
         </Box>
 
         {openAddAsset && (
-          <AddDialogData open={openAddAsset} setOpen={setOpenAddAsset} />
+          <AddCustomAsset open={openAddAsset} setOpen={setOpenAddAsset} />
         )}
 
-        <AssetDbFieldsAddingTable
+        <AssetFieldsAddingTable
           assetDataForm={assetCustomDatabase}
-          // setCustomerDataBases={setCustomerDataBases}
         />
-      </Box>
 
-      <DatabaseButtons
+
+<DatabaseButtons
         onCancel={() => handleCancel()}
         onSubmit={() => handleSubmit()}
       />
+      </Box>
     </AppView>
   )
 }

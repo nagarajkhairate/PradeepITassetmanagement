@@ -1,41 +1,37 @@
 import { Box, Button, Divider, FormControl, FormLabel, Input, Modal, Option, Radio, RadioGroup, Select, Sheet, Typography } from "@mui/joy"
 import AppForm from "../../../../components/Common/AppForm"
-import React, { ChangeEvent, useEffect, useState } from "react"
+import React, { ChangeEvent, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
-import { fetchCustomerCustomDatabaseById, updateCustomerCustomDatabase } from "../../../../redux/features/CustomerCustomDatabaseSlice";
-import { ThunkDispatch } from "redux-thunk";
 import { fetchComponents } from "../../../../redux/features/ComponentsIdSlice";
-import { useNavigate, useParams } from "react-router-dom";
-
-
-
+import { ThunkDispatch } from "redux-thunk";
+import { updateEmpCustomDatabase } from "../../../../redux/features/EmpCustomDatabseSlice";
 
 interface EditModalProps {
+  
     open: boolean;
-  setOpen: (open: boolean) => void; 
+  setOpen: (open: boolean) => void;
   selectedItem: any;
   }
   
-  const EditModalDatabaseCustomer: React.FC<EditModalProps> = ({
-    open, setOpen, selectedItem }) => {
+  const EditModalDatabaseCustomEmployee: React.FC<EditModalProps> = ({
 
+    open, setOpen, selectedItem 
+  }) => {
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
     const components = useSelector((state: RootState) => state.components.data);
-      
-    
+
     React.useEffect(() => {
       dispatch(fetchComponents())
     }, [dispatch])
 
-    const [formData, setFormData] = useState(selectedItem);
 
-    const handleSelectChange = (event: React.SyntheticEvent | null, 
-      newValue: string | null) => {
+    const [formData, setFormData] = useState(selectedItem);
+    const handleSelectChange = (event: React.SyntheticEvent | null, newValue: string | null) => {
       setFormData((prevData:any) => ({
         ...prevData,
-        componentsId: newValue || '',
+        componentsId: newValue || "",
       }));
     };
   
@@ -46,17 +42,12 @@ interface EditModalProps {
   
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      // setFormData({
-      //   fieldName: '',
-      //   componentsId:  components.length > 0 ? components[0].id : '',
-      //   isRequired: '',
-      // });
-      dispatch(updateCustomerCustomDatabase(formData))
-   
       setOpen(false);
+      dispatch(updateEmpCustomDatabase(formData))
+      console.log(formData)
     };
 
-    console.log(formData)
+    
 return(
 
   <Modal
@@ -66,7 +57,7 @@ return(
         aria-describedby="modal-desc"
         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',p:2 }}
       >
-    <Sheet
+<Sheet
           variant="outlined"
           sx={{
             // maxWidth: 500,
@@ -82,11 +73,12 @@ return(
               level="h4"
               textColor="inherit"
               fontWeight="lg"
+              
               mb={1}
             >
-              {'Edit the Customs here'}
+              {'Edit the Custom Fields here'}
             </Typography>
-<Divider />
+            <Divider />
 
             <AppForm onSubmit={handleSubmit}>
             <FormControl
@@ -139,7 +131,7 @@ return(
               <Select
                 placeholder="Select Data Types"
                 sx={{
-                  marginLeft: { md: '18px', xs: '1px' }, // Space between label and select
+                  marginLeft: { md: '15px', xs: '6px' }, // Space between label and select
                   flexGrow: 1, // Allow select to take up remaining space
                   width: '200px', // Adjust width as needed
                 }}
@@ -170,14 +162,13 @@ return(
                 value={formData.isRequired}
                 onChange={handleChange}
                 sx={{ marginLeft: 'none' }}
-                
               >
                 <Box>
                   <Radio
                     value="yes"
                     label="Yes"
                     variant="outlined"
-                    sx={{ paddingTop: '10px', marginLeft: {md:'55px', xs:'39px'} }}
+                    sx={{ paddingTop: '10px', marginLeft: '45px' }}
                   />
                   <Radio
                     value="optional"
@@ -185,58 +176,55 @@ return(
                     variant="outlined"
                     sx={{
                       paddingTop: '20px',
-                      marginLeft: { md: '30px', xs: '10px' },
+                      marginLeft: { md: '25px', xs: '10px' },
                     }}
                   />
                 </Box>
               </RadioGroup>
             </FormControl>
-
+             
               <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: { md: 'row'},
+            justifyContent: { xs: 'space-between', md: 'flex-end' },
+            gap: '5px',
+            mt: 4,
+            flexWrap:'wrap'
+          }}
+        >
+
+<Button
+                type="button"
+                onClick={() => setOpen(false)}
+                autoFocus
+                variant="solid"
                 sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  flexDirection: { md: 'row' },
-                  justifyContent: { xs: 'space-between', md: 'flex-end' },
-                  gap: '5px',
-                  mt: 2,
-                  flexWrap: 'wrap',
-                
+                  background: 'black',
+                  '&:hover': { background: "#424242" },
+                  color: 'white',
                 }}
               >
-                <Button
-                  type="button"
-                  onClick={() => setOpen(false)}
-                  autoFocus
-                  variant="solid"
-                  sx={{
-                    background: 'black',
-                    '&:hover': { background: '#424242' },
-                    color: 'white',
-                  }}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  autoFocus
-                  type="submit"
-                  variant="solid"
-                  sx={{
-                    background: '#fdd835',
-                    '&:hover': { background: '#E1A91B' },
-                    color: 'black',
-                  }}
-                  // onChange={()=>handleSubmit}
-                >
-                  Update
-                </Button>
-
-                
+                Cancel
+              </Button>
+              <Button
+                autoFocus
+                type="submit"
+                variant="solid"
+                sx={{
+                  background: '#fdd835',
+                  '&:hover': { background: '#E1A91B' },
+                  color: 'black',
+                }}
+              >
+                Update
+              </Button>
               </Box>
             </AppForm>
           </div>
         </Sheet>
         </Modal>
-)
-}
-export default EditModalDatabaseCustomer
+        )
+    }
+    export default EditModalDatabaseCustomEmployee

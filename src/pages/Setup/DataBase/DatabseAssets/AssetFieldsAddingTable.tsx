@@ -17,7 +17,7 @@ interface AssetTableProps {
     // setCustomerDataBases:React.Dispatch<React.SetStateAction<any[]>>
   }
 
-  const AssetDbFieldsAddingTable: React.FC<AssetTableProps> = ({assetDataForm,
+  const AssetFieldsAddingTable: React.FC<AssetTableProps> = ({assetDataForm,
   }) => {
     const [openAddAsset, setOpenAddAsset] = useState(false)
     const [selectedItem, setSelectedItem] = useState<any | null>(null);
@@ -198,4 +198,4 @@ const category=useSelector((state:RootState) => state.category.data)
     )
 }
 
-export default AssetDbFieldsAddingTable
+export default AssetFieldsAddingTable

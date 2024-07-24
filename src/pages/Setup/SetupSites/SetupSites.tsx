@@ -138,7 +138,7 @@ const SetupSites: React.FC = ({}) => {
             
               <Box
                 sx={{
-                  textAlign: { xs: 'center', md: 'left' },
+                  textAlign: { xs: 'center', md: 'left',gap:2 },
                   
                 }}
               >
@@ -151,7 +151,7 @@ const SetupSites: React.FC = ({}) => {
                 whiteSpace: 'nowrap',
                 justifyContent:'center',
                 mt: 0,
-                  
+                  gap:2
                 }}
 
                 >
@@ -198,17 +198,19 @@ const SetupSites: React.FC = ({}) => {
           onClick={()=>handleDeleteClick}
             autoFocus
               variant="solid"
-            sx={{
-              fontSize: '15px',
-              background: '#d32f2f',
-              width: { xs: '100%', sm: 'auto', md: '150px' },
-              display: 'flex',
-              justifyContent: { md: 'flex-end', xs: 'center' },
-              marginLeft: 'none',
-              border: '1px solid red',
-              padding: '.2rem .5rem',
-              borderRadius: '40px',
-            }}
+              sx={{
+                // fontSize: '13px',
+                borderRadius: '15px',
+                background: '#d32f2f',
+                '&:hover': {
+                  backgroundColor: "#e57373",
+                },
+                display: 'flex',
+                justifyContent: { md: 'flex-end', xs: 'center' },
+                // marginLeft: 'none',
+                // border: '1px solid red',
+                padding: '.30rem .55rem',
+              }}
           >
             <DeleteForeverIcon />
             Delete Site
@@ -387,7 +389,7 @@ const SetupSites: React.FC = ({}) => {
                         }}
                       />
                     </th>
-                    <th style={{ background: '#fff8e6', fontSize:"14px", verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal'}}>Site</th>
+                    <th style={{ background: '#fff8e6', fontSize:"14px", verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal', width:60}}>Site</th>
                     <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Description</th>
                     <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Address</th>
                     <th style={{wordBreak: 'break-word', whiteSpace: 'normal', background: '#fff8e6' ,verticalAlign:"middle",fontSize:"14px"}}>Apt. / Suite</th>
@@ -492,24 +494,24 @@ const SetupSites: React.FC = ({}) => {
       </Box>
       <AddSite
         open={open}
-        handleClose={  handleClose}
-        onSave={(newSite: Site) => {
-          setOpen(false)
-        }}
+        setOpen={  setOpen}
+        // onSave={(newSite: Site) => {
+        //   setOpen(false)
+        // }}
       />
 
       <EditSite
         open={isEditOpen}
         onClose={() => setEditOpen(false)}
         site={selectedSite}
-        onSave={(updatedSite: Site) => {
-          const updatedSites = sites.map((site) =>
-            site === selectedSite ? updatedSite : site,
-          )
-          // setSites(updatedSites)
-          setEditOpen(false)
-          setSelectedSite(null)
-        }}
+        // onSave={(updatedSite: Site) => {
+        //   const updatedSites = sites.map((site) =>
+        //     site === selectedSite ? updatedSite : site,
+        //   )
+        //   // setSites(updatedSites)
+        //   setEditOpen(false)
+        //   setSelectedSite(null)
+        // }}
       />
 
       <DeleteSite

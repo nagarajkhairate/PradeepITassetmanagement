@@ -2,10 +2,11 @@ import { Box, Button, Table } from '@mui/joy'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { useState } from 'react'
-import EditModalEmployee from './EditModalDatabaseEmployee'
-import EditModalDatabaseEmployee from './EditModalDatabaseEmployee'
+import EditModalEmployee from './EditModalDatabaseCustomEmployee'
+import EditModalDatabaseEmployee from './EditModalDatabaseCustomEmployee'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
+import EditModalDatabaseCustomEmployee from './EditModalDatabaseCustomEmployee'
 
 interface EmployeeTableProps {
   empDataBases: any[]
@@ -126,7 +127,7 @@ const EmployeeFieldsAddingTable: React.FC<EmployeeTableProps> = ({
                         color: 'white',
                         background: '#d32f2f',
                       },
-                      padding: '.5rem .10rem',
+                      padding: '.5rem .55rem',
                     }}
                     onClick={() => handleDeleteButton}
                   >
@@ -147,7 +148,7 @@ const EmployeeFieldsAddingTable: React.FC<EmployeeTableProps> = ({
       </Table>
 
       {openAddEmployee && (
-        <EditModalDatabaseEmployee
+        <EditModalDatabaseCustomEmployee
           open={openAddEmployee}
           setOpen={setOpenAddEmployee}
           selectedItem={selectedItem}

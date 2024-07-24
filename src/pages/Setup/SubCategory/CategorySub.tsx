@@ -188,24 +188,22 @@ const CategorySub: React.FunctionComponent = () => {
             onClick={handleDeleteOpen}
             autoFocus
               variant="solid"
-            sx={{
-              fontSize: '13px',
-              // background: '#ffffff',
-              borderRadius: '15px',
-              background: '#d32f2f',
-              '&:hover': {
-                backgroundColor: "#e57373",
-              },
-              display: 'flex',
-              justifyContent: { md: 'flex-end', xs: 'center' },
-              marginLeft: 'none',
-              border: '1px solid red',
-              
-              padding: '.5rem .10rem',
-            }}
+              sx={{
+                // fontSize: '13px',
+                borderRadius: '15px',
+                background: '#d32f2f',
+                '&:hover': {
+                  backgroundColor: "#e57373",
+                },
+                display: 'flex',
+                justifyContent: { md: 'flex-end', xs: 'center' },
+                // marginLeft: 'none',
+                // border: '1px solid red',
+                padding: '.30rem .55rem',
+              }}
           >
-            {/* <DeleteForeverIcon sx={{ fontSize: '15px' }} /> */}
-            Delete Categories
+            <DeleteForeverIcon sx={{ fontSize: '15px' }} />
+            Delete SubCategories
           </Button>
         )}
 
@@ -445,20 +443,24 @@ const CategorySub: React.FunctionComponent = () => {
 
                   <td>
                     <Button onClick={()=> handleEdit(subCategories)}
-                     sx={{
-                      background: "#ffffff",
-                      color: "green",
-                      display:'flex',
-                      justifyContent:'flex-end',
-                      marginLeft:'none',
-                      border: "1px solid green ",
-                      borderRadius: "15px",
-                      "&:hover": {
-                        color: "white",
-                        background: "green",
-                      
-                      },
-                    }}
+                      sx={{
+                        fontSize: '13px',
+                        background: '#ffffff',
+                        color: 'green',
+                        display: 'flex',
+                        justifyContent: {
+                          md: 'flex-end',
+                          xs: 'center',
+                        },
+                        marginLeft: 'none',
+                        border: '1px solid green ',
+                        borderRadius: '13px',
+                        '&:hover': {
+                          color: 'white',
+                          background: 'green',
+                        },
+                        padding: ".25rem .55rem"
+                      }}
                     >
                       <EditOutlinedIcon />Edit
                     </Button>
@@ -467,18 +469,20 @@ const CategorySub: React.FunctionComponent = () => {
                   <td>  
                     <Button onClick={()=>handleDeleteOpen}
                      sx={{
-                      background: "#ffffff",
+                      fontSize: '13px',
+                      background: '#ffffff',
                       color: '#d32f2f',
-                      display:'flex',
-                      justifyContent:'flex-end',
-                      marginLeft:'none',
-                      border: "1px solid red ",
-                      borderRadius: "15px",
-                      "&:hover": {
-                        color: "white",
-                        background:'#d32f2f',
-                       
+                      display: 'flex',
+                      justifyContent: { md: 'flex-end', xs: 'center' },
+                      
+                      marginLeft: 'none',
+                      border: '1px solid red ',
+                      borderRadius: '13px',
+                      '&:hover': {
+                        color: 'white',
+                        background: '#d32f2f',
                       },
+                      padding: ".5rem .30rem"
                     }}
                     >
                       <DeleteForeverIcon />Delete

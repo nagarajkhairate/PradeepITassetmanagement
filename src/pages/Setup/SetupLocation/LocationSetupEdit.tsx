@@ -292,6 +292,20 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
             flexWrap:'wrap'
           }}
         >
+
+<Button
+                  type="button"
+                  onClick={handleEditClose}
+                  autoFocus
+                  variant="solid"
+                  sx={{
+                    background: 'black',
+                    color: 'white',
+                    '&:hover': { background: "#424242" },
+                  }}
+                >
+                  Cancel
+                </Button>
                 <Button
                   autoFocus
                   type="submit"
@@ -304,20 +318,6 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
                   }}
                 >
                   Update
-                </Button>
-
-                <Button
-                  type="button"
-                  onClick={handleEditClose}
-                  autoFocus
-                  variant="solid"
-                  sx={{
-                    background: 'black',
-                    color: 'white',
-                    '&:hover': { background: "#424242" },
-                  }}
-                >
-                  Cancel
                 </Button>
                 </Box>
               </AppForm>
