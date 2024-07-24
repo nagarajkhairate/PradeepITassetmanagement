@@ -7,20 +7,20 @@ import { CreateAccount, LoginAccount } from './routes/AllComponents';
 import checkAuth from './app/auth';
 
 const App = () => {
-  const token = checkAuth();
-console.log(token)
+  // const token = checkAuth();
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginAccount />} />
         <Route path="/register" element={<CreateAccount />} />
         <Route path="/" element={<MainLayout />}>
-          {token && routes}
+          {routes}
         </Route>
-        <Route
+        {/* <Route
           path="*"
-          // element={<Navigate to={token ? '/' : '/login'} replace />}
-        />
+          element={<Navigate to={token ? '/' : '/login'} replace />}
+        /> */}
       </Routes>
     </BrowserRouter>
   );
