@@ -27,6 +27,7 @@ const DatabaseWarranties: React.FunctionComponent = () => {
 
   const [openAddWarranties, setOpenAddWarranties] = useState(false);
   const [warrantyDataBases, setWarrantyDataBases] = useState(warrantyData)
+  const LOCAL_STORAGE_KEY = 'warrantyDataBases';
 
   useEffect(() => {
     setWarrantyDataBases(warrantyData)
@@ -35,35 +36,43 @@ const DatabaseWarranties: React.FunctionComponent = () => {
   const [allChecked, setAllChecked] = useState(false)
 
   const handleHeaderCheckboxChange = () => {
-    const newCheckedState = !allChecked
-    setAllChecked(newCheckedState)
-    const updatedForm = warrantyDataBases.map((item) => ({
+    const newCheckedState = !allChecked;
+    const updatedForm = warrantyDataBases.map(item => ({
       ...item,
-      isVisible: newCheckedState,
-    }))
-    setWarrantyDataBases(updatedForm)
-  }
+      isVisible: item.fieldName === 'Expiration Date'  ? true : newCheckedState
+    }));
+    
+    setWarrantyDataBases(updatedForm);
+    setAllChecked(newCheckedState);
+  };
   
 
-  const handleCheckboxChange = (index: number) => {
-    const updatedForm = [...warrantyDataBases]
-    updatedForm[index].isVisible = !updatedForm[index].isVisible
-    setWarrantyDataBases(updatedForm)
+  const handleCheckboxChange = (index: number, fieldName: string) => {
+    const updatedForm = [...warrantyDataBases];
+
+    if (fieldName !== 'Expiration Date' ) {
+      updatedForm[index].isVisible = !updatedForm[index].isVisible;
+    } else {
+      updatedForm[index].isVisible = true;
+    }
+    setWarrantyDataBases(updatedForm);
   
-    // Update header checkbox state
-    const allChecked = updatedForm.every((item) => item.isVisible)
-    setAllChecked(allChecked)
-  }
+    const allChecked = updatedForm
+    .filter(item=> item.fieldName !== 'Expiration Date')
+    .every(item => item.isVisible);
+    setAllChecked(allChecked);
+  };
   
-  // const handleCheckboxChange = (index: number) => {
-  //   const updatedForm = [...warrantyDataBases]
-  //   updatedForm[index].isVisible = !updatedForm[index].isVisible
-  //   setWarrantyDataBases(updatedForm)
-  // }
 
   const handleRadioChange = (index: number, value: string) => {
-    const updatedForm = [...warrantyDataBases]
-    updatedForm[index].isRequired = value
+    const updatedForm = [...warrantyDataBases];
+
+    if(warrantyDataBases[index].fieldName === 'Asset Tag ID'){
+      updatedForm[index].isRequired='yes'; 
+    }
+    else{
+      updatedForm[index].isRequired = value
+    }
     setWarrantyDataBases(updatedForm)
   }
 
@@ -82,6 +91,19 @@ const DatabaseWarranties: React.FunctionComponent = () => {
   useEffect(() => {
     dispatch(fetchWarrantiesCustomDatabase())
   }, [!openAddWarranties])
+
+  useEffect(() => {
+    const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (storedData) {
+      setWarrantyDataBases(JSON.parse(storedData));
+    } else {
+      setWarrantyDataBases(warrantyData); 
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(warrantyDataBases));
+  }, [warrantyDataBases]);
 
   return (
     <AppView>
@@ -193,7 +215,7 @@ const DatabaseWarranties: React.FunctionComponent = () => {
                       <td>
                         <Checkbox
                           checked={opt.isVisible || false}
-                          onChange={() => handleCheckboxChange(index)}
+                          onChange={() => handleCheckboxChange(index, data.fieldName)}
                         />
                       </td>
                       <td
@@ -203,7 +225,14 @@ const DatabaseWarranties: React.FunctionComponent = () => {
                           textAlign: 'left',
                         }}
                       >
-                        {data.fieldName}
+                         {data.fieldName === 'Expiration Date' ? (
+                          <>
+                            {data.fieldName}{'  '}
+                            <span style={{ color: 'red',fontSize:'1.2rem' }}>*</span>
+                          </>
+                        ) : (
+                          data.fieldName
+                        )}
                       </td>
                       <td
                         style={{
@@ -243,6 +272,7 @@ const DatabaseWarranties: React.FunctionComponent = () => {
                                 />
                                 Yes
                               </FormControl>
+                              {opt.fieldName !== 'Expiration Date' &&(
                               <FormControl
                                 key={`${index}-optional`}
                                 disabled={!opt.isVisible}
@@ -263,6 +293,7 @@ const DatabaseWarranties: React.FunctionComponent = () => {
                                 />
                                 Optional
                               </FormControl>
+                              )}
                             </RadioGroup>
                           </FormControl>
                         )}

@@ -4,9 +4,11 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { useState } from 'react'
 import EditModalEmployee from './EditModalDatabaseCustomEmployee'
 import EditModalDatabaseEmployee from './EditModalDatabaseCustomEmployee'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
 import EditModalDatabaseCustomEmployee from './EditModalDatabaseCustomEmployee'
+import { ThunkDispatch } from 'redux-thunk'
+import { deleteEmpCustomDatabase } from '../../../../redux/features/EmpCustomDatabseSlice'
 
 interface EmployeeTableProps {
   empDataBases: any[]
@@ -15,10 +17,10 @@ interface EmployeeTableProps {
 const EmployeeFieldsAddingTable: React.FC<EmployeeTableProps> = ({
   empDataBases,
 }) => {
-  console.log(empDataBases)
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [openAddEmployee, setOpenAddEmployee] = useState(false)
   const [selectedItem, setSelectedItem] = useState(null)
-
+  const [isDelete, setIsDelete]=useState(false)
   const components = useSelector((state: RootState) => state.components.data)
 
   const handleEdit = (item: any) => {
@@ -26,8 +28,9 @@ const EmployeeFieldsAddingTable: React.FC<EmployeeTableProps> = ({
     setOpenAddEmployee(true)
   }
 
-  const handleDeleteButton = () => {
-    // Add your delete logic here
+  const handleDeleteButton = (item:any) => {
+    setIsDelete(true)
+    dispatch(deleteEmpCustomDatabase(item.id))
   }
 
   return (
@@ -37,6 +40,7 @@ const EmployeeFieldsAddingTable: React.FC<EmployeeTableProps> = ({
         fontSize: '14px',
         whiteSpace: 'nowrap',
         borderRadius: '5px',
+        mt:2
       }}
     >
       <Table
@@ -81,7 +85,7 @@ const EmployeeFieldsAddingTable: React.FC<EmployeeTableProps> = ({
                 >
                   {item.fieldName}
                 </td>
-                <td>{item.componentsId.title}</td>
+                <td>{item.componentsId}</td>
                 <td>{item.isRequired}</td>
                 <td>
                   <Button
@@ -129,7 +133,7 @@ const EmployeeFieldsAddingTable: React.FC<EmployeeTableProps> = ({
                       },
                       padding: '.5rem .55rem',
                     }}
-                    onClick={() => handleDeleteButton}
+                    onClick={() => handleDeleteButton(item)}
                   >
                     <DeleteForeverIcon sx={{ fontSize: '15px' }} />
                     Delete

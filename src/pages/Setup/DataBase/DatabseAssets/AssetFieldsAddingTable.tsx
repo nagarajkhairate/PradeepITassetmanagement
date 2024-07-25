@@ -106,11 +106,11 @@ const category=useSelector((state:RootState) => state.category.data)
                 >
                   {item.fieldName}
                 </td>
-                <td>{item.componentsId.title}</td>
+                <td>{item.componentsId}</td>
                 <td>{item.isRequired}</td>
                 <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>
 
-                {item.categoryId.categoryName}
+                {item.categoryId}
                 </td>
 
                 

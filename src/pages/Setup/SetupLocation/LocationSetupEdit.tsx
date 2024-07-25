@@ -40,7 +40,7 @@ export function LocationSetupEdit({ locationName,
   const [locData, setLocData] = useState<{ locationData: Location[] }>({locationData: [],})
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
   const [editOpen, setEditOpen] = useState<boolean>(false)
-  const [deleteOpen, setDeleteOpen] = useState<boolean>(false)
+  const [isDelete, setIsDelete] = useState<boolean>(false)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
@@ -81,9 +81,9 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
 
 
   const handleDeleteButton = (index:number) => {
+    setIsDelete(true)
     setSelectedCell(index)
-      handleDeleteOpen()
-    
+    dispatch(deleteLocation(index))
   }
 
   useEffect(() => {
@@ -93,8 +93,8 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
   const handleEdit = (index:number) => {
     setSelectedCell(index)
       handleClickEditOpen()
-    
   }
+
 
   return (
     <>
