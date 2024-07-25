@@ -6,7 +6,8 @@ import {
   Input,
   Button,
   FormLabel,
-  FormControl
+  FormControl,
+  Divider
 } from "@mui/joy";
 import { formConfig } from "./formConfig";
 import AppView from "../../components/Common/AppView";
@@ -27,6 +28,7 @@ import CategoryComponent from "../../components/AssetSections/CategoryComponent"
 import SubCategoryComponent from "../../components/AssetSections/SubCategoryComponent";
 import AssetFileField from "../../components/Common/AppFile/AssetFileField";
 import SelectOption from "../../components/AssetSections/SelectOption";
+import { fetchAssetFieldMapping } from "../../redux/features/AssetFieldMappingSlice";
 
 interface ValidationMessages {
   [key: string]: string;
@@ -42,6 +44,13 @@ const EditAnAsset: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [formData, setFormData] = useState<any>({});
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([]);
+  const assetMappings = useSelector(
+    (state: RootState) => state.assetMapping.data,
+  )
+
+  useEffect(() => {
+    dispatch(fetchAssetFieldMapping())
+  }, [dispatch])
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 const { name, value} = event.target
@@ -103,8 +112,54 @@ const { name, value} = event.target
 
     switch (field.components.type) {
       case 'text':
+        return (
+          <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+            type={field.components.type}
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleInputChange}
+              sx={{
+                 padding: '10px',
+                  display:"grid",
+              }}
+            />
+          </FormControl>
+        );
       case 'date':
+        return (
+          <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+            type={field.components.type}
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleInputChange}
+              sx={{
+                minWidth:"205px",
+                padding: '10px',
+                  display:"grid",
+              }}
+            />
+          </FormControl>
+        );
       case 'number':
+        return (
+          <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+            type={field.components.type}
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleInputChange}
+              sx={{
+                padding: '10px',
+                  display:"grid",
+              }}
+            />
+          </FormControl>
+        );
       case 'textarea':
         return (
           <FormControl>
@@ -218,7 +273,7 @@ const { name, value} = event.target
   return (
     <AppForm onSubmit={handleSubmit} encType="multipart/form-data">
       <AppView>
-        <Typography level="h3" sx={{ ml: '52px' }}>
+        <Typography level="h3" sx={{ ml: '52px',mb:"30px"  }}>
           Edit An Asset
         </Typography>
 
@@ -228,49 +283,64 @@ const { name, value} = event.target
             boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
             background: '#ffffff',
             gap: '5px',
+            paddingBottom: '30px',
           }}
         >
-          <Box sx={{ paddingBottom: '30px' }}>
-            <Box>
-              <Grid
-                container
-                spacing={1}
-                sx={{
-                  padding: '20px',
-                  display: 'flex',
-                  flexDirection: { xs: 'column', md: 'row' },
-                }}
-              >
-                <Grid xs={12}>
-                  {formConfig &&
-                    formConfig.map((group, index) => (
-                      <Grid key={index}>
-                        <Typography
-                          sx={{
-                            fontWeight: 'bold',
-                            mb: 0,
-                            paddingLeft: '32px',
-                          }}
+        <Box
+          sx={{
+            padding: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          {assetMappings &&
+            assetMappings.map((group, index) => (
+              <Grid key={index} xs={12}>
+                <Typography
+                  sx={{
+                    fontWeight: 'bold',
+                    mb: '20px',
+                    mt: '10px',
+                    paddingLeft: '20px',
+                  }}
+                >
+                  {group.title}
+                </Typography>
+                <Grid container spacing={2} sx={{padding:"20px"}}>
+                  {group.fields &&
+                    group.fields.map((field, index) => {
+                      let styleData = { xs: 12, sm: 6, md: 4, lg: 3 } // Default values
+                      try {
+                        styleData = JSON.parse(
+                          field.styling.replace(/(\w+):/g, '"$1":'),
+                        )
+                      } catch (error) {
+                        console.error('Error parsing JSON:', error)
+                      }
+                      return (
+                        <Grid
+                          key={index}
+                          xs={styleData.xs}
+                          md={styleData.md}
+                          sm={styleData.sm}
+                          lg={styleData.lg}
                         >
-                          {group.title}
-                        </Typography>
-
-                        {group.fields &&
-                          group.fields.map((field, index) => (
-                            <Grid key={index}>
-                              {handleInputValue(
-                                field,
-                                formData,
-                                handleInputChange,
-                                handleSelectChange,
-                                handleFileChange
-                              )}
-                            </Grid>
-                          ))}
-                      </Grid>
-                    ))}
+                          {handleInputValue(
+                            field,
+                            formData,
+                            handleInputChange,
+                            handleSelectChange,
+                            handleFileChange,
+                          )}
+                        </Grid>
+                      )
+                    })}
                 </Grid>
+                <Divider sx={{ mt: '20px' }} />
               </Grid>
+            ))}
+        </Box>
+            
 
               <Box
                 sx={{
@@ -286,12 +356,12 @@ const { name, value} = event.target
                 }}
               >
                 <Button
-                  size="lg"
+                  size="md"
                   type="submit"
                   sx={{
                     color: '#000000',
                     borderRadius: '15px',
-                    padding: '18px 70px',
+                  
                     background: '#FABC1E',
                     '&:hover': {
                       background: '#e0a71b',
@@ -301,11 +371,10 @@ const { name, value} = event.target
                   Save
                 </Button>
                 <Button
-                  size="lg"
-                  onClick={() => navigate('/assets')}
+                  size="md"
+                  onClick={() => navigate('/assets/list-of-assets')}
                   sx={{
                     borderRadius: '15px',
-                    padding: '18px 70px',
                     background: '#000000',
                     '&:hover': {
                       background: '#333333',
@@ -316,8 +385,6 @@ const { name, value} = event.target
                 </Button>
               </Box>
             </Box>
-          </Box>
-        </Box>
       </AppView>
     </AppForm>
   );

@@ -22,12 +22,19 @@ interface InputFieldProps {
   formData: any;
   handleFileChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
+const baseUrl = process.env.REACT_APP_BASE_MAIN_URL || '';
 
 const AssetFileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, handleFileChange }) => {
   const [imagePreview, setImagePreview] = React.useState<string | null>(null);
   const [fileName, setFileName] = React.useState<string | null>(null);
   const [isDragging, setIsDragging] = React.useState<boolean>(false);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    if (formData[field.name]) {
+      setImagePreview(`${baseUrl}/${formData[field.name]}`);
+    }
+  }, [formData, field.name]);
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -97,7 +104,7 @@ const AssetFileField: React.FunctionComponent<InputFieldProps> = ({ field, formD
   };
 
   return (
-    <FormControl sx={{ ml:"20%"}}>
+    <FormControl sx={{ mr:"10%"}}>
       <FormLabel sx={{ fontSize: '12px' }}>
         {field.title} {field.required && <span style={{ color: 'red' }}>*</span>}
       </FormLabel>
@@ -106,7 +113,7 @@ const AssetFileField: React.FunctionComponent<InputFieldProps> = ({ field, formD
           component="section"
           onClick={handleClickDropZone}
           onDrop={handleDrop}
-          onDragOver={handleDragOver}
+          onDragOver={(e) => e.preventDefault()}
           onDragEnter={handleDragEnter}
           onDragLeave={handleDragLeave}
           sx={{
@@ -161,6 +168,7 @@ const AssetFileField: React.FunctionComponent<InputFieldProps> = ({ field, formD
           )}
         </Box>
       </Box>
+      <FormHelperText>Only (<strong>JPG, GIF, PNG</strong>) Allowed</FormHelperText>
       <input
         ref={fileInputRef}
         type="file"
@@ -169,7 +177,6 @@ const AssetFileField: React.FunctionComponent<InputFieldProps> = ({ field, formD
         onChange={onFileChange}
         style={{ display: 'none' }}
       />
-      <FormHelperText>Only (<strong>JPG, GIF, PNG</strong>) Allowed</FormHelperText>
     </FormControl>
   );
 };

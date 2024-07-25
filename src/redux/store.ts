@@ -59,7 +59,7 @@ export const store = configureStore({
     tenant: AccountReducer,
     tabs: TabsReducer,
     components: componentsReducer,
-    assetFieldMapping:AssetFieldMappingReducer,
+    assetMapping:AssetFieldMappingReducer,
     assetDatabase:assetDatabaseReducer,
     assetCustomDatabase:assetCustomDatabaseReducer,
     checkOut:CheckOutSliceReducer,

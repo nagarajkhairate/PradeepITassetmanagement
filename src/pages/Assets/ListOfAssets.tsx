@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Box, Button, Select, Checkbox, Chip } from "@mui/joy";
+import { Typography, Box, Button, Select, Checkbox, Chip, Option } from "@mui/joy";
 import Table from "@mui/joy/Table";
 import SearchIcon from '@mui/icons-material/Search';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
@@ -29,17 +29,17 @@ const ListOfAssets = () => {
   useEffect(() => {
     const camelCaseAssets = assets.map((asset: any) => ({
       ...asset,
-      assetName: camelCaseFirstLetter(asset.assetName),
-      assetTagId: camelCaseFirstLetter(asset.assetTagId),
-      description: camelCaseFirstLetter(asset.description),
-      brand: camelCaseFirstLetter(asset.brand),
-      purchaseDate: camelCaseFirstLetter(asset.purchaseDate),
-      status: camelCaseFirstLetter(asset.status),
+      assetName: toCamelCase(asset.assetName),
+      assetTagId: toCamelCase(asset.assetTagId),
+      description: toCamelCase(asset.description),
+      brand: toCamelCase(asset.brand),
+      status: toCamelCase(asset.status),
     }));
     setListData(camelCaseAssets);
   }, [assets]);
-
-  const camelCaseFirstLetter = (str: string) => {
+  
+  const toCamelCase = (str: string | null | undefined): string => {
+    if (!str) return ''; 
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
@@ -71,46 +71,19 @@ const ListOfAssets = () => {
         }}
       >
         <Box>
-          <Button
-            size="md" 
-            sx={{
-              background: "#1BCAB8",
-              // width: "200px",
-              borderRadius: "15px",
-              // paddingInline: "0px",
-              m: { xs: "10px", md: "none" },
-              "&:hover": {
-                background: "#17a299",
-              },
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                gap:1,
-                // width: "90%",
-                // justifyContent: "space-around",
-                alignItems: "center",
-                marginTop: "0.5rem",
-              }}
-            >
-              <Typography sx={{ color: "white" }}>
-                <SearchIcon 
-                // sx={{ size: "23" }}
-                 />
-              </Typography>
-              <Typography
-                sx={{
-                  color: "white",
-                  // fontWeight: "400",
-                  // fontSize: "20px",
-                  marginTop: "-0.25rem",
-                }}
-              >
-                Search Criteria
-              </Typography>
-            </Box>
-          </Button>
+        <Button
+          type="button"
+          variant="solid"
+          autoFocus
+          sx={{
+            background: '#1CCAB8',
+            color: 'white',
+            borderRadius: '15px',
+          }}
+        >
+          <SearchIcon />
+          Search Criteria
+        </Button>
         </Box>
         <Box sx={{
           display: "flex",
@@ -120,43 +93,17 @@ const ListOfAssets = () => {
           width: isSmallScreen ? "100%" : "auto",
         }}>
           <Button
-            size="md" 
+            variant="solid"
+            autoFocus
             sx={{
-              mr: "20px",
-              background: "#11B456",
-              // width: "200px",
-              borderRadius: "15px",
-              // paddingInline: "0px",
-              m: { xs: "10px", md: "none" },
-              '&:hover': { backgroundColor: 'darkgreen' },
+              background: '#388e3c',
+              color: 'white',
+              borderRadius: '15px',
+              marginTop:"0.1"
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                gap:1,
-                // width: "90%",
-                // justifyContent: "space-around",
-                alignItems: "center",
-                marginTop: "0.5rem",
-              }}
-            >
-              <Typography sx={{ color: "white" }}>
-                <FileUploadIcon 
-                // sx={{ size: "23" }} 
-                />
-              </Typography>
-              <Typography
-                sx={{
-                  color: "white",
-                  // fontWeight: "400",
-                  // fontSize: "20px",
-                  marginTop: "-0.25rem",
-                }}
-              >
-                Export to Excel
-              </Typography>
-            </Box>
+            <FileUploadIcon />
+            Export to Excel
           </Button>
          
           {/* <Link to="/assets/list-of-assets/set-up-columns" style={{ textDecoration: "none" }}>
@@ -204,7 +151,11 @@ const ListOfAssets = () => {
         <Select
           placeholder="10"
           sx={{ height: "40px", borderRadius: "15px" }}
-        ></Select>
+        >
+           <Option value="10">10</Option>
+        <Option value="25">25</Option>
+        <Option value="50">50</Option>
+        </Select>
       </Box>
      
       {isSmallScreen ? (
@@ -219,9 +170,9 @@ const ListOfAssets = () => {
           <Table>
             <thead>
               <tr>
-                <th style={{ background: "#f9f9f9", borderBottom: "none" }}>
+                {/* <th style={{ background: "#f9f9f9", borderBottom: "none" }}>
                   <Checkbox />
-                </th>
+                </th> */}
                 <th
                   style={{
                     background: "#f9f9f9",
@@ -316,9 +267,9 @@ const ListOfAssets = () => {
             >
               {listData.map((item: any, index: number) => (
                 <tr key={index}>
-                  <td>
+                  {/* <td>
                     <Checkbox />
-                  </td>
+                  </td> */}
                   <td>{item.assetName}</td>
                   <td>{item.assetTagId}</td>
                   <td>{item.description}</td>
@@ -340,7 +291,7 @@ const ListOfAssets = () => {
                       to={`/assets/view-an-asset/${item.id}`}
                       style={{ color: "inherit" }}
                     >
-                      <RemoveRedEyeIcon sx={{ size: "20" }} />
+                      <RemoveRedEyeIcon sx={{ size: "20", color:"black" }} />  
                     </Link>
                   </td>
                 </tr>

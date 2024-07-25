@@ -273,20 +273,19 @@ const statusColorMap: Record<string, string> = {
       </Table>
       </Box>
 
-<AppView>
-      <Box mt={4}>
-
-        <Box 
-        sx={{
-          display:"grid",
-           gap:2, 
-           gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' }
-           }}
-           >
-          
+      <Box  sx={{
+            padding: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+          }}>
+           <Grid
+                container
+                spacing={2}
+              padding="10px"
+              >
         {checkInFields && checkInFields.map((field , index) => (
-      <FormControl key={index}>
-       <Grid key={index}>
+  
+       <Grid key={index} xs={12}  sm={6} >
         {handleInputValue(
           field,
           formData,
@@ -295,36 +294,30 @@ const statusColorMap: Record<string, string> = {
           handleRadioChange
         )}
         </Grid>
-      </FormControl>
     ))}
-          </Box>
-        </Box>
-        <Box sx={{
-                  display: 'flex',
-                  flexDirection: {
-                    xs: 'column',
-                    md: 'row',
-                  },
-                  justifyContent: 'flex-end',
-                  gap: '15px',
-                  mx: '35px',
-                  mt: '40px',
-                }}>
-          <Button type='submit' sx={{ background: '#FABC1E',}}>Check In</Button>
-          <Button
-                  size="md"
-                  onClick={()=> setOpen(false)}
-                  sx={{
-                    background: '#000000',
-                    '&:hover': {
-                      background: '#333333',
-                    },
-                  }}
-                >
-                  Cancel
-                </Button>
-        </Box>
-        </AppView>
+        </Grid>
+        <Grid container justifyContent="flex-end" sx={{ padding: "20px", gap: "15px" }}>
+    <Grid>
+      <Button type="submit" sx={{ background: '#FABC1E', '&:hover': { background: '#e0a71b' } }}>
+        Check In
+      </Button>
+    </Grid>
+    <Grid>
+      <Button
+        size="md"
+        onClick={() => setOpen(false)}
+        sx={{
+          background: '#000000',
+          '&:hover': {
+            background: '#333333',
+          },
+        }}
+      >
+        Cancel
+      </Button>
+    </Grid>
+  </Grid>
+</Box>
 </Box>
     </AppForm>
   )
