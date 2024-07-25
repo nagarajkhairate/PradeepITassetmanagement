@@ -148,7 +148,11 @@ await dispatch(updateAssetDatabase(assetDataForm))
             <Table borderAxis="both" aria-label="basic table">
               <thead>
                 <tr>
-                  <th>
+                  <th style={{
+                      width: 40,
+                      background: '#fff8e6',
+                      verticalAlign: 'middle',
+                    }}>
                     <Checkbox />
                   </th>
                   <th>Field Name</th>

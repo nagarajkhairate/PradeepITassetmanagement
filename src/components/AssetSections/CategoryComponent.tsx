@@ -36,11 +36,11 @@ const CategoryComponent: React.FC<CategoryProps> = (
   useEffect(()=>{
     dispatch(fetchCategory())
   },[dispatch])
-
+const isRequiredField = field.isRequired=== 'yes'
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', mt: 2 }}>
       <FormControl sx={{ width: '300px' }}>
-      <FormLabel>{field.fieldName}</FormLabel>
+      <FormLabel>{field.fieldName} {isRequiredField && <span style={{ color: 'red' }}>*</span>}</FormLabel>
 
         <Select
          sx={{padding: '10px',}}
@@ -48,6 +48,7 @@ const CategoryComponent: React.FC<CategoryProps> = (
           name={field.name}
           value={formData['category']?.id as string}
           onChange={selectChange}
+          required={isRequiredField}
         >
           {categories.map((category) => (
             <Option key={category.id} value={category.id}>

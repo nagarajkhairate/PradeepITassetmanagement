@@ -28,16 +28,18 @@ const LocationComponent: React.FC<LocationProps> = ({
   useEffect(()=>{
     dispatch(fetchLocation())
   },[dispatch])
+  const isRequiredField = field.isRequired=== 'yes'
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', mt: 2 }}>
       <FormControl sx={{ width: '300px' }}>
-        <FormLabel>{field.fieldName}</FormLabel>
+        <FormLabel>{field.fieldName}  {isRequiredField && <span style={{ color: 'red' }}>*</span>}</FormLabel>
         <Select
           sx={{padding: '10px',}}
           placeholder="Select Location"
           name={field.name}
           value={formData && formData['location']?.id as string}
           onChange={selectChange}
+          required={isRequiredField}
         >
           {locations.map((location) => (
             <Option key={location.id} value={location.id}>
