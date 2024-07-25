@@ -113,6 +113,15 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
       mode,
     };
 
+    const renderWithAsterisk = (component: React.ReactNode, fieldName: string) => (
+      <FormControl>
+        <FormLabel>
+          {fieldName} <span style={{ color: 'red' }}>*</span>
+        </FormLabel>
+        {component}
+      </FormControl>
+    );
+
     switch (field.components.type) {
       case "text":
         return (
@@ -174,7 +183,8 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
                   display: 'flex',
                   flexDirection: 'row',
                   alignItems: 'center',
-                  justifyContent: 'center',
+                  justifyContent: 'flex-start',
+                  marginTop:"20px"
                 }}
               >
                    {radioOptions.map((option) => (
@@ -210,7 +220,6 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
             name={field.name}
             checked={formData[field.name] as boolean}
             onChange={handleChange}
-            sx={field.stylings}
           />
         </FormControl>
       );

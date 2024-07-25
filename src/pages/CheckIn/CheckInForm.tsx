@@ -104,17 +104,35 @@ const handleInputValue = (
         </FormControl>
       );
     case "date":
+      return (
+        <FormControl sx={{width:"300px"}} >
+          <FormLabel>{field.fieldName}</FormLabel>
+          <Input
+          type={field.components.type}
+            name={field.name}
+            value={formData[field.name] as string}
+            onChange={handleChange}
+            sx={{
+              minWidth: '205px',
+              padding: '10px',
+              display: 'grid',
+            }}
+          />
+        </FormControl>
+      );
     case "number":
       case "email":
         return (
-          <FormControl>
+          <FormControl sx={{width:"300px"}}>
             <FormLabel>{field.fieldName}</FormLabel>
             <Input
             type={field.components.type}
               name={field.name}
               value={formData && formData[field.name] as string}
               onChange={handleChange}
-              sx={field.stylings}
+              sx={{
+                padding:"10px",
+              }}
             />
           </FormControl>
         );
@@ -127,38 +145,51 @@ const handleInputValue = (
               name={field.name}
               value={formData && formData[field.name]? formData[field.name]: '' }
               onChange={handleRadioChange}
-              sx={field.stylings}
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+              }}
             >
                  {radioOptions.map((option) => (
-            <Radio key={option.value} value={option.value} label={option.label} />
+            <Radio key={option.value} value={option.value} label={option.label} sx={{
+              margin: '0 8px', 
+            }}/>
           ))}
             </RadioGroup>
           </FormControl>
         );
     case "textarea":
       return (
-        <FormControl>
+        <FormControl sx={{width:"300px"}}>
           <FormLabel>{field.fieldName}</FormLabel>
-          <textarea
+          <Input
             type={field.components.type}
             name={field.name}
             value={formData && formData[field.name] as string}
             onChange={handleChange}
-            sx={field.stylings}
+            sx={{
+              padding: '10px',
+            }}
           />
         </FormControl>
       );
 
       case "checkbox":
     return (
-      <FormControl>
+      <FormControl sx={{marginBottom:"10px"}}>
         <FormLabel>{field.fieldName}</FormLabel>
         <Checkbox
         type={field.components.type}
           name={field.name}
           checked={formData && formData[field.name] as boolean}
           onChange={handleChange}
-          sx={field.stylings}
+          sx={{
+              display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+          }}
         />
       </FormControl>
     );
@@ -216,17 +247,13 @@ const statusColorMap: Record<string, string> = {
   return (
     <AppForm onSubmit={handleFormSubmit}>
       <Box
-      sx={{
-        borderRadius: "15px",
-        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-        background: "#ffffff",
-        flexGrow: 1,
-        marginTop: { xs: '10px', sm: '22px' },
-        height: 'auto',
-        display: 'flex',
-        flexDirection: 'column',
-        p: 4,
-      }}
+     sx={{
+      borderRadius: 'none',
+      boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+      background: '#ffffff',
+      gap: '5px',
+      padding:"32px"
+    }}
     >
       <Typography component="h2" sx={{ mb: 2 }}>Assets Pending Check-In</Typography>
       <Box
@@ -234,9 +261,10 @@ const statusColorMap: Record<string, string> = {
             overflowX: 'auto',
             fontSize: '14px',
             whiteSpace: 'nowrap',
+            marginBottom: '15px',
           }}
         >
-      <Table sx={{ border: "1px solid #f2f2f2", width: "100%" , minWidth:"900px"}}>
+      <Table sx={{ border: "1px solid #f2f2f2", width: "100%" , minWidth:"800px"}}>
         <thead>
         <tr>
             <th style={{ padding: "8px", border: "1px solid #f2f2f2", width:"30px",background: "#fff8e6" }}><Checkbox /></th>
@@ -285,7 +313,7 @@ const statusColorMap: Record<string, string> = {
               >
         {checkInFields && checkInFields.map((field , index) => (
   
-       <Grid key={index} xs={12}  sm={6} >
+       <Grid key={index} xs={12}  sm={6} lg={6} md={6}>
         {handleInputValue(
           field,
           formData,

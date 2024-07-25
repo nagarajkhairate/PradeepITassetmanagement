@@ -123,10 +123,10 @@ useEffect(()=>{
   // };
 
   const handleAdd = () => {
-    //  onAddEmployee(employee.empName);
     console.log(formData)
       dispatch(addClient(formData));
       setClient({});
+      onClose()
       // setErrors({});
   };
 

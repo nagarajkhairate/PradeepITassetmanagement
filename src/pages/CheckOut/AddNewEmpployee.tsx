@@ -43,7 +43,7 @@ const AddNewEmpployee: React.FC<AddEmpProps> = ({
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', mt: 2 }}>
       <FormControl sx={{ width: '300px' }}>
-        <FormLabel>{field.fieldName}</FormLabel>
+        <FormLabel>{field.fieldName} <span style={{ color: 'red' }}>*</span></FormLabel>
         <Select
          sx={{padding: '10px',}}
           placeholder="Select Employee"

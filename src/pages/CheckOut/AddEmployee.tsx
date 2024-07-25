@@ -126,11 +126,11 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ open, onClose, onAddEmployee 
       case "checkbox":
 
       case "select":
-          if (field.name === "Site") {
+          if (field.name === "empSite") {
             return <SiteComponent {...commonProps} />;
-          } else if (field.name === "location") {
+          } else if (field.name === "empLocation") {
             return <LocationComponent {...commonProps} />;
-          } else if (field.name === "department") {
+          } else if (field.name === "empDepartment") {
             return <DepartmentComponent {...commonProps} />;
           } 
           else {
@@ -157,6 +157,7 @@ const AddEmployee: React.FC<AddEmployeeProps> = ({ open, onClose, onAddEmployee 
     console.log(formData)
       dispatch(addEmployee(formData));
       setEmployee({});
+      onClose()
       // setErrors({});
   };
 
