@@ -28,6 +28,7 @@ import {
 import { ThunkDispatch } from 'redux-thunk'
 import { fetchContractCustomDatabase } from '../../../../redux/features/ContractCustomDatabaseSlice'
 import AddCustomContract from './AddCustomContract'
+import { fetchComponents } from '../../../../redux/features/ComponentsIdSlice'
 
 const DatabaseContractTable: React.FunctionComponent = () => {
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
@@ -38,7 +39,7 @@ const DatabaseContractTable: React.FunctionComponent = () => {
   const contractCustomDatabase = useSelector(
     (state: RootState) => state.contractCustomDatabase.data,
   )
-
+  const components = useSelector((state: RootState) => state.components.data);
   const [openAddContract, setOpenAddContract] = useState(false)
   const [contractDataBases, setContractDataBases] = useState(contractData)
   const LOCAL_STORAGE_KEY = 'contractDataBases'
@@ -122,7 +123,7 @@ const DatabaseContractTable: React.FunctionComponent = () => {
 
   React.useEffect(() => {
     dispatch(fetchContractCustomDatabase())
-  }, [!openAddContract])
+  }, [])
 
   useEffect(() => {
     const storedData = localStorage.getItem(LOCAL_STORAGE_KEY)
@@ -136,6 +137,10 @@ const DatabaseContractTable: React.FunctionComponent = () => {
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contractDataBases))
   }, [contractDataBases])
+
+  useEffect(()=>{
+    dispatch(fetchComponents())
+  },[dispatch])
 
   return (
     <AppView>
@@ -431,6 +436,7 @@ const DatabaseContractTable: React.FunctionComponent = () => {
 
           <ContractFieldsAddingTable
             contractDataBases={contractCustomDatabase}
+            components={components}
           />
         </Box>
 

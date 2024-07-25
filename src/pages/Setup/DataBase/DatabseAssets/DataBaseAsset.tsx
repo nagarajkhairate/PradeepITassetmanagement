@@ -27,6 +27,7 @@ import AddDialogData from './AddCustomAsset'
 import AssetDbFieldsAddingTable from './AssetFieldsAddingTable'
 import AddCustomAsset from './AddCustomAsset'
 import AssetFieldsAddingTable from './AssetFieldsAddingTable'
+import { fetchComponents } from '../../../../redux/features/ComponentsIdSlice'
 
 const DataBaseAsset: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -36,7 +37,7 @@ const DataBaseAsset: React.FunctionComponent = () => {
   const assetCustomDatabase = useSelector(
     (state: RootState) => state.assetCustomDatabase.data,
   )
-
+  const components = useSelector((state: RootState) => state.components.data);
 
   const [openAddAsset, setOpenAddAsset] = useState(false)
   const [assetDataForm, setAssetDataForm] = useState(dataValue)
@@ -114,11 +115,15 @@ const DataBaseAsset: React.FunctionComponent = () => {
 
   useEffect(() => {
     dispatch(fetchAssetCustomDatabase())
-  }, [!openAddAsset])
+  }, [])
 
   useEffect(() => {
     dispatch(fetchAssetDatabase())
   }, [dispatch])
+
+  useEffect(()=>{
+    dispatch(fetchComponents())
+  },[dispatch])
 
  
 
@@ -403,11 +408,12 @@ const DataBaseAsset: React.FunctionComponent = () => {
         </Box>
 
         {openAddAsset && (
-          <AddCustomAsset open={openAddAsset} setOpen={setOpenAddAsset} />
+          <AddCustomAsset open={openAddAsset} setOpen={setOpenAddAsset} components={components}/>
         )}
 
         <AssetFieldsAddingTable
           assetDataForm={assetCustomDatabase}
+          components={components}
         />
 
 

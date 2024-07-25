@@ -32,10 +32,11 @@ import { fetchCategory } from '../../../../redux/features/CategorySlice'
 interface DataBaseAddProps {
   open: boolean
   setOpen: (open: boolean) => void
+  components:any[]
 }
 
-const AddCustomAsset: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
-  const components = useSelector((state: RootState) => state.components.data)
+const AddCustomAsset: React.FC<DataBaseAddProps> = ({ open, setOpen, components }) => {
+  // const components = useSelector((state: RootState) => state.components.data)
   const category = useSelector((state: RootState) => state.category.data)
   console.log(category)
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -52,10 +53,9 @@ const AddCustomAsset: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
     fieldName: '',
     componentsId: 1,
     isRequired: 'optional',
-    categoryId: 1,
+    // categoryId: 1,
   })
 
-  console.log(components)
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -250,18 +250,8 @@ const AddCustomAsset: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
             </FormControl>
 
 
-{/* <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 2 }}>
-            <FormLabel>Selected Categories</FormLabel>
-            <FormLabel>Is this field visible to assets of selective Categories?</FormLabel>
-            <RadioGroup name="selectedCategories" value={formData?.selectedCategories} onChange={handleChange}>
-              <Box>
-                <Radio value="all" label="All Categories" variant="outlined" />
-                <Radio value="limitedCategories" label="Limited Categories" variant="outlined" sx={{ paddingTop: "30px", marginLeft: "20px" }} />
-              </Box>
-            </RadioGroup>
-          </Box> */}
 
-            <Box>
+            {/* <Box>
               <Box
                 sx={{
                   paddingTop: '15px',
@@ -335,7 +325,7 @@ const AddCustomAsset: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
                   )}
                 </Box>
               </RadioGroup>
-            </Box>
+            </Box> */}
 
 <Box
               sx={{
@@ -371,7 +361,7 @@ const AddCustomAsset: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
                   color: 'black',
                 }}
               >
-                Update
+                Add
               </Button>
             </Box>
           </AppForm>

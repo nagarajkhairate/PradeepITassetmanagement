@@ -12,12 +12,13 @@ import { ThunkDispatch } from 'redux-thunk'
 
 interface WarrantyTableProps {
   contractDataBases: any[]
+  components:any[]
 }
 
 const ContractFieldsAddingTable: React.FC<WarrantyTableProps> = ({
-  contractDataBases,
+  contractDataBases, components
 }) => {
-  const components = useSelector((state: RootState) => state.components.data)
+ 
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [openAddContract, setOpenAddContract] = useState(false)
   const [selectedItem, setSelectedItem] = useState(null)
@@ -34,6 +35,11 @@ const [isDelete, setIsDelete]=useState(false)
     dispatch(deleteContractCustomDatabase(item.id))
     console.log(item,'isDelete:', isDelete)
   }
+
+  const getComponentName = (componentId: number) => {
+    const component = components?.find((component: any) => component.id === componentId);
+    return component?.title;
+  };
 
   return (
     <Box
@@ -87,7 +93,12 @@ const [isDelete, setIsDelete]=useState(false)
                 >
                   {item.fieldName}
                 </td>
-                <td>{item.componentsId}</td>
+                <td  style={{
+                    wordBreak: 'break-word',
+                    whiteSpace: 'normal',
+                    textAlign: 'left',
+                  }}>{getComponentName(item.componentsId)}
+                  </td>
                 <td>{item.isRequired}</td>
                 <td>
                   <Button

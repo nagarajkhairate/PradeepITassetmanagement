@@ -18,6 +18,7 @@ import AddIcon from '@mui/icons-material/Add'
 import EmployeeFieldsAddingTable from './EmployeeFieldsAddingTable'
 import { fetchEmpCustomDatabase } from '../../../../redux/features/EmpCustomDatabseSlice'
 import AddDatabaseCustomEmployee from './AddDatabaseCustomEmployee'
+import { fetchComponents } from '../../../../redux/features/ComponentsIdSlice'
 
 const DataBaseEmp: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -27,7 +28,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
   const empCustomDatabase = useSelector(
     (state: RootState) => state.empCustomDatabase.data,
   )
-
+  const components = useSelector((state: RootState) => state.components.data);
   const [empDataBases, setEmpDataBases] = useState(empData) // Initializing with empData
   const [openAddEmployee, setOpenAddEmployee] = useState(false)
   const LOCAL_STORAGE_KEY = 'empDataBases'
@@ -108,7 +109,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
 
   useEffect(() => {
     dispatch(fetchEmpCustomDatabase())
-  }, [!openAddEmployee])
+  }, [])
 
   useEffect(() => {
     const storedData = localStorage.getItem(LOCAL_STORAGE_KEY)
@@ -122,6 +123,10 @@ const DataBaseEmp: React.FunctionComponent = () => {
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(empDataBases))
   }, [empDataBases])
+
+  useEffect(()=>{
+    dispatch(fetchComponents())
+  },[dispatch])
 
   return (
     <AppView>
@@ -396,7 +401,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
             />
           )}
 
-          <EmployeeFieldsAddingTable empDataBases={empCustomDatabase} />
+          <EmployeeFieldsAddingTable empDataBases={empCustomDatabase} components={components} />
         </Box>
 
         <DatabaseButtons
