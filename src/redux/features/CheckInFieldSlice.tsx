@@ -20,7 +20,7 @@ const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
  
 export const fetchCheckInField = createAsyncThunk('CheckInFields/fetchCheckInField', async () => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/transaction-defaults`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/checkin-defaults`);
   return response.data;
    
   } catch (error) {
@@ -31,7 +31,7 @@ export const fetchCheckInField = createAsyncThunk('CheckInFields/fetchCheckInFie
 });
 export const fetchCheckInFieldById = createAsyncThunk('checkInFields/fetchCheckInFieldById', async (id: string ) => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/transaction-defaults/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/checkin-defaults/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -41,18 +41,18 @@ export const fetchCheckInFieldById = createAsyncThunk('checkInFields/fetchCheckI
 });
  
 export const addCheckInField = createAsyncThunk('checkInFields/addCheckInField', async (assets: any) => {
- const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/transaction-defaults`, assets);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/checkin-defaults`, assets);
   return response.data;
 });
  
 export const updateCheckInField = createAsyncThunk('checkInFields/updateCheckInField', async (updatedCustomer: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/transaction-defaults/${updatedCustomer.id}`, updatedCustomer);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/checkin-defaults/${updatedCustomer.id}`, updatedCustomer);
   return response.data;
 });
  
 export const deleteCheckInField = createAsyncThunk('checkInFields/deleteCheckInField', async (id: number) => {
-  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/transaction-defaults/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/checkin-defaults/${id}`);
   return id;
 });
  

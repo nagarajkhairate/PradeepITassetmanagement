@@ -10,6 +10,8 @@ import {
   Chip,
   IconButton,
   Typography,
+  Select,
+  Option,
 } from "@mui/joy";
 import PrintIcon from '@mui/icons-material/Print';
 import EditIcon from '@mui/icons-material/Edit';
@@ -23,6 +25,7 @@ import { fetchCheckOut } from "../../redux/features/CheckOutSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { ThunkDispatch } from "redux-thunk";
+import CheckInOption from "../CheckIn/CheckInOption";
 
 interface AssetInfoProps {
   id:string,
@@ -37,6 +40,7 @@ interface Option {
 const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [open, setOpen] = useState(false);
+  const [openCheckIn, setOpenCheckIn] = useState(false);
   const navigate = useNavigate();
   const checkOut = useSelector((state: RootState) => state.checkOut.data);
 
@@ -44,40 +48,33 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
     dispatch(fetchCheckOut());
   }, [dispatch]);
 
-  const openPopUp = () => {
-    setOpen(true);
+
+  const closeCheckIn = () => {
+    setOpenCheckIn(false);
   };
 
   const closePopUp = () => {
     setOpen(false);
   };
-  const openDropdown = () => {
-    setOpen(true);
-  };
 
-  const closeDropdown = () => {
-    setOpen(false);
-  };
- 
-  const handleAssignAssetId = ()=>{
-    setOpen((prevData: any) => ({
-      ...prevData,
-     assetId:assets[0].id
-   }))
-  }
+  // const handleAssignAssetId = ()=>{
+  //   setOpen((prevData: any) => ({
+  //     ...prevData,
+  //    assetId:assets[0].id
+  //  }))
+  // }
 const baseUrl = process.env.REACT_APP_BASE_MAIN_URL || '';
 const photoUrl = assets.assetPhoto ? `${baseUrl}${assets.assetPhoto}` : null;
 
 console.log(photoUrl)
 
-  const handleMenuItemClick = (option: any) => {
-    if (option.label === "Check Out") {
-      openPopUp();
-    } else if (option.path) {
-      navigate(option.path);
-    }
-     handleAssignAssetId()
-  };
+const handleMenuItemClick = (option:any) => {
+  if (option.label === "Check Out") {
+    setOpen(true);
+  } else if (option.label === "Check In") {
+    setOpenCheckIn(true);
+  }
+};
 
   const statusColorMap: Record<string, string> = {
     Available: "success",
@@ -137,34 +134,38 @@ console.log(photoUrl)
               <EditIcon sx={{ size: "23" }} /> Edit Asset
             </Button>
           </Link>
-          <Dropdown>
-        <MenuButton
-          sx={{
-            background: "#13b457",
-            borderRadius: "15px",
-            "&:hover": {
-              backgroundColor: "#0d903f",
-            },
-            color: "#ffffff",
-          }}
-        >
-          More Actions <KeyboardArrowDownIcon />
-        </MenuButton>
-        <Menu>
-          {moreOptionsConfig.map((option, index) =>
-            option.divider ? (
-              <Divider key={index} />
-            ) : (
-              <IconButton key={index} sx={{ color: "#000000" }} onClick={() => handleMenuItemClick(option)}>
-                {React.createElement(option.icon)}
-                {option.label}
-              </IconButton>
-            )
-          )}
-        </Menu>
-      </Dropdown>
+          <Select
+        placeholder="More Actions"
+        // indicator={<KeyboardArrowDownIcon />}
+        sx={{
+          background: "#13b457",
+          borderRadius: "15px",
+          "&:hover": {
+            backgroundColor: "#0d903f",
+          },
+          color: "#ffffff",
+          width: "150px", // Adjust width as needed
+        }}
+      >
+        {moreOptionsConfig.map((option, index) =>
+          option.divider ? (
+            <Divider key={index} />
+          ) : (
+            <Option
+              key={index}
+              value={option.label}
+              onClick={() => handleMenuItemClick(option)}
+              sx={{ color: "#000000", display: 'flex', alignItems: 'center' }}
+            >
+              {React.createElement(option.icon, { sx: { mr: 1 } })}
+              {option.label}
+            </Option>
+          )
+        )}
+      </Select>
 
-      <CheckOutOption open={open} closePopUp={closePopUp} />
+      <CheckOutOption open={open} onClose={closePopUp} />
+      <CheckInOption open={openCheckIn} onClose={closeCheckIn} />
           {/* <CheckOutOption open={open} />  */}
         </Box>
         <Box
