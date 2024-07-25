@@ -1,4 +1,4 @@
-interface FieldValue {
+export interface FieldValue {
   id: number;
   label: string;
   value: string;
@@ -7,7 +7,7 @@ interface FieldValue {
   
 }
 
-interface CompanyInfoProps {
+export interface CompanyInfoProps {
   id: number;
   title: string;
   name: string; 

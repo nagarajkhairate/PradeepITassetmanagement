@@ -1,5 +1,4 @@
 import { RouteType } from './config'
-import CompanyInfo from '../pages/Companyinfo/CompanyInfo'
 import {
   AddAnAsset,
   Alerts,
@@ -46,11 +45,10 @@ import DatabaseMaintenance from '../pages/Setup/DataBase/DatabaseMaintenance/Dat
 import DatabaseWarranties from '../pages/Setup/DataBase/DatabaseWarranties.tsx/DataBaseWarranties'
 import SetupColumns from '../pages/Assets/SetupColumns'
 import SearchCriteria from '../pages/Assets/SearchCriteria'
-import CheckOutOption from '../pages/CheckOut/CheckOutOption'
 import DatabaseContractTable from '../pages/Setup/DataBase/DatabaseContract/DatabaseContractTable'
 import EditModalDatabaseCustomer from '../pages/Setup/DataBase/DatabaseCustomerTable/EditModelDatabaseCustomer'
 import CheckoutButton from '../pages/Lease/CheckoutButton'
-import CheckInOption from '../pages/CheckIn/CheckInOption'
+
 
 
 const appRoutes: RouteType[] = [
@@ -63,15 +61,7 @@ const appRoutes: RouteType[] = [
       icon: <ICONS.dashboard />,
     },
   },
-  {
-    path: '/company-info',
-    element: <CompanyInfo />,
-    state: 'company-info',
-    sidebarProps: {
-      displayText: 'Company info',
-      icon: <ICONS.dashboard />,
-    },
-  },
+
   {
     path: '/alerts',
     element: <Alerts />,
