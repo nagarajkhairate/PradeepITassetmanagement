@@ -27,6 +27,20 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
 
  const [openAddMaintenance, setOpenAddMaintenance] = useState(false);
   const [maintenanceDataBases, setMaintenanceDataBases] = useState(maintenanceData)
+  const LOCAL_STORAGE_KEY = 'maintenanceDataBases';
+
+  useEffect(() => {
+    const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (storedData) {
+      setMaintenanceDataBases(JSON.parse(storedData));
+    } else {
+      setMaintenanceDataBases(maintenanceData); 
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(maintenanceDataBases));
+  }, [maintenanceDataBases]);
 
   useEffect(() => {
     setMaintenanceDataBases(maintenanceData)
@@ -36,30 +50,43 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
   const [allChecked, setAllChecked] = useState(false)
 
   const handleHeaderCheckboxChange = () => {
-    const newCheckedState = !allChecked
-    setAllChecked(newCheckedState)
-    const updatedForm = maintenanceDataBases.map((item) => ({
+    const newCheckedState = !allChecked;
+    const updatedForm = maintenanceDataBases.map(item => ({
       ...item,
-      isVisible: newCheckedState,
-    }))
-    setMaintenanceDataBases(updatedForm)
-  }
+      isVisible: item.fieldName === 'Title' || item.fieldName === 'Due Date' || item.fieldName === 'Maintenance Status' || item.fieldName=== 'Repeating' ? true : newCheckedState
+    }));
+    
+    setMaintenanceDataBases(updatedForm);
+    setAllChecked(newCheckedState);
+  };
   
 
-  const handleCheckboxChange = (index: number) => {
-    const updatedForm = [...maintenanceDataBases]
-    updatedForm[index].isVisible = !updatedForm[index].isVisible
-    setMaintenanceDataBases(updatedForm)
+  const handleCheckboxChange = (index: number, fieldName: string) => {
+    const updatedForm = [...maintenanceDataBases];
+
+    if (fieldName !== 'Title' && fieldName !== 'Due Date' && fieldName !== 'Maintenance Status' && fieldName!=='Repeating') {
+      updatedForm[index].isVisible = !updatedForm[index].isVisible;
+    } else {
+      updatedForm[index].isVisible = true;
+    }
+    setMaintenanceDataBases(updatedForm);
   
-    // Update header checkbox state
-    const allChecked = updatedForm.every((item) => item.isVisible)
-    setAllChecked(allChecked)
-  }
+    const allChecked = updatedForm
+    .filter(item=> item.fieldName !== 'Title' && 'Due Date' && 'Maintenance Status' && 'Repeating')
+    .every(item => item.isVisible);
+    setAllChecked(allChecked);
+  };
   
 
   const handleRadioChange = (index: number, value: string) => {
-    const updatedForm = [...maintenanceDataBases]
-    updatedForm[index].isRequired = value
+    const updatedForm = [...maintenanceDataBases];
+
+    if(maintenanceDataBases[index].fieldName === 'Title'|| maintenanceDataBases[index].fieldName ==='Repeating'){
+      updatedForm[index].isRequired='yes'; 
+    }
+    else{
+      updatedForm[index].isRequired = value
+    }
     setMaintenanceDataBases(updatedForm)
   }
 
@@ -210,7 +237,7 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                       <td>
                         <Checkbox
                           checked={opt.isVisible || false}
-                          onChange={() => handleCheckboxChange(index)}
+                          onChange={() => handleCheckboxChange(index, data.fieldName)}
                         />
                       </td>
                       <td
@@ -220,7 +247,14 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                           textAlign: 'left',
                         }}
                       >
-                        {data.fieldName}
+                         {data.fieldName === 'Title' ? (
+                          <>
+                            {data.fieldName}{'  '}
+                            <span style={{ color: 'red',fontSize:'1.2rem' }}>*</span>
+                          </>
+                        ) : (
+                          data.fieldName
+                        )}
                       </td>
                       <td
                         style={{
@@ -260,6 +294,7 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                                 />
                                 Yes
                               </FormControl>
+                              {opt.fieldName !== 'Title'&& opt.fieldName !=='Repeating' &&(
                               <FormControl
                                 key={`${index}-optional`}
                                 disabled={!opt.isVisible}
@@ -280,6 +315,7 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                                 />
                                 Optional
                               </FormControl>
+                              )}
                             </RadioGroup>
                           </FormControl>
                         )}

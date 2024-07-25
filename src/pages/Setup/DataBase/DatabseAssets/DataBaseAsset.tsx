@@ -40,44 +40,68 @@ const DataBaseAsset: React.FunctionComponent = () => {
 
   const [openAddAsset, setOpenAddAsset] = useState(false)
   const [assetDataForm, setAssetDataForm] = useState(dataValue)
-
+  const LOCAL_STORAGE_KEY = 'assetDataForm';
+  const [allChecked, setAllChecked] = useState(false)
 
   useEffect(() => {
     setAssetDataForm(dataValue)
   }, [])
 
-  // React.useEffect(() => {
-  //   if(assetDatabase.length > 0){
-  //     setOpenAddAsset(assetDatabase[0])
-  //   }
-  // }, [assetDatabase]);
-  const [allChecked, setAllChecked] = useState(false)
+  useEffect(() => {
+    const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (storedData) {
+      setAssetDataForm(JSON.parse(storedData));
+    } else {
+      setAssetDataForm(dataValue); 
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(assetDataForm));
+  }, [assetDataForm]);
+
 
   const handleHeaderCheckboxChange = () => {
-    const newCheckedState = !allChecked
-    setAllChecked(newCheckedState)
-    const updatedForm = assetDataForm.map((item) => ({
+    const newCheckedState = !allChecked;
+    const updatedForm = assetDataForm.map(item => ({
       ...item,
-      isVisible: newCheckedState,
-    }))
-    setAssetDataForm(updatedForm)
-  }
+      isVisible: item.fieldName === 'Asset Tag ID' || item.fieldName === 'Asset Description' ? true : newCheckedState
+    }));
+    
+    setAssetDataForm(updatedForm);
+    setAllChecked(newCheckedState);
+  };
+  
   
 
-  const handleCheckboxChange = (index: number) => {
-    const updatedForm = [...assetDataForm]
-    updatedForm[index].isVisible = !updatedForm[index].isVisible
-    setAssetDataForm(updatedForm)
+  const handleCheckboxChange = (index: number, fieldName: string) => {
+    const updatedForm = [...assetDataForm];
+
+    if (fieldName !== 'Asset Tag ID' && fieldName !== 'Asset Description') {
+      updatedForm[index].isVisible = !updatedForm[index].isVisible;
+    } else {
+      updatedForm[index].isVisible = true;
+    }
+    setAssetDataForm(updatedForm);
   
-    // Update header checkbox state
-    const allChecked = updatedForm.every((item) => item.isVisible)
-    setAllChecked(allChecked)
-  }
+    const allChecked = updatedForm
+    .filter(item=> item.fieldName !== 'Asset Tag ID' && 'Asset Description')
+    .every(item => item.isVisible);
+    setAllChecked(allChecked);
+  };
+  
+ 
   
 
   const handleRadioChange = (index: number, value: string) => {
-    const updatedForm = [...assetDataForm]
-    updatedForm[index].isRequired = value
+    const updatedForm = [...assetDataForm];
+
+    if(assetDataForm[index].fieldName === 'Asset Tag ID' || assetDataForm[index].fieldName ==='Asset Description'){
+      updatedForm[index].isRequired='yes'; 
+    }
+    else{
+      updatedForm[index].isRequired = value
+    }
     setAssetDataForm(updatedForm)
   }
 
@@ -228,7 +252,7 @@ const DataBaseAsset: React.FunctionComponent = () => {
                       <td>
                         <Checkbox
                           checked={opt.isVisible || false}
-                          onChange={() => handleCheckboxChange(index)}
+                          onChange={() => handleCheckboxChange(index, data.fieldName)}
                         />
                       </td>
                       <td
@@ -238,7 +262,15 @@ const DataBaseAsset: React.FunctionComponent = () => {
                           textAlign: 'left',
                         }}
                       >
-                        {data.fieldName}
+                         {data.fieldName === 'Asset Tag ID' ||
+                        data.fieldName === 'Asset Description' ? (
+                          <>
+                            {data.fieldName}{'  '}
+                            <span style={{ color: 'red',fontSize:'1.2rem' }}>*</span>
+                          </>
+                        ) : (
+                          data.fieldName
+                        )}
                       </td>
                       <td
                         style={{
@@ -249,7 +281,7 @@ const DataBaseAsset: React.FunctionComponent = () => {
                         {data.isVisible && (
                           <FormControl>
                             <RadioGroup
-                              value={opt.isRequired ? 'yes' : 'optional'}
+                              value={opt.isRequired }
                               name={`radio-buttons-group-${index}`}
                               onChange={(e) =>
                                 handleRadioChange(index, e.target.value)
@@ -278,6 +310,7 @@ const DataBaseAsset: React.FunctionComponent = () => {
                                 />
                                 Yes
                               </FormControl>
+                              {opt.fieldName !== 'Asset Tag ID' && opt.fieldName !=='Asset Description' &&(
                               <FormControl
                                 key={`${index}-optional`}
                                 disabled={!opt.isVisible}
@@ -298,6 +331,7 @@ const DataBaseAsset: React.FunctionComponent = () => {
                                 />
                                 Optional
                               </FormControl>
+                              )}
                             </RadioGroup>
                           </FormControl>
                         )}

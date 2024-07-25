@@ -412,7 +412,7 @@ const SetupCompInfo: React.FC = ({}) => {
   const handleSubmit = () => {
     const updatedEventForm = { ...formData };
     console.log(JSON.stringify(formData, null, 2))
-    dispatch(updateCompanyInfo(updatedEventForm))
+    dispatch(updateCompanyInfo(companyInfo))
     console.log(JSON.stringify(formData, null, 2));
   }
   

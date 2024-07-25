@@ -31,6 +31,7 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
 
   const [openAddCustomer, setOpenAddCustomer] = useState(false)
   const [customerDataBases, setCustomerDataBases] = useState(customerData)
+  const LOCAL_STORAGE_KEY = 'customerDataBases';
 
   useEffect(() => {
     setCustomerDataBases(customerData)
@@ -39,32 +40,45 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
   const [allChecked, setAllChecked] = useState(false)
 
   const handleHeaderCheckboxChange = () => {
-    const newCheckedState = !allChecked
-    setAllChecked(newCheckedState)
-    const updatedForm = customerDataBases.map((item) => ({
+    const newCheckedState = !allChecked;
+    const updatedForm = customerDataBases.map(item => ({
       ...item,
-      isVisible: newCheckedState,
-    }))
-    setCustomerDataBases(updatedForm)
-  }
+      isVisible: item.fieldName === 'Full Name' || item.fieldName === 'Email' ? true : newCheckedState
+    }));
+    
+    setCustomerDataBases(updatedForm);
+    setAllChecked(newCheckedState);
+  };
   
 
-  const handleCheckboxChange = (index: number) => {
-    const updatedForm = [...customerDataBases]
-    updatedForm[index].isVisible = !updatedForm[index].isVisible
-    setCustomerDataBases(updatedForm)
+  const handleCheckboxChange = (index: number, fieldName: string) => {
+    const updatedForm = [...customerDataBases];
+
+    if (fieldName !== 'Full Name' && fieldName !== 'Email') {
+      updatedForm[index].isVisible = !updatedForm[index].isVisible;
+    } else {
+      updatedForm[index].isVisible = true;
+    }
+    setCustomerDataBases(updatedForm);
   
-    // Update header checkbox state
-    const allChecked = updatedForm.every((item) => item.isVisible)
-    setAllChecked(allChecked)
-  }
+    const allChecked = updatedForm
+    .filter(item=> item.fieldName !== 'Asset Tag ID' && 'Asset Description')
+    .every(item => item.isVisible);
+    setAllChecked(allChecked);
+  };
+  
 
   const handleRadioChange = (index: number, value: string) => {
-    const updatedForm = [...customerDataBases]
-    updatedForm[index].isRequired = value
+    const updatedForm = [...customerDataBases];
+
+    if(customerDataBases[index].fieldName === 'Full Name'){
+      updatedForm[index].isRequired='yes'; 
+    }
+    else{
+      updatedForm[index].isRequired = value
+    }
     setCustomerDataBases(updatedForm)
   }
-
   const handleCancel = () => {}
 
   const handleSubmit = () => {
@@ -79,6 +93,20 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
   useEffect(() => {
     dispatch(fetchCustomerCustomDatabase())
   }, [!openAddCustomer])
+
+  useEffect(() => {
+    const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (storedData) {
+      setCustomerDataBases(JSON.parse(storedData));
+    } else {
+      setCustomerDataBases(customerData); 
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(customerDataBases));
+  }, [customerDataBases]);
+
 
   return (
     <AppView>
@@ -213,7 +241,7 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
                       <td>
                         <Checkbox
                           checked={opt.isVisible || false}
-                          onChange={() => handleCheckboxChange(index)}
+                          onChange={() => handleCheckboxChange(index, data.fieldName)}
                         />
                       </td>
                       <td
@@ -223,7 +251,14 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
                           textAlign: 'left',
                         }}
                       >
-                        {data.fieldName}
+                        {data.fieldName === 'Full Name' ? (
+                          <>
+                            {data.fieldName}{'  '}
+                            <span style={{ color: 'red',fontSize:'1.2rem' }}>*</span>
+                          </>
+                        ) : (
+                          data.fieldName
+                        )}
                       </td>
                       <td
                         style={{
@@ -249,7 +284,6 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
                                   alignItems: 'center',
                                   flexDirection: 'row',
                                   gap: 2,
-                                  // visibility: opt.fieldName === 'Full Name' ? 'isVisible' : 'hidden',
                                 }}
                               >
                                 <Radio
@@ -263,6 +297,7 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
                                 />
                                 Yes
                               </FormControl>
+                              {opt.fieldName !== 'Full Name' && (
                               <FormControl
                                 key={`${index}-optional`}
                                 disabled={!opt.isVisible}
@@ -283,6 +318,7 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
                                 />
                                 Optional
                               </FormControl>
+                              )}
                             </RadioGroup>
                           </FormControl>
                         )}

@@ -133,7 +133,7 @@ export const Maintenance = [
       id: 8,
       fieldName: 'Repeating',
       isVisible: 'isVisible',
-      isRequired: 'optional',
+      isRequired: 'yes',
       name: 'repeating',
       description: 'System fields to define repeating maintenances',
       example: '---',

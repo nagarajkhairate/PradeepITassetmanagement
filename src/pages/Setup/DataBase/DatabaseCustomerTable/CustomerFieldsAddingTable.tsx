@@ -22,7 +22,7 @@ interface CustomerTableProps {
     const [selectedItem, setSelectedItem] = useState<any | null>(null);
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
     const [selectedCell, setSelectedCell] = useState<any | null>(null)
-    const [deleteOpen, setDeleteOpen] = useState(false)
+    const [isDelete, setIsDelete] = useState(false)
 
     const components = useSelector((state: RootState) => state.components.data)
 
@@ -33,21 +33,8 @@ interface CustomerTableProps {
   
     const handleDeleteOpen = (item: any) => {
       setSelectedCell(item);
-      setDeleteOpen(true);
-  };
-
-  const handleDeleteClose = () => {
-      setDeleteOpen(false);
-      setSelectedCell(null);
-      
-  };
-
-  const handleDeleteConfirm = () => {
-      if (selectedCell) {
-        console.log(`Deleting item with id: ${selectedCell.id}`);
-          dispatch(deleteCustomerCustomDatabase(selectedCell.id));
-      }
-      handleDeleteClose();
+      setIsDelete(true);
+      dispatch(deleteCustomerCustomDatabase(item.id))
   };
 
   
@@ -102,7 +89,7 @@ interface CustomerTableProps {
                 >
                   {item.fieldName}
                 </td>
-                <td>{item.componentsId.title}</td>
+                <td>{item.componentsId}</td>
                 <td>{item.isRequired}</td>
                 <td>
                   <Button

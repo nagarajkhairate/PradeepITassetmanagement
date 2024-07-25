@@ -3,9 +3,12 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { useState } from 'react'
 import EditModalDatabaseContract from './EditModalCustomContract'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
 import EditModalCustomContract from './EditModalCustomContract'
+import { isDeleteKeys } from '@mui/x-data-grid/utils/keyboardUtils'
+import { deleteContractCustomDatabase } from '../../../../redux/features/ContractCustomDatabaseSlice'
+import { ThunkDispatch } from 'redux-thunk'
 
 interface WarrantyTableProps {
   contractDataBases: any[]
@@ -15,17 +18,21 @@ const ContractFieldsAddingTable: React.FC<WarrantyTableProps> = ({
   contractDataBases,
 }) => {
   const components = useSelector((state: RootState) => state.components.data)
-
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [openAddContract, setOpenAddContract] = useState(false)
   const [selectedItem, setSelectedItem] = useState(null)
+const [isDelete, setIsDelete]=useState(false)
+
 
   const handleEdit = (item: any) => {
     setSelectedItem(item)
     setOpenAddContract(true)
   }
 
-  const handleDeleteButton = () => {
-    // Add your delete logic here
+  const handleDeleteButton = (item:any) => {
+    setIsDelete(true)
+    dispatch(deleteContractCustomDatabase(item.id))
+    console.log(item,'isDelete:', isDelete)
   }
 
   return (
@@ -80,7 +87,7 @@ const ContractFieldsAddingTable: React.FC<WarrantyTableProps> = ({
                 >
                   {item.fieldName}
                 </td>
-                <td>{item.componentsId.title}</td>
+                <td>{item.componentsId}</td>
                 <td>{item.isRequired}</td>
                 <td>
                   <Button
@@ -128,7 +135,7 @@ const ContractFieldsAddingTable: React.FC<WarrantyTableProps> = ({
                       },
                       padding: '.5rem .50rem',
                     }}
-                    onClick={handleDeleteButton}
+                    onClick={()=>handleDeleteButton(item)}
                   >
                     <DeleteForeverIcon sx={{ fontSize: '15px' }} />
                     Delete

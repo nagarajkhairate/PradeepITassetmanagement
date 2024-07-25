@@ -144,18 +144,18 @@ const AddCustomAsset: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
           <Divider />
 
           <AppForm onSubmit={handleSubmit}>
-            <FormControl
+          <FormControl
               sx={{
                 display: 'flex',
-                flexDirection: { xs: 'column', md: 'row' },
-                alignItems: { xs: 'flex-start', md: 'center' },
+                flexDirection: 'row', // Align children in a row
+                alignItems: 'center', // Center items vertically
                 paddingTop: '20px',
                 marginLeft: '5px',
               }}
             >
               <FormLabel
                 sx={{
-                  marginRight: '10px',
+                  marginRight: '10px', // Space between label and input
                 }}
               >
                 Custom Field Label*:
@@ -171,22 +171,22 @@ const AddCustomAsset: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
                   target.value = target.value.replace(/[^a-zA-Z0-9-]/g, '')
                 }}
                 required
-                sx={{ width: { xs: '100%', md: '200px' } }}
+                sx={{ width: '200px' }} // Adjust the width as needed
               />
             </FormControl>
-
             <FormControl
               sx={{
                 display: 'flex',
-                flexDirection: { xs: 'column', md: 'row' },
-                alignItems: { xs: 'flex-start', md: 'center' },
+                flexDirection: 'row', // Align children in a row
+                alignItems: 'center', // Center items vertically
                 paddingTop: '30px',
-                marginLeft: '7px',
+                marginLeft: '10px',
               }}
             >
               <FormLabel
                 sx={{
-                  marginRight: { xs: '10px', md: '40px' },
+                  marginRight: '40px', // Space between label and select
+                  flexShrink: 0, // Prevent label from shrinking
                 }}
               >
                 Data Types*:
@@ -194,8 +194,9 @@ const AddCustomAsset: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
               <Select
                 placeholder="Select Data Types"
                 sx={{
-                  marginLeft: { md: '22px', xs: '1px' },
-                  width: { xs: '100%', md: '200px' },
+                  marginLeft: { md: '18px', xs: '1px' }, // Space between label and select
+                  flexGrow: 1, // Allow select to take up remaining space
+                  width: '200px', // Adjust width as needed
                 }}
                 name="componentsId"
                 required
@@ -212,41 +213,53 @@ const AddCustomAsset: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
             </FormControl>
 
             <FormControl
-  sx={{
-    display: 'flex',
-    flexDirection: { xs: 'column', md: 'row' },
-    alignItems: 'center',
-  }}
->
-  <FormLabel sx={{ paddingTop: { xs: '30px', md: '26px' },marginLeft:'7px', marginRight: { xs: '0', md: '20px' } }}>
-    Data Required:
-  </FormLabel>
-  <RadioGroup
-    name="isRequired"
-    value={formData.isRequired}
-    onChange={handleRadioChange}
-    sx={{ marginLeft: { xs: 0, md: 2 }, flexDirection: 'row' }}
-  >
-    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-      <Radio
-        value="yes"
-        label="Yes"
-        variant="outlined"
-        sx={{ paddingTop: { md: '20px', xs: 'none' }, marginLeft: { md: '15px', xs: 'flex-start' } }}
-      />
-      <Radio
-        value="optional"
-        label="Optional"
-        variant="outlined"
-        sx={{
-          paddingTop: { md: '20px', xs: 'none' },
-          marginLeft: { md: '30px', xs: '10px' },
-        }}
-      />
-    </Box>
-  </RadioGroup>
-</FormControl>
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+            >
+              <FormLabel sx={{ paddingTop: '26px' }}>Data Required:</FormLabel>
+              <RadioGroup
+                name="isRequired"
+                value={formData.isRequired}
+                onChange={handleChange}
+                sx={{ marginLeft: 'none' }}
+              >
+                <Box>
+                  <Radio
+                    value="yes"
+                    label="Yes"
+                    variant="outlined"
+                    sx={{
+                      paddingTop: '10px',
+                      marginLeft: { md: '49px', xs: '39px' },
+                    }}
+                  />
+                  <Radio
+                    value="optional"
+                    label="Optional"
+                    variant="outlined"
+                    sx={{
+                      paddingTop: '20px',
+                      marginLeft: { md: '30px', xs: '15px' },
+                    }}
+                  />
+                </Box>
+              </RadioGroup>
+            </FormControl>
 
+
+{/* <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 2 }}>
+            <FormLabel>Selected Categories</FormLabel>
+            <FormLabel>Is this field visible to assets of selective Categories?</FormLabel>
+            <RadioGroup name="selectedCategories" value={formData?.selectedCategories} onChange={handleChange}>
+              <Box>
+                <Radio value="all" label="All Categories" variant="outlined" />
+                <Radio value="limitedCategories" label="Limited Categories" variant="outlined" sx={{ paddingTop: "30px", marginLeft: "20px" }} />
+              </Box>
+            </RadioGroup>
+          </Box> */}
 
             <Box>
               <Box
@@ -292,7 +305,7 @@ const AddCustomAsset: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
                     label="Limited Categories"
                     variant="outlined"
                     sx={{ paddingTop: '25px', 
-                      // ml: { xs: 0, md: '30px' }
+                      ml: { xs: '25px', md: '30px' }
                      }}
                   />
 
@@ -304,13 +317,6 @@ const AddCustomAsset: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
                       alignItems: 'center',
                       mt: 2,
                     }}
-                      // sx={{
-                      //   display: 'flex',
-                      //   flexDirection: 'column',
-                      //   alignItems: { xs: 'flex-start', md: 'center' },
-                      //   mt: { xs: 2, md: 0 },
-                      //   ml: { xs: 0, md: 2 },
-                      // }}
                     >
                       <FormLabel sx={{ mt: { xs: 2, md: 0 } }}>Limited Categories:</FormLabel>
                       <Select
@@ -331,17 +337,30 @@ const AddCustomAsset: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
               </RadioGroup>
             </Box>
 
-            <Box
+<Box
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                flexDirection: { xs: 'column', md: 'row' },
+                flexDirection: { md: 'row' },
                 justifyContent: { xs: 'space-between', md: 'flex-end' },
                 gap: '5px',
                 mt: 4,
                 flexWrap: 'wrap',
               }}
             >
+              <Button
+                type="button"
+                onClick={() => setOpen(false)}
+                autoFocus
+                variant="solid"
+                sx={{
+                  background: 'black',
+                  '&:hover': { background: '#424242' },
+                  color: 'white',
+                }}
+              >
+                Cancel
+              </Button>
               <Button
                 autoFocus
                 type="submit"
@@ -352,21 +371,7 @@ const AddCustomAsset: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
                   color: 'black',
                 }}
               >
-                Save
-              </Button>
-
-              <Button
-                type="button"
-                onClick={() => setOpen(false)}
-                autoFocus
-                variant="solid"
-                sx={{
-                  background: 'black',
-                  '&:hover': { background: 'black' },
-                  color: 'white',
-                }}
-              >
-                Cancel
+                Update
               </Button>
             </Box>
           </AppForm>

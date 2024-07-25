@@ -3,26 +3,30 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { useState } from "react"
 import EditModalDatabaseMaintenance from "./EditModelCustomMaintenance"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../../../redux/store"
 import EditModalCustomMaintenance from "./EditModelCustomMaintenance"
+import { ThunkDispatch } from "redux-thunk"
+import { deleteMaintenanceCustomDatabase } from "../../../../redux/features/MaintenanceCustomDatabaseSlice"
 
 interface CustomerTableProps {
     maintenanceDataBases: any[]
   }
 
   const MaintenanceFieldsAddingTable: React.FC<CustomerTableProps> = ({maintenanceDataBases}) => {
-
+    const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
     const [openAddMaintenance, setOpenAddMaintenance] = useState(false)
     const [selectedItem, setSelectedItem] = useState(null)
+    const [isDelete, setIsDelete]=useState(false)
   
     const handleEdit = (item: any) => {
       setSelectedItem(item)
       setOpenAddMaintenance(true)
     }
   
-    const handleDeleteButton = () => {
-      // Add your delete logic here
+    const handleDeleteButton = (item:any) => {
+      setIsDelete(true)
+      dispatch(deleteMaintenanceCustomDatabase(item.id))
     }
   
     return (
@@ -78,7 +82,7 @@ interface CustomerTableProps {
                 >
                   {item.fieldName}
                 </td>
-                <td>{item.componentsId.title}</td>
+                <td>{item.componentsId}</td>
                 <td>{item.isRequired}</td>
                 <td>
                   <Button
@@ -126,7 +130,7 @@ interface CustomerTableProps {
                       },
                       padding: '.5rem .10rem',
                     }}
-                    onClick={ handleDeleteButton}
+                    onClick={()=> handleDeleteButton(item)}
                   >
                     <DeleteForeverIcon sx={{ fontSize: '15px' }} />
                     Delete
