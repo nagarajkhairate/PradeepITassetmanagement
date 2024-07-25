@@ -33,11 +33,29 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
   }, [])
 
 
+  const [allChecked, setAllChecked] = useState(false)
+
+  const handleHeaderCheckboxChange = () => {
+    const newCheckedState = !allChecked
+    setAllChecked(newCheckedState)
+    const updatedForm = maintenanceDataBases.map((item) => ({
+      ...item,
+      isVisible: newCheckedState,
+    }))
+    setMaintenanceDataBases(updatedForm)
+  }
+  
+
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...maintenanceDataBases]
     updatedForm[index].isVisible = !updatedForm[index].isVisible
     setMaintenanceDataBases(updatedForm)
+  
+    // Update header checkbox state
+    const allChecked = updatedForm.every((item) => item.isVisible)
+    setAllChecked(allChecked)
   }
+  
 
   const handleRadioChange = (index: number, value: string) => {
     const updatedForm = [...maintenanceDataBases]
@@ -133,7 +151,10 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                       verticalAlign: 'middle',
                     }}
                   >
-                    <Checkbox />
+                    <Checkbox 
+                    checked={allChecked}
+                    onChange={handleHeaderCheckboxChange}
+                    />
                   </th>
                   <th
                     style={{

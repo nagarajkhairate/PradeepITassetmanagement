@@ -256,10 +256,13 @@ const AddCustomAsset: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
                   display: 'flex',
                   flexDirection: { xs: 'column', md: 'row' },
                   alignItems: 'center',
+                  
                 }}
               >
-                <FormLabel sx={{ mr: 3, wordBreak:'break-word' }}>Selected Categories :</FormLabel>
-                <FormLabel>
+                <FormLabel sx={{ mr: 2, wordBreak:'break-word' }}>Selected Categories :</FormLabel>
+                <FormLabel
+                sx={{ wordBreak:'break-word' }}
+                >
                   <span>Is this field visible to assets of selective 'Categories'?</span>
                 </FormLabel>
               </Box>
@@ -272,6 +275,7 @@ const AddCustomAsset: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
                   sx={{
                     display: 'flex',
                     flexDirection: { xs: 'column', md: 'row' },
+                    // flexDirection: 'column',
                     alignItems: 'center',
                   }}
                 >
@@ -279,17 +283,27 @@ const AddCustomAsset: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
                     value={0}
                     label="All Categories"
                     variant="outlined"
-                    sx={{ paddingTop: '25px', ml: { xs: 0, md: '150px' } }}
+                    sx={{ paddingTop: '25px',
+                      //  ml: { xs: 0, md: '150px' }
+                       }}
                   />
                   <Radio
                     value={1}
                     label="Limited Categories"
                     variant="outlined"
-                    sx={{ paddingTop: '25px', ml: { xs: 0, md: '60px' } }}
+                    sx={{ paddingTop: '25px', 
+                      // ml: { xs: 0, md: '30px' }
+                     }}
                   />
 
                   {formData.categoryId === 1 && (
                     <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      mt: 2,
+                    }}
                       // sx={{
                       //   display: 'flex',
                       //   flexDirection: 'column',

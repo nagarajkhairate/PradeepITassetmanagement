@@ -32,11 +32,27 @@ const DatabaseContractTable: React.FunctionComponent = () => {
   }, [])
 
 
+  const [allChecked, setAllChecked] = useState(false)
+
+  const handleHeaderCheckboxChange = () => {
+    const newCheckedState = !allChecked
+    setAllChecked(newCheckedState)
+    const updatedForm = contractDataBases.map((item) => ({
+      ...item,
+      isVisible: newCheckedState,
+    }))
+    setContractDataBases(updatedForm)
+  }
+  
 
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...contractDataBases]
     updatedForm[index].isVisible = !updatedForm[index].isVisible
     setContractDataBases(updatedForm)
+  
+    // Update header checkbox state
+    const allChecked = updatedForm.every((item) => item.isVisible)
+    setAllChecked(allChecked)
   }
 
   const handleRadioChange = (index: number, value: string) => {
@@ -131,7 +147,10 @@ const DatabaseContractTable: React.FunctionComponent = () => {
                       verticalAlign: 'middle',
                     }}
                   >
-                    <Checkbox />
+                    <Checkbox 
+                    checked={allChecked}
+                    onChange={handleHeaderCheckboxChange}
+                    />
                   </th>
                   <th
                    style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}

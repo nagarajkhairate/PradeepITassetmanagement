@@ -27,6 +27,7 @@ interface EditSiteProps {
 const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site }) => {
   const [formData, setFormData] = useState<any>(site)
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const [zipCodeError, setZipCodeError] = useState<string | null>(null)
 
   useEffect(() => {
     setFormData(site)
@@ -34,7 +35,15 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site }) => {
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
-
+    if (name === 'zipCode') {
+      const zipCodeRegex = /^\d*$/
+      if (!zipCodeRegex.test(value)) {
+        setZipCodeError('Zip Code must be numeric')
+        return
+      } else {
+        setZipCodeError(null)
+      }
+    }
     setFormData((prevData:any) => ({
       ...prevData,
       [name]: value,

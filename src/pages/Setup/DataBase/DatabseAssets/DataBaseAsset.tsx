@@ -51,12 +51,29 @@ const DataBaseAsset: React.FunctionComponent = () => {
   //     setOpenAddAsset(assetDatabase[0])
   //   }
   // }, [assetDatabase]);
+  const [allChecked, setAllChecked] = useState(false)
+
+  const handleHeaderCheckboxChange = () => {
+    const newCheckedState = !allChecked
+    setAllChecked(newCheckedState)
+    const updatedForm = assetDataForm.map((item) => ({
+      ...item,
+      isVisible: newCheckedState,
+    }))
+    setAssetDataForm(updatedForm)
+  }
+  
 
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...assetDataForm]
     updatedForm[index].isVisible = !updatedForm[index].isVisible
     setAssetDataForm(updatedForm)
+  
+    // Update header checkbox state
+    const allChecked = updatedForm.every((item) => item.isVisible)
+    setAllChecked(allChecked)
   }
+  
 
   const handleRadioChange = (index: number, value: string) => {
     const updatedForm = [...assetDataForm]
@@ -153,7 +170,9 @@ const DataBaseAsset: React.FunctionComponent = () => {
                       verticalAlign: 'middle',
                     }}
                   >
-                    <Checkbox />
+                    <Checkbox checked={allChecked}
+  onChange={handleHeaderCheckboxChange}
+  />
                   </th>
                   <th
                     style={{

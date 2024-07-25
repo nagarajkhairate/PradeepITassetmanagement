@@ -32,12 +32,34 @@ const DatabaseWarranties: React.FunctionComponent = () => {
     setWarrantyDataBases(warrantyData)
   }, [])
 
+  const [allChecked, setAllChecked] = useState(false)
+
+  const handleHeaderCheckboxChange = () => {
+    const newCheckedState = !allChecked
+    setAllChecked(newCheckedState)
+    const updatedForm = warrantyDataBases.map((item) => ({
+      ...item,
+      isVisible: newCheckedState,
+    }))
+    setWarrantyDataBases(updatedForm)
+  }
+  
 
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...warrantyDataBases]
     updatedForm[index].isVisible = !updatedForm[index].isVisible
     setWarrantyDataBases(updatedForm)
+  
+    // Update header checkbox state
+    const allChecked = updatedForm.every((item) => item.isVisible)
+    setAllChecked(allChecked)
   }
+  
+  // const handleCheckboxChange = (index: number) => {
+  //   const updatedForm = [...warrantyDataBases]
+  //   updatedForm[index].isVisible = !updatedForm[index].isVisible
+  //   setWarrantyDataBases(updatedForm)
+  // }
 
   const handleRadioChange = (index: number, value: string) => {
     const updatedForm = [...warrantyDataBases]
@@ -132,7 +154,10 @@ const DatabaseWarranties: React.FunctionComponent = () => {
                       verticalAlign: 'middle',
                     }}
                   >
-                    <Checkbox />
+                    <Checkbox 
+                    checked={allChecked}
+                    onChange={handleHeaderCheckboxChange}
+                    />
                   </th>
                   <th
                   style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}

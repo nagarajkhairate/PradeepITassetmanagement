@@ -31,19 +31,36 @@ const DataBaseEmp: React.FunctionComponent = () => {
   const [openAddEmployee, setOpenAddEmployee] = useState(false)
 
 
-  const handleCheckboxChange = (index: number) => {
-    const updatedForm = [...empDataBases]
+  const [allChecked, setAllChecked] = useState(false)
 
-    updatedForm[index].isVisible = !updatedForm[index].isVisible
-
+  const handleHeaderCheckboxChange = () => {
+    const newCheckedState = !allChecked
+    setAllChecked(newCheckedState)
+    const updatedForm = empDataBases.map((item) => ({
+      ...item,
+      isVisible: newCheckedState,
+    }))
     setEmpDataBases(updatedForm)
   }
+  
+
+  const handleCheckboxChange = (index: number) => {
+    const updatedForm = [...empDataBases]
+    updatedForm[index].isVisible = !updatedForm[index].isVisible
+    setEmpDataBases(updatedForm)
+  
+    // Update header checkbox state
+    const allChecked = updatedForm.every((item) => item.isVisible)
+    setAllChecked(allChecked)
+  }
+  
 
   const handleRadioChange = (index: number, value: string) => {
     const updatedForm = [...empDataBases]
     updatedForm[index].isRequired = value
     setEmpDataBases(updatedForm)
   }
+
   const handleCancel = () => {  }
 
   const handleSubmit = () => {
@@ -136,7 +153,10 @@ const DataBaseEmp: React.FunctionComponent = () => {
                       verticalAlign: 'middle',
                     }}
                   >
-                    <Checkbox />
+                    <Checkbox 
+                    checked={allChecked}
+                    onChange={handleHeaderCheckboxChange}
+                    />
                   </th>
                   <th
                     style={{

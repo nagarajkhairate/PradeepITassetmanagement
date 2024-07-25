@@ -48,7 +48,8 @@ const initialSiteData: Site = {
 const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
   const [formData, setFormData] = useState<Site>(initialSiteData)
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-
+  const [zipCodeError, setZipCodeError] = useState<string | null>(null)
+  
   const handleSelectChange = (
     event: React.SyntheticEvent<Element, Event> | null,
     newValue: string | null,
@@ -62,6 +63,15 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
+    if (name === 'zipCode') {
+      const zipCodeRegex = /^\d*$/
+      if (!zipCodeRegex.test(value)) {
+        setZipCodeError('Zip Code must be numeric')
+        return
+      } else {
+        setZipCodeError(null)
+      }
+    }
     setFormData((prevState) => ({ ...prevState, [name]: value }))
   }
 
