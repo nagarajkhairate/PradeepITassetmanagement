@@ -30,17 +30,18 @@ const SiteComponent: React.FC<SiteProps> = ({
   const selectChange = (e: any, newValue: string | null) => {
     handleSelectChange(newValue, field.name);
   };
-
+ const isRequiredField = field.isRequired=== 'yes'
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', mt: 2 }}>
       <FormControl sx={{ width: '300px' }}>
-        <FormLabel>{field.fieldName} <span style={{ color: 'red' }}>*</span></FormLabel>
+        <FormLabel>{field.fieldName}{isRequiredField && <span style={{ color: 'red' }}>*</span>}</FormLabel>
         <Select
         sx={{padding: '10px',}}
           placeholder="Select Site"
           name={field.name}
           value={formData && formData['site']?.id as string}
           onChange={selectChange}
+          required={isRequiredField}
         >
           {sites.map((site) => (
             <Option key={site.id} value={site.id}>

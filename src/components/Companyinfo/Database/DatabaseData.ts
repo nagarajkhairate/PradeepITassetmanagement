@@ -12,7 +12,7 @@ export interface Option {
     id: number;
     fieldName: string;
     name: string;
-    visible: string;
+    isVisible: string;
     description: string;
     example: string;
     option: Option[];
@@ -34,7 +34,7 @@ export interface Option {
         id: 1,
         fieldName: 'Asset Name',
         name: 'assetName',
-        visible: 'isVisible',
+        isVisible: 'isVisible',
         description: 'This holds unique asset id number that your company assigns to identify each asset',
         example: 'A-1001',
         option: [
@@ -49,7 +49,7 @@ export interface Option {
       id: 2,
       fieldName: 'Asset Tag ID',
       name: 'assetTagID',
-      visible: 'isVisible',
+      isVisible: 'isVisible',
       description: 'This holds unique asset id number that your company assigns to identify each asset',
       example: 'A-1001',
       option: [
@@ -63,7 +63,7 @@ export interface Option {
     {
         id: 3,
       fieldName: 'Asset Description',
-      visible: 'isVisible',
+      isVisible: 'isVisible',
       name: 'description',
       description: 'Description of the asset.',
       example: 'HP - Envy Desktop - 12GB Memory - 2TB Hard Drive',
@@ -78,7 +78,7 @@ export interface Option {
     {
         id: 4,
       fieldName: 'Purchase From',
-      visible: 'isVisible',
+      isVisible: 'isVisible',
       name: 'purchasedFrom',
       description: 'Date asset was purchased',
       example: '08/22/2014',
@@ -98,7 +98,7 @@ export interface Option {
     {
         id: 5,
       fieldName: 'Cost',
-      visible: 'isVisible',
+      isVisible: 'isVisible',
       name: 'cost',
       description: 'Cost of the asset',
       example: 'Bs225.75',
@@ -119,7 +119,7 @@ export interface Option {
         id: 6,
       fieldName: 'Purchased Date',
       name: 'purchaseDate',
-      visible: 'isVisible',
+      isVisible: 'isVisible',
       description: 'Vendor/Supplier name',
       example: 'Amazon',
       option: [
@@ -138,7 +138,7 @@ export interface Option {
     {
         id: 7,
       fieldName: 'Brand',
-      visible: 'isVisible',
+      isVisible: 'isVisible',
       name: 'brand',
       description: 'Manufacturer of the asset',
       example: 'HP',
@@ -158,7 +158,7 @@ export interface Option {
     {
         id: 8,
       fieldName: 'Model',
-      visible: 'isVisible',
+      isVisible: 'isVisible',
       name: 'model',
       description: 'Model name of the asset',
       example: 'Envy',
@@ -178,7 +178,7 @@ export interface Option {
     {
         id: 9,
       fieldName: 'Serial optional',
-      visible: 'isVisible',
+      isVisible: 'isVisible',
       name: 'serialNo',
       description: "Manufacturer's serial number",
       example: 'HG9C3X',
@@ -281,7 +281,7 @@ export interface Option {
       isRequired: 'yes',
     },
     {
-        visible: true,
+        isVisible: true,
         fieldName: "Email",
         name: "email",
         isRequired: 'optional',

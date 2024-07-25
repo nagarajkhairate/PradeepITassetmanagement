@@ -150,7 +150,7 @@ const AddAnAsset: React.FC = () => {
       mode,
     }
 
-    const isRequiredField = field.required
+    const isRequiredField = field.isRequired=== 'yes'
     switch (field.components.type) {
       case 'text':
         return (
@@ -167,6 +167,7 @@ const AddAnAsset: React.FC = () => {
                 padding: '10px',
                 display: 'grid',
               }}
+              required={isRequiredField}
             />
              {errors[field.name] && (
               <Typography sx={{color:"red"}}>{errors[field.name]}</Typography>
@@ -189,6 +190,7 @@ const AddAnAsset: React.FC = () => {
                 padding: '10px',
                 display: 'grid',
               }}
+              required={isRequiredField}
             />
              {errors[field.name] && (
               <Typography sx={{color:"red"}}>{errors[field.name]}</Typography>
@@ -211,6 +213,7 @@ const AddAnAsset: React.FC = () => {
                 padding: '10px',
                 display: 'grid',
               }}
+              required={isRequiredField}
             />
             {errors[field.name] && (
               <Typography sx={{color:"red"}}>{errors[field.name]}</Typography>
@@ -232,6 +235,7 @@ const AddAnAsset: React.FC = () => {
               sx={{
                 padding: '10px',
               }}
+              required={isRequiredField}
             />
             {errors[field.name] && (
               <Typography sx={{color:"red"}}>{errors[field.name]}</Typography>
@@ -294,12 +298,12 @@ const AddAnAsset: React.FC = () => {
 
   return (
     <AppForm onSubmit={handleSubmit} encType="multipart/form-data">
-      <Typography level="h3" sx={{ ml: '32px', mb: '30px' }}>
+      <Typography level="h2" sx={{ my: '20px' }}>
         Add An Asset
       </Typography>
       <Box
         sx={{
-          borderRadius: 'none',
+          borderRadius: '15px',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#ffffff',
           gap: '5px',

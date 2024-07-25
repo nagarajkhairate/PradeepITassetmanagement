@@ -11,6 +11,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import AppForm from '../../Common/AppForm';
+import { notifyError, notifySuccess, ToastContainer } from '../../Common/Toast/Toast';
 
 export interface FormData {
   companyName: string;
@@ -101,8 +102,11 @@ const Company: React.FC<CompanyProps> = ({
 
     if (companyInfo.length > 0 && companyInfo[0].id) {
       await dispatch(updateCompanyInfo(companyFormDataToSend));
+      notifySuccess(`Successfully Updated:`);
+      notifyError('dsagfsdg');
     } else {
       await dispatch(addCompanyInfo(companyFormDataToSend));
+      notifySuccess(`Successfully Added:`);
     }
 
     setActiveTab(activeTab + 1);
@@ -273,6 +277,7 @@ const Company: React.FC<CompanyProps> = ({
           </Box>
         </Box>
       </Box>
+      <ToastContainer />
     </AppForm>
   );
 };

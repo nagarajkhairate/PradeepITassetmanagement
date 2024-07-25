@@ -44,8 +44,8 @@ import Assets from '../pages/Assets/Assets'
 import Setup from '../pages/Setup/Setup'
 import CustomerForm from '../pages/Setup/CustomizeForm/CustomerForm'
 import WarrantyForm from '../pages/Setup/CustomizeForm/WarrantyForm'
-import LoginAccount from '../components/Registration/LoginAccount'
-import CreateAccount from '../components/Registration/CreateAccount'
+import Login from '../components/Registration/Login'
+import Register from '../components/Registration/Register'
 import DataBaseAsset from '../pages/Setup/DataBase/DatabseAssets/DataBaseAsset'
 import DataBasesEmp from '../pages/Setup/DataBase/DataBaseEmployee/DataBaseEmp'
 import Event from '../pages/Setup/SetupEventOption/Event'
@@ -99,8 +99,8 @@ export {
     MaintenanceForm,
     CustomerForm,
     WarrantyForm,
-    LoginAccount,
-    CreateAccount,
+    Login,
+    Register,
     DataBaseAsset,
     DataBasesEmp,
     Event,

@@ -43,11 +43,11 @@ const DepartmentComponent: React.FC<DepartmentProps> = ({
   useEffect(() => {
     dispatch(fetchDepartment())
   }, [dispatch])
-
+const isRequiredField = field.isRequired=== 'yes'
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', mt: 2 }}>
       <FormControl sx={{ width: '300px'}}>
-        <FormLabel>{field.fieldName}</FormLabel>
+        <FormLabel>{field.fieldName} {isRequiredField && <span style={{ color: 'red' }}>*</span>}</FormLabel>
 
         <Select
           sx={{padding: '10px'}}
@@ -55,6 +55,7 @@ const DepartmentComponent: React.FC<DepartmentProps> = ({
           name={field.name}
           value={formData && formData['department']?.id as string}
           onChange={selectChange}
+          required={isRequiredField}
         >
           {departments.map((department) => (
             <Option key={department.id} value={department.id}>
