@@ -8,6 +8,14 @@ import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
 import { fetchEvents, updateEvents } from '../../../redux/features/EventsSlice'
+import HowToRegTwoToneIcon from '@mui/icons-material/HowToRegTwoTone';
+import SendAndArchiveTwoToneIcon from '@mui/icons-material/SendAndArchiveTwoTone';
+import ThumbsUpDownTwoToneIcon from '@mui/icons-material/ThumbsUpDownTwoTone';
+import BuildTwoToneIcon from '@mui/icons-material/BuildTwoTone';
+import FormatColorResetTwoToneIcon from '@mui/icons-material/FormatColorResetTwoTone';
+import PlayDisabledTwoToneIcon from '@mui/icons-material/PlayDisabledTwoTone';
+import VolunteerActivismTwoToneIcon from '@mui/icons-material/VolunteerActivismTwoTone';
+import StorefrontTwoToneIcon from '@mui/icons-material/StorefrontTwoTone';
 
 const options = [
   {
@@ -18,7 +26,7 @@ const options = [
   {
     id: 2,
     value: 'no',
-    lable: 'No',
+    label: 'No',
   },
 ]
 
@@ -87,7 +95,7 @@ const Event: React.FunctionComponent = () => {
             name={name}
             onChange={HandleRadioSelect}
             value={option.value}
-            label={option.value}
+            label={option.label}
             variant="outlined"
           />
         ))}
@@ -210,8 +218,8 @@ const Event: React.FunctionComponent = () => {
           sx={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: { md: 'flex-start', xs: 'center' },
-            textAlign: { xs: 'center', md: 'left' },
+            justifyContent: { md: 'flex-start',  },
+            textAlign: {  md: 'left' },
             flex: '1 1 auto',
           }}
           >
@@ -221,9 +229,10 @@ const Event: React.FunctionComponent = () => {
                 textAlign: { xs: 'center', md: 'left' },
                 justifyContent: { md: 'left', xs: 'center' },
                 flexDirection: { md: 'left', xs: 'center' },
+                gap:1
               }}
             >
-              {/* <HowToRegOutlinedIcon /> */}
+              <HowToRegTwoToneIcon  style={{color:'#FBC21E',}}/>
               <strong>Check-out assets:</strong>
             </Typography>
           </Box>
@@ -253,7 +262,12 @@ const Event: React.FunctionComponent = () => {
         </Box>
 
         <Box sx={{ ml: { md: '260px', xs: 'none' }, paddingBottom: '10px' }}>
-          <Typography>
+          <Typography
+          sx={{
+            fontSize:'14px',
+            
+          }}
+          >
             Assets are 'checked out' or 'assigned to' individuals. Enter
             individuals in 'Advanced &gt; Persons/Employee' table.{' '}
           </Typography>
@@ -273,8 +287,8 @@ const Event: React.FunctionComponent = () => {
           sx={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: { md: 'flex-start', xs: 'center' },
-            textAlign: { xs: 'center', md: 'left' },
+            justifyContent: { md: 'flex-start' },
+            textAlign: {  md: 'left' },
             flex: '1 1 auto',
           }}
           >
@@ -284,10 +298,10 @@ const Event: React.FunctionComponent = () => {
                 textAlign: { xs: 'center', md: 'left' },
                 justifyContent: { md: 'left', xs: 'center' },
                 flexDirection: { md: 'left', xs: 'center' },
-                
+                gap:1
               }}
             >
-              {/* <SendTwoToneIcon /> */}
+              <SendAndArchiveTwoToneIcon style={{color:'#FBC21E',}}/>
               <strong>Lease assets:</strong>
             </Typography>
           </Box>
@@ -318,7 +332,11 @@ const Event: React.FunctionComponent = () => {
           </>
         </Box>
         <Box sx={{ ml: { md: '260px', xs: 'none' }, paddingBottom: '10px' }}>
-          <Typography>
+          <Typography
+          sx={{
+            fontSize:'14px',
+          }}
+          >
             Assets are 'leased' or 'rented/loaned' to customers. Maintain a list
             of customers in the 'Advanced &gt; Customers' table.
           </Typography>
@@ -337,7 +355,7 @@ const Event: React.FunctionComponent = () => {
           sx={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: { md: 'flex-start', xs: 'center' },
+            justifyContent: { md: 'flex-start' },
             textAlign: { xs: 'center', md: 'left' },
             flex: '1 1 auto',
           }}
@@ -348,9 +366,10 @@ const Event: React.FunctionComponent = () => {
                 textAlign: { xs: 'center', md: 'left' },
                 justifyContent: { md: 'left', xs: 'center' },
                 flexDirection: { md: 'left', xs: 'center' },
+                gap:1
               }}
             >
-              {/* <ThumbDownAltOutlinedIcon /> */}
+              <ThumbsUpDownTwoToneIcon style={{color:'#FBC21E',}}/>
               <strong>Lost/Found assets:</strong>
             </Typography>
           </Box>
@@ -380,7 +399,11 @@ const Event: React.FunctionComponent = () => {
         </Box>
 
         <Box sx={{ ml: { md: '260px', xs: 'none' }, paddingBottom: '10px' }}>
-          <Typography>
+          <Typography
+          sx={{
+            fontSize:'14px',
+          }}
+          >
             Assets are sometimes lost/found to customers. Maintain a list of
             customers in the 'Advanced &gt; Customers' table.
           </Typography>
@@ -401,11 +424,12 @@ const Event: React.FunctionComponent = () => {
               sx={{
                 display: 'flex',
                 textAlign: { xs: 'center', md: 'left' },
-                justifyContent: { md: 'left', xs: 'center' },
+                justifyContent: { md: 'left' },
                 flexDirection: { md: 'left', xs: 'center' },
+                gap:1
               }}
             >
-              {/* <ConstructionOutlinedIcon />  */}
+              <BuildTwoToneIcon style={{fontSize:'1.2rem',color:'#FBC21E', marginTop:2}} /> 
               <strong>Repair assets:</strong>
             </Typography>
           </Box>
@@ -427,7 +451,7 @@ const Event: React.FunctionComponent = () => {
             sx={{
               display: 'flex',
               alignItems: 'center', // Vertically align items
-              justifyContent: { md: 'flex-end', xs: 'center' }, // Align content to the right or center
+              justifyContent: { md: 'flex-end' }, // Align content to the right or center
             }}
           >
             <CustomButtonBox
@@ -451,11 +475,12 @@ const Event: React.FunctionComponent = () => {
               sx={{
                 display: 'flex',
                 textAlign: { xs: 'center', md: 'left' },
-                justifyContent: { md: 'left', xs: 'center' },
+                justifyContent: { md: 'left' },
                 flexDirection: { md: 'left', xs: 'center' },
+                gap:1
               }}
             >
-              {/* <PiLinkBreakLight />  */}
+              <FormatColorResetTwoToneIcon  style={{color:'#FBC21E',}}/> 
               <strong>Broken assets:</strong>
             </Typography>
           </Box>
@@ -503,11 +528,12 @@ const Event: React.FunctionComponent = () => {
               sx={{
                 display: 'flex',
                 textAlign: { xs: 'center', md: 'left' },
-                justifyContent: { md: 'left', xs: 'center' },
+                justifyContent: { md: 'left' },
                 flexDirection: { md: 'left', xs: 'center' },
+                gap:1
               }}
             >
-              {/* <PiRecycleLight />  */}
+              <PlayDisabledTwoToneIcon style={{color: '#FBC21E'}}/> 
               <strong>Dispose assets:</strong>
             </Typography>
           </Box>
@@ -554,11 +580,12 @@ const Event: React.FunctionComponent = () => {
               sx={{
                 display: 'flex',
                 textAlign: { xs: 'center', md: 'left' },
-                justifyContent: { md: 'left', xs: 'center' },
+                justifyContent: { md: 'left' },
                 flexDirection: { md: 'left', xs: 'center' },
+                gap:1
               }}
             >
-              {/* <FaRegHeart />  */}
+              <VolunteerActivismTwoToneIcon style={{fontSize:'1.3rem', color:'#FBC21E',}} /> 
               <strong>Donate assets:</strong>
             </Typography>
           </Box>
@@ -606,11 +633,12 @@ const Event: React.FunctionComponent = () => {
               sx={{
                 display: 'flex',
                 textAlign: { xs: 'center', md: 'left' },
-                justifyContent: { md: 'left', xs: 'center' },
+                justifyContent: { md: 'left' },
                 flexDirection: { md: 'left', xs: 'center' },
+                gap:1
               }}
             >
-              {/* <GavelOutlinedIcon />  */}
+              <StorefrontTwoToneIcon style={{fontSize:'1.2rem', color:'#FBC21E', marginTop:'2px' }} /> 
               <strong>Sell assets:</strong>
             </Typography>
           </Box>

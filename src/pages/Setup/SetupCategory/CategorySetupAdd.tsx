@@ -23,7 +23,7 @@ interface CategoryAddProps {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                p:4
+                p:3
               }}
               open={open}
               onClose={handleClose}
@@ -33,7 +33,7 @@ interface CategoryAddProps {
                 sx={{
                   borderRadius: 'md',
                   maxWidth: 500,
-                  p: 3,
+                  p: 1,
                   boxShadow: 'lg',
                 }}
               >
@@ -44,7 +44,7 @@ interface CategoryAddProps {
                     level="h4"
                     textColor="inherit"
                     fontWeight="lg"
-                    mb={1}
+                    m={1}
                   >
                     {'Add a Category'}
                   </Typography>
@@ -67,7 +67,7 @@ interface CategoryAddProps {
                           padding: '10px',
                         }}
                       >
-                        <Typography sx={{ padding: 'none', width: '100%' }}>
+                        <Typography sx={{ padding: 'none',  }}>
                           If you want to add a new category of assets, you’re in
                           the right spot. Add a category for computer equipment,
                           wireless keyboards, or any assets you’re working with.
@@ -102,7 +102,7 @@ interface CategoryAddProps {
                           />
                         </FormControl>
                       </Box>
-                      <Divider />
+                    
 
                       <Box
           sx={{
@@ -111,24 +111,12 @@ interface CategoryAddProps {
             flexDirection: { md: 'row'},
             justifyContent: { xs: 'space-between', md: 'flex-end' },
             gap: '5px',
-            mt: 4,
+            mt: 1,
             flexWrap:'wrap'
           }}
         >
-                      <Button
-                        autoFocus
-                        type="submit"
-                        variant="solid"
-                        sx={{
-                          background: '#fdd835',
-                          '&:hover': { background: '#E1A91B' },
-                          color: 'black',
-                        }}
-                      >
-                        Add
-                      </Button>
 
-                      <Button
+<Button
                         type="button"
                         onClick={handleClose}
                         autoFocus
@@ -142,6 +130,20 @@ interface CategoryAddProps {
                       >
                         Cancel
                       </Button>
+                      <Button
+                        autoFocus
+                        type="submit"
+                        variant="solid"
+                        sx={{
+                          background: '#fdd835',
+                          '&:hover': { background: '#E1A91B' },
+                          color: 'black',
+                        }}
+                      >
+                        Add
+                      </Button>
+
+                      
                       </Box>
                     </AppForm>
                   </Box>

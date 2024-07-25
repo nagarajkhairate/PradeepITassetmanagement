@@ -4,7 +4,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { ChangeEvent, useState } from "react";
 import MaintenanceTable from "./MaintennaceFieldsAddingTable";
 import DeleteDatabaseMaintenance from "./DeleteDataBaseMaintenance";
-import EditModalMaintenance from "./EditModelDatabaseMaintenance";
+import EditModalMaintenance from "./EditModelCustomMaintenance";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
  

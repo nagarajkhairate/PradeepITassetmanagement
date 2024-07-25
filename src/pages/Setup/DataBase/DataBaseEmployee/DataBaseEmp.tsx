@@ -16,9 +16,9 @@ import {
   updateEmpDatabase,
 } from '../../../../redux/features/EmpDatabaseSlice'
 import AddIcon from '@mui/icons-material/Add'
-import AddDialogEmployee from './AddDialogEmployee'
 import EmployeeFieldsAddingTable from './EmployeeFieldsAddingTable'
 import { fetchEmpCustomDatabase } from '../../../../redux/features/EmpCustomDatabseSlice'
+import AddDatabaseCustomEmployee from './AddDatabaseCustomEmployee'
 
 const DataBaseEmp: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -26,32 +26,41 @@ const DataBaseEmp: React.FunctionComponent = () => {
   const empDatabase = useSelector((state: RootState) => state.empDatabase.data)
   const empCustomDatabase = useSelector((state: RootState) => state.empCustomDatabase.data)
 
-  useEffect(() => {
-    dispatch(fetchEmpDatabase())
-  }, [])
-  
-  useEffect(() => {
-    dispatch(fetchEmpCustomDatabase())
-  }, [])
-
   console.log(empCustomDatabase)
   const [empDataBases, setEmpDataBases] = useState(empData)
   const [openAddEmployee, setOpenAddEmployee] = useState(false)
 
 
-  const handleCheckboxChange = (index: number) => {
-    const updatedForm = [...empDataBases]
+  const [allChecked, setAllChecked] = useState(false)
 
-    updatedForm[index].isVisible = !updatedForm[index].isVisible
-
+  const handleHeaderCheckboxChange = () => {
+    const newCheckedState = !allChecked
+    setAllChecked(newCheckedState)
+    const updatedForm = empDataBases.map((item) => ({
+      ...item,
+      isVisible: newCheckedState,
+    }))
     setEmpDataBases(updatedForm)
   }
+  
+
+  const handleCheckboxChange = (index: number) => {
+    const updatedForm = [...empDataBases]
+    updatedForm[index].isVisible = !updatedForm[index].isVisible
+    setEmpDataBases(updatedForm)
+  
+    // Update header checkbox state
+    const allChecked = updatedForm.every((item) => item.isVisible)
+    setAllChecked(allChecked)
+  }
+  
 
   const handleRadioChange = (index: number, value: string) => {
     const updatedForm = [...empDataBases]
     updatedForm[index].isRequired = value
     setEmpDataBases(updatedForm)
   }
+
   const handleCancel = () => {  }
 
   const handleSubmit = () => {
@@ -60,6 +69,14 @@ const DataBaseEmp: React.FunctionComponent = () => {
     // console.log(empDatabase)
     dispatch(updateEmpDatabase(empDatabase))
   }
+
+  useEffect(() => {
+    dispatch(fetchEmpDatabase())
+  }, [dispatch])
+  
+  useEffect(() => {
+    dispatch(fetchEmpCustomDatabase())
+  }, [!openAddEmployee])
 
   return (
     <AppView>
@@ -131,12 +148,15 @@ const DataBaseEmp: React.FunctionComponent = () => {
                 <tr>
                   <th
                     style={{
-                      width: 30,
+                      width: 40,
                       background: '#fff8e6',
                       verticalAlign: 'middle',
                     }}
                   >
-                    <Checkbox />
+                    <Checkbox 
+                    checked={allChecked}
+                    onChange={handleHeaderCheckboxChange}
+                    />
                   </th>
                   <th
                     style={{
@@ -326,7 +346,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
           </Button>
 
           {openAddEmployee && (
-            <AddDialogEmployee
+            <AddDatabaseCustomEmployee
               open={openAddEmployee}
               setOpen={setOpenAddEmployee}
             />

@@ -19,7 +19,7 @@ import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
-import AddDialogContract from '../DatabaseCustomerTable/AddDialogCustomer'
+import AddDialogContract from '../DatabaseCustomerTable/AddCustomCustomer'
 
 interface DataAddProps {
   dataBases: { customAsset: string[] }

@@ -27,6 +27,7 @@ interface EditSiteProps {
 const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site }) => {
   const [formData, setFormData] = useState<any>(site)
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const [zipCodeError, setZipCodeError] = useState<string | null>(null)
 
   useEffect(() => {
     setFormData(site)
@@ -34,8 +35,16 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site }) => {
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
-
-    setFormData((prevData) => ({
+    if (name === 'zipCode') {
+      const zipCodeRegex = /^\d*$/
+      if (!zipCodeRegex.test(value)) {
+        setZipCodeError('Zip Code must be numeric')
+        return
+      } else {
+        setZipCodeError(null)
+      }
+    }
+    setFormData((prevData:any) => ({
       ...prevData,
       [name]: value,
     }))
@@ -156,22 +165,22 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site }) => {
             </Grid>
 
             <Box
-              sx={{
+               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                flexDirection: { md: 'row' },
+                flexDirection: { md: 'row'},
                 justifyContent: { xs: 'space-between', md: 'flex-end' },
                 gap: '5px',
-                flexWrap: 'wrap',
                 mt: 4,
+                flexWrap:'wrap'
               }}
             >
               <Button
-                sx={{
-                  background: '#fdd835',
-                  color: 'black',
-                  '&:hover': { background: '#E1A91B' },
-                }}
+               sx={{
+                background: 'black',
+                color: 'white',
+                '&:hover': { background: "#424242" },
+              }}
                 onClick={onClose}
               >
                 Cancel
@@ -179,9 +188,10 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site }) => {
               <Button
                 type="Submit"
                 sx={{
-                  background: 'black',
-                  color: 'white',
-                  '&:hover': { background: 'black' },
+                  background: '#fdd835',
+                  '&:hover': { background: '#E1A91B' },
+                  color: 'black',
+
                 }}
               >
                 Update

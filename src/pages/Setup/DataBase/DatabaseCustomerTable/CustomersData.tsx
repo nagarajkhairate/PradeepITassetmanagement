@@ -137,7 +137,7 @@ export const Customers = [
 
   export const customerData = [
     {
-      visible: true,
+      isVisible: true,
       fieldName: 'Full Name',
       value: 'fullName',
       description: 'string',

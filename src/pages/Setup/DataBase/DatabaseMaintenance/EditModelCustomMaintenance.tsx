@@ -1,41 +1,33 @@
 import { Box, Button, Divider, FormControl, FormLabel, Input, Modal, Option, Radio, RadioGroup, Select, Sheet, Typography } from "@mui/joy"
 import AppForm from "../../../../components/Common/AppForm"
-import React, { ChangeEvent, useEffect, useState } from "react"
+import React, { ChangeEvent, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
-import { fetchCustomerCustomDatabaseById, updateCustomerCustomDatabase } from "../../../../redux/features/CustomerCustomDatabaseSlice";
-import { ThunkDispatch } from "redux-thunk";
 import { fetchComponents } from "../../../../redux/features/ComponentsIdSlice";
-import { useNavigate, useParams } from "react-router-dom";
-
-
+import { ThunkDispatch } from "redux-thunk";
+import { updateMaintenanceCustomDatabase } from "../../../../redux/features/MaintenanceCustomDatabaseSlice";
 
 
 interface EditModalProps {
-    open: boolean;
-  setOpen: (open: boolean) => void; 
+  open: boolean;
+  setOpen: (open: boolean) => void;
   selectedItem: any;
   }
   
-  const EditModalDatabaseCustomer: React.FC<EditModalProps> = ({
-    open, setOpen, selectedItem }) => {
-
+  const EditModalCustomMaintenance: React.FC<EditModalProps> = ({
+    open, setOpen, selectedItem 
+  }) => {
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-
     const components = useSelector((state: RootState) => state.components.data);
-      
-    
     React.useEffect(() => {
       dispatch(fetchComponents())
     }, [dispatch])
 
     const [formData, setFormData] = useState(selectedItem);
-
-    const handleSelectChange = (event: React.SyntheticEvent | null, 
-      newValue: string | null) => {
+    const handleSelectChange = (event: React.SyntheticEvent | null, newValue: string | null) => {
       setFormData((prevData:any) => ({
         ...prevData,
-        componentsId: newValue || '',
+        componentsId: newValue || "",
       }));
     };
   
@@ -46,17 +38,11 @@ interface EditModalProps {
   
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      // setFormData({
-      //   fieldName: '',
-      //   componentsId:  components.length > 0 ? components[0].id : '',
-      //   isRequired: '',
-      // });
-      dispatch(updateCustomerCustomDatabase(formData))
-   
+      dispatch(updateMaintenanceCustomDatabase(formData))
       setOpen(false);
     };
 
-    console.log(formData)
+    
 return(
 
   <Modal
@@ -69,7 +55,7 @@ return(
     <Sheet
           variant="outlined"
           sx={{
-            // maxWidth: 500,
+            maxWidth: 500,
             borderRadius: 'md',
             p: 3,
             boxShadow: 'lg',
@@ -87,7 +73,6 @@ return(
               {'Edit the Customs here'}
             </Typography>
 <Divider />
-
             <AppForm onSubmit={handleSubmit}>
             <FormControl
               sx={{
@@ -139,7 +124,7 @@ return(
               <Select
                 placeholder="Select Data Types"
                 sx={{
-                  marginLeft: { md: '18px', xs: '1px' }, // Space between label and select
+                  marginLeft: { md: '15px', xs: '2px' }, // Space between label and select
                   flexGrow: 1, // Allow select to take up remaining space
                   width: '200px', // Adjust width as needed
                 }}
@@ -170,14 +155,13 @@ return(
                 value={formData.isRequired}
                 onChange={handleChange}
                 sx={{ marginLeft: 'none' }}
-                
               >
                 <Box>
                   <Radio
                     value="yes"
                     label="Yes"
                     variant="outlined"
-                    sx={{ paddingTop: '10px', marginLeft: {md:'55px', xs:'39px'} }}
+                    sx={{ paddingTop: '10px', marginLeft: '49px' }}
                   />
                   <Radio
                     value="optional"
@@ -192,6 +176,7 @@ return(
               </RadioGroup>
             </FormControl>
 
+
               <Box
                 sx={{
                   display: 'flex',
@@ -199,9 +184,8 @@ return(
                   flexDirection: { md: 'row' },
                   justifyContent: { xs: 'space-between', md: 'flex-end' },
                   gap: '5px',
-                  mt: 2,
+                  mt: 4,
                   flexWrap: 'wrap',
-                
                 }}
               >
                 <Button
@@ -226,7 +210,6 @@ return(
                     '&:hover': { background: '#E1A91B' },
                     color: 'black',
                   }}
-                  // onChange={()=>handleSubmit}
                 >
                   Update
                 </Button>
@@ -239,4 +222,4 @@ return(
         </Modal>
 )
 }
-export default EditModalDatabaseCustomer
+export default EditModalCustomMaintenance

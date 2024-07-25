@@ -23,8 +23,10 @@ import {
 } from '../../../../redux/features/AssetDatabaseSlice'
 import { fetchAssetCustomDatabase } from '../../../../redux/features/AssetCustomDatabaseSlice'
 import AddIcon from '@mui/icons-material/Add'
-import AddDialogData from './AddDialogData'
-import AssetDbFieldsAddingTable from './AssetDbFieldsAddingTable'
+import AddDialogData from './AddCustomAsset'
+import AssetDbFieldsAddingTable from './AssetFieldsAddingTable'
+import AddCustomAsset from './AddCustomAsset'
+import AssetFieldsAddingTable from './AssetFieldsAddingTable'
 
 const DataBaseAsset: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -49,12 +51,29 @@ const DataBaseAsset: React.FunctionComponent = () => {
   //     setOpenAddAsset(assetDatabase[0])
   //   }
   // }, [assetDatabase]);
+  const [allChecked, setAllChecked] = useState(false)
+
+  const handleHeaderCheckboxChange = () => {
+    const newCheckedState = !allChecked
+    setAllChecked(newCheckedState)
+    const updatedForm = assetDataForm.map((item) => ({
+      ...item,
+      isVisible: newCheckedState,
+    }))
+    setAssetDataForm(updatedForm)
+  }
+  
 
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...assetDataForm]
     updatedForm[index].isVisible = !updatedForm[index].isVisible
     setAssetDataForm(updatedForm)
+  
+    // Update header checkbox state
+    const allChecked = updatedForm.every((item) => item.isVisible)
+    setAllChecked(allChecked)
   }
+  
 
   const handleRadioChange = (index: number, value: string) => {
     const updatedForm = [...assetDataForm]
@@ -151,7 +170,9 @@ const DataBaseAsset: React.FunctionComponent = () => {
                       verticalAlign: 'middle',
                     }}
                   >
-                    <Checkbox />
+                    <Checkbox checked={allChecked}
+  onChange={handleHeaderCheckboxChange}
+  />
                   </th>
                   <th
                     style={{
@@ -348,19 +369,19 @@ const DataBaseAsset: React.FunctionComponent = () => {
         </Box>
 
         {openAddAsset && (
-          <AddDialogData open={openAddAsset} setOpen={setOpenAddAsset} />
+          <AddCustomAsset open={openAddAsset} setOpen={setOpenAddAsset} />
         )}
 
-        <AssetDbFieldsAddingTable
+        <AssetFieldsAddingTable
           assetDataForm={assetCustomDatabase}
-          // setCustomerDataBases={setCustomerDataBases}
         />
-      </Box>
 
-      <DatabaseButtons
+
+<DatabaseButtons
         onCancel={() => handleCancel()}
         onSubmit={() => handleSubmit()}
       />
+      </Box>
     </AppView>
   )
 }

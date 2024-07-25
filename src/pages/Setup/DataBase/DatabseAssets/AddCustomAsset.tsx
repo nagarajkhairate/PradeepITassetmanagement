@@ -34,7 +34,7 @@ interface DataBaseAddProps {
   setOpen: (open: boolean) => void
 }
 
-const AddDialogData: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
+const AddCustomAsset: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
   const components = useSelector((state: RootState) => state.components.data)
   const category = useSelector((state: RootState) => state.category.data)
   console.log(category)
@@ -51,7 +51,7 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
   const [formData, setFormData] = useState({
     fieldName: '',
     componentsId: 1,
-    isRequired: '',
+    isRequired: 'optional',
     categoryId: 1,
   })
 
@@ -100,15 +100,12 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
     }))
   }
 
-  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
- 
 
     await dispatch(addAssetCustomDatabase(formData))
     setOpen(false)
   }
-
-
 
   return (
     <Modal
@@ -120,15 +117,16 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        p: 2,
+        
       }}
     >
-      
       <Sheet
         variant="outlined"
         sx={{
           maxWidth: 600,
           borderRadius: 'md',
-          p: 4,
+          p: 3,
           boxShadow: 'lg',
         }}
       >
@@ -146,94 +144,126 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
           <Divider />
 
           <AppForm onSubmit={handleSubmit}>
-            <FormControl>
-              <FormLabel sx={{ paddingTop: '20px', marginLeft: '8%' }}>
+            <FormControl
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+                alignItems: { xs: 'flex-start', md: 'center' },
+                paddingTop: '20px',
+                marginLeft: '5px',
+              }}
+            >
+              <FormLabel
+                sx={{
+                  marginRight: '10px',
+                }}
+              >
                 Custom Field Label*:
-                <Input
-                  variant="outlined"
-                  type="text"
-                  id="fieldName"
-                  name="fieldName"
-                  value={formData.fieldName}
-                  onChange={handleChange}
-                  onInput={(e) => {
-                    const target = e.target as HTMLInputElement
-                    target.value = target.value.replace(/[^a-zA-Z0-9-]/g, '')
-                  }}
-                  required
-                  sx={{ marginLeft: '40px', textTransform:'capitalize' }}
-                />
               </FormLabel>
-            </FormControl>
-
-            <FormControl>
-              <FormLabel sx={{ paddingTop: '30px', marginLeft: '18%' }}>
-                Data Types*:
-                <Select
-                  placeholder="Select Data Types "
-                  sx={{ marginLeft: '42px', width:'13.5rem'}}
-                  name="componentsId"
-                  value={formData.componentsId}
-                  onChange={(event, value) => handleSelectChange(event, value)}
-                >
-                  {components &&
-                    components.map((option, index) => (
-                      <Option key={index} value={option.id}>
-                        {option.title}
-                      </Option>
-                    ))}
-                </Select>
-              </FormLabel>
+              <Input
+                variant="outlined"
+                type="text"
+                name="fieldName"
+                value={formData.fieldName}
+                onChange={handleChange}
+                onInput={(e) => {
+                  const target = e.target as HTMLInputElement
+                  target.value = target.value.replace(/[^a-zA-Z0-9-]/g, '')
+                }}
+                required
+                sx={{ width: { xs: '100%', md: '200px' } }}
+              />
             </FormControl>
 
             <FormControl
               sx={{
                 display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
+                flexDirection: { xs: 'column', md: 'row' },
+                alignItems: { xs: 'flex-start', md: 'center' },
+                paddingTop: '30px',
+                marginLeft: '7px',
               }}
             >
-              <FormLabel sx={{ paddingTop: '36px', marginLeft: '15%' }}>
-                Data Required :
-              </FormLabel>
-              <RadioGroup
-                name="isRequired"
-                value={formData.isRequired}
-                onChange={handleRadioChange}
+              <FormLabel
+                sx={{
+                  marginRight: { xs: '10px', md: '40px' },
+                }}
               >
-                <Box>
-                  <Radio
-                    value="yes"
-                    label="Yes"
-                    variant="outlined"
-                    sx={{ paddingTop: '10px', marginLeft: '40px' }}
-                  />
-                  <Radio
-                    value="optional"
-                    label="Optional"
-                    variant="outlined"
-                    sx={{ paddingTop: '30px', marginLeft: '30px' }}
-                  />
-                </Box>
-              </RadioGroup>
+                Data Types*:
+              </FormLabel>
+              <Select
+                placeholder="Select Data Types"
+                sx={{
+                  marginLeft: { md: '22px', xs: '1px' },
+                  width: { xs: '100%', md: '200px' },
+                }}
+                name="componentsId"
+                required
+                value={formData.componentsId}
+                onChange={handleSelectChange}
+              >
+                {components &&
+                  components.map((comp) => (
+                    <Option key={comp.id} value={comp.id}>
+                      {comp.title}
+                    </Option>
+                  ))}
+              </Select>
             </FormControl>
+
+            <FormControl
+  sx={{
+    display: 'flex',
+    flexDirection: { xs: 'column', md: 'row' },
+    alignItems: 'center',
+  }}
+>
+  <FormLabel sx={{ paddingTop: { xs: '30px', md: '26px' },marginLeft:'7px', marginRight: { xs: '0', md: '20px' } }}>
+    Data Required:
+  </FormLabel>
+  <RadioGroup
+    name="isRequired"
+    value={formData.isRequired}
+    onChange={handleRadioChange}
+    sx={{ marginLeft: { xs: 0, md: 2 }, flexDirection: 'row' }}
+  >
+    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+      <Radio
+        value="yes"
+        label="Yes"
+        variant="outlined"
+        sx={{ paddingTop: { md: '20px', xs: 'none' }, marginLeft: { md: '15px', xs: 'flex-start' } }}
+      />
+      <Radio
+        value="optional"
+        label="Optional"
+        variant="outlined"
+        sx={{
+          paddingTop: { md: '20px', xs: 'none' },
+          marginLeft: { md: '30px', xs: '10px' },
+        }}
+      />
+    </Box>
+  </RadioGroup>
+</FormControl>
+
 
             <Box>
               <Box
                 sx={{
                   paddingTop: '15px',
-                  marginLeft: '20%',
+                  ml: { xs: 0, md: '3px' },
                   display: 'flex',
+                  flexDirection: { xs: 'column', md: 'row' },
                   alignItems: 'center',
+                  
                 }}
               >
-                <FormLabel sx={{ marginRight: '4px' }}>
-                  Selected Categories :
-                </FormLabel>
-                <FormLabel>
-                  <span >
-                    Is this field visible to assets of selective 'Categories'?
-                  </span>
+                <FormLabel sx={{ mr: 2, wordBreak:'break-word' }}>Selected Categories :</FormLabel>
+                <FormLabel
+                sx={{ wordBreak:'break-word' }}
+                >
+                  <span>Is this field visible to assets of selective 'Categories'?</span>
                 </FormLabel>
               </Box>
               <RadioGroup
@@ -244,34 +274,45 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
                 <Box
                   sx={{
                     display: 'flex',
-                    flexDirection: { md: 'flex-end', xs: 'center' },
+                    flexDirection: { xs: 'column', md: 'row' },
+                    // flexDirection: 'column',
+                    alignItems: 'center',
                   }}
                 >
                   <Radio
                     value={0}
                     label="All Categories"
                     variant="outlined"
-                    sx={{ paddingTop: '25px', marginLeft: '210px',  }}
+                    sx={{ paddingTop: '25px',
+                      //  ml: { xs: 0, md: '150px' }
+                       }}
                   />
                   <Radio
                     value={1}
                     label="Limited Categories"
                     variant="outlined"
-                    sx={{ paddingTop: '25px', marginLeft: '70px' }}
+                    sx={{ paddingTop: '25px', 
+                      // ml: { xs: 0, md: '30px' }
+                     }}
                   />
 
                   {formData.categoryId === 1 && (
                     <Box
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        mt: 'none',
-                      }}
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      mt: 2,
+                    }}
+                      // sx={{
+                      //   display: 'flex',
+                      //   flexDirection: 'column',
+                      //   alignItems: { xs: 'flex-start', md: 'center' },
+                      //   mt: { xs: 2, md: 0 },
+                      //   ml: { xs: 0, md: 2 },
+                      // }}
                     >
-                      <FormLabel sx={{ marginTop: '80px' }}>
-                        Limited Categories:
-                      </FormLabel>
+                      <FormLabel sx={{ mt: { xs: 2, md: 0 } }}>Limited Categories:</FormLabel>
                       <Select
                         placeholder="Select Category"
                         name="categoryId"
@@ -294,7 +335,7 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                flexDirection: { md: 'row' },
+                flexDirection: { xs: 'column', md: 'row' },
                 justifyContent: { xs: 'space-between', md: 'flex-end' },
                 gap: '5px',
                 mt: 4,
@@ -334,4 +375,4 @@ const AddDialogData: React.FC<DataBaseAddProps> = ({ open, setOpen }) => {
     </Modal>
   )
 }
-export default AddDialogData
+export default AddCustomAsset

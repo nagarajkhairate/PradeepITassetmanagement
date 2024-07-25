@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { FormControl, FormLabel, Option, Select } from '@mui/joy'
+import { KeyboardArrowDown } from '@mui/icons-material'
 
 
 interface Props {
@@ -28,7 +29,7 @@ const SelectField: FunctionComponent<Props> = ({
         {field.title}{field.isRequired && <span style={{ color:"red"}}>*</span>}:
       </FormLabel>
       <Select
-        // placeholder= {field.title}
+          indicator={<KeyboardArrowDown />}
         name={field.name}
         value={controlledValue}
         sx={{ minWidth: 280 }}

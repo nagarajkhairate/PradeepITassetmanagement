@@ -128,35 +128,33 @@ const SetupSites: React.FC = ({}) => {
             mb: 1,
           }}
         >
-          <Grid
-            container
-            spacing={1}
-            sx={{ flexGrow: 1, paddingTop: '10px', paddingBottom: '10px' }}
-          >
-            <Grid xs={4}>
-              <Box
+
+            <Box
+              sx={{
+                textAlign: { xs: 'center', md: 'left', gap: 2 },
+              }}
+            >
+              <Typography
+
                 sx={{
+                  fontSize: '20px',
+                  fontWeight: 500,
+                  lineHeight: '30px',
                   textAlign: { xs: 'center', md: 'left' },
+                  whiteSpace: 'nowrap',
+                  justifyContent: { md: 'left', xs: 'center' },
+                  flexDirection: { md: 'left', xs: 'center' },
+                  mt: 0,
+                  gap: 2,
                 }}
               >
-                <Typography
-                  sx={{
-                    fontSize: '20px',
-                    fontWeight: 500,
-                    lineHeight: '30px',
-                    textAlign: { xs: 'center', md: 'left' },
-                    whiteSpace: 'nowrap',
-                    justifyContent: 'center',
-                    mt: 0,
-                  }}
-                >
-                  <TuneOutlinedIcon
-                    style={{ fontSize: '1.1rem', color: '#FBC12E' }}
-                  />
-                  List of Sites
-                </Typography>
-              </Box>
-            </Grid>
+                <TuneOutlinedIcon
+                  style={{ fontSize: '1.1rem', color: '#FBC12E' }}
+                />
+                List of Sites
+              </Typography>
+            </Box>
+
 
             <Grid xs={12} sm={8}>
               <React.Fragment>
@@ -193,15 +191,19 @@ const SetupSites: React.FC = ({}) => {
                       autoFocus
                       variant="solid"
                       sx={{
-                        fontSize: '15px',
+
+                        // fontSize: '13px',
+                        borderRadius: '15px',
                         background: '#d32f2f',
-                        width: { xs: '100%', sm: 'auto', md: '150px' },
+                        '&:hover': {
+                          backgroundColor: '#e57373',
+                        },
                         display: 'flex',
                         justifyContent: { md: 'flex-end', xs: 'center' },
-                        marginLeft: 'none',
-                        border: '1px solid red',
-                        padding: '.2rem .5rem',
-                        borderRadius: '40px',
+                        // marginLeft: 'none',
+                        // border: '1px solid red',
+                        padding: '.30rem .55rem',
+
                       }}
                     >
                       <DeleteForeverIcon />
@@ -222,7 +224,7 @@ const SetupSites: React.FC = ({}) => {
                 </ButtonGroup>
               </React.Fragment>
             </Grid>
-          </Grid>
+
         </Box>
         <Divider />
         <Box sx={{ marginTop: '5px', padding: '10px', fontSize: '14px' }}>
@@ -390,6 +392,8 @@ const SetupSites: React.FC = ({}) => {
                         verticalAlign: 'middle',
                         wordBreak: 'break-word',
                         whiteSpace: 'normal',
+                        width: 60,
+
                       }}
                     >
                       Site
@@ -657,7 +661,7 @@ const SetupSites: React.FC = ({}) => {
       </Box>
       <AddSite
         open={open}
-        handleClose={handleClose}
+        setOpen={setOpen}
         onSave={(newSite: Site) => {
           setOpen(false)
         }}

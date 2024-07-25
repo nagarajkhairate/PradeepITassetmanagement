@@ -12,10 +12,11 @@ import { RootState } from '../../../../redux/store'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
 import { customMaintenance, Maintenance, maintenanceData } from './MaintenanceData'
 import AddIcon from '@mui/icons-material/Add'
-import AddDialogMaintenance from './AddDialogMaintenance'
+import AddDialogMaintenance from './AddCustomMaintenance'
 import MaintenanceFieldsAddingTable from './MaintennaceFieldsAddingTable'
 import { fetchMaintenanceDatabase, updateMaintenanceDatabase } from '../../../../redux/features/MaintenanceDatabaseSlice'
 import { fetchMaintenanceCustomDatabase } from '../../../../redux/features/MaintenanceCustomDatabaseSlice'
+import AddCustomMaintenance from './AddCustomMaintenance'
 
 const DatabaseMaintenance: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -23,15 +24,6 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
 
   const maintenanceDatabase = useSelector((state: RootState) => state.maintenanceDatabase.data)
   const maintenanceCustomDatabase = useSelector((state: RootState) => state.maintenanceCustomDatabase.data)
-
-  React.useEffect(() => {
-    dispatch(fetchMaintenanceDatabase())
-  }, [])
-
-
-  React.useEffect(() => {
-    dispatch(fetchMaintenanceCustomDatabase())
-  }, [])
 
  const [openAddMaintenance, setOpenAddMaintenance] = useState(false);
   const [maintenanceDataBases, setMaintenanceDataBases] = useState(maintenanceData)
@@ -41,11 +33,29 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
   }, [])
 
 
+  const [allChecked, setAllChecked] = useState(false)
+
+  const handleHeaderCheckboxChange = () => {
+    const newCheckedState = !allChecked
+    setAllChecked(newCheckedState)
+    const updatedForm = maintenanceDataBases.map((item) => ({
+      ...item,
+      isVisible: newCheckedState,
+    }))
+    setMaintenanceDataBases(updatedForm)
+  }
+  
+
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...maintenanceDataBases]
     updatedForm[index].isVisible = !updatedForm[index].isVisible
     setMaintenanceDataBases(updatedForm)
+  
+    // Update header checkbox state
+    const allChecked = updatedForm.every((item) => item.isVisible)
+    setAllChecked(allChecked)
   }
+  
 
   const handleRadioChange = (index: number, value: string) => {
     const updatedForm = [...maintenanceDataBases]
@@ -59,6 +69,15 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
     console.log(maintenanceDataBases)
     dispatch(updateMaintenanceDatabase(maintenanceDatabase))
   }
+
+  useEffect(() => {
+    dispatch(fetchMaintenanceDatabase())
+  }, [dispatch])
+
+
+  useEffect(() => {
+    dispatch(fetchMaintenanceCustomDatabase())
+  }, [!openAddMaintenance])
 
   return (
     <AppView>
@@ -132,7 +151,10 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                       verticalAlign: 'middle',
                     }}
                   >
-                    <Checkbox />
+                    <Checkbox 
+                    checked={allChecked}
+                    onChange={handleHeaderCheckboxChange}
+                    />
                   </th>
                   <th
                     style={{
@@ -318,21 +340,16 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
           </Button>
 
           {openAddMaintenance && (
-            <AddDialogMaintenance
+            <AddCustomMaintenance
               open={openAddMaintenance}
               setOpen={setOpenAddMaintenance}
             />
           )}
 
-          <Divider sx={{ my: 2 }} />
           <MaintenanceFieldsAddingTable maintenanceDataBases={maintenanceCustomDatabase} />
         </Box>
 
-        {/* <Box>
-          <AddDataBaseMaintenance />
-        </Box> */}
 
-        <Divider sx={{ marginTop: '3%' }} />
         <DatabaseButtons
           onCancel={() => handleCancel()}
           onSubmit={() => handleSubmit()}

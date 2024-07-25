@@ -77,7 +77,7 @@ export function CategorySubEdit({
           <Sheet
               variant="outlined"
               sx={{
-                maxWidth: 500,
+                // maxWidth: 500,
                 borderRadius: 'md',
                 p: 3,
                 boxShadow: 'lg',
@@ -95,7 +95,7 @@ export function CategorySubEdit({
             <FormControl
               sx={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly" }}
             >
-              <FormLabel sx={{ paddingTop: "30px", marginLeft: "20px" }}>Sub-Category*</FormLabel>
+              <FormLabel sx={{ paddingTop: "15px", marginLeft: "20px" }}>Sub-Category*:</FormLabel>
               <Input
                 variant="outlined"
                 type="text"
@@ -103,7 +103,7 @@ export function CategorySubEdit({
                 name="subCategory"
                 onChange={handleChange}
                 required
-                sx={{ width: "70%", marginLeft: "10px" }}
+                sx={{ marginTop: "10px", marginLeft: "10px" }}
                 defaultValue={subCategories ? subCategories.subCategory : ''}
                 // defaultValue={selectedCell !== null ? lapCat.data[selectedCell].subCategory : ""} // Set default value to the selected cell content
               />
@@ -120,6 +120,19 @@ export function CategorySubEdit({
             mt:4
           }}
         >
+          <Button
+              type="button"
+              onClick={()=>setEditOpen()}
+              autoFocus
+              variant="solid"
+              sx={{ background: "black",
+                '&:hover': { background: "#424242" },
+              color: "white", marginLeft: "50px",
+              
+             }}
+            >
+              Cancel
+            </Button>
             <Button
               autoFocus
               type="submit"
@@ -133,17 +146,7 @@ export function CategorySubEdit({
               Update
             </Button>
 
-            <Button
-              type="button"
-              onClick={()=>setEditOpen()}
-              autoFocus
-              variant="solid"
-              sx={{ background: "black",
-                '&:hover': { background: 'black' },
-              color: "white", marginLeft: "50px" }}
-            >
-              Cancel
-            </Button>
+            
             </Box>
           </AppForm>
           </div>

@@ -166,21 +166,19 @@ const CategorySetup: React.FunctionComponent = () => {
             onClick={handleDeleteOpen}
             autoFocus
               variant="solid"
-            sx={{
-              fontSize: '13px',
-              // background: '#ffffff',
-              borderRadius: '15px',
-              background: '#d32f2f',
-              '&:hover': {
-                backgroundColor: "#e57373",
-              },
-              display: 'flex',
-              justifyContent: { md: 'flex-end', xs: 'center' },
-              marginLeft: 'none',
-              border: '1px solid red',
-              
-              padding: '.5rem .10rem',
-            }}
+              sx={{
+                // fontSize: '13px',
+                borderRadius: '15px',
+                background: '#d32f2f',
+                '&:hover': {
+                  backgroundColor: "#e57373",
+                },
+                display: 'flex',
+                justifyContent: { md: 'flex-end', xs: 'center' },
+                // marginLeft: 'none',
+                // border: '1px solid red',
+                padding: '.30rem .55rem',
+              }}
           >
             <DeleteForeverIcon sx={{ fontSize: '15px' }} />
             Delete Categories

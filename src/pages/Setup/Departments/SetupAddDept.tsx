@@ -75,7 +75,7 @@ const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
           fontWeight="lg"
           mb={1}
         >
-          {'Add a dept'}
+          {'Add a department'}
         </Typography>
         <Divider />
 
@@ -93,10 +93,10 @@ const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
               sx={{
                 marginTop: '1px',
                 marginBottom: '15px',
-                padding: '10px',
+                
               }}
             >
-              <Typography sx={{ padding: 'none', width: '100%' }}>
+              <Typography sx={{ padding: 'none',}}>
                 If you want to add a new dept of assets, you’re in the right
                 spot. Add a dept for computer equipment, wireless keyboards, or
                 any assets you’re working with.
@@ -115,7 +115,7 @@ const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
                     marginLeft: '5px',
                   }}
                 >
-                  depart*:
+                  department*:
                 </FormLabel>
                 <Input
                   name="departmentName"
@@ -125,10 +125,11 @@ const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
                     width: '70%',
                     marginTop: '10px',
                   }}
+                  required
                 />
               </FormControl>
             </Box>
-            <Divider />
+           
             <Box
           sx={{
             display: 'flex',
@@ -140,6 +141,22 @@ const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
             flexWrap:'wrap'
           }}
         >
+
+<Button
+                onClick={()=>setOpen()}
+                autoFocus
+                variant="solid"
+                sx={{
+                  mr: 1,
+                  background: 'black',
+                  color: 'white',
+                 '&:hover': {
+                backgroundColor: "#616161",
+              },
+                }}
+              >
+                Cancel
+              </Button>
               
               <Button
                 autoFocus
@@ -157,21 +174,7 @@ const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
                 Add 
               </Button>
 
-              <Button
-                onClick={()=>setOpen()}
-                autoFocus
-                variant="solid"
-                sx={{
-                  mr: 1,
-                  background: 'black',
-                  color: 'white',
-                 '&:hover': {
-                backgroundColor: "#616161",
-              },
-                }}
-              >
-                Cancel
-              </Button>
+              
             </Box>
           </AppForm>
         </Box>

@@ -1,9 +1,11 @@
 import { ThunkDispatch } from 'redux-thunk'
+// import { addDataBase } from '../../../../redux/features/DataBaseSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import {
   Box,
   Button,
+  Divider,
   FormControl,
   FormLabel,
   Input,
@@ -18,29 +20,27 @@ import {
 import AppForm from '../../../../components/Common/AppForm'
 import { RootState } from '../../../../redux/store'
 import { fetchComponents } from '../../../../redux/features/ComponentsIdSlice'
-import { addMaintenanceCustomDatabase } from '../../../../redux/features/MaintenanceCustomDatabaseSlice'
+import { addContractCustomDatabase } from '../../../../redux/features/ContractCustomDatabaseSlice'
 
 interface DataBaseAddProps {
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-const AddDialogMaintenance: React.FC<DataBaseAddProps> = ({
+const AddCustomContract: React.FC<DataBaseAddProps> = ({
   open,
   setOpen,
 }) => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
 
   const components = useSelector((state: RootState) => state.components.data)
-
   React.useEffect(() => {
     dispatch(fetchComponents())
   }, [dispatch])
- 
   const [formData, setFormData] = useState({
     fieldName: '',
     componentsId: 1,
-    isRequired: '',
+    isRequired: 'optional',
   })
 
   const handleChange = (
@@ -54,13 +54,6 @@ const AddDialogMaintenance: React.FC<DataBaseAddProps> = ({
     const { name, value } = e.target
     setFormData((prevData) => ({ ...prevData, isRequired: value }))
   }
-
-  // const handleSelectChange = (
-  //   event: React.SyntheticEvent | null,
-  //   newValue: number | null,
-  // ) => {
-  //   setFormData((prevData) => ({ ...prevData, componentsId: newValue || 1 }))
-  // }
 
   const handleSelectChange = (
     event: React.MouseEvent<Element, MouseEvent> | React.KeyboardEvent<Element> | React.FocusEvent<Element, Element> | null,
@@ -77,21 +70,13 @@ const AddDialogMaintenance: React.FC<DataBaseAddProps> = ({
     setFormData({
       fieldName: '',
       componentsId: 1,
-      isRequired: '',
+      isRequired: 'optional',
     })
-    setOpen(false) // Close modal after submission
-    dispatch(addMaintenanceCustomDatabase(formData))
+    setOpen(false) 
+    dispatch(addContractCustomDatabase(formData))
     console.log('Form Data:', formData)
   }
 
-  const handleClose = () => {
-    setOpen(false)
-    setFormData({
-      fieldName: '',
-      componentsId: 1,
-      isRequired: '',
-    })
-  }
 
   return (
     <Modal
@@ -103,6 +88,7 @@ const AddDialogMaintenance: React.FC<DataBaseAddProps> = ({
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
+              p:2
             }}
           >
     <Sheet
@@ -125,34 +111,66 @@ const AddDialogMaintenance: React.FC<DataBaseAddProps> = ({
         >
           {'Add Custom Fields here'}
         </Typography>
+        <Divider />
 
         <AppForm onSubmit={handleSubmit}>
-        <FormControl>
-            <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
-              Custom Field Label*:
+        <FormControl
+              sx={{
+                display: 'flex',
+                flexDirection: 'row', 
+                alignItems: 'center', 
+                paddingTop: '20px',
+                marginLeft: '5px',
+              }}
+            >
+              <FormLabel
+                sx={{
+                  marginRight: '10px', 
+                }}
+              >
+                Custom Field Label*:
+              </FormLabel>
               <Input
-      variant="outlined"
-      type="text"
-      name="fieldName"
-      value={formData.fieldName}
-      onChange={handleChange}
-      onInput={(e) => {
-        const target = e.target as HTMLInputElement;
-        target.value = target.value.replace(/[^a-zA-Z0-9-]/g, '');
-      }}
-      required
-      sx={{ width: '45%', marginLeft: '20px' }}
-    />
-            </FormLabel>
-          </FormControl>
+                variant="outlined"
+                type="text"
+                name="fieldName"
+                value={formData.fieldName}
+                onChange={handleChange}
+                onInput={(e) => {
+                  const target = e.target as HTMLInputElement
+                  target.value = target.value.replace(/[^a-zA-Z0-9-]/g, '')
+                }}
+                required
+                sx={{ width: '200px' }} 
+              />
+            </FormControl>
 
-          <FormControl>
-            <FormLabel sx={{ paddingTop: '30px', marginLeft: '20px' }}>
-              Data Types*:
+            <FormControl
+              sx={{
+                display: 'flex',
+                flexDirection: 'row', 
+                alignItems: 'center', 
+                paddingTop: '30px',
+                marginLeft: '10px',
+              }}
+            >
+              <FormLabel
+                sx={{
+                  marginRight: '40px', 
+                   
+                }}
+              >
+                Data Types*:
+              </FormLabel>
               <Select
                 placeholder="Select Data Types"
-                sx={{ width: '50%', marginLeft: '70px' }}
-                name="dataType"
+                sx={{
+                  marginLeft: { md: '18px', xs: '1px' }, 
+                  flexGrow: 1, 
+                  width: '200px',
+                }}
+                name="componentsId"
+                required
                 value={formData.componentsId}
                 onChange={handleSelectChange}
               >
@@ -163,42 +181,41 @@ const AddDialogMaintenance: React.FC<DataBaseAddProps> = ({
                     </Option>
                   ))}
               </Select>
-            </FormLabel>
-          </FormControl>
+            </FormControl>
 
-          <FormControl
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}
-          >
-            <FormLabel sx={{ paddingTop: '36px', marginLeft: '20px' }}>
-              Data Required:
-            </FormLabel>
-            <RadioGroup
-              name="isRequired"
-              value={formData.isRequired}
-              onChange={handleRadioChange}
+            <FormControl
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
             >
-              <Box>
-                <Radio
-                  value="yes"
-                  label="Yes"
-                  variant="outlined"
-                  sx={{ paddingTop: '10px', marginLeft: '55px' }}
-                />
-                <Radio
-                  value="optional"
-                  label="Optional"
-                  variant="outlined"
-                  sx={{ paddingTop: '30px', marginLeft: '10px' }}
-                />
-              </Box>
-            </RadioGroup>
-          </FormControl>
-
-         
+              <FormLabel sx={{ paddingTop: '26px' }}>Data Required:</FormLabel>
+              <RadioGroup
+                name="isRequired"
+                value={formData.isRequired}
+                onChange={handleRadioChange}
+                sx={{ marginLeft: 'none' }}
+              >
+                <Box>
+                  <Radio
+                    value="yes"
+                    label="Yes"
+                    variant="outlined"
+                    sx={{ paddingTop: '10px', marginLeft: {md:'49px',xs:'39px'} }}
+                  />
+                  <Radio
+                    value="optional"
+                    label="Optional"
+                    variant="outlined"
+                    sx={{
+                      paddingTop: '20px',
+                      marginLeft: { md: '30px', xs: '15px' },
+                    }}
+                  />
+                </Box>
+              </RadioGroup>
+            </FormControl>
           <Box
             sx={{
               display: 'flex',
@@ -210,6 +227,21 @@ const AddDialogMaintenance: React.FC<DataBaseAddProps> = ({
               flexWrap: 'wrap',
             }}
           >
+
+<Button
+          type="button"
+          onClick={() => setOpen(false)}
+          autoFocus
+          variant="solid"
+          sx={{
+            background: 'black',
+            '&:hover': { background: '#424242' },
+            color: 'white',
+          }}
+          >
+            Cancel
+          </Button>
+
           <Button
             autoFocus
             type="submit"
@@ -223,19 +255,7 @@ const AddDialogMaintenance: React.FC<DataBaseAddProps> = ({
             Save
           </Button>
 
-          <Button
-            type="button"
-            onClick={() => setOpen(false)}
-            autoFocus
-            variant="solid"
-            sx={{
-              background: 'black',
-              '&:hover': { background: 'black' },
-              color: 'white',
-            }}
-            >
-            Cancel
-          </Button>
+          
           </Box>
         </AppForm>
       </div>
@@ -243,4 +263,4 @@ const AddDialogMaintenance: React.FC<DataBaseAddProps> = ({
     </Modal>
   )
 }
-export default React.memo(AddDialogMaintenance)
+export default React.memo(AddCustomContract)

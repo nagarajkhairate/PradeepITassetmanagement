@@ -48,7 +48,8 @@ const initialSiteData: Site = {
 const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
   const [formData, setFormData] = useState<Site>(initialSiteData)
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-
+  const [zipCodeError, setZipCodeError] = useState<string | null>(null)
+  
   const handleSelectChange = (
     event: React.SyntheticEvent<Element, Event> | null,
     newValue: string | null,
@@ -62,6 +63,15 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
+    if (name === 'zipCode') {
+      const zipCodeRegex = /^\d*$/
+      if (!zipCodeRegex.test(value)) {
+        setZipCodeError('Zip Code must be numeric')
+        return
+      } else {
+        setZipCodeError(null)
+      }
+    }
     setFormData((prevState) => ({ ...prevState, [name]: value }))
   }
 
@@ -218,7 +228,18 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
             </FormControl>
           </Grid>
         </Grid>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+
+
+        <Box 
+ sx={{
+  display: 'flex',
+  alignItems: 'center',
+  flexDirection: { md: 'row'},
+  justifyContent: { xs: 'space-between', md: 'flex-end' },
+  gap: '5px',
+  mt: 4,
+  flexWrap:'wrap'
+}}        >
           <Button
             onClick={() => setOpen(false)}
             sx={{

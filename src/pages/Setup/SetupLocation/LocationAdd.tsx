@@ -187,6 +187,20 @@ interface LocationAddProps {
             flexWrap:'wrap'
           }}
         >
+          <Button
+                        type="button"
+                        onClick={handleClose}
+                        autoFocus
+                        variant="solid"
+                        sx={{
+                          background: 'black',
+                          '&:hover': { background:"#424242"  },
+                          color: 'white',
+                          // marginLeft: '50px',
+                        }}
+                      >
+                        Cancel
+                      </Button>
                       <Button
                         autoFocus
                         type="submit"
@@ -202,20 +216,7 @@ interface LocationAddProps {
                         Add
                       </Button>
 
-                      <Button
-                        type="button"
-                        onClick={handleClose}
-                        autoFocus
-                        variant="solid"
-                        sx={{
-                          background: 'black',
-                          '&:hover': { background:"#424242"  },
-                          color: 'white',
-                          // marginLeft: '50px',
-                        }}
-                      >
-                        Cancel
-                      </Button>
+                      
                       </Box>
                     </AppForm>
                   </Box>

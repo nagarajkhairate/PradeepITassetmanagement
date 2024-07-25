@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
 import { Customers, customerData, customCustomer } from './CustomersData'
-import AddDialogCustomer from './AddDialogCustomer'
+import AddDialogCustomer from './AddCustomCustomer'
 import AddIcon from '@mui/icons-material/Add'
 import CustomerFieldsAddingTable from './CustomerFieldsAddingTable'
 import {
@@ -20,6 +20,7 @@ import {
   updateCustomerDatabase,
 } from '../../../../redux/features/CustomerDatabaseSlice'
 import { fetchCustomerCustomDatabase } from '../../../../redux/features/CustomerCustomDatabaseSlice'
+import AddCustomCustomer from './AddCustomCustomer'
 
 const DatabaseCustomersTable: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -28,14 +29,6 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
   const customerDatabase = useSelector((state: RootState) => state.customerDatabase.data)
   const customerCustomDatabase = useSelector((state: RootState) => state.customerCustomDatabase.data)
 
-  React.useEffect(() => {
-    dispatch(fetchCustomerDatabase())
-  }, [])
-
-  React.useEffect(() => {
-    dispatch(fetchCustomerCustomDatabase())
-  }, [])
-
   const [openAddCustomer, setOpenAddCustomer] = useState(false)
   const [customerDataBases, setCustomerDataBases] = useState(customerData)
 
@@ -43,10 +36,27 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
     setCustomerDataBases(customerData)
   }, [])
 
+  const [allChecked, setAllChecked] = useState(false)
+
+  const handleHeaderCheckboxChange = () => {
+    const newCheckedState = !allChecked
+    setAllChecked(newCheckedState)
+    const updatedForm = customerDataBases.map((item) => ({
+      ...item,
+      isVisible: newCheckedState,
+    }))
+    setCustomerDataBases(updatedForm)
+  }
+  
+
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...customerDataBases]
     updatedForm[index].isVisible = !updatedForm[index].isVisible
     setCustomerDataBases(updatedForm)
+  
+    // Update header checkbox state
+    const allChecked = updatedForm.every((item) => item.isVisible)
+    setAllChecked(allChecked)
   }
 
   const handleRadioChange = (index: number, value: string) => {
@@ -61,6 +71,14 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
     console.log(customerDataBases)
     dispatch(updateCustomerDatabase(customerDatabase))
   }
+
+  useEffect(() => {
+    dispatch(fetchCustomerDatabase())
+  }, [dispatch])
+
+  useEffect(() => {
+    dispatch(fetchCustomerCustomDatabase())
+  }, [!openAddCustomer])
 
   return (
     <AppView>
@@ -136,7 +154,10 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
                       verticalAlign: 'middle',
                     }}
                   >
-                    <Checkbox />
+                    <Checkbox 
+                    checked={allChecked}
+                    onChange={handleHeaderCheckboxChange}
+                    />
                   </th>
                   <th
                     style={{
@@ -322,7 +343,7 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
           </Button>
 
           {openAddCustomer && (
-            <AddDialogCustomer
+            <AddCustomCustomer
               open={openAddCustomer}
               setOpen={setOpenAddCustomer}
             />

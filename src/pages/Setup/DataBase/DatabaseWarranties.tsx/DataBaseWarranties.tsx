@@ -12,10 +12,11 @@ import { RootState } from '../../../../redux/store'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
 import {warranties, customWarranties, warrantyData} from './WarrantiesData'
 import AddIcon from '@mui/icons-material/Add'
-import AddWarrantiesData from './AddWarrantiesData'
+import AddWarrantiesData from './AddCustomWarranties'
 import WarrantyFieldsAddingTable from './WarrantyFieldsAddingTable'
 import { fetchWarrantiesCustomDatabase } from '../../../../redux/features/WarrantiesCustomDatabaseSlice'
 import { fetchWarrantiesDatabase, updateWarrantiesDatabase } from '../../../../redux/features/WarrantiesDatabaseSlice'
+import AddCustomWarranties from './AddCustomWarranties'
 
 const DatabaseWarranties: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -24,15 +25,6 @@ const DatabaseWarranties: React.FunctionComponent = () => {
   const warrantiesDatabase = useSelector((state: RootState) => state.warrantiesDatabase.data)
   const warrantiesCustomDatabase = useSelector((state: RootState) => state.warrantiesCustomDatabase.data)
 
-  React.useEffect(() => {
-    dispatch(fetchWarrantiesDatabase())
-  }, [])
-
-
-  React.useEffect(() => {
-    dispatch(fetchWarrantiesCustomDatabase())
-  }, [])
-
   const [openAddWarranties, setOpenAddWarranties] = useState(false);
   const [warrantyDataBases, setWarrantyDataBases] = useState(warrantyData)
 
@@ -40,12 +32,34 @@ const DatabaseWarranties: React.FunctionComponent = () => {
     setWarrantyDataBases(warrantyData)
   }, [])
 
+  const [allChecked, setAllChecked] = useState(false)
+
+  const handleHeaderCheckboxChange = () => {
+    const newCheckedState = !allChecked
+    setAllChecked(newCheckedState)
+    const updatedForm = warrantyDataBases.map((item) => ({
+      ...item,
+      isVisible: newCheckedState,
+    }))
+    setWarrantyDataBases(updatedForm)
+  }
+  
 
   const handleCheckboxChange = (index: number) => {
     const updatedForm = [...warrantyDataBases]
     updatedForm[index].isVisible = !updatedForm[index].isVisible
     setWarrantyDataBases(updatedForm)
+  
+    // Update header checkbox state
+    const allChecked = updatedForm.every((item) => item.isVisible)
+    setAllChecked(allChecked)
   }
+  
+  // const handleCheckboxChange = (index: number) => {
+  //   const updatedForm = [...warrantyDataBases]
+  //   updatedForm[index].isVisible = !updatedForm[index].isVisible
+  //   setWarrantyDataBases(updatedForm)
+  // }
 
   const handleRadioChange = (index: number, value: string) => {
     const updatedForm = [...warrantyDataBases]
@@ -60,6 +74,14 @@ const DatabaseWarranties: React.FunctionComponent = () => {
     dispatch(updateWarrantiesDatabase(warrantiesDatabase))
   }
 
+  useEffect(() => {
+    dispatch(fetchWarrantiesDatabase())
+  }, [dispatch])
+
+
+  useEffect(() => {
+    dispatch(fetchWarrantiesCustomDatabase())
+  }, [!openAddWarranties])
 
   return (
     <AppView>
@@ -132,7 +154,10 @@ const DatabaseWarranties: React.FunctionComponent = () => {
                       verticalAlign: 'middle',
                     }}
                   >
-                    <Checkbox />
+                    <Checkbox 
+                    checked={allChecked}
+                    onChange={handleHeaderCheckboxChange}
+                    />
                   </th>
                   <th
                   style={{ background: '#fff8e6', verticalAlign: 'middle',wordBreak: 'break-word', whiteSpace: 'normal' }}
@@ -300,21 +325,16 @@ const DatabaseWarranties: React.FunctionComponent = () => {
           </Button>
 
           {openAddWarranties && (
-            <AddWarrantiesData
+            <AddCustomWarranties
               open={openAddWarranties}
               setOpen={setOpenAddWarranties}
             />
           )}
 
-          <Divider sx={{ my: 2 }} />
+
           <WarrantyFieldsAddingTable warrantyDataBases={warrantiesCustomDatabase} />
         </Box>
 
-        {/* <Box>
-          <AddDataBaseMaintenance />
-        </Box> */}
-
-        <Divider sx={{ marginTop: '3%' }} />
         <DatabaseButtons
           onCancel={() => handleCancel()}
           onSubmit={() => handleSubmit()}
