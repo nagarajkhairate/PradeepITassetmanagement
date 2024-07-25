@@ -1,31 +1,29 @@
-import React, { useState } from 'react'
+import React, { FormEvent, useEffect, useState } from 'react'
 import { Typography, Box, Button, Radio, RadioGroup, Divider } from '@mui/joy'
-// import { VscSettings } from "react-icons/vsc";
-import AppView from '../../Common/AppView'
 import SignpostOutlinedIcon from '@mui/icons-material/SignpostOutlined'
 import { ThunkDispatch } from 'redux-thunk'
-import { useDispatch } from 'react-redux'
-// import { addoptions} from '../../../redux/features/TabsSlice'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
-import { addoptions } from '../../../redux/features/TabsSlice'
-import { addEvents } from '../../../redux/features/EventsSlice'
+import { fetchEvents, updateEvents } from '../../../redux/features/EventsSlice'
 import { useNavigate } from 'react-router-dom'
+import AppForm from '../../Common/AppForm'
+import { updateStep } from '../../../redux/features/StepsSlice'
 
 
 interface EventOptionProps {
-  companyFormData: any
-  setCompanyFormData: any
   activeTab: number
   setActiveTab: (tab: number) => void
 }
 const options = [
   {
     id: 1,
-    value: 'yes',
+    value: true,
+    label: 'Yes'
   },
   {
     id: 2,
-    value: 'no',
+    value: false,
+    label: 'no'
   },
 ]
 
@@ -41,30 +39,40 @@ interface AssetRadioGroupProps {
 }
 
 const EventOption: React.FunctionComponent<EventOptionProps> = ({
-  companyFormData,
-  setCompanyFormData,
   activeTab,
   setActiveTab,
 }) => {
   const navigate = useNavigate()
-  const [eventForm, setEventForm] = useState<any>({})
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const events = useSelector((state: RootState) => state.events.data);
+  const step = useSelector((state: RootState) => state.steps.data)
 
+
+  const [eventForm, setEventForm] = useState<any>({})
   const HandleRadioSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setEventForm((prevData: any) => ({ ...prevData, [name]: value }))
   }
-  const handleSubmit = () => {
-    setCompanyFormData((prevData: any) => ({
-      ...prevData,
-      eventOption: eventForm,
-    }))
 
-    dispatch(addoptions(companyFormData.tableOption))
-    dispatch(addEvents(companyFormData.eventOption))
-    // navigate('/dashboard')
+
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    dispatch(updateStep({id: step[0].id, step: 7}))
+    dispatch(updateEvents(eventForm))
+    navigate('/')
   }
-  console.log(JSON.stringify(companyFormData.tableOption))
+
+  useEffect(()=>{
+    setEventForm(events[0])
+  },[events])
+
+
+  useEffect(()=>{
+    dispatch(fetchEvents())
+  },[dispatch])
+
   const AssetRadioGroup: React.FC<AssetRadioGroupProps> = ({
     name,
     onChange,
@@ -83,13 +91,14 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
             name={name}
             onChange={HandleRadioSelect}
             value={option.value}
-            label={option.value}
+            label={option.label}
             variant="outlined"
           />
         ))}
       </Box>
     </RadioGroup>
   )
+
 
   const CustomButtonBox: React.FC<CustomButtonBoxProps> = ({
     setupCheckoutText,
@@ -134,12 +143,13 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
   }
 
   const handleBack = () => {
-    setActiveTab((prevActiveStep) => prevActiveStep - 1)
+    setActiveTab(activeTab - 1)
   }
 
+
   return (
-    <AppView>
-      <Box
+    <AppForm onSubmit={handleSubmit}>
+     {eventForm && <Box
         sx={{
           borderRadius: '10px',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
@@ -190,9 +200,9 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
             </Typography>
           </Box>
           <AssetRadioGroup
-            name="checkout"
+            name="checkOut"
             onChange={HandleRadioSelect}
-            value={eventForm.checkout}
+            value={eventForm.checkOut}
           />
           <>
             <CustomButtonBox
@@ -230,9 +240,9 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
             </Typography>
           </Box>
           <AssetRadioGroup
-            name="lease"
+            name="leaseAssets"
             onChange={HandleRadioSelect}
-            value={eventForm.lease}
+            value={eventForm.leaseAssets}
           />
 
           <>
@@ -310,9 +320,9 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
             </Typography>
           </Box>
           <AssetRadioGroup
-            name="repair"
+            name="repairAssets"
             onChange={HandleRadioSelect}
-            value={eventForm.repair}
+            value={eventForm.repairAssets}
           />
 
           <CustomButtonBox
@@ -337,9 +347,9 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
             </Typography>
           </Box>
           <AssetRadioGroup
-            name="broken"
+            name="brokenAssets"
             onChange={HandleRadioSelect}
-            value={eventForm.broken}
+            value={eventForm.brokenAssets}
           />
 
           <CustomButtonBox
@@ -365,9 +375,9 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
             </Typography>
           </Box>
           <AssetRadioGroup
-            name="dispose"
+            name="disposeAssets"
             onChange={HandleRadioSelect}
-            value={eventForm.dispose}
+            value={eventForm.disposeAssets}
           />
 
           <CustomButtonBox
@@ -393,9 +403,9 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
             </Typography>
           </Box>
           <AssetRadioGroup
-            name="donate"
+            name="donateAssets"
             onChange={HandleRadioSelect}
-            value={eventForm.donate}
+            value={eventForm.donateAssets}
           />
 
           <CustomButtonBox
@@ -421,9 +431,9 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
             </Typography>
           </Box>
           <AssetRadioGroup
-            name="sell"
+            name="sellAssets"
             onChange={HandleRadioSelect}
-            value={eventForm.sell}
+            value={eventForm.sellAssets}
           />
 
           <CustomButtonBox
@@ -453,14 +463,13 @@ const EventOption: React.FunctionComponent<EventOptionProps> = ({
             '&:hover': { background: '#E1A91B' },
             borderRadius: '10px',
           }}
-          onClick={handleSubmit}
         >
           Finish
         </Button>
       </Box>
-      </Box>
+      </Box>} 
       
-    </AppView>
+    </AppForm>
   )
 }
 

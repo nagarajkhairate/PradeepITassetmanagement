@@ -24,7 +24,6 @@ export const fetchEvents = createAsyncThunk('events/fetchEvents', async () => {
   try {
     const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/events`);
   return response.data;
-   
   } catch (error) {
     console.error('Error Message'+ error);
     throw error;
@@ -63,7 +62,7 @@ export const deleteEvents = createAsyncThunk('events/deleteEvents', async (id: n
   return id;
 });
 
-const eventsSlice = createSlice({
+const EventsSlice = createSlice({
   name: 'events',
   initialState,
   reducers: {
@@ -106,7 +105,7 @@ const eventsSlice = createSlice({
   },
 });
  
-export const { setSelectedCustomer } = eventsSlice.actions;
+export const { setSelectedCustomer } = EventsSlice.actions;
  
-export default eventsSlice.reducer;
+export default EventsSlice.reducer;
 

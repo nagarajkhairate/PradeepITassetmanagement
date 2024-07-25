@@ -6,9 +6,10 @@ import EditCustomAssetField from './EditCustomAssetField'
 
 interface CommonTableProps {
     customAssetFields: any,
+    components: any
 }
 
-const CommonTable: FunctionComponent<CommonTableProps> = ({ customAssetFields }) => {
+const CommonTable: FunctionComponent<CommonTableProps> = ({ customAssetFields, components }) => {
     const [openAddAsset, setOpenAddAsset] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
 
@@ -21,7 +22,10 @@ const CommonTable: FunctionComponent<CommonTableProps> = ({ customAssetFields })
         // Add your delete logic here
     }
 
-    console.log(JSON.stringify(customAssetFields))
+    const getComponentName = (componentId: number) => {
+        const component = components?.find((component: any) => component.id === componentId);
+        return component?.title;
+      };
 
     return (
         <Box>
@@ -68,7 +72,7 @@ const CommonTable: FunctionComponent<CommonTableProps> = ({ customAssetFields })
                                     {item.fieldName}
                                 </td>
                               
-                                <td>{item.componentsId}</td>
+                                <td>{getComponentName(item.componentsId)}</td>
                                 <td>{item.isRequired}</td>
                                 <td>
                                     <Button

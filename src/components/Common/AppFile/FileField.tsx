@@ -8,7 +8,7 @@ type FieldProps = {
   dataType: string;
   name: string;
   value: string;
-  required: boolean;
+  isRequired: boolean;
   sequence: number;
   className: {
     sm: number;
@@ -85,7 +85,7 @@ const FileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, 
   return (
     <FormControl>
       <FormLabel sx={{ fontSize: '12px' }}>
-        {field.title} {field.required && <span style={{ color: 'red' }}>*</span>}:
+        {field.title} {field.isRequired && <span style={{ color: 'red' }}>*</span>}:
       </FormLabel>
       <Box>
         <Box
@@ -153,6 +153,7 @@ const FileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, 
         accept="image/*"
         onChange={onFileChange}
         style={{ display: 'none' }}
+        
       />
       <FormHelperText>Only (<strong>JPG, GIF, PNG</strong>) Allowed</FormHelperText>
     </FormControl>

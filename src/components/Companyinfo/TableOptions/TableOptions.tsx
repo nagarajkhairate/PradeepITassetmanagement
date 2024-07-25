@@ -13,13 +13,12 @@ import {
   Button,
 } from '@mui/joy';
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
-import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import AppView from '../../Common/AppView';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import { ThunkDispatch } from 'redux-thunk';
-import { fetchOptions } from '../../../redux/features/TableOptionsSlice';
+import { fetchOptions, updateoptions } from '../../../redux/features/TableOptionsSlice';
 
 const DepreciationOptions = {
   id: 1,
@@ -87,10 +86,21 @@ const TableOptions: React.FC<TableProps> = ({ activeTab, setActiveTab }) => {
   useEffect(() => {
     if (tableOptions) {
       setShowDepreciationOptions(tableOptions.depreciationOptions?.assetDepreciation === 'yes');
-      setDepreciationMethod(tableOptions.depreciationOptions?.depreciationMethod);
-      setCalculationFrequency(tableOptions.depreciationOptions?.calculationFrequency);
-      setEnableLinking(tableOptions.linkingOfAssets?.enableLinking);
-      setLinkedAssets(tableOptions.linkingOfAssets?.linkedAssets);
+      setDepreciationMethod(tableOptions.depreciationOptions?.depreciationMethod || '');
+      setCalculationFrequency(tableOptions.depreciationOptions?.calculationFrequency || '');
+      setEnableLinking(tableOptions.linkingOfAssets?.enableLinking || 'yes');
+      setLinkedAssets(tableOptions.linkingOfAssets?.linkedAssets || {
+        checkOut: false,
+        reservation: false,
+        leaseAssets: false,
+        lostFoundAssets: false,
+        repairAssets: false,
+        brokenAssets: false,
+        disposeAssets: false,
+        donateAssets: false,
+        sellAssets: false,
+        auditAssets: false,
+      });
       setTableOptionForm(tableOptions);
     }
   }, [tableOptions]);
@@ -132,10 +142,6 @@ const TableOptions: React.FC<TableProps> = ({ activeTab, setActiveTab }) => {
     setLinkedAssets((prev) => ({ ...prev, [name]: checked }));
   };
 
-  const handleNext = () => {
-    setActiveTab(activeTab + 1);
-  };
-
   const handleBack = () => {
     setActiveTab(activeTab - 1);
   };
@@ -145,8 +151,8 @@ const TableOptions: React.FC<TableProps> = ({ activeTab, setActiveTab }) => {
     const formData = {
       depreciationOptions: {
         assetDepreciation: showDepreciationOptions ? 'yes' : 'no',
-        depreciationMethod,
-        calculationFrequency,
+        depreciationMethod: depreciationMethod ? depreciationMethod : 'no',
+        calculationFrequency: calculationFrequency ? calculationFrequency : 'no',
       },
       linkingOfAssets: {
         enableLinking,
@@ -154,9 +160,10 @@ const TableOptions: React.FC<TableProps> = ({ activeTab, setActiveTab }) => {
       },
       tableInfoData: tableOptionForm.tableInfoData,
     };
-    console.log('Form Data:', formData);
-    // You can dispatch an action or make an API call with formData here
+    setActiveTab(activeTab + 1);
+    dispatch(updateoptions(formData));
   };
+
 
   return (
     <AppView>
@@ -221,6 +228,8 @@ const TableOptions: React.FC<TableProps> = ({ activeTab, setActiveTab }) => {
                     </Box>
                     <RadioGroup
                       defaultValue="outlined"
+                      name='assetDepreciation'
+                      value={showDepreciationOptions ? 'yes' : 'no'}
                       onChange={handleDepreciationChange}
                       sx={{
                         display: 'flex',
@@ -303,7 +312,7 @@ const TableOptions: React.FC<TableProps> = ({ activeTab, setActiveTab }) => {
                             <FormLabel>{LinkingOptions.formLabel}</FormLabel>
                           </Box>
                           <RadioGroup
-                            name={item.title}
+                            name={item.name}
                             value={item.selectedOption}
                             onChange={handleOptionChange}
                             sx={{
