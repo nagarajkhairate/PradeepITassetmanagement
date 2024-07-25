@@ -179,7 +179,7 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
               >
                    {radioOptions.map((option) => (
               <Radio key={option.value} value={option.value} label={option.label}  sx={{
-                margin: '0 8px', // Adjust margin to control spacing between radio buttons and labels
+                margin: '0 8px', 
               }}/>
             ))}
               </RadioGroup>
@@ -373,59 +373,48 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
         </tbody>
           </Table>
         </Box>
-
-<Box mt={2}>
   <Box
-    sx={{paddingBottom: '30px'}}
+    sx={{
+            padding: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
   >
     <Grid
                 container
                 spacing={2}
-                xs={12}
-                sx={{
-                  padding: '30px',
-                  display: 'flex',
-                  flexDirection: { xs: 'column', md: 'row' },
-                }}
+              padding="10px"
               >
     {checkOutFields && checkOutFields.map((field , index) => (
-      <FormControl key={index}>
-       <Grid key={index}>
+      <Grid key={index}  xs={12}  sm={6}>
        {checkOutTo === 'person' || (field.name !== 'assignedTo' && field.name !== 'clientId') ?
         handleInputValue(field, formData, handleChange, handleSelectChange, handleRadioChange) : null}
-        </Grid>
-      </FormControl>
+      </Grid>
     ))}
     </Grid>
-    <Box sx={{
-                  display: 'flex',
-                  flexDirection: {
-                    xs: 'column',
-                    md: 'row',
-                  },
-                  justifyContent: 'flex-end',
-                  gap: '15px',
-                  mx: '35px',
-                  mt: '40px',
-                }}>
-          <Button type="submit" sx={{ background: '#FABC1E',}}>Check Out</Button>
-          <Button
-                  size="md"
-                  onClick={()=> setOpen(false)}
-                  sx={{
-                    background: '#000000',
-                    '&:hover': {
-                      background: '#333333',
-                    },
-                  }}
-                >
-                  Cancel
-                </Button>
-        </Box>
+    <Grid container justifyContent="flex-end" sx={{ padding: "20px", gap: "15px" }}>
+    <Grid>
+      <Button type="submit" sx={{ background: '#FABC1E', '&:hover': { background: '#e0a71b' } }}>
+        Check Out
+      </Button>
+    </Grid>
+    <Grid>
+      <Button
+        size="md"
+        onClick={() => setOpen(false)}
+        sx={{
+          background: '#000000',
+          '&:hover': {
+            background: '#333333',
+          },
+        }}
+      >
+        Cancel
+      </Button>
+    </Grid>
+  </Grid>
           </Box>
         </Box>
-       
-      </Box>
     </AppForm>
   )
 }

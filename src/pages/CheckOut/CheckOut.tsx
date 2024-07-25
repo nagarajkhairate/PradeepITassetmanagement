@@ -40,6 +40,7 @@ const CheckOut: React.FC = () => {
   const assets = useSelector((state: RootState) => state.assets.data)
   const [getAllAssets, setGetAllAssets] = useState<Asset[] | undefined>()
   const [selectedAssets, setSelectedAssets] = useState<Asset[]>()
+  const allSelected = assets.length > 0 && assets.every(asset => selectedAssetIds.includes(asset.id));
 
   const handleSearchChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,6 +48,14 @@ const CheckOut: React.FC = () => {
     },
     [],
   )
+
+  const handleSelectAllChange = (event:any) => {
+    if (event.target.checked) {
+      setSelectedAssetIds(assets.map(asset => asset.id));
+    } else {
+      setSelectedAssetIds([]);
+    }
+  };
 
   const handleCheckboxChange = useCallback((id: string) => {
     setSelectedAssetIds((prevSelectedAssets) =>
@@ -210,7 +219,7 @@ const CheckOut: React.FC = () => {
                   background: '#fff8e6',
                 }}
               >
-                <Checkbox size="sm" />
+                <Checkbox size="sm" onChange={handleSelectAllChange} checked={allSelected} />
               </th>
               <th
                 style={{
