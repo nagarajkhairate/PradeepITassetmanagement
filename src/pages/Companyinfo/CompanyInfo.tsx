@@ -13,33 +13,40 @@ import Check from "@mui/icons-material/Check";
 import { ThunkDispatch } from "redux-thunk";
 import { RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchSteps } from "../../redux/features/StepsSlice";
-
+import { fetchSteps, updateStep } from "../../redux/features/StepsSlice";
+import { useMediaQuery } from '@mui/material';
 
 const CompanyInfo = () => {
   const [companyFormData, setCompanyFormData] = React.useState({});
-  const [activeStep, setActiveStep] = useState(2);
+  const [activeStep, setActiveStep] = useState(5);
   const step = useSelector((state: RootState) => state.steps.data)
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
-
-
+  const isSmallScreen = useMediaQuery('(max-width:600px)');
+console.log(step)
   const steps: any[] = [
-    { label: "Company", component: <Company companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
+    { label: "Company", component: <Company activeTab={activeStep} setActiveTab={setActiveStep} /> },
     { label: "Sites", component: <Sites activeTab={activeStep} setActiveTab={setActiveStep} /> },
     { label: "Locations", component: <LocationPage  activeTab={activeStep} setActiveTab={setActiveStep}/> },
     { label: "Categories", component: <Category activeTab={activeStep} setActiveTab={setActiveStep}/>  },
     { label: "Database", component: <DataBase  activeTab={activeStep} setActiveTab={setActiveStep}/> },
-    { label: "TableOptions", component: <TableOptions companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
+    { label: "TableOptions", component: <TableOptions  activeTab={activeStep} setActiveTab={setActiveStep} /> },
     { label: "EventOptions", component: <EventOption companyFormData={companyFormData} setCompanyFormData={setCompanyFormData} activeTab={activeStep} setActiveTab={setActiveStep} /> },
   ];
-  useEffect(()=>{
-    if(step.length)
-      setActiveStep(parseInt(step[0].step))
-  },[step])
+
+  // useEffect(()=>{
+  //   if(step.length)
+  //     setActiveStep(step[0].step)
+  // },[step])
+  // useEffect(()=>{
+    
+  //   if(step)
+  //     if(activeStep > step[0].step)
+  //     dispatch(updateStep({id: step[0].step, step: activeStep}))
+  // },[activeStep])
 
   useEffect(()=>{
     dispatch(fetchSteps())
-  },[dispatch])
+  },[activeStep])
 
   return (
     <AppView>
@@ -50,9 +57,13 @@ const CompanyInfo = () => {
           justifyContent: "center",
           alignItems: "center",
           width: "100%",
+          padding: isSmallScreen ? '10px' : '20px',
         }}
       >
-        <Stepper sx={{ width: '100%' }}>
+        <Stepper
+          sx={{ width: '100%', mb:2 }}
+          orientation={isSmallScreen ? 'vertical' : 'horizontal'}
+        >
           {steps && steps.map((step, index) => (
             <Step
               key={index}
@@ -78,7 +89,6 @@ const CompanyInfo = () => {
         <Box sx={{ mt: 2 }}>
           {steps[activeStep] && steps[activeStep].component}
         </Box>
-       
       </Box>
     </AppView>
   );

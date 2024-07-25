@@ -58,7 +58,7 @@ const Sites: React.FC<SiteProps> = ({ activeTab, setActiveTab }) => {
   const [deleteOpen, setDeleteOpen] = useState(false)
 
   const sites = useSelector((state: RootState) => state.sites.data)
-
+  const step = useSelector((state: RootState) => state.steps.data)
   const handleDeleteClick = (site: Site) => {
     setSelectedSite(site)
     setDeleteOpen(true)
@@ -93,7 +93,6 @@ const Sites: React.FC<SiteProps> = ({ activeTab, setActiveTab }) => {
 
   const handleNext = () => {
     setActiveTab(activeTab + 1)
-    
   }
 
   const handleBack = () => {
@@ -225,13 +224,15 @@ const Sites: React.FC<SiteProps> = ({ activeTab, setActiveTab }) => {
           </Grid>
         </Box>
         <Divider />
-        <Box sx={{ marginTop: '20px', padding: '10px', fontSize: '14px' }}>
+        <Typography
+          sx={{ marginTop: '20px', padding: '10px', fontSize: '14px' }}
+        >
           <strong>AssetTiger</strong> allows you to enter multiple{' '}
           <strong>Sites</strong>. For example, the <strong>Site</strong> may be
           a building or address. This means that you can better track each asset
           that is assigned to a given <strong>Site</strong>. A detailed{' '}
           <strong>Site</strong> makes it easy to find and count each asset.
-        </Box>
+        </Typography>
         <Divider />
 
         <Box
@@ -325,213 +326,203 @@ const Sites: React.FC<SiteProps> = ({ activeTab, setActiveTab }) => {
           </Box>
         </Box>
 
-        <Box>
-          <Stack
-            direction={{ xs: 'column', sm: 'row' }}
-            spacing={{ xs: 1, sm: 2, md: 2 }}
+        <Stack
+          sx={{
+            width: '100%',
+            borderRadius: 'sm',
+            flexShrink: 1,
+            overflow: 'auto',
+          }}
+        >
+          <Table
+            aria-labelledby="tableTitle"
+            stickyHeader
             sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              p: 2,
+              fontSize: '15px',
+              border: '1px solid #f2f2f2',
+              minWidth: '700px',
             }}
           >
-            <Box
-              sx={{
-                overflowX: 'auto',
-                fontSize: '14px',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              <Table
-                borderAxis="both"
-                style={{
-                  borderCollapse: 'collapse',
-                  border: '1px solid grey',
-                  minWidth: '900px',
-                }}
-              >
-                <thead>
-                  <tr>
-                    <th style={{ width: 30, background: '#fff8e6' }}>
+            <thead>
+              <tr>
+                <th style={{ width: 30, background: '#fff8e6' }}>
+                  <Checkbox
+                    size="sm"
+                    indeterminate={
+                      matchedSelected.length > 0 &&
+                      matchedSelected.length < sites.length
+                    }
+                    checked={
+                      matchedSelected.length > 0 &&
+                      matchedSelected.length === sites.length
+                    }
+                    onChange={() => {
+                      if (
+                        matchedSelected.length > 0 &&
+                        matchedSelected.length === sites.length
+                      ) {
+                        setMatchedSelected([])
+                      } else {
+                        const newSelecteds = sites.map((_, index) => index)
+                        setMatchedSelected(newSelecteds)
+                      }
+                    }}
+                  />
+                </th>
+                <th style={{ background: '#fff8e6' }}>Site</th>
+                <th style={{ background: '#fff8e6' }}>Description</th>
+                <th style={{ background: '#fff8e6' }}>Address</th>
+                <th style={{ background: '#fff8e6' }}>Apt. / Suite</th>
+                <th style={{ background: '#fff8e6' }}>City</th>
+                <th style={{ background: '#fff8e6' }}>State</th>
+                <th style={{ background: '#fff8e6' }}>Zip Code</th>
+                <th style={{ background: '#fff8e6' }}>Country</th>
+                <th style={{ background: '#fff8e6' }}>Edit</th>
+                <th style={{ background: '#fff8e6' }}> Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sites.length > 0 ? (
+                sites.map((site, index) => (
+                  <tr key={index}>
+                    <td>
                       <Checkbox
                         size="sm"
-                        indeterminate={
-                          matchedSelected.length > 0 &&
-                          matchedSelected.length < sites.length
-                        }
-                        checked={
-                          matchedSelected.length > 0 &&
-                          matchedSelected.length === sites.length
-                        }
-                        onChange={() => {
-                          if (
-                            matchedSelected.length > 0 &&
-                            matchedSelected.length === sites.length
-                          ) {
-                            setMatchedSelected([])
-                          } else {
-                            const newSelecteds = sites.map((_, index) => index)
-                            setMatchedSelected(newSelecteds)
-                          }
-                        }}
+                        checked={matchedSelected.includes(index)}
+                        onChange={() => handleCheckboxChange(index)}
+                        color="primary"
                       />
-                    </th>
-                    <th style={{ background: '#fff8e6' }}>Site</th>
-                    <th style={{ background: '#fff8e6' }}>Description</th>
-                    <th style={{ background: '#fff8e6' }}>Address</th>
-                    <th style={{ background: '#fff8e6' }}>Apt. / Suite</th>
-                    <th style={{ background: '#fff8e6' }}>City</th>
-                    <th style={{ background: '#fff8e6' }}>State</th>
-                    <th style={{ background: '#fff8e6' }}>Zip Code</th>
-                    <th style={{ background: '#fff8e6' }}>Country</th>
-                    <th style={{ background: '#fff8e6' }}>Edit</th>
-                    <th style={{ background: '#fff8e6' }}> Delete</th>
+                    </td>
+                    <td
+                      style={{
+                        wordBreak: 'break-word',
+                        whiteSpace: 'normal',
+                        textAlign: 'left',
+                      }}
+                    >
+                      {site.siteName}
+                    </td>
+                    <td
+                      style={{
+                        wordBreak: 'break-word',
+                        whiteSpace: 'normal',
+                        textAlign: 'left',
+                      }}
+                    >
+                      {site.description}
+                    </td>
+                    <td
+                      style={{
+                        wordBreak: 'break-word',
+                        whiteSpace: 'normal',
+                        textAlign: 'left',
+                      }}
+                    >
+                      {site.address}
+                    </td>
+                    <td
+                      style={{
+                        wordBreak: 'break-word',
+                        whiteSpace: 'normal',
+                        textAlign: 'left',
+                      }}
+                    >
+                      {site.aptSuite}
+                    </td>
+                    <td
+                      style={{
+                        wordBreak: 'break-word',
+                        whiteSpace: 'normal',
+                        textAlign: 'left',
+                      }}
+                    >
+                      {site.city}
+                    </td>
+                    <td
+                      style={{
+                        wordBreak: 'break-word',
+                        whiteSpace: 'normal',
+                        textAlign: 'left',
+                      }}
+                    >
+                      {site.state}
+                    </td>
+                    <td>{site.zipCode}</td>
+                    <td
+                      style={{
+                        wordBreak: 'break-word',
+                        whiteSpace: 'normal',
+                        textAlign: 'left',
+                      }}
+                    >
+                      {site.country}
+                    </td>
+                    <td>
+                      <Button
+                        onClick={() => handleEditClick(site)}
+                        sx={{
+                          fontWeight: '400',
+                          fontSize: '14px',
+                          background: '#ffffff',
+                          color: 'green',
+                          display: 'flex',
+                          justifyContent: {
+                            md: 'flex-end',
+                            xs: 'center',
+                          },
+                          marginLeft: 'none',
+                          border: '1px solid green ',
+                          borderRadius: '13px',
+                          '&:hover': {
+                            color: 'white',
+                            background: 'green',
+                          },
+                          padding: '.25rem .55rem',
+                        }}
+                      >
+                        <EditOutlinedIcon sx={{ fontSize: '14px' }} />
+                        Edit
+                      </Button>
+                    </td>
+                    <td>
+                      <Button
+                        onClick={() => handleDeleteClick(site)}
+                        sx={{
+                          fontWeight: '400',
+                          fontSize: '14px',
+                          background: '#ffffff',
+                          color: '#d32f2f',
+                          display: 'flex',
+                          justifyContent: {
+                            md: 'flex-end',
+                            xs: 'center',
+                          },
+                          marginLeft: 'none',
+                          border: '1px solid red ',
+                          borderRadius: '13px',
+                          '&:hover': {
+                            color: 'white',
+                            background: '#d32f2f',
+                          },
+                          padding: '.25rem .55rem',
+                        }}
+                      >
+                        <DeleteForeverIcon sx={{ fontSize: '14px' }} />
+                        Delete
+                      </Button>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {sites.length > 0 ? (
-                    sites.map((site, index) => (
-                      <tr key={index}>
-                        <td>
-                          <Checkbox
-                            size="sm"
-                            checked={matchedSelected.includes(index)}
-                            onChange={() => handleCheckboxChange(index)}
-                            color="primary"
-                          />
-                        </td>
-                        <td
-                          style={{
-                            wordBreak: 'break-word',
-                            whiteSpace: 'normal',
-                            textAlign: 'left',
-                          }}
-                        >
-                          {site.siteName}
-                        </td>
-                        <td
-                          style={{
-                            wordBreak: 'break-word',
-                            whiteSpace: 'normal',
-                            textAlign: 'left',
-                          }}
-                        >
-                          {site.description}
-                        </td>
-                        <td
-                          style={{
-                            wordBreak: 'break-word',
-                            whiteSpace: 'normal',
-                            textAlign: 'left',
-                          }}
-                        >
-                          {site.address}
-                        </td>
-                        <td
-                          style={{
-                            wordBreak: 'break-word',
-                            whiteSpace: 'normal',
-                            textAlign: 'left',
-                          }}
-                        >
-                          {site.aptSuite}
-                        </td>
-                        <td
-                          style={{
-                            wordBreak: 'break-word',
-                            whiteSpace: 'normal',
-                            textAlign: 'left',
-                          }}
-                        >
-                          {site.city}
-                        </td>
-                        <td
-                          style={{
-                            wordBreak: 'break-word',
-                            whiteSpace: 'normal',
-                            textAlign: 'left',
-                          }}
-                        >
-                          {site.state}
-                        </td>
-                        <td>{site.zipCode}</td>
-                        <td
-                          style={{
-                            wordBreak: 'break-word',
-                            whiteSpace: 'normal',
-                            textAlign: 'left',
-                          }}
-                        >
-                          {site.country}
-                        </td>
-                        <td>
-                          <Button
-                            onClick={() => handleEditClick(site)}
-                            sx={{
-                              fontWeight: '400',
-                              fontSize: '14px',
-                              background: '#ffffff',
-                              color: 'green',
-                              display: 'flex',
-                              justifyContent: {
-                                md: 'flex-end',
-                                xs: 'center',
-                              },
-                              marginLeft: 'none',
-                              border: '1px solid green ',
-                              borderRadius: '13px',
-                              '&:hover': {
-                                color: 'white',
-                                background: 'green',
-                              },
-                              padding: '.25rem .55rem',
-                            }}
-                          >
-                            <EditOutlinedIcon sx={{ fontSize: '14px' }} />
-                            Edit
-                          </Button>
-                        </td>
-                        <td>
-                          <Button
-                            onClick={() => handleDeleteClick(site)}
-                            sx={{
-                              fontWeight: '400',
-                              fontSize: '14px',
-                              background: '#ffffff',
-                              color: '#d32f2f',
-                              display: 'flex',
-                              justifyContent: {
-                                md: 'flex-end',
-                                xs: 'center',
-                              },
-                              marginLeft: 'none',
-                              border: '1px solid red ',
-                              borderRadius: '13px',
-                              '&:hover': {
-                                color: 'white',
-                                background: '#d32f2f',
-                              },
-                              padding: '.25rem .55rem',
-                            }}
-                          >
-                            <DeleteForeverIcon sx={{ fontSize: '14px' }} />
-                            Delete
-                          </Button>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={11} style={{ textAlign: 'center' }}>
-                        No Data Found
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </Table>
-            </Box>
-          </Stack>
-        </Box>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={11} style={{ textAlign: 'center' }}>
+                    No Data Found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </Stack>
 
         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
           <Button
@@ -560,13 +551,15 @@ const Sites: React.FC<SiteProps> = ({ activeTab, setActiveTab }) => {
         </Box>
       </Box>
 
-      <AddSite open={open} setOpen={setOpen} />
+      {open && <AddSite open={open} setOpen={setOpen} />}
 
-      <EditSite
-        open={isEditDialogOpen}
-        onClose={() => setEditDialogOpen(false)}
-        site={selectedSite}
-      />
+      {isEditDialogOpen && (
+        <EditSite
+          open={isEditDialogOpen}
+          onClose={() => setEditDialogOpen(false)}
+          site={selectedSite}
+        />
+      )}
 
       <DeleteSite
         deleteOpen={deleteOpen}

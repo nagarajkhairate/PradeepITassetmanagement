@@ -39,6 +39,7 @@ const AddCategory: React.FunctionComponent<CategoryAddProps> = ({
     e.preventDefault()
     try {
       await dispatch(addCategory(formData))
+      setOpen()
     } catch (error) {
       
     }
@@ -133,7 +134,7 @@ const AddCategory: React.FunctionComponent<CategoryAddProps> = ({
 
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', m: 2 }}>
               <Button
-                onClick={() => setOpen()}
+                onClick={setOpen}
                 autoFocus
                 variant="solid"
                 sx={{
