@@ -11,9 +11,10 @@ import { deleteMaintenanceCustomDatabase } from "../../../../redux/features/Main
 
 interface CustomerTableProps {
     maintenanceDataBases: any[]
+    components:any[]
   }
 
-  const MaintenanceFieldsAddingTable: React.FC<CustomerTableProps> = ({maintenanceDataBases}) => {
+  const MaintenanceFieldsAddingTable: React.FC<CustomerTableProps> = ({maintenanceDataBases, components}) => {
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
     const [openAddMaintenance, setOpenAddMaintenance] = useState(false)
     const [selectedItem, setSelectedItem] = useState(null)
@@ -29,6 +30,11 @@ interface CustomerTableProps {
       dispatch(deleteMaintenanceCustomDatabase(item.id))
     }
   
+    const getComponentName = (componentId: number) => {
+      const component = components?.find((component: any) => component.id === componentId);
+      return component?.title;
+    };
+    
     return (
       <Box
         sx={{
@@ -82,7 +88,12 @@ interface CustomerTableProps {
                 >
                   {item.fieldName}
                 </td>
-                <td>{item.componentsId}</td>
+                <td  style={{
+                    wordBreak: 'break-word',
+                    whiteSpace: 'normal',
+                    textAlign: 'left',
+                  }}>{getComponentName(item.componentsId)}
+                  </td>
                 <td>{item.isRequired}</td>
                 <td>
                   <Button

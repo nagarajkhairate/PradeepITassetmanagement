@@ -11,13 +11,14 @@ import { deleteWarrantiesCustomDatabase } from '../../../../redux/features/Warra
 
 interface WarrantyTableProps {
   warrantyDataBases: any[]
+  components:any[]
 }
 
 const WarrantyFieldsAddingTable: React.FC<WarrantyTableProps> = ({
-  warrantyDataBases,
+  warrantyDataBases,components
 }) => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const components = useSelector((state: RootState) => state.components.data)
+  
   const [openAddWarranties, setOpenAddWarranties] = useState(false)
   const [selectedItem, setSelectedItem] = useState(null)
   const [isDelete, setIsDelete]=useState(false)
@@ -31,6 +32,11 @@ const WarrantyFieldsAddingTable: React.FC<WarrantyTableProps> = ({
     setIsDelete(true)
     dispatch(deleteWarrantiesCustomDatabase(item.id))
   }
+
+  const getComponentName = (componentId: number) => {
+    const component = components?.find((component: any) => component.id === componentId);
+    return component?.title;
+  };
 
   return (
     <Box
@@ -84,7 +90,12 @@ const WarrantyFieldsAddingTable: React.FC<WarrantyTableProps> = ({
                 >
                   {item.fieldName}
                 </td>
-                <td>{item.componentsId}</td>
+                <td  style={{
+                    wordBreak: 'break-word',
+                    whiteSpace: 'normal',
+                    textAlign: 'left',
+                  }}>{getComponentName(item.componentsId)}
+                  </td>
                 <td>{item.isRequired}</td>
                 <td>
                   <Button

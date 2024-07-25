@@ -14,10 +14,10 @@ import DeleteDatabaseAsset from "./DeleteDatabaseAsset"
 
 interface AssetTableProps {
     assetDataForm: any[]
-    // setCustomerDataBases:React.Dispatch<React.SetStateAction<any[]>>
+    components: any
   }
 
-  const AssetFieldsAddingTable: React.FC<AssetTableProps> = ({assetDataForm,
+  const AssetFieldsAddingTable: React.FC<AssetTableProps> = ({assetDataForm, components
   }) => {
     const [openAddAsset, setOpenAddAsset] = useState(false)
     const [selectedItem, setSelectedItem] = useState<any | null>(null);
@@ -25,7 +25,6 @@ interface AssetTableProps {
     const [selectedCell, setSelectedCell] = useState<any | null>(null)
     const [deleteOpen, setDeleteOpen] = useState(false)
 
-    const components = useSelector((state: RootState) => state.components.data)
 const category=useSelector((state:RootState) => state.category.data)
     const handleEdit = (item: any) => {
       setSelectedItem(item)
@@ -51,7 +50,10 @@ const category=useSelector((state:RootState) => state.category.data)
       handleDeleteClose();
   };
 
-
+  const getComponentName = (componentId: number) => {
+    const component = components?.find((component: any) => component.id === componentId);
+    return component?.title;
+  };
   
     return (
       <Box
@@ -84,7 +86,7 @@ const category=useSelector((state:RootState) => state.category.data)
             <th style={{ background: '#fff8e6', verticalAlign: 'middle' }}>
               Required
             </th>
-            <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Category</th>
+            {/* <th style={{background: '#fff8e6',verticalAlign:'middle'}}>Category</th> */}
             <th style={{ background: '#fff8e6', verticalAlign: 'middle' }}>
               Edit
             </th>
@@ -106,12 +108,12 @@ const category=useSelector((state:RootState) => state.category.data)
                 >
                   {item.fieldName}
                 </td>
-                <td>{item.componentsId}</td>
+                <td>{getComponentName(item.componentsId)}</td>
                 <td>{item.isRequired}</td>
-                <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>
+                {/* <td style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>
 
                 {item.categoryId}
-                </td>
+                </td> */}
 
                 
                 <td>
@@ -171,7 +173,7 @@ const category=useSelector((state:RootState) => state.category.data)
             ))
           ) : (
             <tr>
-              <td colSpan={6} style={{ textAlign: 'center' }}>
+              <td colSpan={5} style={{ textAlign: 'center' }}>
                 No Data Found
               </td>
             </tr>

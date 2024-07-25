@@ -13,18 +13,16 @@ import { deleteCustomerCustomDatabase } from "../../../../redux/features/Custome
 
 interface CustomerTableProps {
     customerDataBases: any[]
-    // setCustomerDataBases:React.Dispatch<React.SetStateAction<any[]>>
+    components: any
   }
 
-  const CustomerFieldsAddingTable: React.FC<CustomerTableProps> = ({customerDataBases,
+  const CustomerFieldsAddingTable: React.FC<CustomerTableProps> = ({customerDataBases,components
   }) => {
     const [openAddCustomer, setOpenAddCustomer] = useState(false)
     const [selectedItem, setSelectedItem] = useState<any | null>(null);
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
     const [selectedCell, setSelectedCell] = useState<any | null>(null)
     const [isDelete, setIsDelete] = useState(false)
-
-    const components = useSelector((state: RootState) => state.components.data)
 
     const handleEdit = (item: any) => {
       setSelectedItem(item)
@@ -36,7 +34,10 @@ interface CustomerTableProps {
       setIsDelete(true);
       dispatch(deleteCustomerCustomDatabase(item.id))
   };
-
+  const getComponentName = (componentId: number) => {
+    const component = components?.find((component: any) => component.id === componentId);
+    return component?.title;
+  };
   
     return (
       <Box
@@ -89,7 +90,11 @@ interface CustomerTableProps {
                 >
                   {item.fieldName}
                 </td>
-                <td>{item.componentsId}</td>
+                <td  style={{
+                    wordBreak: 'break-word',
+                    whiteSpace: 'normal',
+                    textAlign: 'left',
+                  }}>{getComponentName(item.componentsId)}</td>
                 <td>{item.isRequired}</td>
                 <td>
                   <Button

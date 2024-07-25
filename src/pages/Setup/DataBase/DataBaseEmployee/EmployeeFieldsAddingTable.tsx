@@ -12,16 +12,16 @@ import { deleteEmpCustomDatabase } from '../../../../redux/features/EmpCustomDat
 
 interface EmployeeTableProps {
   empDataBases: any[]
+  components: any
 }
 
 const EmployeeFieldsAddingTable: React.FC<EmployeeTableProps> = ({
-  empDataBases,
+  empDataBases,components
 }) => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [openAddEmployee, setOpenAddEmployee] = useState(false)
   const [selectedItem, setSelectedItem] = useState(null)
   const [isDelete, setIsDelete]=useState(false)
-  const components = useSelector((state: RootState) => state.components.data)
 
   const handleEdit = (item: any) => {
     setSelectedItem(item)
@@ -32,6 +32,11 @@ const EmployeeFieldsAddingTable: React.FC<EmployeeTableProps> = ({
     setIsDelete(true)
     dispatch(deleteEmpCustomDatabase(item.id))
   }
+
+  const getComponentName = (componentId: number) => {
+    const component = components?.find((component: any) => component.id === componentId);
+    return component?.title;
+  };
 
   return (
     <Box
@@ -85,7 +90,11 @@ const EmployeeFieldsAddingTable: React.FC<EmployeeTableProps> = ({
                 >
                   {item.fieldName}
                 </td>
-                <td>{item.componentsId}</td>
+                <td  style={{
+                    wordBreak: 'break-word',
+                    whiteSpace: 'normal',
+                    textAlign: 'left',
+                  }}>{getComponentName(item.componentsId)}</td>
                 <td>{item.isRequired}</td>
                 <td>
                   <Button

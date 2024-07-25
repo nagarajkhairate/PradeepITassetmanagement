@@ -21,6 +21,7 @@ import {
 } from '../../../../redux/features/CustomerDatabaseSlice'
 import { fetchCustomerCustomDatabase } from '../../../../redux/features/CustomerCustomDatabaseSlice'
 import AddCustomCustomer from './AddCustomCustomer'
+import { fetchComponents } from '../../../../redux/features/ComponentsIdSlice'
 
 const DatabaseCustomersTable: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -28,6 +29,7 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
 
   const customerDatabase = useSelector((state: RootState) => state.customerDatabase.data)
   const customerCustomDatabase = useSelector((state: RootState) => state.customerCustomDatabase.data)
+  const components = useSelector((state: RootState) => state.components.data);
 
   const [openAddCustomer, setOpenAddCustomer] = useState(false)
   const [customerDataBases, setCustomerDataBases] = useState(customerData)
@@ -92,7 +94,7 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
 
   useEffect(() => {
     dispatch(fetchCustomerCustomDatabase())
-  }, [!openAddCustomer])
+  }, [])
 
   useEffect(() => {
     const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -107,6 +109,9 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(customerDataBases));
   }, [customerDataBases]);
 
+  useEffect(()=>{
+    dispatch(fetchComponents())
+  },[dispatch])
 
   return (
     <AppView>
@@ -388,7 +393,7 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
           <Divider sx={{ my: 2 }} />
           <CustomerFieldsAddingTable
             customerDataBases={customerCustomDatabase}
-            // setCustomerDataBases={setCustomerDataBases}
+            components={components}
           />
         </Box>
 

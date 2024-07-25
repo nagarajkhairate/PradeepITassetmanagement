@@ -17,6 +17,7 @@ import MaintenanceFieldsAddingTable from './MaintennaceFieldsAddingTable'
 import { fetchMaintenanceDatabase, updateMaintenanceDatabase } from '../../../../redux/features/MaintenanceDatabaseSlice'
 import { fetchMaintenanceCustomDatabase } from '../../../../redux/features/MaintenanceCustomDatabaseSlice'
 import AddCustomMaintenance from './AddCustomMaintenance'
+import { fetchComponents } from '../../../../redux/features/ComponentsIdSlice'
 
 const DatabaseMaintenance: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -24,6 +25,7 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
 
   const maintenanceDatabase = useSelector((state: RootState) => state.maintenanceDatabase.data)
   const maintenanceCustomDatabase = useSelector((state: RootState) => state.maintenanceCustomDatabase.data)
+  const components = useSelector((state: RootState) => state.components.data);
 
  const [openAddMaintenance, setOpenAddMaintenance] = useState(false);
   const [maintenanceDataBases, setMaintenanceDataBases] = useState(maintenanceData)
@@ -104,7 +106,11 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
 
   useEffect(() => {
     dispatch(fetchMaintenanceCustomDatabase())
-  }, [!openAddMaintenance])
+  }, [])
+
+  useEffect(()=>{
+    dispatch(fetchComponents())
+  },[dispatch])
 
   return (
     <AppView>
@@ -382,7 +388,7 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
             />
           )}
 
-          <MaintenanceFieldsAddingTable maintenanceDataBases={maintenanceCustomDatabase} />
+          <MaintenanceFieldsAddingTable maintenanceDataBases={maintenanceCustomDatabase} components={components}/>
         </Box>
 
 

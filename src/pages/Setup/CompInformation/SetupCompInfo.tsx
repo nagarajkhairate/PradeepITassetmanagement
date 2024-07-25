@@ -326,7 +326,7 @@
 
 
 
-import React, { useState } from 'react'
+import React, { FormEvent, useState } from 'react'
 import { Box, Typography, Divider, Grid } from '@mui/joy'
 import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined'
 import CurrencyExchangeOutlinedIcon from '@mui/icons-material/CurrencyExchangeOutlined'
@@ -412,10 +412,25 @@ const SetupCompInfo: React.FC = ({}) => {
   const handleSubmit = () => {
     const updatedEventForm = { ...formData };
     console.log(JSON.stringify(formData, null, 2))
-    dispatch(updateCompanyInfo(companyInfo))
+    dispatch(updateCompanyInfo(updatedEventForm))
     console.log(JSON.stringify(formData, null, 2));
   }
   
+
+  // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   const formDataToSend = new FormData();
+  //   for (const key in formData) {
+  //     if (formData[key] !== null) {
+  //       if (key === 'companyLogo' && file) {
+  //         formDataToSend.append(key, file);
+  //       } else {
+  //         formDataToSend.append(key, formData[key] as string);
+  //       }
+  //     }
+  //   }
+  //   await dispatch(updateCompanyInfo(formDataToSend));
+  // };
 
   React.useEffect(() => {
     if(companyInfo.length > 0){

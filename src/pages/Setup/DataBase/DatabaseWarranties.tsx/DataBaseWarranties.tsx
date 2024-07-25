@@ -17,6 +17,7 @@ import WarrantyFieldsAddingTable from './WarrantyFieldsAddingTable'
 import { fetchWarrantiesCustomDatabase } from '../../../../redux/features/WarrantiesCustomDatabaseSlice'
 import { fetchWarrantiesDatabase, updateWarrantiesDatabase } from '../../../../redux/features/WarrantiesDatabaseSlice'
 import AddCustomWarranties from './AddCustomWarranties'
+import { fetchComponents } from '../../../../redux/features/ComponentsIdSlice'
 
 const DatabaseWarranties: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -24,7 +25,8 @@ const DatabaseWarranties: React.FunctionComponent = () => {
 
   const warrantiesDatabase = useSelector((state: RootState) => state.warrantiesDatabase.data)
   const warrantiesCustomDatabase = useSelector((state: RootState) => state.warrantiesCustomDatabase.data)
-
+  const components = useSelector((state: RootState) => state.components.data);
+  
   const [openAddWarranties, setOpenAddWarranties] = useState(false);
   const [warrantyDataBases, setWarrantyDataBases] = useState(warrantyData)
   const LOCAL_STORAGE_KEY = 'warrantyDataBases';
@@ -90,7 +92,7 @@ const DatabaseWarranties: React.FunctionComponent = () => {
 
   useEffect(() => {
     dispatch(fetchWarrantiesCustomDatabase())
-  }, [!openAddWarranties])
+  }, [])
 
   useEffect(() => {
     const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -104,6 +106,10 @@ const DatabaseWarranties: React.FunctionComponent = () => {
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(warrantyDataBases));
   }, [warrantyDataBases]);
+
+  useEffect(()=>{
+    dispatch(fetchComponents())
+  },[dispatch])
 
   return (
     <AppView>
@@ -363,7 +369,7 @@ const DatabaseWarranties: React.FunctionComponent = () => {
           )}
 
 
-          <WarrantyFieldsAddingTable warrantyDataBases={warrantiesCustomDatabase} />
+          <WarrantyFieldsAddingTable warrantyDataBases={warrantiesCustomDatabase} components={components}/>
         </Box>
 
         <DatabaseButtons
