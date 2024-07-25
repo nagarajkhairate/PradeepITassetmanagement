@@ -46,10 +46,11 @@ const DepartmentComponent: React.FC<DepartmentProps> = ({
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px', mt: 2 }}>
-      <FormControl sx={{ width: '300px' }}>
+      <FormControl sx={{ width: '300px'}}>
         <FormLabel>{field.fieldName}</FormLabel>
 
         <Select
+          sx={{padding: '10px'}}
           placeholder="Select Department"
           name={field.name}
           value={formData && formData['department']?.id as string}
@@ -65,24 +66,28 @@ const DepartmentComponent: React.FC<DepartmentProps> = ({
       </FormControl>
 
       <Button
-        onClick={() => setOpen(true)}
-        variant="outlined"
-        size="sm"
-        sx={{
-          mt:3,
-          borderRadius: '15px',
-          background: '#E4E4E4',
-          '&:hover': {
-            background: '#d9d9d9',
-          },
-          color: '#767676',
-        }}
-      >
-        <Typography sx={{ mr: '10px', color: '#767676' }}>
-          <AddIcon />
-        </Typography>
-        <Typography sx={{ mr: '10px', color: '#767676' }}>New </Typography>
-      </Button>
+  onClick={() => setOpen(true)}
+  variant="outlined"
+  size="sm"
+  sx={{
+    mt: 3,
+    borderRadius: '15px',
+    background: '#E4E4E4',
+    padding: '5px 10px', // Reduce the padding to make the button smaller
+    '&:hover': {
+      background: '#d9d9d9',
+    },
+    color: '#767676',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}
+>
+  <AddIcon sx={{ color: '#767676', mr: '5px' }} /> {/* Reduce the margin */}
+  <Typography sx={{ color: '#767676', fontSize: '0.875rem' }}> {/* Adjust the font size */}
+    New
+  </Typography>
+</Button>
       {open && <SetupAddDept open={open} setOpen={setOpen} />}
     </Box>
   )

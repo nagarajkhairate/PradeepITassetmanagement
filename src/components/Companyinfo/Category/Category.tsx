@@ -391,7 +391,7 @@ const CategoryPage: React.FunctionComponent<CategoryProps> = ({
               </Table>
             </Box>
           </Stack>
-          {open && <AddCategory open={open} setOpen={setOpen} />}
+          {open && <AddCategory open={open} setOpen={()=>setOpen(false)} />}
           {editOpen && (
             <EditCategory
               category={selectedLocation}

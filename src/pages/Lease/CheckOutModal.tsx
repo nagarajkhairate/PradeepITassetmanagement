@@ -29,10 +29,6 @@ import DepartmentComponent from "../../components/AssetSections/DepartmentCompon
 // import AddNewClient from "./AddNewClient";
 import SelectOption from "../../components/AssetSections/SelectOption";
 import { checkOutConfig } from "../CheckOut/checkOutConfig";
-import { fetchCheckOutField } from "../../redux/features/CheckOutFieldSlice";
-import AppButton from "../../components/Common/AppButton";
-import AddNewEmpployee from "./AddNewEmpployee";
-import AddNewClient from "./AddNewClient";
 
 interface FormData {
   employeeId: string;
@@ -67,18 +63,16 @@ interface CheckOutModalProps {
   onClose: () => void;
 }
 
-const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
+const CheckOutModal: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
   const [formData, setFormData] = useState<any>({});
   const [sendEmail, setSendEmail] = useState<boolean>(false);
   const [checkOutTo, setCheckOutTo] = useState("person");
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
   const checkOut = useSelector((state: RootState) => state.checkOut.data);
   const [errors, setErrors] = useState<CheckoutErrors>({});
-  const checkOutFields = useSelector((state: RootState) => state.checkOutField.data);
 
   useEffect(() => {
     dispatch(fetchCheckOut());
-    dispatch(fetchCheckOutField())
   }, [dispatch]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,7 +109,7 @@ const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
       };
 
       console.log(JSON.stringify(formData));
-      // dispatch(addCheckOut(formData));
+      dispatch(addCheckOut(formData));
 
       return formData;
     });
@@ -193,7 +187,7 @@ const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
         return (
           <FormControl>
             <FormLabel>{field.fieldName}</FormLabel>
-            <Input
+            <textarea
               type={field.components.type}
               name={field.name}
               value={formData[field.name] as string}
@@ -222,12 +216,6 @@ const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
           return <LocationComponent {...commonProps} />;
         } else if (field.name === "checkOutDepartmentId") {
           return <DepartmentComponent {...commonProps} />;
-        }
-        else if (field.name === "assignedTo") {
-          return <AddNewEmpployee {...commonProps} />;
-        }
-        else if (field.name === "clientId") {
-          return <AddNewClient {...commonProps} />;
         }else {
           return <SelectOption {...commonProps} />;
         }
@@ -236,6 +224,24 @@ const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
     }
   };
 
+  const [newDialogOpen, setNewDialogOpen] = useState<boolean>(false);
+  const [newClientDialogOpen, setNewClientDialogOpen] = useState<boolean>(false);
+
+  const openClientDialog = () => {
+    setNewClientDialogOpen(true);
+  };
+
+  const closeClientDialog = () => {
+    setNewClientDialogOpen(false);
+  };
+
+  const openNewDialog = () => {
+    setNewDialogOpen(true);
+  };
+
+  const closeNewDialog = () => {
+    setNewDialogOpen(false);
+  };
 
   return (
     <AppForm onSubmit={handleCheckOut}>
@@ -272,15 +278,18 @@ const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
           <Divider />
           <Box
             sx={{
-              overflowY: "scroll",
+              overflowY: "auto",
               flexGrow: 1,
               py: 2,
               "&::-webkit-scrollbar": {
-                width: "0.2em",
-              }
+                width: "0.4em",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                backgroundColor: "rgba(0, 0, 0, 0.2)",
+              },
             }}
           >
-            {checkOutFields && checkOutFields.map((field) => (
+            {checkOutConfig.map((field) => (
               <React.Fragment key={field.fieldName}>
                 {handleInputValue(field, formData, handleChange, handleSelectChange, handleRadioChange)}
               </React.Fragment>
@@ -288,12 +297,12 @@ const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
           </Box>
           <Divider />
           <Box sx={{ display: "flex", justifyContent: "space-between", pt: 2 }}>
-            <AppButton type="submit">
+            <Button type="submit" color="primary" variant="contained">
               Submit
-            </AppButton>
-            <AppButton onClick={onClose}>
+            </Button>
+            <Button onClick={onClose} color="neutral" variant="outlined">
               Cancel
-            </AppButton>
+            </Button>
           </Box>
         </Box>
       </Modal>
@@ -301,4 +310,4 @@ const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
   );
 };
 
-export default CheckOutOption;
+export default CheckOutModal;

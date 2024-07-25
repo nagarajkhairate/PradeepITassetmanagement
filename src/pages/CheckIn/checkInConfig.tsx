@@ -4,7 +4,6 @@ export interface Field {
     name: string;
     sequence: number;
     components: any;
-    isRequired: boolean;
     isActive: boolean;
     stylings: string;
 }
@@ -20,7 +19,6 @@ export const checkInConfig: any[] =  [
                       id:11,
                     type:'radio'
                 },
-                isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
             },
@@ -33,7 +31,6 @@ export const checkInConfig: any[] =  [
                     id:3,
                   type:'date'
               },
-                isRequired: true,
                 isActive: true,
                 stylings: "width:400px"
             },
@@ -47,7 +44,6 @@ export const checkInConfig: any[] =  [
                     id:1,
                   type:'checkbox'
               },
-                isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
             },
@@ -60,7 +56,6 @@ export const checkInConfig: any[] =  [
                     id:6,
                   type:'email'
               },
-                isRequired: true,
                 isActive: true,
                 stylings: "width:400px"
             },
@@ -73,7 +68,6 @@ export const checkInConfig: any[] =  [
                     id:5,
                   type:'select'
               },
-                isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
             },
@@ -86,7 +80,6 @@ export const checkInConfig: any[] =  [
                     id:5,
                   type:'select'
               },
-                isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
             },
@@ -99,7 +92,6 @@ export const checkInConfig: any[] =  [
                     id:5,
                   type:'select'
               },
-                isRequired: true,
                 isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
             },
@@ -112,7 +104,6 @@ export const checkInConfig: any[] =  [
                     id:15,
                   type:'textarea'
               },
-                isRequired: true,
                 isActive: true,
                 stylings: "width:400px"
             },           

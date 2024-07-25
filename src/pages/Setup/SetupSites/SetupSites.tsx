@@ -128,12 +128,14 @@ const SetupSites: React.FC = ({}) => {
             mb: 1,
           }}
         >
+
             <Box
               sx={{
                 textAlign: { xs: 'center', md: 'left', gap: 2 },
               }}
             >
               <Typography
+
                 sx={{
                   fontSize: '20px',
                   fontWeight: 500,
@@ -152,6 +154,7 @@ const SetupSites: React.FC = ({}) => {
                 List of Sites
               </Typography>
             </Box>
+
 
             <Grid xs={12} sm={8}>
               <React.Fragment>
@@ -188,6 +191,7 @@ const SetupSites: React.FC = ({}) => {
                       autoFocus
                       variant="solid"
                       sx={{
+
                         // fontSize: '13px',
                         borderRadius: '15px',
                         background: '#d32f2f',
@@ -199,6 +203,7 @@ const SetupSites: React.FC = ({}) => {
                         // marginLeft: 'none',
                         // border: '1px solid red',
                         padding: '.30rem .55rem',
+
                       }}
                     >
                       <DeleteForeverIcon />
@@ -219,7 +224,7 @@ const SetupSites: React.FC = ({}) => {
                 </ButtonGroup>
               </React.Fragment>
             </Grid>
-          
+
         </Box>
         <Divider />
         <Box sx={{ marginTop: '5px', padding: '10px', fontSize: '14px' }}>
@@ -388,6 +393,7 @@ const SetupSites: React.FC = ({}) => {
                         wordBreak: 'break-word',
                         whiteSpace: 'normal',
                         width: 60,
+
                       }}
                     >
                       Site

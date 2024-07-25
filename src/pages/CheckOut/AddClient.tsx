@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, Button, Divider, Input, Textarea, Modal, IconButton, Option, ButtonGroup, Select, FormControl, FormLabel, Checkbox, RadioGroup, Grid } from "@mui/joy";
 import CloseIcon from '@mui/icons-material/Close';
 import { RootState } from "../../redux/store";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import AppForm from "../../components/Common/AppForm";
 import SiteComponent from "../../components/AssetSections/SiteComponent";
@@ -10,6 +10,8 @@ import SelectOption from "../../components/AssetSections/SelectOption";
 import { ClientConfig } from "./ClientConfig";
 import { addClient } from "../../redux/features/ClientSlice";
 import IndustryComponent from "./IndustryComponent";
+import { fetchClientField } from "../../redux/features/ClientFieldSlice";
+import AppButton from "../../components/Common/AppButton";
 
 interface AddClientProps {
   open: boolean;
@@ -22,6 +24,11 @@ const AddClient: React.FC<AddClientProps> = ({ open, onClose, onAddClient}) => {
   const [formData, setFormData] = useState<any>({})
   // const [errors, setErrors] = useState<EmployeeErrors>({});
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+const clientFields=  useSelector((state: RootState) => state.clientField.data);
+
+useEffect(()=>{
+  dispatch(fetchClientField())
+},[dispatch])
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -35,13 +42,16 @@ const AddClient: React.FC<AddClientProps> = ({ open, onClose, onAddClient}) => {
     })
   }
 
-  const handleSelectChange = (name: string, value: string | null) => {
-    setFormData({
-      ...formData,
-      [name]: value || '',
-    });
-  };
-
+  const handleSelectChange = (
+    newValue: any,
+    title: string,
+  ) => {
+   
+    setFormData((prevData:any) => ({
+      ...prevData,
+      [title]: newValue,
+    }))
+  }
   const handleInputValue = (
     field: any,
     formData: any,
@@ -90,9 +100,7 @@ const AddClient: React.FC<AddClientProps> = ({ open, onClose, onAddClient}) => {
       case "checkbox":
 
       case "select":
-        if (field.name === "checkOutSiteId") {
-          return <SiteComponent {...commonProps} />;
-        } else if (field.name === "industry") {
+        if (field.name === "industry") {
           return <IndustryComponent {...commonProps} />;
         } 
         else {
@@ -150,7 +158,7 @@ const AddClient: React.FC<AddClientProps> = ({ open, onClose, onAddClient}) => {
               alignItems: "center",
             }}
           >
-            <Typography>Add Client</Typography>
+            <Typography sx={{ marginBottom: 2, position: 'sticky', top: 0, background: '#fff', zIndex: 1 }}>Add Client</Typography>
             <IconButton 
             onClick={onClose}
             >
@@ -161,7 +169,7 @@ const AddClient: React.FC<AddClientProps> = ({ open, onClose, onAddClient}) => {
         <Divider></Divider>
        
           <Grid container spacing={1}>
-          {ClientConfig && ClientConfig.map((field , index) => (
+          {clientFields && clientFields.map((field:any , index:any) => (
 
 <Grid key={index} xs={12} sm={12} md={12} lg={12}>
  {handleInputValue(
@@ -177,34 +185,24 @@ const AddClient: React.FC<AddClientProps> = ({ open, onClose, onAddClient}) => {
         
       
 
-        <ButtonGroup sx={{border:"1px solid #E0E1E3"}}>
-          <Button
-          type="submit"
+        <Box sx={{ display: 'flex',mt:2, justifyContent: 'flex-end', position: 'sticky', bottom: 0, background: '#fff', zIndex: 1 , gap:"10px"  }}>
+          <AppButton
+         onClick={handleAdd}
             sx={{
-              background: "rgb(245,193,67)",
-              "&:hover": {
-                backgroundColor: "rgb(255,199,79)",
-              },
               borderRadius:"15px"
             }}
           >
             Add
-          </Button>
-          <Button
+          </AppButton>
+          <AppButton
             onClick={onClose}
             sx={{
-              background: "white",
-              color: "black",
-              border: "1px solid black",
-              "&:hover": {
-                backgroundColor: "#f9f9f9",
-              },
               borderRadius:"15px"
             }}
           >
             Cancel
-          </Button>
-        </ButtonGroup>
+          </AppButton>
+        </Box>
       
       </AppForm>
       </Box>

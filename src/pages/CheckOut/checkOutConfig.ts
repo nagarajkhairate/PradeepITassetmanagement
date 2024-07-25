@@ -4,7 +4,6 @@ export interface Field {
     name: string;
     sequence: number;
     components: any;
-    isRequired: boolean;
     isActive: boolean;
     stylings: string;
 }
@@ -18,8 +17,6 @@ export const checkOutConfig: any[] =  [
                 components:{
                     type:"date"
                 },
-                isRequired: true,
-                isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
             },
             {
@@ -30,8 +27,6 @@ export const checkOutConfig: any[] =  [
                 components:{
                     type:'radio'
                 },
-                isRequired: true,
-                isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
             },
             {
@@ -42,8 +37,6 @@ export const checkOutConfig: any[] =  [
                 components:{
                     type:"select"
                 },
-                isRequired: true,
-                isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
             },
             {
@@ -54,8 +47,6 @@ export const checkOutConfig: any[] =  [
                 components:{
                     type:"select"
                 },
-                isRequired: true,
-                isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
             },
             {
@@ -66,8 +57,6 @@ export const checkOutConfig: any[] =  [
                 components:{
                     type:"date"
                 },
-                isRequired: true,
-                isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
             },
             {
@@ -78,8 +67,6 @@ export const checkOutConfig: any[] =  [
                 components:{
                     type:"select"
                 },
-                isRequired: true,
-                isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
             },
             {
@@ -90,8 +77,6 @@ export const checkOutConfig: any[] =  [
                 components:{
                     type:"select"
                 },
-                isRequired: true,
-                isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
             },
             {
@@ -102,8 +87,6 @@ export const checkOutConfig: any[] =  [
                 components:{
                     type:"select"
                 },
-                isRequired: true,
-                isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
             },
             {
@@ -114,8 +97,6 @@ export const checkOutConfig: any[] =  [
                 components:{
                     type:"textarea"
                 },
-                isRequired: true,
-                isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
             },
             {
@@ -126,8 +107,6 @@ export const checkOutConfig: any[] =  [
                 components:{
                     type:"checkbox"
                 },
-                isRequired: true,
-                isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
             },
             {
@@ -138,8 +117,6 @@ export const checkOutConfig: any[] =  [
                 components:{
                     type:"email"
                 },
-                isRequired: true,
-                isActive: true,
                 stylings: "{xs: 12, sm: 6, md: 4, lg: 3}"
             },
            

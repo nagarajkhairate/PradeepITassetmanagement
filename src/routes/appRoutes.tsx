@@ -49,11 +49,13 @@ import SearchCriteria from '../pages/Assets/SearchCriteria'
 import CheckOutOption from '../pages/CheckOut/CheckOutOption'
 import DatabaseContractTable from '../pages/Setup/DataBase/DatabaseContract/DatabaseContractTable'
 import EditModalDatabaseCustomer from '../pages/Setup/DataBase/DatabaseCustomerTable/EditModelDatabaseCustomer'
+import CheckoutButton from '../pages/Lease/CheckoutButton'
+import CheckInOption from '../pages/CheckIn/CheckInOption'
 
 
 const appRoutes: RouteType[] = [
   {
-    path: '/dashboard',
+    path: '/',
     element: <Dashboard />,
     state: 'dashboard',
     sidebarProps: {
@@ -177,12 +179,6 @@ const appRoutes: RouteType[] = [
         state: 'assets',
       },
       {
-        index: true,
-        path: '/assets/checkOutOption',
-        element: <CheckOutOption />,
-        state: 'assets',
-      },
-      {
         path: '/assets/checkout',
         element: <CheckOut />,
         state: 'checkout',
@@ -208,6 +204,12 @@ const appRoutes: RouteType[] = [
           displayText: 'Lease',
           icon: <ICONS.person />,
         },
+      },
+      {
+        index: true,
+        path: '/assets/checkout-sample',
+        element: <CheckoutButton />,
+        state: 'lease',
       },
       {
         path: '/assets/lease-return',

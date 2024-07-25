@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useState } from 'react'
 import {
   Box,
   Button,
@@ -75,15 +75,14 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
     setFormData((prevState) => ({ ...prevState, [name]: value }))
   }
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
       await dispatch(addSites(formData))
       setOpen()
     } catch (error) {
       console.log(error)
     }
-      
-  
     }
 
   return (

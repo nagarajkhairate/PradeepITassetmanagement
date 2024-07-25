@@ -21,6 +21,8 @@ const CommonTable: FunctionComponent<CommonTableProps> = ({ customAssetFields })
         // Add your delete logic here
     }
 
+    console.log(JSON.stringify(customAssetFields))
+
     return (
         <Box>
             <Table
@@ -65,6 +67,7 @@ const CommonTable: FunctionComponent<CommonTableProps> = ({ customAssetFields })
                                 >
                                     {item.fieldName}
                                 </td>
+                              
                                 <td>{item.componentsId}</td>
                                 <td>{item.isRequired}</td>
                                 <td>

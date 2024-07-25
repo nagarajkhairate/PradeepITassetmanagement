@@ -5,12 +5,9 @@ import {
   Table,
   Input,
   Button,
-  Option,
   Radio,
   Checkbox,
-  Select,
   RadioGroup,
-  Textarea,
   FormLabel,
   FormControl,
   Grid,
@@ -29,6 +26,7 @@ import DepartmentComponent from '../../components/AssetSections/DepartmentCompon
 import SelectOption from '../../components/AssetSections/SelectOption'
 import AddNewEmpployee from './AddNewEmpployee'
 import AddNewClient from './AddNewClient'
+import { fetchCheckOutField } from '../../redux/features/CheckOutFieldSlice'
 
 interface CheckOutFormProps {
   selectedAssets: any;
@@ -40,9 +38,11 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [formData, setFormData] = useState<any>({})
   const checkOut = useSelector((state: RootState) => state.checkOut.data);
+  const checkOutFields= useSelector((state: RootState)=>state.checkOutField.data)
 
   useEffect(() => {
     dispatch(fetchCheckOut());
+    dispatch(fetchCheckOutField())
   }, [dispatch]);
 
   const handleChange = (
@@ -75,19 +75,20 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
     });
   };
 
-  const handleAssignAssetId = ()=>{
-     setFormData((prevData: any) => ({
-      ...prevData,
-      assetId:selectedAssets[0].id
-    }))
-  }
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-
-    await handleAssignAssetId()
-    
-    console.log(JSON.stringify(formData))
-    await dispatch(addCheckOut(formData))
+    e.preventDefault();
+  
+    setFormData((prevData: any) => {
+      const formData = {
+        ...prevData,
+        assetId: selectedAssets[0].id
+      };
+      setOpen(false)
+      console.log(JSON.stringify(formData));
+      dispatch(addCheckOut(formData));
+      
+      return formData;
+    });
   }
 
   const radioOptions = [
@@ -122,22 +123,41 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
               name={field.name}
               value={formData[field.name] as string}
               onChange={handleChange}
-              sx={field.stylings}
+              sx={{
+                padding: '10px',
+              }}
             />
           </FormControl>
         );
       case "date":
+        return (
+          <FormControl sx={{width:"300px"}}>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+            type={field.components.type}
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleChange}
+              sx={{
+                padding: '10px',
+                  display:"grid",
+              }}
+            />
+          </FormControl>
+        );
       case "number":
         case "email":
           return (
-            <FormControl>
+            <FormControl sx={{width:"300px"}}>
               <FormLabel>{field.fieldName}</FormLabel>
               <Input
               type={field.components.type}
                 name={field.name}
                 value={formData[field.name] as string}
                 onChange={handleChange}
-                sx={field.stylings}
+                sx={{
+                  padding:"10px",
+                }}
               />
             </FormControl>
           );
@@ -150,24 +170,33 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
                 name={field.name}
                 value={formData[field.name] as string}
                 onChange={handleRadioChange}
-                sx={field.stylings}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
               >
                    {radioOptions.map((option) => (
-              <Radio key={option.value} value={option.value} label={option.label} />
+              <Radio key={option.value} value={option.value} label={option.label}  sx={{
+                margin: '0 8px', // Adjust margin to control spacing between radio buttons and labels
+              }}/>
             ))}
               </RadioGroup>
             </FormControl>
           );
       case "textarea":
         return (
-          <FormControl>
+          <FormControl sx={{width:"300px"}}>
             <FormLabel>{field.fieldName}</FormLabel>
-            <textarea
+            <Input
               type={field.components.type}
               name={field.name}
               value={formData[field.name] as string}
               onChange={handleChange}
-              sx={field.stylings}
+              sx={{
+                padding: '10px',
+              }}
             />
           </FormControl>
         );
@@ -211,7 +240,7 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
   const getAssignTo = (id:any) => {
     const assignment = checkOut && checkOut.find(assign => assign.assetId === id);
     console.log(assignment)
-    return assignment ? assignment.assignedTo : null;
+    return assignment ? assignment.assignedTo.empName: null;
   };
   
   const statusColorMap: Record<string, string> = {
@@ -222,31 +251,25 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
   return (
     <AppForm onSubmit={handleFormSubmit}>
       <Box
-        sx={{
-          borderRadius: '15px',
-          boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
-          background: '#FFF',
-          flexGrow: 1,
-          marginTop: { xs: '10px', sm: '22px' },
-          height: 'auto',
-          display: 'flex',
-          flexDirection: 'column',
-          // alignItems: 'center',
-          p: 4,
-        }}
+       sx={{
+        borderRadius: 'none',
+        boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+        background: '#ffffff',
+        gap: '5px',
+        padding:"32px"
+      }}
       >
-        <Typography component="h2" sx={{ mb: 2 }}>
+        <Typography component="h2" sx={{ ml: '10px', mb:"15px" }}>
           Assets Pending Check-Out
         </Typography>
         <Box
           sx={{
               overflowX: 'auto',
-              fontSize: '14px',
               whiteSpace: 'nowrap',
-            marginBottom: '20px',
+            marginBottom: '15px',
           }}
         >
-          <Table sx={{ border: '1px solid #f2f2f2', width: '100%', minWidth:"900px" }}>
+          <Table sx={{ border: '1px solid #f2f2f2', width: '100%', minWidth:"800px" }}>
             <thead>
               <tr>
                 <th
@@ -351,16 +374,21 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
           </Table>
         </Box>
 
-<AppView>
 <Box mt={2}>
   <Box
-    sx={{
-      display: 'grid',
-      gap: 2,
-      gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' },
-    }}
+    sx={{paddingBottom: '30px'}}
   >
-    {checkOutConfig && checkOutConfig.map((field , index) => (
+    <Grid
+                container
+                spacing={2}
+                xs={12}
+                sx={{
+                  padding: '30px',
+                  display: 'flex',
+                  flexDirection: { xs: 'column', md: 'row' },
+                }}
+              >
+    {checkOutFields && checkOutFields.map((field , index) => (
       <FormControl key={index}>
        <Grid key={index}>
        {checkOutTo === 'person' || (field.name !== 'assignedTo' && field.name !== 'clientId') ?
@@ -368,13 +396,35 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
         </Grid>
       </FormControl>
     ))}
+    </Grid>
+    <Box sx={{
+                  display: 'flex',
+                  flexDirection: {
+                    xs: 'column',
+                    md: 'row',
+                  },
+                  justifyContent: 'flex-end',
+                  gap: '15px',
+                  mx: '35px',
+                  mt: '40px',
+                }}>
+          <Button type="submit" sx={{ background: '#FABC1E',}}>Check Out</Button>
+          <Button
+                  size="md"
+                  onClick={()=> setOpen(false)}
+                  sx={{
+                    background: '#000000',
+                    '&:hover': {
+                      background: '#333333',
+                    },
+                  }}
+                >
+                  Cancel
+                </Button>
+        </Box>
           </Box>
         </Box>
-        <Box mt={2}>
-          <Button type="submit">Check Out</Button>
-        </Box>
-        </AppView>
-
+       
       </Box>
     </AppForm>
   )

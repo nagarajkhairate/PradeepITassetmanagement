@@ -23,7 +23,7 @@ const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
 export const fetchAssetCustomDatabase = createAsyncThunk('assetCustomDatabase/fetchAssetCustomDatabase', async () => {
   try {
     const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset`);
-  return response.data;
+    return response.data;
    
   } catch (error) {
     console.error('Error Message'+ error);

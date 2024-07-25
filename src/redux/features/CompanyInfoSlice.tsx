@@ -50,7 +50,7 @@ export const addCompanyInfo = createAsyncThunk('companyInfo/addCompanyInfo', asy
  
 export const updateCompanyInfo = createAsyncThunk('companyInfo/updateCompanyInfo', async (companyInfo: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/company/${companyInfo.id}`, companyInfo);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/company/${companyInfo.get('id')}`, companyInfo);
   return response.data;
 });
  

@@ -63,7 +63,7 @@ export const deleteAssetDatabase = createAsyncThunk('assetDatabase/deleteAssetDa
   return id;
 });
 
-const assetDatabaseSlice = createSlice({
+const AssetDatabaseSlice = createSlice({
   name: 'assetDatabase',
   initialState,
   reducers: {
@@ -106,7 +106,7 @@ const assetDatabaseSlice = createSlice({
   },
 });
  
-export const { setSelectedCustomer } = assetDatabaseSlice.actions;
+export const { setSelectedCustomer } = AssetDatabaseSlice.actions;
  
-export default assetDatabaseSlice.reducer;
+export default AssetDatabaseSlice.reducer;
 

@@ -1,24 +1,29 @@
-import React from 'react'
-import { Routes, Route, BrowserRouter } from 'react-router-dom'
+import React from 'react';
+import { Routes, Navigate, Route, BrowserRouter } from 'react-router-dom';
 
-import MainLayout from './components/layout/MainLayout'
-import { routes } from './routes'
-import { CreateAccount, LoginAccount } from './routes/AllComponents'
+import MainLayout from './components/layout/MainLayout';
+import { routes } from './routes';
+import { CreateAccount, LoginAccount } from './routes/AllComponents';
+import checkAuth from './app/auth';
 
 const App = () => {
-  let user = sessionStorage.getItem("user");
+  // const token = checkAuth();
+// console.log((token))
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoginAccount />} />
+        <Route path="/login" element={<LoginAccount />} />
         <Route path="/register" element={<CreateAccount />} />
         <Route path="/" element={<MainLayout />}>
           {routes}
         </Route>
-
+        {/* <Route
+          path="*"
+          element={<Navigate to={token ? '/' : '/login'} replace />}
+        /> */}
       </Routes>
     </BrowserRouter>
-  )
-}
-export default App
+  );
+};
 
+export default App;

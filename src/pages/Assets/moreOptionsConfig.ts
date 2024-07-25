@@ -17,46 +17,51 @@ const moreOptionsConfig = [
    path:"/assets/checkOutOption"
   },
   {
-    label: "Lease",
-    icon: SendIcon,
-    path: "/lease"
+    label: "Check In",
+    icon: PersonIcon,
+   path:"/assets/checkInOption"
   },
-  {
-    label: "Lost/Missing",
-    icon: ThumbDownIcon,
-    path: "/lost-missing"
-  },
-  {
-    label: "Repair",
-    icon: BuildIcon,
-    path: "/repair"
-  },
-  {
-    divider: true,
-  },
-  {
-    label: "Broken",
-    icon: BrokenImageIcon,
-    path: "/broken"
-  },
-  {
-    label: "Dispose",
-    icon: RecyclingIcon,
-    path: "/dispose"
-  },
-  {
-    label: "Donate",
-    icon: FavoriteIcon,
-    path: "/donate"
-  },
-  {
-    label: "Sell",
-    icon: SellIcon,
-    path: "/sell"
-  },
-  {
-    divider: true,
-  },
+  // {
+  //   label: "Lease",
+  //   icon: SendIcon,
+  //   path: "/lease"
+  // },
+  // {
+  //   label: "Lost/Missing",
+  //   icon: ThumbDownIcon,
+  //   path: "/lost-missing"
+  // },
+  // {
+  //   label: "Repair",
+  //   icon: BuildIcon,
+  //   path: "/repair"
+  // },
+  // {
+  //   divider: true,
+  // },
+  // {
+  //   label: "Broken",
+  //   icon: BrokenImageIcon,
+  //   path: "/broken"
+  // },
+  // {
+  //   label: "Dispose",
+  //   icon: RecyclingIcon,
+  //   path: "/dispose"
+  // },
+  // {
+  //   label: "Donate",
+  //   icon: FavoriteIcon,
+  //   path: "/donate"
+  // },
+  // {
+  //   label: "Sell",
+  //   icon: SellIcon,
+  //   path: "/sell"
+  // },
+  // {
+  //   divider: true,
+  // },
   {
     label: "Delete",
     icon: DeleteIcon,

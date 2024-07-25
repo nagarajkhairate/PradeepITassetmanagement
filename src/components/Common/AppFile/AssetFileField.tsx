@@ -97,9 +97,9 @@ const AssetFileField: React.FunctionComponent<InputFieldProps> = ({ field, formD
   };
 
   return (
-    <FormControl>
+    <FormControl sx={{ ml:"20%"}}>
       <FormLabel sx={{ fontSize: '12px' }}>
-        {field.title} {field.required && <span style={{ color: 'red' }}>*</span>}:
+        {field.title} {field.required && <span style={{ color: 'red' }}>*</span>}
       </FormLabel>
       <Box>
         <Box
@@ -164,7 +164,7 @@ const AssetFileField: React.FunctionComponent<InputFieldProps> = ({ field, formD
       <input
         ref={fileInputRef}
         type="file"
-        name="assetPhoto"
+        name={field.name}
         accept="image/*"
         onChange={onFileChange}
         style={{ display: 'none' }}

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React, { ChangeEvent, useEffect, useState } from 'react';
 import { Box, FormControl, FormLabel, IconButton, FormHelperText } from '@mui/joy';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -20,16 +20,23 @@ type FieldProps = {
 interface InputFieldProps {
   field: FieldProps;
   formData: any;
-  handleFileChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleFileChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
+const baseUrl = process.env.REACT_APP_BASE_MAIN_URL || '';
+
 const FileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, handleFileChange }) => {
-  const [imagePreview, setImagePreview] = React.useState<string | null>(null);
-  const [fileName, setFileName] = React.useState<string | null>(null);
-  const [isDragging, setIsDragging] = React.useState<boolean>(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    if (formData[field.name]) {
+      setImagePreview(`${baseUrl}/${formData[field.name]}`);
+    }
+  }, [formData, field.name]);
+
+  const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
@@ -39,8 +46,6 @@ const FileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, 
       };
       reader.readAsDataURL(file);
 
-      setFileName(file.name);
-
       if (handleFileChange) {
         handleFileChange(e);
       }
@@ -49,30 +54,13 @@ const FileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, 
 
   const handleDelete = () => {
     setImagePreview(null);
-    setFileName(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
   };
 
-  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDragEnter = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    setIsDragging(false);
-  };
-
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    setIsDragging(false);
 
     const file = event.dataTransfer.files?.[0];
     if (file) {
@@ -82,8 +70,6 @@ const FileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, 
         setImagePreview(result);
       };
       reader.readAsDataURL(file);
-
-      setFileName(file.name);
 
       const fileEvent = {
         target: { files: [file] },
@@ -106,9 +92,7 @@ const FileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, 
           component="section"
           onClick={handleClickDropZone}
           onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          onDragEnter={handleDragEnter}
-          onDragLeave={handleDragLeave}
+          onDragOver={(e) => e.preventDefault()}
           sx={{
             width: { xs: '100%', sm: '100%', md: '400px' },
             height: '200px',
@@ -121,7 +105,7 @@ const FileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, 
             textAlign: 'center',
             cursor: 'pointer',
             position: 'relative',
-            overflow: 'hidden', // Add overflow hidden
+            overflow: 'hidden',
           }}
         >
           {imagePreview ? (
@@ -165,7 +149,7 @@ const FileField: React.FunctionComponent<InputFieldProps> = ({ field, formData, 
         ref={fileInputRef}
         type="file"
         id="logo"
-        name="logo"
+        name={field.name}
         accept="image/*"
         onChange={onFileChange}
         style={{ display: 'none' }}

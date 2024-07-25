@@ -48,7 +48,7 @@ export interface Option {
     {
       id: 2,
       fieldName: 'Asset Tag ID',
-      name: 'assetTagId',
+      name: 'assetTagID',
       visible: 'isVisible',
       description: 'This holds unique asset id number that your company assigns to identify each asset',
       example: 'A-1001',
@@ -64,7 +64,7 @@ export interface Option {
         id: 3,
       fieldName: 'Asset Description',
       visible: 'isVisible',
-      name: 'assetDescription',
+      name: 'description',
       description: 'Description of the asset.',
       example: 'HP - Envy Desktop - 12GB Memory - 2TB Hard Drive',
       option: [
@@ -77,9 +77,9 @@ export interface Option {
     },
     {
         id: 4,
-      fieldName: 'Purchase Date',
+      fieldName: 'Purchase From',
       visible: 'isVisible',
-      name: 'purchasedDate',
+      name: 'purchasedFrom',
       description: 'Date asset was purchased',
       example: '08/22/2014',
       option: [
@@ -117,8 +117,8 @@ export interface Option {
     },
     {
         id: 6,
-      fieldName: 'Purchased Form',
-      name: 'purchasedForm',
+      fieldName: 'Purchased Date',
+      name: 'purchaseDate',
       visible: 'isVisible',
       description: 'Vendor/Supplier name',
       example: 'Amazon',

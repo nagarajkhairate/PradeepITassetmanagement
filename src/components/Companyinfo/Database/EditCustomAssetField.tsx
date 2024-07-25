@@ -5,6 +5,7 @@ import { ThunkDispatch } from "redux-thunk";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchComponents } from "../../../redux/features/ComponentsIdSlice";
 import { RootState } from "../../../redux/store";
+import { updateAssetCustomDatabase } from "../../../redux/features/AssetCustomDatabaseSlice";
 
 interface DataBaseAddProps {
   open: boolean;
@@ -18,9 +19,9 @@ const EditCustomAssetField: React.FC<DataBaseAddProps> = ({ open, setOpen, selec
   const [formData, setFormData] = useState({});
 
 useEffect(()=>{
-    if(setFormData)
-    setFormData(setFormData)
-},[selectedItem])
+    if(selectedItem)
+    setFormData(selectedItem)
+},[])
 
   const handleSelectChange = (event: React.SyntheticEvent | null, newValue: string | null) => {
     setFormData((prevData) => ({
@@ -34,14 +35,17 @@ useEffect(()=>{
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    await dispatch(updateAssetCustomDatabase(formData))
     setOpen(false);
   };
-
   React.useEffect(() => {
     dispatch(fetchComponents());
   }, [dispatch]);
+
+  console.log(JSON.stringify(formData?.componentsId))
 
   return (
     <Modal
@@ -81,7 +85,7 @@ useEffect(()=>{
                 type="text"
                 id="custom"
                 name="custom"
-                // value={formData.custom}
+                value={formData?.fieldName}
                 onChange={handleChange}
                 required
               />
@@ -95,18 +99,18 @@ useEffect(()=>{
             <Select
                 placeholder="Select Data Types"
                 name="componentsId"
-                // value={formData.componentsId}
+                value={formData?.componentsId}
                 onChange={handleSelectChange}
               >
                 {components && components.map((comp) => (
-                  <Option key={comp.id} value={comp.id}>{comp.compName}</Option>
+                  <Option key={comp.id} value={comp.id}>{comp.title}</Option>
                 ))}
               </Select>
           </FormControl>
 
           <FormControl >
             <FormLabel>Data Required</FormLabel>
-            <RadioGroup name="dataRequired" value={formData} onChange={handleChange}>
+            <RadioGroup name="dataRequired" value={formData?.isRequired ? "yes": "optional"} onChange={handleChange}>
               <Box>
                 <Radio value="yes" label="Yes" variant="outlined" />
                 <Radio value="optional" label="Optional" variant="outlined" />
@@ -114,16 +118,16 @@ useEffect(()=>{
             </RadioGroup>
           </FormControl>
 
-          <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 2 }}>
+          {/* <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 2 }}>
             <FormLabel>Selected Categories</FormLabel>
             <FormLabel>Is this field visible to assets of selective Categories?</FormLabel>
-            <RadioGroup name="selectedCategories" value={formData} onChange={handleChange}>
+            <RadioGroup name="selectedCategories" value={formData?.selectedCategories ? "yes": "optional"} onChange={handleChange}>
               <Box>
                 <Radio value="All Categories" label="All Categories" variant="outlined" />
                 <Radio value="Limited Categories" label="Limited Categories" variant="outlined" sx={{ paddingTop: "30px", marginLeft: "20px" }} />
               </Box>
             </RadioGroup>
-          </Box>
+          </Box> */}
 
           <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
             <Button
