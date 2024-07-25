@@ -4,15 +4,17 @@ interface FieldValue {
   value: string;
   defaultValue?: any;
   dataType?: 'text' | 'select' | 'file' | 'number';
+  
 }
 
 interface CompanyInfoProps {
   id: number;
   title: string;
   name: string; 
-  required: boolean;
+  isRequired: boolean;
   sequence: number;
   dataType: 'text' | 'select' | 'file' | 'number';
+  format?: string;
   className: {
     sm: number;
     md: number;
@@ -26,70 +28,80 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
     id: 1,
     title: 'Company name',
     name: 'companyName', 
-    required: true,
+    isRequired: true,
     sequence: 1,
     className: { sm: 12, md: 6, lg: 6 },
     dataType: 'text',
+    format: "/^[a-zA-Z '.-]*$/"
   },
   {
     id: 2,
     title: 'Country',
     name: 'country', 
-    required: true,
+    isRequired: true,
     sequence: 2,
     className: { sm: 12, md: 6, lg: 6 },
     dataType: 'text',
+     format: "/^[a-zA-Z '.-]*$/"
   },
   {
     id: 3,
-    title: 'Address',
-    name: 'address', 
-    required: true,
+    title: 'State',
+    name: 'state', 
+    isRequired: true,
     sequence: 3,
     className: { sm: 12, md: 6, lg: 6 },
     dataType: 'text',
+    format: "/^[a-zA-Z '.-]*$/"
   },
   {
     id: 4,
-    title: 'Apt./Suite',
-    name: 'aptSuite', 
-    required: true,
+    title: 'City',
+    name: 'city', 
+    isRequired: true,
     sequence: 4,
     className: { sm: 12, md: 6, lg: 6 },
     dataType: 'text',
+     format: "/^[a-zA-Z '.-]*$/"
   },
   {
     id: 5,
-    title: 'City',
-    name: 'city', 
-    required: true,
+    title: 'Zip Code',
+    name: 'zipCode',
+    isRequired: true,
     sequence: 5,
     className: { sm: 12, md: 6, lg: 6 },
     dataType: 'text',
+    format:"/^[0-9]*$/"
   },
   {
     id: 6,
-    title: 'State',
-    name: 'state', 
-    required: true,
+    title: 'Address',
+    name: 'address', 
+    isRequired: true,
     sequence: 6,
     className: { sm: 12, md: 6, lg: 6 },
     dataType: 'text',
+    format: "/^[a-zA-Z0-9_.-]*$/",
   },
   {
     id: 7,
-    title: 'Zip Code',
-    name: 'zipCode',
-    required: true,
+    title: 'Apt./Suite',
+    name: 'aptSuite', 
+    isRequired: true,
     sequence: 7,
     className: { sm: 12, md: 6, lg: 6 },
     dataType: 'text',
+    format: "/^[a-zA-Z0-9_.-]*$/",
   },
+  
+ 
+ 
   {
     id: 8,
     title: 'Time Zone',
     name: 'timeZone', 
-    required: true,
+    isRequired: true,
     sequence: 8,
     className: { sm: 12, md: 6, lg: 6 },
     dataType: 'select',
@@ -150,7 +162,7 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
     id: 9,
     title: 'Currency Symbol',
     name: 'currencySymbol', 
-    required: true,
+    isRequired: true,
     sequence: 9,
     className: { sm: 12, md: 6, lg: 6 },
     dataType: 'select',
@@ -186,7 +198,7 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
     id: 10,
     title: 'Date format',
     name: 'dateFormat', 
-    required: false,
+    isRequired: true,
     sequence: 10,
     className: { sm: 12, md: 6, lg: 6 },
     dataType: 'select',
@@ -200,7 +212,7 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
     id: 11,
     title: 'Financial Year begins on Month',
     name: 'financialMonth', 
-    required: true,
+    isRequired: true,
     sequence: 11,
     className: { sm: 12, md: 6, lg: 6 },
     dataType: 'select',
@@ -223,7 +235,7 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
     id: 12,
     title: 'Financial Year begins on Day',
     name: 'financialDays', 
-    required: true,
+    isRequired: true,
     sequence: 12,
     className: { sm: 12, md: 6, lg: 6 },
     dataType: 'select',
@@ -265,7 +277,7 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
     id: 13,
     title: 'Logo',
     name: 'companyLogo', 
-    required: false,
+    isRequired: true,
     sequence: 13,
     className: { sm: 12, md: 6, lg: 6 },
     dataType: 'file',

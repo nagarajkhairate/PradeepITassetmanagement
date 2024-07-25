@@ -89,11 +89,9 @@ const TableOptionsSlice = createSlice({
         state.data.push(action.payload);
       })
       .addCase(updateoptions.fulfilled, (state, action) => {
-        const index = state.data.findIndex((u) => u.id === action.payload.id);
-        console.log(index)
-        if (index !== -1) {
-          state.data[index] = action.payload;
-        }
+        
+          state.data = action.payload;
+
       })
       .addCase(deleteoptions.fulfilled, (state, action) => {
         state.data = state.data.filter((u) => u.id !== action.payload);

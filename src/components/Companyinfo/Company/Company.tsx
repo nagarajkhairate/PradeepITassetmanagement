@@ -86,12 +86,16 @@ const Company: React.FC<CompanyProps> = ({
     e.preventDefault();
     const companyFormDataToSend = new FormData();
     for (const key in formData) {
+
       if (formData[key] !== null) {
         if (key === 'companyLogo' && file) {
           companyFormDataToSend.append(key, file);
         } else {
-          companyFormDataToSend.append(key, formData[key]);
-        }
+          if(key !== 'companyLogo'){
+            companyFormDataToSend.append(key, formData[key]);
+          }
+          }
+          
       }
     }
 

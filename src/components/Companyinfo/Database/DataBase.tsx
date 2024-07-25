@@ -16,9 +16,7 @@ import { FormControlLabel } from '@mui/material'
 import {
   AssetDataValue,
   assetDefaultFields,
-  customAssetData,
 } from './DatabaseData'
-import AppView from '../../Common/AppView'
 import AddCustomAssetFields from './AddCustomAssetFields'
 import CommonTable from './CommonTable'
 import { ThunkDispatch } from 'redux-thunk'
@@ -27,6 +25,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchAssetDatabase, updateAssetDatabase } from '../../../redux/features/AssetDatabaseSlice'
 import { fetchAssetCustomDatabase } from '../../../redux/features/AssetCustomDatabaseSlice'
 import AppForm from '../../Common/AppForm'
+import { fetchComponents } from '../../../redux/features/ComponentsIdSlice'
 
 interface DataBaseProps {
   activeTab: number
@@ -42,7 +41,7 @@ const DataBaseAsset: FunctionComponent<DataBaseProps> = ({
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const assetDatabase = useSelector((state: RootState) => state.assetDatabase.data)
   const assetCustomDatabase = useSelector((state: RootState) => state.assetCustomDatabase.data)
- 
+  const components = useSelector((state: RootState) => state.components.data);
 
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -94,6 +93,7 @@ await dispatch(updateAssetDatabase(assetDataForm))
   useEffect(()=>{
     dispatch(fetchAssetDatabase())
     dispatch(fetchAssetCustomDatabase())
+    dispatch(fetchComponents())
 
   },[dispatch])
 
@@ -250,7 +250,7 @@ await dispatch(updateAssetDatabase(assetDataForm))
           <AddIcon />
           Add Custom Fields
         </Button>
-        <CommonTable customAssetFields={assetCustomDatabase} />
+        <CommonTable customAssetFields={assetCustomDatabase} components={components}/>
 
         {openAddAsset && (
           <AddCustomAssetFields open={openAddAsset} setOpen={setOpenAddAsset} />

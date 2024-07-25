@@ -39,7 +39,6 @@ const AddCustomAssetFields: React.FC<DataBaseAddProps> = ({ open, setOpen }) => 
   };
 
 
-  console.log(JSON.stringify(formData))
   
   React.useEffect(() => {
     dispatch(fetchComponents());

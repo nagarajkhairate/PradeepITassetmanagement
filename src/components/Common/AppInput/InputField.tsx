@@ -10,8 +10,9 @@ type FieldProps = {
   dataType: 'text' | 'select' | 'file' | 'number';
   value: string;
   name: string;
-  required: boolean;
+  isRequired: boolean;
   sequence: number;
+  format: string;
   className: {
     sm: number;
     md: number;
@@ -27,18 +28,43 @@ interface InputFieldProps {
 }
 
 const InputField: React.FunctionComponent<InputFieldProps> = ({ field, formData, handleInputChange }) => {
+
+  const isAlphabetsAndSpacesOnly = (
+    inputValue: string,
+    validation: string
+  ): boolean => {
+    if (!field) return true;
+    try {
+      const regex = new RegExp(validation.replace(/^\/|\/$/g, ""));
+      console.log(inputValue)
+      return regex.test(inputValue.trim());
+    } catch (error) {
+      return false;
+    }
+  };
+
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const inputValue = e.target.value;
+    isAlphabetsAndSpacesOnly(inputValue, field.format) || inputValue === ""
+      ? handleInputChange(e)
+      : null;
+  };
+console.log(field)
   return (
     <FormControl>
       <FormLabel>
-      {field.title}{field.required && <span style={{ color:"red"}}>*</span>}:
+      {field.title}{field.isRequired && <span style={{ color:"red"}}>*</span>}:
       </FormLabel>
       <Input
         // placeholder={field.title}
         value={formData[field.name] || ''} 
         name={field.name} 
         type={field.dataType} 
-        onChange={handleInputChange}
-        required={field.required}
+        onChange={handleChange}
+        required={field.isRequired}
       />
       {/* <FormHelperText>This is a helper text.</FormHelperText> */}
     </FormControl>
