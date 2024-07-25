@@ -33,6 +33,7 @@ const AddAnAsset: React.FC = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [formData, setFormData] = useState<any>({})
   const navigate = useNavigate()
+  const [errors, setErrors] = useState<any>({})
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([])
   const [file, setFile] = useState<File | null>(null)
   const [openSnackbar, setOpenSnackbar] = useState(false)
@@ -58,6 +59,12 @@ const AddAnAsset: React.FC = () => {
       ...prevData,
       [name]: value,
     }))
+    if (errors[name]) {
+      setErrors((prevErrors: any) => ({
+        ...prevErrors,
+        [name]: '',
+      }))
+    }
   }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,6 +94,21 @@ const AddAnAsset: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    const validationErrors: any = {}
+    assetMappings.forEach((group: any) => {
+      group.fields.forEach((field: any) => {
+        if (field.required && !formData[field.name]) {
+          validationErrors[field.name] = 'This field is required'
+        }
+      })
+    })
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors)
+      return
+    }
+
     const formDataToSend = new FormData()
     for (const key in formData) {
       if (formData[key] !== null) {
@@ -128,11 +150,14 @@ const AddAnAsset: React.FC = () => {
       mode,
     }
 
+    const isRequiredField = field.required
     switch (field.components.type) {
       case 'text':
         return (
           <FormControl>
-            <FormLabel>{field.fieldName}</FormLabel>
+            <FormLabel>{field.fieldName}
+            {isRequiredField && <span style={{ color: 'red' }}>*</span>}
+            </FormLabel>
             <Input
               type={field.components.type}
               name={field.name}
@@ -143,12 +168,17 @@ const AddAnAsset: React.FC = () => {
                 display: 'grid',
               }}
             />
+             {errors[field.name] && (
+              <Typography sx={{color:"red"}}>{errors[field.name]}</Typography>
+            )}
           </FormControl>
         )
       case 'date':
         return (
           <FormControl>
-            <FormLabel>{field.fieldName}</FormLabel>
+            <FormLabel>{field.fieldName}
+            {isRequiredField && <span style={{ color: 'red' }}>*</span>}
+            </FormLabel>
             <Input
               type={field.components.type}
               name={field.name}
@@ -160,12 +190,18 @@ const AddAnAsset: React.FC = () => {
                 display: 'grid',
               }}
             />
+             {errors[field.name] && (
+              <Typography sx={{color:"red"}}>{errors[field.name]}</Typography>
+            )}
           </FormControl>
         )
       case 'number':
         return (
           <FormControl>
-            <FormLabel>{field.fieldName}</FormLabel>
+            <FormLabel>{field.fieldName}
+            {field.fieldName}
+            {isRequiredField && <span style={{ color: 'red' }}>*</span>}
+            </FormLabel>
             <Input
               type={field.components.type}
               name={field.name}
@@ -176,12 +212,18 @@ const AddAnAsset: React.FC = () => {
                 display: 'grid',
               }}
             />
+            {errors[field.name] && (
+              <Typography sx={{color:"red"}}>{errors[field.name]}</Typography>
+            )}
           </FormControl>
         )
       case 'textarea':
         return (
           <FormControl>
-            <FormLabel>{field.fieldName}</FormLabel>
+            <FormLabel>{field.fieldName}
+            {isRequiredField && <span style={{ color: 'red' }}>*</span>}
+
+            </FormLabel>
             <Input
               type={field.components.type}
               name={field.name}
@@ -191,6 +233,9 @@ const AddAnAsset: React.FC = () => {
                 padding: '10px',
               }}
             />
+            {errors[field.name] && (
+              <Typography sx={{color:"red"}}>{errors[field.name]}</Typography>
+            )}
           </FormControl>
         )
 
@@ -215,13 +260,17 @@ const AddAnAsset: React.FC = () => {
         }
         return (
           <FormControl>
-            <FormLabel>{field.fieldName}</FormLabel>
+            <FormLabel>{field.fieldName}
+            {isRequiredField && <span style={{ color: 'red' }}>*</span>}
+
+            </FormLabel>
             <Input
               type="file"
               name={field.name}
               onChange={handleFileChange}
               // sx={field.stylings}
             />
+            
             <Box>
               {photoPreviews.map((preview, index) => (
                 <Box key={index}>
@@ -232,6 +281,9 @@ const AddAnAsset: React.FC = () => {
                 </Box>
               ))}
             </Box>
+            {errors[field.name] && (
+              <Typography sx={{color:"red"}}>{errors[field.name]}</Typography>
+            )}
           </FormControl>
         )
 
