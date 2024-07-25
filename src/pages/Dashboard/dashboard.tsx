@@ -42,7 +42,7 @@ const Dashboard: FunctionComponent = () => {
 
   return (
     <AppView>
-      {step && step[0]?.step === 7 ? (
+      {step && step[0]?.step !== 7 ? (
         <CompanyInfo open={open} setOpen={() => setOpen(false)} />
       ) : (
         <Box sx={styles.dashboardContainer}>
@@ -146,7 +146,7 @@ const styles = {
     padding: '20px',
   },
   card: {
-    width: '250px',
+    width: '240px',
     boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
     borderRadius: '10px',
     padding: '20px',
