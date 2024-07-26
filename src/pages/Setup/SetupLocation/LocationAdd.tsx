@@ -128,7 +128,8 @@ interface LocationAddProps {
                             placeholder="Select Site"
                             indicator={<KeyboardArrowDown />}
                             sx={{
-                              width: {md:246, xs:171},
+                              width: {md:246, xs:148},
+                              marginTop:1,
                               [`& .${selectClasses.indicator}`]: {
                                 transition: '0.2s',
                                 [`&.${selectClasses.expanded}`]: {

@@ -103,7 +103,7 @@ export function CategorySubEdit({
                 name="subCategory"
                 onChange={handleChange}
                 required
-                sx={{ marginTop: "10px", marginLeft: "10px" }}
+                sx={{ marginTop: "10px", marginLeft: "10px", width:{md:'60%',xs:'55%'}, }}
                 defaultValue={subCategories ? subCategories.subCategory : ''}
                 // defaultValue={selectedCell !== null ? lapCat.data[selectedCell].subCategory : ""} // Set default value to the selected cell content
               />

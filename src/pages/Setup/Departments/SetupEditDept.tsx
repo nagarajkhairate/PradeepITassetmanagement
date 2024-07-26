@@ -310,8 +310,9 @@ export function SetupEditDept({
                     type="text"
                     id="departmentName"
                     name="departmentName"
+                    
                     required
-                    sx={{  marginLeft: '10px' }}
+                    sx={{  marginLeft: '10px',width:{md:'60%',xs:'60%'}, }}
                     defaultValue={
                       selectedDepartment
                         ? selectedDepartment.departmentName
