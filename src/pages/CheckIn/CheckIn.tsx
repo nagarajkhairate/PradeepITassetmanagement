@@ -9,6 +9,8 @@ import { RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { fetchAssets } from "../../redux/features/AssetSlice";
+import { fetchEmployee } from '../../redux/features/EmployeeSlice'
+import { fetchCheckOut } from "../../redux/features/CheckOutSlice";
 
 interface Asset {
   id: string
@@ -30,6 +32,8 @@ const CheckIn: React.FC = () => {
   // const [remainingAssets, setRemainingAssets] = useState(assets);
   const assets = useSelector((state: RootState) => state.assets.data)
   const [selectedAssets, setSelectedAssets] = useState<Asset[]>()
+  const employees = useSelector((state: RootState)=>state.addEmployee.data)
+  const checkOut = useSelector((state: RootState) => state.checkOut.data);
 
    const handleSearchChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,6 +70,8 @@ const CheckIn: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchAssets())
+    dispatch(fetchEmployee())
+    dispatch(fetchCheckOut())
   }, [dispatch])
 
   useEffect(() => {
@@ -77,6 +83,18 @@ const CheckIn: React.FC = () => {
   // );
 
   // const selectedAssetData = assets.filter(asset => selectedAssets.includes(asset.id));
+
+  const getEmployeName = (empId: number) =>{
+    const employeeName = employees && employees.find(emp => emp.id === empId);
+    console.log(checkOut)
+    return employeeName ? employeeName.empName: null;
+  }
+
+  const getAssignTo = (id:any) => {
+    const assignment = checkOut && checkOut.find(assign => assign.assetId === id);
+    console.log(checkOut)
+    return assignment ? getEmployeName(assignment.assignedTo): null;
+  };
 
   return (
     <AppView>
@@ -229,7 +247,7 @@ const CheckIn: React.FC = () => {
                           {asset.status}
                         </Chip>
                       </td>               
-                 <td  style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.assignedTo}</td>
+                 <td  style={{ padding: "8px", border: "1px solid #f2f2f2" }}> {getAssignTo(asset.id)}</td>
                 <td  style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.site.name}</td>
                 <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.location.name}</td>
                 <td style={{ padding: "8px", border: "1px solid #f2f2f2" }}>{asset.leaseTo}</td>
