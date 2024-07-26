@@ -49,6 +49,9 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
   const [formData, setFormData] = useState<Site>(initialSiteData)
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [zipCodeError, setZipCodeError] = useState<string | null>(null)
+  const [stateError, setStateError] = useState<string | null>(null)
+  const [cityError, setCityError] = useState<string | null>(null)
+
   
   const handleSelectChange = (
     event: React.SyntheticEvent<Element, Event> | null,
@@ -62,18 +65,39 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
 
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target
+    const { name, value } = event.target;
     if (name === 'zipCode') {
-      const zipCodeRegex = /^\d*$/
+      const zipCodeRegex = /^\d*$/;
       if (!zipCodeRegex.test(value)) {
-        setZipCodeError('Zip Code must be numeric')
-        return
+        setZipCodeError('Zip Code must be numeric');
+        return;
+      } else if (value.length !== 6) {
+        setZipCodeError('Zip Code must be exactly 6 digits');
       } else {
-        setZipCodeError(null)
+        setZipCodeError(null);
       }
     }
-    setFormData((prevState) => ({ ...prevState, [name]: value }))
-  }
+    if (name === 'state' || name === 'city') {
+      const alphaRegex = /^[A-Za-z\s]*$/;
+      if (!alphaRegex.test(value)) {
+        if (name === 'state') {
+          setStateError('State must contain only alphabets and spaces');
+        } else {
+          setCityError('City must contain only alphabets');
+        }
+        return;
+      } else {
+        if (name === 'state') {
+          setStateError(null);
+        } else {
+          setCityError(null);
+        }
+      }
+    }
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -173,6 +197,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
                 fullWidth
                 sx={{ mb: 2 }}
               />
+              {stateError && <Typography sx={{color:"red"}}>{stateError}</Typography>}
             </FormControl>
           </Grid>
           <Grid xs={12} md={6}>
@@ -186,6 +211,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
                 fullWidth
                 sx={{ mb: 2 }}
               />
+              {cityError && <Typography sx={{color:"red"}}>{cityError}</Typography>}
             </FormControl>
           </Grid>
           <Grid xs={12} md={6}>
@@ -199,6 +225,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
                 fullWidth
                 sx={{ mb: 2 }}
               />
+              {zipCodeError && <Typography sx={{color:"red"}}>{zipCodeError}</Typography>}
             </FormControl>
           </Grid>
           <Grid xs={12} md={6}>
