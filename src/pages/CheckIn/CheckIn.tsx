@@ -188,7 +188,6 @@ const CheckIn: React.FC = () => {
           aria-labelledby="tableTitle"
           stickyHeader
           sx={{
-            fontSize: '15px',
             border: '1px solid #f2f2f2',
             minWidth: "700px",
           }}
