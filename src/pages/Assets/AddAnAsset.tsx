@@ -36,8 +36,6 @@ const AddAnAsset: React.FC = () => {
   const [errors, setErrors] = useState<any>({})
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([])
   const [file, setFile] = useState<File | null>(null)
-  const [openSnackbar, setOpenSnackbar] = useState(false)
-  const [snackbarMessage, setSnackbarMessage] = useState('')
   const assetMappings = useSelector(
     (state: RootState) => state.assetMapping.data,
   )
@@ -125,7 +123,7 @@ const AddAnAsset: React.FC = () => {
     try {
       await dispatch(addAssets(formDataToSend))
       console.log('Form submitted successfully')
-      navigate(`/assets/list-of-assets`);
+      await navigate(`/assets/list-of-assets`);
     } catch (error) {
       console.error('Error submitting form:', error)
     }
@@ -407,20 +405,6 @@ const AddAnAsset: React.FC = () => {
           </Button>
         </Box>
       </Box>
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={4000}
-        onClose={() => setOpenSnackbar(false)}
-        message={snackbarMessage}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        sx={{
-          '& .MuiSnackbarContent-root': {
-            backgroundColor: 'green',
-            color: 'black',
-            fontWeight: 'bold',
-          },
-        }}
-      />
     </AppForm>
   )
 }

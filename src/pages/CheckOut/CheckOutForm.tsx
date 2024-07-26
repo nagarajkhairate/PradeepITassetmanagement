@@ -28,6 +28,7 @@ import AddNewEmpployee from './AddNewEmpployee'
 import AddNewClient from './AddNewClient'
 import { fetchCheckOutField } from '../../redux/features/CheckOutFieldSlice'
 import { fetchEmployee } from '../../redux/features/EmployeeSlice'
+import { useNavigate } from 'react-router-dom'
 
 interface CheckOutFormProps {
   selectedAssets: any;
@@ -38,6 +39,7 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
   const [checkOutTo, setCheckOutTo] = useState('person')
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [formData, setFormData] = useState<any>({})
+  const navigate = useNavigate()
   const checkOut = useSelector((state: RootState) => state.checkOut.data);
   const checkOutFields= useSelector((state: RootState)=>state.checkOutField.data)
   const employees = useSelector((state: RootState)=>state.addEmployee.data)
@@ -391,28 +393,33 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
         </tbody>
           </Table>
         </Box>
-  <Box
-    sx={{
-            padding: '20px',
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-  >
-    <Grid
-                container
-                spacing={2}
-              padding="10px"
-              >
-    {checkOutFields && checkOutFields.map((field , index) => (
-      <Grid key={index}  xs={12}  sm={6}>
-       {checkOutTo === 'person' || (field.name !== 'assignedTo' && field.name !== 'clientId') ?
-        handleInputValue(field, formData, handleChange, handleSelectChange, handleRadioChange) : null}
-      </Grid>
-    ))}
-    </Grid>
-    <Grid container justifyContent="flex-end" sx={{ padding: "20px", gap: "15px" }}>
+
+<Box
+  sx={{
+    padding: '20px',
+    display: 'flex',
+    flexDirection: 'column',
+  }}
+>
+  <Grid container spacing={2} padding="10px">
+    {checkOutFields &&
+      checkOutFields
+        .filter(
+          (field) =>
+            checkOutTo === 'person' || (field.name !== 'assignedTo' && field.name !== 'clientId')
+        )
+        .map((field, index) => (
+          <Grid key={index} xs={12} sm={6}>
+            {handleInputValue(field, formData, handleChange, handleSelectChange, handleRadioChange)}
+          </Grid>
+        ))}
+  </Grid>
+  <Grid container justifyContent="flex-end" sx={{ padding: '20px', gap: '15px' }}>
     <Grid>
-      <Button type="submit" sx={{ background: '#FABC1E', '&:hover': { background: '#e0a71b' } }}>
+      <Button
+        type="submit"
+        sx={{ background: '#FABC1E', '&:hover': { background: '#e0a71b' } }}
+      >
         Check Out
       </Button>
     </Grid>
@@ -431,7 +438,8 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
       </Button>
     </Grid>
   </Grid>
-          </Box>
+</Box>
+
         </Box>
     </AppForm>
   )
