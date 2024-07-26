@@ -24,7 +24,6 @@ const Header = () => {
   }
 
   const user = localStorage.getItem('user')
-  console.log(user)
   return (
     <Sheet
       sx={{

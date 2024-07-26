@@ -93,7 +93,7 @@ const handleMenuItemClick = (option:any) => {
 
   const getAssignTo = (id:any) => {
     const assignment = checkOut && checkOut.find(assign => assign.assetId === id);
-    console.log(checkOut)
+    console.log(assignment)
     return assignment ? getEmployeName(assignment.assignedTo): null;
   };
   

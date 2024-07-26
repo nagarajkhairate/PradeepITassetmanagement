@@ -82,7 +82,7 @@ const CheckOutSlice = createSlice({
       })
       .addCase(fetchCheckOutById.fulfilled, (state, action) => {
         state.loading = false;
-        state.data.push(action.payload);
+        state.data = action.payload;
       })
       .addCase(addCheckOut.fulfilled, (state, action) => {
         state.data.push(action.payload);

@@ -13,6 +13,8 @@ import SiteComponent from '../../components/AssetSections/SiteComponent';
 import LocationComponent from '../../components/AssetSections/LocationComponent';
 import DepartmentComponent from '../../components/AssetSections/DepartmentComponent';
 import { fetchCheckInField } from '../../redux/features/CheckInFieldSlice';
+import { fetchEmployee } from '../../redux/features/EmployeeSlice';
+import { useNavigate } from 'react-router-dom';
 
 interface CheckInFormProps {
   selectedAssets: any;
@@ -20,20 +22,26 @@ interface CheckInFormProps {
 
 const CheckInForm: React.FC<CheckInFormProps> = ({ selectedAssets }) => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate()
   const [formData, setFormData] = useState<any>({});
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const checkOut = useSelector((state: RootState) => state.checkOut.data)
   const checkInFields= useSelector((state:RootState)=> state.checkInField.data)
+  const employees = useSelector((state: RootState)=>state.addEmployee.data)
+
   
   useEffect(() => {
-    const selectedAssetId = selectedAssets && selectedAssets.length > 0 ? selectedAssets[0].id : null;
-    if (selectedAssetId) {
-      dispatch(fetchCheckOutById(selectedAssetId));
+    if(selectedAssets.length){
+      const selectedAssetId = selectedAssets && selectedAssets.length > 0 ? selectedAssets[0].id : null;
+      const checkOutSelected =  checkOut && checkOut.find((checkout)=> checkout.assetId===selectedAssetId)
+      setFormData(checkOutSelected)
     }
+    
   }, [selectedAssets]);
 
   useEffect(()=>{
     dispatch(fetchCheckInField())
+    dispatch(fetchEmployee())
   },[dispatch])
 
   const handleChange = (
@@ -59,13 +67,11 @@ const CheckInForm: React.FC<CheckInFormProps> = ({ selectedAssets }) => {
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prevData:any) => ({
+      ...prevData,
       [name]: value,
-    });
+    }))
   };
-
-  // console.log(JSON.stringify(formData))
 
   const radioOptions = [
     { value: "person", label: "Person" },
@@ -99,23 +105,25 @@ const handleInputValue = (
             name={field.name}
             value={formData && formData[field.name] as string}
             onChange={handleChange}
-            sx={field.stylings}
+            sx={{
+              padding: '10px',
+              minWidth: 200
+            }}
           />
         </FormControl>
       );
     case "date":
       return (
-        <FormControl sx={{width:"300px"}} >
+        <FormControl >
           <FormLabel>{field.fieldName}</FormLabel>
           <Input
           type={field.components.type}
             name={field.name}
-            value={formData[field.name] as string}
+            value={formData && formData[field.name] as string}
             onChange={handleChange}
             sx={{
-              minWidth: '205px',
               padding: '10px',
-              display: 'grid',
+                minWidth: 200
             }}
           />
         </FormControl>
@@ -123,7 +131,7 @@ const handleInputValue = (
     case "number":
       case "email":
         return (
-          <FormControl sx={{width:"300px"}}>
+          <FormControl >
             <FormLabel>{field.fieldName}</FormLabel>
             <Input
             type={field.components.type}
@@ -131,7 +139,8 @@ const handleInputValue = (
               value={formData && formData[field.name] as string}
               onChange={handleChange}
               sx={{
-                padding:"10px",
+                padding: '10px',
+                minWidth: 200
               }}
             />
           </FormControl>
@@ -150,6 +159,8 @@ const handleInputValue = (
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'flex-start',
+                padding: '10px',
+                minWidth: 200
               }}
             >
                  {radioOptions.map((option) => (
@@ -162,7 +173,7 @@ const handleInputValue = (
         );
     case "textarea":
       return (
-        <FormControl sx={{width:"300px"}}>
+        <FormControl >
           <FormLabel>{field.fieldName}</FormLabel>
           <Input
             type={field.components.type}
@@ -171,6 +182,7 @@ const handleInputValue = (
             onChange={handleChange}
             sx={{
               padding: '10px',
+              minWidth: 200
             }}
           />
         </FormControl>
@@ -210,39 +222,39 @@ const handleInputValue = (
   }
 };
 
+const getEmployeName = (empId: number) =>{
+  const employeeName = employees && employees.find(emp => emp.id === empId);
+
+  return employeeName ? employeeName.empName: null;
+}
+
 const getAssignTo = (id:any) => {
   const assignment = checkOut && checkOut.find(assign => assign.assetId === id);
-  // console.log(assignment)
-  return assignment ? assignment.assignedTo.empName : null;
+
+  return assignment ? getEmployeName(assignment.assignedTo): null;
 };
 
-useEffect(()=>{
-  if(checkOut) {
-    setFormData(checkOut[0])
-  }
-},
-[checkOut])
 
 const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
  e.preventDefault()
 
- setFormData((prevData: any) => {
+ await setFormData((prevData: any) => {
   const formData = {
     ...prevData,
     assetId: selectedAssets[0].id
   };
   setOpen(false)
- console.log(JSON.stringify(formData))
-  dispatch(updateCheckOut(formData))
-
- return formData;
+   dispatch(updateCheckOut(formData))
+  
 });
+navigate(`/assets/list-of-assets`);
 }
 
 const statusColorMap: Record<string, string> = {
   Available: "success",
   CheckedOut: "neutral",
 };
+
 
   return (
     <AppForm onSubmit={handleFormSubmit}>
@@ -302,14 +314,13 @@ const statusColorMap: Record<string, string> = {
       </Box>
 
       <Box  sx={{
-            padding: '20px',
+            padding: {xs: '5px', sm: '5px', md: '10px', lg:'20px'},
             display: 'flex',
             flexDirection: 'column',
           }}>
            <Grid
                 container
-                spacing={2}
-              padding="10px"
+                columnSpacing={10}
               >
         {checkInFields && checkInFields.map((field , index) => (
   

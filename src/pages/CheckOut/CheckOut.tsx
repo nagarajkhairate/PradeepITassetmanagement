@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react'
+import React, { useEffect, useState, useCallback, useMemo, memo } from 'react'
 import {
   Typography,
   Box,
@@ -100,13 +100,11 @@ const CheckOut: React.FC = () => {
 
   const getEmployeName = (empId: number) =>{
     const employeeName = employees && employees.find(emp => emp.id === empId);
-    console.log(checkOut)
     return employeeName ? employeeName.empName: null;
   }
 
   const getAssignTo = (id:any) => {
     const assignment = checkOut && checkOut.find(assign => assign.assetId === id);
-    console.log(checkOut)
     return assignment ? getEmployeName(assignment.assignedTo): null;
   };
 
@@ -366,4 +364,4 @@ const CheckOut: React.FC = () => {
   )
 }
 
-export default CheckOut
+export default memo(CheckOut)
