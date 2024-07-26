@@ -26,6 +26,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { ThunkDispatch } from "redux-thunk";
 import CheckInOption from "../CheckIn/CheckInOption";
+import { fetchEmployee } from "../../redux/features/EmployeeSlice";
+
 
 interface AssetInfoProps {
   id:string,
@@ -43,9 +45,11 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
   const [openCheckIn, setOpenCheckIn] = useState(false);
   const navigate = useNavigate();
   const checkOut = useSelector((state: RootState) => state.checkOut.data);
+  const employees = useSelector((state: RootState)=>state.addEmployee.data)
 
   useEffect(() => {
     dispatch(fetchCheckOut());
+    dispatch(fetchEmployee())
   }, [dispatch]);
 
 
@@ -81,10 +85,16 @@ const handleMenuItemClick = (option:any) => {
     CheckedOut: "neutral",
   };
 
+  const getEmployeName = (empId: number) =>{
+    const employeeName = employees && employees.find(emp => emp.id === empId);
+    console.log(checkOut)
+    return employeeName ? employeeName.empName: null;
+  }
+
   const getAssignTo = (id:any) => {
     const assignment = checkOut && checkOut.find(assign => assign.assetId === id);
-    console.log(assignment)
-    return assignment ? assignment.assignedTo.empName : null;
+    console.log(checkOut)
+    return assignment ? getEmployeName(assignment.assignedTo): null;
   };
   
   return (
@@ -258,7 +268,7 @@ const handleMenuItemClick = (option:any) => {
                 </tr>
                 <tr>
                   <th scope="row">Assigned To</th>
-                  <td>{getAssignTo(assets.assignedTo)}</td>
+                  <td>{getAssignTo(assets.id)}</td>
                 </tr>
                 <tr>
                   <th scope="row">Status</th>
