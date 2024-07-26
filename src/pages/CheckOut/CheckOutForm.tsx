@@ -418,6 +418,7 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
     <Grid>
       <Button
         type="submit"
+        onClick={() => navigate('/assets/list-of-assets')}
         sx={{ background: '#FABC1E', '&:hover': { background: '#e0a71b' } }}
       >
         Check Out
