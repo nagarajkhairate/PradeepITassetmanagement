@@ -53,7 +53,12 @@ import CheckoutButton from '../pages/Lease/CheckoutButton'
 
 const appRoutes: RouteType[] = [
   {
-    path: '/',
+    index: true,
+    element: <Dashboard />,
+    state: 'dashboard',
+  },
+  {
+    path: '/dashboard',
     element: <Dashboard />,
     state: 'dashboard',
     sidebarProps: {

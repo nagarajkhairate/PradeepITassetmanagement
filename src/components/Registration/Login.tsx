@@ -23,8 +23,9 @@ const Login: React.FC = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const navigate = useNavigate()
   const { loading, error } = useSelector(
-    (state: RootState) => state.tenant,
+    (state: RootState) => state.tenant.data
   )
+  const  data  = useSelector((state: RootState) => state.tenant.data)
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -68,15 +69,20 @@ const Login: React.FC = () => {
       try {
 
         const response = await dispatch(loginAccount(formData))
-        console.log(response)
-         if(response){
+
+        if (response.meta.requestStatus === 'fulfilled') {
+          // Assuming successful response contains status 201
+          navigate('/dashboard');
+        } else {
+          // Handle failed login
+          setErrors({ ...newErrors, email: 'Email or Password is not valid' });
+        }
+         if(data.length>0){
           localStorage.setItem('token', 'DummyTokenHere')
           localStorage.setItem('user', JSON.stringify(response.payload))
-          navigate('/')
+          navigate('/dashboard')
          }
-        
-         
-        
+
       } catch (error) {
         console.error('Login failed:', error)
       }
