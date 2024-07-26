@@ -139,7 +139,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
           <Grid xs={12} md={6}>
 
             <FormControl>
-              <FormLabel>Site</FormLabel>
+              <FormLabel>Site<span style={{color:'red'}}>*</span></FormLabel>
               <Input
                 placeholder="Site"
                 name="siteName"
@@ -147,6 +147,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
                 onChange={handleChange}
                 fullWidth
                 sx={{ mb: 2 }}
+                required
               />
             </FormControl>
 

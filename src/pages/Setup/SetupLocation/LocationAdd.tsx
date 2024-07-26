@@ -120,7 +120,7 @@ interface LocationAddProps {
                               marginLeft: '20px',
                             }}
                           >
-                            Site*:
+                            Site<span style={{color:'red'}}>*</span>:
                           </FormLabel>
                           
                           <Select
@@ -128,7 +128,7 @@ interface LocationAddProps {
                             placeholder="Select Site"
                             indicator={<KeyboardArrowDown />}
                             sx={{
-                              width: 240,
+                              width: {md:246, xs:171},
                               [`& .${selectClasses.indicator}`]: {
                                 transition: '0.2s',
                                 [`&.${selectClasses.expanded}`]: {
@@ -136,6 +136,7 @@ interface LocationAddProps {
                                 },
                               },
                             }}
+                            required
                           >
                             {sites && sites.map((site)=>(
                               <Option key={site.id} value={site.id}>{site.siteName}</Option>
@@ -159,7 +160,7 @@ interface LocationAddProps {
                               marginLeft: 'none',
                             }}
                           >
-                            Location*:
+                            Location<span style={{color:'red'}}>*</span>:
                           </FormLabel>
                           <Input
                             // value={locationForm.location}
@@ -167,10 +168,11 @@ interface LocationAddProps {
                             onChange={HandleInputChange}
                             placeholder="Type here"
                             sx={{
-                              marginLeft: '5px',
-                              width: '50%',
+                              marginLeft: '1px',
+                              width: '57%',
                               marginTop: '10px',
                             }}
+                            required
                           />
                         </FormControl>
                       </Box>

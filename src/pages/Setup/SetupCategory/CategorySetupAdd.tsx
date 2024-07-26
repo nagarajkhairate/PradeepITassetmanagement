@@ -23,7 +23,7 @@ interface CategoryAddProps {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                p:3
+                p:2
               }}
               open={open}
               onClose={handleClose}
@@ -86,9 +86,10 @@ interface CategoryAddProps {
                               marginLeft: '20px',
                             }}
                           >
-                            Category*:
+                            Category<span style={{color:'red'}}>*</span>:
                           </FormLabel>
                           <Input
+                          required
                     value={categoryName}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       const value = e.target.value;
@@ -103,7 +104,7 @@ interface CategoryAddProps {
                     placeholder="Type here"
                     sx={{
                       marginLeft: '20px',
-                      width: '70%',
+                      width: '60%',
                       marginTop: '10px',
                     }}
                   />
@@ -146,6 +147,7 @@ interface CategoryAddProps {
                           background: '#fdd835',
                           '&:hover': { background: '#E1A91B' },
                           color: 'black',
+                          marginRight:'30px'
                         }}
                       >
                         Add

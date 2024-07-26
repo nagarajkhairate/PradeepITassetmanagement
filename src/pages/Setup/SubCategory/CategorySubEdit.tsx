@@ -95,7 +95,7 @@ export function CategorySubEdit({
             <FormControl
               sx={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly" }}
             >
-              <FormLabel sx={{ paddingTop: "15px", marginLeft: "20px" }}>Sub-Category*:</FormLabel>
+              <FormLabel sx={{ paddingTop: "15px", marginLeft: "20px" }}>Sub-Category<span style={{color:'red'}}>*</span>:</FormLabel>
               <Input
                 variant="outlined"
                 type="text"

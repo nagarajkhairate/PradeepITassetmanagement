@@ -133,7 +133,7 @@ const AddCustomCustomer: React.FC<DatabaseCustomerProps> = ({
                   marginRight: '10px', // Space between label and input
                 }}
               >
-                Custom Field Label*:
+                Custom Field Label<span style={{ color: 'red' }}>*</span>:
               </FormLabel>
               <Input
                 variant="outlined"
@@ -164,7 +164,7 @@ const AddCustomCustomer: React.FC<DatabaseCustomerProps> = ({
                   flexShrink: 0, // Prevent label from shrinking
                 }}
               >
-                Data Types*:
+                Data Types<span style={{ color: 'red' }}>*</span>:
               </FormLabel>
               <Select
                 placeholder="Select Data Types"

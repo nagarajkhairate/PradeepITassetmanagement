@@ -63,7 +63,7 @@ const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
         sx={{
           maxWidth: 500,
           borderRadius: 'md',
-          p: 3,
+          p: 4,
           boxShadow: 'lg',
         }}
       >
@@ -115,14 +115,14 @@ const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
                     marginLeft: '5px',
                   }}
                 >
-                  department*:
+                  department<span style={{ color: 'red' }}>*</span>:
                 </FormLabel>
                 <Input
                   name="departmentName"
                   onChange={handleInputChange}
                   placeholder="Type here"
                   sx={{
-                    width: '70%',
+                    width:{md:'70%',xs:'65%'},
                     marginTop: '10px',
                   }}
                   required
