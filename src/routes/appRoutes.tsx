@@ -62,62 +62,62 @@ const appRoutes: RouteType[] = [
     },
   },
 
-  {
-    path: '/alerts',
-    element: <Alerts />,
-    state: 'alerts',
-    sidebarProps: {
-      displayText: 'Alerts',
-      icon: <ICONS.resource />,
-    },
-    child: [
-      {
-        path: '/alerts/maintenances-due',
-        element: <MaintenancesDue />,
-        state: 'alerts',
-        sidebarProps: {
-          displayText: 'Maintenances Due',
-          icon: <ICONS.person />,
-        },
-      },
-      {
-        path: '/alerts/maintenances-over-due',
-        element: <MaintenanceOverdue />,
-        state: 'alerts.maintenanceOverdue',
-        sidebarProps: {
-          displayText: 'Maintenances Over Due',
-          icon: <ICONS.person />,
-        },
-      },
-      {
-        path: '/alerts/leases-expiring',
-        element: <LeasesExpiring />,
-        state: 'alerts.leasesExpiring',
-        sidebarProps: {
-          displayText: 'Leases Expiring',
-          icon: <ICONS.person />,
-        },
-      },
-      {
-        path: '/alerts/warranty-expiring',
-        element: <WarrantyExpiring />,
-        state: 'alerts.warrantyExpiring',
-        sidebarProps: {
-          displayText: 'Warranty Expiring',
-          icon: <ICONS.person />,
-        },
-      },
-      {
-        path: '/alerts/assets-past-due',
-        element: <AssetsPastDue />,
-        state: 'assetsPastDue',
-        sidebarProps: {
-          displayText: 'Assets Past Due',
-          icon: <ICONS.person />,
-        },
-      },
-    ],
-  },
+  // {
+  //   path: '/alerts',
+  //   element: <Alerts />,
+  //   state: 'alerts',
+  //   sidebarProps: {
+  //     displayText: 'Alerts',
+  //     icon: <ICONS.resource />,
+  //   },
+  //   child: [
+  //     {
+  //       path: '/alerts/maintenances-due',
+  //       element: <MaintenancesDue />,
+  //       state: 'alerts',
+  //       sidebarProps: {
+  //         displayText: 'Maintenances Due',
+  //         icon: <ICONS.person />,
+  //       },
+  //     },
+  //     {
+  //       path: '/alerts/maintenances-over-due',
+  //       element: <MaintenanceOverdue />,
+  //       state: 'alerts.maintenanceOverdue',
+  //       sidebarProps: {
+  //         displayText: 'Maintenances Over Due',
+  //         icon: <ICONS.person />,
+  //       },
+  //     },
+  //     {
+  //       path: '/alerts/leases-expiring',
+  //       element: <LeasesExpiring />,
+  //       state: 'alerts.leasesExpiring',
+  //       sidebarProps: {
+  //         displayText: 'Leases Expiring',
+  //         icon: <ICONS.person />,
+  //       },
+  //     },
+  //     {
+  //       path: '/alerts/warranty-expiring',
+  //       element: <WarrantyExpiring />,
+  //       state: 'alerts.warrantyExpiring',
+  //       sidebarProps: {
+  //         displayText: 'Warranty Expiring',
+  //         icon: <ICONS.person />,
+  //       },
+  //     },
+  //     {
+  //       path: '/alerts/assets-past-due',
+  //       element: <AssetsPastDue />,
+  //       state: 'assetsPastDue',
+  //       sidebarProps: {
+  //         displayText: 'Assets Past Due',
+  //         icon: <ICONS.person />,
+  //       },
+  //     },
+  //   ],
+  // },
   {
     path: '/assets',
     element: <Assets />,
@@ -186,66 +186,66 @@ const appRoutes: RouteType[] = [
           icon: <ICONS.person />,
         },
       },
-      {
-        path: '/assets/lease',
-        element: <Lease />,
-        state: 'lease',
-        sidebarProps: {
-          displayText: 'Lease',
-          icon: <ICONS.person />,
-        },
-      },
-      {
-        index: true,
-        path: '/assets/checkout-sample',
-        element: <CheckoutButton />,
-        state: 'lease',
-      },
-      {
-        path: '/assets/lease-return',
-        element: <LeaseReturn />,
-        state: 'lease-return',
-        sidebarProps: {
-          displayText: 'Lease Return',
-          icon: <ICONS.person />,
-        },
-      },
-      {
-        path: '/assets/dispose',
-        element: <Dispose />,
-        state: 'resources.consultants',
-        sidebarProps: {
-          displayText: 'Dispose',
-          icon: <ICONS.person />,
-        },
-      },
-      {
-        path: '/assets/maintenance',
-        element: <Maintenance />,
-        state: 'maintenance',
-        sidebarProps: {
-          displayText: 'Maintenance',
-          icon: <ICONS.person />,
-        },
-      },
-      {
-        path: '/assets/move',
-        element: <Move />,
-        state: 'resources.suppliers',
-        sidebarProps: {
-          displayText: 'Move',
-          icon: <ICONS.person />,
-        },
-      },
-      {
-        path: '/assets/reserve',
-        element: <Reserve />,
-        state: 'reserve',
-        sidebarProps: {
-          displayText: 'Reserve',
-          icon: <ICONS.person />,
-        },
-      },
+      // {
+      //   path: '/assets/lease',
+      //   element: <Lease />,
+      //   state: 'lease',
+      //   sidebarProps: {
+      //     displayText: 'Lease',
+      //     icon: <ICONS.person />,
+      //   },
+      // },
+      // {
+      //   index: true,
+      //   path: '/assets/checkout-sample',
+      //   element: <CheckoutButton />,
+      //   state: 'lease',
+      // },
+      // {
+      //   path: '/assets/lease-return',
+      //   element: <LeaseReturn />,
+      //   state: 'lease-return',
+      //   sidebarProps: {
+      //     displayText: 'Lease Return',
+      //     icon: <ICONS.person />,
+      //   },
+      // },
+      // {
+      //   path: '/assets/dispose',
+      //   element: <Dispose />,
+      //   state: 'resources.consultants',
+      //   sidebarProps: {
+      //     displayText: 'Dispose',
+      //     icon: <ICONS.person />,
+      //   },
+      // },
+      // {
+      //   path: '/assets/maintenance',
+      //   element: <Maintenance />,
+      //   state: 'maintenance',
+      //   sidebarProps: {
+      //     displayText: 'Maintenance',
+      //     icon: <ICONS.person />,
+      //   },
+      // },
+      // {
+      //   path: '/assets/move',
+      //   element: <Move />,
+      //   state: 'resources.suppliers',
+      //   sidebarProps: {
+      //     displayText: 'Move',
+      //     icon: <ICONS.person />,
+      //   },
+      // },
+      // {
+      //   path: '/assets/reserve',
+      //   element: <Reserve />,
+      //   state: 'reserve',
+      //   sidebarProps: {
+      //     displayText: 'Reserve',
+      //     icon: <ICONS.person />,
+      //   },
+      // },
     ],
   },
   {
@@ -399,71 +399,71 @@ const appRoutes: RouteType[] = [
           icon: <ICONS.person />,
         },
       },
-      {
-        path: '/setup/customize',
-        element: <AssetForm />,
-        state: 'assetForm',
-        sidebarProps: {
-          displayText: 'Customize Form',
-          icon: <ICONS.resource />,
-        },
-        child: [
-          {
-            path: '/setup/customize/asset',
-            element: <AssetForm />,
-            state: 'assetForm',
-            sidebarProps: {
-              displayText: 'Asset Form',
-              icon: <ICONS.person />,
-            },
-          },
-          {
-            path: '/setup/customize/employee',
-            element: <PersonsEmployeesForm />,
-            state: 'customize-employee',
-            sidebarProps: {
-              displayText: 'Customize employee',
-              icon: <ICONS.person />,
-            },
-          },
-          {
-            path: '/setup/customize/contract',
-            element: <ContractForm />,
-            state: 'contractForm',
-            sidebarProps: {
-              displayText: 'Customize Contract',
-              icon: <ICONS.person />,
-            },
-          },
-          {
-            path: '/setup/customize/maintenance',
-            element: <MaintenanceForm />,
-            state: 'customizeMaintenance',
-            sidebarProps: {
-              displayText: 'Customize Maintenance',
-              icon: <ICONS.person />,
-            },
-          },
-          {
-            path: '/setup/customize/customer',
-            element: <CustomerForm />,
-            state: 'customizeCustomer',
-            sidebarProps: {
-              displayText: 'Customize customer',
-              icon: <ICONS.person />,
-            },
-          },
-          {
-            path: '/setup/customize-warranty',
-            element: <WarrantyForm />,
-            state: 'customizeCustomer',
-            sidebarProps: {
-              displayText: 'Customize warranty',
-              icon: <ICONS.person />,
-            },
-          },
-        ],
-      },
+      // {
+      //   path: '/setup/customize',
+      //   element: <AssetForm />,
+      //   state: 'assetForm',
+      //   sidebarProps: {
+      //     displayText: 'Customize Form',
+      //     icon: <ICONS.resource />,
+      //   },
+      //   child: [
+      //     {
+      //       path: '/setup/customize/asset',
+      //       element: <AssetForm />,
+      //       state: 'assetForm',
+      //       sidebarProps: {
+      //         displayText: 'Asset Form',
+      //         icon: <ICONS.person />,
+      //       },
+      //     },
+      //     {
+      //       path: '/setup/customize/employee',
+      //       element: <PersonsEmployeesForm />,
+      //       state: 'customize-employee',
+      //       sidebarProps: {
+      //         displayText: 'Customize employee',
+      //         icon: <ICONS.person />,
+      //       },
+      //     },
+      //     {
+      //       path: '/setup/customize/contract',
+      //       element: <ContractForm />,
+      //       state: 'contractForm',
+      //       sidebarProps: {
+      //         displayText: 'Customize Contract',
+      //         icon: <ICONS.person />,
+      //       },
+      //     },
+      //     {
+      //       path: '/setup/customize/maintenance',
+      //       element: <MaintenanceForm />,
+      //       state: 'customizeMaintenance',
+      //       sidebarProps: {
+      //         displayText: 'Customize Maintenance',
+      //         icon: <ICONS.person />,
+      //       },
+      //     },
+      //     {
+      //       path: '/setup/customize/customer',
+      //       element: <CustomerForm />,
+      //       state: 'customizeCustomer',
+      //       sidebarProps: {
+      //         displayText: 'Customize customer',
+      //         icon: <ICONS.person />,
+      //       },
+      //     },
+      //     {
+      //       path: '/setup/customize-warranty',
+      //       element: <WarrantyForm />,
+      //       state: 'customizeCustomer',
+      //       sidebarProps: {
+      //         displayText: 'Customize warranty',
+      //         icon: <ICONS.person />,
+      //       },
+      //     },
+      //   ],
+      // },
     ],
   },
 ]

@@ -42,7 +42,7 @@ const Dashboard: FunctionComponent = () => {
 
   return (
     <AppView>
-      {step && step[0]?.step !== 7 ? (
+      {step && step[0]?.step === 7 ? (
         <CompanyInfo open={open} setOpen={() => setOpen(false)} />
       ) : (
         <Box sx={styles.dashboardContainer}>

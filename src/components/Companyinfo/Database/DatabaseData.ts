@@ -48,7 +48,7 @@ export interface Option {
     {
       id: 2,
       fieldName: 'Asset Tag ID',
-      name: 'assetTagID',
+      name: 'assetTagId',
       isVisible: 'isVisible',
       description: 'This holds unique asset id number that your company assigns to identify each asset',
       example: 'A-1001',
@@ -79,7 +79,7 @@ export interface Option {
         id: 4,
       fieldName: 'Purchase From',
       isVisible: 'isVisible',
-      name: 'purchasedFrom',
+      name: 'purchaseFrom',
       description: 'Date asset was purchased',
       example: '08/22/2014',
       option: [
