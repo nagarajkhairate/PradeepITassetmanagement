@@ -26,6 +26,7 @@ import { fetchAssetDatabase, updateAssetDatabase } from '../../../redux/features
 import { fetchAssetCustomDatabase } from '../../../redux/features/AssetCustomDatabaseSlice'
 import AppForm from '../../Common/AppForm'
 import { fetchComponents } from '../../../redux/features/ComponentsIdSlice'
+import { notifyError, notifySuccess, ToastContainer } from '../../Common/Toast/Toast'
 
 interface DataBaseProps {
   activeTab: number
@@ -74,13 +75,18 @@ const DataBaseAsset: FunctionComponent<DataBaseProps> = ({
       ),
     )
   }
-console.log(JSON.stringify(assetDataForm))
+
 
   const handleNext = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-await dispatch(updateAssetDatabase(assetDataForm))
+    try {
+      await dispatch(updateAssetDatabase(assetDataForm))
+      notifySuccess(`Successfully Updated DataBase`);
+      setActiveTab(activeTab + 1)
+    } catch (error:any) {
+      notifyError(error);
+    }
 
-    setActiveTab(activeTab + 1)
   }
 
   const handleBack = () => {
@@ -286,6 +292,7 @@ await dispatch(updateAssetDatabase(assetDataForm))
           </Button>
         </Box>
       </Box>
+      <ToastContainer />
     </AppForm>
   )
 }
