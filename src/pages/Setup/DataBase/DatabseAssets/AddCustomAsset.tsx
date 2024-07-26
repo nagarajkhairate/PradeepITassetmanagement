@@ -249,7 +249,16 @@ const AddCustomAsset: React.FC<DataBaseAddProps> = ({ open, setOpen, components 
               </RadioGroup>
             </FormControl>
 
-
+            <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: 2 }}>
+            <FormLabel>Selected Categories</FormLabel>
+            <FormLabel>Is this field visible to assets of selective Categories?</FormLabel>
+            <RadioGroup name="selectedCategories" value={formData?.selectedCategories} onChange={handleChange}>
+              <Box>
+                <Radio value="all" label="All Categories" variant="outlined" />
+                <Radio value="limitedCategories" label="Limited Categories" variant="outlined" sx={{ paddingTop: "30px", marginLeft: "20px" }} />
+              </Box>
+            </RadioGroup>
+          </Box>
 
             {/* <Box>
               <Box

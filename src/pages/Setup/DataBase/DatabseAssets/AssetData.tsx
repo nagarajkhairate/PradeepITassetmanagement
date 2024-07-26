@@ -66,7 +66,7 @@ export const AssetDefaultFields = [
       ],
     },
     {
-      fieldName: 'Purchased From',
+      fieldName: 'Purchase From',
       name: 'purchasedForm',
       isVisible: 'isVisible',
       isRequired: 'optional',
@@ -120,9 +120,9 @@ export const AssetDefaultFields = [
       ],
     },
     {
-      fieldName: 'Serial No',
+      fieldName: 'Serial Number',
       isVisible: 'isVisible',
-      name: 'serialNo',
+      name: 'serialNumber',
       isRequired: 'optional',
       description: "Manufacturer's serial number",
       example: 'HG9C3X',
@@ -143,7 +143,7 @@ export const AssetDefaultFields = [
     {
       isVisible: true,
       fieldName: 'Asset Tag ID',
-      name: 'assetId',
+      name: 'assetTagId',
       description: 'string',
       isRequired: 'yes',
     },
@@ -157,7 +157,7 @@ export const AssetDefaultFields = [
     {
       isVisible: true,
       fieldName: 'Purchase Date',
-      name: 'purchasedDate',
+      name: 'purchaseDate',
       description: 'string',
       isRequired: 'optional',
     },
@@ -170,8 +170,8 @@ export const AssetDefaultFields = [
     },
     {
       isVisible: true,
-      fieldName: 'Purchased From',
-      name: 'purchasedForm',
+      fieldName: 'Purchase From',
+      name: 'purchaseForm',
       description: 'string',
       isRequired: 'optional',
     },
@@ -191,8 +191,8 @@ export const AssetDefaultFields = [
     },
     {
       isVisible: true,
-      fieldName: 'Serial No',
-      name: 'serialNo',
+      fieldName: 'Serial Number',
+      name: 'serialNumber',
       description: 'string',
       isRequired: 'optional',
     },
