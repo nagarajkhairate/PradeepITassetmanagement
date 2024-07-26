@@ -27,6 +27,7 @@ import SelectOption from '../../components/AssetSections/SelectOption'
 import AddNewEmpployee from './AddNewEmpployee'
 import AddNewClient from './AddNewClient'
 import { fetchCheckOutField } from '../../redux/features/CheckOutFieldSlice'
+import { fetchEmployee } from '../../redux/features/EmployeeSlice'
 
 interface CheckOutFormProps {
   selectedAssets: any;
@@ -39,10 +40,12 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
   const [formData, setFormData] = useState<any>({})
   const checkOut = useSelector((state: RootState) => state.checkOut.data);
   const checkOutFields= useSelector((state: RootState)=>state.checkOutField.data)
+  const employees = useSelector((state: RootState)=>state.addEmployee.data)
 
   useEffect(() => {
     dispatch(fetchCheckOut());
     dispatch(fetchCheckOutField())
+    dispatch(fetchEmployee())
   }, [dispatch]);
 
   const handleChange = (
@@ -246,10 +249,16 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
     }
   };
 
+  const getEmployeName = (empId: number) =>{
+    const employeeName = employees && employees.find(emp => emp.id === empId);
+    console.log(checkOut)
+    return employeeName ? employeeName.empName: null;
+  }
+
   const getAssignTo = (id:any) => {
     const assignment = checkOut && checkOut.find(assign => assign.assetId === id);
-    console.log(assignment)
-    return assignment ? assignment.assignedTo.empName: null;
+    console.log(checkOut)
+    return assignment ? getEmployeName(assignment.assignedTo): null;
   };
   
   const statusColorMap: Record<string, string> = {
@@ -261,7 +270,7 @@ const CheckOutForm: React.FC <CheckOutFormProps> = ({ selectedAssets }) => {
     <AppForm onSubmit={handleFormSubmit}>
       <Box
        sx={{
-        borderRadius: 'none',
+        borderRadius: '10px',
         boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
         background: '#ffffff',
         gap: '5px',

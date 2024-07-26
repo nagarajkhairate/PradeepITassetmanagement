@@ -125,9 +125,7 @@ const AddAnAsset: React.FC = () => {
     try {
       await dispatch(addAssets(formDataToSend))
       console.log('Form submitted successfully')
-      setSnackbarMessage('Asset successfully added')
-      setOpenSnackbar(true)
-      setTimeout(() => setOpenSnackbar(false), 4000)
+      navigate(`/assets/list-of-assets`);
     } catch (error) {
       console.error('Error submitting form:', error)
     }
