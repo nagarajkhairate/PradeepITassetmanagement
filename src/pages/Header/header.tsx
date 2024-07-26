@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Dropdown, GlobalStyles, IconButton, Menu, MenuButton, MenuItem, Sheet } from '@mui/joy';
+import { Dropdown, GlobalStyles, IconButton, Menu, MenuButton, MenuItem, Sheet } from '@mui/joy';
 import { MoreVert } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import useColorSelector from '../../configs/useColorSelector';
@@ -10,7 +10,7 @@ const Header = () => {
   const navigate = useNavigate();
   const styleConfigs = useColorSelector()
   function logoutUser() {
-    sessionStorage.clear();
+    localStorage.clear();
     navigate('/login');
   }
 
@@ -19,12 +19,12 @@ const Header = () => {
     sx={{
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'space-between',
+      justifyContent: {sm:"space-between", md:"flex-end"},
       position: 'fixed',
       top: 0,
-      width: '100vw',
+      minWidth: {sm:'100vw', md:"78vw"},
       height: 'var(--Header-height)',
-      zIndex: 10,
+      zIndex: 1,
       p: 2,
       borderBottom: '1px solid',
       borderColor: 'background.level1',
@@ -42,26 +42,33 @@ const Header = () => {
         },
       })}
     />
+
+
     <IconButton
       onClick={toggleSidebar}
       variant="outlined"
       color="neutral"
       size="sm"
+      sx={{
+        display: {
+          xs: 'inline-flex',
+          sm: 'inline-flex',
+          md: 'none',
+          lg: 'none',
+          xl: 'none',
+        }}}
     >
       <ICONS.menu />
     </IconButton>
-    <Box
-      sx={{
-        width: 120,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}
-    >
-    
+  
 
-      <Dropdown>
+   
+
+      <Dropdown >
         <MenuButton
+sx={{
+  mr: 2
+}}
           slots={{ root: IconButton }}
           slotProps={{ root: { variant: 'outlined', color: 'neutral' } }}
         >
@@ -83,7 +90,7 @@ const Header = () => {
           </MenuItem>
         </Menu>
       </Dropdown>
-    </Box>
+ 
   </Sheet>
   );
 };
