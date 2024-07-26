@@ -38,6 +38,7 @@ const CategorySetup: React.FunctionComponent = () => {
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [categoryName, setCategoryName] = useState<string>('')
   const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   const categories = useSelector((state: RootState) => state.category.data)
   console.log(categories)
@@ -55,16 +56,27 @@ const CategorySetup: React.FunctionComponent = () => {
   }
 
   const handleAddCategory = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
+  
+    // Validate categoryName
+    const regex = /^[a-zA-Z0-9\s]*$/; // Alphanumeric and spaces
+    if (!regex.test(categoryName)) {
+      setError('Category can only contain letters, numbers, and spaces.');
+      return;
+    }
+    
+    // Proceed with adding category
     const newCategory: Category = {
       id: categories.length ? categories[categories.length - 1].id + 1 : 1,
-      categoryName: capitalizeWords(categoryName) ,
-    }
-    setCategoryName('') 
-    dispatch(addCategory(newCategory))
-    console.log(newCategory)
-    handleClose()
-  }
+      categoryName: capitalizeWords(categoryName),
+    };
+    setCategoryName('');
+    setError(null); // Clear any previous errors
+    dispatch(addCategory(newCategory));
+    console.log(newCategory);
+    handleClose();
+  };
+  
 
   const capitalizeWords = (str: string) => {
     return str.replace(/\b\w/g, (char) => char.toUpperCase())

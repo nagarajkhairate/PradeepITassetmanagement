@@ -28,27 +28,47 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site }) => {
   const [formData, setFormData] = useState<any>(site)
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [zipCodeError, setZipCodeError] = useState<string | null>(null)
+  const [stateError, setStateError] = useState<string | null>(null)
+  const [cityError, setCityError] = useState<string | null>(null)
 
   useEffect(() => {
     setFormData(site)
   }, [site])
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target
+    const { name, value } = event.target;
     if (name === 'zipCode') {
-      const zipCodeRegex = /^\d*$/
+      const zipCodeRegex = /^\d*$/;
       if (!zipCodeRegex.test(value)) {
-        setZipCodeError('Zip Code must be numeric')
-        return
+        setZipCodeError('Zip Code must be numeric');
+        return;
+      } else if (value.length !== 6) {
+        setZipCodeError('Zip Code must be exactly 6 digits');
       } else {
-        setZipCodeError(null)
+        setZipCodeError(null);
       }
     }
-    setFormData((prevData:any) => ({
-      ...prevData,
-      [name]: value,
-    }))
-  }
+    if (name === 'state' || name === 'city') {
+      const alphaRegex = /^[A-Za-z\s]*$/;
+      if (!alphaRegex.test(value)) {
+        if (name === 'state') {
+          setStateError('State must contain only alphabets and spaces');
+        } else {
+          setCityError('City must contain only alphabets');
+        }
+        return;
+      } else {
+        if (name === 'state') {
+          setStateError(null);
+        } else {
+          setCityError(null);
+        }
+      }
+    }
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -125,6 +145,7 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site }) => {
                     fullWidth
                     sx={{ mb: 2 }}
                   />
+                  {cityError && <Typography sx={{color:"red"}}>{cityError}</Typography>}
                 </FormControl>
                 <FormControl sx={{ mb: 2 }}>
                   <FormLabel>State</FormLabel>
@@ -136,6 +157,7 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site }) => {
                     fullWidth
                     sx={{ mb: 2 }}
                   />
+                  {stateError && <Typography sx={{color:"red"}}>{stateError}</Typography>}
                 </FormControl>
                 <FormControl sx={{ mb: 2 }}>
                   <FormLabel>Zip Code</FormLabel>
@@ -149,6 +171,7 @@ const EditSite: React.FC<EditSiteProps> = ({ open, onClose, site }) => {
                     // error={!!zipCodeError}
                     // helperText={zipCodeError}
                   />
+                  {zipCodeError && <Typography sx={{color:"red"}}>{zipCodeError}</Typography>}
                 </FormControl>
                 <FormControl sx={{ mb: 2 }}>
                   <FormLabel>Country</FormLabel>

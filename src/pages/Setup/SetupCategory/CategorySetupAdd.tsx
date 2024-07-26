@@ -13,7 +13,7 @@ interface CategoryAddProps {
   }
 
   const CategoryAdd: React.FunctionComponent<CategoryAddProps> = ({ open, handleClose, categoryName, setCategoryName, handleAddCategory }) => {
-
+    const [error, setError] = React.useState<string | null>(null);
 
   return (
     <Modal
@@ -89,17 +89,25 @@ interface CategoryAddProps {
                             Category*:
                           </FormLabel>
                           <Input
-                            value={categoryName}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>,
-                            ) => setCategoryName(e.target.value)}
-                            placeholder="Type here"
-                            sx={{
-                              marginLeft: '20px',
-                              width: '70%',
-                              marginTop: '10px',
-                            }}
-                          />
+                    value={categoryName}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      const value = e.target.value;
+                      const regex = /^[a-zA-Z0-9\s]*$/; // Alphanumeric and spaces
+                      if (regex.test(value)) {
+                        setCategoryName(value);
+                        setError(null);
+                      } else {
+                        setError('Category can only contain letters and numbers.');
+                      }
+                    }}
+                    placeholder="Type here"
+                    sx={{
+                      marginLeft: '20px',
+                      width: '70%',
+                      marginTop: '10px',
+                    }}
+                  />
+                  
                         </FormControl>
                       </Box>
                     

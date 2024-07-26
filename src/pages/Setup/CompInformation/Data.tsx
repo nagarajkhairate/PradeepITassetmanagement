@@ -72,7 +72,7 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
     sequence: 5,
     className: { sm: 12, md: 6, lg: 6 },
     dataType: 'text',
-    format:"/^[0-9]*$/"
+    format:"/^[0-9]{0,6}$/"
   },
   {
     id: 6,
@@ -283,3 +283,16 @@ export const CompanyInfoFields: CompanyInfoProps[] = [
     dataType: 'file',
   },
 ]
+
+
+
+
+
+
+
+
+
+
+
+
+

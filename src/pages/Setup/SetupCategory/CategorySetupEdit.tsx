@@ -38,6 +38,8 @@ export function CategorySetupEdit({ categories1,
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [selectedCell, setSelectedCell] = useState<number | null>(null)
   const [editOpen, setEditOpen] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null);
+
   
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
@@ -66,14 +68,23 @@ export function CategorySetupEdit({ categories1,
   }
 
   const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     if (selectedCategory !== null) {
-      const categoryName = (e.target as any).categoryName.value
-      const updatedCategory = { ...selectedCategory, categoryName:capitalizeWords(categoryName) }
-      dispatch(updateCategory(updatedCategory))
-      handleEditClose()
+      const categoryName = (e.target as any).categoryName.value;
+      const regex = /^[a-zA-Z0-9]+$/; // Only letters and numbers
+      if (regex.test(categoryName)) {
+        const updatedCategory = { ...selectedCategory, categoryName: capitalizeWords(categoryName) };
+        dispatch(updateCategory(updatedCategory));
+        handleEditClose();
+        setError(null);
+      } else {
+        setError('Category can only contain letters and numbers.');
+      }
     }
   }
+  
+  
+  
   const capitalizeWords = (str: string) => {
     return str.replace(/\b\w/g, (char) => char.toUpperCase())
   }
@@ -278,7 +289,9 @@ export function CategorySetupEdit({ categories1,
                     required
                     sx={{ width: '70%', marginLeft: '10px',marginTop: '8px',  }}
                     defaultValue={selectedCategory ? selectedCategory.categoryName : ''}
+                    
                   />
+        
                 </FormControl>
 
                 
@@ -293,6 +306,19 @@ export function CategorySetupEdit({ categories1,
             mt:4
           }}
         >
+           <Button
+                  type="button"
+                  onClick={handleEditClose}
+                  autoFocus
+                  variant="solid"
+                  sx={{
+                    background: 'black',
+                    color: 'white',
+                    '&:hover': { background: "#424242" },
+                  }}
+                >
+                  Cancel
+                </Button>
                 <Button
                   autoFocus
                   type="submit"
@@ -306,19 +332,7 @@ export function CategorySetupEdit({ categories1,
                   Update
                 </Button>
 
-                <Button
-                  type="button"
-                  onClick={handleEditClose}
-                  autoFocus
-                  variant="solid"
-                  sx={{
-                    background: 'black',
-                    color: 'white',
-                    '&:hover': { background: "#424242" },
-                  }}
-                >
-                  Cancel
-                </Button>
+               
                 </Box>
               </AppForm>
             </div>
