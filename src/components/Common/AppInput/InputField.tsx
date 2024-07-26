@@ -52,7 +52,7 @@ const InputField: React.FunctionComponent<InputFieldProps> = ({ field, formData,
       ? handleInputChange(e)
       : null;
   };
-console.log(field)
+
   return (
     <FormControl>
       <FormLabel>

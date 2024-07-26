@@ -47,7 +47,6 @@ export const fetchAssetCustomDatabaseById = createAsyncThunk('assetCustomDatabas
  
 export const addAssetCustomDatabase = createAsyncThunk('assetCustomDatabase/addAssetCustomDatabase', async (assetCustomDatabase: any) => {
  const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset`, assetCustomDatabase);
- console.log(response)
   return response.data;
 });
  

@@ -94,7 +94,6 @@ const CompanyInfoSlice = createSlice({
       })
       .addCase(updateCompanyInfo.fulfilled, (state, action) => {
         const updatedindex = state.data.findIndex((item) => item.id === action.payload.id);
-        console.log(updatedindex)
         if (updatedindex !== -1) {
           state.data[updatedindex] = action.payload;
         }
