@@ -279,7 +279,7 @@ export function CategorySetupEdit({ categories1,
                   }}
                 >
                   <FormLabel sx={{ marginTop: '15px',  marginLeft: '20px' }}>
-                    Category*:
+                    Category<span style={{color:'red'}}>*</span>:
                   </FormLabel>
                   <Input
                     variant="outlined"
@@ -287,7 +287,7 @@ export function CategorySetupEdit({ categories1,
                     id="categoryName"
                     name="categoryName"
                     required
-                    sx={{ width: '70%', marginLeft: '10px',marginTop: '8px',  }}
+                    sx={{ width: '65%', marginLeft: '10px',marginTop: '8px',  }}
                     defaultValue={selectedCategory ? selectedCategory.categoryName : ''}
                     
                   />

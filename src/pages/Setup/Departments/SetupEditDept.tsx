@@ -270,7 +270,7 @@ export function SetupEditDept({
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            p:2
+            p:3
           }}
         >
           <Sheet
@@ -302,16 +302,17 @@ export function SetupEditDept({
                     justifyContent: 'space-evenly',
                   }}
                 >
-                  <FormLabel sx={{ paddingTop: '10px', marginLeft: '20px' }}>
-                    Department*:
+                  <FormLabel sx={{ paddingTop: '10px', marginLeft: '25px' }}>
+                    Department<span style={{ color: 'red' }}>*</span>:
                   </FormLabel>
                   <Input
                     variant="outlined"
                     type="text"
                     id="departmentName"
                     name="departmentName"
+                    
                     required
-                    sx={{  marginLeft: '10px' }}
+                    sx={{  marginLeft: '10px',width:{md:'60%',xs:'60%'}, }}
                     defaultValue={
                       selectedDepartment
                         ? selectedDepartment.departmentName

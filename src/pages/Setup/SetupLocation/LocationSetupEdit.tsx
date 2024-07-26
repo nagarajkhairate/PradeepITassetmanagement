@@ -268,16 +268,17 @@ const selectedLocation = selectedCell !== null ? location[selectedCell] : null
                     justifyContent: 'space-evenly',
                   }}
                 >
-                  <FormLabel sx={{ marginTop: '20px', marginLeft: '20px' }}>
-                    Location*:
+                  <FormLabel sx={{ marginTop: '22px', marginLeft: '20px' }}>
+                    Location<span style={{color:'red'}}>*</span>:
                   </FormLabel>
                   <Input
                     variant="outlined"
+                  
                     type="text"
                     id="location"
                     name="location"
                     required
-                    sx={{ width: '70%', marginLeft: '10px',marginTop: '8px', }}
+                    sx={{ width: '60%', marginLeft: '10px',marginTop: 2, }}
                     defaultValue={selectedLocation ? selectedLocation.location : ''}
                   />
                 </FormControl>

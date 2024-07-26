@@ -139,7 +139,7 @@ const AddCustomMaintenance: React.FC<DataBaseAddProps> = ({
                   marginRight: '10px',
                 }}
               >
-                Custom Field Label*:
+                Custom Field Label<span style={{ color: 'red' }}>*</span>:
               </FormLabel>
               <Input
                 variant="outlined"
@@ -170,7 +170,7 @@ const AddCustomMaintenance: React.FC<DataBaseAddProps> = ({
                   flexShrink: 0, // Prevent label from shrinking
                 }}
               >
-                Data Types*:
+                Data Types<span style={{ color: 'red' }}>*</span>:
               </FormLabel>
               <Select
                 placeholder="Select Data Types"

@@ -128,7 +128,7 @@ const AddCustomContract: React.FC<DataBaseAddProps> = ({
                   marginRight: '10px', 
                 }}
               >
-                Custom Field Label*:
+                Custom Field Label<span style={{ color: 'red' }}>*</span>:
               </FormLabel>
               <Input
                 variant="outlined"
@@ -160,7 +160,7 @@ const AddCustomContract: React.FC<DataBaseAddProps> = ({
                    
                 }}
               >
-                Data Types*:
+                Data Types<span style={{ color: 'red' }}>*</span>:
               </FormLabel>
               <Select
                 placeholder="Select Data Types"

@@ -103,13 +103,14 @@ const Company: React.FC = () => {
         <TuneOutlinedIcon style={{ fontSize: '1.4rem', color: '#FBC12E' }} />
         Company Information
       </Typography>
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center',}}>
         <Box
           sx={{
             borderRadius: '16px',
             boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
             background: '#ffffff',
-            padding:1
+            padding:1,
+            mt:2 
           }}
         >
           <Grid container spacing={2} justifyContent="center">

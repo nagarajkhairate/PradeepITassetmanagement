@@ -253,7 +253,7 @@ const CategorySub: React.FunctionComponent = () => {
               
             }}
           >
-            <FormLabel 
+            {/* <FormLabel 
             sx={{ 
               
               marginTop: "6px",
@@ -327,7 +327,7 @@ const CategorySub: React.FunctionComponent = () => {
                 }}
               >
                 Category
-              </FormLabel>
+              </FormLabel> */}
             </FormControl>
 
             <Box
