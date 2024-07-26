@@ -112,8 +112,8 @@ const Event: React.FunctionComponent = () => {
         sx={{
           display: 'flex',
           textAlign: { xs: 'center', md: 'left' },
-          justifyContent: { md: 'left', xs: 'center' },
-          flexDirection: { md: 'left', xs: 'center' },
+          justifyContent: { md: 'left',  },
+          flexDirection: { md: 'left', },
         }}
       >
         <a href="_blank">
@@ -240,7 +240,7 @@ const Event: React.FunctionComponent = () => {
             sx={{
               flex: '3 3 auto',
               display: 'flex',
-              justifyContent: 'center', // Center radio buttons
+              // justifyContent: 'center', // Center radio buttons
             }}
           >
           <AssetRadioGroup
@@ -310,7 +310,7 @@ const Event: React.FunctionComponent = () => {
             sx={{
               flex: '3 3 auto',
               display: 'flex',
-              justifyContent: 'center', // Center radio buttons
+              // justifyContent: 'center', // Center radio buttons
             }}
           >
           <AssetRadioGroup
@@ -377,7 +377,7 @@ const Event: React.FunctionComponent = () => {
             sx={{
               flex: '3 3 auto',
               display: 'flex',
-              justifyContent: 'center', // Center radio buttons
+              // justifyContent: 'center', // Center radio buttons
             }}
           >
           <AssetRadioGroup
@@ -388,7 +388,7 @@ const Event: React.FunctionComponent = () => {
 </Box>
           <>
             <CustomButtonBox
-              setupCheckoutText="Setup 'Lost/Missing'"
+              setupCheckoutText="Setup 'Lost'"
               customizeFormText="Customize Form"
             />
             <CustomButtonBox
@@ -438,7 +438,7 @@ const Event: React.FunctionComponent = () => {
             sx={{
               flex: '4 4 auto',
               display: 'flex',
-              justifyContent: 'center', // Center radio buttons
+              // justifyContent: 'center', // Center radio buttons
             }}
           >
             <AssetRadioGroup
@@ -451,7 +451,7 @@ const Event: React.FunctionComponent = () => {
             sx={{
               display: 'flex',
               alignItems: 'center', // Vertically align items
-              justifyContent: { md: 'flex-end' }, // Align content to the right or center
+              justifyContent: { md: 'flex-end', }, // Align content to the right or center
             }}
           >
             <CustomButtonBox
@@ -489,7 +489,7 @@ const Event: React.FunctionComponent = () => {
             sx={{
               flex: '4 4 auto',
               display: 'flex',
-              justifyContent: 'center', // Center radio buttons
+              // justifyContent: 'center', // Center radio buttons
             }}
           >
             <AssetRadioGroup
@@ -503,7 +503,7 @@ const Event: React.FunctionComponent = () => {
             sx={{
               display: 'flex',
               alignItems: 'center', // Vertically align items
-              justifyContent: { md: 'flex-end', xs: 'center' }, // Align content to the right or center
+              justifyContent: { md: 'flex-end', }, // Align content to the right or center
             }}
           >
             <CustomButtonBox
@@ -542,7 +542,7 @@ const Event: React.FunctionComponent = () => {
             sx={{
               flex: '4 4 auto',
               display: 'flex',
-              justifyContent: 'center', // Center radio buttons
+              // justifyContent: 'center', // Center radio buttons
             }}
           >
             <AssetRadioGroup
@@ -555,7 +555,7 @@ const Event: React.FunctionComponent = () => {
             sx={{
               display: 'flex',
               alignItems: 'center', // Vertically align items
-              justifyContent: { md: 'flex-end', xs: 'center' }, // Align content to the right or center
+              justifyContent: { md: 'flex-end',  }, // Align content to the right or center
             }}
           >
             <CustomButtonBox
@@ -594,7 +594,7 @@ const Event: React.FunctionComponent = () => {
            sx={{
             flex: '4 4 auto',
             display: 'flex',
-            justifyContent: 'center', // Center radio buttons
+            // justifyContent: 'center', // Center radio buttons
           }}
           >
             <AssetRadioGroup
@@ -608,7 +608,7 @@ const Event: React.FunctionComponent = () => {
             sx={{
               display: 'flex',
               alignItems: 'center', // Vertically align items
-              justifyContent: { md: 'flex-end', xs: 'center' }, // Align content to the right or center
+              justifyContent: { md: 'flex-end', }, // Align content to the right or center
             }}
           >
             <CustomButtonBox
@@ -647,7 +647,7 @@ const Event: React.FunctionComponent = () => {
              sx={{
               flex: '4 4 auto',
               display: 'flex',
-              justifyContent: 'center', // Center radio buttons
+              // justifyContent: 'center', // Center radio buttons
             }}
           >
             <AssetRadioGroup
@@ -660,7 +660,7 @@ const Event: React.FunctionComponent = () => {
             sx={{
               display: 'flex',
               alignItems: 'center', // Vertically align items
-              justifyContent: { md: 'flex-end', xs: 'center' }, // Align content to the right or center
+              justifyContent: { md: 'flex-end' }, // Align content to the right or center
             }}
           >
             <CustomButtonBox
