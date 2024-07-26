@@ -42,7 +42,7 @@ const Dashboard: FunctionComponent = () => {
 
   return (
     <AppView>
-      {step && step[0]?.step === 7 ? (
+      {step && step[0]?.step !== 7 ? (
         <CompanyInfo open={open} setOpen={() => setOpen(false)} />
       ) : (
         <Box sx={styles.dashboardContainer}>
@@ -79,7 +79,7 @@ const Dashboard: FunctionComponent = () => {
           <Card sx={styles.card}>
             <CardContent>
               <Typography level="h4" sx={styles.cardTitle}>
-                Purchases in Fiscal Year
+                Purchases in Financial Year
               </Typography>
               <Typography level="h2" sx={styles.cardValue}>
                 ${data.purchasesInFiscalYear.toLocaleString()}

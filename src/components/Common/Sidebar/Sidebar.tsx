@@ -1,17 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SidebarItem from './SidebarItem'
 
-import { Box, GlobalStyles, List, Sheet, listItemButtonClasses } from '@mui/joy'
+import { Box, GlobalStyles, List, Sheet, Typography, listItemButtonClasses } from '@mui/joy'
 
 import appRoutes from '../../../routes/appRoutes'
 import SidebarItemCollapse from './SidebarItemCollapse'
 import { closeSidebar } from '../../../utils/utils'
 import useColorSelector from '../../../configs/useColorSelector'
+import { useDispatch, useSelector } from 'react-redux'
+import { ThunkDispatch } from 'redux-thunk'
+import { RootState } from '../../../redux/store'
+import { fetchCompanyInfo } from '../../../redux/features/CompanyInfoSlice'
 
 const Sidebar = () => {
   const styleConfigs = useColorSelector()
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+  const companyInfo = useSelector((state: RootState) => state.companyInfo.data);
   const logoImage =
     'https://pradeepit.com/wp-content/uploads/2021/11/PradeepIT-Transparent-Logo-300x88.png'
+
+    useEffect(() => {
+        dispatch(fetchCompanyInfo());
+
+    }, [dispatch]);
+
 
   return (
     <Sheet
@@ -82,16 +94,19 @@ const Sidebar = () => {
         sx={{
           display: 'flex',
           gap: 1,
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
+        <Typography level='h4' sx={{color:'#e6a92b'}}>Asset Management</Typography>
         <img
-          src={logoImage}
+          src={`${process.env.REACT_APP_BASE_MAIN_URL}/${companyInfo.length > 0 && companyInfo[0].companyLogo}`}
           alt="Logo"
           style={{ width: '100px' }}
           className="h-8"
         />
+        
       </Box>
       <Box
         sx={{
