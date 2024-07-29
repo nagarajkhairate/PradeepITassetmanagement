@@ -79,7 +79,7 @@ pipeline {
         stage('Push image to Hub') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'docker1') {
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
                         def dockerImage = docker.image("${IMAGE_NAME}:${IMAGE_TAG}")
                         dockerImage.push()
                     }
