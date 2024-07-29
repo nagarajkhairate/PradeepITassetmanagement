@@ -40,11 +40,13 @@ pipeline {
 
         stage('Git Checkout') {
             steps {
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: "${params.BRANCH_NAME}"]],
-                    userRemoteConfigs: [[url: 'https://github.com/rashmiPit/reactjenkins.git', credentialsId: 'git-user1']]
-                ])
+                checkout scm
+                
+                // checkout([
+                //     $class: 'GitSCM',
+                //     branches: [[name: "${params.BRANCH_NAME}"]],
+                //     userRemoteConfigs: [[url: 'https://github.com/rashmiPit/reactjenkins.git', credentialsId: 'git-user1']]
+                // ])
                 echo "Checked out from branch: ${params.BRANCH_NAME}"
             }
         }
