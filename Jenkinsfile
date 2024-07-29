@@ -104,7 +104,7 @@ pipeline {
                     echo "Creating and Starting new container ${REACT_APP_CONTAINER}..."
                     sh """
                         docker run -d --name ${REACT_APP_CONTAINER} --network ${DOCKER_NETWORK} \
-                        -p ${REACT_APP_PORT}:80 \
+                        -p ${REACT_APP_PORT}:85 \
                         --env BASE_API_KEY=${BASE_API_KEY} \
                         --env CUSTOMER_ID=${CUSTOMER_ID} \
                         ${IMAGE_NAME}:${IMAGE_TAG}
