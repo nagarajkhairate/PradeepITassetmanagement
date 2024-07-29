@@ -13,6 +13,7 @@ pipeline {
         string(name: 'DOCKER_USERNAME', defaultValue: 'rashmi629', description: 'Docker Hub username')
         string(name: 'REACT_APP_CONTAINER', defaultValue: 'frontend-asset-tiger', description: 'Container name')
         string(name: 'REACT_APP_PORT', defaultValue: '8100', description: 'React App Port')
+
         string(name: 'BASE_API_KEY', defaultValue: 'http://192.168.20.85:8200/api/', description: 'Assettiger management service api')
         string(name: 'CUSTOMER_ID', defaultValue: '1', description: 'Customer Id')
     }
@@ -24,6 +25,8 @@ pipeline {
         DOCKER_USERNAME = "${params.DOCKER_USERNAME}"
         REACT_APP_CONTAINER = "${params.REACT_APP_CONTAINER}"
         REACT_APP_PORT = "${params.REACT_APP_PORT}"
+
+        // Add your environment variables here
         BASE_API_KEY = "${params.BASE_API_KEY}"
         CUSTOMER_ID = "${params.CUSTOMER_ID}"
     }
@@ -37,8 +40,12 @@ pipeline {
 
         stage('Git Checkout') {
             steps {
-                checkout scm
-                echo "Checked out from branch: ${env.BRANCH_NAME}"
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: "${params.BRANCH_NAME}"]],
+                    userRemoteConfigs: [[url: 'https://github.com/rashmiPit/reactjenkins.git', credentialsId: 'git-user1']]
+                ])
+                echo "Checked out from branch: ${params.BRANCH_NAME}"
             }
         }
 
@@ -46,13 +53,13 @@ pipeline {
             steps {
                 script {
                     sh """
-                        echo "Checking if network ${env.DOCKER_NETWORK} exists..."
-                        if [ -z \$(docker network ls --filter name=^${env.DOCKER_NETWORK}\$ --format="{{ .Name}}") ]; then
-                            echo "Network ${env.DOCKER_NETWORK} does not exist. Creating..."
-                            docker network create ${env.DOCKER_NETWORK}
-                            echo "Network ${env.DOCKER_NETWORK} has been created."
+                        echo "Checking if network ${DOCKER_NETWORK} exists..."
+                        if [ -z \$(docker network ls --filter name=^${DOCKER_NETWORK}\$ --format="{{ .Name}}") ]; then
+                            echo "Network ${DOCKER_NETWORK} does not exist. Creating..."
+                            docker network create ${DOCKER_NETWORK}
+                            echo "Network ${DOCKER_NETWORK} has been created."
                         else
-                            echo "Network ${env.DOCKER_NETWORK} already exists."
+                            echo "Network ${DOCKER_NETWORK} already exists."
                         fi
                     """
                 }
@@ -62,22 +69,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    try {
-                        sh """
-                            docker build -t ${env.IMAGE_NAME}:${env.IMAGE_TAG} .
-                        """
-                    } catch (Exception e) {
-                        currentBuild.result = 'FAILURE'
-                        error("Failed to build Docker image: ${e.message}")
-                    }
-                }
-            }
-        }
-
-        stage('Tag Docker Image') {
-            steps {
-                script {
-                    docker.image("${IMAGE_NAME}:${IMAGE_TAG}").tag("${IMAGE_NAME}:${IMAGE_TAG}")
+                    def dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
                 }
             }
         }
@@ -85,9 +77,9 @@ pipeline {
         stage('Push image to Hub') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials-id', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh 'docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}'
-                        sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG}'
+                    docker.withRegistry('https://index.docker.io/v1/', 'docker1') {
+                        def dockerImage = docker.image("${IMAGE_NAME}:${IMAGE_TAG}")
+                        dockerImage.push()
                     }
                 }
             }
@@ -96,12 +88,7 @@ pipeline {
         stage('Pull Docker Image') {
             steps {
                 script {
-                    try {
-                        docker.image("${IMAGE_NAME}:${IMAGE_TAG}").pull()
-                    } catch (Exception e) {
-                        currentBuild.result = 'FAILURE'
-                        error("Failed to pull Docker image: ${e.message}")
-                    }
+                    docker.image("${IMAGE_NAME}:${IMAGE_TAG}").pull()
                 }
             }
         }
@@ -109,17 +96,18 @@ pipeline {
         stage('Run React App Container') {
             steps {
                 script {
-                    def containerExists = sh(script: "docker ps -a --format '{{.Names}}' | grep -w ${env.REACT_APP_CONTAINER}", returnStatus: true) == 0
+                    def containerExists = sh(script: "docker ps -a --format '{{.Names}}' | grep -w ${REACT_APP_CONTAINER}", returnStatus: true) == 0
                     if (containerExists) {
-                        echo "Container ${env.REACT_APP_CONTAINER} already exists. Removing..."
-                        sh "docker rm -f ${env.REACT_APP_CONTAINER}"
+                        echo "Container ${REACT_APP_CONTAINER} already exists. Removing..."
+                        sh "docker rm -f ${REACT_APP_CONTAINER}"
                     }
-                    echo "Creating and Starting new container ${env.REACT_APP_CONTAINER}..."
+                    echo "Creating and Starting new container ${REACT_APP_CONTAINER}..."
                     sh """
-                        docker run -d --name ${env.REACT_APP_CONTAINER} --network ${env.DOCKER_NETWORK} \
-                        -p ${env.REACT_APP_PORT}:80 \
-                        --env-file .env \
-                        ${env.IMAGE_NAME}:${env.IMAGE_TAG}
+                        docker run -d --name ${REACT_APP_CONTAINER} --network ${DOCKER_NETWORK} \
+                        -p ${REACT_APP_PORT}:80 \
+                        --env BASE_API_KEY=${BASE_API_KEY} \
+                        --env CUSTOMER_ID=${CUSTOMER_ID} \
+                        ${IMAGE_NAME}:${IMAGE_TAG}
                     """
                 }
             }
@@ -132,6 +120,7 @@ pipeline {
         }
     }
 }
+
 
 // ===================================================================
 
