@@ -219,7 +219,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({
                   sx={{
                     background: '#fdd835',
                     color: 'black',
-                    marginRight: {md:'35px', xs:'20px'},
+                    marginRight: {md:'35px'},
                     '&:hover': { background: '#E1A91B' },
                   }}
                 >
