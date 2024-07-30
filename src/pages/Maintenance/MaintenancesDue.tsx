@@ -8,6 +8,7 @@ import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown'
 import Table from '@mui/joy/Table'
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined'
 import AppView from '../../components/Common/AppView'
+import { Link } from 'react-router-dom'
 
 export const MaintenancesDue: React.FC = () => {
   return (
@@ -69,6 +70,8 @@ export const MaintenancesDue: React.FC = () => {
             <CloudUploadOutlinedIcon />
             Import Maintenance
           </Button>
+
+          <Link to='/alerts/maintenances-due/set-up-column' style={{ textDecoration: 'none' }}>
           <Button
             type="button"
             variant="solid"
@@ -82,6 +85,8 @@ export const MaintenancesDue: React.FC = () => {
             <SettingsOutlinedIcon />
             Setup Column
           </Button>
+          </Link>
+
         </Box>
       </Box>
 

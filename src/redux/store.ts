@@ -37,6 +37,12 @@ import CheckOutFieldReducer from './features/CheckOutFieldSlice'
 import CheckInFieldReducer from './features/CheckInFieldSlice'
 import ClientFieldReducer from './features/ClientFieldSlice'
 import AssetDefaultFieldsReducer from './features/AssetsDefaultFieldsSlice'
+import alertsAssetPastDueReducer from './features/AlertsAssetPastDueSlice'
+import alertsInsuranceExpReducer from './features/AlertsInsuranceExpSlice'
+import alertsLeasesExpReducer from './features/AlertsLeasesExpSlice'
+import alertsMaintenanceDueReducer from './features/AlertsMaintenanceDueSlice'
+import alertsMaintenanceOverDueReducer from './features/AlertsMaintenanceOverdueSlice'
+import alertsWarrantiesExpReducer from './features/AlertsWarrantiesExpSlice'
 
 export const store = configureStore({
   reducer: {
@@ -77,7 +83,13 @@ export const store = configureStore({
     checkOutField:CheckOutFieldReducer,
     checkInField:CheckInFieldReducer,
     clientField:ClientFieldReducer,
-    assetsDefaultField:AssetDefaultFieldsReducer
+    assetsDefaultField:AssetDefaultFieldsReducer,
+    alertsAssetPastDue:alertsAssetPastDueReducer,
+    alertsInsuranceExp:alertsInsuranceExpReducer,
+    alertsLeasesExp:alertsLeasesExpReducer,
+    alertsMaintenanceDue:alertsMaintenanceDueReducer,
+    alertsMaintenanceOverDue:alertsMaintenanceOverDueReducer,
+    alertsWarrantiesExp:alertsWarrantiesExpReducer,
   },
 });
 
