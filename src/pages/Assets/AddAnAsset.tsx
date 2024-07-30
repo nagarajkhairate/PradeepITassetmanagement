@@ -197,7 +197,6 @@ const AddAnAsset: React.FC = () => {
         return (
           <FormControl>
             <FormLabel>{field.fieldName}
-            {field.fieldName}
             {isRequiredField && <span style={{ color: 'red' }}>*</span>}
             </FormLabel>
             <Input
@@ -328,7 +327,7 @@ const AddAnAsset: React.FC = () => {
                 </Typography>
                 <Grid container spacing={2} sx={{padding:"20px"}}>
                   {group.fields &&
-                    group.fields.map((field, index) => {
+                    group.fields.map((field:any, index:any) => {
                       let styleData = { xs: 12, sm: 6, md: 4, lg: 3 } // Default values
                       try {
                         styleData = JSON.parse(
@@ -376,7 +375,7 @@ const AddAnAsset: React.FC = () => {
         >
           <Button
             size="md"
-            type="submit"
+           onClick={handleSubmit}
             sx={{
               color: '#000000',
               borderRadius: '15px',

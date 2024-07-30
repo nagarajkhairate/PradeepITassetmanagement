@@ -191,21 +191,15 @@ const appRoutes: RouteType[] = [
           icon: <ICONS.person />,
         },
       },
-      // {
-      //   path: '/assets/lease',
-      //   element: <Lease />,
-      //   state: 'lease',
-      //   sidebarProps: {
-      //     displayText: 'Lease',
-      //     icon: <ICONS.person />,
-      //   },
-      // },
-      // {
-      //   index: true,
-      //   path: '/assets/checkout-sample',
-      //   element: <CheckoutButton />,
-      //   state: 'lease',
-      // },
+      {
+        path: '/assets/lease',
+        element: <Lease />,
+        state: 'lease',
+        sidebarProps: {
+          displayText: 'Lease',
+          icon: <ICONS.person />,
+        },
+      },
       // {
       //   path: '/assets/lease-return',
       //   element: <LeaseReturn />,
