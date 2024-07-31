@@ -3,9 +3,10 @@ import AppView from '../../../components/Common/AppView'
 import React, { useEffect, useState } from 'react'
 import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../../redux/store'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { fetchMaintenanceCustomDatabase } from '../../../redux/features/MaintenanceCustomDatabaseSlice'
 import { customMaintenance, Maintenance, maintenanceData } from '../../Setup/DataBase/DatabaseMaintenance/MaintenanceData'
+import AlertsSetupColumnTable from '../Maintenances/AlertsSetupColumnTable'
 const columnsJson = [
   {
     title: 'Asset Fields',
@@ -56,20 +57,42 @@ const columnsJson = [
 export const AlertSetupColumn: React.FC = () => {
 
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+    const maintenanceCustomDatabase = useSelector((state: RootState) => state.maintenanceCustomDatabase.data)
+
 const [selectedColumns, setSelectedColumns] = useState<string[]>([])
+const [filteredColumns, setFilteredColumns] = useState<{title:string; fields:string[]}[]>([]);
 
-  const handleCheckboxChange = (column: string) => {
-    const selectedIndex = selectedColumns.indexOf(column)
-    const newSelectedColumns = [...selectedColumns]
+const handleCheckboxChange = (column: string) => {
+  const selectedIndex = selectedColumns.indexOf(column)
+  const newSelectedColumns = [...selectedColumns]
 
-    if (selectedIndex === -1) {
-      newSelectedColumns.push(column)
-    } else {
-      newSelectedColumns.splice(selectedIndex, 1)
-    }
-
-    setSelectedColumns(newSelectedColumns)
+  if (selectedIndex === -1) {
+    newSelectedColumns.push(column)
+  } else {
+    newSelectedColumns.splice(selectedIndex, 1)
   }
+
+  setSelectedColumns(newSelectedColumns)
+  
+  const result = columnsJson
+    .map((columnGroup) => {
+      const selectedFields = columnGroup.fields.filter((field) =>
+        newSelectedColumns.includes(field)
+      )
+      if (selectedFields.length > 0) {
+        return {
+          title: columnGroup.title,
+          fields: selectedFields,
+        }
+      }
+      return null
+    })
+    .filter((group) => group !== null)
+  setFilteredColumns(result as { title: string; fields: string[] }[])
+}
+
+
+  
 
   const handleSave = () => {
     const result= columnsJson.map(columnGroup =>{
@@ -90,6 +113,28 @@ const [selectedColumns, setSelectedColumns] = useState<string[]>([])
   useEffect(() => {
     dispatch(fetchMaintenanceCustomDatabase())
   }, [])
+
+
+//   useEffect(() => {
+//   if (maintenanceCustomDatabase) {
+//     const result = maintenanceCustomDatabase
+//       .map((columnGroup) => {
+//         const selectedFields = columnGroup.fields.filter((field) =>
+//           selectedColumns.includes(field)
+//         );
+//         if (selectedFields.length > 0) {
+//           return {
+//             title: columnGroup.title,
+//             fields: selectedFields,
+//           };
+//         }
+//         return null;
+//       })
+//       .filter((group) => group !== null);
+//     setFilteredColumns(result as { title: string; fields: string[] }[]);
+//   }
+// }, [maintenanceCustomDatabase, selectedColumns]);
+
 
   return (
     <AppView>
@@ -173,6 +218,10 @@ const [selectedColumns, setSelectedColumns] = useState<string[]>([])
             ))}
           </Box>
           <Divider />
+          {filteredColumns.length > 0 && (
+            <AlertsSetupColumnTable columns={filteredColumns} />
+          )}
+
           <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
         <Button onClick={handleSave}  color="primary">
           Save

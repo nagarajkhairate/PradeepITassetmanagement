@@ -48,8 +48,11 @@ import SearchCriteria from '../pages/Assets/SearchCriteria'
 import DatabaseContractTable from '../pages/Setup/DataBase/DatabaseContract/DatabaseContractTable'
 import EditModalDatabaseCustomer from '../pages/Setup/DataBase/DatabaseCustomerTable/EditModelDatabaseCustomer'
 import CheckoutButton from '../pages/Lease/CheckoutButton'
-import AlertSetupColumn from '../pages/Maintenance/SetupAlerts/AlertSetupColumn'
+import AlertSetupColumn from '../pages/Maintenance/Maintenances/AlertSetupColumn'
 import AlertsSetup from '../pages/Maintenance/SetupAlerts/AlertsSetup'
+import ImportMaintenanceDue from '../pages/Maintenance/Maintenances/ImportMaintenanceDue'
+import ContractsExpiring from '../pages/Maintenance/Contract/ContractsExpiring'
+import AddContractExp from '../pages/Maintenance/Contract/AddContractExp'
 
 
 
@@ -74,6 +77,21 @@ const appRoutes: RouteType[] = [
     },
     child: [
       {
+        path: '/alerts/contracts-expiring',
+        element: <ContractsExpiring />,
+        state: 'alerts.contractsExpiring',
+        sidebarProps: {
+          displayText: 'Contracts Expiring',
+          icon: <ICONS.person />,
+        },
+      },
+      {
+        index: true,
+        path: '/alerts/contracts-expiring/add-contract',
+        element: <AddContractExp />,
+        state: 'assets',
+      },
+      {
         path: '/alerts/maintenances-due',
         element: <MaintenancesDue />,
         state: 'alerts',
@@ -81,6 +99,12 @@ const appRoutes: RouteType[] = [
           displayText: 'Maintenances Due',
           icon: <ICONS.person />,
         },
+      },
+      {
+        index: true,
+        path: '/alerts/maintenances-due/import-maintenance',
+        element: <ImportMaintenanceDue />,
+        state: 'assets',
       },
       {
         index: true,
@@ -96,6 +120,18 @@ const appRoutes: RouteType[] = [
           displayText: 'Maintenances Over Due',
           icon: <ICONS.person />,
         },
+      },
+      {
+        index: true,
+        path: '/alerts/maintenances-due/import-maintenance',
+        element: <ImportMaintenanceDue />,
+        state: 'assets',
+      },
+      {
+        index: true,
+        path: '/alerts/maintenances-due/set-up-column',
+        element: <AlertSetupColumn />,
+        state: 'assets',
       },
       {
         path: '/alerts/leases-expiring',

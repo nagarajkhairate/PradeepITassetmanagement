@@ -9,6 +9,7 @@ import AlertsSetupInsurance from './AlertsSetupInsurance'
 import AlertsSetupLeaseExp from './AlertsSetupLeaseExp'
 import AlertsSetupMaintenance from './AlertsSetupMaintenance'
 import AlertsSetupWarranties from './AlertsSetupWarranties'
+import {columns} from './AlertsSetupData'
 
 export const AlertsSetup: React.FC = () => {
   const [selectedColumns, setSelectedColumns] = useState<string[]>([])
@@ -18,19 +19,7 @@ export const AlertsSetup: React.FC = () => {
     handleCheckboxChange(column, selectedColumns, setSelectedColumns, setButton)
   }
 
-  const columns = [
-    {
-      title: 'Asset Past Due',
-      description: 'Show alerts for assets that are past due.',
-      value: 'column1',
-    },
-    {
-      title: 'Email Alerts',
-      description:
-        'Turn on this option to email out an alert if any alert exists.',
-      value: 'column2',
-    },
-  ]
+
 
   return (
     <AppView>

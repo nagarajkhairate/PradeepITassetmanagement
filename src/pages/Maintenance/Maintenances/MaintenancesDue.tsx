@@ -1,14 +1,14 @@
 import React from 'react'
 import { Box, Button, Typography } from '@mui/joy'
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined'
-import MaintenanceEmpty from '../../components/Common/MaintenanceEmpty'
 import Select, { selectClasses } from '@mui/joy/Select'
 import Option from '@mui/joy/Option'
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown'
 import Table from '@mui/joy/Table'
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined'
-import AppView from '../../components/Common/AppView'
 import { Link } from 'react-router-dom'
+import AppView from '../../../components/Common/AppView'
+import MaintenanceEmpty from '../../../components/Common/MaintenanceEmpty'
 
 export const MaintenancesDue: React.FC = () => {
   return (
@@ -57,6 +57,7 @@ export const MaintenancesDue: React.FC = () => {
             <CloudUploadOutlinedIcon />
             Export to Excel
           </Button>
+          <Link to='/alerts/maintenances-due/import-maintenance' style={{ textDecoration: 'none' }}>
           <Button
             variant="solid"
             autoFocus
@@ -70,6 +71,7 @@ export const MaintenancesDue: React.FC = () => {
             <CloudUploadOutlinedIcon />
             Import Maintenance
           </Button>
+          </Link>
 
           <Link to='/alerts/maintenances-due/set-up-column' style={{ textDecoration: 'none' }}>
           <Button
