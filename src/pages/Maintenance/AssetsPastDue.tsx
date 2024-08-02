@@ -5,8 +5,21 @@ import Image from '../../components/Common/MaintenanceEmpty'
 import MarkunreadOutlinedIcon from '@mui/icons-material/MarkunreadOutlined'
 import PrintOutlinedIcon from '@mui/icons-material/PrintOutlined'
 import AppView from '../../components/Common/AppView'
+import { ThunkDispatch } from 'redux-thunk'
+import { RootState } from '../../redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchAlertsAssetPastDue } from '../../redux/features/AlertsAssetPastDueSlice'
+import { useEffect } from 'react'
 
 export const AssetsPastDue: React.FC = () => {
+
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const alertsAssetPastDue = useSelector((state: RootState) => state.alertsAssetPastDue.data,)
+
+  useEffect(() => {
+    dispatch(fetchAlertsAssetPastDue())
+  }, [dispatch])
+
   return (
     <AppView>
       <Box

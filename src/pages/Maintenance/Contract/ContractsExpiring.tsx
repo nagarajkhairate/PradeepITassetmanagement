@@ -6,6 +6,7 @@ import {
   selectClasses,
   styled,
   SvgIcon,
+  Table,
   Typography,
 } from '@mui/joy'
 import React, { useState } from 'react'
@@ -157,7 +158,7 @@ export const ContractsExpiring: React.FC = () => {
                 }}
               >
                 <CloudUploadOutlinedIcon />
-                Import Maintenance
+                Import Contracts
               </Button>
             </Link>
 
@@ -180,6 +181,25 @@ export const ContractsExpiring: React.FC = () => {
               </Button>
             </Link>
           </Box>
+        </Box>
+        <Box
+              sx={{
+                overflowX: 'auto',
+                fontSize: '14px',
+                whiteSpace: 'nowrap',
+                borderRadius:'5px'
+              }}
+            >
+        <Table 
+        borderAxis="both" aria-label="basic table" 
+        style={{
+                  borderCollapse: 'collapse',
+                  border: '1px solid grey',
+                  minWidth: '500px',
+                  borderRadius:'5px'
+                }}>
+        <thead></thead>
+        </Table>
         </Box>
       </Box>
     </AppView>

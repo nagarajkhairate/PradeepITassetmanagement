@@ -1,141 +1,73 @@
-import { Box, Button, Checkbox, Divider, Typography } from '@mui/joy'
-import AppView from '../../../components/Common/AppView'
-import React, { useEffect, useState } from 'react'
-import { ThunkDispatch } from 'redux-thunk'
-import { RootState } from '../../../redux/store'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchMaintenanceCustomDatabase } from '../../../redux/features/MaintenanceCustomDatabaseSlice'
-import { customMaintenance, Maintenance, maintenanceData } from '../../Setup/DataBase/DatabaseMaintenance/MaintenanceData'
-import AlertsSetupColumnTable from '../Maintenances/AlertsSetupColumnTable'
-const columnsJson = [
-  {
-    title: 'Asset Fields',
-    fields: [
-      'Asset Tag ID',
-      'Created by',
-      'Date Created',
-      'Description',
-      'Relation',
-      'Reservation',
-      'Transact as a whole',
-    ],
-  },
-  {
-    title: 'Depreciation Fields',
-    fields: [
-      'Asset Life (months)',
-      'Book Value',
-      'Date Acquired',
-      'Depreciable Asset',
-      'Depreciable Cost',
-      'Depreciation Method',
-      'Salvage Value',
-    ],
-  },
-  {
-    title: 'Linking Fields',
-    fields: ['Category', 'Department', 'Location', 'Site', 'Sub Category'],
-  },
-  {
-    title: 'Maintenance Fields',
-    fields: [
-      'Expires',
-      'Frequency',
-      'Is Repeating',
-      'Maintenance By',
-      'Maintenance Detail',
-      'on (day or Weekday)',
-      'Recur on every',
-      'Status',
-      'Title',
-    ],
-  },
-]
+import { Box, Button, Checkbox, Divider, Typography } from '@mui/joy';
+import AppView from '../../../components/Common/AppView';
+import React, { useEffect, useState } from 'react';
+import { ThunkDispatch } from 'redux-thunk';
+import { RootState } from '../../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchContractDatabase } from '../../../redux/features/ContractDatabaseSlice';
+import AlertsSetupColumnTable from '../Maintenances/AlertsSetupColumnTable';
 
+const AlertSetupColumn: React.FC = () => {
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+  const contractDatabase = useSelector((state: RootState) => state.contractDatabase.data);
 
+  const [selectedColumns, setSelectedColumns] = useState<string[]>([]);
+  const [filteredColumns, setFilteredColumns] = useState<{ title: string; fields: string[] }[]>([]);
 
-export const AlertSetupColumn: React.FC = () => {
+  const handleCheckboxChange = (field: string) => {
+    const selectedIndex = selectedColumns.indexOf(field);
+    const newSelectedColumns = [...selectedColumns];
 
-    const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-    const maintenanceCustomDatabase = useSelector((state: RootState) => state.maintenanceCustomDatabase.data)
+    if (selectedIndex === -1) {
+      newSelectedColumns.push(field);
+    } else {
+      newSelectedColumns.splice(selectedIndex, 1);
+    }
 
-const [selectedColumns, setSelectedColumns] = useState<string[]>([])
-const [filteredColumns, setFilteredColumns] = useState<{title:string; fields:string[]}[]>([]);
+    setSelectedColumns(newSelectedColumns);
 
-const handleCheckboxChange = (column: string) => {
-  const selectedIndex = selectedColumns.indexOf(column)
-  const newSelectedColumns = [...selectedColumns]
+    const result = contractDatabase
+      .map((columnGroup) => {
+        const selectedFields = columnGroup.fields.filter((field: any) =>
+          newSelectedColumns.includes(field.fieldName)
+        );
+        if (selectedFields.length > 0) {
+          return {
+            title: columnGroup.title,
+            fields: selectedFields,
+          };
+        }
+        return null;
+      })
+      .filter((group) => group !== null);
+    setFilteredColumns(result as { title: string; fields: string[]; isVisible:boolean }[]);
+  };
 
-  if (selectedIndex === -1) {
-    newSelectedColumns.push(column)
-  } else {
-    newSelectedColumns.splice(selectedIndex, 1)
-  }
-
-  setSelectedColumns(newSelectedColumns)
-  
-  const result = columnsJson
-    .map((columnGroup) => {
-      const selectedFields = columnGroup.fields.filter((field) =>
-        newSelectedColumns.includes(field)
-      )
+  const handleSave = () => {
+    const result = contractDatabase.map((columnGroup) => {
+      const selectedFields = columnGroup.fields.filter((field: any) =>
+        selectedColumns.includes(field.fieldName)
+      );
       if (selectedFields.length > 0) {
         return {
           title: columnGroup.title,
           fields: selectedFields,
-        }
+        };
       }
-      return null
-    })
-    .filter((group) => group !== null)
-  setFilteredColumns(result as { title: string; fields: string[] }[])
-}
-
-
-  
-
-  const handleSave = () => {
-    const result= columnsJson.map(columnGroup =>{
-        const selectedFields = columnGroup.fields.filter(field =>
-            selectedColumns.includes(field)
-        );
-        if (selectedFields.length > 0) {
-            return {
-              title: columnGroup.title,
-              fields: selectedFields
-            };
-          }
-          return null;
+      return null;
     }).filter(group => group !== null);
-    console.log('Selected Columns:', selectedColumns)
-  }
+
+    console.log('Selected Columns:', result);
+  };
 
   useEffect(() => {
-    dispatch(fetchMaintenanceCustomDatabase())
-  }, [])
+    dispatch(fetchContractDatabase());
+  }, [dispatch]);
 
-
-//   useEffect(() => {
-//   if (maintenanceCustomDatabase) {
-//     const result = maintenanceCustomDatabase
-//       .map((columnGroup) => {
-//         const selectedFields = columnGroup.fields.filter((field) =>
-//           selectedColumns.includes(field)
-//         );
-//         if (selectedFields.length > 0) {
-//           return {
-//             title: columnGroup.title,
-//             fields: selectedFields,
-//           };
-//         }
-//         return null;
-//       })
-//       .filter((group) => group !== null);
-//     setFilteredColumns(result as { title: string; fields: string[] }[]);
-//   }
-// }, [maintenanceCustomDatabase, selectedColumns]);
-
-
+  useEffect(() => {
+    console.log('Contract Database:', contractDatabase);
+  }, [contractDatabase]);
+  
   return (
     <AppView>
       <Typography level="h3">Maintenance</Typography>
@@ -196,26 +128,18 @@ const handleCheckboxChange = (column: string) => {
               overflowX: 'auto',
             }}
           >
-            {columnsJson.map((columnGroup) => (
-              <Box key={columnGroup.title} sx={{ flex: 1, p: 1 }}>
-                <Typography>
-                  <strong>{columnGroup.title}</strong>
-                </Typography>
-                {columnGroup.fields.map((column) => (
-                  <Box
-                    key={column}
-                    sx={{ display: 'flex', mt: 2, alignItems: 'center', mb: 1 }}
-                  >
-                    <Checkbox
-                      checked={selectedColumns.includes(column)}
-                      onChange={() => handleCheckboxChange(column)}
-                      sx={{ marginRight: 1 }}
-                    />
-                    <Typography>{column}</Typography>
-                  </Box>
-                ))}
-              </Box>
-            ))}
+            {
+            // contractDatabase  && contractDatabase.length > 0 ? (
+              contractDatabase && contractDatabase.map((columnGroup) => (
+                <Box key={columnGroup} sx={{ flex: 1, p: 1 }}>
+                  <Typography>
+                    <Checkbox {...columnGroup.iVisible}/>
+                    <strong>{columnGroup.fieldName}</strong>
+                  </Typography>
+                 
+                </Box>
+              ))
+            }
           </Box>
           <Divider />
           {filteredColumns.length > 0 && (
@@ -223,14 +147,14 @@ const handleCheckboxChange = (column: string) => {
           )}
 
           <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
-        <Button onClick={handleSave}  color="primary">
-          Save
-        </Button>
-        </Box>
+            <Button onClick={handleSave} color="primary">
+              Save
+            </Button>
+          </Box>
         </Box>
       </Box>
     </AppView>
-  )
-}
+  );
+};
 
-export default React.memo(AlertSetupColumn)
+export default React.memo(AlertSetupColumn);
