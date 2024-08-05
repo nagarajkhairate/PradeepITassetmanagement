@@ -48,6 +48,11 @@ import SearchCriteria from '../pages/Assets/SearchCriteria'
 import DatabaseContractTable from '../pages/Setup/DataBase/DatabaseContract/DatabaseContractTable'
 import EditModalDatabaseCustomer from '../pages/Setup/DataBase/DatabaseCustomerTable/EditModelDatabaseCustomer'
 import CheckoutButton from '../pages/Lease/CheckoutButton'
+import AlertSetupColumn from '../pages/Maintenance/Maintenances/AlertSetupColumn'
+import AlertsSetup from '../pages/Maintenance/SetupAlerts/AlertsSetup'
+import ImportMaintenanceDue from '../pages/Maintenance/Maintenances/ImportMaintenanceDue'
+import ContractsExpiring from '../pages/Maintenance/Contract/ContractsExpiring'
+import AddContractExp from '../pages/Maintenance/Contract/AddContractExp'
 
 
 
@@ -67,62 +72,110 @@ const appRoutes: RouteType[] = [
     },
   },
 
-  // {
-  //   path: '/alerts',
-  //   element: <Alerts />,
-  //   state: 'alerts',
-  //   sidebarProps: {
-  //     displayText: 'Alerts',
-  //     icon: <ICONS.resource />,
-  //   },
-  //   child: [
-  //     {
-  //       path: '/alerts/maintenances-due',
-  //       element: <MaintenancesDue />,
-  //       state: 'alerts',
-  //       sidebarProps: {
-  //         displayText: 'Maintenances Due',
-  //         icon: <ICONS.person />,
-  //       },
-  //     },
-  //     {
-  //       path: '/alerts/maintenances-over-due',
-  //       element: <MaintenanceOverdue />,
-  //       state: 'alerts.maintenanceOverdue',
-  //       sidebarProps: {
-  //         displayText: 'Maintenances Over Due',
-  //         icon: <ICONS.person />,
-  //       },
-  //     },
-  //     {
-  //       path: '/alerts/leases-expiring',
-  //       element: <LeasesExpiring />,
-  //       state: 'alerts.leasesExpiring',
-  //       sidebarProps: {
-  //         displayText: 'Leases Expiring',
-  //         icon: <ICONS.person />,
-  //       },
-  //     },
-  //     {
-  //       path: '/alerts/warranty-expiring',
-  //       element: <WarrantyExpiring />,
-  //       state: 'alerts.warrantyExpiring',
-  //       sidebarProps: {
-  //         displayText: 'Warranty Expiring',
-  //         icon: <ICONS.person />,
-  //       },
-  //     },
-  //     {
-  //       path: '/alerts/assets-past-due',
-  //       element: <AssetsPastDue />,
-  //       state: 'assetsPastDue',
-  //       sidebarProps: {
-  //         displayText: 'Assets Past Due',
-  //         icon: <ICONS.person />,
-  //       },
-  //     },
-  //   ],
-  // },
+  {
+    path: '/alerts',
+    element: <Alerts />,
+    state: 'alerts',
+    sidebarProps: {
+      displayText: 'Alerts',
+      icon: <ICONS.resource />,
+    },
+    child: [
+      {
+        path: '/alerts/contracts-expiring',
+        element: <ContractsExpiring />,
+        state: 'alerts.contractsExpiring',
+        sidebarProps: {
+          displayText: 'Contracts Expiring',
+          icon: <ICONS.person />,
+        },
+      },
+      {
+        index: true,
+        path: '/alerts/contracts-expiring/add-contract',
+        element: <AddContractExp />,
+        state: 'assets',
+      },
+      {
+        path: '/alerts/maintenances-due',
+        element: <MaintenancesDue />,
+        state: 'alerts',
+        sidebarProps: {
+          displayText: 'Maintenances Due',
+          icon: <ICONS.person />,
+        },
+      },
+      {
+        index: true,
+        path: '/alerts/maintenances-due/import-maintenance',
+        element: <ImportMaintenanceDue />,
+        state: 'assets',
+      },
+      {
+        index: true,
+        path: '/alerts/maintenances-due/set-up-column',
+        element: <AlertSetupColumn />,
+        state: 'assets',
+      },
+      {
+        path: '/alerts/maintenances-over-due',
+        element: <MaintenanceOverdue />,
+        state: 'alerts.maintenanceOverdue',
+        sidebarProps: {
+          displayText: 'Maintenances Over Due',
+          icon: <ICONS.person />,
+        },
+      },
+      {
+        index: true,
+        path: '/alerts/maintenances-due/import-maintenance',
+        element: <ImportMaintenanceDue />,
+        state: 'assets',
+      },
+      {
+        index: true,
+        path: '/alerts/maintenances-due/set-up-column',
+        element: <AlertSetupColumn />,
+        state: 'assets',
+      },
+      {
+        path: '/alerts/leases-expiring',
+        element: <LeasesExpiring />,
+        state: 'alerts.leasesExpiring',
+        sidebarProps: {
+          displayText: 'Leases Expiring',
+          icon: <ICONS.person />,
+        },
+      },
+      {
+        path: '/alerts/warranty-expiring',
+        element: <WarrantyExpiring />,
+        state: 'alerts.warrantyExpiring',
+        sidebarProps: {
+          displayText: 'Warranty Expiring',
+          icon: <ICONS.person />,
+        },
+      },
+      {
+        path: '/alerts/assets-past-due',
+        element: <AssetsPastDue />,
+        state: 'assetsPastDue',
+        sidebarProps: {
+          displayText: 'Assets Past Due',
+          icon: <ICONS.person />,
+        },
+      },
+      {
+        path: '/alerts/setup-alerts',
+        element: <AlertsSetup />,
+        state: 'setupAlerts',
+        sidebarProps: {
+          displayText: 'Setup Alerts',
+          icon: <ICONS.person />,
+        },
+      }
+    ],
+  },
   {
     path: '/assets',
     element: <Assets />,

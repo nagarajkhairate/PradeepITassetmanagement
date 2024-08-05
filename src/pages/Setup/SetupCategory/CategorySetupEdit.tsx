@@ -67,21 +67,22 @@ export function CategorySetupEdit({ categories1,
 
   }
 
-  const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleEditButton = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (selectedCategory !== null) {
       const categoryName = (e.target as any).categoryName.value;
       const regex = /^[a-zA-Z0-9]+$/; // Only letters and numbers
       if (regex.test(categoryName)) {
         const updatedCategory = { ...selectedCategory, categoryName: capitalizeWords(categoryName) };
-        dispatch(updateCategory(updatedCategory));
-        handleEditClose();
+        await dispatch(updateCategory(updatedCategory)); // Ensure the dispatch completes
+        handleEditClose(); 
         setError(null);
       } else {
         setError('Category can only contain letters and numbers.');
       }
     }
   }
+  
   
   
   
@@ -320,6 +321,7 @@ export function CategorySetupEdit({ categories1,
                   Cancel
                 </Button>
                 <Button
+                onClick={handleEditClose}
                   autoFocus
                   type="submit"
                   variant="solid"

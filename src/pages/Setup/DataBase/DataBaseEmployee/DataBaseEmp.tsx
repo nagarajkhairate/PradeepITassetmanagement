@@ -19,6 +19,7 @@ import EmployeeFieldsAddingTable from './EmployeeFieldsAddingTable'
 import { fetchEmpCustomDatabase } from '../../../../redux/features/EmpCustomDatabseSlice'
 import AddDatabaseCustomEmployee from './AddDatabaseCustomEmployee'
 import { fetchComponents } from '../../../../redux/features/ComponentsIdSlice'
+import AddCustomCommonComponent from './AddCustomCommonComponent'
 
 const DataBaseEmp: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()

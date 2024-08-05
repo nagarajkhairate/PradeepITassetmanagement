@@ -12,6 +12,7 @@ import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import Table from "@mui/joy/Table";
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import AppView from "../../components/Common/AppView";
+import { Link } from "react-router-dom";
 
 
 export const MaintenanceOverdue: React.FC = () => {
@@ -65,6 +66,7 @@ export const MaintenanceOverdue: React.FC = () => {
                  <CloudUploadOutlinedIcon />
                 Export to Excel
               </Button>
+              <Link to='/alerts/maintenances-due/import-maintenance' style={{ textDecoration: 'none' }}>
               <Button
                 variant="solid"
                 autoFocus
@@ -79,6 +81,7 @@ export const MaintenanceOverdue: React.FC = () => {
                 <CloudUploadOutlinedIcon />
                 Import Maintanence
               </Button>
+              </Link>
               <Button
                 type="button"
                 variant="solid"
