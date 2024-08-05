@@ -356,7 +356,7 @@ const Register: React.FC = () => {
                       {error}
                     </Typography>
                   )}
-            <Link to="/">
+            <Link to="/login">
               <Typography> Already have an account?</Typography>
             </Link>
           </Box>
