@@ -15,6 +15,7 @@ import {
   import { RootState } from '../../../redux/store'
   import { useDispatch, useSelector } from 'react-redux'
   import { fetchContractDatabase } from '../../../redux/features/ContractDatabaseSlice'
+import { addAlertsAddContract, fetchAlertsAddContract } from '../../../redux/features/AlertsAddContractSlice'
   
   export const AddContractExp: React.FC = () => {
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -26,6 +27,8 @@ import {
     useEffect(() => {
       dispatch(fetchContractDatabase())
     }, [dispatch])
+
+
   
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setFormData({ ...formData, [event.target.name]: event.target.value })
@@ -87,6 +90,7 @@ import {
             />,
             commonProps.field.fieldName
           );
+
         case "checkbox":
           return renderWithAsterisk(
             <Checkbox
@@ -106,6 +110,7 @@ import {
       event.preventDefault();
       // Add your form submission logic here
       console.log("Form submitted:", formData);
+      dispatch(addAlertsAddContract(formData))
     };
   
     return (
