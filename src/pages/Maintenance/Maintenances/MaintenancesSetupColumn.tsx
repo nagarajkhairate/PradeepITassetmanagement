@@ -6,12 +6,17 @@ import { RootState } from '../../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMaintenanceDatabase, updateMaintenanceDatabase } from '../../../redux/features/MaintenanceDatabaseSlice';
 import AlertsSetupColumnTable from './AlertsSetupColumnTable';
+import { useNavigate } from 'react-router-dom';
 
 const MaintenancesSetupColumn: React.FC = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
   const maintenanceDatabase = useSelector((state: RootState) => state.maintenanceDatabase.data)
+  const navigate=useNavigate()
 
-  const [selectedColumns, setSelectedColumns] = useState<number[]>([]);
+  const [selectedColumns, setSelectedColumns] = useState<number[]>(() => {
+    const savedColumns = localStorage.getItem('selectedColumns');
+    return savedColumns ? JSON.parse(savedColumns) : [];
+  });
   const [filteredColumns, setFilteredColumns] = useState<{ id: number, fieldName: string, isTable: boolean }[]>([]);
 
   const handleCheckboxChange = (id: number) => {
@@ -19,7 +24,7 @@ const MaintenancesSetupColumn: React.FC = () => {
       const newSelectedColumns = prevSelectedColumns.includes(id)
         ? prevSelectedColumns.filter((col) => col !== id)
         : [...prevSelectedColumns, id];
-      
+        localStorage.setItem('selectedColumns', JSON.stringify(newSelectedColumns));
       return newSelectedColumns;
     });
   };
@@ -51,6 +56,8 @@ const MaintenancesSetupColumn: React.FC = () => {
 
     console.log('Selected Columns:', filteredColumns);
     dispatch(updateMaintenanceDatabase(updatedColumns));
+    const columnNames = filteredColumns.map((column) => column.fieldName)
+    navigate('/alerts/maintenances-due', { state: { selectedColumns:filteredColumns.map(column => column.fieldName)} })
   };
 
   // Transform filteredColumns into the expected format for AlertsSetupColumnTable
@@ -140,7 +147,7 @@ const MaintenancesSetupColumn: React.FC = () => {
         Rearrange the table column sequence by dragging and dropping columns.
       </Typography>
           
-          <AlertsSetupColumnTable selectedColumns={formattedColumns} />
+          <AlertsSetupColumnTable selectedColumns={[{ fields: filteredColumns.map(column => column.fieldName) }]}/>
         </Box>
         </Box>
 
@@ -155,6 +162,21 @@ const MaintenancesSetupColumn: React.FC = () => {
             flexWrap: 'wrap',
           }}
         >
+          <Button
+                      type="button"
+                      // onClick={handleClose}
+                      autoFocus
+                      variant="solid"
+                      sx={{
+                        background: 'black',
+                        '&:hover': { background: '#424242' },
+                        color: 'white',
+                        // marginLeft: '50px',
+                      }}
+                      onClick={() => navigate('/alerts/maintenances-due')}
+                    >
+                      Cancel
+                    </Button>
           <Button onClick={handleSave}
             sx={{
               background: '#fdd835',
@@ -169,5 +191,4 @@ const MaintenancesSetupColumn: React.FC = () => {
     </AppView>
   );
 };
-
 export default MaintenancesSetupColumn;

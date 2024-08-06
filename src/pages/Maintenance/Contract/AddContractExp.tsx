@@ -7,6 +7,8 @@ import {
     FormLabel,
     Grid,
     Input,
+    Radio,
+    RadioGroup,
     Typography,
   } from '@mui/joy'
   import AppView from '../../../components/Common/AppView'
@@ -16,9 +18,12 @@ import {
   import { useDispatch, useSelector } from 'react-redux'
   import { fetchContractDatabase } from '../../../redux/features/ContractDatabaseSlice'
 import { addAlertsAddContract, fetchAlertsAddContract } from '../../../redux/features/AlertsAddContractSlice'
+import AppForm from '../../../components/Common/AppForm'
+import { useNavigate } from 'react-router-dom'
   
   export const AddContractExp: React.FC = () => {
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+    const navigate=useNavigate()
     const [formData, setFormData] = useState<any>({})
     const contractDatabase = useSelector(
       (state: RootState) => state.contractDatabase.data,
@@ -51,7 +56,7 @@ import { addAlertsAddContract, fetchAlertsAddContract } from '../../../redux/fea
       formData: any,
       handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
       handleSelectChange: (value: string | null, name: string) => void,
-    //   handleRadioChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+      handleRadioChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
       mode?: string
     ) => {
       const commonProps = {
@@ -59,7 +64,7 @@ import { addAlertsAddContract, fetchAlertsAddContract } from '../../../redux/fea
         formData,
         handleChange,
         handleSelectChange,
-        // handleRadioChange,
+        handleRadioChange,
         mode,
       };
   
@@ -84,7 +89,7 @@ import { addAlertsAddContract, fetchAlertsAddContract } from '../../../redux/fea
               value={commonProps.formData[commonProps.field.name] as string}
               onChange={commonProps.handleChange}
               sx={{
-                padding: '10px',
+                padding: '10px',  
                 width: "300px",
               }}
             />,
@@ -101,6 +106,25 @@ import { addAlertsAddContract, fetchAlertsAddContract } from '../../../redux/fea
             />,
             commonProps.field.fieldName
           );
+
+          case 'radio':
+            return renderWithAsterisk(
+              <FormControl>
+                {/* <FormLabel>{commonProps.field.fieldName}</FormLabel> */}
+                <RadioGroup
+                  name={commonProps.field.name}
+                  value={commonProps.formData[commonProps.field.name] as string}
+                  onChange={commonProps.handleRadioChange}
+                >
+                  <Box>
+                    <Radio value="yes" label="Yes" /> 
+                    <Radio value="no" label="No" /> 
+                  </Box>
+                </RadioGroup>
+              </FormControl>,
+              commonProps.field.fieldName
+            );
+    
         default:
           return null;
       }
@@ -111,6 +135,7 @@ import { addAlertsAddContract, fetchAlertsAddContract } from '../../../redux/fea
       // Add your form submission logic here
       console.log("Form submitted:", formData);
       dispatch(addAlertsAddContract(formData))
+      navigate('/alerts/contracts-expiring', { state: { selectedColumns: Object.keys(formData) } })
     };
   
     return (
@@ -174,7 +199,7 @@ import { addAlertsAddContract, fetchAlertsAddContract } from '../../../redux/fea
                 flexDirection: 'column',
               }}
             >
-              <form onSubmit={handleSubmit}>
+              <AppForm onSubmit={handleSubmit}>
                 <Grid container alignItems="center">
                   {contractDatabase.map((field, index) => (
                     <React.Fragment key={index}>
@@ -196,7 +221,7 @@ import { addAlertsAddContract, fetchAlertsAddContract } from '../../../redux/fea
                           formData,
                           handleChange,
                           handleSelectChange,
-                        //   handleRadioChange
+                          handleRadioChange
                         )}
                       </Grid>
                     </React.Fragment>
@@ -226,6 +251,7 @@ import { addAlertsAddContract, fetchAlertsAddContract } from '../../../redux/fea
                         color: 'white',
                         // marginLeft: '50px',
                       }}
+                      onClick={() => navigate('/alerts/contracts-expiring')}
                     >
                       Cancel
                     </Button>
@@ -245,7 +271,7 @@ import { addAlertsAddContract, fetchAlertsAddContract } from '../../../redux/fea
                     </Button>
                   </Box>
                 </Grid>
-              </form>
+              </AppForm>
             </Box>
           </Box>
         </Box>
