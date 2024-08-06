@@ -22,7 +22,7 @@ const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
  
 export const fetchAlertsSetupColumn = createAsyncThunk('alertsSetupColumn/fetchAlertsSetupColumn', async () => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/contranct-default-fields`);
     return response.data;
    
   } catch (error) {
@@ -36,7 +36,7 @@ export const fetchAlertsSetupColumn = createAsyncThunk('alertsSetupColumn/fetchA
 
 export const fetchAlertsSetupColumnById = createAsyncThunk('alertsSetupColumn/fetchAlertsSetupColumnById', async (id: string ) => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/contranct-default-fields/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -46,20 +46,20 @@ export const fetchAlertsSetupColumnById = createAsyncThunk('alertsSetupColumn/fe
 });
  
 export const addAlertSetupColumn = createAsyncThunk('alertsSetupColumn/addAlertSetupColumn', async (alertsSetupColumn: any) => {
- const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset`, alertsSetupColumn);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/contranct-default-fields`, alertsSetupColumn);
  console.log(response)
   return response.data;
 });
  
 export const updateAlertsSetupColumn = createAsyncThunk('alertsSetupColumn/updateAlertsSetupColumn', async (updatedAlertsSetupColumn: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset/${updatedAlertsSetupColumn.id}`, updatedAlertsSetupColumn);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/contranct-default-fields`, updatedAlertsSetupColumn);
   
   return response.data;
 });
  
 export const deleteAlertsSetupColumn = createAsyncThunk('alertsSetupColumn/deleteAlertsSetupColumn', async (id: number) => {
-  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/contranct-default-fields/${id}`);
   return id;
 });
 

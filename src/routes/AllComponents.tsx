@@ -29,7 +29,7 @@ import SetupTableOptions from '../pages/Setup/SetupTableOptions/SetupTableOption
 import SetupSites from '../pages/Setup/SetupSites/SetupSites'
 import SetupCompInfo from '../pages/Setup/CompInformation/SetupCompInfo'
 import MaintenanceOverdue from '../pages/Maintenance/MaintenanceOverdue'
-import WarrantyExpiring from '../pages/Maintenance/WarrantyExpiring'
+import WarrantyExpiring from '../pages/Maintenance/Warranties/WarrantyExpiring'
 import AssetsPastDue from '../pages/Maintenance/AssetsPastDue'
 import AssetForm from '../pages/Setup/CustomizeForm/AssetForm'
 import Maintenance from '../pages/Maintenance/Maintenance'

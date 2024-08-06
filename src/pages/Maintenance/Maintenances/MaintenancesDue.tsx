@@ -22,6 +22,7 @@ export const MaintenancesDue: React.FC = () => {
           flexDirection: { md: 'row', xs: 'column' },
           justifyContent: { xs: 'center', md: 'space-between' },
           gap: '5px',
+
         }}
       >
         <Button
@@ -73,7 +74,7 @@ export const MaintenancesDue: React.FC = () => {
           </Button>
           </Link>
 
-          <Link to='/alerts/maintenances-due/set-up-column' style={{ textDecoration: 'none' }}>
+          <Link to='/alerts/maintenances-due/maintenance-set-up-column' style={{ textDecoration: 'none' }}>
           <Button
             type="button"
             variant="solid"

@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Divider,
   Option,
   Select,
   selectClasses,
@@ -9,7 +10,7 @@ import {
   Table,
   Typography,
 } from '@mui/joy'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { KeyboardArrowDown } from '@mui/icons-material'
 import CloudUploadTwoToneIcon from '@mui/icons-material/CloudUploadTwoTone'
 import AppView from '../../../components/Common/AppView'
@@ -17,8 +18,14 @@ import { Link } from 'react-router-dom'
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined'
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined'
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
+import { fetchContractDatabase } from '../../../redux/features/ContractDatabaseSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../../redux/store'
+import { ThunkDispatch } from 'redux-thunk'
 
 export const ContractsExpiring: React.FC = () => {
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+  const contractDatabase = useSelector((state: RootState) => state.contractDatabase.data);
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,6 +33,10 @@ export const ContractsExpiring: React.FC = () => {
       setSelectedFile(event.target.files[0])
     }
   }
+  
+  useEffect(() => {
+    dispatch(fetchContractDatabase());
+  }, [dispatch]);
 
   return (
     <AppView>
@@ -163,7 +174,7 @@ export const ContractsExpiring: React.FC = () => {
             </Link>
 
             <Link
-              to="/alerts/maintenances-due/set-up-column"
+              to="/alerts/contracts-expiring/contract-set-up-column"
               style={{ textDecoration: 'none' }}
             >
               <Button
@@ -182,23 +193,38 @@ export const ContractsExpiring: React.FC = () => {
             </Link>
           </Box>
         </Box>
+
         <Box
               sx={{
                 overflowX: 'auto',
                 fontSize: '14px',
                 whiteSpace: 'nowrap',
-                borderRadius:'5px'
+                borderRadius:'5px',
+                mt:2
               }}
             >
         <Table 
         borderAxis="both" aria-label="basic table" 
         style={{
-                  borderCollapse: 'collapse',
-                  border: '1px solid grey',
-                  minWidth: '500px',
-                  borderRadius:'5px'
-                }}>
-        <thead></thead>
+          borderCollapse: 'collapse',
+          border: '1px solid grey',
+          minWidth: '500px',
+          borderRadius: '5px'
+        }}>
+        <thead>
+          <tr>
+                <th style={{ background: '#fff8e6' , verticalAlign: 'middle', wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}>
+                  dfg
+                </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+                <td>
+                  ghj
+                </td>
+          </tr>
+        </tbody>
         </Table>
         </Box>
       </Box>

@@ -13,7 +13,7 @@ const MainLayout = () => {
         <Sidebar />
       </Box>
       <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', height: '100dvh',overflow: 'auto', minWidth: 0, backgroundColor: styleConfigs.backgroundColor }}>
-        <Header />
+        {/* <Header /> */}
         <Box
           component="main"
           className="MainContent"

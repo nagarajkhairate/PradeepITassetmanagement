@@ -1,13 +1,14 @@
 
 import { Box, Button, Typography } from '@mui/joy'
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined'
-import Image from '../../components/Common/MaintenanceEmpty'
 import Select, { selectClasses } from '@mui/joy/Select'
 import Option from '@mui/joy/Option'
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown'
 import Table from '@mui/joy/Table'
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined'
-import AppView from '../../components/Common/AppView'
+import AppView from '../../../components/Common/AppView'
+import MaintenanceEmpty from '../../../components/Common/MaintenanceEmpty'
+import { Link } from 'react-router-dom'
 
 export function WarrantyExpiring() {
   return (
@@ -78,6 +79,7 @@ export function WarrantyExpiring() {
             Import Maintenance
           </Button>
 
+          <Link to='/alerts/warranty-expiring/warranty-set-up-column' style={{ textDecoration: 'none' }}>
           <Button
             type="button"
             variant="solid"
@@ -91,6 +93,7 @@ export function WarrantyExpiring() {
             <SettingsOutlinedIcon />
             Setup Column
           </Button>
+          </Link>
         </Box>
       </Box>
 
@@ -184,7 +187,7 @@ export function WarrantyExpiring() {
       </Box>
 
       <Box>
-        <Image />
+        <MaintenanceEmpty/>
       </Box>
     </AppView>
   )

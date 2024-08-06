@@ -76,6 +76,7 @@ return (
             >
               Import maintenances using an Excel spreadsheet. Download our template, fill it in, and upload. Also download 'Field Limits Info' to make sure your data is within character limits for all fields. There is no limit on the number of maintenances you can have. But you can import up to 5,000 records in one spreadsheet.
             </Typography>
+            
           </Box>
           </Box>
 
