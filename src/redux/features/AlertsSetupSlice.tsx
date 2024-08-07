@@ -22,7 +22,7 @@ const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
  
 export const fetchAlertsSetup = createAsyncThunk('alertsSetup/fetchAlertsSetup', async () => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/alert`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/set-alert`);
     return response.data;
    
   } catch (error) {
@@ -36,7 +36,7 @@ export const fetchAlertsSetup = createAsyncThunk('alertsSetup/fetchAlertsSetup',
 
 export const fetchAlertsSetupById = createAsyncThunk('alertsSetup/fetchAlertsSetupById', async (id: string ) => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/alert/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/set-alert/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -46,20 +46,20 @@ export const fetchAlertsSetupById = createAsyncThunk('alertsSetup/fetchAlertsSet
 });
  
 export const addAlertSetup = createAsyncThunk('alertsSetup/addAlertSetup', async (alertsSetup: any) => {
- const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/alert`, alertsSetup);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/set-alert`, alertsSetup);
  console.log(response)
   return response.data;
 });
  
 export const updateAlertsSetup = createAsyncThunk('alertsSetup/updateAlertsSetup', async (updatedAlertsSetup: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/alert`, updatedAlertsSetup);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/set-alert/${updatedAlertsSetup.get('id')}`, updatedAlertsSetup);
   
   return response.data;
 });
  
 export const deleteAlertsSetup = createAsyncThunk('alertsSetup/deleteAlertsSetup', async (id: number) => {
-  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/alert/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/set-alert/${id}`);
   return id;
 });
 

@@ -342,7 +342,7 @@ export const ContractsExpiring: React.FC = () => {
                 ))}
                 <td style={{ cursor: 'pointer' }}>
                     <Link
-                      to={'/alerts/contracts-expiring/view-alert'}
+                      to={'/alerts/contracts-expiring/view-contract'}
                       style={{ color: 'inherit' }}
                     >
                       <RemoveRedEyeIcon

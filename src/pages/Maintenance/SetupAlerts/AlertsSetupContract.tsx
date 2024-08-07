@@ -21,7 +21,7 @@ export const AlertsSetupContract: React.FC = () => {
     }
   }
 
-  const columns = [
+  const columns1 = [
     {
       title: 'Contract Alerts',
       description: 'Show alerts for expiring contracts.',
@@ -48,7 +48,7 @@ export const AlertsSetupContract: React.FC = () => {
             textAlign: { xs: 'center', md: 'left' },
           }}
         >
-          {columns
+          {columns1
           .filter(column => column.value === 'column1' || selectedColumns.includes('column1'))
           .map(({ title, description, value }) => (
             <AlertsSetupCheckbox
@@ -114,132 +114,3 @@ export default React.memo(AlertsSetupContract)
 
 
 
-
-
-// import { Box, Button, Checkbox, Divider, Typography } from '@mui/joy'
-// import AppView from '../../components/Common/AppView'
-// import React, { useState } from 'react'
-
-// export const AlertsSetupContract: React.FC = () => {
-//   const [selectedColumns, setSelectedColumns] = useState<string[]>([])
-//   const [button, setButton] = useState<boolean>(false)
-
-//   const handleCheckboxChange = (column: string) => {
-//     const selectedIndex = selectedColumns.indexOf(column)
-//     const newSelectedColumns = [...selectedColumns]
-
-//     if (selectedIndex === -1) {
-//       newSelectedColumns.push(column)
-
-//       if (column === 'column2') {
-//         setButton(true)
-//       }
-//     } else {
-//       newSelectedColumns.splice(selectedIndex, 1)
-
-//       if (column === 'column2') {
-//         setButton(false)
-//       }
-//     }
-
-//     if (
-//       newSelectedColumns.includes('column2') &&
-//       newSelectedColumns.includes('column1')
-//     ) {
-//       setButton(true)
-//     } else {
-//       setButton(false)
-//     }
-
-//     setSelectedColumns(newSelectedColumns)
-//   }
-
-//   const columns = [
-//     { title: 'Contract Alerts', value: 'column1' },
-//     { title: 'Email Alerts', value: 'column2' },
-//   ]
-
-//   return (
-//     <AppView>
-//       <Box
-//         sx={{
-//           display: 'flex',
-//           flexDirection: 'column',
-//           gap: 1,
-//         }}
-//       >
-//         <Box
-//           sx={{
-//             textAlign: { xs: 'center', md: 'left' },
-//           }}
-//         >
-//           {/* Render checkboxes and texts here */}
-//           {columns.map(
-//             ({ title, value }) =>
-//               // Conditionally render checkboxes
-//               (value === 'column1' ||
-//                 (selectedColumns.includes('column1') &&
-//                   value === 'column2')) && (
-//                 <Box
-//                   key={value}
-//                   sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-//                 >
-//                   <Checkbox
-//                     checked={selectedColumns.includes(value)}
-//                     onChange={() => handleCheckboxChange(value)}
-//                     sx={{ marginRight: 1 }}
-//                   />
-//                   <Box>
-//                     <Typography
-//                       sx={{
-//                         fontWeight: 500,
-//                         mt: 2,
-//                       }}
-//                     >
-//                       {title}
-//                     </Typography>
-//                     <Typography
-//                       sx={{
-//                         color: 'text.secondary',
-//                       }}
-//                     >
-//                       {value === 'column1'
-//                         ? 'Show alerts for expiring contracts.'
-//                         : 'Turn on this option to email out an alert if any alert exists.'}
-//                     </Typography>
-//                   </Box>
-//                 </Box>
-//               ),
-//           )}
-
-//           {button && (
-//             <Box
-//               sx={{
-//                 mt: 2,
-//                 ml: 5,
-//               }}
-//             >
-//               <Button
-//                 autoFocus
-//                 type="button"
-//                 variant="solid"
-//                 sx={{
-//                   background: '#fdd835',
-//                   '&:hover': { background: '#E1A91B' },
-//                   color: 'black',
-//                   // marginTop: '25px',
-//                   // marginLeft: '40%',
-//                 }}
-//               >
-//                 Setup Alert Setting
-//               </Button>
-//             </Box>
-//           )}
-//         </Box>
-//         <Divider />
-//       </Box>
-//     </AppView>
-//   )
-// }
-
-// export default React.memo(AlertsSetupContract)
