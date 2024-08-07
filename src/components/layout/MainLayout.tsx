@@ -8,31 +8,28 @@ import useColorSelector from '../../configs/useColorSelector';
 const MainLayout = () => {
   const styleConfigs = useColorSelector()
   return (
-    <Box sx={{ display: 'flex', minHeight: '100dvh', backgroundColor: 'white',  }}>
-      <Box sx={{ flexShrink: 0 }}>
-        <Sidebar />
-      </Box>
-      <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', height: '100dvh',overflow: 'auto', minWidth: 0, backgroundColor: styleConfigs.backgroundColor }}>
-        {/* <Header /> */}
-        <Box
-          component="main"
-          className="MainContent"
-          sx={{
-            mt:5,
-            p: 3,
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            minWidth: 0,
-            gap: 1,
-            overflow: 'auto',
-            
-          }}
-        >
-          <Outlet />
-        </Box>
-      </Box>
+    <Box  sx={{ display: 'flex', minHeight: '100dvh', backgroundColor: styleConfigs.backgroundColor}} >
+    <Header />
+    <Sidebar />
+    <Box
+      component="main"
+      className="MainContent"
+      sx={{
+        px: { xs: 1, md: 3 },
+        pb: { xs: 2, sm: 2, md: 3 },
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        minWidth: 0,
+        height: '100dvh',
+        gap: 1,
+        overflow: 'auto',
+      }}
+    >
+      {/* <Toolbar /> */}
+      <Outlet />
     </Box>
+  </Box>
   );
 };
 

@@ -69,7 +69,7 @@ const Login: React.FC = () => {
       try {
 
         const response = await dispatch(loginAccount(formData))
-
+        localStorage.setItem('token', 'DummyTokenHere')
         if (response.meta.requestStatus === 'fulfilled') {
           // Assuming successful response contains status 201
           navigate('/dashboard');
