@@ -42,6 +42,7 @@ const AlertsSetupColumnTable: React.FC<AlertsSetupColumnTableProp> = ({
                   </th>
                 ))}
             </tr>
+           
           </thead>
         </Table>
       </Box>
@@ -51,4 +52,4 @@ const AlertsSetupColumnTable: React.FC<AlertsSetupColumnTableProp> = ({
   );
 };
 
-export default AlertsSetupColumnTable;
+export default React.memo(AlertsSetupColumnTable);

@@ -7,12 +7,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchContractDatabase } from '../../../redux/features/ContractDatabaseSlice';
 import AlertsSetupColumnTable from '../Maintenances/AlertsSetupColumnTable';
 import { updateAlertsSetupColumn } from '../../../redux/features/AlertsSetupColumnSlice';
+import { useNavigate } from 'react-router-dom';
 
 const AlertContractSetupColumn: React.FC = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
   const contractDatabase = useSelector((state: RootState) => state.contractDatabase.data);
+  const navigate = useNavigate();
 
-  const [selectedColumns, setSelectedColumns] = useState<number[]>([]);
+  const [selectedColumns, setSelectedColumns] = useState<number[]>(() => {
+    const savedColumns = localStorage.getItem('selectedColumns');
+    return savedColumns ? JSON.parse(savedColumns) : [];
+  });
   const [filteredColumns, setFilteredColumns] = useState<{ id: number, fieldName: string, isTable: boolean }[]>([]);
 
   const handleCheckboxChange = (id: number) => {
@@ -20,23 +25,24 @@ const AlertContractSetupColumn: React.FC = () => {
       const newSelectedColumns = prevSelectedColumns.includes(id)
         ? prevSelectedColumns.filter((col) => col !== id)
         : [...prevSelectedColumns, id];
-      
+
+      localStorage.setItem('selectedColumns', JSON.stringify(newSelectedColumns));
       return newSelectedColumns;
     });
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (contractDatabase.length > 0) {
-      setFilteredColumns(contractDatabase[0])
+      setFilteredColumns(contractDatabase[0]);
     }
-  }, [contractDatabase])
+  }, [contractDatabase]);
 
   useEffect(() => {
     dispatch(fetchContractDatabase());
   }, [dispatch]);
 
   useEffect(() => {
-    if (contractDatabase) {
+    if (contractDatabase.length) {
       const updatedFilteredColumns = contractDatabase.filter((column) =>
         selectedColumns.includes(column.id)
       );
@@ -52,14 +58,8 @@ const AlertContractSetupColumn: React.FC = () => {
 
     console.log('Selected Columns:', filteredColumns);
     dispatch(updateAlertsSetupColumn(updatedColumns));
+    navigate('/alerts/contracts-expiring', { state: { selectedColumns: filteredColumns.map(column => column.fieldName) } });
   };
-
-  // Transform filteredColumns into the expected format for AlertsSetupColumnTable
-  const formattedColumns = [
-    {
-      fields: filteredColumns.map(column => column.fieldName),
-    },
-  ];
 
   return (
     <AppView>
@@ -136,13 +136,12 @@ const AlertContractSetupColumn: React.FC = () => {
           
           <Divider />
           <Box>
-      <Typography level="h4">Order Table Columns</Typography>
-      <Typography sx={{ p: 1 }}>
-        Rearrange the table column sequence by dragging and dropping columns.
-      </Typography>
-          
-          <AlertsSetupColumnTable selectedColumns={formattedColumns} />
-        </Box>
+            <Typography level="h4">Order Table Columns</Typography>
+            <Typography sx={{ p: 1 }}>
+              Rearrange the table column sequence by dragging and dropping columns.
+            </Typography>
+            <AlertsSetupColumnTable selectedColumns={[{ fields: filteredColumns.map(column => column.fieldName) }]} />
+          </Box>
         </Box>
 
         <Box
@@ -156,6 +155,21 @@ const AlertContractSetupColumn: React.FC = () => {
             flexWrap: 'wrap',
           }}
         >
+          <Button
+                      type="button"
+                      // onClick={handleClose}
+                      autoFocus
+                      variant="solid"
+                      sx={{
+                        background: 'black',
+                        '&:hover': { background: '#424242' },
+                        color: 'white',
+                        // marginLeft: '50px',
+                      }}
+                      onClick={() => navigate('/alerts/contracts-expiring')}
+                    >
+                      Cancel
+                    </Button>
           <Button onClick={handleSave}
             sx={{
               background: '#fdd835',

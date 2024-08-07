@@ -55,7 +55,9 @@ import AddContractExp from '../pages/Maintenance/Contract/AddContractExp'
 import AlertContractSetupColumn from '../pages/Maintenance/Contract/AlertContractSetupColumn'
 import WarrantyExpiring from '../pages/Maintenance/Warranties/WarrantyExpiring'
 import MaintenancesSetupColumn from '../pages/Maintenance/Maintenances/MaintenancesSetupColumn'
-import WarrantySetupColumn from '../pages/Maintenance/Warranties/WarrantysetupColumn'
+import WarrantySetupColumn from '../pages/Maintenance/Warranties/WarrantySetupColumn'
+import ViewContract from '../pages/Maintenance/Contract/ViewContract'
+
 
 
 
@@ -103,6 +105,12 @@ const appRoutes: RouteType[] = [
         index: true,
         path: '/alerts/contracts-expiring/add-contract',
         element: <AddContractExp />,
+        state: 'assets',
+      },
+      {
+        index: true,
+        path: '/alerts/contracts-expiring/view-alert',
+        element: <ViewContract />,
         state: 'assets',
       },
       {

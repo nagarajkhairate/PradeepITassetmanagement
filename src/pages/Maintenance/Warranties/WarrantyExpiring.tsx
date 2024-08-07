@@ -8,13 +8,47 @@ import Table from '@mui/joy/Table'
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined'
 import AppView from '../../../components/Common/AppView'
 import MaintenanceEmpty from '../../../components/Common/MaintenanceEmpty'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import { ThunkDispatch } from 'redux-thunk'
+import { RootState } from '../../../redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { fetchWarrantiesDatabase } from '../../../redux/features/WarrantiesDatabaseSlice'
 
 export function WarrantyExpiring() {
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+  const warrantiesDatabase = useSelector((state: RootState) => state.warrantiesDatabase.data)
+  const location=useLocation()
+  const [selectedColumns, setSelectedColumns] = useState<string[]>([])
+  const [formData, setFormData] = useState<any>()
+
+  useEffect(() => {
+    dispatch(fetchWarrantiesDatabase());
+  }, [dispatch]);
+
+  useEffect(()=>{
+    if(location.state && location.state.selectedColumns){
+      setSelectedColumns(location.state.selectedColumns)
+    }
+  }, [location.state])
   return (
     <AppView>
       <Typography level="h4">Warranty</Typography>
 
+      <Box
+        sx={{
+          borderRadius: '10x',
+          boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+          background: '#FFF',
+          flexGrow: 1,
+
+          marginTop: { xs: '10px', sm: '22px' },
+          height: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          p: 2,
+        }}
+      >
       <Box
         sx={{
           display: 'flex',
@@ -133,7 +167,7 @@ export function WarrantyExpiring() {
             <Option value="warranty2">Warranty 2</Option>
 
           </Select>
-          <Select
+          {/* <Select
             placeholder="10"
             indicator={<KeyboardArrowDown />}
             sx={{
@@ -149,7 +183,7 @@ export function WarrantyExpiring() {
             <Option value="10">10</Option>
             <Option value="15">15</Option>
             <Option value="20">20</Option>
-          </Select>
+          </Select> */}
         </Box>
 
         <Typography
@@ -173,21 +207,43 @@ export function WarrantyExpiring() {
       <Box>
         <Table hoverRow>
           <thead>
-            <tr>
-              <th style={{ width: '10%' }}>Active</th>
-              <th>Asset Tag Id</th>
-              <th>Description</th>
-              <th>Length(month)</th>
-              <th>Expires</th>
-              <th>Notes</th>
-              <th>Action</th>
-            </tr>
+          <tr>
+                {warrantiesDatabase &&
+                  warrantiesDatabase
+                    .filter((field: any) => field.isTable)
+                    .map((column: any, index: number) => (
+                      <th
+                        key={index}
+                        style={{
+                          background: '#fff8e6',
+                          verticalAlign: 'middle',
+                          wordBreak: 'break-word',
+                          whiteSpace: 'normal',
+                          textAlign: 'left',
+                        }}
+                      >
+                        {column.fieldName}
+                      </th>
+                    ))}
+                <th
+                  style={{
+                    background: '#fff8e6',
+                    verticalAlign: 'middle',
+                    wordBreak: 'break-word',
+                    whiteSpace: 'normal',
+                    textAlign: 'left',
+                  }}
+                >
+                  Action
+                </th>
+              </tr>
           </thead>
         </Table>
       </Box>
 
-      <Box>
+      {/* <Box>
         <MaintenanceEmpty/>
+      </Box> */}
       </Box>
     </AppView>
   )

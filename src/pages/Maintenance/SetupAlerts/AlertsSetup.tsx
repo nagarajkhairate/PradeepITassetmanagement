@@ -1,6 +1,6 @@
 import { Box, Button, Divider, Typography } from '@mui/joy'
 import AppView from '../../../components/Common/AppView'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AlertsSetupContract from './AlertsSetupContract'
 import AlertsSetupCheckbox from './AlertsSetupCheckbox'
 import AlertsSetupFundExp from './AlertsSetupFundExp'
@@ -10,8 +10,21 @@ import AlertsSetupLeaseExp from './AlertsSetupLeaseExp'
 import AlertsSetupMaintenance from './AlertsSetupMaintenance'
 import AlertsSetupWarranties from './AlertsSetupWarranties'
 import {columns} from './AlertsSetupData'
+import { ThunkDispatch } from 'redux-thunk'
+import { RootState } from '../../../redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchAlertsSetup } from '../../../redux/features/AlertsSetupSlice'
 
 export const AlertsSetup: React.FC = () => {
+
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
+  const alertsSetups = useSelector((state: RootState) => state.alertsSetup.data)
+
+  useEffect(() => {
+    dispatch(fetchAlertsSetup());
+  }, [dispatch]);
+
+
   const [selectedColumns, setSelectedColumns] = useState<string[]>([])
   const [button, setButton] = useState<boolean>(false)
 

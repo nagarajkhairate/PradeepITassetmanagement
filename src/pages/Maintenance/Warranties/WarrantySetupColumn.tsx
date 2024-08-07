@@ -7,12 +7,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchMaintenanceDatabase, updateMaintenanceDatabase } from '../../../redux/features/MaintenanceDatabaseSlice';
 import AlertsSetupColumnTable from '../Maintenances/AlertsSetupColumnTable';
 import { fetchWarrantiesDatabase, updateWarrantiesDatabase } from '../../../redux/features/WarrantiesDatabaseSlice';
+import { useNavigate } from 'react-router-dom';
 
 const WarrantySetupColumn: React.FC = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
   const warrantiesDatabase = useSelector((state: RootState) => state.warrantiesDatabase.data)
+  const navigate=useNavigate()
 
-  const [selectedColumns, setSelectedColumns] = useState<number[]>([]);
+  const [selectedColumns, setSelectedColumns] = useState<number[]>(() => {
+    const savedColumns = localStorage.getItem('selectedColumns');
+    return savedColumns ? JSON.parse(savedColumns) : [];
+  });
   const [filteredColumns, setFilteredColumns] = useState<{ id: number, fieldName: string, isTable: boolean }[]>([]);
 
   const handleCheckboxChange = (id: number) => {
@@ -20,7 +25,7 @@ const WarrantySetupColumn: React.FC = () => {
       const newSelectedColumns = prevSelectedColumns.includes(id)
         ? prevSelectedColumns.filter((col) => col !== id)
         : [...prevSelectedColumns, id];
-      
+        localStorage.setItem('selectedColumns', JSON.stringify(newSelectedColumns));
       return newSelectedColumns;
     });
   };
@@ -52,7 +57,10 @@ const WarrantySetupColumn: React.FC = () => {
 
     console.log('Selected Columns:', filteredColumns);
     dispatch(updateWarrantiesDatabase(updatedColumns));
+    const columnNames = filteredColumns.map((column) => column.fieldName)
+    navigate('/alerts/warranty-expiring', { state: { selectedColumns:filteredColumns.map(column => column.fieldName)} })
   };
+
 
   // Transform filteredColumns into the expected format for AlertsSetupColumnTable
   const formattedColumns = [
@@ -141,7 +149,7 @@ const WarrantySetupColumn: React.FC = () => {
         Rearrange the table column sequence by dragging and dropping columns.
       </Typography>
           
-          <AlertsSetupColumnTable selectedColumns={formattedColumns} />
+          <AlertsSetupColumnTable selectedColumns={[{ fields: filteredColumns.map(column => column.fieldName) }]} />
         </Box>
         </Box>
 
@@ -156,6 +164,21 @@ const WarrantySetupColumn: React.FC = () => {
             flexWrap: 'wrap',
           }}
         >
+          <Button
+                      type="button"
+                      // onClick={handleClose}
+                      autoFocus
+                      variant="solid"
+                      sx={{
+                        background: 'black',
+                        '&:hover': { background: '#424242' },
+                        color: 'white',
+                        // marginLeft: '50px',
+                      }}
+                      onClick={() => navigate('/alerts/warranty-expiring')}
+                    >
+                      Cancel
+                    </Button>
           <Button onClick={handleSave}
             sx={{
               background: '#fdd835',

@@ -41,8 +41,10 @@ import alertsAssetPastDueReducer from './features/AlertsAssetPastDueSlice'
 import alertsInsuranceExpReducer from './features/AlertsInsuranceExpSlice'
 import alertsLeasesExpReducer from './features/AlertsLeasesExpSlice'
 import alertsMaintenanceDueReducer from './features/AlertsMaintenanceDueSlice'
-import alertsMaintenanceOverDueReducer from './features/AlertsMaintenanceOverdueSlice'
+import alertsMaintenanceOverDueReducer from './features/AlertsMaintenanceOverDueSlice'
 import alertsWarrantiesExpReducer from './features/AlertsWarrantiesExpSlice'
+import alertsAddContractReducer from './features/AlertsAddContractSlice'
+import alertsSetupReducer from './features/AlertsSetupSlice'
 
 export const store = configureStore({
   reducer: {
@@ -90,6 +92,8 @@ export const store = configureStore({
     alertsMaintenanceDue:alertsMaintenanceDueReducer,
     alertsMaintenanceOverDue:alertsMaintenanceOverDueReducer,
     alertsWarrantiesExp:alertsWarrantiesExpReducer,
+    alertsAddContract:alertsAddContractReducer,
+    alertsSetup:alertsSetupReducer,
   },
 });
 
