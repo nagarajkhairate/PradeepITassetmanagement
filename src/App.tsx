@@ -3,12 +3,11 @@ import { Routes, Navigate, Route, BrowserRouter } from 'react-router-dom';
 
 import MainLayout from './components/layout/MainLayout';
 import { routes } from './routes';
+import checkAuth from './app/auth';
 import { Register, Login } from './routes/AllComponents';
-// import checkAuth from './app/auth';
-
 const App = () => {
-//   const token = checkAuth();
-// console.log((token))
+  const token = checkAuth();
+console.log((token))
   return (
     <BrowserRouter>
       <Routes>
@@ -17,10 +16,10 @@ const App = () => {
         <Route path="/" element={<MainLayout />}>
           {routes}
         </Route>
-        {/* <Route
+        <Route
           path="*"
-          element={<Navigate to={token ? '/' : '/login'} replace />}
-        /> */}
+          element={<Navigate to={token ? '/dashboard' : '/login'} replace />}
+        />
       </Routes>
     </BrowserRouter>
   );
