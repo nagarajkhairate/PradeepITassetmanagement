@@ -110,13 +110,13 @@ const appRoutes: RouteType[] = [
       },
       {
         index: true,
-        path: '/alerts/contracts-expiring/view-contract',
+        path: '/alerts/contracts-expiring/view-contract/:id',
         element: <ViewContract />,
         state: 'assets',
       },
       {
         index: true,
-        path: '/alerts/contracts-expiring/view-contract/edit-contract',
+        path: '/alerts/contracts-expiring/view-contract/edit-contract/:id',
         element: <EditContract />,
         state: 'assets',
       },

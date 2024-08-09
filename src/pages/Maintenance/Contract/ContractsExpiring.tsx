@@ -101,7 +101,7 @@ export const ContractsExpiring: React.FC = () => {
       </Box>
       <Box
         sx={{
-          borderRadius: '10x',
+          borderRadius: '10px',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#FFF',
           flexGrow: 1,
@@ -342,7 +342,7 @@ export const ContractsExpiring: React.FC = () => {
                 ))}
                 <td style={{ cursor: 'pointer' }}>
                     <Link
-                      to={'/alerts/contracts-expiring/view-contract'}
+                      to={`/alerts/contracts-expiring/view-contract/${contract.id}`}
                       style={{ color: 'inherit' }}
                     >
                       <RemoveRedEyeIcon

@@ -22,7 +22,7 @@ const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
  
 export const fetchAlertsAssetPastDue = createAsyncThunk('alertsAssetPastDue/fetchAlertsAssetPastDue', async () => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/assetspastdue`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/transaction/assetspastdue`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -35,7 +35,7 @@ export const fetchAlertsAssetPastDue = createAsyncThunk('alertsAssetPastDue/fetc
 
 export const fetchAlertsAssetPastDueById = createAsyncThunk('alertsAssetPastDue/fetchAlertsAssetPastDueById', async (id: string ) => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/assetspastdue/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/transaction/assetspastdue/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -45,20 +45,20 @@ export const fetchAlertsAssetPastDueById = createAsyncThunk('alertsAssetPastDue/
 });
  
 export const addAlertsAssetPastDue = createAsyncThunk('alertsAssetPastDue/addAlertsAssetPastDue', async (alertsAssetPastDue: any) => {
- const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/assetspastdue`, alertsAssetPastDue);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/transaction/assetspastdue`, alertsAssetPastDue);
  console.log(response)
   return response.data;
 });
  
 export const updateAlertsAssetPastDue = createAsyncThunk('alertsAssetPastDue/updateAlertsAssetPastDue', async (updatedAlertsAssetPastDue: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/assetspastdue/${updatedAlertsAssetPastDue.id}`, updatedAlertsAssetPastDue);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/transaction/assetspastdue/${updatedAlertsAssetPastDue.id}`, updatedAlertsAssetPastDue);
   
   return response.data;
 });
  
 export const deleteAlertsAssetPastDue = createAsyncThunk('alertsAssetPastDue/deleteAlertsAssetPastDue', async (id: number) => {
-  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/assetspastdue/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/transaction/assetspastdue/${id}`);
   return id;
 });
 
