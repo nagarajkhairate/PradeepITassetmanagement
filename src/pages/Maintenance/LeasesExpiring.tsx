@@ -80,7 +80,7 @@ export const LeasesExpiring: React.FC = () => {
             sx={{
               background: '#388e3c',
               color: 'white',
-              borderRadius: '15px',
+              borderRadius: '10px',
             }}
             component="label"
           >
@@ -197,7 +197,7 @@ export const LeasesExpiring: React.FC = () => {
               sx={{
                 background: '#388e3c',
                 color: 'white',
-                borderRadius: '15px',
+                borderRadius: '10px',
               }}
               component="label"
             >
@@ -210,7 +210,7 @@ export const LeasesExpiring: React.FC = () => {
                 background: 'black',
                 '&:hover':{background:'#424242'},
                 color: 'white',
-                borderRadius: '15px',
+                borderRadius: '10px',
               }}
               component="label"
               onClick={()=>window.print()}

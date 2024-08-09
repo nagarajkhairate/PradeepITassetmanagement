@@ -44,7 +44,7 @@ export const MaintenancesDue: React.FC = () => {
 
       <Box
         sx={{
-          borderRadius: '10x',
+          borderRadius: '10px',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#FFF',
           flexGrow: 1,
@@ -61,11 +61,11 @@ export const MaintenancesDue: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             flexDirection: { md: 'row', xs: 'column' },
-            justifyContent: { xs: 'center', md: 'space-between' },
+            justifyContent: { xs: 'center', md: 'flex-end' },
             gap: '5px',
           }}
         >
-          <Button
+          {/* <Button
             type="button"
             variant="solid"
             autoFocus
@@ -77,7 +77,7 @@ export const MaintenancesDue: React.FC = () => {
           >
             <SettingsOutlinedIcon />
             Search Criteria
-          </Button>
+          </Button> */}
 
           <Box
             sx={{
@@ -92,7 +92,7 @@ export const MaintenancesDue: React.FC = () => {
               sx={{
                 background: '#388e3c',
                 color: 'white',
-                borderRadius: '15px',
+                borderRadius: '10px',
               }}
             >
               <CloudUploadOutlinedIcon />
@@ -108,7 +108,7 @@ export const MaintenancesDue: React.FC = () => {
                 sx={{
                   background: '#2196f3',
                   color: 'white',
-                  borderRadius: '15px',
+                  borderRadius: '10px',
                   whiteSpace: 'nowrap',
                 }}
               >
@@ -122,17 +122,17 @@ export const MaintenancesDue: React.FC = () => {
               style={{ textDecoration: 'none' }}
             >
               <Button
-                type="button"
+               
                 variant="solid"
                 autoFocus
                 sx={{
                   background: 'black',
                   color: 'white',
-                  borderRadius: '15px',
+                  borderRadius: '10px',
                 }}
               >
                 <SettingsOutlinedIcon />
-                Setup Column
+                Setup Column Table
               </Button>
             </Link>
           </Box>
@@ -168,7 +168,7 @@ export const MaintenancesDue: React.FC = () => {
                   },
                 },
 
-                borderRadius: '15px',
+                borderRadius: '10px',
               }}
             >
               <Option value="term 1">term 1</Option>

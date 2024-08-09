@@ -68,14 +68,19 @@ export const ContractsExpiring: React.FC = () => {
           justifyContent: { xs: 'center', md: 'space-between' },
           gap: '5px',
           mt: 2,
+         
         }}
       >
-        <Typography level="h3">Contracts / Software Licenses</Typography>
+        <Typography level="h3"
+      
+        >Contracts / Software Licenses</Typography>
         <Box
           sx={{
             display: 'flex',
             flexDirection: { md: 'row', xs: 'column' },
             gap: '5px',
+            wordBreak: 'break-word',
+            whiteSpace: 'normal',
           }}
         >
           <Link
@@ -91,6 +96,7 @@ export const ContractsExpiring: React.FC = () => {
                 color: 'white',
                 borderRadius: '10px',
                 marginRight: 2,
+             
               }}
             >
               <AddTwoToneIcon />
@@ -124,8 +130,8 @@ export const ContractsExpiring: React.FC = () => {
               fontWeight: 500,
               lineHeight: '30px',
               textAlign: { xs: 'center', md: 'left' },
-              whiteSpace: 'nowrap',
-              mt: 0,
+              whiteSpace: 'normal'
+
             }}
           >
             List of Contracts / Software Licenses
@@ -136,12 +142,12 @@ export const ContractsExpiring: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             flexDirection: { md: 'row', xs: 'column' },
-            justifyContent: { xs: 'center', md: 'space-between' },
+            justifyContent: { xs: 'center', md: 'flex-end' },
             gap: '5px',
             mt: 2,
           }}
         >
-          <Button
+          {/* <Button
             type="button"
             variant="solid"
             autoFocus
@@ -152,14 +158,15 @@ export const ContractsExpiring: React.FC = () => {
             }}
           >
             <SettingsOutlinedIcon />
-            Search Criteria
-          </Button>
+            SearchCriteria
+          </Button> */}
 
           <Box
             sx={{
               display: 'flex',
               flexDirection: { md: 'row', xs: 'column' },
               gap: '5px',
+              justifyContent:'flex-end'
             }}
           >
             <Button
@@ -209,10 +216,11 @@ export const ContractsExpiring: React.FC = () => {
                color: 'white',
                borderRadius: '10px',
                whiteSpace: 'nowrap',
+               gap:1
              }}
               >
                 <SettingsOutlinedIcon />
-                Setup Column
+                  Setup  Columns
               </Button>
             </Link>
           </Box>

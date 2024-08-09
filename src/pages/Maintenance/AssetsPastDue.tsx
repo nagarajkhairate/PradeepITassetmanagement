@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom'
 import * as XLSX from 'xlsx'
 import jsPDF from 'jspdf'
 import 'jspdf-autotable'
+import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined'
 
 export const AssetsPastDue: React.FC = () => {
 
@@ -159,7 +160,7 @@ export const AssetsPastDue: React.FC = () => {
               background: '#388e3c',
               color: 'white',
               marginRight: { xs: 1, md: 2 },
-              borderRadius:'15px'
+              borderRadius:'10px'
               // width: { xs: '100%', md: 'auto' },
             }}
             component="label"
@@ -207,8 +208,8 @@ export const AssetsPastDue: React.FC = () => {
           justifyContent: { md: 'flex-end', xs: 'center' },
           flexDirection: { md: 'row', xs: 'column' },
           alignItems: 'center',
-          gap: '5px',
-          borderRadius:'15px'
+          gap: '4px',
+          borderRadius:'10px'
         }}
       >
         <Button
@@ -217,12 +218,13 @@ export const AssetsPastDue: React.FC = () => {
             background: '#388e3c',
             color: 'white',
             marginRight: { xs: 1, md: 2 },
-            borderRadius:'15px'
+            borderRadius:'10px'
             // width: { xs: '100%', md: 'auto' },
           }}
           component="label"
           onClick={handleExportClick}
         >
+           <CloudUploadOutlinedIcon />
           Export
         </Button>
         <Button
@@ -231,7 +233,8 @@ export const AssetsPastDue: React.FC = () => {
           sx={{
             background: 'black',
             color: 'white',
-            borderRadius:'15px'
+            gap:1,
+            borderRadius:'10px'
             // width: { xs: '100%', md: 'auto' },
           }}
           onClick={() => window.print()}

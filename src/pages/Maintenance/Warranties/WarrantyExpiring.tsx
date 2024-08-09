@@ -14,10 +14,13 @@ import { RootState } from '../../../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { fetchWarrantiesDatabase } from '../../../redux/features/WarrantiesDatabaseSlice'
+import { fetchAlertsWarrantiesExp } from '../../../redux/features/AlertsWarrantiesExpSlice'
 
 export function WarrantyExpiring() {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
   const warrantiesDatabase = useSelector((state: RootState) => state.warrantiesDatabase.data)
+  const alertsWarrantiesExp = useSelector((state: RootState) => state.alertsWarrantiesExp.data,)
+
   const location=useLocation()
   const [selectedColumns, setSelectedColumns] = useState<string[]>([])
   const [formData, setFormData] = useState<any>()
@@ -25,6 +28,10 @@ export function WarrantyExpiring() {
   useEffect(() => {
     dispatch(fetchWarrantiesDatabase());
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchAlertsWarrantiesExp())
+  }, [dispatch])
 
   useEffect(()=>{
     if(location.state && location.state.selectedColumns){
@@ -37,7 +44,7 @@ export function WarrantyExpiring() {
 
       <Box
         sx={{
-          borderRadius: '10x',
+          borderRadius: '10px',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#FFF',
           flexGrow: 1,
@@ -54,7 +61,7 @@ export function WarrantyExpiring() {
           display: 'flex',
           alignItems: 'center',
           flexDirection: { md: 'row', xs: 'column' },
-          justifyContent: { xs: 'center', md: 'space-between' },
+          justifyContent: { xs: 'center', md: 'flex-end' },
           gap: '5px',
         }}
       >
@@ -64,19 +71,19 @@ export function WarrantyExpiring() {
           flexDirection: { md: 'row', xs: 'column' },
         }}
         >
-        <Button
+        {/* <Button
           type="button"
           variant="solid"
           autoFocus
           sx={{
             background: '#1CCAB8',
             color: 'white',
-            borderRadius: '15px',
+            borderRadius: '10px',
           }}
         >
           <SettingsOutlinedIcon />
           Search Criteria
-        </Button>
+        </Button> */}
         </Box>
 
         <Box
@@ -93,7 +100,7 @@ export function WarrantyExpiring() {
             sx={{
               background: '#388e3c',
               color: 'white',
-              borderRadius: '15px',
+              borderRadius: '10px',
             }}
           >
             <CloudUploadOutlinedIcon />
@@ -105,12 +112,12 @@ export function WarrantyExpiring() {
             sx={{
               background: '#2196f3',
               color: 'white',
-              borderRadius: '15px',
+              borderRadius: '10px',
               whiteSpace: 'nowrap',
             }}
           >
             <CloudUploadOutlinedIcon />
-            Import Maintenance
+            Import Warranties
           </Button>
 
           <Link to='/alerts/warranty-expiring/warranty-set-up-column' style={{ textDecoration: 'none' }}>
@@ -121,11 +128,13 @@ export function WarrantyExpiring() {
             sx={{
               background: 'black',
               color: 'white',
-              borderRadius: '15px',
+              borderRadius: '10px',
+              justifyContent:'center',
+             
             }}
           >
             <SettingsOutlinedIcon />
-            Setup Column
+            Setup Column Table
           </Button>
           </Link>
         </Box>
@@ -150,7 +159,7 @@ export function WarrantyExpiring() {
        justifyContent: 'space-between',
         }}
         >
-          <Select
+          {/* <Select
             placeholder="Warranties Expiring"
             indicator={<KeyboardArrowDown />}
             sx={{
@@ -166,7 +175,7 @@ export function WarrantyExpiring() {
             <Option value="warranty1">Warranty 1</Option>
             <Option value="warranty2">Warranty 2</Option>
 
-          </Select>
+          </Select> */}
           {/* <Select
             placeholder="10"
             indicator={<KeyboardArrowDown />}
@@ -204,9 +213,24 @@ export function WarrantyExpiring() {
         {/* </Box> */}
       </Box>
 
-      <Box>
-        <Table hoverRow>
-          <thead>
+      <Box
+      sx={{
+        overflowX: 'auto',
+        fontSize: '14px',
+        whiteSpace: 'nowrap',
+        borderRadius: '5px',
+        mt: 2,
+      }}
+      >
+        <Table  borderAxis="both"
+            aria-label="basic table"
+            style={{
+              borderCollapse: 'collapse',
+              border: '1px solid grey',
+              minWidth: '500px',
+              borderRadius: '5px',
+            }}>
+          {/* <thead>
           <tr>
                 {warrantiesDatabase &&
                   warrantiesDatabase
@@ -237,7 +261,74 @@ export function WarrantyExpiring() {
                   Action
                 </th>
               </tr>
-          </thead>
+          </thead> */}
+
+<thead>
+              <tr>
+                <th style={{
+                background: '#fff8e6',
+                verticalAlign: 'middle',
+                wordBreak: 'break-word',
+                whiteSpace: 'normal',
+                textAlign: 'left',
+              }}>
+                  Length
+                </th>
+                <th style={{
+                background: '#fff8e6',
+                verticalAlign: 'middle',
+                wordBreak: 'break-word',
+                whiteSpace: 'normal',
+                textAlign: 'left',
+              }}>
+                  Expiration Date
+                </th>
+                <th style={{
+                background: '#fff8e6',
+                verticalAlign: 'middle',
+                wordBreak: 'break-word',
+                whiteSpace: 'normal',
+                textAlign: 'left',
+              }}>
+                  Notes
+                </th>
+              
+              </tr>
+            </thead>
+            <tbody>
+              {alertsWarrantiesExp.map((lease: any, rowIndex: number) => (
+                <tr key={rowIndex}>
+                  <td
+                    style={{
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {lease.length}
+                  </td>
+                  <td
+                    style={{
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {lease.expirationDate}
+                  </td>
+                  <td
+                    style={{
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {lease.notes}
+                  </td>
+                
+                </tr>
+              ))}
+            </tbody>
         </Table>
       </Box>
 

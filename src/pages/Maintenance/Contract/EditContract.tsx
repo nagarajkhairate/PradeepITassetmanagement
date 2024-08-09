@@ -17,23 +17,39 @@ import {
   import { RootState } from '../../../redux/store'
   import { useDispatch, useSelector } from 'react-redux'
   import { fetchContractDatabase } from '../../../redux/features/ContractDatabaseSlice'
-import { addAlertsAddContract, fetchAlertsAddContract } from '../../../redux/features/AlertsAddContractSlice'
+import { addAlertsAddContract, fetchAlertsAddContract, updateAlertsAddContract } from '../../../redux/features/AlertsAddContractSlice'
 import AppForm from '../../../components/Common/AppForm'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
   
   export const EditContract: React.FC = () => {
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
     const navigate=useNavigate()
     const [formData, setFormData] = useState<any>({})
+    const { contractId } = useParams<{ contractId: string }>();
     const contractDatabase = useSelector(
       (state: RootState) => state.contractDatabase.data,
+    )
+
+    const alertsAddContract = useSelector(
+      (state: RootState) => state.alertsAddContract.data,
     )
   
     useEffect(() => {
       dispatch(fetchContractDatabase())
     }, [dispatch])
 
+    useEffect(() => {
+      dispatch(fetchAlertsAddContract())
+    }, [dispatch])
 
+    useEffect(() => {
+      if (alertsAddContract.length > 0 && contractId) {
+        const existingContract = alertsAddContract.find((contract) => contract.id === contractId);
+        if (existingContract) {
+          setFormData(existingContract);
+        }
+      }
+    }, [alertsAddContract, contractId]);
   
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setFormData({ ...formData, [event.target.name]: event.target.value })
@@ -69,12 +85,29 @@ import { useNavigate } from 'react-router-dom'
       };
   
       const renderWithAsterisk = (component: React.ReactNode, fieldName: string) => (
-        <FormControl>
-          <FormLabel>
+        <Box sx={{ marginBottom: 3 }}>
+        <FormControl
+        sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          alignItems: 'center', // Vertically center-align label and component
+          // gap:3,
+          width: '100%',
+          }}
+        >
+          <FormLabel
+          sx={{
+            minWidth: {md:'150px', xs:'90px'}, // Ensure consistent width for labels
+            textAlign: 'left', 
+            wordBreak:'break-word',
+            whiteSpace:'normal'
+          }}
+          >
             {fieldName} <span style={{ color: 'red' }}>*</span>
           </FormLabel>
           {component}
         </FormControl>
+        </Box>
       );
   
       switch (commonProps.field.components.type) {
@@ -90,7 +123,7 @@ import { useNavigate } from 'react-router-dom'
               onChange={commonProps.handleChange}
               sx={{
                 padding: '10px',  
-                width: "300px",
+                width: {md:"300px", xs:'270px'},
               }}
             />,
             commonProps.field.fieldName
@@ -129,18 +162,19 @@ import { useNavigate } from 'react-router-dom'
           return null;
       }
     };
+
   
     const handleSubmit = (event: React.FormEvent) => {
       event.preventDefault();
       // Add your form submission logic here
       console.log("Form submitted:", formData);
-      dispatch(addAlertsAddContract(formData))
+      dispatch(updateAlertsAddContract({ ...formData, id: contractId }))
       navigate('/alerts/contracts-expiring', { state: { selectedColumns: Object.keys(formData) } })
     };
   
     return (
       <AppView>
-        <Typography level="h3">Add a Contract / Software License</Typography>
+        <Typography level="h3">Edit a Contract / Software License</Typography>
   
         <Box
           sx={{
@@ -178,7 +212,7 @@ import { useNavigate } from 'react-router-dom'
                   mt: 0,
                 }}
               >
-                Add a Contract / Software License
+                Edit a Contract / Software License
               </Typography>
   
               <Typography
@@ -197,25 +231,16 @@ import { useNavigate } from 'react-router-dom'
                 padding: '5px',
                 display: 'flex',
                 flexDirection: 'column',
+                alignItems: 'center', 
+                textAlign: 'center', 
+                
               }}
             >
               <AppForm onSubmit={handleSubmit}>
-                <Grid container alignItems="center">
+                <Box >
                   {contractDatabase.map((field, index) => (
-                    <React.Fragment key={index}>
-                      <Grid xs={12}>
-                        <Typography
-                          sx={{
-                            fontWeight: 'bold',
-                            mb: '10px',
-                            mt: '10px',
-                            paddingLeft: '10px',
-                          }}
-                        >
-                          {/* {field.fieldName} */}
-                        </Typography>
-                      </Grid>
-                      <Grid xs={12}>
+                      <Box key={index}>
+
                         {handleInputValue(
                           field,
                           formData,
@@ -223,8 +248,7 @@ import { useNavigate } from 'react-router-dom'
                           handleSelectChange,
                           handleRadioChange
                         )}
-                      </Grid>
-                    </React.Fragment>
+                      </Box>
                   ))}
   
                   <Divider sx={{ mt: 3 }} />
@@ -234,7 +258,7 @@ import { useNavigate } from 'react-router-dom'
                       display: 'flex',
                       alignItems: 'center',
                       flexDirection: { md: 'row' },
-                      justifyContent: { xs: 'space-between', md: 'flex-end' },
+                      justifyContent: { xs: 'space-between', md: 'space-between' },
                       gap: '5px',
                       mt: 4,
                       flexWrap: 'wrap',
@@ -251,9 +275,10 @@ import { useNavigate } from 'react-router-dom'
                         color: 'white',
                         // marginLeft: '50px',
                       }}
-                      onClick={() => navigate('/alerts/contracts-expiring/view-contract')}
+                      // onClick={() => navigate('/alerts/contracts-expiring/view-contract')}
                     >
                       Cancel
+
                     </Button>
                     <Button
                       autoFocus
@@ -266,12 +291,12 @@ import { useNavigate } from 'react-router-dom'
                         // marginTop: '25px',
                         // marginLeft: '40%',
                       }}
-                      onClick={() => navigate('/alerts/contracts-expiring/view-contract')}
+                      // onClick={() => navigate('/alerts/contracts-expiring')}
                     >
                       Submit
                     </Button>
                   </Box>
-                </Grid>
+                </Box>
               </AppForm>
             </Box>
           </Box>
