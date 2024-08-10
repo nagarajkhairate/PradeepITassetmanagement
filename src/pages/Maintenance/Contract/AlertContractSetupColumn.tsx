@@ -14,26 +14,25 @@ const AlertContractSetupColumn: React.FC = () => {
   const contractDatabase = useSelector((state: RootState) => state.contractDatabase.data);
   const navigate = useNavigate();
 
-  const [selectedColumns, setSelectedColumns] = useState<number[]>(() => {
-    const savedColumns = localStorage.getItem('selectedColumns');
-    return savedColumns ? JSON.parse(savedColumns) : [];
-  });
+  const [selectedColumns, setSelectedColumns] = useState<number[]>([])
+
   const [filteredColumns, setFilteredColumns] = useState<{ id: number, fieldName: string, isTable: boolean }[]>([]);
 
   const handleCheckboxChange = (id: number) => {
     setSelectedColumns((prevSelectedColumns) => {
+
       const newSelectedColumns = prevSelectedColumns.includes(id)
         ? prevSelectedColumns.filter((col) => col !== id)
         : [...prevSelectedColumns, id];
 
-      localStorage.setItem('selectedColumns', JSON.stringify(newSelectedColumns));
+      // localStorage.setItem('selectedColumns', JSON.stringify(newSelectedColumns));
       return newSelectedColumns;
     });
   };
 
   useEffect(() => {
     if (contractDatabase.length > 0) {
-      setFilteredColumns(contractDatabase[0]);
+      setSelectedColumns(contractDatabase);
     }
   }, [contractDatabase]);
 

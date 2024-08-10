@@ -22,7 +22,7 @@ const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
  
 export const fetchAlertsMaintenanceDue = createAsyncThunk('alertsMaintenanceDue/fetchAlertsMaintenanceDue', async () => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/maintenance-alert`);
     return response.data;
    
   } catch (error) {
@@ -36,7 +36,7 @@ export const fetchAlertsMaintenanceDue = createAsyncThunk('alertsMaintenanceDue/
 
 export const fetchAlertsMaintenancedueById = createAsyncThunk('alertsMaintenanceDue/fetchAlertsMaintenancedueById', async (id: string ) => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/maintenance-alert/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -46,20 +46,20 @@ export const fetchAlertsMaintenancedueById = createAsyncThunk('alertsMaintenance
 });
  
 export const addAlertsMaintenanceDue = createAsyncThunk('alertsMaintenanceDue/addAlertsMaintenanceDue', async (alertsMaintenanceDue: any) => {
- const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset`, alertsMaintenanceDue);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/maintenance-alert`, alertsMaintenanceDue);
  console.log(response)
   return response.data;
 });
  
 export const updateAlertsMaintenanceDue = createAsyncThunk('alertsMaintenanceDue/updateAlertsMaintenanceDue', async (updatedAlertsMaintenanceDue: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset/${updatedAlertsMaintenanceDue.id}`, updatedAlertsMaintenanceDue);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/maintenance-alert/${updatedAlertsMaintenanceDue.id}`, updatedAlertsMaintenanceDue);
   
   return response.data;
 });
  
 export const deleteAlertsMaintenanceDue = createAsyncThunk('alertsMaintenanceDue/deleteAlertsMaintenanceDue', async (id: number) => {
-  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/maintenance-alert/${id}`);
   return id;
 });
 

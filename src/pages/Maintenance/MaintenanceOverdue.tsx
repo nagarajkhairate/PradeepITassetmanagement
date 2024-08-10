@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Button,
@@ -13,14 +13,41 @@ import Table from "@mui/joy/Table";
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import AppView from "../../components/Common/AppView";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { RootState } from "../../redux/store";
+import { fetchAlertsMaintenanceOverDue } from "../../redux/features/AlertsMaintenanceOverDueSlice";
 
 
 export const MaintenanceOverdue: React.FC = () => {
+
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const alertsMaintenanceOverDue = useSelector((state: RootState) => state.alertsMaintenanceOverDue.data)
+
+  useEffect(() => {
+    dispatch(fetchAlertsMaintenanceOverDue())
+  }, [dispatch])
+
+
   return (
     <AppView>
           
           <Typography level="h4"> Maintenance OverDue</Typography>
 
+          <Box
+        sx={{
+          borderRadius: '10px',
+          boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+          background: '#FFF',
+          flexGrow: 1,
+
+          marginTop: { xs: '10px', sm: '22px' },
+          height: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          p: 1,
+        }}
+      >
 
         <Box
           sx={{
@@ -28,12 +55,12 @@ export const MaintenanceOverdue: React.FC = () => {
             alignItems: "center",
             flexDirection: { md: "row", xs: "column" },
             // gap:{md:"100px",xs:"5px"}
-            justifyContent: { xs: 'center', md: 'space-between' },
+            justifyContent: { xs: 'center', md: 'flex-end' },
           gap: '5px',
           }}
         >
          
-          <Button
+          {/* <Button
             type="button"
             variant="solid"
             autoFocus
@@ -46,7 +73,7 @@ export const MaintenanceOverdue: React.FC = () => {
             <SettingsOutlinedIcon />
             Search Criteria
           </Button>
-          
+           */}
 
           <Box 
             sx={{
@@ -59,7 +86,7 @@ export const MaintenanceOverdue: React.FC = () => {
                 sx={{
                   background: "#388e3c",
                   color: "white",
-                  borderRadius: "15px",
+                  borderRadius: "10px",
                 }}
                
               >
@@ -73,7 +100,7 @@ export const MaintenanceOverdue: React.FC = () => {
                 sx={{
                   background: "#2196f3",
                   color: "white",
-                  borderRadius: "15px",
+                  borderRadius: "10px",
                   whiteSpace: "nowrap",
                  
                 }}
@@ -89,7 +116,7 @@ export const MaintenanceOverdue: React.FC = () => {
                 sx={{
                   background: "black",
                   color: "white",
-                  borderRadius: "15px"
+                  borderRadius: "10px"
                 }}
                 >
                 <SettingsOutlinedIcon />
@@ -99,9 +126,6 @@ export const MaintenanceOverdue: React.FC = () => {
         </Box>
 
 
-
-
-        
         <Box 
         sx={{
            gap:{md:"50px",xs:"3px"},
@@ -121,7 +145,7 @@ export const MaintenanceOverdue: React.FC = () => {
          justifyContent: 'space-between',
           }}
           >
-            <Select
+            {/* <Select
               placeholder="Maintenance Overdue"
               indicator={<KeyboardArrowDown />}
               sx={{
@@ -140,11 +164,11 @@ export const MaintenanceOverdue: React.FC = () => {
               <Option value="term2">Term 2</Option>
               <Option value="term3">Term 3</Option>
               <Option value="term4">Term 4</Option>
-            </Select>
+            </Select> */}
           
 
           
-            <Select
+            {/* <Select
               placeholder="10"
               indicator={<KeyboardArrowDown />}
               sx={{
@@ -163,7 +187,7 @@ export const MaintenanceOverdue: React.FC = () => {
               <Option value="10">10</Option>
               <Option value="15">15</Option>
               <Option value="20">20</Option>
-            </Select>
+            </Select> */}
           </Box>  
            
         <Typography
@@ -178,27 +202,166 @@ export const MaintenanceOverdue: React.FC = () => {
             </Typography>
         </Box>
 
-        <Box>
-          <Table hoverRow>
-            <thead style={{background:"#959595"}}>
+        <Box
+          sx={{
+            overflowX: 'auto',
+            fontSize: '14px',
+            whiteSpace: 'nowrap',
+            borderRadius: '5px',
+            mt: 2,
+          }}
+        >
+          <Table
+            borderAxis="both"
+            aria-label="basic table"
+            style={{
+              borderCollapse: 'collapse',
+              border: '1px solid grey',
+              minWidth: '500px',
+              borderRadius: '5px',
+            }}
+          >
+            <thead>
               <tr>
-                <th style={{ width: "10%" }}>Status</th>
-                <th>Expires</th>
-                <th>Asset Tag Id</th>
-                <th>Description</th>
-                <th>Title</th>
-                <th>Maintenance Details</th>
-                <th>Action</th>
+                <th style={{
+                background: '#fff8e6',
+                verticalAlign: 'middle',
+                wordBreak: 'break-word',
+                whiteSpace: 'normal',
+                textAlign: 'left',
+              }}>
+                  Maintenance Title
+                </th>
+                <th style={{
+                background: '#fff8e6',
+                verticalAlign: 'middle',
+                wordBreak: 'break-word',
+                whiteSpace: 'normal',
+                textAlign: 'left',
+              }}>
+                  Maintenance Detail
+                </th>
+                <th style={{
+                background: '#fff8e6',
+                verticalAlign: 'middle',
+                wordBreak: 'break-word',
+                whiteSpace: 'normal',
+                textAlign: 'left',
+              }}>
+                  Maintenance Due Date
+                </th>
+                <th style={{
+                background: '#fff8e6',
+                verticalAlign: 'middle',
+                wordBreak: 'break-word',
+                whiteSpace: 'normal',
+                textAlign: 'left',
+              }}>
+                  Maintenance By
+                </th>
+                <th style={{
+                background: '#fff8e6',
+                verticalAlign: 'middle',
+                wordBreak: 'break-word',
+                whiteSpace: 'normal',
+                textAlign: 'left',
+              }}>
+              Maintenance Status
+                </th>
+                <th style={{
+                background: '#fff8e6',
+                verticalAlign: 'middle',
+                wordBreak: 'break-word',
+                whiteSpace: 'normal',
+                textAlign: 'left',
+              }}>
+                  Date Completed
+                </th>
+
+                <th style={{
+                background: '#fff8e6',
+                verticalAlign: 'middle',
+                wordBreak: 'break-word',
+                whiteSpace: 'normal',
+                textAlign: 'left',
+              }}>
+                  Maintenance Cost
+                </th>
               </tr>
             </thead>
+            <tbody>
+              {alertsMaintenanceOverDue.map((lease: any, rowIndex: number) => (
+                <tr key={rowIndex}>
+                  <td
+                    style={{
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                      textAlign: 'left',
+                    }}
+                  >
+                  
+                    {lease.maintenanceTitle}
+                  </td>
+                  <td
+                    style={{
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {lease.maintenanceDetails}
+                  </td>
+                  <td
+                    style={{
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {lease.maintenanceDueDate}
+                  </td>
+                  <td
+                    style={{
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {lease.maintenanceBy}
+                  </td>
+                  <td
+                    style={{
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {lease.maintenanceStatus}
+                  </td>
+                  <td
+                    style={{
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {lease.dateCompleted}
+                  </td>
+                  <td
+                    style={{
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {lease.maintenanceCost}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
           </Table>
         </Box>
-
-        <Box>
-          <Image />
-        </Box>
-      {/* </Box>
-      </Box> */}
+</Box>
 
     </AppView>
   );

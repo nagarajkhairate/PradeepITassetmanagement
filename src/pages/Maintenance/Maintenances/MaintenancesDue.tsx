@@ -13,18 +13,24 @@ import { fetchMaintenanceDatabase } from '../../../redux/features/MaintenanceDat
 import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
+import { fetchAlertsMaintenanceDue } from '../../../redux/features/AlertsMaintenanceDueSlice'
 
 export const MaintenancesDue: React.FC = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const maintenanceDatabase = useSelector(
     (state: RootState) => state.maintenanceDatabase.data,
   )
+  const alertsMaintenanceDue = useSelector((state: RootState) => state.alertsMaintenanceDue.data,)
   const location = useLocation()
   const [selectedColumns, setSelectedColumns] = useState<string[]>([])
   const [formData, setFormData] = useState<any>()
 
   useEffect(() => {
     dispatch(fetchMaintenanceDatabase())
+  }, [dispatch])
+
+  useEffect(() => {
+    dispatch(fetchAlertsMaintenanceDue())
   }, [dispatch])
 
   useEffect(() => {
@@ -38,7 +44,7 @@ export const MaintenancesDue: React.FC = () => {
 
       <Box
         sx={{
-          borderRadius: '10x',
+          borderRadius: '10px',
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#FFF',
           flexGrow: 1,
@@ -55,11 +61,11 @@ export const MaintenancesDue: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             flexDirection: { md: 'row', xs: 'column' },
-            justifyContent: { xs: 'center', md: 'space-between' },
+            justifyContent: { xs: 'center', md: 'flex-end' },
             gap: '5px',
           }}
         >
-          <Button
+          {/* <Button
             type="button"
             variant="solid"
             autoFocus
@@ -71,7 +77,7 @@ export const MaintenancesDue: React.FC = () => {
           >
             <SettingsOutlinedIcon />
             Search Criteria
-          </Button>
+          </Button> */}
 
           <Box
             sx={{
@@ -86,7 +92,7 @@ export const MaintenancesDue: React.FC = () => {
               sx={{
                 background: '#388e3c',
                 color: 'white',
-                borderRadius: '15px',
+                borderRadius: '10px',
               }}
             >
               <CloudUploadOutlinedIcon />
@@ -102,7 +108,7 @@ export const MaintenancesDue: React.FC = () => {
                 sx={{
                   background: '#2196f3',
                   color: 'white',
-                  borderRadius: '15px',
+                  borderRadius: '10px',
                   whiteSpace: 'nowrap',
                 }}
               >
@@ -116,17 +122,17 @@ export const MaintenancesDue: React.FC = () => {
               style={{ textDecoration: 'none' }}
             >
               <Button
-                type="button"
+               
                 variant="solid"
                 autoFocus
                 sx={{
                   background: 'black',
                   color: 'white',
-                  borderRadius: '15px',
+                  borderRadius: '10px',
                 }}
               >
                 <SettingsOutlinedIcon />
-                Setup Column
+                Setup Column Table
               </Button>
             </Link>
           </Box>
@@ -162,7 +168,7 @@ export const MaintenancesDue: React.FC = () => {
                   },
                 },
 
-                borderRadius: '15px',
+                borderRadius: '10px',
               }}
             >
               <Option value="term 1">term 1</Option>
@@ -228,68 +234,165 @@ export const MaintenancesDue: React.FC = () => {
               borderRadius: '5px',
             }}
           >
-            <thead style={{ background: '#959595' }}>
-              {/* <tr>
-            {
-                // selectedColumns.length > 0 &&
-                  selectedColumns.map((column, index) => (
-                    <th
-                      key={index}
-                      style={{
-                        background: '#fff8e6',
-                        verticalAlign: 'middle',
-                        wordBreak: 'break-word',
-                        whiteSpace: 'normal',
-                        textAlign: 'left',
-                      }}
-                    >
-                      {column}
-                    </th>
-                  ))}
-                  <th
-                   style={{
-                    background: '#fff8e6',
-                    verticalAlign: 'middle',
-                    wordBreak: 'break-word',
-                    whiteSpace: 'normal',
-                    textAlign: 'left',
-                  }}
-                  >
-                    Action
-                  </th>
-                  </tr> */}
-
+           <thead>
               <tr>
-                {maintenanceDatabase &&
-                  maintenanceDatabase
-                    .filter((field: any) => field.isTable)
-                    .map((column: any, index: number) => (
-                      <th
-                        key={index}
-                        style={{
-                          background: '#fff8e6',
-                          verticalAlign: 'middle',
-                          wordBreak: 'break-word',
-                          whiteSpace: 'normal',
-                          textAlign: 'left',
-                        }}
-                      >
-                        {column.fieldName}
-                      </th>
-                    ))}
-                <th
-                  style={{
-                    background: '#fff8e6',
-                    verticalAlign: 'middle',
-                    wordBreak: 'break-word',
-                    whiteSpace: 'normal',
-                    textAlign: 'left',
-                  }}
-                >
-                  Action
+                <th style={{
+                background: '#fff8e6',
+                verticalAlign: 'middle',
+                wordBreak: 'break-word',
+                whiteSpace: 'normal',
+                textAlign: 'left',
+              }}>
+                  Asset ID
+                </th>
+                <th style={{
+                background: '#fff8e6',
+                verticalAlign: 'middle',
+                wordBreak: 'break-word',
+                whiteSpace: 'normal',
+                textAlign: 'left',
+              }}>
+                  Maintenance Title
+                </th>
+                <th style={{
+                background: '#fff8e6',
+                verticalAlign: 'middle',
+                wordBreak: 'break-word',
+                whiteSpace: 'normal',
+                textAlign: 'left',
+              }}>
+                  Maintenance Details
+                </th>
+                <th style={{
+                background: '#fff8e6',
+                verticalAlign: 'middle',
+                wordBreak: 'break-word',
+                whiteSpace: 'normal',
+                textAlign: 'left',
+              }}>
+                Maintenance DueDate
+                </th>
+                <th style={{
+                background: '#fff8e6',
+                verticalAlign: 'middle',
+                wordBreak: 'break-word',
+                whiteSpace: 'normal',
+                textAlign: 'left',
+              }}>
+                  Maintenance By
+                </th>
+                <th style={{
+                background: '#fff8e6',
+                verticalAlign: 'middle',
+                wordBreak: 'break-word',
+                whiteSpace: 'normal',
+                textAlign: 'left',
+              }}>
+                 Maintenance Status
+                </th>
+                <th style={{
+                background: '#fff8e6',
+                verticalAlign: 'middle',
+                wordBreak: 'break-word',
+                whiteSpace: 'normal',
+                textAlign: 'left',
+              }}>
+                 Date Completed
+                </th>
+                <th style={{
+                background: '#fff8e6',
+                verticalAlign: 'middle',
+                wordBreak: 'break-word',
+                whiteSpace: 'normal',
+                textAlign: 'left',
+              }}>
+                 Maintenance Cost
                 </th>
               </tr>
             </thead>
+            <tbody>
+              {alertsMaintenanceDue.map((lease: any, rowIndex: number) => (
+                <tr key={rowIndex}>
+                  <td
+                    style={{
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                      textAlign: 'left',
+                    }}
+                  >
+                    <Link
+                      to={`/assets/view-an-asset/${lease.assetId}`}
+                      style={{ color: 'inherit' }}
+                    >
+                    {lease.assetId}
+                    </Link>
+                  </td>
+                  <td
+                    style={{
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {lease.maintenanceTitle}
+                  </td>
+                  <td
+                    style={{
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {lease.maintenanceDetails}
+                  </td>
+                  <td
+                    style={{
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {lease.maintenanceDueDate}
+                  </td>
+                  <td
+                    style={{
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {lease.maintenanceBy}
+                  </td>
+                  <td
+                    style={{
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {lease.maintenanceStatus}
+                  </td>
+                  <td
+                    style={{
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {lease.dateCompleted}
+                  </td>
+                  <td
+                    style={{
+                      wordBreak: 'break-word',
+                      whiteSpace: 'normal',
+                      textAlign: 'left',
+                    }}
+                  >
+                    {lease.maintenanceCost}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
           </Table>
         </Box>
         {/* 

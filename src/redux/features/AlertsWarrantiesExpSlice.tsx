@@ -22,7 +22,7 @@ const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
  
 export const fetchAlertsWarrantiesExp = createAsyncThunk('alertsWarrantiesExp/fetchAlertsWarrantiesExp', async () => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/warranty-alert`);
     return response.data;
    
   } catch (error) {
@@ -36,7 +36,7 @@ export const fetchAlertsWarrantiesExp = createAsyncThunk('alertsWarrantiesExp/fe
 
 export const fetchAlertsWarrantiesExpById = createAsyncThunk('alertsWarrantiesExp/fetchAlertsWarrantiesExpById', async (id: string ) => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/warranty-alert/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -46,20 +46,20 @@ export const fetchAlertsWarrantiesExpById = createAsyncThunk('alertsWarrantiesEx
 });
  
 export const addAlertsWarrantiessExp = createAsyncThunk('alertsWarrantiesExp/addAlertsWarrantiessExp', async (alertsWarrantiesExp: any) => {
- const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset`, alertsWarrantiesExp);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/warranty-alert`, alertsWarrantiesExp);
  console.log(response)
   return response.data;
 });
  
 export const updateAlertsWarrantiesExp = createAsyncThunk('alertsWarrantiesExp/updateAlertsWarrantiesExp', async (updatedAlertsWarrantiesExp: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset/${updatedAlertsWarrantiesExp.id}`, updatedAlertsWarrantiesExp);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/warranty-alert/${updatedAlertsWarrantiesExp.id}`, updatedAlertsWarrantiesExp);
   
   return response.data;
 });
  
 export const deleteAlertsWarrantiesExp = createAsyncThunk('alertsWarrantiesExp/deleteAlertsWarrantiesExp', async (id: number) => {
-  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/warranty-alert/${id}`);
   return id;
 });
 

@@ -175,6 +175,7 @@ const MaintenancesSetupColumn: React.FC = () => {
                       }}
                       onClick={() => navigate('/alerts/maintenances-due')}
                     >
+                      
                       Cancel
                     </Button>
           <Button onClick={handleSave}

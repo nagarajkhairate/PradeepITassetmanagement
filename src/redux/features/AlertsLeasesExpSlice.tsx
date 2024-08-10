@@ -22,7 +22,7 @@ const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;
  
 export const fetchAlertsLeasesExp = createAsyncThunk('alertsLeasesExp/fetchAlertsLeasesExp', async () => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/lease-alert`);
     return response.data;
    
   } catch (error) {
@@ -36,7 +36,7 @@ export const fetchAlertsLeasesExp = createAsyncThunk('alertsLeasesExp/fetchAlert
 
 export const fetchAlertsLeasesExpById = createAsyncThunk('alertsLeasesExp/fetchAlertsLeasesExpById', async (id: string ) => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/lease-alert/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -46,20 +46,20 @@ export const fetchAlertsLeasesExpById = createAsyncThunk('alertsLeasesExp/fetchA
 });
  
 export const addAlertsLeasesExp = createAsyncThunk('alertsLeasesExp/addAlertsLeasesExp', async (alertsLeasesExp: any) => {
- const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset`, alertsLeasesExp);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/lease-alert`, alertsLeasesExp);
  console.log(response)
   return response.data;
 });
  
 export const updateAlertsLeasesExp = createAsyncThunk('alertsLeasesExp/updateAlertsLeasesExp', async (updatedAlertsLeasesExp: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset/${updatedAlertsLeasesExp.id}`, updatedAlertsLeasesExp);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/lease-alert/${updatedAlertsLeasesExp.id}`, updatedAlertsLeasesExp);
   
   return response.data;
 });
- 
+
 export const deleteAlertsLeasesExp = createAsyncThunk('alertsLeasesExp/deleteAlertsLeasesExp', async (id: number) => {
-  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/custom-asset/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/lease-alert/${id}`);
   return id;
 });
 
@@ -105,7 +105,7 @@ const alertsLeasesExpSlice = createSlice({
       });
   },
 });
- 
+
 export const { setSelectedCustomer } = alertsLeasesExpSlice.actions;
  
 export default alertsLeasesExpSlice.reducer;
