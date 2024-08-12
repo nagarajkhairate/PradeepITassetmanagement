@@ -40,7 +40,7 @@ export const MaintenancesDue: React.FC = () => {
   }, [location.state])
   return (
     <AppView>
-      <Typography level="h4">Maintenance</Typography>
+      <Typography level="h3">Maintenance</Typography>
 
       <Box
         sx={{
@@ -58,83 +58,85 @@ export const MaintenancesDue: React.FC = () => {
       >
         <Box
           sx={{
-            display: 'flex',
-            alignItems: 'center',
-            flexDirection: { md: 'row', xs: 'column' },
-            justifyContent: { xs: 'center', md: 'flex-end' },
-            gap: '5px',
+            display: "flex",
+            alignItems: "center",
+            flexDirection: { md: "row", xs: "column" },
+            // gap:{md:"100px",xs:"5px"}
+            justifyContent: { xs: 'center', md: 'space-between' },
+          gap: '5px',
           }}
         >
+          
+                  <Typography level="h4">List of Maitenances</Typography>
+         
           {/* <Button
             type="button"
             variant="solid"
             autoFocus
             sx={{
-              background: '#1CCAB8',
-              color: 'white',
-              borderRadius: '15px',
+              background: "#1CCAB8",
+              color: "white",
+              borderRadius: "15px"
             }}
-          >
+            >
             <SettingsOutlinedIcon />
             Search Criteria
-          </Button> */}
+          </Button>
+           */}
 
-          <Box
+          <Box 
             sx={{
               display: 'flex',
               flexDirection: { md: 'row', xs: 'column' },
-              gap: '5px',
-            }}
-          >
-            <Button
-              variant="solid"
-              autoFocus
-              sx={{
-                background: '#388e3c',
-                color: 'white',
-                borderRadius: '10px',
-              }}
-            >
-              <CloudUploadOutlinedIcon />
-              Export to Excel
-            </Button>
-            <Link
-              to="/alerts/maintenances-due/import-maintenance"
-              style={{ textDecoration: 'none' }}
-            >
+              gap:"5px" }}>
               <Button
                 variant="solid"
                 autoFocus
                 sx={{
-                  background: '#2196f3',
-                  color: 'white',
-                  borderRadius: '10px',
-                  whiteSpace: 'nowrap',
+                  background: "#388e3c",
+                  color: "white",
+                  borderRadius: "10px",
+                  '&:hover':{background:'#387e3c'},
+                }}
+               
+              >
+                 <CloudUploadOutlinedIcon />
+                Export to Excel
+              </Button>
+              <Link to='/alerts/maintenances-due/import-maintenance' style={{ textDecoration: 'none' }}>
+              <Button
+                variant="solid"
+                autoFocus
+                sx={{
+                  background: "#2196f3",
+                  color: "white",
+                  borderRadius: "10px",
+                  whiteSpace: "nowrap",
+                 
                 }}
               >
                 <CloudUploadOutlinedIcon />
-                Import Maintenance
+                Import Maintanence
               </Button>
-            </Link>
+              </Link>
 
-            <Link
-              to="/alerts/maintenances-due/maintenance-set-up-column"
-              style={{ textDecoration: 'none' }}
-            >
+              <Link to="/alerts/maintenances-due/maintenance-set-up-column" style={{ textDecoration: 'none' }}>
               <Button
-               
+                type="button"
                 variant="solid"
                 autoFocus
                 sx={{
-                  background: 'black',
-                  color: 'white',
-                  borderRadius: '10px',
+                  background: "black",
+                  color: "white",
+                  borderRadius: "10px",
+                  '&:hover':{background:'#424242'},
+                  width: { xs: '100%', md: 'auto' },
                 }}
-              >
+                >
                 <SettingsOutlinedIcon />
-                Setup Column Table
+                Setup Column
               </Button>
-            </Link>
+              </Link>
           </Box>
         </Box>
 

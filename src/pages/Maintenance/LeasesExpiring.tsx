@@ -50,6 +50,7 @@ export const LeasesExpiring: React.FC = () => {
               fontWeight: 500,
               textAlign: { xs: 'center', md: 'left' },
               display: 'flex',
+              '&:hover':{background:'#388e5f'},
             }}
           >
             Report
@@ -64,7 +65,7 @@ export const LeasesExpiring: React.FC = () => {
               whiteSpace: 'nowrap',
             }}
           >
-            Checkout by Past Due
+            Report Lease Assets
           </Typography>
         </Box>
         <Box
@@ -81,24 +82,26 @@ export const LeasesExpiring: React.FC = () => {
               background: '#388e3c',
               color: 'white',
               borderRadius: '10px',
+              '&:hover':{background:'#387e3c'},
             }}
             component="label"
           >
             <EmailOutlinedIcon />
             Automated Report
           </Button>
-          {/* <Button
+          <Button
             type="button"
             variant="solid"
             sx={{
               background: 'black',
               color: 'white',
-              borderRadius: '15px',
+              borderRadius: '10px',
+              '&:hover':{background:'#424242'},
             }}
           >
             <SettingsOutlinedIcon />
-            SetUp
-          </Button> */}
+            SetUp column
+          </Button>
         </Box>
       </Box>
 
@@ -122,19 +125,19 @@ export const LeasesExpiring: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             flexDirection: { md: 'row', xs: 'column' },
-            justifyContent: 'space-between',
-            mt: 1,
+            justifyContent: 'flex-end',
+
           }}
         >
-          <Box
+          {/* <Box
             sx={{
               display: 'flex',
               alignItems: 'center',
               flexDirection: { xs: 'column', md: 'row' },
-              gap: 2,
+          
             }}
-          >
-            <Typography
+          > */}
+            {/* <Typography
               sx={{
                 fontSize: '20px',
                 fontWeight: 500,
@@ -144,7 +147,7 @@ export const LeasesExpiring: React.FC = () => {
               }}
             >
               Report Type:
-            </Typography>
+            </Typography> */}
 
             {/* <Select
               placeholder="Current Status"
@@ -182,7 +185,7 @@ export const LeasesExpiring: React.FC = () => {
               <Option value="15">15</Option>
               <Option value="20">20</Option>
             </Select> */}
-          </Box>
+          {/* </Box> */}
 
           <Box
             sx={{
@@ -198,6 +201,7 @@ export const LeasesExpiring: React.FC = () => {
                 background: '#388e3c',
                 color: 'white',
                 borderRadius: '10px',
+                '&:hover':{background:'#387e3c'},
               }}
               component="label"
             >
@@ -211,6 +215,7 @@ export const LeasesExpiring: React.FC = () => {
                 '&:hover':{background:'#424242'},
                 color: 'white',
                 borderRadius: '10px',
+
               }}
               component="label"
               onClick={()=>window.print()}

@@ -32,7 +32,7 @@ export const MaintenanceOverdue: React.FC = () => {
   return (
     <AppView>
           
-          <Typography level="h4"> Maintenance OverDue</Typography>
+          <Typography level="h3"> Maintenance OverDue</Typography>
 
           <Box
         sx={{
@@ -48,17 +48,18 @@ export const MaintenanceOverdue: React.FC = () => {
           p: 1,
         }}
       >
-
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
             flexDirection: { md: "row", xs: "column" },
             // gap:{md:"100px",xs:"5px"}
-            justifyContent: { xs: 'center', md: 'flex-end' },
+            justifyContent: { xs: 'center', md: 'space-between' },
           gap: '5px',
           }}
         >
+          
+                  <Typography level="h4">List of Maitenances</Typography>
          
           {/* <Button
             type="button"
@@ -87,6 +88,7 @@ export const MaintenanceOverdue: React.FC = () => {
                   background: "#388e3c",
                   color: "white",
                   borderRadius: "10px",
+                  '&:hover':{background:'#387e3c'},
                 }}
                
               >
@@ -116,7 +118,8 @@ export const MaintenanceOverdue: React.FC = () => {
                 sx={{
                   background: "black",
                   color: "white",
-                  borderRadius: "10px"
+                  borderRadius: "10px",
+                  '&:hover':{background:'#424242'},
                 }}
                 >
                 <SettingsOutlinedIcon />
