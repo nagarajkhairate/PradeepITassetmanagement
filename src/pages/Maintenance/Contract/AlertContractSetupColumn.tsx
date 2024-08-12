@@ -115,14 +115,20 @@ const AlertContractSetupColumn: React.FC = () => {
           <Box
             sx={{
               display: 'flex',
-              flexDirection: { xs: 'column', md: 'row' },
-              gap: 3,
+              flexDirection: { xs: 'column', md: 'column' },
+              gap: 1,
               overflowX: 'auto',
             }}
           >
             {contractDatabase && contractDatabase.map((column) => (
-              <Box key={column.id} sx={{ flex: 1, p: 1 }}>
-                <Typography>
+              <Box key={column.id} sx={{ flex: 1, p: 1,  }}>
+                <Typography
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center', 
+                  gap: 1, 
+                }}
+                >
                   <Checkbox
                     checked={selectedColumns.includes(column.id)}
                     onChange={() => handleCheckboxChange(column.id)}

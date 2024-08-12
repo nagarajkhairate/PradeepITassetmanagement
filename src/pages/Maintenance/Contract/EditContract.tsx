@@ -52,7 +52,32 @@ import { useNavigate, useParams } from 'react-router-dom'
     }, [alertsAddContract, contractId]);
   
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setFormData({ ...formData, [event.target.name]: event.target.value })
+      const {name, value }= event.target;
+      if((name === 'cost' || name === 'noofLicenses') && ! /^\d*\.?\d*$/.test(value)){
+        return;
+      }
+  
+      if(name === 'phone'){
+        const phoneRegex = /^[1-9]*$/;
+        if(!phoneRegex.test(value)){
+          return;
+        }
+      }
+  
+      if((name === 'description' || name === 'contractTitle' || name === 'vendor' || name === 'contractPerson' )){
+        const stringRegex = /^[a-zA-Z\s]*$/;
+        if(!stringRegex.test(value)){
+          return;
+        }
+      }
+      if (name === 'hyperlink') {
+        const urlRegex = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d+)?(\/[^\s]*)?$/;
+        if (!urlRegex.test(value)) {
+          return; // Prevent input if it doesn't match the regex
+        }
+      }
+  
+      setFormData({ ...formData, [name]:value })  
     }
   
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {

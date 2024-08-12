@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, Fragment } from 'react';
+import React, { useState, FormEvent, Fragment, useEffect } from 'react';
 import AppForm from '../../../components/Common/AppForm';
 import AppButton from '../../../components/Common/AppButton';
 import GroupIcon from '@mui/icons-material/Group';
@@ -6,10 +6,24 @@ import { Box, Button, Typography } from '@mui/joy';
 import { DummyData, FormData } from './Data';
 import AssetDragDrop from './DragDrop/AssetDragDrop';
 import AddCategory from '../../../components/Category/AddCategory';
+import { ThunkDispatch } from 'redux-thunk';
+import { RootState } from '../../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAssetsDefaultFields } from '../../../redux/features/AssetSlice';
 
 const AssetForm: React.FC = () => {
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const assetsDefaultField = useSelector(
+    (state: RootState) => state.assetsDefaultField.data,
+  )
+
+  useEffect(() => {
+    dispatch(fetchAssetsDefaultFields())
+  }, [dispatch])
+
   const [open, setOpen] = useState<any>(false);
-  const [formData, setFormData] = useState<FormData[]>(DummyData);
+  const [formData, setFormData] = useState<FormData[]>([]);
+
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();

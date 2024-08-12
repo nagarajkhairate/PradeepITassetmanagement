@@ -481,71 +481,71 @@ const appRoutes: RouteType[] = [
           icon: <ICONS.person />,
         },
       },
-      // {
-      //   path: '/setup/customize',
-      //   element: <AssetForm />,
-      //   state: 'assetForm',
-      //   sidebarProps: {
-      //     displayText: 'Customize Form',
-      //     icon: <ICONS.resource />,
-      //   },
-      //   child: [
-      //     {
-      //       path: '/setup/customize/asset',
-      //       element: <AssetForm />,
-      //       state: 'assetForm',
-      //       sidebarProps: {
-      //         displayText: 'Asset Form',
-      //         icon: <ICONS.person />,
-      //       },
-      //     },
-      //     {
-      //       path: '/setup/customize/employee',
-      //       element: <PersonsEmployeesForm />,
-      //       state: 'customize-employee',
-      //       sidebarProps: {
-      //         displayText: 'Customize employee',
-      //         icon: <ICONS.person />,
-      //       },
-      //     },
-      //     {
-      //       path: '/setup/customize/contract',
-      //       element: <ContractForm />,
-      //       state: 'contractForm',
-      //       sidebarProps: {
-      //         displayText: 'Customize Contract',
-      //         icon: <ICONS.person />,
-      //       },
-      //     },
-      //     {
-      //       path: '/setup/customize/maintenance',
-      //       element: <MaintenanceForm />,
-      //       state: 'customizeMaintenance',
-      //       sidebarProps: {
-      //         displayText: 'Customize Maintenance',
-      //         icon: <ICONS.person />,
-      //       },
-      //     },
-      //     {
-      //       path: '/setup/customize/customer',
-      //       element: <CustomerForm />,
-      //       state: 'customizeCustomer',
-      //       sidebarProps: {
-      //         displayText: 'Customize customer',
-      //         icon: <ICONS.person />,
-      //       },
-      //     },
-      //     {
-      //       path: '/setup/customize-warranty',
-      //       element: <WarrantyForm />,
-      //       state: 'customizeCustomer',
-      //       sidebarProps: {
-      //         displayText: 'Customize warranty',
-      //         icon: <ICONS.person />,
-      //       },
-      //     },
-      //   ],
-      // },
+      {
+        path: '/setup/customize',
+        element: <AssetForm />,
+        state: 'assetForm',
+        sidebarProps: {
+          displayText: 'Customize Form',
+          icon: <ICONS.resource />,
+        },
+        child: [
+          {
+            path: '/setup/customize/asset',
+            element: <AssetForm />,
+            state: 'assetForm',
+            sidebarProps: {
+              displayText: 'Asset Form',
+              icon: <ICONS.person />,
+            },
+          },
+          {
+            path: '/setup/customize/employee',
+            element: <PersonsEmployeesForm />,
+            state: 'customize-employee',
+            sidebarProps: {
+              displayText: 'Customize employee',
+              icon: <ICONS.person />,
+            },
+          },
+          {
+            path: '/setup/customize/contract',
+            element: <ContractForm />,
+            state: 'contractForm',
+            sidebarProps: {
+              displayText: 'Customize Contract',
+              icon: <ICONS.person />,
+            },
+          },
+          {
+            path: '/setup/customize/maintenance',
+            element: <MaintenanceForm />,
+            state: 'customizeMaintenance',
+            sidebarProps: {
+              displayText: 'Customize Maintenance',
+              icon: <ICONS.person />,
+            },
+          },
+          {
+            path: '/setup/customize/customer',
+            element: <CustomerForm />,
+            state: 'customizeCustomer',
+            sidebarProps: {
+              displayText: 'Customize customer',
+              icon: <ICONS.person />,
+            },
+          },
+          {
+            path: '/setup/customize-warranty',
+            element: <WarrantyForm />,
+            state: 'customizeCustomer',
+            sidebarProps: {
+              displayText: 'Customize warranty',
+              icon: <ICONS.person />,
+            },
+          },
+        ],
+      },
     ],
   },
 ]

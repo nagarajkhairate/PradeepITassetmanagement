@@ -13,6 +13,7 @@ const initialState: AssetFieldMappingSliceState = {
   selectedCustomer: null,
   loading: false,
   error: null,
+  
 };
 
 const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;

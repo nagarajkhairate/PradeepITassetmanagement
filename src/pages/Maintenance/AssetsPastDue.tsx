@@ -14,7 +14,8 @@ import { Link } from 'react-router-dom'
 import * as XLSX from 'xlsx'
 import jsPDF from 'jspdf'
 import 'jspdf-autotable'
-import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined'
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
+import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlined'
 
 export const AssetsPastDue: React.FC = () => {
 
@@ -159,7 +160,7 @@ export const AssetsPastDue: React.FC = () => {
             sx={{
               background: '#388e3c',
               color: 'white',
-              marginRight: { xs: 1, md: 2 },
+              '&:hover':{background:'#387e3c'},
               borderRadius:'10px'
               // width: { xs: '100%', md: 'auto' },
             }}
@@ -169,19 +170,19 @@ export const AssetsPastDue: React.FC = () => {
             Automated Report
           </Button>
 
-          {/* <Button
+          <Button
             type="button"
             variant="solid"
             sx={{
               background: 'black',
               color: 'white',
-              borderRadius:'15px'
-              // width: { xs: '100%', md: 'auto' },
+              borderRadius:'10px',
+              '&:hover':{background:'#424242'}
             }}
           >
             <SettingsOutlinedIcon />
-            SetUp
-          </Button> */}
+            SetUp Column
+          </Button>
         </Box>
       </Box>
 
@@ -200,49 +201,54 @@ export const AssetsPastDue: React.FC = () => {
         }}
       >
       <Box
-        // sx={{ display: "flex", justifyContent: "center", mb: 4 }}
-        sx={{
-          //     width: "100%",
-          //     // marginRight:'10%',
-          display: 'flex',
-          justifyContent: { md: 'flex-end', xs: 'center' },
-          flexDirection: { md: 'row', xs: 'column' },
-          alignItems: 'center',
-          gap: '4px',
-          borderRadius:'10px'
-        }}
-      >
-        <Button
-          variant="solid"
           sx={{
-            background: '#388e3c',
-            color: 'white',
-            marginRight: { xs: 1, md: 2 },
-            borderRadius:'10px'
-            // width: { xs: '100%', md: 'auto' },
+            gap: 2,
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: { md: 'row', xs: 'column' },
+            justifyContent: 'flex-end',
+
           }}
-          component="label"
-          onClick={handleExportClick}
         >
-           <CloudUploadOutlinedIcon />
-          Export
-        </Button>
-        <Button
-          type="button"
-          variant="solid"
-          sx={{
-            background: 'black',
-            color: 'white',
-            gap:1,
-            borderRadius:'10px'
-            // width: { xs: '100%', md: 'auto' },
-          }}
-          onClick={() => window.print()}
-        >
-          <PrintOutlinedIcon />
-          Print
-        </Button>
-      </Box>
+
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', md: 'row' },
+              justifyContent: { xs: 'center', md: 'flex-end' },
+              gap: '5px',
+            }}
+          >
+            <Button
+              variant="solid"
+              sx={{
+                background: '#388e3c',
+                color: 'white',
+                borderRadius: '10px',
+                '&:hover':{background:'#387e3c'},
+              }}
+              component="label"
+            >
+              <FileUploadOutlinedIcon />
+              Export to Excel
+            </Button>
+            <Button
+              variant="solid"
+              sx={{
+                background: 'black',
+                '&:hover':{background:'#424242'},
+                color: 'white',
+                borderRadius: '10px',
+
+              }}
+              component="label"
+              onClick={()=>window.print()}
+            >
+              <LocalPrintshopOutlinedIcon />
+              Print
+            </Button>
+          </Box>
+        </Box>
 
       <Menu
         anchorEl={anchorEl}
