@@ -15,6 +15,7 @@ const MainLayout = () => {
       component="main"
       className="MainContent"
       sx={{
+        pt: 8,
         px: { xs: 1, md: 3 },
         pb: { xs: 2, sm: 2, md: 3 },
         flex: 1,

@@ -36,7 +36,7 @@ const Header = () => {
         },
         position: 'fixed',
         top: 0,
-        minWidth: { xs: '100dvw', sm: '100dvw', md: '78dvw', lg: '78dvw' },
+        minWidth:'100dvw',
         height: 'var(--Header-height)',
         zIndex: 1,
         p: 2,

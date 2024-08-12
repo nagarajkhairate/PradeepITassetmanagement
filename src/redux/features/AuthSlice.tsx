@@ -1,56 +1,74 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
- 
+
 interface AuthState {
-  data: any[];
-  selectedSites: any | null;
-  loading: boolean;
+  user: any;
+  token: string | null;
+  userId: string | null;
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
 }
+
 const initialState: AuthState = {
-  data: [],
-  selectedSites: null,
-  loading: false,
+  user: null,
+  token: localStorage.getItem('token'),
+  userId: localStorage.getItem('userId'),
+  status: 'idle',
   error: null,
 };
 
-const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
- 
-export const loginAccount = createAsyncThunk('tenant/login', async (account: any) => {
- const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/login`, account);
-  return response.data;
-});
- 
+// Async thunk for logging in
+export const loginUser = createAsyncThunk(
+  'auth/loginUser',
+  async (credentials: { email: string; password: string }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('/api/auth/login', credentials);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
-const AuthSlice = createSlice({
-  name: 'login',
+const authSlice = createSlice({
+  name: 'auth',
   initialState,
   reducers: {
-    setSelectedCustomer: (state, action: PayloadAction<number>) => {
-      const user = state.data.find((u) => u.id === action.payload);
-      state.selectedSites = user || null;
+    logout(state) {
+      state.user = null;
+      state.token = null;
+      state.userId = null;
+      localStorage.removeItem('token');
+      localStorage.removeItem('userId');
     },
+    setCredentials(state, action) {
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+      state.userId = action.payload.userId;
+      localStorage.setItem('token', action.payload.token);
+      localStorage.setItem('userId', action.payload.userId);
+    }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loginAccount.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+      .addCase(loginUser.pending, (state) => {
+        state.status = 'loading';
       })
-      .addCase(loginAccount.fulfilled, (state, action) => {
-        state.loading = false;
-        state.data = action.payload;
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+        state.userId = action.payload.userId;
+        localStorage.setItem('token', action.payload.token);
+        localStorage.setItem('userId', action.payload.userId);
       })
-      .addCase(loginAccount.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message || 'Failed to fetch client';
-      })
-      
-
-
+      .addCase(loginUser.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload as string;
+      });
   },
 });
- 
-export const { setSelectedCustomer } = AuthSlice.actions;
- 
-export default AuthSlice.reducer;
+
+export const { logout, setCredentials } = authSlice.actions;
+
+export default authSlice.reducer;
