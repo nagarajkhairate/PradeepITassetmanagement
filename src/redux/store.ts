@@ -14,7 +14,6 @@ import companyInfoReducer from './features/CompanyInfoSlice';
 import SitesReducer from './features/SitesSlice';
 import TableOptionsReducer from './features/TableOptionsSlice';
 import AuthReducer from './features/AuthSlice';
-import AccountReducer from './features/AccountSlice';
 import TabsReducer from './features/TabsSlice';
 import componentsReducer from "./features/ComponentsIdSlice";
 import AssetFieldMappingReducer from './features/AssetFieldMappingSlice';
@@ -45,6 +44,7 @@ import alertsMaintenanceOverDueReducer from './features/AlertsMaintenanceOverDue
 import alertsWarrantiesExpReducer from './features/AlertsWarrantiesExpSlice'
 import alertsAddContractReducer from './features/AlertsAddContractSlice'
 import alertsSetupReducer from './features/AlertsSetupSlice'
+import AuthSlice from "./features/AuthSlice";
 
 export const store = configureStore({
   reducer: {
@@ -64,7 +64,7 @@ export const store = configureStore({
     companyInfo: companyInfoReducer,
     tableOptions: TableOptionsReducer,
     login: AuthReducer,
-    tenant: AccountReducer,
+    auth: AuthSlice,
     tabs: TabsReducer,
     components: componentsReducer,
     assetMapping:AssetFieldMappingReducer,

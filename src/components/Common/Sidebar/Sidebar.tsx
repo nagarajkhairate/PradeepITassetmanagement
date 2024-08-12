@@ -16,8 +16,6 @@ const Sidebar = () => {
   const styleConfigs = useColorSelector()
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
   const companyInfo = useSelector((state: RootState) => state.companyInfo.data);
-  const logoImage =
-    'https://pradeepit.com/wp-content/uploads/2021/11/PradeepIT-Transparent-Logo-300x88.png'
 
     useEffect(() => {
         dispatch(fetchCompanyInfo());
@@ -103,8 +101,8 @@ const Sidebar = () => {
         <img
           src={`${process.env.REACT_APP_BASE_MAIN_URL}/${companyInfo.length > 0 && companyInfo[0].companyLogo}`}
           alt="Logo"
-          style={{ width: '100px' }}
-          className="h-8"
+          style={{ width: '100px', height: 40 }}
+          
         />
         
       </Box>
