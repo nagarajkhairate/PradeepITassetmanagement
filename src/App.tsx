@@ -6,8 +6,8 @@ import { routes } from './routes';
 import checkAuth from './app/auth';
 import { Register, Login } from './routes/AllComponents';
 const App = () => {
-  const token = checkAuth();
-console.log((token))
+  // const token = checkAuth();
+
   return (
     <BrowserRouter>
       <Routes>
@@ -16,10 +16,10 @@ console.log((token))
         <Route path="/" element={<MainLayout />}>
           {routes}
         </Route>
-        <Route
+        {/* <Route
           path="*"
           element={<Navigate to={token ? '/dashboard' : '/login'} replace />}
-        />
+        /> */}
       </Routes>
     </BrowserRouter>
   );
