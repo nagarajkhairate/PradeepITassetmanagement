@@ -53,7 +53,7 @@ export const addAlertSetup = createAsyncThunk('alertsSetup/addAlertSetup', async
  
 export const updateAlertsSetup = createAsyncThunk('alertsSetup/updateAlertsSetup', async (updatedAlertsSetup: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/set-alert/${updatedAlertsSetup.get('id')}`, updatedAlertsSetup);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/set-alert`, updatedAlertsSetup);
   
   return response.data;
 });
