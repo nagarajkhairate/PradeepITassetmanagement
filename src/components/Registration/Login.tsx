@@ -9,23 +9,20 @@ import {
   Grid,
   FormControl,
 } from '@mui/joy'
-import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { loginAccount } from '../../redux/features/AuthSlice'
+import { Link, Navigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { loginUser } from '../../redux/features/AuthSlice'
 import { ThunkDispatch } from 'redux-thunk'
 import AppForm from '../Common/AppForm'
 import { RootState } from '../../redux/store'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import useColorSelector from '../../configs/useColorSelector'
+import { useAppSelector } from '../../app/hooks'
 
 const Login: React.FC = () => {
   const styleConfigs = useColorSelector()
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const navigate = useNavigate()
-  const { loading, error } = useSelector(
-    (state: RootState) => state.tenant.data
-  )
-  const  data  = useSelector((state: RootState) => state.tenant.data)
+  const auth = useAppSelector((state) => state.auth);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -68,25 +65,16 @@ const Login: React.FC = () => {
     if (valid) {
       try {
 
-        const response = await dispatch(loginAccount(formData))
-
-        if (response.meta.requestStatus === 'fulfilled') {
-          // Assuming successful response contains status 201
-          navigate('/dashboard');
-        } else {
-          // Handle failed login
-          setErrors({ ...newErrors, email: 'Email or Password is not valid' });
-        }
-         if(data.length>0){
-          localStorage.setItem('token', 'DummyTokenHere')
-          localStorage.setItem('user', JSON.stringify(response.payload))
-          navigate('/dashboard')
-         }
+         await dispatch(loginUser(formData))
+        
 
       } catch (error) {
         console.error('Login failed:', error)
       }
     }
+  }
+  if (auth.token) {
+    return <Navigate to="/" />;
   }
 
   return (
@@ -188,18 +176,19 @@ const Login: React.FC = () => {
                   background: '#e0a800',
                 },
               }}
-              disabled={loading}
+              // disabled={loading}
             >
-              {loading ? 'Loading' : 'Sign In'}
+             Sign In 
+             {/* {loading ? 'Loading' : 'Sign In'} */}
             </Button>
-            {error && (
+            {/* {error && (
               <Typography
                 level="body-sm"
                 sx={{ ml: '10px', color: '#dc3545', fontSize: '12px' }}
               >
                 {error}
               </Typography>
-            )}
+            )} */}
             <Link to="/register">
               <Typography>Sign up for Asset Management</Typography>
             </Link>

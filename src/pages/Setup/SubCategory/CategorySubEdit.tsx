@@ -125,11 +125,14 @@ export function CategorySubEdit({
               onClick={()=>setEditOpen()}
               autoFocus
               variant="solid"
-              sx={{ background: "black",
-                '&:hover': { background: "#424242" },
-              color: "white", marginLeft: "50px",
-              
-             }}
+              sx={{
+                mr: 1,
+                background: 'black',
+                color: 'white',
+                '&:hover': {
+                  backgroundColor: '#333', // Darker shade of black
+                },
+              }}
             >
               Cancel
             </Button>

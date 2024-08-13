@@ -14,7 +14,10 @@ import { useState } from 'react'
 import LocationSetupEdit from './LocationSetupEdit'
 import PlaylistAddCheckOutlinedIcon from '@mui/icons-material/PlaylistAddCheckOutlined'
 import AppView from '../../../components/Common/AppView'
-import {addLocation,fetchLocation,} from '../../../redux/features/LocationSlice'
+import {
+  addLocation,
+  fetchLocation,
+} from '../../../redux/features/LocationSlice'
 import { ThunkDispatch } from 'redux-thunk'
 import LocationAdd from './LocationAdd'
 import AddIcon from '@mui/icons-material/Add'
@@ -36,9 +39,8 @@ const LocationSetup: React.FunctionComponent = () => {
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
   const [locations, setLocations] = useState<string>('')
-  const [matchedSelected, setMatchedSelected] = useState<number[]>([]);
+  const [matchedSelected, setMatchedSelected] = useState<number[]>([])
   const [deleteOpen, setDeleteOpen] = useState(false)
- 
 
   const location = useSelector((state: RootState) => state.location.data)
   // const dispatch = useDispatch<AppDispatch>()
@@ -59,7 +61,6 @@ const LocationSetup: React.FunctionComponent = () => {
   const handleDeleteClose = () => {
     setDeleteOpen(false)
     setMatchedSelected([])
-    
   }
 
   React.useEffect(() => {
@@ -70,11 +71,9 @@ const LocationSetup: React.FunctionComponent = () => {
     <AppView>
       <Typography
         level="h3"
-        sx={{ display: 'flex', alignItems: 'center', gap: 1, }}
+        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
       >
-        <RoomOutlinedIcon
-          style={{ fontSize: '1.4rem', color: '#FBC12E' }}
-        />
+        <RoomOutlinedIcon style={{ fontSize: '1.4rem', color: '#FBC12E' }} />
         Locations
       </Typography>
 
@@ -103,9 +102,8 @@ const LocationSetup: React.FunctionComponent = () => {
             }}
           >
             <Typography
-            level='h4'
+              level="h4"
               sx={{
-                
                 fontSize: '20px',
                 fontWeight: 500,
                 lineHeight: '30px',
@@ -122,63 +120,62 @@ const LocationSetup: React.FunctionComponent = () => {
           </Box>
 
           <Box
-           sx={{
-            display: 'flex',
-            flexDirection: { md: 'row', xs: 'column' },
-            gap: 2,
-          }}
-          >
-          <Button
-            autoFocus
-            variant="solid"
             sx={{
-              background: '#388e3c',
-              '&:hover': {
-                backgroundColor: "#4caf50",
-              },
-              borderRadius: '15px',
-              color: 'white',
-            }}
-            component="label"
-            onClick={() => setOpen(true)}
-          >
-            <AddIcon /> Add New Location
-          </Button>
-
-          
-          {matchedSelected.length > 0 && (
-          <Button
-            onClick={handleDeleteOpen}
-            autoFocus
-              variant="solid"
-            sx={{
-              // fontSize: '13px',
-              borderRadius: '15px',
-              background: '#d32f2f',
-              '&:hover': {
-                backgroundColor: "#e57373",
-              },
               display: 'flex',
-              justifyContent: { md: 'flex-end', xs: 'center' },
-              // marginLeft: 'none',
-              // border: '1px solid red',
-              padding: '.30rem .55rem',
+              flexDirection: { md: 'row', xs: 'column' },
+              gap: 2,
             }}
           >
-            <DeleteForeverIcon sx={{ fontSize: '15px' }} />
-            Delete Location
-          </Button>
-        )}
+            <Button
+              autoFocus
+              variant="solid"
+              sx={{
+                background: '#388e3c',
+                '&:hover': {
+                  backgroundColor: '#4caf50',
+                },
+                borderRadius: '15px',
+                color: 'white',
+              }}
+              component="label"
+              onClick={() => setOpen(true)}
+            >
+              <AddIcon /> Add New Location
+            </Button>
 
-          <Button
+            {matchedSelected.length > 0 && (
+              <Button
+                onClick={handleDeleteOpen}
+                autoFocus
+                variant="solid"
+                sx={{
+                  // fontSize: '13px',
+                  borderRadius: '15px',
+                  background: '#d32f2f',
+                  '&:hover': {
+                    backgroundColor: '#e57373',
+                  },
+                  display: 'flex',
+                  justifyContent: { md: 'flex-end', xs: 'center' },
+                  // marginLeft: 'none',
+                  // border: '1px solid red',
+                  padding: '.30rem .55rem',
+                }}
+              >
+                <DeleteForeverIcon sx={{ fontSize: '15px' }} />
+                Delete Location
+              </Button>
+            )}
+
+            <Button
               autoFocus
               type="submit"
               variant="solid"
               sx={{
                 background: 'black',
                 '&:hover': {
-                backgroundColor: "#616161",
-              },
+                  backgroundColor: '#616161',
+                },
                 borderRadius: '15px',
                 color: 'white',
               }}
@@ -188,24 +185,26 @@ const LocationSetup: React.FunctionComponent = () => {
             </Button>
           </Box>
 
-          {open && <Modal
+          {open && (
+            <Modal
               aria-labelledby="responsive-dialog-title"
               aria-describedby="modal-desc"
               sx={{
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                p:5
+                p: 5,
               }}
               open={open}
               onClose={setOpen}
-            ><LocationAdd
-            open={open}
-              setOpen={setOpen}
-              handleClose={handleClose}
-            />
-            </Modal>}
-        
+            >
+              <LocationAdd
+                open={open}
+                setOpen={setOpen}
+                handleClose={handleClose}
+              />
+            </Modal>
+          )}
         </Box>
 
         <Divider />
@@ -213,10 +212,10 @@ const LocationSetup: React.FunctionComponent = () => {
         <Box>
           <Box sx={{ marginTop: '10px' }}>
             <Typography>
-            You may also add Locations. Locations are a subset of Sites. For
-            example, the Site may be a building or address. The Location may be
-            a specific room, office or floor within the Site. Select a Site and
-            add your list of Locations here.
+              You may also add Locations. Locations are a subset of Sites. For
+              example, the Site may be a building or address. The Location may
+              be a specific room, office or floor within the Site. Select a Site
+              and add your list of Locations here.
             </Typography>
           </Box>
 
@@ -272,8 +271,6 @@ const LocationSetup: React.FunctionComponent = () => {
               padding: '10px',
             }}
           >
-            
-
             <Box
               sx={{
                 display: 'flex',
@@ -330,27 +327,23 @@ const LocationSetup: React.FunctionComponent = () => {
           <LocationSetupEdit
             locationName={location}
             matchedSelected={matchedSelected}
-        setMatchedSelected={setMatchedSelected}
-        handleDeleteOpen={handleDeleteOpen}
-       
+            setMatchedSelected={setMatchedSelected}
+            handleDeleteOpen={handleDeleteOpen}
           />
-          
         </Box>
         <Divider />
       </Box>
 
-      
-            <LocationDelete
-              selectedCell={null}
-              // onLocationChange={handleLocationChange}
-              setMatchedSelected={setMatchedSelected}
-              setSelectedCell={() => {}}
-              locDatas={{ locationData: [] }}
-              setLocDatas={() => { }}
-              handleDeleteClose={handleDeleteClose}
-              open={deleteOpen}
-            />
-          
+      <LocationDelete
+        selectedCell={null}
+        // onLocationChange={handleLocationChange}
+        setMatchedSelected={setMatchedSelected}
+        setSelectedCell={() => {}}
+        locDatas={{ locationData: [] }}
+        setLocDatas={() => {}}
+        handleDeleteClose={handleDeleteClose}
+        open={deleteOpen}
+      />
     </AppView>
   )
 }

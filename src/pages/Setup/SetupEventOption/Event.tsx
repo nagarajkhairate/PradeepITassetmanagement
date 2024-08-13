@@ -77,7 +77,7 @@ const Event: React.FunctionComponent = () => {
       defaultValue="outlined"
       onChange={onChange}
       value={value === true ? 'yes' : value === false ? 'no' : ''}
-      sx={{ display: 'flex', gap: 2 }}
+      sx={{ display: 'flex', gap: 2, justifyContent:'center' }}
     >
       <Box
         sx={{
@@ -238,9 +238,9 @@ const Event: React.FunctionComponent = () => {
           </Box>
           <Box
             sx={{
-              flex: '3 3 auto',
+              flex: '2 2 auto',
               display: 'flex',
-              // justifyContent: 'center', // Center radio buttons
+              justifyContent: {md:'center', xs:'left'}, // Center radio buttons
             }}
           >
           <AssetRadioGroup
@@ -308,9 +308,9 @@ const Event: React.FunctionComponent = () => {
 
           <Box
             sx={{
-              flex: '3 3 auto',
+              flex: '2 2 auto',
               display: 'flex',
-              // justifyContent: 'center', // Center radio buttons
+              justifyContent: {md:'center', xs:'left'},
             }}
           >
           <AssetRadioGroup
@@ -375,9 +375,9 @@ const Event: React.FunctionComponent = () => {
           </Box>
           <Box
             sx={{
-              flex: '3 3 auto',
+              flex: '4 4 auto',
               display: 'flex',
-              // justifyContent: 'center', // Center radio buttons
+              justifyContent: {md:'center', xs:'left'},
             }}
           >
           <AssetRadioGroup
@@ -438,7 +438,7 @@ const Event: React.FunctionComponent = () => {
             sx={{
               flex: '4 4 auto',
               display: 'flex',
-              // justifyContent: 'center', // Center radio buttons
+              justifyContent: {md:'center', xs:'left'}
             }}
           >
             <AssetRadioGroup
@@ -489,7 +489,7 @@ const Event: React.FunctionComponent = () => {
             sx={{
               flex: '4 4 auto',
               display: 'flex',
-              // justifyContent: 'center', // Center radio buttons
+              justifyContent: {md:'center', xs:'left'}
             }}
           >
             <AssetRadioGroup
@@ -542,7 +542,7 @@ const Event: React.FunctionComponent = () => {
             sx={{
               flex: '4 4 auto',
               display: 'flex',
-              // justifyContent: 'center', // Center radio buttons
+              justifyContent: {md:'center', xs:'left'}
             }}
           >
             <AssetRadioGroup
@@ -594,7 +594,7 @@ const Event: React.FunctionComponent = () => {
            sx={{
             flex: '4 4 auto',
             display: 'flex',
-            // justifyContent: 'center', // Center radio buttons
+            justifyContent: {md:'center', xs:'left'}
           }}
           >
             <AssetRadioGroup
@@ -647,7 +647,7 @@ const Event: React.FunctionComponent = () => {
              sx={{
               flex: '4 4 auto',
               display: 'flex',
-              // justifyContent: 'center', // Center radio buttons
+              justifyContent: {md:'center', xs:'left'}
             }}
           >
             <AssetRadioGroup

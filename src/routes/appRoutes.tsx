@@ -34,8 +34,7 @@ import {
   SetupDept,
   SetupSites,
   SetupTableOptions,
-  WarrantyExpiring,
-  WarrantyForm,
+   WarrantyForm,
 } from './AllComponents'
 import { ICONS } from '../components/Common/AppIcon/AppIcon'
 import DataBases from '../pages/Setup/DataBase/DatabseAssets/DataBaseAsset'
@@ -48,6 +47,18 @@ import SearchCriteria from '../pages/Assets/SearchCriteria'
 import DatabaseContractTable from '../pages/Setup/DataBase/DatabaseContract/DatabaseContractTable'
 import EditModalDatabaseCustomer from '../pages/Setup/DataBase/DatabaseCustomerTable/EditModelDatabaseCustomer'
 import CheckoutButton from '../pages/Lease/CheckoutButton'
+import AlertSetupColumn from '../pages/Maintenance/Contract/AlertContractSetupColumn'
+import AlertsSetup from '../pages/Maintenance/SetupAlerts/AlertsSetup'
+import ImportMaintenanceDue from '../pages/Maintenance/Maintenances/ImportMaintenanceDue'
+import ContractsExpiring from '../pages/Maintenance/Contract/ContractsExpiring'
+import AddContractExp from '../pages/Maintenance/Contract/AddContractExp'
+import AlertContractSetupColumn from '../pages/Maintenance/Contract/AlertContractSetupColumn'
+import WarrantyExpiring from '../pages/Maintenance/Warranties/WarrantyExpiring'
+import MaintenancesSetupColumn from '../pages/Maintenance/Maintenances/MaintenancesSetupColumn'
+import WarrantySetupColumn from '../pages/Maintenance/Warranties/WarrantySetupColumn'
+import ViewContract from '../pages/Maintenance/Contract/ViewContract'
+import EditContract from '../pages/Maintenance/Contract/EditContract'
+
 
 
 
@@ -67,62 +78,134 @@ const appRoutes: RouteType[] = [
     },
   },
 
-  // {
-  //   path: '/alerts',
-  //   element: <Alerts />,
-  //   state: 'alerts',
-  //   sidebarProps: {
-  //     displayText: 'Alerts',
-  //     icon: <ICONS.resource />,
-  //   },
-  //   child: [
-  //     {
-  //       path: '/alerts/maintenances-due',
-  //       element: <MaintenancesDue />,
-  //       state: 'alerts',
-  //       sidebarProps: {
-  //         displayText: 'Maintenances Due',
-  //         icon: <ICONS.person />,
-  //       },
-  //     },
-  //     {
-  //       path: '/alerts/maintenances-over-due',
-  //       element: <MaintenanceOverdue />,
-  //       state: 'alerts.maintenanceOverdue',
-  //       sidebarProps: {
-  //         displayText: 'Maintenances Over Due',
-  //         icon: <ICONS.person />,
-  //       },
-  //     },
-  //     {
-  //       path: '/alerts/leases-expiring',
-  //       element: <LeasesExpiring />,
-  //       state: 'alerts.leasesExpiring',
-  //       sidebarProps: {
-  //         displayText: 'Leases Expiring',
-  //         icon: <ICONS.person />,
-  //       },
-  //     },
-  //     {
-  //       path: '/alerts/warranty-expiring',
-  //       element: <WarrantyExpiring />,
-  //       state: 'alerts.warrantyExpiring',
-  //       sidebarProps: {
-  //         displayText: 'Warranty Expiring',
-  //         icon: <ICONS.person />,
-  //       },
-  //     },
-  //     {
-  //       path: '/alerts/assets-past-due',
-  //       element: <AssetsPastDue />,
-  //       state: 'assetsPastDue',
-  //       sidebarProps: {
-  //         displayText: 'Assets Past Due',
-  //         icon: <ICONS.person />,
-  //       },
-  //     },
-  //   ],
-  // },
+  {
+    path: '/alerts',
+    element: <Alerts />,
+    state: 'alerts',
+    sidebarProps: {
+      displayText: 'Alerts',
+      icon: <ICONS.resource />,
+    },
+    child: [
+      {
+        path: '/alerts/contracts-expiring',
+        element: <ContractsExpiring />,
+        state: 'alerts.contractsExpiring',
+        sidebarProps: {
+          displayText: 'Contracts Expiring',
+          icon: <ICONS.person />,
+        },
+      },
+      {
+        index: true,
+        path: '/alerts/contracts-expiring/contract-set-up-column',
+        element: <AlertContractSetupColumn />,
+        state: 'assets',
+      },
+      {
+        index: true,
+        path: '/alerts/contracts-expiring/add-contract',
+        element: <AddContractExp />,
+        state: 'assets',
+      },
+      {
+        index: true,
+        path: '/alerts/contracts-expiring/view-contract/:id',
+        element: <ViewContract />,
+        state: 'assets',
+      },
+      {
+        index: true,
+        path: '/alerts/contracts-expiring/view-contract/edit-contract/:id',
+        element: <EditContract />,
+        state: 'assets',
+      },
+      {
+        path: '/alerts/maintenances-due',
+        element: <MaintenancesDue />,
+        state: 'alerts',
+        sidebarProps: {
+          displayText: 'Maintenances Due',
+          icon: <ICONS.person />,
+        },
+      },
+      {
+        index: true,
+        path: '/alerts/maintenances-due/import-maintenance',
+        element: <ImportMaintenanceDue />,
+        state: 'assets',
+      },
+      {
+        index: true,
+        path: '/alerts/maintenances-due/maintenance-set-up-column',
+        element: <MaintenancesSetupColumn />,
+        state: 'assets',
+      },
+      {
+        path: '/alerts/maintenances-over-due',
+        element: <MaintenanceOverdue />,
+        state: 'alerts.maintenanceOverdue',
+        sidebarProps: {
+          displayText: 'Maintenances Over Due',
+          icon: <ICONS.person />,
+        },
+      },
+      {
+        index: true,
+        path: '/alerts/maintenances-due/import-maintenance',
+        element: <ImportMaintenanceDue />,
+        state: 'assets',
+      },
+      {
+        index: true,
+        path: '/alerts/maintenances-due/set-up-column',
+        element: <AlertSetupColumn />,
+        state: 'assets',
+      },
+      {
+        path: '/alerts/leases-expiring',
+        element: <LeasesExpiring />,
+        state: 'alerts.leasesExpiring',
+        sidebarProps: {
+          displayText: 'Leases Expiring',
+          icon: <ICONS.person />,
+        },
+      },
+      {
+        path: '/alerts/warranty-expiring',
+        element: <WarrantyExpiring />,
+        state: 'alerts.warrantyExpiring',
+        sidebarProps: {
+          displayText: 'Warranty Expiring',
+          icon: <ICONS.person />,
+        },
+      },
+      {
+        index: true,
+        path: '/alerts/warranty-expiring/warranty-set-up-column',
+        element: <WarrantySetupColumn />,
+        state: 'assets',
+      },
+      {
+        path: '/alerts/assets-past-due',
+        element: <AssetsPastDue />,
+        state: 'assetsPastDue',
+        sidebarProps: {
+          displayText: 'Assets Past Due',
+          icon: <ICONS.person />,
+        },
+      },
+      {
+        path: '/alerts/setup-alerts',
+        element: <AlertsSetup />,
+        state: 'setupAlerts',
+        sidebarProps: {
+          displayText: 'Setup Alerts',
+          icon: <ICONS.person />,
+        },
+      }
+    ],
+  },
   {
     path: '/assets',
     element: <Assets />,
@@ -398,71 +481,71 @@ const appRoutes: RouteType[] = [
           icon: <ICONS.person />,
         },
       },
-      // {
-      //   path: '/setup/customize',
-      //   element: <AssetForm />,
-      //   state: 'assetForm',
-      //   sidebarProps: {
-      //     displayText: 'Customize Form',
-      //     icon: <ICONS.resource />,
-      //   },
-      //   child: [
-      //     {
-      //       path: '/setup/customize/asset',
-      //       element: <AssetForm />,
-      //       state: 'assetForm',
-      //       sidebarProps: {
-      //         displayText: 'Asset Form',
-      //         icon: <ICONS.person />,
-      //       },
-      //     },
-      //     {
-      //       path: '/setup/customize/employee',
-      //       element: <PersonsEmployeesForm />,
-      //       state: 'customize-employee',
-      //       sidebarProps: {
-      //         displayText: 'Customize employee',
-      //         icon: <ICONS.person />,
-      //       },
-      //     },
-      //     {
-      //       path: '/setup/customize/contract',
-      //       element: <ContractForm />,
-      //       state: 'contractForm',
-      //       sidebarProps: {
-      //         displayText: 'Customize Contract',
-      //         icon: <ICONS.person />,
-      //       },
-      //     },
-      //     {
-      //       path: '/setup/customize/maintenance',
-      //       element: <MaintenanceForm />,
-      //       state: 'customizeMaintenance',
-      //       sidebarProps: {
-      //         displayText: 'Customize Maintenance',
-      //         icon: <ICONS.person />,
-      //       },
-      //     },
-      //     {
-      //       path: '/setup/customize/customer',
-      //       element: <CustomerForm />,
-      //       state: 'customizeCustomer',
-      //       sidebarProps: {
-      //         displayText: 'Customize customer',
-      //         icon: <ICONS.person />,
-      //       },
-      //     },
-      //     {
-      //       path: '/setup/customize-warranty',
-      //       element: <WarrantyForm />,
-      //       state: 'customizeCustomer',
-      //       sidebarProps: {
-      //         displayText: 'Customize warranty',
-      //         icon: <ICONS.person />,
-      //       },
-      //     },
-      //   ],
-      // },
+      {
+        path: '/setup/customize',
+        element: <AssetForm />,
+        state: 'assetForm',
+        sidebarProps: {
+          displayText: 'Customize Form',
+          icon: <ICONS.resource />,
+        },
+        child: [
+          {
+            path: '/setup/customize/asset',
+            element: <AssetForm />,
+            state: 'assetForm',
+            sidebarProps: {
+              displayText: 'Asset Form',
+              icon: <ICONS.person />,
+            },
+          },
+          {
+            path: '/setup/customize/employee',
+            element: <PersonsEmployeesForm />,
+            state: 'customize-employee',
+            sidebarProps: {
+              displayText: 'Customize employee',
+              icon: <ICONS.person />,
+            },
+          },
+          {
+            path: '/setup/customize/contract',
+            element: <ContractForm />,
+            state: 'contractForm',
+            sidebarProps: {
+              displayText: 'Customize Contract',
+              icon: <ICONS.person />,
+            },
+          },
+          {
+            path: '/setup/customize/maintenance',
+            element: <MaintenanceForm />,
+            state: 'customizeMaintenance',
+            sidebarProps: {
+              displayText: 'Customize Maintenance',
+              icon: <ICONS.person />,
+            },
+          },
+          {
+            path: '/setup/customize/customer',
+            element: <CustomerForm />,
+            state: 'customizeCustomer',
+            sidebarProps: {
+              displayText: 'Customize customer',
+              icon: <ICONS.person />,
+            },
+          },
+          {
+            path: '/setup/customize-warranty',
+            element: <WarrantyForm />,
+            state: 'customizeCustomer',
+            sidebarProps: {
+              displayText: 'Customize warranty',
+              icon: <ICONS.person />,
+            },
+          },
+        ],
+      },
     ],
   },
 ]

@@ -14,7 +14,6 @@ import companyInfoReducer from './features/CompanyInfoSlice';
 import SitesReducer from './features/SitesSlice';
 import TableOptionsReducer from './features/TableOptionsSlice';
 import AuthReducer from './features/AuthSlice';
-import AccountReducer from './features/AccountSlice';
 import TabsReducer from './features/TabsSlice';
 import componentsReducer from "./features/ComponentsIdSlice";
 import AssetFieldMappingReducer from './features/AssetFieldMappingSlice';
@@ -42,6 +41,16 @@ import LeaseDefaultFieldsreducer from './features/LeaseDefaultFields'
 import LeaseReducer from './features/LeaseSlice'
 import CustomerReducer from './features/CustomerSlice'
 import LeaseReturnFieldsReducer from './features/LeaseReturnFields'
+import alertsAssetPastDueReducer from './features/AlertsAssetPastDueSlice'
+import alertsInsuranceExpReducer from './features/AlertsInsuranceExpSlice'
+import alertsLeasesExpReducer from './features/AlertsLeasesExpSlice'
+import alertsMaintenanceDueReducer from './features/AlertsMaintenanceDueSlice'
+import alertsMaintenanceOverDueReducer from './features/AlertsMaintenanceOverDueSlice'
+import alertsWarrantiesExpReducer from './features/AlertsWarrantiesExpSlice'
+import alertsAddContractReducer from './features/AlertsAddContractSlice'
+import alertsSetupReducer from './features/AlertsSetupSlice'
+import AuthSlice from "./features/AuthSlice";
+
 
 export const store = configureStore({
   reducer: {
@@ -61,7 +70,7 @@ export const store = configureStore({
     companyInfo: companyInfoReducer,
     tableOptions: TableOptionsReducer,
     login: AuthReducer,
-    tenant: AccountReducer,
+    auth: AuthSlice,
     tabs: TabsReducer,
     components: componentsReducer,
     assetMapping:AssetFieldMappingReducer,
@@ -88,6 +97,15 @@ export const store = configureStore({
     lease:LeaseReducer,
     customer:CustomerReducer,
     leaseReturnField:LeaseReturnFieldsReducer
+    alertsAssetPastDue:alertsAssetPastDueReducer,
+    alertsInsuranceExp:alertsInsuranceExpReducer,
+    alertsLeasesExp:alertsLeasesExpReducer,
+    alertsMaintenanceDue:alertsMaintenanceDueReducer,
+    alertsMaintenanceOverDue:alertsMaintenanceOverDueReducer,
+    alertsWarrantiesExp:alertsWarrantiesExpReducer,
+    alertsAddContract:alertsAddContractReducer,
+    alertsSetup:alertsSetupReducer,
+
   },
 });
 
