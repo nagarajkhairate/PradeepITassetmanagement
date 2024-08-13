@@ -37,6 +37,11 @@ import CheckOutFieldReducer from './features/CheckOutFieldSlice'
 import CheckInFieldReducer from './features/CheckInFieldSlice'
 import ClientFieldReducer from './features/ClientFieldSlice'
 import AssetDefaultFieldsReducer from './features/AssetsDefaultFieldsSlice'
+import CustomerDefaultFieldsReducer from './features/CustomerDefaultFields'
+import LeaseDefaultFieldsreducer from './features/LeaseDefaultFields'
+import LeaseReducer from './features/LeaseSlice'
+import CustomerReducer from './features/CustomerSlice'
+import LeaseReturnFieldsReducer from './features/LeaseReturnFields'
 
 export const store = configureStore({
   reducer: {
@@ -77,7 +82,12 @@ export const store = configureStore({
     checkOutField:CheckOutFieldReducer,
     checkInField:CheckInFieldReducer,
     clientField:ClientFieldReducer,
-    assetsDefaultField:AssetDefaultFieldsReducer
+    assetsDefaultField:AssetDefaultFieldsReducer,
+    customerDefaultField:CustomerDefaultFieldsReducer,
+    leaseDefaultField:LeaseDefaultFieldsreducer,
+    lease:LeaseReducer,
+    customer:CustomerReducer,
+    leaseReturnField:LeaseReturnFieldsReducer
   },
 });
 

@@ -13,6 +13,8 @@ import SelectOption from "../../components/AssetSections/SelectOption";
 import { CustomerConfig } from "./CustomerConfig";
 import { fetchEmpField } from "../../redux/features/EmpFieldSlice";
 import AppButton from "../../components/Common/AppButton";
+import { fetchCustomerDefaultFields } from "../../redux/features/CustomerDefaultFields";
+import { addCustomer } from "../../redux/features/CustomerSlice";
 
 // interface EmployeeErrors {
 //   fullName?: string;
@@ -34,14 +36,14 @@ interface CustomerProps {
 
 const Customer: React.FC<CustomerProps> = ({ open, onClose, onCustomer }) =>
    {
-  const [employee, setEmployee] = useState<any>({});
+  const [employee, setCustomer] = useState<any>({});
   const [formData, setFormData] = useState<any>({})
   // const [errors, setErrors] = useState<EmployeeErrors>({});
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
-  const empFields = useSelector((state: RootState) => state.empField.data);
+  const customerDefaultFields = useSelector((state: RootState) => state.customerDefaultField.data);
 
   useEffect(()=>{
-    dispatch(fetchEmpField())
+    dispatch(fetchCustomerDefaultFields())
   },[dispatch])
 
   const handleChange = (
@@ -97,7 +99,29 @@ const Customer: React.FC<CustomerProps> = ({ open, onClose, onCustomer }) =>
           </FormControl>
         );
       case "date":
+        return (
+          <FormControl key={field.name}>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+              type={field.components.type}
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleChange}
+            />
+          </FormControl>
+        );
       case "number":
+        return (
+          <FormControl key={field.name}>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <Input
+              type={field.components.type}
+              name={field.name}
+              value={formData[field.name] as string}
+              onChange={handleChange}
+            />
+          </FormControl>
+        );
       case "email":
         return (
           <FormControl key={field.name}>
@@ -128,9 +152,7 @@ const Customer: React.FC<CustomerProps> = ({ open, onClose, onCustomer }) =>
       case "select":
           if (field.name === "empSite") {
             return <SiteComponent {...commonProps} />;
-          } else if (field.name === "empLocation") {
-            return <LocationComponent {...commonProps} />;
-          } else if (field.name === "empDepartment") {
+          }  else if (field.name === "empDepartment") {
             return <DepartmentComponent {...commonProps} />;
           } 
           else {
@@ -155,8 +177,8 @@ const Customer: React.FC<CustomerProps> = ({ open, onClose, onCustomer }) =>
   const handleAdd = () => {
     //  onCustomer(employee.empName);
     console.log(formData)
-      dispatch(Customer(formData));
-      setEmployee({});
+      dispatch(addCustomer(formData));
+      setCustomer({});
       onClose()
       // setErrors({});
   };
@@ -189,7 +211,7 @@ const Customer: React.FC<CustomerProps> = ({ open, onClose, onCustomer }) =>
               alignItems: "center",
             }}
           >
-            <Typography>Add an Person/Employee</Typography>
+            <Typography>Add an P</Typography>
             <IconButton 
             onClick={onClose}
             >
@@ -200,7 +222,7 @@ const Customer: React.FC<CustomerProps> = ({ open, onClose, onCustomer }) =>
         <Divider></Divider>
 
           <Grid container spacing={1}>
-          {CustomerConfig && CustomerConfig.map((field:any , index:any) => (
+          {customerDefaultFields && customerDefaultFields.map((field:any , index:any) => (
        <Grid key={index} xs={12} sm={12} md={12} lg={12}>
         {handleInputValue(
           field,

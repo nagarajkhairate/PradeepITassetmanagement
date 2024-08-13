@@ -200,15 +200,15 @@ const appRoutes: RouteType[] = [
           icon: <ICONS.person />,
         },
       },
-      // {
-      //   path: '/assets/lease-return',
-      //   element: <LeaseReturn />,
-      //   state: 'lease-return',
-      //   sidebarProps: {
-      //     displayText: 'Lease Return',
-      //     icon: <ICONS.person />,
-      //   },
-      // },
+      {
+        path: '/assets/lease-return',
+        element: <LeaseReturn />,
+        state: 'lease-return',
+        sidebarProps: {
+          displayText: 'Lease Return',
+          icon: <ICONS.person />,
+        },
+      },
       // {
       //   path: '/assets/dispose',
       //   element: <Dispose />,
