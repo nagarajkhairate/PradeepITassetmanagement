@@ -126,7 +126,7 @@ const WarrantySetupColumn: React.FC = () => {
               display: 'flex',
               flexDirection: { xs: 'column', md: 'column' },
               gap: 1,
-              overflowX: 'auto',
+              overflowX: 'auto'
             }}
           >
             {warrantiesDatabase && warrantiesDatabase.map((column) => (
