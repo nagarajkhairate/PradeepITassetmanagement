@@ -19,37 +19,37 @@ import { addCheckOut, fetchCheckOut } from '../../redux/features/CheckOutSlice'
 import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { LeaseConfig } from './LeaseConfig'
+import { LeaseReturnConfig } from './LeaseReturnConfig'
 import SiteComponent from '../../components/AssetSections/SiteComponent'
 import LocationComponent from '../../components/AssetSections/LocationComponent'
 import DepartmentComponent from '../../components/AssetSections/DepartmentComponent'
 import SelectOption from '../../components/AssetSections/SelectOption'
-import AddNewEmpployee from './AddNewCustomer'
 import { fetchCheckOutField } from '../../redux/features/CheckOutFieldSlice'
 import { fetchEmployee } from '../../redux/features/EmployeeSlice'
 import { useNavigate } from 'react-router-dom'
-import AddNewCustomer from './AddNewCustomer'
 import { fetchLeaseDefaultFields } from '../../redux/features/LeaseDefaultFields'
 import { addLease } from '../../redux/features/LeaseSlice'
+import { fetchLeaseReturnFields } from '../../redux/features/LeaseReturnFields'
+import { addLeaseReturn } from '../../redux/features/LeaseReturnSlice'
 
 interface CheckOutFormProps {
   selectedAssets: any
 }
 
-const LeaseForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
+const LeaseReturnForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
   const [open, setOpen] = useState(false)
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [formData, setFormData] = useState<any>({})
   const navigate = useNavigate()
   const checkOut = useSelector((state: RootState) => state.checkOut.data)
-  const leaseDefaultFields = useSelector(
-    (state: RootState) => state.leaseDefaultField.data,
+  const leaseReturnFields = useSelector(
+    (state: RootState) => state.leaseReturnField.data,
   )
   const employees = useSelector((state: RootState) => state.addEmployee.data)
 
   useEffect(() => {
     dispatch(fetchCheckOut())
-    dispatch(fetchLeaseDefaultFields())
+    dispatch(fetchLeaseReturnFields())
     dispatch(fetchEmployee())
   }, [dispatch])
 
@@ -85,7 +85,7 @@ const LeaseForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
         assetId: selectedAssets[0].id,
       }
       setOpen(false)
-      dispatch(addLease(formData))
+      dispatch(addLeaseReturn(formData))
 
     })
     navigate(`/assets/list-of-assets`);
@@ -203,9 +203,6 @@ const LeaseForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
         )
 
       case 'select':
-         if (field.name === 'leasingCustomerId') {
-          return <AddNewCustomer {...commonProps} />
-        } 
           return <SelectOption {...commonProps} />
         
       default:
@@ -395,8 +392,8 @@ const LeaseForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
           }}
         >
           <Grid container columnSpacing={10} >
-            {leaseDefaultFields &&
-              leaseDefaultFields.map((field, index) => (
+            {LeaseReturnConfig &&
+              LeaseReturnConfig.map((field, index) => (
                   <Grid key={index} xs={12} sm={12} md={6} lg={6}>
                     {handleInputValue(
                       field,
@@ -421,7 +418,7 @@ const LeaseForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
                   '&:hover': { background: '#e0a71b' },
                 }}
               >
-                Lease
+                LeaseReturn
               </Button>
             </Grid>
             <Grid>
@@ -445,4 +442,4 @@ const LeaseForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
   )
 }
 
-export default LeaseForm
+export default LeaseReturnForm
