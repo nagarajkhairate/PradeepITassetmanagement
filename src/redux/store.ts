@@ -6,7 +6,7 @@ import addClientReducer from "./features/ClientSlice"
 import appStateReducer from "./features/StateSlice";
 import darkModeReducer from "./features/DarkModeSlice";
 import locationReducer from './features/LocationSlice';
-import categoryReducer from './features/CategorySlice'
+import categoryReducer from './features/CategorySlice';
 import subCategoryReducer from './features/CategorySubSlice';
 import departmentNameReducer from './features/DepartmentSlice';
 import eventsReducer from "./features/EventsSlice";
@@ -96,7 +96,7 @@ export const store = configureStore({
     leaseDefaultField:LeaseDefaultFieldsreducer,
     lease:LeaseReducer,
     customer:CustomerReducer,
-    leaseReturnField:LeaseReturnFieldsReducer
+    leaseReturnField:LeaseReturnFieldsReducer,
     alertsAssetPastDue:alertsAssetPastDueReducer,
     alertsInsuranceExp:alertsInsuranceExpReducer,
     alertsLeasesExp:alertsLeasesExpReducer,
