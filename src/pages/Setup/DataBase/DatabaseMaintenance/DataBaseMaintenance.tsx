@@ -10,7 +10,7 @@ import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
-import { customMaintenance, Maintenance, maintenanceData } from './MaintenanceData'
+import {  Maintenance, maintenanceValue } from './MaintenanceData'
 import AddIcon from '@mui/icons-material/Add'
 import AddDialogMaintenance from './AddCustomMaintenance'
 import MaintenanceFieldsAddingTable from './MaintennaceFieldsAddingTable'
@@ -21,96 +21,85 @@ import { fetchComponents } from '../../../../redux/features/ComponentsIdSlice'
 
 const DatabaseMaintenance: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const [matchedSelected, setMatchedSelected] = useState<number[]>([])
-
   const maintenanceDatabase = useSelector((state: RootState) => state.maintenanceDatabase.data)
   const maintenanceCustomDatabase = useSelector((state: RootState) => state.maintenanceCustomDatabase.data)
   const components = useSelector((state: RootState) => state.components.data);
 
  const [openAddMaintenance, setOpenAddMaintenance] = useState(false);
-  const [maintenanceDataBases, setMaintenanceDataBases] = useState(maintenanceData)
-  const LOCAL_STORAGE_KEY = 'maintenanceDataBases';
-
-  useEffect(() => {
-    const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (storedData) {
-      setMaintenanceDataBases(JSON.parse(storedData));
-    } else {
-      setMaintenanceDataBases(maintenanceData); 
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(maintenanceDataBases));
-  }, [maintenanceDataBases]);
-
-  useEffect(() => {
-    setMaintenanceDataBases(maintenanceData)
-  }, [])
-
-
+  const [maintainData, setMaintainData] = useState<maintenanceValue[]>([])
   const [allChecked, setAllChecked] = useState(false)
+  const [indeterminate, setIndeterminate] = useState(false)
 
-  const handleHeaderCheckboxChange = () => {
-    const newCheckedState = !allChecked;
-    const updatedForm = maintenanceDataBases.map(item => ({
+  const handleHeaderCheckboxChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const checked = event.target.checked
+    const updatedData = maintainData.map((item) => ({
       ...item,
-      isVisible: item.fieldName === 'Title' || item.fieldName === 'Due Date' || item.fieldName === 'Maintenance Status' || item.fieldName=== 'Repeating' ? true : newCheckedState
-    }));
-    
-    setMaintenanceDataBases(updatedForm);
-    setAllChecked(newCheckedState);
-  };
+      isVisible: checked,
+    }))
+    setMaintainData(updatedData)
+    setAllChecked(checked)
+    setIndeterminate(false)
+  }
+
   
 
-  const handleCheckboxChange = (index: number, fieldName: string) => {
-    const updatedForm = [...maintenanceDataBases];
+  const handleCheckboxChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    fieldName: string,
+  ) => {
+    if (
+      fieldName !== 'maintenanceTitle' &&
+      fieldName !== 'maintenanceDueDate' &&
+      fieldName !== 'maintenanceStatus' &&
+      fieldName !== 'repeating'
+    ) {
+      const updatedData = maintainData.map((item) =>
+        item.name === fieldName
+          ? { ...item, isVisible: event.target.checked }
+          : item,
+      )
+      setMaintainData(updatedData)
 
-    if (fieldName !== 'Title' && fieldName !== 'Due Date' && fieldName !== 'Maintenance Status' && fieldName!=='Repeating') {
-      updatedForm[index].isVisible = !updatedForm[index].isVisible;
-    } else {
-      updatedForm[index].isVisible = true;
+      const allChecked = updatedData.every((item) => item.isVisible)
+      const someChecked = updatedData.some((item) => item.isVisible)
+      setAllChecked(allChecked)
+      setIndeterminate(!allChecked && someChecked)
     }
-    setMaintenanceDataBases(updatedForm);
+  }
   
-    const allChecked = updatedForm
-    .filter(item=> item.fieldName !== 'Title' && 'Due Date' && 'Maintenance Status' && 'Repeating')
-    .every(item => item.isVisible);
-    setAllChecked(allChecked);
-  };
-  
 
-  const handleRadioChange = (index: number, value: string) => {
-    const updatedForm = [...maintenanceDataBases];
-
-    if(maintenanceDataBases[index].fieldName === 'Title'|| maintenanceDataBases[index].fieldName ==='Repeating'){
-      updatedForm[index].isRequired='yes'; 
-    }
-    else{
-      updatedForm[index].isRequired = value
-    }
-    setMaintenanceDataBases(updatedForm)
+  const handleRadioSelect = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    fieldName: string,
+  ) => {
+    setMaintainData((prevState) =>
+      prevState.map((item) =>
+        item.name === fieldName
+          ? { ...item, isRequired: event.target.value }
+          : item,
+      ),
+    )
   }
 
   const handleCancel = () => {}
 
   const handleSubmit = () => {
-    console.log(maintenanceDataBases)
-    dispatch(updateMaintenanceDatabase(maintenanceDatabase))
+    console.log(maintenanceDatabase)
+    dispatch(updateMaintenanceDatabase(maintainData))
   }
 
   useEffect(() => {
     dispatch(fetchMaintenanceDatabase())
+    dispatch(fetchMaintenanceCustomDatabase())
+    dispatch(fetchComponents())
   }, [dispatch])
 
 
   useEffect(() => {
-    dispatch(fetchMaintenanceCustomDatabase())
-  }, [])
-
-  useEffect(()=>{
-    dispatch(fetchComponents())
-  },[dispatch])
+    setMaintainData(maintenanceDatabase)
+  }, [maintenanceDatabase])
 
   return (
     <AppView>
@@ -184,9 +173,10 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                       verticalAlign: 'middle',
                     }}
                   >
-                    <Checkbox 
-                    checked={allChecked}
-                    onChange={handleHeaderCheckboxChange}
+                    <Checkbox
+                      checked={allChecked}
+                      indeterminate={indeterminate}
+                      onChange={handleHeaderCheckboxChange}
                     />
                   </th>
                   <th
@@ -232,121 +222,101 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
                 </tr>
               </thead>
               <tbody>
-                {maintenanceDataBases.map((opt, index) => {
-                  const data = Maintenance.find(
-                    (field) => field.fieldName === opt.fieldName,
-                  )
-                  if (!data) return null
-
-                  return (
-                    <tr key={`${data.fieldName}-${index}`}>
-                      <td>
-                        <Checkbox
-                          checked={opt.isVisible || false}
-                          onChange={() => handleCheckboxChange(index, data.fieldName)}
-                        />
-                      </td>
-                      <td
-                        style={{
-                          wordBreak: 'break-word',
-                          whiteSpace: 'normal',
-                          textAlign: 'left',
-                        }}
-                      >
-                         {data.fieldName === 'Title' ? (
-                          <>
-                            {data.fieldName}{'  '}
-                            <span style={{ color: 'red',fontSize:'1.2rem' }}>*</span>
-                          </>
-                        ) : (
-                          data.fieldName
-                        )}
-                      </td>
-                      <td
-                        style={{
-                          wordBreak: 'break-word',
-                          whiteSpace: 'normal',
-                        }}
-                      >
-                        {data.isVisible && (
-                          <FormControl>
+                {Maintenance &&
+                  Maintenance.map((data, index) => {
+                    const filterData = maintainData.find(
+                      (opt: any) => opt.name === data.name,
+                    )
+                    return (
+                      <tr key={`${data.fieldName}-${filterData?.id}`}>
+                        <td>
+                          <Checkbox
+                            checked={filterData?.isVisible || false}
+                            onChange={(e) => handleCheckboxChange(e, data.name)}
+                          />
+                        </td>
+                        <td
+                          style={{
+                            wordBreak: 'break-word',
+                            whiteSpace: 'normal',
+                            textAlign: 'left',
+                          }}
+                        >
+                          {data.fieldName === 'Title' ? (
+                            <>
+                              {data.fieldName}
+                              {'  '}
+                              <span
+                                style={{ color: 'red', fontSize: '1.2rem' }}
+                              >
+                                *
+                              </span>
+                            </>
+                          ) : (
+                            data.fieldName
+                          )}
+                        </td>
+                        <td>
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              flexDirection: 'row',
+                              gap: 1,
+                            }}
+                          >
                             <RadioGroup
-                              value={opt.isRequired ? 'yes' : 'optional'}
-                              name={`radio-buttons-group-${index}`}
-                              onChange={(e) =>
-                                handleRadioChange(index, e.target.value)
-                              }
-                              sx={{ gap: 2 }}
+                              name={`radio-buttons-group-${index}-${data.name}`}
+                              onChange={(e) => handleRadioSelect(e, data.name)}
+                              sx={{
+                                gap: 1,
+                                marginLeft: 1,
+                              }}
                             >
-                              <FormControl
-                                key={`${index}-yes`}
-                                disabled={!opt.isVisible}
-                                sx={{
-                                  display: 'inline-flex',
-                                  alignItems: 'center',
-                                  flexDirection: 'row',
-                                  gap: 2,
-                                  // visibility: opt.fieldName === 'Full Name' ? 'isVisible' : 'hidden',
-                                }}
-                              >
-                                <Radio
-                                  value="yes"
-                                  checked={opt.isRequired === 'yes'}
-                                  onChange={(e) =>
-                                    handleRadioChange(index, e.target.value)
-                                  }
-                                  color="primary" // Adjust color as needed
-                                  sx={{ mr: 1 }}
-                                />
-                                Yes
-                              </FormControl>
-                              {opt.fieldName !== 'Title'&& opt.fieldName !=='Repeating' &&(
-                              <FormControl
-                                key={`${index}-optional`}
-                                disabled={!opt.isVisible}
-                                sx={{
-                                  display: 'inline-flex',
-                                  alignItems: 'center',
-                                  flexDirection: 'row',
-                                }}
-                              >
-                                <Radio
-                                  value="optional"
-                                  checked={opt.isRequired === 'optional'}
-                                  onChange={(e) =>
-                                    handleRadioChange(index, e.target.value)
-                                  }
-                                  color="primary"
-                                  sx={{ mr: 1 }}
-                                />
-                                Optional
-                              </FormControl>
-                              )}
+                              {data.option &&
+                                data.option.map((list, idx) => (
+                                  <Box
+                                    key={idx}
+                                    sx={{
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      gap: 1,
+                                    }}
+                                  >
+                                    <Radio
+                                      value={list.value}
+                                      checked={
+                                        filterData?.isRequired === list.value
+                                      }
+                                      disabled={!filterData?.isVisible}
+                                    />
+                                    <Typography>{list.label}</Typography>
+                                  </Box>
+                                ))}
                             </RadioGroup>
-                          </FormControl>
-                        )}
-                      </td>
-                      <td
-                        style={{
-                          wordBreak: 'break-word',
-                          whiteSpace: 'normal',
-                          textAlign: 'left',
-                        }}
-                      >
-                        {data.description}
-                      </td>
-                      <td
-                        style={{
-                          wordBreak: 'break-word',
-                          whiteSpace: 'normal',
-                          textAlign: 'left',
-                        }}
-                      >
-                        {data.example}
-                      </td>
-                    </tr>
-                  )
-                })}
+                          </Box>
+                        </td>
+
+                        <td
+                          style={{
+                            wordBreak: 'break-word',
+                            whiteSpace: 'normal',
+                            textAlign: 'left',
+                          }}
+                        >
+                          {data.description}
+                        </td>
+                        <td
+                          style={{
+                            wordBreak: 'break-word',
+                            whiteSpace: 'normal',
+                            textAlign: 'left',
+                          }}
+                        >
+                          {data.example}
+                        </td>
+                      </tr>
+                    )
+                  })}
               </tbody>
             </Table>
             <Divider sx={{ my: '20px' }}></Divider>

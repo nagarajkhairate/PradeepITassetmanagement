@@ -12,24 +12,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchAssetsDefaultFields } from '../../../redux/features/AssetSlice';
 
 const AssetForm: React.FC = () => {
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
   const assetsDefaultField = useSelector(
     (state: RootState) => state.assetsDefaultField.data,
-  )
-
-  useEffect(() => {
-    dispatch(fetchAssetsDefaultFields())
-  }, [dispatch])
+  );
 
   const [open, setOpen] = useState<any>(false);
-  const [formData, setFormData] = useState<FormData[]>([]);
-
+  const [formData, setFormData] = useState<FormData[]>(DummyData);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     console.log('Form submitted:', formData);
   };
 
+  console.log((JSON.stringify(assetsDefaultField)))
+
+  useEffect(()=>{
+    dispatch(fetchAssetsDefaultFields())
+  }, [dispatch])
+
+  useEffect(()=>{
+    setFormData(assetsDefaultField)
+  }, [assetsDefaultField])
   return (
     <Box component="section">
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -67,3 +71,4 @@ const AssetForm: React.FC = () => {
 };
 
 export default AssetForm;
+

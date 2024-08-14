@@ -1,16 +1,43 @@
-export const Customers = [
+export interface customerValue {
+  id: number,
+  isVisible: boolean;
+  fieldName: string;
+  name: string;
+  description: string;
+  isRequired: string;
+}
+
+export interface Option {
+  id: number;
+  label: string;
+  value: string
+}
+
+export  interface customField {
+  id: number;
+  fieldName: string;
+  name: string;
+  isVisible: string;
+  description: string;
+  example: string;
+  option: Option[];
+}
+
+
+
+
+export const customers: customField[] = [
     {
       id: 1,
       fieldName: 'Full Name',
-      value: 'fullName',
+      name: 'fullName',
       isVisible: 'isVisible',
-
-      isRequired: true,
       description: 'Full name of the customer',
       example: 'John Doe',
       option: [
         {
           id: 1,
+          label: 'Yes',
           value: 'yes',
         },
       ],
@@ -18,18 +45,19 @@ export const Customers = [
     {
       id: 2,
       fieldName: 'Email',
-      value: 'email',
+      name: 'email',
       isVisible: 'isVisible',
-      isRequired: false,
       description: 'Email of the customer',
       example: 'johndoe@example.com',
       option: [
         {
           id: 1,
+          label: 'Yes',
           value: 'yes',
         },
         {
           id: 2,
+          label: 'Optional',
           value: 'optional',
         },
       ],
@@ -37,19 +65,19 @@ export const Customers = [
     {
       id: 3,
       fieldName: 'Company',
-      value: 'company',
+      name: 'company',
       isVisible: 'isVisible',
-
-      isRequired: false,
       description: 'Customers company name',
       example: 'Jane Doe Company',
       option: [
         {
           id: 1,
+          label: 'Yes',
           value: 'yes',
         },
         {
           id: 2,
+          label: 'Optional',
           value: 'optional',
         },
       ],
@@ -57,18 +85,19 @@ export const Customers = [
     {
       id: 4,
       fieldName: 'Address',
-      value: 'address',
+      name: 'address',
       isVisible: 'isVisible',
-      isRequired: false,
       description: ' All address fields of the customer',
       example: ' ---',
       option: [
         {
           id: 1,
+          label: 'Yes',
           value: 'yes',
         },
         {
           id: 2,
+          label: 'Optional',
           value: 'optional',
         },
       ],
@@ -76,18 +105,19 @@ export const Customers = [
     {
       id: 5,
       fieldName: 'Phone',
-      value: 'phone',
+      name: 'phone',
       isVisible: 'isVisible',
-      isRequired: false,
       description: 'Phone number of the customer',
       example: '(555) 123-4567',
       option: [
         {
           id: 1,
+          label: 'Yes',
           value: 'yes',
         },
         {
           id: 2,
+          label: 'Optional',
           value: 'optional',
         },
       ],
@@ -95,18 +125,19 @@ export const Customers = [
     {
       id: 6,
       fieldName: 'Mobile Phone',
-      value: 'mobilePhone',
+      name: 'mobilePhone',
       isVisible: 'isVisible',
-      isRequired: false,
       description: 'Mobile Cell of the customer',
       example: '	(123) 456-7890',
       option: [
         {
           id: 1,
+          label: 'Yes',
           value: 'yes',
         },
         {
           id: 2,
+          label: 'Optional',
           value: 'optional',
         },
       ],
@@ -114,18 +145,19 @@ export const Customers = [
     {
       id: 7,
       fieldName: 'Notes',
-      value: 'notes',
+      name: 'notes',
       isVisible: 'isVisible',
-      isRequired: false,
       description: 'Text area for notes',
       example: 'Leases equipment for 12 months.',
       option: [
         {
           id: 1,
+          label: 'Yes',
           value: 'yes',
         },
         {
           id: 2,
+          label: 'Optional',
           value: 'optional',
         },
       ],
@@ -135,53 +167,60 @@ export const Customers = [
 
   
 
-  export const customerData = [
+  export const customerData: customerValue[] = [
     {
+      id:1,
       isVisible: true,
       fieldName: 'Full Name',
-      value: 'fullName',
+      name: 'fullName',
       description: 'string',
       isRequired: 'yes',
     },
     {
+      id:2,
         isVisible: true,
         fieldName: "Email",
-        value: "email",
+        name: "email",
         isRequired: 'optional',
         description: "string",
     },
     {
+      id:3,
         isVisible: true,
         fieldName: "Company",
-        value: "company",
+        name: "company",
         isRequired: 'optional',
         description: "string",
     },
     {
+      id:4,
         isVisible: true,
         fieldName: "Address",
-        value: "address",
+        name: "address",
         isRequired: 'optional',
         description: "string",
     },
     {
+      id:5,
         isVisible: true,
         fieldName: "Phone",
-        value: "phone",
+        name: "phone",
         isRequired: 'optional',
         description: "string",
     },
     {
+      id:6,
         isVisible: true,
         fieldName: "Mobile Phone",
-        value: "mobilePhone",
+        name: "mobilePhone",
         isRequired: 'optional',
         description: "string",
     },
     {
+      id:7,
         isVisible: true,
         fieldName: "Notes",
-        value: "notes",
+        name: "notes",
         isRequired: 'optional',
         description: "string",
     },
