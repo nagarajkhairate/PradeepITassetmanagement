@@ -244,9 +244,9 @@ const Event: React.FunctionComponent = () => {
             }}
           >
           <AssetRadioGroup
-            name="checkout"
+            name="checkOut"
             onChange={HandleRadioSelect}
-            value={eventForm.checkout}
+            value={eventForm.checkOut}
           />
           </Box>
           <>

@@ -16,6 +16,7 @@ export const TableInfoData = [
         "description": "If your assets are under a contract or certain agreement you want to consider activating this option. Software licenses can also be managed under this option.",
         "formLabel": "Enable Contracts:",
         "icon":TuneOutlinedIcon ,
+        'name':'contractsLicenses',
         "options": [
             {
                 "label": "Yes",

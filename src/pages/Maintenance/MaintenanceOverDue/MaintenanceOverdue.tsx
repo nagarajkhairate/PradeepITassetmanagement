@@ -5,18 +5,17 @@ import {
   Typography,
 } from "@mui/joy";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import Image from "../../components/Common/MaintenanceEmpty";
 import Select, { selectClasses } from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import Table from "@mui/joy/Table";
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
-import AppView from "../../components/Common/AppView";
+import AppView from "../../../components/Common/AppView";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
-import { RootState } from "../../redux/store";
-import { fetchAlertsMaintenanceOverDue } from "../../redux/features/AlertsMaintenanceOverDueSlice";
+import { RootState } from "../../../redux/store";
+import { fetchAlertsMaintenanceOverDue } from "../../../redux/features/AlertsMaintenanceOverDueSlice";
 
 
 export const MaintenanceOverdue: React.FC = () => {
@@ -95,7 +94,7 @@ export const MaintenanceOverdue: React.FC = () => {
                  <CloudUploadOutlinedIcon />
                 Export to Excel
               </Button>
-              <Link to='/alerts/maintenances-due/import-maintenance' style={{ textDecoration: 'none' }}>
+              <Link to='/alerts/maintenances-over-due/import-maintenance' style={{ textDecoration: 'none' }}>
               <Button
                 variant="solid"
                 autoFocus
@@ -111,6 +110,8 @@ export const MaintenanceOverdue: React.FC = () => {
                 Import Maintanence
               </Button>
               </Link>
+
+              <Link to='/alerts/maintenances-over-due/maintenance-over-due-set-up-column' style={{ textDecoration: 'none' }}>
               <Button
                 type="button"
                 variant="solid"
@@ -125,6 +126,7 @@ export const MaintenanceOverdue: React.FC = () => {
                 <SettingsOutlinedIcon />
                 Setup Column
               </Button>
+              </Link>
           </Box>
         </Box>
 

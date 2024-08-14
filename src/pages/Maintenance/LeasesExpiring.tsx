@@ -263,7 +263,7 @@ export const LeasesExpiring: React.FC = () => {
                 whiteSpace: 'normal',
                 textAlign: 'left',
               }}>
-                  Leasing Customer ID
+                  Leasing Customer 
                 </th>
                 <th style={{
                 background: '#fff8e6',

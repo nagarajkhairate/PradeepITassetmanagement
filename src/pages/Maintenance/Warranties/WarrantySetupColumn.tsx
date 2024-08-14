@@ -14,10 +14,7 @@ const WarrantySetupColumn: React.FC = () => {
   const warrantiesDatabase = useSelector((state: RootState) => state.warrantiesDatabase.data)
   const navigate=useNavigate()
 
-  const [selectedColumns, setSelectedColumns] = useState<number[]>(() => {
-    const savedColumns = localStorage.getItem('selectedColumns');
-    return savedColumns ? JSON.parse(savedColumns) : [];
-  });
+  const [selectedColumns, setSelectedColumns] = useState<number[]>([]);
   const [filteredColumns, setFilteredColumns] = useState<{ id: number, fieldName: string, isTable: boolean }[]>([]);
 
   const handleCheckboxChange = (id: number) => {
@@ -25,29 +22,35 @@ const WarrantySetupColumn: React.FC = () => {
       const newSelectedColumns = prevSelectedColumns.includes(id)
         ? prevSelectedColumns.filter((col) => col !== id)
         : [...prevSelectedColumns, id];
-        localStorage.setItem('selectedColumns', JSON.stringify(newSelectedColumns));
       return newSelectedColumns;
     });
   };
 
   React.useEffect(() => {
     if (warrantiesDatabase.length > 0) {
-      setFilteredColumns(warrantiesDatabase[0])
+      const warrantyColumns=warrantiesDatabase
+      .filter(column=>column.isTable)
+      .map(column=>column.id)
+      setSelectedColumns(warrantyColumns)
     }
   }, [warrantiesDatabase])
 
-  useEffect(() => {
-    dispatch(fetchWarrantiesDatabase());
-  }, [dispatch]);
 
   useEffect(() => {
-    if (warrantiesDatabase) {
+    if (warrantiesDatabase.length >0) {
       const updatedFilteredColumns = warrantiesDatabase.filter((column) =>
         selectedColumns.includes(column.id)
       );
       setFilteredColumns(updatedFilteredColumns);
     }
   }, [selectedColumns, warrantiesDatabase]);
+
+  
+
+  useEffect(() => {
+    dispatch(fetchWarrantiesDatabase());
+  }, [dispatch]);
+
 
   const handleSave = () => {
     const updatedColumns = warrantiesDatabase.map((column) => ({

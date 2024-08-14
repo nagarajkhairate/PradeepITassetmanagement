@@ -4,65 +4,73 @@ import React, { useEffect, useState } from 'react';
 import { ThunkDispatch } from 'redux-thunk';
 import { RootState } from '../../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchContractDatabase } from '../../../redux/features/ContractDatabaseSlice';
+import { fetchMaintenanceDatabase, updateMaintenanceDatabase } from '../../../redux/features/MaintenanceDatabaseSlice';
 import AlertsSetupColumnTable from '../Maintenances/AlertsSetupColumnTable';
-import { updateAlertsSetupColumn } from '../../../redux/features/AlertsSetupColumnSlice';
 import { useNavigate } from 'react-router-dom';
 
-const AlertContractSetupColumn: React.FC = () => {
+const MaintenancesOverdueSetupColumn: React.FC = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
-  const contractDatabase = useSelector((state: RootState) => state.contractDatabase.data);
-  const navigate = useNavigate();
+  const maintenanceDatabase = useSelector((state: RootState) => state.maintenanceDatabase.data)
+  const navigate=useNavigate()
 
-  const [selectedColumns, setSelectedColumns] = useState<number[]>([])
-
+  const [selectedColumns, setSelectedColumns] = useState<number[]>([]);
   const [filteredColumns, setFilteredColumns] = useState<{ id: number, fieldName: string, isTable: boolean }[]>([]);
 
   const handleCheckboxChange = (id: number) => {
     setSelectedColumns((prevSelectedColumns) => {
-
       const newSelectedColumns = prevSelectedColumns.includes(id)
         ? prevSelectedColumns.filter((col) => col !== id)
         : [...prevSelectedColumns, id];
-
       return newSelectedColumns;
     });
   };
 
   useEffect(() => {
-    if (contractDatabase.length > 0) {
-      const contractColumns = contractDatabase.filter(column => column.isTable).map(column => column.id)
-      setSelectedColumns(contractColumns);
+    if (maintenanceDatabase.length > 0) {
+      const initialSelectedColumns = maintenanceDatabase
+        .filter(column => column.isTable)
+        .map(column => column.id);
+      setSelectedColumns(initialSelectedColumns);
     }
-  }, [contractDatabase]);
+  }, [maintenanceDatabase]);
 
   useEffect(() => {
-    dispatch(fetchContractDatabase());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (contractDatabase.length) {
-      const updatedFilteredColumns = contractDatabase.filter((column) =>
+    if (maintenanceDatabase.length > 0) {
+      const updatedFilteredColumns = maintenanceDatabase.filter((column) =>
         selectedColumns.includes(column.id)
       );
       setFilteredColumns(updatedFilteredColumns);
     }
-  }, [selectedColumns, contractDatabase]);
+  }, [selectedColumns, maintenanceDatabase]);
+
+
+
+  useEffect(() => {
+    dispatch(fetchMaintenanceDatabase());
+  }, [dispatch]);
+
 
   const handleSave = () => {
-    const updatedColumns = contractDatabase.map((column) => ({
+    const updatedColumns = maintenanceDatabase.map((column) => ({
       ...column,
       isTable: selectedColumns.includes(column.id),
     }));
 
     console.log('Selected Columns:', filteredColumns);
-    dispatch(updateAlertsSetupColumn(updatedColumns));
-    navigate('/alerts/contracts-expiring', { state: { selectedColumns: filteredColumns.map(column => column.fieldName) } });
+    dispatch(updateMaintenanceDatabase(updatedColumns));
+    const columnNames = filteredColumns.map((column) => column.fieldName)
+    navigate('/alerts/maintenances-due', { state: { selectedColumns:filteredColumns.map(column => column.fieldName)} })
   };
+
+  const formattedColumns = [
+    {
+      fields: filteredColumns.map(column => column.fieldName),
+    },
+  ];
 
   return (
     <AppView>
-      <Typography level="h3">Contracts / Software Licenses</Typography>
+      <Typography level="h3">Maintenance</Typography>
 
       <Box
         sx={{
@@ -120,8 +128,8 @@ const AlertContractSetupColumn: React.FC = () => {
               overflowX: 'auto',
             }}
           >
-            {contractDatabase && contractDatabase.map((column) => (
-              <Box key={column.id} sx={{ flex: 1, p: 1,  }}>
+            {maintenanceDatabase && maintenanceDatabase.map((column) => (
+              <Box key={column.id} sx={{ flex: 1, p: 1 }}>
                 <Typography
                 sx={{
                   display: 'flex',
@@ -141,12 +149,13 @@ const AlertContractSetupColumn: React.FC = () => {
           
           <Divider />
           <Box>
-            <Typography level="h4">Order Table Columns</Typography>
-            <Typography sx={{ p: 1 }}>
-              Rearrange the table column sequence by dragging and dropping columns.
-            </Typography>
-            <AlertsSetupColumnTable selectedColumns={[{ fields: filteredColumns.map(column => column.fieldName) }]} />
-          </Box>
+      <Typography level="h4">Order Table Columns</Typography>
+      <Typography sx={{ p: 1 }}>
+        Rearrange the table column sequence by dragging and dropping columns.
+      </Typography>
+          
+          <AlertsSetupColumnTable selectedColumns={[{ fields: filteredColumns.map(column => column.fieldName) }]}/>
+        </Box>
         </Box>
 
         <Box
@@ -171,8 +180,9 @@ const AlertContractSetupColumn: React.FC = () => {
                         color: 'white',
                         // marginLeft: '50px',
                       }}
-                      onClick={() => navigate('/alerts/contracts-expiring')}
+                      onClick={() => navigate('/alerts/maintenances-due')}
                     >
+                      
                       Cancel
                     </Button>
           <Button onClick={handleSave}
@@ -189,5 +199,4 @@ const AlertContractSetupColumn: React.FC = () => {
     </AppView>
   );
 };
-
-export default AlertContractSetupColumn;
+export default MaintenancesOverdueSetupColumn;
