@@ -58,6 +58,7 @@ import MaintenancesSetupColumn from '../pages/Maintenance/Maintenances/Maintenan
 import WarrantySetupColumn from '../pages/Maintenance/Warranties/WarrantySetupColumn'
 import ViewContract from '../pages/Maintenance/Contract/ViewContract'
 import EditContract from '../pages/Maintenance/Contract/EditContract'
+import MaintenancesOverdueSetupColumn from '../pages/Maintenance/MaintenanceOverDue/MaintenancesOverdueSetupColumn'
 
 
 
@@ -149,6 +150,12 @@ const appRoutes: RouteType[] = [
           displayText: 'Maintenances Over Due',
           icon: <ICONS.person />,
         },
+      },
+      {
+        index: true,
+        path: '/alerts/maintenances-over-due/maintenance-over-due-set-up-column',
+        element: <MaintenancesOverdueSetupColumn />,
+        state: 'assets',
       },
       {
         index: true,

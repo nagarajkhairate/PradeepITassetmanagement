@@ -13,34 +13,39 @@ const MaintenancesSetupColumn: React.FC = () => {
   const maintenanceDatabase = useSelector((state: RootState) => state.maintenanceDatabase.data)
   const navigate=useNavigate()
 
-  const [selectedColumns, setSelectedColumns] = useState<number[]>(() => {
-    const savedColumns = localStorage.getItem('selectedColumns');
-    return savedColumns ? JSON.parse(savedColumns) : [];
-  });
+  const [selectedColumns, setSelectedColumns] = useState<number[]>([]);
   const [filteredColumns, setFilteredColumns] = useState<{ id: number, fieldName: string, isTable: boolean }[]>([]);
+
+  // const handleCheckboxChange = (id: number) => {
+  //   setSelectedColumns((prevSelectedColumns) => {
+  //     const newSelectedColumns = prevSelectedColumns.includes(id)
+  //       ? prevSelectedColumns.filter((col) => col !== id)
+  //       : [...prevSelectedColumns, id];
+  //     return newSelectedColumns;
+  //   });
+  // };
 
   const handleCheckboxChange = (id: number) => {
     setSelectedColumns((prevSelectedColumns) => {
-      const newSelectedColumns = prevSelectedColumns.includes(id)
-        ? prevSelectedColumns.filter((col) => col !== id)
-        : [...prevSelectedColumns, id];
-        localStorage.setItem('selectedColumns', JSON.stringify(newSelectedColumns));
-      return newSelectedColumns;
+      if (prevSelectedColumns.includes(id)) {
+        return prevSelectedColumns.filter((columnId) => columnId !== id);
+      } else {
+        return [...prevSelectedColumns, id];
+      }
     });
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (maintenanceDatabase.length > 0) {
-      setFilteredColumns(maintenanceDatabase[0])
+      const initialSelectedColumns = maintenanceDatabase
+        .filter(column => column.isTable)
+        .map(column => column.id);
+      setSelectedColumns(initialSelectedColumns);
     }
-  }, [maintenanceDatabase])
+  }, [maintenanceDatabase]);
 
   useEffect(() => {
-    dispatch(fetchMaintenanceDatabase());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (maintenanceDatabase) {
+    if (maintenanceDatabase.length > 0) {
       const updatedFilteredColumns = maintenanceDatabase.filter((column) =>
         selectedColumns.includes(column.id)
       );
@@ -48,19 +53,27 @@ const MaintenancesSetupColumn: React.FC = () => {
     }
   }, [selectedColumns, maintenanceDatabase]);
 
+
+
+  useEffect(() => {
+    dispatch(fetchMaintenanceDatabase());
+  }, [dispatch]);
+
+
   const handleSave = () => {
     const updatedColumns = maintenanceDatabase.map((column) => ({
       ...column,
       isTable: selectedColumns.includes(column.id),
     }));
 
+    const selectedFields = maintenanceDatabase.filter(col => selectedColumns.includes(col.id));
+
     console.log('Selected Columns:', filteredColumns);
     dispatch(updateMaintenanceDatabase(updatedColumns));
     const columnNames = filteredColumns.map((column) => column.fieldName)
-    navigate('/alerts/maintenances-due', { state: { selectedColumns:filteredColumns.map(column => column.fieldName)} })
+    navigate('/alerts/maintenances-due', { state: { selectedColumns:selectedFields.map(column => column.fieldName)} })
   };
 
-  // Transform filteredColumns into the expected format for AlertsSetupColumnTable
   const formattedColumns = [
     {
       fields: filteredColumns.map(column => column.fieldName),

@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, SyntheticEvent } from 'react'
+import React, { useState, ChangeEvent, SyntheticEvent, useEffect } from 'react'
 import {
   Box,
   Typography,
@@ -63,11 +63,15 @@ const LinkingOptions = {
 }
 
 const SetupTableOptions: React.FC = ({}) => {
+  const tableOptions = useSelector((state: RootState) => state.tableOptions.data)
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  console.log(JSON.stringify(tableOptions))
+
   const [showDepreciationOptions, setShowDepreciationOptions] = useState(false)
   const [depreciationMethod, setDepreciationMethod] = useState('')
   const [calculationFrequency, setCalculationFrequency] = useState('')
   const [enableLinking, setEnableLinking] = useState('no')
-  const [linkedAssets, setLinkedAssets] = useState({
+  const [linkedAssets, setLinkedAssets] = useState<{ [key: string]: boolean }>({
     checkout: false,
     reservation: false,
     leaseAssets: false,
@@ -79,14 +83,8 @@ const SetupTableOptions: React.FC = ({}) => {
     sellAssets: false,
     auditAssets: false,
   })
-  const [companyFormData, setCompanyFormData] = useState<any>({
-    assetDepreciation: 'no',
-    depreciationMethod: '',
-    calculationFrequency: '',
-    enableLinking: 'no',
-  })
-  const tableOptions = useSelector((state: RootState) => state.tableOptions)
-  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const [companyFormData, setCompanyFormData] = useState<any>({})
+ 
 
   const handleDepreciationChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
@@ -111,9 +109,7 @@ const SetupTableOptions: React.FC = ({}) => {
     if (newValue !== null) setCalculationFrequency(newValue)
   }
 
-  const [selectedOptions, setSelectedOptions] = useState<{
-    [key: string]: string
-  }>({})
+  const [selectedOptions, setSelectedOptions] = useState<any>({ id: 1 })
 
   const handleSubmit = () => {
     const formData: any = {
@@ -174,9 +170,21 @@ const SetupTableOptions: React.FC = ({}) => {
     }))
   }
 
+
+
   React.useEffect(() => {
-    dispatch(fetchOptions())
-  }, [dispatch])
+    if (tableOptions.length > 0) {
+      setCompanyFormData(tableOptions[0])
+    }
+  }, [tableOptions])
+
+  useEffect(() => {
+    if (tableOptions.length === 0) {
+      dispatch(fetchOptions())
+    }
+  }, [dispatch, tableOptions.length])
+
+  
 
   return (
     <AppView>
