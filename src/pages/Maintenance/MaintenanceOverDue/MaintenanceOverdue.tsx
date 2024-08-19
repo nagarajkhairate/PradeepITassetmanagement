@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -11,20 +11,38 @@ import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import Table from "@mui/joy/Table";
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import AppView from "../../../components/Common/AppView";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { RootState } from "../../../redux/store";
 import { fetchAlertsMaintenanceOverDue } from "../../../redux/features/AlertsMaintenanceOverDueSlice";
+import { fetchMaintenanceDatabase } from "../../../redux/features/MaintenanceDatabaseSlice";
 
 
 export const MaintenanceOverdue: React.FC = () => {
 
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const alertsMaintenanceOverDue = useSelector((state: RootState) => state.alertsMaintenanceOverDue.data)
+  const maintenanceDatabase = useSelector(
+    (state: RootState) => state.maintenanceDatabase.data,
+  )
+
+  const location = useLocation()
+  const [selectedColumns, setSelectedColumns] = useState<string[]>([])
+  const [formData, setFormData] = useState<any>()
+
+  useEffect(() => {
+    if (location.state && location.state.selectedColumns) {
+      setSelectedColumns(location.state.selectedColumns)
+    }
+  }, [location.state])
 
   useEffect(() => {
     dispatch(fetchAlertsMaintenanceOverDue())
+  }, [dispatch])
+
+  useEffect(() => {
+    dispatch(fetchMaintenanceDatabase())
   }, [dispatch])
 
 
@@ -228,73 +246,26 @@ export const MaintenanceOverdue: React.FC = () => {
           >
             <thead>
               <tr>
-                <th style={{
-                background: '#fff8e6',
-                verticalAlign: 'middle',
-                wordBreak: 'break-word',
-                whiteSpace: 'normal',
-                textAlign: 'left',
-              }}>
-                  Maintenance Title
-                </th>
-                <th style={{
-                background: '#fff8e6',
-                verticalAlign: 'middle',
-                wordBreak: 'break-word',
-                whiteSpace: 'normal',
-                textAlign: 'left',
-              }}>
-                  Maintenance Detail
-                </th>
-                <th style={{
-                background: '#fff8e6',
-                verticalAlign: 'middle',
-                wordBreak: 'break-word',
-                whiteSpace: 'normal',
-                textAlign: 'left',
-              }}>
-                  Maintenance Due Date
-                </th>
-                <th style={{
-                background: '#fff8e6',
-                verticalAlign: 'middle',
-                wordBreak: 'break-word',
-                whiteSpace: 'normal',
-                textAlign: 'left',
-              }}>
-                  Maintenance By
-                </th>
-                <th style={{
-                background: '#fff8e6',
-                verticalAlign: 'middle',
-                wordBreak: 'break-word',
-                whiteSpace: 'normal',
-                textAlign: 'left',
-              }}>
-              Maintenance Status
-                </th>
-                <th style={{
-                background: '#fff8e6',
-                verticalAlign: 'middle',
-                wordBreak: 'break-word',
-                whiteSpace: 'normal',
-                textAlign: 'left',
-              }}>
-                  Date Completed
-                </th>
-
-                <th style={{
-                background: '#fff8e6',
-                verticalAlign: 'middle',
-                wordBreak: 'break-word',
-                whiteSpace: 'normal',
-                textAlign: 'left',
-              }}>
-                  Maintenance Cost
-                </th>
+              {maintenanceDatabase &&
+                  maintenanceDatabase
+                    .filter((field: any) => field.isTable)
+                    .map((column: any, index: number) => (
+                      <th
+                        key={index}
+                        style={{
+                          background: '#fff8e6',
+                          verticalAlign: 'middle',
+                          wordBreak: 'break-word',
+                          whiteSpace: 'normal',
+                          textAlign: 'left',
+                        }}
+                      >
+                        {column.fieldName}
+                      </th>
+                    ))}
               </tr>
             </thead>
-            <tbody>
+            {/* <tbody>
               {alertsMaintenanceOverDue.map((lease: any, rowIndex: number) => (
                 <tr key={rowIndex}>
                   <td
@@ -361,6 +332,61 @@ export const MaintenanceOverdue: React.FC = () => {
                   >
                     {lease.maintenanceCost}
                   </td>
+                </tr>
+              ))}
+            </tbody> */}
+            <tbody>
+              {alertsMaintenanceOverDue.map((contract: any) => (
+                <tr key={contract}>
+                  {maintenanceDatabase &&
+                    maintenanceDatabase
+                      .filter((field: any) => field.isTable)
+                      .map((column: any, colIndex: number) => (
+                        <td
+                          key={colIndex}
+                          style={{
+                            wordBreak: 'break-word',
+                            whiteSpace: 'normal',
+                            textAlign: 'left',
+                          }}
+                        >
+                          {selectedColumns.includes(column.name)
+                            ? formData[column.name]
+                            : contract[column.name]}
+                        </td>
+                      ))}
+                     {/* <td
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent:'flex-start',
+    gap:4,
+  }}
+>
+  <Button
+    sx={{
+      fontSize: '10px',
+      display:'flex',
+     justifyContent:'flex-start',
+marginLeft:'none'
+    }}
+  >
+    Edit
+  </Button>
+  <Button
+
+  >
+    <Link
+      to={`/alerts/maintenance-due/view-maintenance/${contract.id}`}
+      style={{ color: 'inherit', fontSize: '4px', display: 'flex', alignItems: 'center' }}
+    >
+      <RemoveRedEyeIcon
+        sx={{ fontSize: '15px', color: 'black' }}
+      />
+    </Link>
+  </Button>
+</td> */}
+
                 </tr>
               ))}
             </tbody>

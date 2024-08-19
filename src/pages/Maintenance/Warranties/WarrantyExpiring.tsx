@@ -275,45 +275,32 @@ export function WarrantyExpiring() {
                 </th>
               </tr>
           </thead> */}
-
-            <thead>
-              <tr>
-                <th
-                  style={{
-                    background: '#fff8e6',
-                    verticalAlign: 'middle',
-                    wordBreak: 'break-word',
-                    whiteSpace: 'normal',
-                    textAlign: 'left',
-                  }}
-                >
-                  Length
-                </th>
-                <th
-                  style={{
-                    background: '#fff8e6',
-                    verticalAlign: 'middle',
-                    wordBreak: 'break-word',
-                    whiteSpace: 'normal',
-                    textAlign: 'left',
-                  }}
-                >
-                  Expiration Date
-                </th>
-                <th
-                  style={{
-                    background: '#fff8e6',
-                    verticalAlign: 'middle',
-                    wordBreak: 'break-word',
-                    whiteSpace: 'normal',
-                    textAlign: 'left',
-                  }}
-                >
-                  Notes
-                </th>
-              </tr>
-            </thead>
-            <tbody>
+<thead>
+            <tr>
+              {warrantiesDatabase && warrantiesDatabase.filter((field:any) => field.isTable).map((column: any, index: number) => (
+                <th key={index}
+                style={{
+                  background: '#fff8e6',
+                  verticalAlign: 'middle',
+                  wordBreak: 'break-word',
+                  whiteSpace: 'normal',
+                  textAlign: 'left',
+                }}
+                >{column.fieldName}</th>
+               
+              ))}
+               {/* <th
+               style={{
+                background: '#fff8e6',
+                verticalAlign: 'middle',
+                wordBreak: 'break-word',
+                whiteSpace: 'normal',
+                textAlign: 'left',
+              }}
+               >Action</th> */}
+            </tr>
+          </thead>
+            {/* <tbody>
               {alertsWarrantiesExp.map((lease: any, rowIndex: number) => (
                 <tr key={rowIndex}>
                   <td
@@ -345,7 +332,32 @@ export function WarrantyExpiring() {
                   </td>
                 </tr>
               ))}
-            </tbody>
+            </tbody> */}
+             <tbody>
+            {alertsWarrantiesExp.map((contract: any, rowIndex: number) => (
+              <tr key={rowIndex}>
+                {warrantiesDatabase && warrantiesDatabase.filter((field:any) => field.isTable).map((column: any, colIndex: number) => (
+                  <td key={colIndex}
+                  style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}
+                  >
+                    {selectedColumns.includes(column.name)
+                      ? formData[column.name]
+                      : contract[column.name]}
+                  </td>
+                ))}
+                {/* <td style={{ cursor: 'pointer' }}>
+                    <Link
+                      to={`/alerts/contracts-expiring/view-contract/${contract.id}`}
+                      style={{ color: 'inherit' }}
+                    >
+                       <RemoveRedEyeIcon
+                         sx={{ size: '20', color: 'black' }}
+                       /> 
+                    </Link>
+                  </td> */}
+              </tr>
+            ))}
+          </tbody>
           </Table>
         </Box>
 
