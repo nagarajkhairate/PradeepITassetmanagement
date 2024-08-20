@@ -72,6 +72,7 @@ const Lease: React.FC = () => {
     () => ({
       Available: 'success',
       CheckedOut: 'neutral',
+      Leased:'neutral'
     }),
     [],
   )

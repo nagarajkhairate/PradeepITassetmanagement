@@ -6,6 +6,7 @@ import { RootState } from "../../redux/store";
 import { ThunkDispatch } from "redux-thunk";
 import { fetchEmployee } from "../../redux/features/EmployeeSlice";
 import Customer from "./Customer";
+import { fetchCustomer } from "../../redux/features/CustomerSlice";
 
 interface AddCustomerProps {
   field: any;
@@ -20,11 +21,11 @@ const AddNewCustomer: React.FC<AddCustomerProps> = ({
 }) => {
   const [error, setError] = useState<string>("");
   const [open, setOpen] = useState(false);
-  const addEmployee = useSelector((state: RootState) => state.addEmployee.data);
+  const customers = useSelector((state: RootState) => state.customer.data);
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchEmployee());
+    dispatch(fetchCustomer());
   }, [dispatch]);
 
   const selectChange = (e: any, newValue: string | null) => {
@@ -37,7 +38,7 @@ const AddNewCustomer: React.FC<AddCustomerProps> = ({
 
   const handleCustomerAdd = (newCustomerName: string) => {
     setOpen(false);
-    dispatch(fetchEmployee());
+    dispatch(fetchCustomer());
   };
 
    const isRequiredField = field.isRequired=== 'yes'
@@ -49,12 +50,12 @@ const AddNewCustomer: React.FC<AddCustomerProps> = ({
          sx={{padding: '10px',}}
           placeholder="Select Customer"
           name={field.name}
-          value={formData[field.name] as string}
+          value={formData && formData[field.name] as string}
           onChange={selectChange}
         >
-          {addEmployee.map((employee) => (
-            <Option key={employee.id} value={employee.id}>
-              {employee.empName}
+          {customers.map((customer) => (
+            <Option key={customer.id} value={customer.id}>
+              {customer.fullName}
             </Option>
           ))}
         </Select>

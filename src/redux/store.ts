@@ -6,7 +6,7 @@ import addClientReducer from "./features/ClientSlice"
 import appStateReducer from "./features/StateSlice";
 import darkModeReducer from "./features/DarkModeSlice";
 import locationReducer from './features/LocationSlice';
-import categoryReducer from './features/CategorySlice'
+import categoryReducer from './features/CategorySlice';
 import subCategoryReducer from './features/CategorySubSlice';
 import departmentNameReducer from './features/DepartmentSlice';
 import eventsReducer from "./features/EventsSlice";
@@ -36,6 +36,11 @@ import CheckOutFieldReducer from './features/CheckOutFieldSlice'
 import CheckInFieldReducer from './features/CheckInFieldSlice'
 import ClientFieldReducer from './features/ClientFieldSlice'
 import AssetDefaultFieldsReducer from './features/AssetsDefaultFieldsSlice'
+import CustomerDefaultFieldsReducer from './features/CustomerDefaultFields'
+import LeaseDefaultFieldsreducer from './features/LeaseDefaultFields'
+import LeaseReducer from './features/LeaseSlice'
+import CustomerReducer from './features/CustomerSlice'
+import LeaseReturnFieldsReducer from './features/LeaseReturnFields'
 import alertsAssetPastDueReducer from './features/AlertsAssetPastDueSlice'
 import alertsInsuranceExpReducer from './features/AlertsInsuranceExpSlice'
 import alertsLeasesExpReducer from './features/AlertsLeasesExpSlice'
@@ -46,6 +51,7 @@ import alertsAddContractReducer from './features/AlertsAddContractSlice'
 import alertsSetupReducer from './features/AlertsSetupSlice'
 import AuthSlice from "./features/AuthSlice";
 import alertsContractReducer from './features/AlertsContractslice'
+
 
 export const store = configureStore({
   reducer: {
@@ -87,6 +93,11 @@ export const store = configureStore({
     checkInField:CheckInFieldReducer,
     clientField:ClientFieldReducer,
     assetsDefaultField:AssetDefaultFieldsReducer,
+    customerDefaultField:CustomerDefaultFieldsReducer,
+    leaseDefaultField:LeaseDefaultFieldsreducer,
+    lease:LeaseReducer,
+    customer:CustomerReducer,
+    leaseReturnField:LeaseReturnFieldsReducer,
     alertsAssetPastDue:alertsAssetPastDueReducer,
     alertsInsuranceExp:alertsInsuranceExpReducer,
     alertsLeasesExp:alertsLeasesExpReducer,
@@ -96,6 +107,7 @@ export const store = configureStore({
     alertsAddContract:alertsAddContractReducer,
     alertsSetup:alertsSetupReducer,
     alertsContract:alertsContractReducer
+
   },
 });
 
