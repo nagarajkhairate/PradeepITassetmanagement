@@ -30,7 +30,7 @@ export const fetchAssets = createAsyncThunk('assets/fetchAssets', async () => {
 
 export const fetchAssetsDefaultFields = createAsyncThunk('assets/fetchAssetsDefaultFields', async () => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/asset-default-fields`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/add-asset`);
   return response.data;
    
   } catch (error) {
@@ -57,7 +57,7 @@ export const addAssets = createAsyncThunk('assets/addAssets', async (assets: any
  
 export const updateAssets = createAsyncThunk('assets/updateAssets', async (updatedCustomer: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/add-asset/${updatedCustomer.get('id')}`, updatedCustomer);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/add-asset`, updatedCustomer);
   return response.data;
 });
  

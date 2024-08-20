@@ -59,6 +59,7 @@ import WarrantySetupColumn from '../pages/Maintenance/Warranties/WarrantySetupCo
 import ViewContract from '../pages/Maintenance/Contract/ViewContract'
 import EditContract from '../pages/Maintenance/Contract/EditContract'
 import MaintenancesOverdueSetupColumn from '../pages/Maintenance/MaintenanceOverDue/MaintenancesOverdueSetupColumn'
+import ViewMaintenance from '../pages/Maintenance/Maintenances/ViewMaintenance'
 
 
 
@@ -140,6 +141,12 @@ const appRoutes: RouteType[] = [
         index: true,
         path: '/alerts/maintenances-due/maintenance-set-up-column',
         element: <MaintenancesSetupColumn />,
+        state: 'assets',
+      },
+      {
+        index: true,
+        path: '/alerts/maintenance-due/view-maintenance/:id',
+        element: <ViewMaintenance />,
         state: 'assets',
       },
       {

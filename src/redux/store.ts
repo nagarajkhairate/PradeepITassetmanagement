@@ -50,6 +50,7 @@ import alertsWarrantiesExpReducer from './features/AlertsWarrantiesExpSlice'
 import alertsAddContractReducer from './features/AlertsAddContractSlice'
 import alertsSetupReducer from './features/AlertsSetupSlice'
 import AuthSlice from "./features/AuthSlice";
+import alertsContractReducer from './features/AlertsContractslice'
 
 
 export const store = configureStore({
@@ -105,6 +106,7 @@ export const store = configureStore({
     alertsWarrantiesExp:alertsWarrantiesExpReducer,
     alertsAddContract:alertsAddContractReducer,
     alertsSetup:alertsSetupReducer,
+    alertsContract:alertsContractReducer
 
   },
 });

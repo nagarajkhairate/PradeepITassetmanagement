@@ -25,7 +25,7 @@ import { ThunkDispatch } from 'redux-thunk'
 import AlertsSetupColumnTable from '../Maintenances/AlertsSetupColumnTable'
 import { green } from '@mui/material/colors'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye'
-import { fetchAlertsAddContract } from '../../../redux/features/AlertsAddContractSlice'
+import { fetchAlertsContract } from '../../../redux/features/AlertsContractslice'
 
 export const ContractsExpiring: React.FC = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -33,20 +33,20 @@ export const ContractsExpiring: React.FC = () => {
     (state: RootState) => state.contractDatabase.data,
   )
 
-  const alertsAddContract = useSelector(
-    (state: RootState) => state.alertsAddContract.data,
+  const alertsContract = useSelector(
+    (state: RootState) => state.alertsContract.data,
   )
   const location=useLocation()
   // const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [selectedColumns, setSelectedColumns] = useState<string[]>([])
-  const [formData, setFormData] = useState<any>(alertsAddContract)
+  const [formData, setFormData] = useState<any>(alertsContract)
 
   useEffect(() => {
     dispatch(fetchContractDatabase())
   }, [dispatch])
 
   useEffect(() => {
-    dispatch(fetchAlertsAddContract())
+    dispatch(fetchAlertsContract())
   }, [dispatch])
 
   useEffect(()=>{
@@ -337,7 +337,7 @@ export const ContractsExpiring: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {alertsAddContract.map((contract: any, rowIndex: number) => (
+            {alertsContract.map((contract: any, rowIndex: number) => (
               <tr key={rowIndex}>
                 {contractDatabase && contractDatabase.filter((field:any) => field.isTable).map((column: any, colIndex: number) => (
                   <td key={colIndex}
