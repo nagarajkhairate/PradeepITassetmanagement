@@ -333,15 +333,15 @@ const appRoutes: RouteType[] = [
           icon: <ICONS.person />,
         },
       },
-      // {
-      //   path: '/assets/reserve',
-      //   element: <Reserve />,
-      //   state: 'reserve',
-      //   sidebarProps: {
-      //     displayText: 'Reserve',
-      //     icon: <ICONS.person />,
-      //   },
-      // },
+      {
+        path: '/assets/reserve',
+        element: <Reserve />,
+        state: 'reserve',
+        sidebarProps: {
+          displayText: 'Reserve',
+          icon: <ICONS.person />,
+        },
+      },
     ],
   },
   {

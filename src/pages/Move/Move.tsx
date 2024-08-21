@@ -11,7 +11,7 @@ import { fetchAssets } from "../../redux/features/AssetSlice";
 import { fetchEmployee } from "../../redux/features/EmployeeSlice";
 import { fetchCheckOut } from "../../redux/features/CheckOutSlice";
 import AppButton from "../../components/Common/AppButton";
-import DisposeForm from "./MoveForm";
+import MoveForm from "./MoveForm";
 
 interface Asset {
   id: string
@@ -128,7 +128,7 @@ const Move: React.FC = () => {
       </Box>
 
       {selectedAssets && selectedAssets.length > 0 ? (
-        <DisposeForm selectedAssets={selectedAssets} />
+        <MoveForm selectedAssets={selectedAssets} />
       ) : (
         <Box>
           <MaintenanceEmpty />

@@ -15,36 +15,37 @@ import {
 } from '@mui/joy'
 import AppView from '../../components/Common/AppView'
 import AppForm from '../../components/Common/AppForm'
-import { addCheckOut, fetchCheckOut } from '../../redux/features/CheckOutSlice'
+import { fetchCheckOut } from '../../redux/features/CheckOutSlice'
 import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
+import SiteComponent from '../../components/AssetSections/SiteComponent'
+import LocationComponent from '../../components/AssetSections/LocationComponent'
+import DepartmentComponent from '../../components/AssetSections/DepartmentComponent'
 import SelectOption from '../../components/AssetSections/SelectOption'
-import { fetchCheckOutField } from '../../redux/features/CheckOutFieldSlice'
 import { fetchEmployee } from '../../redux/features/EmployeeSlice'
 import { useNavigate } from 'react-router-dom'
-// import AddNewCustomer from './AddNewCustomer'
-import { fetchDisposeFields } from '../../redux/features/DisposeFieldSlice'
-import { addDispose } from '../../redux/features/DisposeSlice'
+import { addMove } from '../../redux/features/MoveSlice'
+import { fetchReserveFields } from '../../redux/features/ReserveFieldSlice'
 
 interface CheckOutFormProps {
   selectedAssets: any
 }
 
-const DisposeForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
+const ReserveForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
   const [open, setOpen] = useState(false)
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [formData, setFormData] = useState<any>({})
   const navigate = useNavigate()
   const checkOut = useSelector((state: RootState) => state.checkOut.data)
-  const disposeFields = useSelector(
-    (state: RootState) => state.disposeField.data,
+  const reserveFields = useSelector(
+    (state: RootState) => state.reserveField.data,
   )
   const employees = useSelector((state: RootState) => state.addEmployee.data)
 
   useEffect(() => {
     dispatch(fetchCheckOut())
-    dispatch(fetchDisposeFields())
+    dispatch(fetchReserveFields())
     dispatch(fetchEmployee())
   }, [dispatch])
 
@@ -80,7 +81,7 @@ const DisposeForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
         assetId: selectedAssets[0].id,
       }
       setOpen(false)
-      dispatch(addDispose(formData))
+      dispatch(addMove(formData))
 
     })
     navigate(`/assets/list-of-assets`);
@@ -198,9 +199,13 @@ const DisposeForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
         )
 
       case 'select':
-         if (field.name === 'leasingCustomerId') {
-        //   return <AddNewCustomer {...commonProps} />
-        } 
+        if (field.name === 'siteId') {
+          return <SiteComponent {...commonProps} />
+        } else if (field.name === 'locationId') {
+          return <LocationComponent {...commonProps} />
+        } else if (field.name === 'departmentId') {
+          return <DepartmentComponent {...commonProps} />
+        }
           return <SelectOption {...commonProps} />
         
       default:
@@ -238,7 +243,7 @@ const DisposeForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
         }}
       >
         <Typography component="h2" sx={{ ml: '10px', mb: '15px' }}>
-          Assets Pending Disposal
+          Assets Pending Reserve
         </Typography>
         <Box
           sx={{
@@ -391,8 +396,8 @@ const DisposeForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
           }}
         >
           <Grid container columnSpacing={10} >
-            {disposeFields &&
-              disposeFields.map((field, index) => (
+            {reserveFields &&
+              reserveFields.map((field, index) => (
                   <Grid key={index} xs={12} sm={12} md={6} lg={6}>
                     {handleInputValue(
                       field,
@@ -417,7 +422,7 @@ const DisposeForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
                   '&:hover': { background: '#e0a71b' },
                 }}
               >
-                Dispose
+                Reserve
               </Button>
             </Grid>
             <Grid>
@@ -441,4 +446,4 @@ const DisposeForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
   )
 }
 
-export default DisposeForm
+export default ReserveForm

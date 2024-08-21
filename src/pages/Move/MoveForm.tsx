@@ -422,7 +422,7 @@ const MoveForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
                   '&:hover': { background: '#e0a71b' },
                 }}
               >
-                Dispose
+                Move
               </Button>
             </Grid>
             <Grid>
