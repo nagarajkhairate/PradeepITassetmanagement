@@ -35,7 +35,7 @@ const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
 
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: capitalizeWords(value),
     }))
   }
 
@@ -43,6 +43,11 @@ const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
     e.preventDefault()
     dispatch(addDepartment(formData))
     setOpen(false)
+  }
+
+  
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase())
   }
 
   return (
@@ -160,7 +165,7 @@ const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
               
               <Button
                 autoFocus
-                onClick={handleAddDepartment}
+                type="submit"
                 variant="solid"
                 sx={{
                   background: '#fdd835',

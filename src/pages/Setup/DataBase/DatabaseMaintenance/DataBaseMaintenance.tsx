@@ -27,7 +27,7 @@ const DatabaseMaintenance: React.FunctionComponent = () => {
 
  const [openAddMaintenance, setOpenAddMaintenance] = useState(false);
   const [maintainData, setMaintainData] = useState<maintenanceValue[]>([])
-  const [allChecked, setAllChecked] = useState(false)
+  const [allChecked, setAllChecked] = useState(true)
   const [indeterminate, setIndeterminate] = useState(false)
 
   const handleHeaderCheckboxChange = (

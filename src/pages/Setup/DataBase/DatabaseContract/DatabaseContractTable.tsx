@@ -38,7 +38,7 @@ const DatabaseContractTable: React.FunctionComponent = () => {
   
   const [openAddContract, setOpenAddContract] = useState(false)
   const [contractField, setContractData] = useState<contractValue[]>([])
-  const [allChecked, setAllChecked] = useState(false)
+  const [allChecked, setAllChecked] = useState(true)
   const [indeterminate, setIndeterminate] = useState(false)
 
   const handleCheckboxChange = (
@@ -344,13 +344,11 @@ const DatabaseContractTable: React.FunctionComponent = () => {
               onClick={() => setOpenAddContract(true)}
               startDecorator={<AddIcon />}
               sx={{
-                background: '#1C1C1C',
-                '&:hover': {
-                  background: '#000000',
-                },
-                borderRadius: '8px',
-                textTransform: 'none',
-                fontWeight: '400',
+                marginTop: '15px',
+                background: 'green',
+                color: 'white',
+                '&:hover': { background: '#1b5e20' },
+                borderRadius: '15px',
               }}
             >
               Add Custom Fields
@@ -368,7 +366,6 @@ const DatabaseContractTable: React.FunctionComponent = () => {
               borderRadius: '10px',
               boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
               background: '#ffffff',
-              mt: 4,
               gap: '5px',
               p: 2,
             }}

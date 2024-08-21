@@ -31,7 +31,7 @@ const DataBaseEmp: React.FunctionComponent = () => {
 
   const [openAddEmployee, setOpenAddEmployee] = useState(false)
   const [contractField, setContractData] = useState<employeeValue[]>([])
-  const [allChecked, setAllChecked] = useState(false)
+  const [allChecked, setAllChecked] = useState(true)
   const [indeterminate, setIndeterminate] = useState(false)
 
   const handleCheckboxChange = (

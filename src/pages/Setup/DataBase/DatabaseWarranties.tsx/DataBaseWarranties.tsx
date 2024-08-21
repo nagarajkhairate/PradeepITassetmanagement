@@ -27,7 +27,7 @@ const DatabaseWarranties: React.FunctionComponent = () => {
   
   const [openAddWarranties, setOpenAddWarranties] = useState(false);
   const [warrantyField, setWarrantyField] = useState<warrantyValue[]>([])
-  const [allChecked, setAllChecked] = useState(false)
+  const [allChecked, setAllChecked] = useState(true)
   const [indeterminate, setIndeterminate] = useState(false)
 
 

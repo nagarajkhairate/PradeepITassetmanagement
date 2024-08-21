@@ -41,7 +41,7 @@ const CategorySetup: React.FunctionComponent = () => {
   const [error, setError] = useState<string | null>(null);
 
   const categories = useSelector((state: RootState) => state.category.data)
-  console.log(categories)
+  // console.log(categories)
 
   // const handleCategoryChange = (updatedCategories: Category[]) => {
   //   console.log('category: ', JSON.stringify(updatedCategories))

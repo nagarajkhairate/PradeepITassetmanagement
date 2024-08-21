@@ -66,6 +66,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+    const capitalizedValue = capitalizeWords(value);
     if (name === 'zipCode') {
       const zipCodeRegex = /^\d*$/;
       if (!zipCodeRegex.test(value)) {
@@ -94,10 +95,12 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
         }
       }
     }
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
+    setFormData((prevState) => ({ ...prevState, [name]: capitalizedValue }));
   };
 
-  
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase())
+  }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

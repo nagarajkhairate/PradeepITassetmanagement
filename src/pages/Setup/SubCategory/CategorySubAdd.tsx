@@ -38,7 +38,7 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({
     const { name, value } = e.target
     setFormData((prevData: any) => ({
       ...prevData,
-      [name]: value,
+      [name]: capitalizeWords(value),
     }))
   }
 
@@ -57,6 +57,11 @@ const CategorySubAdd: React.FunctionComponent<CategorySubAddProps> = ({
     await dispatch(addSubCategories(formData))
     setOpen()
   }
+
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase())
+  }
+
 
   useEffect(() => {
     dispatch(fetchCategory())

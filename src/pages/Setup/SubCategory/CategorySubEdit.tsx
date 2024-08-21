@@ -49,10 +49,14 @@ export function CategorySubEdit({
 
     setFormData((prevData: any) => ({
       ...prevData,
-      [name]: value,
+      [name]: capitalizeWords(value),
     }))
   }
 
+  
+  const capitalizeWords = (str: string) => {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase())
+  }
   
 
   return (

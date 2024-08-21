@@ -28,6 +28,7 @@ export const AddContractExp: React.FC = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const navigate = useNavigate()
   const [formData, setFormData] = useState<any>({})
+  const [errors, setErrors] = useState<{ date?: string }>({})
   const contractDatabase = useSelector(
     (state: RootState) => state.contractDatabase.data,
   )
@@ -37,7 +38,6 @@ export const AddContractExp: React.FC = () => {
   }, [dispatch])
 
   useEffect(() => {
-    // On component mount, check if formData exists in contractDatabase
     if (contractDatabase.length > 0) {
       const initialFormData = contractDatabase.reduce((acc, field) => {
         acc[field.name] = field.defaultValue || ''
@@ -45,7 +45,24 @@ export const AddContractExp: React.FC = () => {
       }, {})
       setFormData(initialFormData)
     }
+  }, [ contractDatabase])
+
+  useEffect(() => {
+    if (contractDatabase.length > 0) {
+      setFormData(contractDatabase)
+    }
   }, [contractDatabase])
+
+  const validateDates = (startDate?: string, endDate?: string) => {
+    if (startDate && endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      if (start > end) {
+        return 'Start date should be less than or equal to end date.';
+      }
+    }
+    return '';
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value }= event.target;
@@ -73,7 +90,19 @@ export const AddContractExp: React.FC = () => {
       }
     }
 
-    setFormData({ ...formData, [name]:value })  
+    setFormData({ ...formData, [name]:value }) 
+    
+    setFormData(prevFormData => {
+      const updatedFormData = { ...prevFormData, [name]: value };
+
+      // Validate dates when either start or end date changes
+      if (name === 'startDate' || name === 'endDate') {
+        const dateError = validateDates(updatedFormData.startDate, updatedFormData.endDate);
+        setErrors({ date: dateError });
+      }
+
+      return updatedFormData;
+    });
   }
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,14 +143,13 @@ export const AddContractExp: React.FC = () => {
       sx={{
         display: 'flex',
         flexDirection: { xs: 'column', md: 'row' },
-        alignItems: 'center', // Vertically center-align label and component
-        // gap:3,
+        alignItems: 'center',
         width: '100%',
         }}
       >
         <FormLabel
         sx={{
-          minWidth: {md:'150px', xs:'90px'}, // Ensure consistent width for labels
+          minWidth: {md:'150px', xs:'90px'}, 
           textAlign: 'left', 
           wordBreak:'break-word',
           whiteSpace:'normal'
@@ -166,14 +194,34 @@ export const AddContractExp: React.FC = () => {
 
       case 'radio':
         return renderWithAsterisk(
-          <FormControl>
-            {/* <FormLabel>{commonProps.field.fieldName}</FormLabel> */}
+          <FormControl
+          sx={{
+            display: 'flex',
+            flexDirection: 'row', 
+            justifyContent: { xs: 'flex-start', md: 'flex-start' },
+            gap: 2,
+          }}
+          >
             <RadioGroup
               name={commonProps.field.name}
-              value={commonProps.formData[commonProps.field.name] as string}
+              value={commonProps.formData[commonProps.field.name] || "no"}
               onChange={commonProps.handleRadioChange}
+              sx={{
+                display: 'flex',
+                flexDirection:  'row' , 
+                justifyContent: { xs: 'flex-start', md: 'flex-start' },
+                gap: 2,
+              }}
             >
-              <Box>
+              <Box
+               sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: { xs: 'flex-start', md: 'flex-start' },
+                alignItems: 'flex-start',
+                gap: 3,
+                width: { md: '300px', xs: '270px' },
+              }}>
                 <Radio value="yes" label="Yes" />
                 <Radio value="no" label="No" />
               </Box>
@@ -189,12 +237,18 @@ export const AddContractExp: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
-    // Add your form submission logic here
+    const { startDate, endDate } = formData;
+    const dateError = validateDates(startDate, endDate);
+
+    if (dateError) {
+      setErrors({ date: dateError });
+      return;
+    }
     console.log('Form submitted:', formData)
     dispatch(addAlertsAddContract(formData))
-    navigate('/alerts/contracts-expiring', {
-      state: { selectedColumns: Object.keys(formData) },
-    })
+    // navigate('/alerts/contracts-expiring', {
+    //   state: { selectedColumns: Object.keys(formData) },
+    // })
   }
 
   return (
@@ -273,11 +327,13 @@ export const AddContractExp: React.FC = () => {
                       handleSelectChange,
                       handleRadioChange,
                     )}
-                  </Box>
-               
+                  </Box>  
               ))}
-
-              <Divider sx={{ mt: 3 }} />
+            {errors.date && (
+              <Typography sx={{ color: 'red', mb: 2 }}>
+                {errors.date}
+              </Typography>
+            )}
 
               <Box
                 sx={{
@@ -301,7 +357,7 @@ export const AddContractExp: React.FC = () => {
                     color: 'white',
                     // marginLeft: '50px',
                   }}
-                  onClick={() => navigate('/alerts/contracts-expiring')}
+                  // onClick={() => navigate('/alerts/contracts-expiring')}
                 >
                   Cancel
                 </Button>

@@ -11,7 +11,7 @@ import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../../redux/store'
 import DatabaseButtons from '../../../../components/Common/DatabaseButton'
-import {  customerData, customerValue, customers } from './CustomersData'
+import { customerData, customerValue, customers } from './CustomersData'
 import AddDialogCustomer from './AddCustomCustomer'
 import AddIcon from '@mui/icons-material/Add'
 import CustomerFieldsAddingTable from './CustomerFieldsAddingTable'
@@ -27,24 +27,25 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [matchedSelected, setMatchedSelected] = useState<number[]>([])
 
-  const customerDatabase = useSelector((state: RootState) => state.customerDatabase.data)
-  const customerCustomDatabase = useSelector((state: RootState) => state.customerCustomDatabase.data)
-  const components = useSelector((state: RootState) => state.components.data);
+  const customerDatabase = useSelector(
+    (state: RootState) => state.customerDatabase.data,
+  )
+  const customerCustomDatabase = useSelector(
+    (state: RootState) => state.customerCustomDatabase.data,
+  )
+  const components = useSelector((state: RootState) => state.components.data)
 
   const [openAddCustomer, setOpenAddCustomer] = useState(false)
   const [customerDataBases, setCustomerDataBases] = useState(customerData)
   const [contractField, setContractData] = useState<customerValue[]>([])
-  const [allChecked, setAllChecked] = useState(false)
+  const [allChecked, setAllChecked] = useState(true)
   const [indeterminate, setIndeterminate] = useState(false)
 
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     fieldName: string,
   ) => {
-    if (
-      fieldName !== 'fullName' &&
-      fieldName !== 'email' 
-    ) {
+    if (fieldName !== 'fullName' && fieldName !== 'email') {
       const updatedData = contractField.map((item) =>
         item.name === fieldName
           ? { ...item, isVisible: event.target.checked }
@@ -104,9 +105,9 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
     setContractData(customerDatabase)
   }, [customerDatabase])
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(fetchComponents())
-  },[dispatch])
+  }, [dispatch])
 
   return (
     <AppView>
@@ -136,7 +137,9 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
         >
           <Typography
             level="h4"
-            sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+            sx={{ display: 'flex', 
+              alignItems: 'center', 
+              gap: 1 }}
           >
             Customers Standard Fields
           </Typography>
@@ -144,7 +147,8 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
 
         <Box
           sx={{
-            textAlign: { xs: 'center', md: 'left' },
+            textAlign: { xs: 'center', 
+              md: 'left' },
           }}
         >
           <Box sx={{ mt: 3 }}>
@@ -251,7 +255,7 @@ const DatabaseCustomersTable: React.FunctionComponent = () => {
                             textAlign: 'left',
                           }}
                         >
-                          {data.fieldName === 'Full Name'? (
+                          {data.fieldName === 'Full Name' ? (
                             <>
                               {data.fieldName}
                               {'  '}
