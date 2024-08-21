@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Typography, Box, Button, Radio, RadioGroup, Divider } from '@mui/joy'
+import { Typography, Box, Button, Radio, RadioGroup, Divider, Grid } from '@mui/joy'
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import AppView from '../../../components/Common/AppView'
@@ -111,9 +111,9 @@ const Event: React.FunctionComponent = () => {
       <Box
         sx={{
           display: 'flex',
-          textAlign: { xs: 'center', md: 'left' },
-          justifyContent: { md: 'left',  },
-          flexDirection: { md: 'left', },
+          textAlign: { xs: 'center', md: 'flex-end' },
+          justifyContent: { md: 'flex-end',  },
+          flexDirection: { md: 'flex-end', },
         }}
       >
         <a href="_blank">
@@ -123,7 +123,7 @@ const Event: React.FunctionComponent = () => {
               background: '#FDE8BC',
               border: '1px solid #C2B083',
               color: 'black',
-              borderRadius: '15px',
+              borderRadius: '10px',
               '&:hover': {
                 background: '#FADFB4',
               },
@@ -139,7 +139,7 @@ const Event: React.FunctionComponent = () => {
               color: 'green',
               border: '1px solid green ',
 
-              borderRadius: '15px',
+              borderRadius: '10px',
               '&:hover': {
                 color: 'white',
                 background: 'green',
@@ -196,6 +196,7 @@ const Event: React.FunctionComponent = () => {
             flexDirection: { md: 'left', xs: 'center' },
             gap: 1,
             py: '10px',
+            px:'19px'
           }}
         >
           <Typography>
@@ -204,17 +205,78 @@ const Event: React.FunctionComponent = () => {
         </Box>
         <Divider></Divider>
 
+
+        <Grid container spacing={3} sx={{ flexGrow: 1 }}>
+      <Grid xs>
+      <Box
+          // sx={{
+          //   display: 'flex',
+          //   alignItems: 'center',
+          //   justifyContent: { md: 'flex-start',  },
+          //   textAlign: {  md: 'left' },
+          //   flex: '1 1 auto',
+          // }}
+          >
+            <Typography
+              sx={{
+                display: 'flex',
+                textAlign: { xs: 'center', md: 'left' },
+                justifyContent: { md: 'left', xs: 'center' },
+                flexDirection: { md: 'left', xs: 'center' },
+                gap:1
+              }}
+            >
+              <HowToRegTwoToneIcon  style={{color:'#FBC21E',}}/>
+              <strong>Check-out assets:</strong>
+            </Typography>
+          </Box>
+      </Grid>
+      <Grid xs={2}>
+      <Box
+            // sx={{
+            //   // flex: '2 2 auto',
+            //   display: 'flex',
+            //   justifyContent: {md:'center', xs:'left'}, // Center radio buttons
+            // }}
+          >
+          <AssetRadioGroup
+            name="checkOut"
+            onChange={HandleRadioSelect}
+            value={eventForm.checkOut}
+          />
+          </Box>
+      </Grid>
+      <Grid xs={6}>
+      <Box
+      sx={{
+        display: 'flex',
+        flexDirection: { md: 'row', xs: 'column' },
+        gap: { md: 'none', xs: '10px' },
+        justifyContent: 'space-around',
+       
+      }}
+      >
+            <CustomButtonBox
+              setupCheckoutText="Setup 'Check out'"
+              customizeFormText="Customize Form"
+            />
+            <CustomButtonBox
+              setupCheckoutText="Setup 'Check inn'"
+              customizeFormText="Customize Form"
+            />
+          </Box>
+      </Grid>
+    </Grid>
         <Box
           sx={{
             display: 'flex',
-
             flexDirection: { md: 'row', xs: 'column' },
             gap: { md: 'none', xs: '10px' },
             justifyContent: 'space-around',
             py: '20px',
           }}
         >
-          <Box
+          {/* <Box
           sx={{
             display: 'flex',
             alignItems: 'center',
@@ -235,8 +297,8 @@ const Event: React.FunctionComponent = () => {
               <HowToRegTwoToneIcon  style={{color:'#FBC21E',}}/>
               <strong>Check-out assets:</strong>
             </Typography>
-          </Box>
-          <Box
+          </Box> */}
+          {/* <Box
             sx={{
               flex: '2 2 auto',
               display: 'flex',
@@ -248,8 +310,8 @@ const Event: React.FunctionComponent = () => {
             onChange={HandleRadioSelect}
             value={eventForm.checkOut}
           />
-          </Box>
-          <>
+          </Box> */}
+          {/* <>
             <CustomButtonBox
               setupCheckoutText="Setup 'Check out'"
               customizeFormText="Customize Form"
@@ -258,7 +320,7 @@ const Event: React.FunctionComponent = () => {
               setupCheckoutText="Setup 'Check inn'"
               customizeFormText="Customize Form"
             />
-          </>
+          </> */}
         </Box>
 
         <Box sx={{ ml: { md: '260px', xs: 'none' }, paddingBottom: '10px' }}>

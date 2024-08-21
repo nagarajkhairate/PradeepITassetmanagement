@@ -67,13 +67,23 @@ export function CategorySetupEdit({ categories1,
 
   }
 
+  // const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   if (selectedCategory !== null) {
+  //     const categoryName = (e.target as any).categoryName.value
+  //     const updatedCategory = { ...selectedCategory, categoryName:capitalizeWords(categoryName) }
+  //     dispatch(updateCategory(updatedCategory))
+  //     handleEditClose()
+  //   }
+  // }
+
   const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (selectedCategory !== null) {
       const formData = new FormData(e.currentTarget);
       const categoryName = formData.get('categoryName') as string;
       
-      const regex = /^[a-zA-Z0-9 ]+$/; // Updated regex to allow spaces
+      const regex = /^[a-zA-Z0-9\s]+$/;
       
       if (regex.test(categoryName)) {
         const updatedCategory = { ...selectedCategory, categoryName: capitalizeWords(categoryName) };
@@ -85,18 +95,6 @@ export function CategorySetupEdit({ categories1,
       }
     }
   };
-  
-
-  // const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault()
-  //   if (selectedCategory !== null) {
-  //     const categoryName = (e.target as any).categoryName.value
-  //     const updatedCategory = { ...selectedCategory, categoryName:capitalizeWords(categoryName) }
-  //     dispatch(updateCategory(updatedCategory))
-  //     handleEditClose()
-  //   }
-  // }
-  
   
   const capitalizeWords = (str: string) => {
     return str.replace(/\b\w/g, (char) => char.toUpperCase())
@@ -297,16 +295,18 @@ export function CategorySetupEdit({ categories1,
                   <Input
                     variant="outlined"
                     type="text"
-                    id="categoryName"
                     name="categoryName"
                     required
                     sx={{ width: '65%', marginLeft: '10px',marginTop: '8px',  }}
                     defaultValue={selectedCategory ? selectedCategory.categoryName : ''}
                     
                   />
-        
                 </FormControl>
-
+                {error && (
+                  <Typography sx={{color:"error"}}>
+                    {error}
+                  </Typography>
+                )}
                 
                 <Box
           sx={{
@@ -333,7 +333,7 @@ export function CategorySetupEdit({ categories1,
                   Cancel
                 </Button>
                 <Button
-                onClick={handleEditClose}
+                // onClick={handleEditClose}
                   autoFocus
                   type="submit"
                   variant="solid"
