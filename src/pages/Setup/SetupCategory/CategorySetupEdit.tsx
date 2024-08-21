@@ -67,23 +67,35 @@ export function CategorySetupEdit({ categories1,
 
   }
 
-  const handleEditButton = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (selectedCategory !== null) {
-      const categoryName = (e.target as any).categoryName.value;
-      const regex = /^[a-zA-Z0-9]+$/; // Only letters and numbers
+      const formData = new FormData(e.currentTarget);
+      const categoryName = formData.get('categoryName') as string;
+      
+      const regex = /^[a-zA-Z0-9 ]+$/; // Updated regex to allow spaces
+      
       if (regex.test(categoryName)) {
         const updatedCategory = { ...selectedCategory, categoryName: capitalizeWords(categoryName) };
-        await dispatch(updateCategory(updatedCategory)); // Ensure the dispatch completes
-        handleEditClose(); 
+        dispatch(updateCategory(updatedCategory));
+        handleEditClose();
         setError(null);
       } else {
-        setError('Category can only contain letters and numbers.');
+        setError('Category can only contain letters, numbers, and spaces.');
       }
     }
-  }
+  };
   
-  
+
+  // const handleEditButton = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+  //   if (selectedCategory !== null) {
+  //     const categoryName = (e.target as any).categoryName.value
+  //     const updatedCategory = { ...selectedCategory, categoryName:capitalizeWords(categoryName) }
+  //     dispatch(updateCategory(updatedCategory))
+  //     handleEditClose()
+  //   }
+  // }
   
   
   const capitalizeWords = (str: string) => {

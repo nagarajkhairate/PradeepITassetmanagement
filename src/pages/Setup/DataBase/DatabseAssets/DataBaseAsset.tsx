@@ -42,7 +42,7 @@ const DataBaseAsset: React.FunctionComponent = () => {
   const [openAddAsset, setOpenAddAsset] = useState(false)
   const [openAddContract, setOpenAddContract] = useState(false)
   const [contractField, setContractData] = useState<assetValue[]>([])
-  const [allChecked, setAllChecked] = useState(false)
+  const [allChecked, setAllChecked] = useState(true)
   const [indeterminate, setIndeterminate] = useState(false)
 
   const handleCheckboxChange = (

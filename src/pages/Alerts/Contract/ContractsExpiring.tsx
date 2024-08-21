@@ -37,7 +37,6 @@ export const ContractsExpiring: React.FC = () => {
     (state: RootState) => state.alertsContract.data,
   )
   const location=useLocation()
-  // const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [selectedColumns, setSelectedColumns] = useState<string[]>([])
   const [formData, setFormData] = useState<any>(alertsContract)
 

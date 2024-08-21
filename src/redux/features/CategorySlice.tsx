@@ -61,12 +61,12 @@ export const deleteCategory = createAsyncThunk('categories/deleteCategory', asyn
 });
 
 const categorySlice = createSlice({
-  name: 'categories',
+  name: 'category',
   initialState,
   reducers: {
     setSelectedCustomer: (state, action: PayloadAction<number>) => {
-      const categories = state.data.find((u) => u.id === action.payload);
-      state.selectedCategory = categories || null;
+      const category = state.data.find((u) => u.id === action.payload);
+      state.selectedCategory = category || null;
     },
   },
   extraReducers: (builder) => {

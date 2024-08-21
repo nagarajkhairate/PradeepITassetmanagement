@@ -3,6 +3,7 @@ import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlin
 import { useState } from "react";
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 interface DatabaseButtonsProps {
     onCancel: () => void;
@@ -26,6 +27,9 @@ interface DatabaseButtonsProps {
             flexWrap:'wrap'
           }}
         >
+          <Link
+          to='/dashboard'
+          >
           <Button
             variant="solid"
             sx={{
@@ -40,6 +44,8 @@ interface DatabaseButtonsProps {
            
             Cancel
           </Button>
+          </Link>
+
           <Button
             variant="solid"
             sx={{

@@ -48,15 +48,12 @@ export const MaintenancesDue: React.FC = () => {
     }
   }, [location.state])
 
-  // Check if alertsMaintenanceDue and assets are available
   if (!alertsMaintenanceDue || !assets) {
-    return <Typography>Loading data...</Typography>
+    return 
   }
 
-  // Create a mapping of assetTagId to asset details
   const assetMap = new Map(assets.map(asset => [asset.id, asset]))
 
-  // Map alertsMaintenanceDue to include assetTagId
   const alertsWithAssetTagId = alertsMaintenanceDue.map(alert => {
     const asset = assetMap.get(alert.assetId) // Adjust the key if necessary
     return {
