@@ -48,7 +48,7 @@ const AddNewClient: React.FC<AddClientProps> = ({
          sx={{padding: '10px',}}
           placeholder="Select Client"
           name={field.name}
-          value={formData[field.name] as string}
+          value={formData && formData[field.name] as string}
           onChange={selectChange}
         >
           {addClient.map((client) => (

@@ -47,7 +47,7 @@ const Register: React.FC = () => {
   const [submitted, setSubmitted] = useState<boolean>(false)
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
   const { loading, error } = useSelector(
-    (state: RootState) => state.tenant,
+    (state: RootState) => state.tenant
   )
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
    

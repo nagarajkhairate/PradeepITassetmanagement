@@ -306,33 +306,33 @@ const appRoutes: RouteType[] = [
           icon: <ICONS.person />,
         },
       },
-      // {
-      //   path: '/assets/dispose',
-      //   element: <Dispose />,
-      //   state: 'resources.consultants',
-      //   sidebarProps: {
-      //     displayText: 'Dispose',
-      //     icon: <ICONS.person />,
-      //   },
-      // },
-      // {
-      //   path: '/assets/maintenance',
-      //   element: <Maintenance />,
-      //   state: 'maintenance',
-      //   sidebarProps: {
-      //     displayText: 'Maintenance',
-      //     icon: <ICONS.person />,
-      //   },
-      // },
-      // {
-      //   path: '/assets/move',
-      //   element: <Move />,
-      //   state: 'resources.suppliers',
-      //   sidebarProps: {
-      //     displayText: 'Move',
-      //     icon: <ICONS.person />,
-      //   },
-      // },
+      {
+        path: '/assets/dispose',
+        element: <Dispose />,
+        state: 'resources.consultants',
+        sidebarProps: {
+          displayText: 'Dispose',
+          icon: <ICONS.person />,
+        },
+      },
+      {
+        path: '/assets/maintenance',
+        element: <Maintenance />,
+        state: 'maintenance',
+        sidebarProps: {
+          displayText: 'Maintenance',
+          icon: <ICONS.person />,
+        },
+      },
+      {
+        path: '/assets/move',
+        element: <Move />,
+        state: 'resources.suppliers',
+        sidebarProps: {
+          displayText: 'Move',
+          icon: <ICONS.person />,
+        },
+      },
       // {
       //   path: '/assets/reserve',
       //   element: <Reserve />,

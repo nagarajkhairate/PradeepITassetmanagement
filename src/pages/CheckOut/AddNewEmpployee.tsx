@@ -49,7 +49,7 @@ const AddNewEmpployee: React.FC<AddEmpProps> = ({
          sx={{padding: '10px',}}
           placeholder="Select Employee"
           name={field.name}
-          value={formData[field.name] as string}
+          value={formData && formData[field.name] as string}
           onChange={selectChange}
         >
           {addEmployee.map((employee) => (

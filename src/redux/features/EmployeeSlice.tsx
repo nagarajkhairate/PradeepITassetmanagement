@@ -19,18 +19,18 @@ const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
 const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;  
 
 export const fetchEmployee = createAsyncThunk('addEmployee/fetchEmployee',async()=>{
-  const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee`)
+  const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-data`)
   return response.data
 })
 
 export const updateEmployee = createAsyncThunk('addEmployee/updateEmployee',async()=>{
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee`)
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-data`)
   return response.data
 })
 
 export const addEmployee = createAsyncThunk('addEmployee/addEmployee', async (addemp:any) => {
   try {
-    const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee`, addemp);
+    const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-data`, addemp);
     console.log('ResponsePost:', response.data);
     return response.data;
   } catch (error) {

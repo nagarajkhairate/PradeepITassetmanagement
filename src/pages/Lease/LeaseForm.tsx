@@ -227,7 +227,8 @@ const LeaseForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
   const statusColorMap: Record<string, string> = {
     Available: 'success',
     CheckedOut: 'neutral',
-    Leased: 'neutral'
+    Leased: 'neutral',
+    Disposed: 'neutral'
   }
 
   return (

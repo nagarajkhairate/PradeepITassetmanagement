@@ -19,18 +19,18 @@ const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
 const REACT_APP_TENANT_ID = process.env.REACT_APP_TENANT_ID;  
 
 export const fetchClient = createAsyncThunk('addClient/fetchClient',async()=>{
-  const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/clients`)
+  const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/client-data`)
   return response.data
 })
 
 export const updateClient = createAsyncThunk('addClient/updateClient',async()=>{
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/clients`)
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/client-data`)
   return response.data
 })
 
 export const addClient = createAsyncThunk('addClient/addClient', async (addclient:any) => {
   try {
-    const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/clients`, addclient);
+    const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/client-data`, addclient);
     console.log('ResponsePost:', response.data);
     return response.data;
   } catch (error) {

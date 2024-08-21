@@ -51,7 +51,11 @@ import alertsAddContractReducer from './features/AlertsAddContractSlice'
 import alertsSetupReducer from './features/AlertsSetupSlice'
 import AuthSlice from "./features/AuthSlice";
 import alertsContractReducer from './features/AlertsContractslice'
-
+import DisposeFieldReducer from './features/DisposeFieldSlice'
+import DisposeReducer from './features/DisposeSlice'
+import MaintenanceFieldReducer from './features/MaintenanceFieldSlice'
+import MaintenanceReducer from './features/MaintenanceSlice'
+import MoveFieldReducer from './features/MoveFieldSlice'
 
 export const store = configureStore({
   reducer: {
@@ -106,8 +110,12 @@ export const store = configureStore({
     alertsWarrantiesExp:alertsWarrantiesExpReducer,
     alertsAddContract:alertsAddContractReducer,
     alertsSetup:alertsSetupReducer,
-    alertsContract:alertsContractReducer
-
+    alertsContract:alertsContractReducer,
+    disposeField:DisposeFieldReducer,
+    dispose:DisposeReducer,
+    maintenanceField:MaintenanceFieldReducer,
+    maintenance:MaintenanceReducer,
+    moveField:MoveFieldReducer
   },
 });
 
