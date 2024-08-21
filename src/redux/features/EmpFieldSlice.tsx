@@ -20,7 +20,7 @@ const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
  
 export const fetchEmpField = createAsyncThunk('empFields/fetchEmpField', async () => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons-default-fields`);
   return response.data;
    
   } catch (error) {
@@ -31,7 +31,7 @@ export const fetchEmpField = createAsyncThunk('empFields/fetchEmpField', async (
 });
 export const fetchEmpFieldById = createAsyncThunk('empFields/fetchEmpFieldById', async (id: string ) => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons-default-fields/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -41,18 +41,18 @@ export const fetchEmpFieldById = createAsyncThunk('empFields/fetchEmpFieldById',
 });
  
 export const addEmpField = createAsyncThunk('empFields/addEmpField', async (assets: any) => {
- const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons`, assets);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons-default-fields`, assets);
   return response.data;
 });
  
 export const updateEmpField = createAsyncThunk('empFields/updateEmpField', async (updatedCustomer: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons/${updatedCustomer.id}`, updatedCustomer);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons-default-fields/${updatedCustomer.id}`, updatedCustomer);
   return response.data;
 });
  
 export const deleteEmpField = createAsyncThunk('empFields/deleteEmpField', async (id: number) => {
-  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/employee-persons-default-fields/${id}`);
   return id;
 });
  

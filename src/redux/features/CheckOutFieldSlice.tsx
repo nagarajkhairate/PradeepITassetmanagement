@@ -20,7 +20,7 @@ const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
  
 export const fetchCheckOutField = createAsyncThunk('checkOutFields/fetchCheckOutField', async () => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/checkout-defaults`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/checkout-default-fields`);
   return response.data;
    
   } catch (error) {
@@ -31,7 +31,7 @@ export const fetchCheckOutField = createAsyncThunk('checkOutFields/fetchCheckOut
 });
 export const fetchCheckOutFieldById = createAsyncThunk('checkOutFields/fetchCheckOutFieldById', async (id: string ) => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/checkout-defaults/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/checkout-default-fields/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -41,18 +41,18 @@ export const fetchCheckOutFieldById = createAsyncThunk('checkOutFields/fetchChec
 });
  
 export const addCheckOutField = createAsyncThunk('checkOutFields/addCheckOutField', async (assets: any) => {
- const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/checkout-defaults`, assets);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/checkout-default-fields`, assets);
   return response.data;
 });
  
 export const updateCheckOutField = createAsyncThunk('checkOutFields/updateCheckOutField', async (updatedCustomer: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/checkout-defaults/${updatedCustomer.id}`, updatedCustomer);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/checkout-default-fields/${updatedCustomer.id}`, updatedCustomer);
   return response.data;
 });
  
 export const deleteCheckOutField = createAsyncThunk('checkOutFields/deleteCheckOutField', async (id: number) => {
-  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/checkout-defaults/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/checkout-default-fields/${id}`);
   return id;
 });
  

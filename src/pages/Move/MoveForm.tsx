@@ -15,40 +15,37 @@ import {
 } from '@mui/joy'
 import AppView from '../../components/Common/AppView'
 import AppForm from '../../components/Common/AppForm'
-import { addCheckOut, fetchCheckOut } from '../../redux/features/CheckOutSlice'
+import { fetchCheckOut } from '../../redux/features/CheckOutSlice'
 import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { checkOutConfig } from './checkOutConfig'
 import SiteComponent from '../../components/AssetSections/SiteComponent'
 import LocationComponent from '../../components/AssetSections/LocationComponent'
 import DepartmentComponent from '../../components/AssetSections/DepartmentComponent'
 import SelectOption from '../../components/AssetSections/SelectOption'
-import AddNewEmpployee from './AddNewEmpployee'
-import AddNewClient from './AddNewClient'
-import { fetchCheckOutField } from '../../redux/features/CheckOutFieldSlice'
 import { fetchEmployee } from '../../redux/features/EmployeeSlice'
 import { useNavigate } from 'react-router-dom'
+import { fetchMoveFields } from '../../redux/features/MoveFieldSlice'
+import { addMove } from '../../redux/features/MoveSlice'
 
 interface CheckOutFormProps {
   selectedAssets: any
 }
 
-const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
+const MoveForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
   const [open, setOpen] = useState(false)
-  const [checkOutTo, setCheckOutTo] = useState('person')
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   const [formData, setFormData] = useState<any>({})
   const navigate = useNavigate()
   const checkOut = useSelector((state: RootState) => state.checkOut.data)
-  const checkOutFields = useSelector(
-    (state: RootState) => state.checkOutField.data,
+  const moveFields = useSelector(
+    (state: RootState) => state.moveField.data,
   )
   const employees = useSelector((state: RootState) => state.addEmployee.data)
 
   useEffect(() => {
     dispatch(fetchCheckOut())
-    dispatch(fetchCheckOutField())
+    dispatch(fetchMoveFields())
     dispatch(fetchEmployee())
   }, [dispatch])
 
@@ -69,7 +66,6 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setCheckOutTo(value)
     setFormData({
       ...formData,
       [name]: value,
@@ -85,17 +81,13 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
         assetId: selectedAssets[0].id,
       }
       setOpen(false)
-      dispatch(addCheckOut(formData))
+      dispatch(addMove(formData))
 
     })
     navigate(`/assets/list-of-assets`);
 
   }
 
-  const radioOptions = [
-    { value: 'person', label: 'Person' },
-    { value: 'site', label: 'Site / Location' },
-  ]
 
   const handleInputValue = (
     field: any,
@@ -176,35 +168,6 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
           </FormControl>
         )
       case 'radio':
-        return (
-          <FormControl>
-            <FormLabel>{field.fieldName}</FormLabel>
-            <RadioGroup
-              type={field.components.type}
-              name={field.name}
-              value={formData && formData[field.name] as string}
-              onChange={handleRadioChange}
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-                marginTop: '20px',
-              }}
-            >
-              {radioOptions.map((option) => (
-                <Radio
-                  key={option.value}
-                  value={option.value}
-                  label={option.label}
-                  sx={{
-                    margin: '0 8px',
-                  }}
-                />
-              ))}
-            </RadioGroup>
-          </FormControl>
-        )
       case 'textarea':
         return (
           <FormControl >
@@ -236,19 +199,15 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
         )
 
       case 'select':
-        if (field.name === 'checkOutSiteId') {
+        if (field.name === 'siteId') {
           return <SiteComponent {...commonProps} />
-        } else if (field.name === 'checkOutLocationId') {
+        } else if (field.name === 'locationId') {
           return <LocationComponent {...commonProps} />
-        } else if (field.name === 'checkOutDepartmentId') {
+        } else if (field.name === 'departmentId') {
           return <DepartmentComponent {...commonProps} />
-        } else if (field.name === 'assignedTo') {
-          return <AddNewEmpployee {...commonProps} />
-        } else if (field.name === 'clientId') {
-          return <AddNewClient {...commonProps} />
-        } else {
-          return <SelectOption {...commonProps} />
         }
+          return <SelectOption {...commonProps} />
+        
       default:
         return null
     }
@@ -284,7 +243,7 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
         }}
       >
         <Typography component="h2" sx={{ ml: '10px', mb: '15px' }}>
-          Assets Pending Check-Out
+          Assets Pending Move
         </Typography>
         <Box
           sx={{
@@ -437,14 +396,8 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
           }}
         >
           <Grid container columnSpacing={10} >
-            {checkOutFields &&
-              checkOutFields
-                .filter(
-                  (field) =>
-                    checkOutTo === 'person' ||
-                    (field.name !== 'assignedTo' && field.name !== 'clientId'),
-                )
-                .map((field, index) => (
+            {moveFields &&
+              moveFields.map((field, index) => (
                   <Grid key={index} xs={12} sm={12} md={6} lg={6}>
                     {handleInputValue(
                       field,
@@ -469,7 +422,7 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
                   '&:hover': { background: '#e0a71b' },
                 }}
               >
-                Check Out
+                Dispose
               </Button>
             </Grid>
             <Grid>
@@ -493,4 +446,4 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
   )
 }
 
-export default CheckOutForm
+export default MoveForm

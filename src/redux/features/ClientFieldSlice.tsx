@@ -20,7 +20,7 @@ const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
  
 export const fetchClientField = createAsyncThunk('clientFields/fetchClientField', async () => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/client-defaults`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/client-default-fields`);
   return response.data;
    
   } catch (error) {
@@ -31,7 +31,7 @@ export const fetchClientField = createAsyncThunk('clientFields/fetchClientField'
 });
 export const fetchClientFieldById = createAsyncThunk('clientFields/fetchClientFieldById', async (id: string ) => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/client-defaults/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/client-default-fields/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -41,18 +41,18 @@ export const fetchClientFieldById = createAsyncThunk('clientFields/fetchClientFi
 });
  
 export const addClientField = createAsyncThunk('clientFields/addClientField', async (assets: any) => {
- const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/client-defaults`, assets);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/client-default-fields`, assets);
   return response.data;
 });
  
 export const updateClientField = createAsyncThunk('clientFields/updateClientField', async (updatedCustomer: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/client-defaults/${updatedCustomer.id}`, updatedCustomer);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/client-default-fields/${updatedCustomer.id}`, updatedCustomer);
   return response.data;
 });
  
 export const deleteClientField = createAsyncThunk('clientFields/deleteClientField', async (id: number) => {
-  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/client-defaults/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/client-default-fields/${id}`);
   return id;
 });
  

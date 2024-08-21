@@ -251,8 +251,10 @@ navigate(`/assets/list-of-assets`);
 }
 
 const statusColorMap: Record<string, string> = {
-  Available: "success",
-  CheckedOut: "neutral",
+  Available: 'success',
+    CheckedOut: 'neutral',
+    Leased: 'neutral',
+    Disposed: 'neutral'
 };
 
 

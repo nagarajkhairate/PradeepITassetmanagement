@@ -54,6 +54,8 @@ const ListOfAssets = () => {
   const statusColorMap: Record<string, string> = {
     Available: 'success',
     CheckedOut: 'neutral',
+    Leased: 'neutral',
+    Disposed: 'neutral'
   }
 
   return (

@@ -20,7 +20,7 @@ const REACT_APP_BASE_API_KEY = process.env.REACT_APP_BASE_API_KEY;
  
 export const fetchCustomerDefaultFields = createAsyncThunk('customerDefaultFieldss/fetchCustomerDefaultFields', async () => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/leasing-customer-field`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/leasing-customer-default-field`);
   return response.data;
    
   } catch (error) {
@@ -31,7 +31,7 @@ export const fetchCustomerDefaultFields = createAsyncThunk('customerDefaultField
 });
 export const fetchCustomerDefaultFieldsById = createAsyncThunk('customerDefaultFieldss/fetchCustomerDefaultFieldsById', async (id: string ) => {
   try {
-    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/leasing-customer-field/${id}`);
+    const response = await axios.get(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/leasing-customer-default-field/${id}`);
     return response.data;
   } catch (error) {
     console.error('Error Message'+ error);
@@ -41,18 +41,18 @@ export const fetchCustomerDefaultFieldsById = createAsyncThunk('customerDefaultF
 });
  
 export const addCustomerDefaultFields = createAsyncThunk('customerDefaultFieldss/addCustomerDefaultFields', async (assets: any) => {
- const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/leasing-customer-field`, assets);
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/leasing-customer-default-field`, assets);
   return response.data;
 });
  
 export const updateCustomerDefaultFields = createAsyncThunk('customerDefaultFieldss/updateCustomerDefaultFields', async (updatedCustomer: any) => {
  
-  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/leasing-customer-field/${updatedCustomer.id}`, updatedCustomer);
+  const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/leasing-customer-default-field/${updatedCustomer.id}`, updatedCustomer);
   return response.data;
 });
  
 export const deleteCustomerDefaultFields = createAsyncThunk('customerDefaultFieldss/deleteCustomerDefaultFields', async (id: number) => {
-  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/leasing-customer-field/${id}`);
+  await axios.delete(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/leasing-customer-default-field/${id}`);
   return id;
 });
  

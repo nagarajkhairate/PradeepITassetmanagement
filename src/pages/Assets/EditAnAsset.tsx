@@ -239,7 +239,9 @@ const { name, value} = event.target
         if (key === 'assetPhoto' && file) {
           formDataToSend.append(key, file);
         } else {
-          formDataToSend.append(key, formData[key] as string);
+          if (key !== 'assetPhoto') {
+            formDataToSend.append(key, formData[key] as string);
+          }
         }
       }
     }

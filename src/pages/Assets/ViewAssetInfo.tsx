@@ -81,8 +81,10 @@ const handleMenuItemClick = (option:any) => {
 };
 
   const statusColorMap: Record<string, string> = {
-    Available: "success",
-    CheckedOut: "neutral",
+    Available: 'success',
+    CheckedOut: 'neutral',
+    Leased: 'neutral',
+    Disposed: 'neutral'
   };
 
   const getEmployeName = (empId: number) =>{
