@@ -14,7 +14,7 @@ export const TableData = [
         "id": 3,
         "title": "Contracts / Licenses",
         "description": "If your assets are under a contract or certain agreement you want to consider activating this option. Software licenses can also be managed under this option.",
-        "formLabel": "Enable Contracts:",
+        "formLabel": "Enable Contracts",
         "icon":TuneOutlinedIcon ,
         "options": [
             {
@@ -33,7 +33,7 @@ export const TableData = [
         "id": 4,
         "title": "Insurance",
         "description": "Insurance can be a hassle to manage and remember. Enable this option to allow insurance variables to be allocated to your assets. A blanket insurance can be allocated to multiple assets.",
-        "formLabel": "Enable Insurance:",
+        "formLabel": "Enable Insurance",
         "icon":HealthAndSafetyOutlinedIcon ,
         "options": [
             {
@@ -52,7 +52,7 @@ export const TableData = [
         "id": 5,
         "title": "Funding",
         "description": "Activate this feature to add Funding to be used when purchasing assets. This can help if you are a not-for-profit organization and have certain funds for different needs. It can also be used in for-profit companies to allocate a budget for asset purchases.",
-        "formLabel": "Enable Funding:",
+        "formLabel": "Enable Funding",
         "icon":AccountBalanceOutlinedIcon ,
         "options": [
             {
@@ -71,7 +71,7 @@ export const TableData = [
         "id": 6,
         "title": "Maintenances",
         "description": "Enable to view when an asset has been through a maintenance event and the ability to schedule the routine frequency of having that asset checked for repairs.",
-        "formLabel": "Enable Asset's Maintenances:",
+        "formLabel": "Enable Asset's Maintenances",
         "icon":SettingsApplicationsOutlinedIcon ,
         "options": [
             {
@@ -90,7 +90,7 @@ export const TableData = [
         "id": 7,
         "title": "Warranties",
         "description": "Enable the ability to add when an asset’s warranty will expire and be notified of the event.",
-        "formLabel": "Enable Asset's Warranty:",
+        "formLabel": "Enable Asset's Warranty",
         "icon": NewReleasesOutlinedIcon,
         "options": [
             {
@@ -109,7 +109,7 @@ export const TableData = [
         "id": 8,
         "title": "Sub Categories ",
         "description": "Enable the ability to add sub-categories and assign an asset to those sub-categories.",
-        "formLabel": "Allocate assets to Sub Categories:",
+        "formLabel": "Allocate assets to Sub Categories",
         "icon":ListAltOutlinedIcon ,
         "options": [
             {
@@ -128,7 +128,7 @@ export const TableData = [
         "id": 9,
         "title": "Departments",
         "description": " Enable the ability to add departments and assign asset to those departments.",
-        "formLabel": "Allocate assets to Departments:",
+        "formLabel": "Allocate assets to Departments",
         "icon":ListOutlinedIcon ,
         "options": [
             {
@@ -147,7 +147,7 @@ export const TableData = [
         "id": 10,
         "title": "Audit",
         "description": "Enable the ability to perform audits of assets to ensure they are still in locations/departments that were previously reported and take actions if not",
-        "formLabel": "Asset Audit:",
+        "formLabel": "Asset Audit",
         "icon": VerifiedUserOutlinedIcon,
         "options": [
             {

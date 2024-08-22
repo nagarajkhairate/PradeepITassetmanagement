@@ -14,9 +14,7 @@ import {
   Grid,
   selectClasses,
 } from '@mui/joy'
-import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 import { TableData } from './TableData'
-import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined'
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined'
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined'
 import AppView from '../../../components/Common/AppView'
@@ -28,6 +26,17 @@ import {
 } from '../../../redux/features/TableOptionsSlice'
 import { RootState } from '../../../redux/store'
 import { KeyboardArrowDown } from '@mui/icons-material'
+import LinkIcon from '@mui/icons-material/Link'
+import HowToRegTwoToneIcon from '@mui/icons-material/HowToRegTwoTone'
+import SendAndArchiveTwoToneIcon from '@mui/icons-material/SendAndArchiveTwoTone'
+import ThumbsUpDownTwoToneIcon from '@mui/icons-material/ThumbsUpDownTwoTone'
+import BuildTwoToneIcon from '@mui/icons-material/BuildTwoTone'
+import FormatColorResetTwoToneIcon from '@mui/icons-material/FormatColorResetTwoTone'
+import PlayDisabledTwoToneIcon from '@mui/icons-material/PlayDisabledTwoTone'
+import VolunteerActivismTwoToneIcon from '@mui/icons-material/VolunteerActivismTwoTone'
+import StorefrontTwoToneIcon from '@mui/icons-material/StorefrontTwoTone'
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded'
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser'
 
 const DepreciationOptions = {
   id: 1,
@@ -63,14 +72,16 @@ const LinkingOptions = {
 }
 
 const SetupTableOptions: React.FC = () => {
-  const tableOptions = useSelector((state: RootState) => state.tableOptions.data)
+  const tableOptions = useSelector(
+    (state: RootState) => state.tableOptions.data,
+  )
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
   console.log(JSON.stringify(tableOptions))
 
   const [showDepreciationOptions, setShowDepreciationOptions] = useState(false)
   const [depreciationMethod, setDepreciationMethod] = useState('')
   const [calculationFrequency, setCalculationFrequency] = useState('')
-  const [tableOptionForm, setTableOptionForm] = useState<any>({ tableData: [] });
+  const [tableOptionForm, setTableOptionForm] = useState<any>({ tableData: [] })
   const [enableLinking, setEnableLinking] = useState('no')
   const [linkedAssets, setLinkedAssets] = useState({
     checkout: false,
@@ -85,7 +96,6 @@ const SetupTableOptions: React.FC = () => {
     auditAssets: false,
   })
   const [companyFormData, setCompanyFormData] = useState<any>({})
- 
 
   const handleDepreciationChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
@@ -169,8 +179,6 @@ const SetupTableOptions: React.FC = () => {
     }))
   }
 
-
-
   React.useEffect(() => {
     if (tableOptions.length > 0) {
       setCompanyFormData(tableOptions[0])
@@ -182,8 +190,6 @@ const SetupTableOptions: React.FC = () => {
       dispatch(fetchOptions())
     }
   }, [dispatch, tableOptions.length])
-
-  
 
   return (
     <AppView>
@@ -250,7 +256,7 @@ const SetupTableOptions: React.FC = () => {
                       {DepreciationOptions.title}
                     </span>
                   </Typography>
-                  <Typography sx={{ fontSize: '14px' }}>
+                  <Typography sx={{ fontSize: '14px', mb: 1, ml: 1 }}>
                     {DepreciationOptions.description}{' '}
                   </Typography>
                   <Box>
@@ -258,18 +264,22 @@ const SetupTableOptions: React.FC = () => {
                       <FormControl
                         sx={{
                           display: 'flex',
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          marginBottom: '10px',
+                          flexDirection: { xs: 'column' },
+                          alignItems: { xs: 'flex-start', md: 'flex-start' },
+                          marginBottom: '2px',
                         }}
                       >
                         <Box
                           sx={{
                             display: 'flex',
-                            gap:10 
+                            justifyContent: {
+                              xs: 'flex-start',
+                              md: 'flex-start',
+                            },
+                            ml: 1,
                           }}
                         >
-                          <FormLabel sx={{ fontSize: '14px',}}>
+                          <FormLabel sx={{ fontSize: '14px' }}>
                             {' '}
                             {DepreciationOptions.formLabel}
                           </FormLabel>
@@ -280,30 +290,27 @@ const SetupTableOptions: React.FC = () => {
                           sx={{
                             display: 'flex',
                             flexDirection: 'row',
+                            flexWrap: 'wrap',
                             justifyContent: 'center',
-                            alignItems: 'center',
-                            ml: 2,
-                            gap: 2,
+                            gap: 3,
                           }}
                         >
                           {DepreciationOptions.options.map((option) => (
-                            <Box
-                            sx={{
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                            }}
-                            >
-                              <Radio
-                                key={option.value}
-                                value={option.value}
-                                label={option.label}
-                                name={option.name}
+                            <Grid xs={4} sm={4} md={4} key={option.value}>
+                              <Box
                                 sx={{
-                                  margin: '2px',
+                                  display: 'flex',
+                                  justifyContent: 'flex-start',
+                                  flexDirection: { md: 'row', xs: 'row' },
                                 }}
-                              />
-                            </Box>
+                              >
+                                <Radio
+                                  value={option.value}
+                                  label={option.label}
+                                  name={option.name}
+                                />
+                              </Box>
+                            </Grid>
                           ))}
                         </RadioGroup>
                       </FormControl>
@@ -327,7 +334,6 @@ const SetupTableOptions: React.FC = () => {
                                 placeholder="Straight Line"
                                 indicator={<KeyboardArrowDown />}
                                 sx={{
-                                 
                                   [`& .${selectClasses.indicator}`]: {
                                     transition: '0.2s',
                                     [`&.${selectClasses.expanded}`]: {
@@ -396,7 +402,7 @@ const SetupTableOptions: React.FC = () => {
                             {item.title}
                           </span>
                         </Typography>
-                        <Typography sx={{ fontSize: '14px' }}>
+                        <Typography sx={{ fontSize: '14px', ml: 1, mb: 1 }}>
                           {item.description}
                         </Typography>
 
@@ -404,12 +410,24 @@ const SetupTableOptions: React.FC = () => {
                           <FormControl
                             sx={{
                               display: 'flex',
-                              flexDirection: 'row',
-                              alignItems: 'center',
-                              marginBottom: '10px',
+                              flexDirection: { xs: 'column' }, // Column on mobile, row on larger screens
+                              alignItems: {
+                                xs: 'flex-start',
+                                md: 'flex-start',
+                              }, // Align items properly
+                              marginBottom: '2px',
                             }}
                           >
-                            <Box>
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                justifyContent: {
+                                  xs: 'flex-start',
+                                  md: 'flex-start',
+                                },
+                                ml: 1,
+                              }}
+                            >
                               <FormLabel sx={{ fontSize: '14px' }}>
                                 {item.formLabel}
                               </FormLabel>
@@ -420,18 +438,27 @@ const SetupTableOptions: React.FC = () => {
                               sx={{
                                 display: 'flex',
                                 flexDirection: 'row',
-                                ml: 2,
-                                gap: 2,
+                                flexWrap: 'wrap',
+                                justifyContent: 'center',
+                                gap: 3,
                               }}
                             >
                               {item.options.map((opt) => (
-                                <Box sx={{ fontSize: '14px' }}>
-                                  <Radio
-                                    key={opt.value}
-                                    value={opt.value}
-                                    label={opt.label}
-                                  />
-                                </Box>
+                                <Grid xs={4} sm={4} md={4} key={opt.value}>
+                                  <Box
+                                    sx={{
+                                      display: 'flex',
+                                      justifyContent: 'flex-start',
+                                      flexDirection: { md: 'row', xs: 'row' },
+                                    }}
+                                  >
+                                    <Radio
+                                      key={opt.value}
+                                      value={opt.value}
+                                      label={opt.label}
+                                    />
+                                  </Box>
+                                </Grid>
                               ))}
                             </RadioGroup>
                           </FormControl>
@@ -452,11 +479,14 @@ const SetupTableOptions: React.FC = () => {
                         marginTop: '10px',
                       }}
                     >
+                      <LinkIcon
+                        style={{ fontSize: '1.6rem', color: '#FBC21E' }}
+                      />
                       <span style={{ marginLeft: '8px', fontSize: '16px' }}>
                         {LinkingOptions.title}
                       </span>
                     </Typography>
-                    <Typography sx={{ fontSize: '14px' }}>
+                    <Typography sx={{ fontSize: '14px', ml: 1, mb: 1 }}>
                       {LinkingOptions.description}{' '}
                     </Typography>
 
@@ -464,12 +494,21 @@ const SetupTableOptions: React.FC = () => {
                       <FormControl
                         sx={{
                           display: 'flex',
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          marginBottom: '10px',
+                          flexDirection: { xs: 'column' },
+                          alignItems: { xs: 'flex-start', md: 'flex-start' },
+                          marginBottom: '2px',
                         }}
                       >
-                        <Box>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            justifyContent: {
+                              xs: 'flex-start',
+                              md: 'flex-start',
+                            },
+                            ml: 1,
+                          }}
+                        >
                           <FormLabel sx={{ fontSize: '14px' }}>
                             {LinkingOptions.formLabel}
                           </FormLabel>
@@ -481,18 +520,26 @@ const SetupTableOptions: React.FC = () => {
                           sx={{
                             display: 'flex',
                             flexDirection: 'row',
-                            ml: 2,
-                            gap: 2,
+                            flexWrap: 'wrap',
+                            justifyContent: 'center',
+                            gap: 3,
                           }}
                         >
                           {LinkingOptions.options.map((option) => (
-                            <Box sx={{ fontSize: '14px' }}>
-                              <Radio
-                                key={option.value}
-                                value={option.value}
-                                label={option.label}
-                              />
-                            </Box>
+                            <Grid xs={4} sm={4} md={4} key={option.value}>
+                              <Box
+                                sx={{
+                                  display: 'flex',
+                                  justifyContent: 'flex-start',
+                                  flexDirection: { md: 'row', xs: 'row' },
+                                }}
+                              >
+                                <Radio
+                                  value={option.value}
+                                  label={option.label}
+                                />
+                              </Box>
+                            </Grid>
                           ))}
                         </RadioGroup>
                       </FormControl>
@@ -510,7 +557,10 @@ const SetupTableOptions: React.FC = () => {
                                 name="checkout"
                                 onChange={handleCheckboxChange}
                               />
-                              <HowToRegOutlinedIcon /> Check-out
+                              <HowToRegTwoToneIcon
+                                style={{ color: '#FBC21E', fontSize: '1.1rem', marginLeft: '7px', marginRight:'7px' }}
+                              />
+                              Check-out
                             </Box>
 
                             <Box marginBottom={'5px'}>
@@ -518,63 +568,100 @@ const SetupTableOptions: React.FC = () => {
                                 name="reservation"
                                 onChange={handleCheckboxChange}
                               />
-                              <CalendarMonthOutlinedIcon /> Reservation
+                              <BookmarkAddedIcon
+                                style={{ color: '#FBC21E', fontSize: '1.1rem', marginLeft: '7px', marginRight:'4px' }}
+                              />{' '}
+                              Reservation
                             </Box>
                             <Box marginBottom={'5px'}>
                               <Checkbox
                                 name="leaseAssets"
                                 onChange={handleCheckboxChange}
                               />
-                              <CalendarMonthOutlinedIcon /> Lease assets
+                              <SendAndArchiveTwoToneIcon
+                                style={{ color: '#FBC21E', fontSize: '1.1rem', marginLeft: '7px', marginRight:'7px'  }}
+                              />
+                              Lease assets
                             </Box>
                             <Box marginBottom={'5px'}>
                               <Checkbox
                                 name="lostFoundAssets"
                                 onChange={handleCheckboxChange}
                               />
-                              <TuneOutlinedIcon /> Lost/Found'assets
+                              <ThumbsUpDownTwoToneIcon
+                                style={{ color: '#FBC21E', fontSize: '1.1rem', marginLeft: '7px', marginRight:'7px'  }}
+                              />
+                              Lost/Found'assets
                             </Box>
                             <Box marginBottom={'5px'}>
                               <Checkbox
                                 name="repairAssets"
                                 onChange={handleCheckboxChange}
                               />
-                              <TuneOutlinedIcon /> Repair assets
+                              <BuildTwoToneIcon
+                                style={{
+                                  fontSize: '1.1rem',
+                                  color: '#FBC21E',
+                                  marginLeft: '7px',
+                                  marginRight:'4px'
+                                }}
+                              />{' '}
+                              Repair assets
                             </Box>
                             <Box marginBottom={'5px'}>
                               <Checkbox
                                 name="brokenAssets"
                                 onChange={handleCheckboxChange}
                               />
-                              <TuneOutlinedIcon /> Broken assets
+                              <FormatColorResetTwoToneIcon
+                                style={{ color: '#FBC21E', fontSize: '1.1rem', marginLeft: '7px', marginRight:'6px'  }}
+                              />
+                              Broken assets
                             </Box>
                             <Box marginBottom={'5px'}>
                               <Checkbox
                                 name="disposeAssets"
                                 onChange={handleCheckboxChange}
                               />
-                              <TuneOutlinedIcon /> Dispose assets
+                              <PlayDisabledTwoToneIcon
+                                style={{ color: '#FBC21E', fontSize: '1.1rem', marginLeft: '7px',marginRight:'6px' }}
+                              />
+                              Dispose assets
                             </Box>
                             <Box marginBottom={'5px'}>
                               <Checkbox
                                 name="donateAssets"
                                 onChange={handleCheckboxChange}
                               />
-                              <TuneOutlinedIcon /> Donate assets
+                              <VolunteerActivismTwoToneIcon
+                                style={{ fontSize: '1.1rem', color: '#FBC21E', marginLeft: '7px', marginRight:'4px' }}
+                              />{' '}
+                              Donate assets
                             </Box>
                             <Box marginBottom={'5px'}>
                               <Checkbox
                                 name="sellAssets"
                                 onChange={handleCheckboxChange}
                               />
-                              <TuneOutlinedIcon /> Sell assets
+                              <StorefrontTwoToneIcon
+                                style={{
+                                  fontSize: '1.1rem',
+                                  color: '#FBC21E',
+                                  marginLeft: '7px',
+                                  marginRight:'4px'
+                                }}
+                              />{' '}
+                              Sell assets
                             </Box>
-                            <Box marginBottom={'5px'}>
+                            <Box marginBottom={'5px'} sx={{ gap: 3 }}>
                               <Checkbox
                                 name="auditAssets"
                                 onChange={handleCheckboxChange}
                               />
-                              <TuneOutlinedIcon /> Audit assets
+                              <VerifiedUserIcon
+                                style={{ fontSize: '1.1rem', color: '#FBC21E', marginLeft: '7px', marginRight:'4px'}}
+                              />{' '}
+                              Audit assets
                             </Box>
                           </Box>
                         </FormControl>
@@ -628,9 +715,6 @@ const SetupTableOptions: React.FC = () => {
   )
 }
 export default SetupTableOptions
-
-
-
 
 // import React, { useState, ChangeEvent, SyntheticEvent, useEffect } from 'react';
 // import {
@@ -788,7 +872,6 @@ export default SetupTableOptions
 //     dispatch(updateoptions(formData));
 //   };
 
-
 //   return (
 //     <AppView>
 
@@ -845,8 +928,8 @@ export default SetupTableOptions
 //                     marginTop: '20px',
 //                   }}
 //                 >
-                  
-//                     <DepreciationOptions.icon 
+
+//                     <DepreciationOptions.icon
 //                     style={{ fontSize: '1.4rem', color: '#FBC21E' }}
 //                     />
 
@@ -869,7 +952,7 @@ export default SetupTableOptions
 //                     <Box
 //                     sx={{
 //                         display: 'flex',
-//                         gap:10 
+//                         gap:10
 //                       }}
 //                     >
 //                       <FormLabel
@@ -897,7 +980,7 @@ export default SetupTableOptions
 //                       alignItems: 'center',
 //                     }}
 //                         >
-//                           <Radio key={option.value} value={option.value} label={option.label} 
+//                           <Radio key={option.value} value={option.value} label={option.label}
 //                           sx={{
 //                               margin: '2px',
 //                             }}
