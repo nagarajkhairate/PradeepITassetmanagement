@@ -19,22 +19,32 @@ const WarrantySetupColumn: React.FC = () => {
 
   const handleCheckboxChange = (id: number) => {
     setSelectedColumns((prevSelectedColumns) => {
+      if (prevSelectedColumns.includes(id) && prevSelectedColumns.length === 1) {
+        return prevSelectedColumns; // Prevent unchecking the last remaining checkbox
+      }
       const newSelectedColumns = prevSelectedColumns.includes(id)
         ? prevSelectedColumns.filter((col) => col !== id)
         : [...prevSelectedColumns, id];
       return newSelectedColumns;
     });
   };
+  
 
   React.useEffect(() => {
     if (warrantiesDatabase.length > 0) {
-      const warrantyColumns=warrantiesDatabase
-      .filter(column=>column.isTable)
-      .map(column=>column.id)
-      setSelectedColumns(warrantyColumns)
+      const warrantyColumns = warrantiesDatabase
+        .filter((column) => column.isTable)
+        .map((column) => column.id);
+      
+      // Ensure at least one column is selected
+      if (warrantyColumns.length === 0 && warrantiesDatabase.length > 0) {
+        warrantyColumns.push(warrantiesDatabase[0].id);
+      }
+      
+      setSelectedColumns(warrantyColumns);
     }
-  }, [warrantiesDatabase])
-
+  }, [warrantiesDatabase]);
+  
 
   useEffect(() => {
     if (warrantiesDatabase.length >0) {

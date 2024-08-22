@@ -18,6 +18,9 @@ const MaintenancesOverdueSetupColumn: React.FC = () => {
 
   const handleCheckboxChange = (id: number) => {
     setSelectedColumns((prevSelectedColumns) => {
+      if (prevSelectedColumns.includes(id) && prevSelectedColumns.length === 1) {
+        return prevSelectedColumns; // Prevent unchecking the last remaining checkbox
+      }
       const newSelectedColumns = prevSelectedColumns.includes(id)
         ? prevSelectedColumns.filter((col) => col !== id)
         : [...prevSelectedColumns, id];
@@ -30,6 +33,10 @@ const MaintenancesOverdueSetupColumn: React.FC = () => {
       const initialSelectedColumns = maintenanceDatabase
         .filter(column => column.isTable)
         .map(column => column.id);
+
+        if (initialSelectedColumns.length === 0 && initialSelectedColumns.length > 0) {
+          initialSelectedColumns.push(maintenanceDatabase[0].id);
+        }
       setSelectedColumns(initialSelectedColumns);
     }
   }, [maintenanceDatabase]);

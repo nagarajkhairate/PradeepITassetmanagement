@@ -16,22 +16,15 @@ const MaintenancesSetupColumn: React.FC = () => {
   const [selectedColumns, setSelectedColumns] = useState<number[]>([]);
   const [filteredColumns, setFilteredColumns] = useState<{ id: number, fieldName: string, isTable: boolean }[]>([]);
 
-  // const handleCheckboxChange = (id: number) => {
-  //   setSelectedColumns((prevSelectedColumns) => {
-  //     const newSelectedColumns = prevSelectedColumns.includes(id)
-  //       ? prevSelectedColumns.filter((col) => col !== id)
-  //       : [...prevSelectedColumns, id];
-  //     return newSelectedColumns;
-  //   });
-  // };
-
   const handleCheckboxChange = (id: number) => {
     setSelectedColumns((prevSelectedColumns) => {
-      if (prevSelectedColumns.includes(id)) {
-        return prevSelectedColumns.filter((columnId) => columnId !== id);
-      } else {
-        return [...prevSelectedColumns, id];
+      if (prevSelectedColumns.includes(id) && prevSelectedColumns.length === 1) {
+        return prevSelectedColumns; // Prevent unchecking the last remaining checkbox
       }
+      const newSelectedColumns = prevSelectedColumns.includes(id)
+        ? prevSelectedColumns.filter((col) => col !== id)
+        : [...prevSelectedColumns, id];
+      return newSelectedColumns;
     });
   };
 
@@ -40,6 +33,11 @@ const MaintenancesSetupColumn: React.FC = () => {
       const initialSelectedColumns = maintenanceDatabase
         .filter(column => column.isTable)
         .map(column => column.id);
+
+        if (initialSelectedColumns.length === 0 && initialSelectedColumns.length > 0) {
+          initialSelectedColumns.push(maintenanceDatabase[0].id);
+        }
+
       setSelectedColumns(initialSelectedColumns);
     }
   }, [maintenanceDatabase]);
