@@ -1,5 +1,13 @@
 import React, { useState } from 'react'
-import { Typography, Box, Button, Radio, RadioGroup, Divider } from '@mui/joy'
+import {
+  Typography,
+  Box,
+  Button,
+  Radio,
+  RadioGroup,
+  Divider,
+  Grid,
+} from '@mui/joy'
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import AppView from '../../../components/Common/AppView'
@@ -8,14 +16,14 @@ import { ThunkDispatch } from 'redux-thunk'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
 import { fetchEvents, updateEvents } from '../../../redux/features/EventsSlice'
-import HowToRegTwoToneIcon from '@mui/icons-material/HowToRegTwoTone';
-import SendAndArchiveTwoToneIcon from '@mui/icons-material/SendAndArchiveTwoTone';
-import ThumbsUpDownTwoToneIcon from '@mui/icons-material/ThumbsUpDownTwoTone';
-import BuildTwoToneIcon from '@mui/icons-material/BuildTwoTone';
-import FormatColorResetTwoToneIcon from '@mui/icons-material/FormatColorResetTwoTone';
-import PlayDisabledTwoToneIcon from '@mui/icons-material/PlayDisabledTwoTone';
-import VolunteerActivismTwoToneIcon from '@mui/icons-material/VolunteerActivismTwoTone';
-import StorefrontTwoToneIcon from '@mui/icons-material/StorefrontTwoTone';
+import HowToRegTwoToneIcon from '@mui/icons-material/HowToRegTwoTone'
+import SendAndArchiveTwoToneIcon from '@mui/icons-material/SendAndArchiveTwoTone'
+import ThumbsUpDownTwoToneIcon from '@mui/icons-material/ThumbsUpDownTwoTone'
+import BuildTwoToneIcon from '@mui/icons-material/BuildTwoTone'
+import FormatColorResetTwoToneIcon from '@mui/icons-material/FormatColorResetTwoTone'
+import PlayDisabledTwoToneIcon from '@mui/icons-material/PlayDisabledTwoTone'
+import VolunteerActivismTwoToneIcon from '@mui/icons-material/VolunteerActivismTwoTone'
+import StorefrontTwoToneIcon from '@mui/icons-material/StorefrontTwoTone'
 
 const options = [
   {
@@ -77,7 +85,7 @@ const Event: React.FunctionComponent = () => {
       defaultValue="outlined"
       onChange={onChange}
       value={value === true ? 'yes' : value === false ? 'no' : ''}
-      sx={{ display: 'flex', gap: 2, justifyContent:'center' }}
+      sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}
     >
       <Box
         sx={{
@@ -86,7 +94,7 @@ const Event: React.FunctionComponent = () => {
           textAlign: { xs: 'center', md: 'left' },
           justifyContent: { md: 'left', xs: 'center' },
           flexDirection: { md: 'left', xs: 'center' },
-          mt:1,
+          mt: {md:1, xs:'none'},
         }}
       >
         {options.map((option) => (
@@ -111,9 +119,9 @@ const Event: React.FunctionComponent = () => {
       <Box
         sx={{
           display: 'flex',
-          textAlign: { xs: 'center', md: 'left' },
-          justifyContent: { md: 'left',  },
-          flexDirection: { md: 'left', },
+          textAlign: { xs: 'center', md: 'flex-end' },
+          justifyContent: { md: 'flex-end' },
+          flexDirection: { md: 'flex-end' },
         }}
       >
         <a href="_blank">
@@ -123,7 +131,7 @@ const Event: React.FunctionComponent = () => {
               background: '#FDE8BC',
               border: '1px solid #C2B083',
               color: 'black',
-              borderRadius: '15px',
+              borderRadius: '10px',
               '&:hover': {
                 background: '#FADFB4',
               },
@@ -139,7 +147,7 @@ const Event: React.FunctionComponent = () => {
               color: 'green',
               border: '1px solid green ',
 
-              borderRadius: '15px',
+              borderRadius: '10px',
               '&:hover': {
                 color: 'white',
                 background: 'green',
@@ -196,6 +204,7 @@ const Event: React.FunctionComponent = () => {
             flexDirection: { md: 'left', xs: 'center' },
             gap: 1,
             py: '10px',
+            px: '19px',
           }}
         >
           <Typography>
@@ -204,189 +213,215 @@ const Event: React.FunctionComponent = () => {
         </Box>
         <Divider></Divider>
 
-        <Box
-          sx={{
-            display: 'flex',
-
-            flexDirection: { md: 'row', xs: 'column' },
-            gap: { md: 'none', xs: '10px' },
-            justifyContent: 'space-around',
-            py: '20px',
-          }}
-        >
-          <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: { md: 'flex-start',  },
-            textAlign: {  md: 'left' },
-            flex: '1 1 auto',
-          }}
-          >
-            <Typography
+        <Grid container spacing={3} sx={{ flexGrow: 1, py: '10px', }}>
+          <Grid xs={12} md={4}>
+            <Box
               sx={{
                 display: 'flex',
-                textAlign: { xs: 'center', md: 'left' },
-                justifyContent: { md: 'left', xs: 'center' },
-                flexDirection: { md: 'left', xs: 'center' },
-                gap:1
+                alignItems: 'center',
+                justifyContent: { md: 'flex-start',  xs: 'center' },
+                textAlign: { md: 'left', xs: 'center' },
+                
               }}
             >
-              <HowToRegTwoToneIcon  style={{color:'#FBC21E',}}/>
-              <strong>Check-out assets:</strong>
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              flex: '2 2 auto',
-              display: 'flex',
-              justifyContent: {md:'center', xs:'left'}, // Center radio buttons
-            }}
-          >
-          <AssetRadioGroup
-            name="checkOut"
-            onChange={HandleRadioSelect}
-            value={eventForm.checkOut}
-          />
-          </Box>
-          <>
-            <CustomButtonBox
-              setupCheckoutText="Setup 'Check out'"
-              customizeFormText="Customize Form"
-            />
-            <CustomButtonBox
-              setupCheckoutText="Setup 'Check inn'"
-              customizeFormText="Customize Form"
-            />
-          </>
-        </Box>
-
+              <Typography
+                sx={{
+                  display: 'flex',
+                  textAlign: { xs: 'center', md: 'left' },
+                  justifyContent: { md: 'left', xs: 'center' },
+                  flexDirection: { md: 'left', xs: 'center' },
+                  gap: 1,
+                }}
+              >
+                <HowToRegTwoToneIcon style={{ color: '#FBC21E' }} />
+                <strong>Check-out assets:</strong>
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid xs={12} md={3}>
+            <Box
+              sx={{
+                // flex: '2 2 auto',
+                display: 'flex',
+                justifyContent: { md: 'center', xs: 'left' }, // Center radio buttons
+                // mb: { xs: 2, md: 0 },
+              }}
+            >
+              <AssetRadioGroup
+                name="checkOut"
+                onChange={HandleRadioSelect}
+                value={eventForm.checkOut}
+              />
+            </Box>
+          </Grid>
+          <Grid xs={12} md={5}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { md: 'row', xs: 'column' },
+                // gap: { md: 'none', xs: '8px' },
+                gap: { md: 2, xs: 2 },
+                // justifyContent:{ md: 'space-around', xs: 'center' },
+                justifyContent: { md: 'flex-end', xs: 'center' },
+                flexWrap: 'wrap',
+              }}
+            >
+              <CustomButtonBox
+                setupCheckoutText="Setup 'Check out'"
+                customizeFormText="Customize Form"
+              />
+              <CustomButtonBox
+                setupCheckoutText="Setup 'Check inn'"
+                customizeFormText="Customize Form"
+              />
+            </Box>
+          </Grid>
+        </Grid>
         <Box sx={{ ml: { md: '260px', xs: 'none' }, paddingBottom: '10px' }}>
           <Typography
-          sx={{
-            fontSize:'14px',
-            
-          }}
+            sx={{
+              fontSize: '14px',
+            }}
           >
             Assets are 'checked out' or 'assigned to' individuals. Enter
             individuals in 'Advanced &gt; Persons/Employee' table.{' '}
           </Typography>
         </Box>
         <Divider></Divider>
-        <Box
-          sx={{
-            display: 'flex',
 
-            flexDirection: { md: 'row', xs: 'column' },
-            gap: { md: 'none', xs: '10px' },
-            justifyContent: 'space-around',
-            py: '20px',
-          }}
-        >
-          <Box
-          sx={{
+
+
+        <Grid container spacing={3} sx={{ flexGrow: 1, py: '10px', }}>
+        <Grid xs={12} md={4}>
+        <Box
+           sx={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: { md: 'flex-start' },
-            textAlign: {  md: 'left' },
-            flex: '1 1 auto',
+            justifyContent: { md: 'flex-start',  xs: 'center' },
+            textAlign: { md: 'left', xs: 'center' },
+            
           }}
-          >
+        >
+          
             <Typography
               sx={{
                 display: 'flex',
                 textAlign: { xs: 'center', md: 'left' },
                 justifyContent: { md: 'left', xs: 'center' },
                 flexDirection: { md: 'left', xs: 'center' },
-                gap:1
+                gap: 1,
               }}
             >
-              <SendAndArchiveTwoToneIcon style={{color:'#FBC21E',}}/>
+              <SendAndArchiveTwoToneIcon style={{ color: '#FBC21E' }} />
               <strong>Lease assets:</strong>
             </Typography>
+            </Box>
+          </Grid>
+          <Grid xs={12} md={3}>
+            <Box
+              sx={{
+                // flex: '2 2 auto',
+                display: 'flex',
+                justifyContent: { md: 'center', xs: 'left' }, // Center radio buttons
+                // mb: { xs: 2, md: 0 },
+              }}
+            >
+            <AssetRadioGroup
+              name="leaseAssets"
+              onChange={HandleRadioSelect}
+              value={eventForm.leaseAssets}
+            />
           </Box>
-
-          <Box
-            sx={{
-              flex: '2 2 auto',
-              display: 'flex',
-              justifyContent: {md:'center', xs:'left'},
-            }}
-          >
-          <AssetRadioGroup
-            name="leaseAssets"
-            onChange={HandleRadioSelect}
-            value={eventForm.leaseAssets}
-          />
-          </Box>
-
-          <>
+          </Grid>
+          <Grid xs={12} md={5}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { md: 'row', xs: 'column' },
+                // gap: { md: 'none', xs: '8px' },
+                gap: { md: 2, xs: 2 },
+                // justifyContent:{ md: 'space-around', xs: 'center' },
+                justifyContent: { md: 'flex-end', xs: 'center' },
+                flexWrap: 'wrap',
+              }}
+            >
             <CustomButtonBox
               setupCheckoutText="Setup 'Lease'"
               customizeFormText="Customize Form"
             />
             <CustomButtonBox
-              setupCheckoutText="Setup 'Lease return'"
+              setupCheckoutText="'Lease return'"
               customizeFormText="Customize Form"
             />
-          </>
-        </Box>
+          </Box>
+          </Grid>
+          </Grid>
         <Box sx={{ ml: { md: '260px', xs: 'none' }, paddingBottom: '10px' }}>
           <Typography
-          sx={{
-            fontSize:'14px',
-          }}
+            sx={{
+              fontSize: '14px',
+            }}
           >
             Assets are 'leased' or 'rented/loaned' to customers. Maintain a list
             of customers in the 'Advanced &gt; Customers' table.
           </Typography>
         </Box>
         <Divider></Divider>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: { md: 'row', xs: 'column' },
-            gap: { md: 'none', xs: '10px' },
-            justifyContent: 'space-around',
-            py: '20px',
-          }}
-        >
-          <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: { md: 'flex-start' },
-            textAlign: { xs: 'center', md: 'left' },
-            flex: '1 1 auto',
-          }}
-          >
-            <Typography
+
+
+        <Grid container spacing={3} sx={{ flexGrow: 1, py: '10px', }}>
+          <Grid xs={12} md={4}>
+            <Box
               sx={{
                 display: 'flex',
-                textAlign: { xs: 'center', md: 'left' },
-                justifyContent: { md: 'left', xs: 'center' },
-                flexDirection: { md: 'left', xs: 'center' },
-                gap:1
+                alignItems: 'center',
+                justifyContent: { md: 'flex-start',  xs: 'center' },
+                textAlign: { md: 'left', xs: 'center' },
+                
               }}
             >
-              <ThumbsUpDownTwoToneIcon style={{color:'#FBC21E',}}/>
+              <Typography
+                sx={{
+                  display: 'flex',
+                  textAlign: { xs: 'center', md: 'left' },
+                  justifyContent: { md: 'left', xs: 'center' },
+                  flexDirection: { md: 'left', xs: 'center' },
+                  gap: 1,
+                }}
+              >
+              <ThumbsUpDownTwoToneIcon style={{ color: '#FBC21E' }} />
               <strong>Lost/Found assets:</strong>
             </Typography>
           </Box>
-          <Box
-            sx={{
-              flex: '4 4 auto',
-              display: 'flex',
-              justifyContent: {md:'center', xs:'left'},
-            }}
-          >
-          <AssetRadioGroup
-            name="lostFound"
-            onChange={HandleRadioSelect}
-            value={eventForm.lostFound}
-          />
-</Box>
-          <>
+          </Grid>
+          <Grid xs={12} md={3}>
+            <Box
+              sx={{
+                // flex: '2 2 auto',
+                display: 'flex',
+                justifyContent: { md: 'center', xs: 'left' }, // Center radio buttons
+                // mb: { xs: 2, md: 0 },
+              }}
+            >
+            <AssetRadioGroup
+              name="lostFound"
+              onChange={HandleRadioSelect}
+              value={eventForm.lostFound}
+            />
+          </Box>
+          </Grid>
+          <Grid xs={12} md={5}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { md: 'row', xs: 'column' },
+                // gap: { md: 'none', xs: '8px' },
+                gap: { md: 2, xs: 2 },
+                // justifyContent:{ md: 'space-around', xs: 'center' },
+                justifyContent: { md: 'flex-end', xs: 'center' },
+                flexWrap: 'wrap',
+              }}
+            >
             <CustomButtonBox
               setupCheckoutText="Setup 'Lost'"
               customizeFormText="Customize Form"
@@ -395,280 +430,346 @@ const Event: React.FunctionComponent = () => {
               setupCheckoutText="Setup Found"
               customizeFormText="Customize Form"
             />
-          </>
-        </Box>
+          </Box>
+          </Grid>
+        </Grid>
 
         <Box sx={{ ml: { md: '260px', xs: 'none' }, paddingBottom: '10px' }}>
           <Typography
-          sx={{
-            fontSize:'14px',
-          }}
+            sx={{
+              fontSize: '14px',
+            }}
           >
             Assets are sometimes lost/found to customers. Maintain a list of
             customers in the 'Advanced &gt; Customers' table.
           </Typography>
         </Box>
-
         <Divider></Divider>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: { md: 'row', xs: 'column' },
-            gap: { md: 'none', xs: '10px' },
-            justifyContent: 'space-around',
-            py: '20px',
-          }}
-        >
-          <Box>
-            <Typography
+
+
+
+      <Grid container spacing={3} sx={{ flexGrow: 1, py: '10px', }}>
+          <Grid xs={12} md={4}>
+            <Box
               sx={{
                 display: 'flex',
-                textAlign: { xs: 'center', md: 'left' },
-                justifyContent: { md: 'left' },
-                flexDirection: { md: 'left', xs: 'center' },
-                gap:1
+                alignItems: 'center',
+                justifyContent: { md: 'flex-start',  xs: 'center' },
+                textAlign: { md: 'left', xs: 'center' },
+                
               }}
             >
-              <BuildTwoToneIcon style={{fontSize:'1.2rem',color:'#FBC21E', marginTop:2}} /> 
+              <Typography
+                sx={{
+                  display: 'flex',
+                  textAlign: { xs: 'center', md: 'left' },
+                  justifyContent: { md: 'left', xs: 'center' },
+                  flexDirection: { md: 'left', xs: 'center' },
+                  gap: 1,
+                }}
+              >
+              <BuildTwoToneIcon
+                style={{ fontSize: '1.2rem', color: '#FBC21E', marginTop: 2 }}
+              />
               <strong>Repair assets:</strong>
             </Typography>
-          </Box>
-
-          <Box
-            sx={{
-              flex: '4 4 auto',
-              display: 'flex',
-              justifyContent: {md:'center', xs:'left'}
-            }}
-          >
-            <AssetRadioGroup
+            </Box>
+          </Grid>
+          <Grid xs={12} md={3}>
+            <Box
+              sx={{
+                // flex: '2 2 auto',
+                display: 'flex',
+                justifyContent: { md: 'center', xs: 'left' }, // Center radio buttons
+                // mb: { xs: 2, md: 0 },
+              }}
+            >
+                <AssetRadioGroup
               name="repairAssets"
               onChange={HandleRadioSelect}
               value={eventForm.repairAssets}
             />
           </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center', // Vertically align items
-              justifyContent: { md: 'flex-end', }, // Align content to the right or center
-            }}
-          >
+          </Grid>
+          <Grid xs={12} md={5}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { md: 'row', xs: 'column' },
+                // gap: { md: 'none', xs: '8px' },
+                gap: { md: 2, xs: 2 },
+                // justifyContent:{ md: 'space-around', xs: 'center' },
+                justifyContent: { md: 'flex-end', xs: 'center' },
+                flexWrap: 'wrap',
+              }}
+            >
             <CustomButtonBox
               setupCheckoutText="Setup 'Repair'"
               customizeFormText="Customize Form"
             />
           </Box>
-        </Box>
+          </Grid>
+        </Grid>
         <Divider></Divider>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: { md: 'row', xs: 'column' },
-            gap: { md: 'none', xs: '10px' },
-            justifyContent: 'space-around',
-            py: '20px',
-          }}
-        >
-          <Box>
-            <Typography
+
+
+        <Grid container spacing={3} sx={{ flexGrow: 1, py: '10px', }}>
+          <Grid xs={12} md={4}>
+            <Box
               sx={{
                 display: 'flex',
-                textAlign: { xs: 'center', md: 'left' },
-                justifyContent: { md: 'left' },
-                flexDirection: { md: 'left', xs: 'center' },
-                gap:1
+                alignItems: 'center',
+                justifyContent: { md: 'flex-start',  xs: 'center' },
+                textAlign: { md: 'left', xs: 'center' },
+                
               }}
             >
-              <FormatColorResetTwoToneIcon  style={{color:'#FBC21E',}}/> 
+              <Typography
+                sx={{
+                  display: 'flex',
+                  textAlign: { xs: 'center', md: 'left' },
+                  justifyContent: { md: 'left', xs: 'center' },
+                  flexDirection: { md: 'left', xs: 'center' },
+                  gap: 1,
+                }}
+              >
+              <FormatColorResetTwoToneIcon style={{ color: '#FBC21E' }} />
               <strong>Broken assets:</strong>
             </Typography>
-          </Box>
-
-          <Box
-            sx={{
-              flex: '4 4 auto',
-              display: 'flex',
-              justifyContent: {md:'center', xs:'left'}
-            }}
-          >
+            </Box>
+          </Grid>
+          <Grid xs={12} md={3}>
+            <Box
+              sx={{
+                // flex: '2 2 auto',
+                display: 'flex',
+                justifyContent: { md: 'center', xs: 'left' }, // Center radio buttons
+                // mb: { xs: 2, md: 0 },
+              }}
+            >
             <AssetRadioGroup
               name="brokenAssets"
               onChange={HandleRadioSelect}
               value={eventForm.brokenAssets}
             />
-          </Box>
-
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center', // Vertically align items
-              justifyContent: { md: 'flex-end', }, // Align content to the right or center
-            }}
-          >
+         </Box>
+          </Grid>
+          <Grid xs={12} md={5}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { md: 'row', xs: 'column' },
+                // gap: { md: 'none', xs: '8px' },
+                gap: { md: 2, xs: 2 },
+                // justifyContent:{ md: 'space-around', xs: 'center' },
+                justifyContent: { md: 'flex-end', xs: 'center' },
+                flexWrap: 'wrap',
+              }}
+            >
             <CustomButtonBox
               setupCheckoutText="Setup 'Broken'"
               customizeFormText="Customize Form"
             />
           </Box>
-        </Box>
-
+          </Grid>
+        </Grid>
         <Divider></Divider>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: { md: 'row', xs: 'column' },
-            gap: { md: 'none', xs: '10px' },
-            justifyContent: 'space-around',
-            py: '20px',
-          }}
-        >
-          <Box>
-            <Typography
+
+
+        <Grid container spacing={3} sx={{ flexGrow: 1, py: '10px', }}>
+          <Grid xs={12} md={4}>
+            <Box
               sx={{
                 display: 'flex',
-                textAlign: { xs: 'center', md: 'left' },
-                justifyContent: { md: 'left' },
-                flexDirection: { md: 'left', xs: 'center' },
-                gap:1
+                alignItems: 'center',
+                justifyContent: { md: 'flex-start',  xs: 'center' },
+                textAlign: { md: 'left', xs: 'center' },
+                
               }}
             >
-              <PlayDisabledTwoToneIcon style={{color: '#FBC21E'}}/> 
+              <Typography
+                sx={{
+                  display: 'flex',
+                  textAlign: { xs: 'center', md: 'left' },
+                  justifyContent: { md: 'left', xs: 'center' },
+                  flexDirection: { md: 'left', xs: 'center' },
+                  gap: 1,
+                }}
+              >
+              <PlayDisabledTwoToneIcon style={{ color: '#FBC21E' }} />
               <strong>Dispose assets:</strong>
             </Typography>
-          </Box>
-
-          <Box
-            sx={{
-              flex: '4 4 auto',
-              display: 'flex',
-              justifyContent: {md:'center', xs:'left'}
-            }}
-          >
+            </Box>
+          </Grid>
+          <Grid xs={12} md={3}>
+            <Box
+              sx={{
+                // flex: '2 2 auto',
+                display: 'flex',
+                justifyContent: { md: 'center', xs: 'left' }, // Center radio buttons
+                // mb: { xs: 2, md: 0 },
+              }}
+            >
             <AssetRadioGroup
               name="disposeAssets"
               onChange={HandleRadioSelect}
               value={eventForm.disposeAssets}
             />
           </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center', // Vertically align items
-              justifyContent: { md: 'flex-end',  }, // Align content to the right or center
-            }}
-          >
+          </Grid>
+          <Grid xs={12} md={5}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { md: 'row', xs: 'column' },
+                // gap: { md: 'none', xs: '8px' },
+                gap: { md: 2, xs: 2 },
+                // justifyContent:{ md: 'space-around', xs: 'center' },
+                justifyContent: { md: 'flex-end', xs: 'center' },
+                flexWrap: 'wrap',
+              }}
+            >
             <CustomButtonBox
               setupCheckoutText="Setup 'Dispose'"
               customizeFormText="Customize Form"
             />
           </Box>
-        </Box>
-
+          </Grid>
+        </Grid>
         <Divider></Divider>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: { md: 'row', xs: 'column' },
-            gap: { md: 'none', xs: '10px' },
-            justifyContent: 'space-around',
-            py: '20px',
-          }}
-        >
-          <Box>
-            <Typography
+
+
+        <Grid container spacing={3} sx={{ flexGrow: 1, py: '10px', }}>
+          <Grid xs={12} md={4}>
+            <Box
               sx={{
                 display: 'flex',
-                textAlign: { xs: 'center', md: 'left' },
-                justifyContent: { md: 'left' },
-                flexDirection: { md: 'left', xs: 'center' },
-                gap:1
+                alignItems: 'center',
+                justifyContent: { md: 'flex-start',  xs: 'center' },
+                textAlign: { md: 'left', xs: 'center' },
+                
               }}
             >
-              <VolunteerActivismTwoToneIcon style={{fontSize:'1.3rem', color:'#FBC21E',}} /> 
+              <Typography
+                sx={{
+                  display: 'flex',
+                  textAlign: { xs: 'center', md: 'left' },
+                  justifyContent: { md: 'left', xs: 'center' },
+                  flexDirection: { md: 'left', xs: 'center' },
+                  gap: 1,
+                }}
+              >
+              <VolunteerActivismTwoToneIcon
+                style={{ fontSize: '1.3rem', color: '#FBC21E' }}
+              />
               <strong>Donate assets:</strong>
             </Typography>
-          </Box>
-
-          <Box
-           sx={{
-            flex: '4 4 auto',
-            display: 'flex',
-            justifyContent: {md:'center', xs:'left'}
-          }}
-          >
+            </Box>
+          </Grid>
+          <Grid xs={12} md={3}>
+            <Box
+              sx={{
+                // flex: '2 2 auto',
+                display: 'flex',
+                justifyContent: { md: 'center', xs: 'left' }, // Center radio buttons
+                // mb: { xs: 2, md: 0 },
+              }}
+            >
             <AssetRadioGroup
               name="donateAssets"
               onChange={HandleRadioSelect}
               value={eventForm.donateAssets}
             />
           </Box>
-
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center', // Vertically align items
-              justifyContent: { md: 'flex-end', }, // Align content to the right or center
-            }}
-          >
+          </Grid>
+          <Grid xs={12} md={5}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { md: 'row', xs: 'column' },
+                // gap: { md: 'none', xs: '8px' },
+                gap: { md: 2, xs: 2 },
+                // justifyContent:{ md: 'space-around', xs: 'center' },
+                justifyContent: { md: 'flex-end', xs: 'center' },
+                flexWrap: 'wrap',
+              }}
+            >
             <CustomButtonBox
               setupCheckoutText="Setup 'Donate"
               customizeFormText="Customize Form"
             />
           </Box>
-        </Box>
-
+          </Grid>
+        </Grid>
         <Divider></Divider>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: { md: 'row', xs: 'column' },
-            gap: { md: 'none', xs: '10px' },
-            justifyContent: 'space-around',
-            py: '20px',
-          }}
-        >
-          <Box>
-            <Typography
+
+
+        <Grid container spacing={3} sx={{ flexGrow: 1, py: '10px', }}>
+          <Grid xs={12} md={4}>
+            <Box
               sx={{
                 display: 'flex',
-                textAlign: { xs: 'center', md: 'left' },
-                justifyContent: { md: 'left' },
-                flexDirection: { md: 'left', xs: 'center' },
-                gap:1
+                alignItems: 'center',
+                justifyContent: { md: 'flex-start',  xs: 'center' },
+                textAlign: { md: 'left', xs: 'center' },
+                
               }}
             >
-              <StorefrontTwoToneIcon style={{fontSize:'1.2rem', color:'#FBC21E', marginTop:'2px' }} /> 
+              <Typography
+                sx={{
+                  display: 'flex',
+                  textAlign: { xs: 'center', md: 'left' },
+                  justifyContent: { md: 'left', xs: 'center' },
+                  flexDirection: { md: 'left', xs: 'center' },
+                  gap: 1,
+                }}
+              >
+              <StorefrontTwoToneIcon
+                style={{
+                  fontSize: '1.2rem',
+                  color: '#FBC21E',
+                  marginTop: '2px',
+                }}
+              />
               <strong>Sell assets:</strong>
             </Typography>
-          </Box>
-
-          <Box
-             sx={{
-              flex: '4 4 auto',
-              display: 'flex',
-              justifyContent: {md:'center', xs:'left'}
-            }}
-          >
+            </Box>
+          </Grid>
+          <Grid xs={12} md={3}>
+            <Box
+              sx={{
+                // flex: '2 2 auto',
+                display: 'flex',
+                justifyContent: { md: 'center', xs: 'left' }, // Center radio buttons
+                // mb: { xs: 2, md: 0 },
+              }}
+            >
             <AssetRadioGroup
               name="sellAssets"
               onChange={HandleRadioSelect}
               value={eventForm.sellAssets}
             />
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center', // Vertically align items
-              justifyContent: { md: 'flex-end' }, // Align content to the right or center
-            }}
-          >
+           </Box>
+          </Grid>
+          <Grid xs={12} md={5}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { md: 'row', xs: 'column' },
+                // gap: { md: 'none', xs: '8px' },
+                gap: { md: 2, xs: 2 },
+                // justifyContent:{ md: 'space-around', xs: 'center' },
+                justifyContent: { md: 'flex-end', xs: 'center' },
+                flexWrap: 'wrap',
+              }}
+            >
             <CustomButtonBox
               setupCheckoutText="Setup 'Sell'"
               customizeFormText="Customize Form"
             />
           </Box>
-        </Box>
+          </Grid>
+        </Grid>
         <Divider />
 
         <Box
