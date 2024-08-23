@@ -11,7 +11,8 @@ import {
   fetchContractDatabaseById,
 } from '../../../redux/features/ContractDatabaseSlice'
 import { Link, useParams } from 'react-router-dom'
-import { fetchAlertsAddContract, fetchAlertsAddContractById } from '../../../redux/features/AlertsAddContractSlice'
+import { addAlertsAddContract, fetchAlertsAddContract, fetchAlertsAddContractById } from '../../../redux/features/AlertsAddContractSlice'
+import { fetchAlertsContractById } from '../../../redux/features/AlertsContractslice'
 
 const ViewContract: React.FC = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
@@ -29,19 +30,24 @@ const ViewContract: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const [viewContract, setViewContract] = useState<any>(null)
 
-  useEffect(() => {
-    dispatch(fetchContractDatabase())
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(fetchContractDatabase())
+  // }, [dispatch])
+
+  // useEffect(() => {
+  //   dispatch(fetchAlertsAddContract())
+  // }, [dispatch])
 
   useEffect(() => {
-    dispatch(fetchAlertsAddContract())
-  }, [dispatch])
-
-  useEffect(() => {
-    if (id) {
+    if(id){
       dispatch(fetchAlertsAddContractById(id))
     }
-  }, [id, dispatch])
+  }, [dispatch])
+
+
+
+
+  
 
   useEffect(() => {
     if (contractDatabase && id) {

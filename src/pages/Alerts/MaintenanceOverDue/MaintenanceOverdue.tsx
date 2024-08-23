@@ -135,10 +135,11 @@ export const MaintenanceOverdue: React.FC = () => {
                 variant="solid"
                 autoFocus
                 sx={{
-                  background: "black",
-                  color: "white",
-                  borderRadius: "10px",
-                  '&:hover':{background:'#424242'},
+                  background: 'black',
+                  color: 'white',
+                  borderRadius: '10px',
+                  '&:hover': { background: '#424242' },
+                  width: { xs: '100%', md: 'auto' },
                 }}
                 >
                 <SettingsOutlinedIcon />

@@ -25,60 +25,81 @@ import { useNavigate, useParams } from 'react-router-dom'
     const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
     const navigate=useNavigate()
     const [formData, setFormData] = useState<any>({})
+    const [contractFields, setContractFields] = useState<any[]>([])
     const { contractId } = useParams<{ contractId: string }>();
+    const [errors, setErrors] = useState<{ date?: string }>({})
     const contractDatabase = useSelector(
       (state: RootState) => state.contractDatabase.data,
     )
+    console.log(contractDatabase)
 
     const alertsAddContract = useSelector(
       (state: RootState) => state.alertsAddContract.data,
     )
   
     useEffect(() => {
-      dispatch(fetchContractDatabase())
+      const fetchData = async () => {
+        try{
+        await dispatch(fetchContractDatabase())
+        await dispatch(fetchAlertsAddContract())
+      }
+      catch (error){
+        console.error()
+      }
+      }
+      
+      fetchData()
     }, [dispatch])
+    
 
     useEffect(() => {
-      dispatch(fetchAlertsAddContract())
-    }, [dispatch])
-
+      if (contractDatabase.length > 0) {
+        setContractFields(contractDatabase)
+      }
+    }, [contractDatabase])
+    
     useEffect(() => {
       if (alertsAddContract.length > 0 && contractId) {
-        const existingContract = alertsAddContract.find((contract) => contract.id === contractId);
+        const existingContract = alertsAddContract.find((contract) => contract.id === contractId)
         if (existingContract) {
-          setFormData(existingContract);
+          setFormData(existingContract)
         }
       }
-    }, [alertsAddContract, contractId]);
-  
+    }, [alertsAddContract, contractId])
+    
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const {name, value }= event.target;
-      if((name === 'cost' || name === 'noofLicenses') && ! /^\d*\.?\d*$/.test(value)){
-        return;
-      }
+      setFormData((prevFormData: any) => {
+        const updatedFormData = { ...prevFormData, [name]: value }
   
-      if(name === 'phone'){
-        const phoneRegex = /^[1-9]*$/;
-        if(!phoneRegex.test(value)){
-          return;
+        // Validate dates when either start or end date changes
+        if (name === 'startDate' || name === 'endDate') {
+          const dateError = validateDates(
+            updatedFormData.startDate,
+            updatedFormData.endDate,
+          )
+          setErrors({ date: dateError })
         }
-      }
   
-      if((name === 'description' || name === 'contractTitle' || name === 'vendor' || name === 'contractPerson' )){
-        const stringRegex = /^[a-zA-Z\s]*$/;
-        if(!stringRegex.test(value)){
-          return;
-        }
-      }
-      if (name === 'hyperlink') {
-        const urlRegex = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d+)?(\/[^\s]*)?$/;
-        if (!urlRegex.test(value)) {
-          return; // Prevent input if it doesn't match the regex
-        }
-      }
+        return updatedFormData
+      })
+  
   
       setFormData({ ...formData, [name]:value })  
     }
+
+    
+  const validateDates = (startDate?: string, endDate?: string) => {
+    if (startDate && endDate) {
+      const start = new Date(startDate)
+      const end = new Date(endDate)
+      if (start > end) {
+        return 'Start date should be less than or equal to end date.'
+      }
+    }
+    return ''
+  }
+
   
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setFormData({ ...formData, [event.target.name]: event.target.checked })
@@ -157,7 +178,7 @@ import { useNavigate, useParams } from 'react-router-dom'
         case "checkbox":
           return renderWithAsterisk(
             <Checkbox
-              type={commonProps.field.components.type}
+              // type={commonProps.field.components.type}
               name={commonProps.field.name}
               checked={commonProps.formData[commonProps.field.name] as boolean}
               onChange={commonProps.handleChange}
@@ -170,15 +191,29 @@ import { useNavigate, useParams } from 'react-router-dom'
               <FormControl>
                 {/* <FormLabel>{commonProps.field.fieldName}</FormLabel> */}
                 <RadioGroup
-                  name={commonProps.field.name}
-                  value={commonProps.formData[commonProps.field.name] as string}
-                  onChange={commonProps.handleRadioChange}
-                >
-                  <Box>
-                    <Radio value="yes" label="Yes" /> 
-                    <Radio value="no" label="No" /> 
-                  </Box>
-                </RadioGroup>
+               name={commonProps.field.name}
+               value={commonProps.formData[commonProps.field.name] || "no"}
+               onChange={commonProps.handleRadioChange}
+               sx={{
+                 display: 'flex',
+                 flexDirection:  'row' ,
+                 justifyContent: { xs: 'flex-start', md: 'flex-start' },
+                 gap: 2,
+               }}
+             >
+               <Box
+                sx={{
+                 display: 'flex',
+                flexDirection: 'row',
+                 justifyContent: { xs: 'flex-start', md: 'flex-start' },
+                 alignItems: 'flex-start',
+                 gap: 3,
+                 width: { md: '300px', xs: '270px' },
+               }}>
+                 <Radio value="yes" label="Yes" />
+                 <Radio value="no" label="No" />
+               </Box>
+             </RadioGroup>
               </FormControl>,
               commonProps.field.fieldName
             );

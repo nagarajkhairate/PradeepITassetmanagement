@@ -450,38 +450,7 @@ export const AddContractExp: React.FC = () => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
-    if (
-      (name === 'cost' || name === 'noofLicenses') &&
-      !/^\d*\.?\d*$/.test(value)
-    ) {
-      return
-    }
-
-    if (name === 'phone') {
-      const phoneRegex = /^[1-9]*$/
-      if (!phoneRegex.test(value)) {
-        return
-      }
-    }
-
-    if (
-      name === 'description' ||
-      name === 'contractTitle' ||
-      name === 'vendor' ||
-      name === 'contractPerson'
-    ) {
-      const stringRegex = /^[a-zA-Z\s]*$/
-      if (!stringRegex.test(value)) {
-        return
-      }
-    }
-    if (name === 'hyperlink') {
-      const urlRegex =
-        /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d+)?(\/[^\s]*)?$/
-      if (!urlRegex.test(value)) {
-        return // Prevent input if it doesn't match the regex
-      }
-    }
+   
 
     setFormData((prevFormData: any) => {
       const updatedFormData = { ...prevFormData, [name]: value }
@@ -592,7 +561,7 @@ export const AddContractExp: React.FC = () => {
       case 'checkbox':
         return renderWithAsterisk(
           <Checkbox
-            type={commonProps.field.components.type}
+            // type={commonProps.field.components.type}
             name={commonProps.field.name}
             checked={commonProps.formData[commonProps.field.name] as boolean}
             onChange={commonProps.handleChange}
