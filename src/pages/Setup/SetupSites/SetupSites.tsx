@@ -622,23 +622,21 @@ const SetupSites: React.FC = ({}) => {
                           <Button
                             aria-label="delete"
                             onClick={() => handleDeleteClick(site)}
-                            sx={{
-                              fontSize: '13px',
-                              background: '#ffffff',
-                              color: '#d32f2f',
-                              // display: 'inline-flex',
-                              display: 'flex',
-                              justifyContent: { md: 'flex-end', xs: 'center' },
-
-                              marginLeft: 'none',
-                              border: '1px solid red ',
-                              borderRadius: '10px',
-                              '&:hover': {
-                                color: 'white',
-                                background: '#d32f2f',
-                              },
-                              padding: '.5rem .35rem',
-                            }}
+                            autoFocus
+                variant="solid"
+                sx={{
+                  // fontSize: '13px',
+                  borderRadius: '15px',
+                  background: '#d32f2f',
+                  '&:hover': {
+                    backgroundColor: '#e57373',
+                  },
+                  display: 'flex',
+                  justifyContent: { md: 'flex-end', xs: 'center' },
+                  // marginLeft: 'none',
+                  // border: '1px solid red',
+                  padding: '.30rem .55rem',
+                }}
                           >
                             <DeleteIcon sx={{ fontSize: '14px' }} />
                             Delete

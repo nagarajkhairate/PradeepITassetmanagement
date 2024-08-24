@@ -253,7 +253,8 @@ const DatabaseContractTable: React.FunctionComponent = () => {
                         >
                           {data.fieldName === 'Contract Title' ||
                           data.fieldName === 'Start Date' ||
-                          data.fieldName === 'End Date' ? (
+                          data.fieldName === 'End Date'  ||
+                          data.fieldName === 'No End Date'  ? (
                             <>
                               {data.fieldName}
                               {'  '}
@@ -338,6 +339,18 @@ const DatabaseContractTable: React.FunctionComponent = () => {
               mt: 4,
             }}
           >
+            <Typography
+            level="h4"
+            sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+          >
+             <SignpostOutlinedIcon
+              style={{ fontSize: '1.4rem', color: '#FBC21E' }}
+            />
+            Contract Custom Fields
+          </Typography>
+          <Typography sx={{ marginTop: '10px' }}>
+            Add contract custom fields to join the standard fields that we provided.
+          </Typography>
             <Button
               variant="solid"
               color="primary"
@@ -362,13 +375,7 @@ const DatabaseContractTable: React.FunctionComponent = () => {
           </Box>
 
           <Box
-            sx={{
-              borderRadius: '10px',
-              boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
-              background: '#ffffff',
-              gap: '5px',
-              p: 2,
-            }}
+            
           >
             <ContractFieldsAddingTable
               contractDataBases={contractCustomDatabase}

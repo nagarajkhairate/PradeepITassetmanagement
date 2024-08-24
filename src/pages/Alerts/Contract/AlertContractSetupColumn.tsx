@@ -20,18 +20,24 @@ const AlertContractSetupColumn: React.FC = () => {
 
   const handleCheckboxChange = (id: number) => {
     setSelectedColumns((prevSelectedColumns) => {
-
+      if (prevSelectedColumns.includes(id) && prevSelectedColumns.length === 1) {
+        return prevSelectedColumns; 
+      }
       const newSelectedColumns = prevSelectedColumns.includes(id)
         ? prevSelectedColumns.filter((col) => col !== id)
         : [...prevSelectedColumns, id];
-
       return newSelectedColumns;
     });
   };
 
+
   useEffect(() => {
     if (contractDatabase.length > 0) {
       const contractColumns = contractDatabase.filter(column => column.isTable).map(column => column.id)
+
+      if (contractColumns.length === 0 && contractColumns.length > 0) {
+        contractColumns.push(contractDatabase[0].id);
+      }
       setSelectedColumns(contractColumns);
     }
   }, [contractDatabase]);
