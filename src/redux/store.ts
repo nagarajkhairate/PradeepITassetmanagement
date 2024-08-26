@@ -57,6 +57,7 @@ import MaintenanceFieldReducer from './features/MaintenanceFieldSlice'
 import MaintenanceReducer from './features/MaintenanceSlice'
 import MoveFieldReducer from './features/MoveFieldSlice'
 import ReserveFieldReducer from './features/ReserveFieldSlice'
+import ReserveReducer from './features/ReserveSlice'
 
 export const store = configureStore({
   reducer: {
@@ -117,7 +118,8 @@ export const store = configureStore({
     maintenanceField:MaintenanceFieldReducer,
     maintenance:MaintenanceReducer,
     moveField:MoveFieldReducer,
-    reserveField:ReserveFieldReducer
+    reserveField:ReserveFieldReducer,
+    reserve:ReserveReducer
   },
 });
 

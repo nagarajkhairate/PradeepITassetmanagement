@@ -307,7 +307,7 @@ const ListOfAssets = () => {
                           style={{ color: 'inherit' }}
                         >
                           <RemoveRedEyeIcon
-                            sx={{ size: '20', color: 'black' }}
+                            sx={{ size: '20', color: 'black',filter: 'drop-shadow(0 0 3px rgba(0, 191, 255, 0.6))'}}
                           />
                         </Link>
                       </td>

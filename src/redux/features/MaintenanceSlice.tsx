@@ -40,13 +40,13 @@ export const fetchMaintenanceById = createAsyncThunk('maintenance/fetchMaintenan
  
 });
  
-export const addMaintenance = createAsyncThunk('maintenance/addMaintenance', async (assets: any) => {
- const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/maintenance-data`, assets);
+export const addMaintenance = createAsyncThunk('maintenance/addMaintenance', async (maintenance: any) => {
+ const response = await axios.post(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/maintenance-data`, maintenance);
   return response.data;
 });
  
 export const updateMaintenance = createAsyncThunk('maintenance/updateMaintenance', async (updatedCustomer: any) => {
- 
+ console.log(updatedCustomer)
   const response = await axios.put(`${REACT_APP_BASE_API_KEY}tenant/${REACT_APP_TENANT_ID}/maintenance-data/${updatedCustomer.id}`, updatedCustomer);
   return response.data;
 });

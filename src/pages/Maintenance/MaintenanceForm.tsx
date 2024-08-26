@@ -432,7 +432,7 @@ const MaintenanceForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
                   '&:hover': { background: '#e0a71b' },
                 }}
               >
-                Dispose
+                Add
               </Button>
             </Grid>
             <Grid>

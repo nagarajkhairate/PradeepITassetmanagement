@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Box, Tabs, Tab, TabList, TabPanel, Drawer } from "@mui/joy";
-import IconButton from "@mui/material/IconButton"; // Corrected import
+import { Box, Tabs, Tab, TabList, TabPanel, Drawer,IconButton } from "@mui/joy";
 import Menu from "@mui/icons-material/Menu";
 import { useTheme, useMediaQuery } from "@mui/material";
 
@@ -46,6 +45,7 @@ const HandleUpdatedData = (tabsData: any)=>{     //tabsData = {tabName,tabData}
         flexDirection: isVertical ? "column" : "row",
         width: "100%",
         justifyContent: "space-between",
+        mt:1
       }}
     >
       <Tab
@@ -97,7 +97,7 @@ const HandleUpdatedData = (tabsData: any)=>{     //tabsData = {tabName,tabData}
         value="Maintt"
         indicatorPlacement="bottom"
       >
-        Maintt.
+        Maint.
       </Tab>
       <Tab
         variant="none"
@@ -168,8 +168,9 @@ const HandleUpdatedData = (tabsData: any)=>{     //tabsData = {tabName,tabData}
           borderRadius: "16px",
           boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
           background: "#ffffff",
-          mt: "30px",
+          mt: 1,
           padding: "20px",
+
         }}
       >
       {isSmallScreen ? (

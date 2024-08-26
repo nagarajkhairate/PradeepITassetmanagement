@@ -60,6 +60,7 @@ import ViewContract from '../pages/Alerts/Contract/ViewContract'
 import EditContract from '../pages/Alerts/Contract/EditContract'
 import MaintenancesOverdueSetupColumn from '../pages/Alerts/MaintenanceOverDue/MaintenancesOverdueSetupColumn'
 import ViewMaintenance from '../pages/Alerts/Maintenances/ViewMaintenance'
+import ViewMainttInfo from '../components/AssetSections/EditAsset/Tabs/ViewMainttInfo'
 
 
 
@@ -262,6 +263,12 @@ const appRoutes: RouteType[] = [
         index: true,
         path: '/assets/view-an-asset/:id',
         element: <EditAssets />,
+        state: 'assets',
+      },
+      {
+        index: true,
+        path: '/assets/view-an-Maintt/:id',
+        element: <ViewMainttInfo  />,
         state: 'assets',
       },
       {
