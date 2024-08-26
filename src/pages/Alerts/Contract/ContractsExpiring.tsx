@@ -39,6 +39,9 @@ export const ContractsExpiring: React.FC = () => {
   const location=useLocation()
   const [selectedColumns, setSelectedColumns] = useState<string[]>([])
   const [formData, setFormData] = useState<any>(alertsContract)
+  const [selectedContractId, setSelectedContractId] = useState<string | null>(null);
+  const [selectedCellId, setSelectedCellId] = useState<string | null>(null);
+
 
   useEffect(() => {
     dispatch(fetchContractDatabase())
@@ -54,8 +57,10 @@ export const ContractsExpiring: React.FC = () => {
     }
   }, [location.state])
 
-  // const { state } = useLocation()
-  // const selectedColumns = state?.selectedColumns || []
+  const handleViewClick = (contractId:string) => {
+    setSelectedCellId((prevId) => (prevId === contractId ? null : contractId));
+  };
+  
 
   return (
     <AppView>
@@ -353,8 +358,9 @@ export const ContractsExpiring: React.FC = () => {
                       style={{ color: 'inherit' }}
                     >
                       <RemoveRedEyeIcon
-                        sx={{ size: '20', color: 'black' }}
-                      />
+                      sx={{ size: '20', color: selectedContractId === contract.id ? 'green' : 'black' }}
+                      onClick={() => handleViewClick(contract.id)}
+                    />
                     </Link>
                   </td>
               </tr>
