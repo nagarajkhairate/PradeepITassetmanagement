@@ -1,4 +1,4 @@
-import { Box, Button, Table, Typography } from '@mui/joy'
+import { Box, Button, Checkbox, Table, Typography } from '@mui/joy'
 import React, { useEffect, useState } from 'react'
 import AppView from '../../../components/Common/AppView'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
@@ -16,9 +16,7 @@ import { fetchAlertsContractById } from '../../../redux/features/AlertsContracts
 
 const ViewContract: React.FC = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
-  const contractDatabase = useSelector(
-    (state: RootState) => state.contractDatabase.data,
-  )
+  const contractDatabase = useSelector((state: RootState) => state.contractDatabase.data)
 
   const alertsAddContract = useSelector(
     (state: RootState) => state.alertsAddContract.data,
@@ -26,13 +24,13 @@ const ViewContract: React.FC = () => {
 
   const [selectedColumns, setSelectedColumns] = useState<string[]>([])
   const [formData, setFormData] = useState<any>(alertsAddContract)
-
+  const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set())
   const { id } = useParams<{ id: string }>()
   const [viewContract, setViewContract] = useState<any>(null)
 
-  // useEffect(() => {
-  //   dispatch(fetchContractDatabase())
-  // }, [dispatch])
+  useEffect(() => {
+    dispatch(fetchContractDatabase())
+  }, [dispatch])
 
   // useEffect(() => {
   //   dispatch(fetchAlertsAddContract())
@@ -57,6 +55,21 @@ const ViewContract: React.FC = () => {
       setViewContract(contract)
     }
   }, [contractDatabase, id])
+
+  const handleCheckboxChange = (rowIndex: number) => {
+    const newSelectedRows = new Set(selectedRows)
+    if (newSelectedRows.has(rowIndex)) {
+      newSelectedRows.delete(rowIndex)
+    } else {
+      newSelectedRows.add(rowIndex)
+    }
+    setSelectedRows(newSelectedRows)
+  }
+  const handleEditButtonClick = () => {
+    // Handle the edit action
+    console.log('Editing rows:', Array.from(selectedRows))
+    // You might want to navigate to the edit page or show a modal here
+  }
 
   return (
     <AppView>
@@ -96,7 +109,7 @@ const ViewContract: React.FC = () => {
             style={{ textDecoration: 'none' }}
           >
             <Button
-              //   onClick={() => handleEdit}
+                onClick={handleEditButtonClick}
               sx={{
                 fontSize: '13px',
                 background: '#ffffff',
@@ -164,9 +177,7 @@ const ViewContract: React.FC = () => {
             <thead>
               <tr>
                 {contractDatabase &&
-                  contractDatabase
-                    .filter((field: any) => field.isTable)
-                    .map((column: any, index: number) => (
+                  contractDatabase.map((column: any, index: number) => (
                       <th
                         key={index}
                         style={{
@@ -186,9 +197,7 @@ const ViewContract: React.FC = () => {
               {alertsAddContract.map((contract: any, rowIndex: number) => (
                 <tr key={rowIndex}>
                   {contractDatabase &&
-                    contractDatabase
-                      .filter((field: any) => field.isTable)
-                      .map((column: any, colIndex: number) => (
+                    contractDatabase.map((column: any, colIndex: number) => (
                         <td
                           key={colIndex}
                           style={{
@@ -197,6 +206,7 @@ const ViewContract: React.FC = () => {
                             textAlign: 'left',
                           }}
                         >
+                          
                           {selectedColumns.includes(column.name)
                             ? formData[column.name]
                             : contract[column.name]}
