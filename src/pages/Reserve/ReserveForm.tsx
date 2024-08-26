@@ -21,12 +21,13 @@ import { RootState } from '../../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import SiteComponent from '../../components/AssetSections/SiteComponent'
 import LocationComponent from '../../components/AssetSections/LocationComponent'
-import DepartmentComponent from '../../components/AssetSections/DepartmentComponent'
 import SelectOption from '../../components/AssetSections/SelectOption'
 import { fetchEmployee } from '../../redux/features/EmployeeSlice'
 import { useNavigate } from 'react-router-dom'
-import { addMove } from '../../redux/features/MoveSlice'
 import { fetchReserveFields } from '../../redux/features/ReserveFieldSlice'
+import { addReserve } from '../../redux/features/ReserveSlice'
+import AddNewEmpployee from '../CheckOut/AddNewEmpployee'
+import AddNewCustomer from '../Lease/AddNewCustomer'
 
 interface CheckOutFormProps {
   selectedAssets: any
@@ -35,13 +36,16 @@ interface CheckOutFormProps {
 const ReserveForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
   const [open, setOpen] = useState(false)
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const [filteredFields, setFilteredFields] = useState([]);
   const [formData, setFormData] = useState<any>({})
   const navigate = useNavigate()
+  const [reserverFor, setReserverFor] = useState('person')
   const checkOut = useSelector((state: RootState) => state.checkOut.data)
   const reserveFields = useSelector(
     (state: RootState) => state.reserveField.data,
   )
   const employees = useSelector((state: RootState) => state.addEmployee.data)
+  // const [filteredFields, setFilteredFields] = useState('person')
 
   useEffect(() => {
     dispatch(fetchCheckOut())
@@ -66,6 +70,7 @@ const ReserveForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
+    setReserverFor(value)
     setFormData({
       ...formData,
       [name]: value,
@@ -81,13 +86,18 @@ const ReserveForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
         assetId: selectedAssets[0].id,
       }
       setOpen(false)
-      dispatch(addMove(formData))
+      dispatch(addReserve(formData))
 
     })
     navigate(`/assets/list-of-assets`);
 
   }
 
+  const radioOptions = [
+    { value: 'person', label: 'Person' },
+    { value: 'site', label: 'Site / Location' },
+    { value: 'customer', label: 'Customer' },
+  ]
 
   const handleInputValue = (
     field: any,
@@ -168,6 +178,35 @@ const ReserveForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
           </FormControl>
         )
       case 'radio':
+        return (
+          <FormControl>
+            <FormLabel>{field.fieldName}</FormLabel>
+            <RadioGroup
+              type={field.components.type}
+              name={field.name}
+              value={formData && formData[field.name] as string}
+              onChange={handleRadioChange}
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+                marginTop: '20px',
+              }}
+            >
+              {radioOptions.map((option) => (
+                <Radio
+                  key={option.value}
+                  value={option.value}
+                  label={option.label}
+                  sx={{
+                    margin: '0 8px',
+                  }}
+                />
+              ))}
+            </RadioGroup>
+          </FormControl>
+        )
       case 'textarea':
         return (
           <FormControl >
@@ -203,8 +242,10 @@ const ReserveForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
           return <SiteComponent {...commonProps} />
         } else if (field.name === 'locationId') {
           return <LocationComponent {...commonProps} />
-        } else if (field.name === 'departmentId') {
-          return <DepartmentComponent {...commonProps} />
+        }else if (field.name === 'employeeId') {
+          return <AddNewEmpployee {...commonProps} />
+        }else if (field.name === 'customerId') {
+          return <AddNewCustomer {...commonProps} />
         }
           return <SelectOption {...commonProps} />
         
@@ -230,6 +271,25 @@ const ReserveForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
     Leased: 'neutral',
     Disposed: 'neutral'
   }
+
+  useEffect(() => {
+
+    const filtered = reserveFields.filter((field) => {
+      if (reserverFor === 'person') {
+        return field.name !== 'siteId' && field.name !== 'locationId' && field.name !== 'customerId';
+      } else if (reserverFor === 'site') {
+        return field.name !== 'employeeId' && field.name !== 'customerId';
+      } else if (reserverFor === 'customer') {
+        return field.name !== 'employeeId' && field.name !== 'siteId' && field.name !== 'locationId';
+      }
+      return true;
+    });
+    console.log("filtered");
+
+    setFilteredFields(filtered);
+  }, [reserverFor, reserveFields]);
+
+  
 
   return (
     <AppForm onSubmit={handleFormSubmit}>
@@ -396,8 +456,8 @@ const ReserveForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
           }}
         >
           <Grid container columnSpacing={10} >
-            {reserveFields &&
-              reserveFields.map((field, index) => (
+          {filteredFields.length>0 &&
+    filteredFields.map((field, index) => (
                   <Grid key={index} xs={12} sm={12} md={6} lg={6}>
                     {handleInputValue(
                       field,

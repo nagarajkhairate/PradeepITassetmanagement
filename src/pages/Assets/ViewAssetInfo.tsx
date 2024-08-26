@@ -15,10 +15,8 @@ import {
 } from "@mui/joy";
 import PrintIcon from '@mui/icons-material/Print';
 import EditIcon from '@mui/icons-material/Edit';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Link, useNavigate } from "react-router-dom";
 import AppView from "../../components/Common/AppView";
-import HPLaptopImg from "../../Assets/hp-15.png"
 import moreOptionsConfig from "./moreOptionsConfig";
 import CheckOutOption from "../CheckOut/CheckOutOption";
 import { fetchCheckOut } from "../../redux/features/CheckOutSlice";
@@ -27,7 +25,6 @@ import { RootState } from "../../redux/store";
 import { ThunkDispatch } from "redux-thunk";
 import CheckInOption from "../CheckIn/CheckInOption";
 import { fetchEmployee } from "../../redux/features/EmployeeSlice";
-
 
 interface AssetInfoProps {
   id:string,
@@ -107,7 +104,8 @@ const handleMenuItemClick = (option:any) => {
           boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
           background: "#ffffff",
           padding: "20px",
-          mt: "30px",
+          mt: 1,
+        
         }}
       >
         <Box

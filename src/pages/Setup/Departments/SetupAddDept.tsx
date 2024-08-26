@@ -165,7 +165,7 @@ const SetupAddDept: React.FunctionComponent<SetupAddDeptProps> = ({
               
               <Button
                 autoFocus
-                type="submit"
+               onClick={handleAddDepartment}
                 variant="solid"
                 sx={{
                   background: '#fdd835',
