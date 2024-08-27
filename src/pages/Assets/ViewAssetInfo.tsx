@@ -67,8 +67,6 @@ const ViewAssetInfo: React.FC<AssetInfoProps> = ({ id, assets }) => {
 const baseUrl = process.env.REACT_APP_BASE_MAIN_URL || '';
 const photoUrl = assets.assetPhoto ? `${baseUrl}${assets.assetPhoto}` : null;
 
-console.log(photoUrl)
-
 const handleMenuItemClick = (option:any) => {
   if (option.label === "Check Out") {
     setOpen(true);
@@ -92,12 +90,12 @@ const handleMenuItemClick = (option:any) => {
 
   const getAssignTo = (id:any) => {
     const assignment = checkOut && checkOut.find(assign => assign.assetId === id);
-    console.log(assignment)
+    // console.log(assignment)
     return assignment ? getEmployeName(assignment.assignedTo): null;
   };
   
   return (
-    <AppView>
+    
       <Box
         sx={{
           borderRadius: "16px",
@@ -174,8 +172,8 @@ const handleMenuItemClick = (option:any) => {
         )}
       </Select>
 
-      <CheckOutOption open={open} onClose={closePopUp} />
-      <CheckInOption open={openCheckIn} onClose={closeCheckIn} />
+      <CheckOutOption open={open} onClose={closePopUp} id={id} assets={assets} />
+      <CheckInOption open={openCheckIn} onClose={closeCheckIn} id={id} assets={assets}/>
           {/* <CheckOutOption open={open} />  */}
         </Box>
         <Box
@@ -287,7 +285,7 @@ const handleMenuItemClick = (option:any) => {
           </Box>
         </Box>
         </Box>
-    </AppView>
+
   );
 };
 

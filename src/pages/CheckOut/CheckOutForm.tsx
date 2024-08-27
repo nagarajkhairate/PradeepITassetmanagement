@@ -13,13 +13,12 @@ import {
   Grid,
   Chip,
 } from '@mui/joy'
-import AppView from '../../components/Common/AppView'
 import AppForm from '../../components/Common/AppForm'
 import { addCheckOut, fetchCheckOut } from '../../redux/features/CheckOutSlice'
 import { ThunkDispatch } from 'redux-thunk'
 import { RootState } from '../../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
-import { checkOutConfig } from './checkOutConfig'
+// import { checkOutConfig } from './checkOutConfig'
 import SiteComponent from '../../components/AssetSections/SiteComponent'
 import LocationComponent from '../../components/AssetSections/LocationComponent'
 import DepartmentComponent from '../../components/AssetSections/DepartmentComponent'
@@ -89,7 +88,6 @@ const CheckOutForm: React.FC<CheckOutFormProps> = ({ selectedAssets }) => {
 
     })
     navigate(`/assets/list-of-assets`);
-
   }
 
   const radioOptions = [

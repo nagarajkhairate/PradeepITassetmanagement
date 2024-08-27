@@ -285,7 +285,7 @@ const AddSite: React.FC<AddSiteProps> = ({ open, setOpen }) => {
             Cancel
           </Button>
           <Button
-          type="Submit"
+          onClick={handleSubmit}
             sx={{
               background: '#fdd835',
               color: 'black',

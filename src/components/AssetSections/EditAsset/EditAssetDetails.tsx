@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Box, Tabs, Tab, TabList, TabPanel, Drawer,IconButton } from "@mui/joy";
 import Menu from "@mui/icons-material/Menu";
@@ -9,18 +9,32 @@ import Event from "./Tabs/Event";
 import Photos from "./Tabs/Photos";
 import Documents from "./Tabs/Documents";
 import Warranty from "./Tabs/Warranty";
-import Linking from "./Tabs/Linking";
+// import Linking from "./Tabs/Linking";
 import Maintenance from "./Tabs/Maintenance";
 import Reserve from "./Tabs/Reserve";
 import Audit from "./Tabs/Audit";
 import History from "./Tabs/History";
+import { fetchAssetsById } from "../../../redux/features/AssetSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { RootState } from "../../../redux/store";
+import { useParams } from "react-router-dom";
 
 const EditAssetDetails : React.FC = (props :any) => {
+  const { id } = useParams<{ id: string }>()
   const [selectedTab, setSelectedTab] = useState<string>("Details");
   const [open, setOpen] = React.useState(false);
   const [AssetData, editAssetData] = useState(props.assetDetails || {});
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  const assets = useSelector((state: RootState) =>
+    state.assets.data.find((asset: any) => asset.id.toString() === id),
+  ) as any
+
+  useEffect(() => {
+    dispatch(fetchAssetsById(id))
+  }, [id])
 
 const HandleUpdatedData = (tabsData: any)=>{     //tabsData = {tabName,tabData}
   editAssetData((prevState: any)=> ({ ...prevState, tabsData}));
@@ -83,14 +97,14 @@ const HandleUpdatedData = (tabsData: any)=>{     //tabsData = {tabName,tabData}
       >
         Warranty
       </Tab>
-      <Tab
+      {/* <Tab
         variant="none"
         color="none"
         value="Linking"
         indicatorPlacement="bottom"
       >
         Linking
-      </Tab>
+      </Tab> */}
       <Tab
         variant="none"
         color="none"
@@ -135,7 +149,7 @@ const HandleUpdatedData = (tabsData: any)=>{     //tabsData = {tabName,tabData}
         <Event handleUpdatedData={HandleUpdatedData} assetEvent={AssetData.assetEvent  || []}/>
       </TabPanel>
       <TabPanel value="Photos">
-        <Photos handleUpdatedData={HandleUpdatedData} assetPhoto={AssetData.assetPhoto || []}/>
+        <Photos handleUpdatedData={HandleUpdatedData} assetPhoto={AssetData.assetPhoto || []} assets={assets} id={id}/>
       </TabPanel>
       <TabPanel value="Docs">
         <Documents handleUpdatedData={HandleUpdatedData} assetDocument={AssetData.assetDocument || []}/>
@@ -143,9 +157,9 @@ const HandleUpdatedData = (tabsData: any)=>{     //tabsData = {tabName,tabData}
       <TabPanel value="Warranty">
         <Warranty handleUpdatedData={HandleUpdatedData} assetWarranty={AssetData.assetWarranty || []}/>
       </TabPanel>
-      <TabPanel value="Linking">
+      {/* <TabPanel value="Linking">
         <Linking handleUpdatedData={HandleUpdatedData} assetLinking={AssetData.assetLinking || []}/>
-      </TabPanel>
+      </TabPanel> */}
       <TabPanel value="Maintt">
         <Maintenance handleUpdatedData={HandleUpdatedData} assetMaintenance={AssetData.assetMaintenance || []}/>
       </TabPanel>

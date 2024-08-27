@@ -33,6 +33,7 @@ import { fetchCheckOutField } from "../../redux/features/CheckOutFieldSlice";
 import AppButton from "../../components/Common/AppButton";
 import AddNewEmpployee from "./AddNewEmpployee";
 import AddNewClient from "./AddNewClient";
+import { fetchEmployee } from "../../redux/features/EmployeeSlice";
 
 interface FormData {
   employeeId: string;
@@ -65,9 +66,11 @@ interface CheckoutErrors {
 interface CheckOutModalProps {
   open: boolean;
   onClose: () => void;
+  id: string;
+  assets: any;
 }
 
-const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
+const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose,id,assets }) => {
   const [formData, setFormData] = useState<any>({});
   const [sendEmail, setSendEmail] = useState<boolean>(false);
   const [checkOutTo, setCheckOutTo] = useState("person");
@@ -79,6 +82,7 @@ const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
   useEffect(() => {
     dispatch(fetchCheckOut());
     dispatch(fetchCheckOutField())
+    dispatch(fetchEmployee())
   }, [dispatch]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,19 +112,15 @@ const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
   const handleCheckOut = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setFormData((prevData:any) => {
-      const formData = {
-        ...prevData,
-        // assetId:selectedAssets[0].id,
-      };
+    const dataToSubmit = {
+      ...formData,
+      assetId: id, // Ensure assetId is included in the submission data
+    };
 
-      console.log(JSON.stringify(formData));
-      // dispatch(addCheckOut(formData));
-
-      return formData;
-    });
+    dispatch(addCheckOut(dataToSubmit));
   };
-
+  
+  
   const radioOptions = [
     { value: "person", label: "Person" },
     { value: "site", label: "Site / Location" },
@@ -280,15 +280,21 @@ const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose }) => {
               }
             }}
           >
-            {checkOutFields && checkOutFields.map((field) => (
-              <React.Fragment key={field.fieldName}>
+             {checkOutFields &&
+              checkOutFields
+                .filter(
+                  (field) =>
+                    checkOutTo === 'person' ||
+                    (field.name !== 'assignedTo' && field.name !== 'clientId'),
+                ).map((field, index) => (
+              <React.Fragment key={index}>
                 {handleInputValue(field, formData, handleChange, handleSelectChange, handleRadioChange)}
               </React.Fragment>
             ))}
           </Box>
           <Divider />
           <Box sx={{ display: "flex", justifyContent: "space-between", pt: 2 }}>
-            <AppButton type="submit">
+            <AppButton onClick={handleCheckOut}>
               Submit
             </AppButton>
             <AppButton onClick={onClose}>
