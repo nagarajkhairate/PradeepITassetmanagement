@@ -29,6 +29,7 @@ const Maintenance = () => {
   const { id: assetId } = useParams<{ id: string }>();
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
   const [open, setOpen] = useState(false);
+  const [openView, setOpenView] = useState(false);
   const [selectedMain, setSelectedMain] = useState<Maintt | null>(null);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
 
@@ -180,7 +181,7 @@ const Maintenance = () => {
         />
       )}
 
-{open && <ViewMainttInfo open ={open} onClose={() => setOpen(false)}  selectedMain={selectedMain} />}
+{openView && <ViewMainttInfo open ={openView} onClose={() => setOpenView(false)}  selectedMain={selectedMain} />}
 
       {editDialogOpen && (
         <EditMaintenance
