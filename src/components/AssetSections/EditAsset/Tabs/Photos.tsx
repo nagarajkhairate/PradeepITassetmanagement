@@ -1,20 +1,31 @@
-import React,{useState} from "react";
-import {
-  Box,
-  Typography,
-  Divider,
-  
-} from "@mui/joy"; 
+import React, { useState, useEffect } from "react";
+import { Box, Typography, Divider } from "@mui/joy";
 import FileUpload from "../../../Main/FileUpload";
 
-const Photos = (props: any) => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [selectedFileUrl, setSelectedFileUrl] = useState<string | null>(null);
-  const [photosData,setPhotosData] = useState(props.assetDetail || {})
-  const photosUpdater = ()=>{
-    props.handleUpdatedData({ tabName :'assetDetail', tabsData: photosData
-})
-  }
+interface PhotoInfoProps {
+  id: string;
+  assets: any;
+}
+
+const Photos: React.FC<PhotoInfoProps> = ({ id, assets }) => {
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [selectedFileUrls, setSelectedFileUrls] = useState<string[]>([]);
+  
+  const baseUrl = process.env.REACT_APP_BASE_MAIN_URL || '';
+  const photoUrl = assets.assetPhoto ? `${baseUrl}${assets.assetPhoto}` : null;
+
+  useEffect(() => {
+    // Initialize the file URL array with the fetched photoUrl if available
+    if (photoUrl) {
+      setSelectedFileUrls([photoUrl]);
+    }
+  }, [photoUrl]);
+
+  const handleFileSelect = (file: File, fileUrl: string) => {
+    setSelectedFiles((prevFiles) => [...prevFiles, file]);
+    setSelectedFileUrls((prevUrls) => [...prevUrls, fileUrl]);
+  };
+
   return (
     <>
       <Box
@@ -23,29 +34,24 @@ const Photos = (props: any) => {
           display: "flex",
           width: "100%",
           justifyContent: "space-between",
-          flexDirection:{md:"row",xs:"column"}
+          flexDirection: { md: "row", xs: "column" }
         }}
       >
         <Typography level="h4">Photos</Typography>
         <Box>
-          <FileUpload
-            onFileSelect={(file: File, fileUrl: string) => {
-              console.log(file, "Selected file"); // Optionally log the file or handle it as needed
-              setSelectedFile(file);
-              setSelectedFileUrl(fileUrl);
-            }}
-          />
+          <FileUpload onFileSelect={handleFileSelect} />
         </Box>
       </Box>
-      <Divider></Divider>
+      <Divider />
       <Box sx={{ mt: "20px" }}>
-        {selectedFileUrl && (
+        {selectedFileUrls.map((url, index) => (
           <img
-            src={selectedFileUrl}
-            alt="Uploaded"
-            style={{ maxWidth: "100%", maxHeight: "400px" }}
+            key={index}
+            src={url}
+            alt={`Uploaded ${index + 1}`}
+            style={{ maxWidth: "100%", maxHeight: "400px", marginBottom: "10px" }}
           />
-        )}
+        ))}
       </Box>
     </>
   );

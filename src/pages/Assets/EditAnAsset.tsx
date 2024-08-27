@@ -249,7 +249,8 @@ const { name, value} = event.target
     try {
       await dispatch(updateAssets(formDataToSend));
       console.log('Form submitted successfully');
-      navigate(`/assets/view-an-asset/${id}`);
+       navigate(`/assets/list-of-assets`);
+      // navigate(`/assets/view-an-asset/${id}`);
     } catch (error) {
       console.error('Error submitting form:', error);
     }
@@ -359,7 +360,7 @@ const { name, value} = event.target
               >
                 <Button
                   size="md"
-                  type="submit"
+                 onClick={handleSubmit}
                   sx={{
                     color: '#000000',
                     borderRadius: '15px',

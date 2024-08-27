@@ -20,7 +20,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { addCheckOut, fetchCheckOut } from "../../redux/features/CheckOutSlice";
+import { addCheckOut, fetchCheckOut, updateCheckOut } from "../../redux/features/CheckOutSlice";
 import AppForm from "../../components/Common/AppForm";
 import SiteComponent from "../../components/AssetSections/SiteComponent";
 import LocationComponent from "../../components/AssetSections/LocationComponent";
@@ -34,15 +34,28 @@ import { fetchCheckInField } from "../../redux/features/CheckInFieldSlice";
 interface CheckInProps {
   open: boolean;
   onClose: () => void;
+   id: string;
+  assets: any;
 }
 
-const CheckInOption: React.FC<CheckInProps> = ({  open, onClose }) => {
+const CheckInOption: React.FC<CheckInProps> = ({  open, onClose , id , assets }) => {
   const [formData, setFormData] = useState<any>({});
   const [sendEmail, setSendEmail] = useState<boolean>(false);
   // const [checkOutTo, setCheckOutTo] = useState("person");
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
   const checkOut = useSelector((state: RootState) => state.checkOut.data);
   const checkInFields = useSelector((state: RootState) => state.checkInField.data);
+
+  useEffect(() => {
+    if (assets.length) {
+      const selectedAssetId = assets[0]?.id;
+      const checkOutSelected = checkOut.find((checkout) => checkout.assetId === selectedAssetId);
+      if (checkOutSelected) {
+        setFormData(checkOutSelected);
+      }
+    }
+  }, [assets, checkOut]);
+  
 
   useEffect(() => {
     dispatch(fetchCheckOut());
@@ -73,21 +86,18 @@ const CheckInOption: React.FC<CheckInProps> = ({  open, onClose }) => {
     });
   };
 
-  const handleCheckIn = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    setFormData((prevData:any) => {
-      const formData = {
-        ...prevData,
-        // assetId:selectedAssets[0].id,
-      };
-
-      console.log(JSON.stringify(formData));
-      // dispatch(addCheckOut(formData));
-
-      return formData;
-    });
+  
+    const updatedData = {
+      ...formData,
+      checkoutId: formData.id, 
+      
+    };
+  
+    dispatch(updateCheckOut(updatedData));
   };
+
 
   const radioOptions = [
     { value: "person", label: "Person" },
@@ -200,7 +210,7 @@ const CheckInOption: React.FC<CheckInProps> = ({  open, onClose }) => {
   };
 
   return (
-    <AppForm onSubmit={handleCheckIn}>
+    <AppForm onSubmit={handleFormSubmit}>
       <Modal open={open} onClose={onClose}>
         <Box
           sx={{
@@ -250,7 +260,7 @@ const CheckInOption: React.FC<CheckInProps> = ({  open, onClose }) => {
           </Box>
           <Divider />
           <Box sx={{ display: "flex", justifyContent: "space-between", pt: 2 }}>
-            <AppButton type="submit">
+            <AppButton onClick={handleFormSubmit}>
               Submit
             </AppButton>
             <AppButton onClick={onClose}>
