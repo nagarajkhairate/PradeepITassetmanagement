@@ -429,6 +429,7 @@ export const AddContractExp: React.FC = () => {
   const navigate = useNavigate()
   const [formData, setFormData] = useState<any>({})
   const [errors, setErrors] = useState<{ date?: string }>({})
+  
   const contractDatabase = useSelector(
     (state: RootState) => state.contractDatabase.data,
   )

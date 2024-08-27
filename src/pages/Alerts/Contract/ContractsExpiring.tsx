@@ -57,6 +57,10 @@ export const ContractsExpiring: React.FC = () => {
     }
   }, [location.state])
 
+   useEffect(() => {
+    setFormData(alertsContract)
+  }, [alertsContract])
+
   const handleViewClick = (contractId:string) => {
     setSelectedCellId((prevId) => (prevId === contractId ? null : contractId));
   };
@@ -266,55 +270,6 @@ export const ContractsExpiring: React.FC = () => {
               borderRadius: '5px',
             }}
           >
-            {/* <thead>
-              <tr>
-                {
-                // selectedColumns.length > 0 &&
-                  selectedColumns.map((column, index) => (
-                    <th
-                      key={index}
-                      style={{
-                        background: '#fff8e6',
-                        verticalAlign: 'middle',
-                        wordBreak: 'break-word',
-                        whiteSpace: 'normal',
-                        textAlign: 'left',
-                      }}
-                    >
-                      {column}
-                    </th>
-                  ))}
-                  <th
-                   style={{
-                    background: '#fff8e6',
-                    verticalAlign: 'middle',
-                    wordBreak: 'break-word',
-                    whiteSpace: 'normal',
-                    textAlign: 'left',
-                  }}
-                  >
-                    Action
-                  </th>
-              </tr>
-              <tbody>
-              {alertsAddContract.map((contract, index) => (
-            <tr key={index}>
-              <td>{contract.column}</td>
-           
-                  <td style={{ cursor: 'pointer' }}>
-                    <Link
-                      to={'/alerts/contracts-expiring/view-alert'}
-                      style={{ color: 'inherit' }}
-                    >
-                      <RemoveRedEyeIcon
-                        sx={{ size: '20', color: 'black' }}
-                      />
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-            </thead> */}
              <thead>
             <tr>
               {contractDatabase && contractDatabase.filter((field:any) => field.isTable).map((column: any, index: number) => (
