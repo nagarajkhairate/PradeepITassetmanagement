@@ -114,7 +114,7 @@ const CheckOutOption: React.FC<CheckOutModalProps> = ({  open, onClose,id,assets
 
     const dataToSubmit = {
       ...formData,
-      assetId: id, // Ensure assetId is included in the submission data
+      assetId: id,
     };
 
     dispatch(addCheckOut(dataToSubmit));

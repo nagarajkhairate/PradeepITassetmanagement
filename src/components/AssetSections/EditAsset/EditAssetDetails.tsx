@@ -58,26 +58,26 @@ const HandleUpdatedData = (tabsData: any)=>{     //tabsData = {tabName,tabData}
         display: "flex",
         flexDirection: isVertical ? "column" : "row",
         width: "100%",
-        justifyContent: "space-between",
+        // justifyContent: "space-between",
         mt:1
       }}
     >
-      <Tab
+      {/* <Tab
         variant="none"
         color="none"
         value="Details"
         indicatorPlacement="bottom"
       >
         Details
-      </Tab>
-      <Tab
+      </Tab> */}
+      {/* <Tab
         variant="none"
         color="none"
         value="Events"
         indicatorPlacement="bottom"
       >
         Events
-      </Tab>
+      </Tab> */}
       <Tab
         variant="none"
         color="none"
@@ -86,17 +86,17 @@ const HandleUpdatedData = (tabsData: any)=>{     //tabsData = {tabName,tabData}
       >
         Photos
       </Tab>
-      <Tab variant="none" color="none" value="Docs" indicatorPlacement="bottom">
+      {/* <Tab variant="none" color="none" value="Docs" indicatorPlacement="bottom">
         Docs.
-      </Tab>
-      <Tab
+      </Tab> */}
+      {/* <Tab
         variant="none"
         color="none"
         value="Warranty"
         indicatorPlacement="bottom"
       >
         Warranty
-      </Tab>
+      </Tab> */}
       {/* <Tab
         variant="none"
         color="none"
@@ -113,65 +113,65 @@ const HandleUpdatedData = (tabsData: any)=>{     //tabsData = {tabName,tabData}
       >
         Maint.
       </Tab>
-      <Tab
+      {/* <Tab
         variant="none"
         color="none"
         value="Reserve"
         indicatorPlacement="bottom"
       >
         Reserve
-      </Tab>
-      <Tab
+      </Tab> */}
+      {/* <Tab
         variant="none"
         color="none"
         value="Audit"
         indicatorPlacement="bottom"
       >
         Audit
-      </Tab>
-      <Tab
+      </Tab> */}
+      {/* <Tab
         variant="none"
         color="none"
         value="History"
         indicatorPlacement="bottom"
       >
         History
-      </Tab>
+      </Tab> */}
     </TabList>
   );
 
   const renderTabPanels = () => (
     <>
-      <TabPanel value="Details">
+      {/* <TabPanel value="Details">
         <Details handleUpdatedData={HandleUpdatedData} assetDetail={AssetData.assetDetail || []}/>
-      </TabPanel>
-      <TabPanel value="Events">
+      </TabPanel> */}
+      {/* <TabPanel value="Events">
         <Event handleUpdatedData={HandleUpdatedData} assetEvent={AssetData.assetEvent  || []}/>
-      </TabPanel>
+      </TabPanel> */}
       <TabPanel value="Photos">
         <Photos handleUpdatedData={HandleUpdatedData} assetPhoto={AssetData.assetPhoto || []} assets={assets} id={id}/>
       </TabPanel>
-      <TabPanel value="Docs">
+      {/* <TabPanel value="Docs">
         <Documents handleUpdatedData={HandleUpdatedData} assetDocument={AssetData.assetDocument || []}/>
-      </TabPanel>
-      <TabPanel value="Warranty">
+      </TabPanel> */}
+      {/* <TabPanel value="Warranty">
         <Warranty handleUpdatedData={HandleUpdatedData} assetWarranty={AssetData.assetWarranty || []}/>
-      </TabPanel>
+      </TabPanel> */}
       {/* <TabPanel value="Linking">
         <Linking handleUpdatedData={HandleUpdatedData} assetLinking={AssetData.assetLinking || []}/>
       </TabPanel> */}
       <TabPanel value="Maintt">
         <Maintenance handleUpdatedData={HandleUpdatedData} assetMaintenance={AssetData.assetMaintenance || []}/>
       </TabPanel>
-      <TabPanel value="Reserve">
+      {/* <TabPanel value="Reserve">
         <Reserve handleUpdatedData={HandleUpdatedData} assetReserve={AssetData.assetReserve || []}/>
-      </TabPanel>
-      <TabPanel value="Audit">
+      </TabPanel> */}
+      {/* <TabPanel value="Audit">
         <Audit handleUpdatedData={HandleUpdatedData} assetAudit={AssetData.assetAudit || []}/>
-      </TabPanel>
-      <TabPanel value="History">
+      </TabPanel> */}
+      {/* <TabPanel value="History">
         <History handleUpdatedData={HandleUpdatedData} assetHistory={AssetData.assetHistory || []}/>
-      </TabPanel>
+      </TabPanel> */}
     </>
   );
 

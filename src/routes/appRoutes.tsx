@@ -46,7 +46,6 @@ import SetupColumns from '../pages/Assets/SetupColumns'
 import SearchCriteria from '../pages/Assets/SearchCriteria'
 import DatabaseContractTable from '../pages/Setup/DataBase/DatabaseContract/DatabaseContractTable'
 import EditModalDatabaseCustomer from '../pages/Setup/DataBase/DatabaseCustomerTable/EditModelDatabaseCustomer'
-import CheckoutButton from '../pages/Lease/CheckoutButton'
 import AlertSetupColumn from '../pages/Alerts/Contract/AlertContractSetupColumn'
 import AlertsSetup from '../pages/Alerts/SetupAlerts/AlertsSetup'
 import ImportMaintenanceDue from '../pages/Alerts/Maintenances/ImportMaintenanceDue'
@@ -66,11 +65,11 @@ import ViewMainttInfo from '../components/AssetSections/EditAsset/Tabs/ViewMaint
 
 
 const appRoutes: RouteType[] = [
-  {
-    index: true,
-    element: <Dashboard />,
-    state: 'dashboard',
-  },
+  // {
+  //   index: true,
+  //   element: <Dashboard />,
+  //   state: 'dashboard',
+  // },
   {
     path: '/dashboard',
     element: <Dashboard />,
@@ -263,12 +262,6 @@ const appRoutes: RouteType[] = [
         index: true,
         path: '/assets/view-an-asset/:id',
         element: <EditAssets />,
-        state: 'assets',
-      },
-      {
-        index: true,
-        path: '/assets/view-an-Maintt/:id',
-        element: <ViewMainttInfo  />,
         state: 'assets',
       },
       {

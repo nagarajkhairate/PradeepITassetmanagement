@@ -46,9 +46,9 @@ const Register: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [submitted, setSubmitted] = useState<boolean>(false)
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
-  const { loading, error } = useSelector(
-    (state: RootState) => state.tenant
-  )
+  // const { loading, error } = useSelector(
+  //   (state: RootState) => state.tenant
+  // )
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
    
     const { name, value, checked, type } = e.target
@@ -344,18 +344,18 @@ const Register: React.FC = () => {
                   background: '#e0a800',
                 },
               }}
-              disabled={loading}
+              // disabled={loading}
             >
               Sign Up
             </Button>
-            {error && (
+            {/* {error && (
                     <Typography
                       level="body-sm"
                       sx={{ ml: '10px', color: '#dc3545', fontSize: '12px' }}
                     >
                       {error}
                     </Typography>
-                  )}
+                  )} */}
             <Link to="/login">
               <Typography> Already have an account?</Typography>
             </Link>

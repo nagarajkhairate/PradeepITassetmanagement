@@ -29,7 +29,6 @@ const CheckInForm: React.FC<CheckInFormProps> = ({ selectedAssets }) => {
   const checkInFields= useSelector((state:RootState)=> state.checkInField.data)
   const employees = useSelector((state: RootState)=>state.addEmployee.data)
 
-  
   useEffect(() => {
     if(selectedAssets.length){
       const selectedAssetId = selectedAssets && selectedAssets.length > 0 ? selectedAssets[0].id : null;
@@ -243,8 +242,10 @@ const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     ...prevData,
     assetId: selectedAssets[0].id
   };
+  console.log("Form submitted with data:", formData); // Debugging output
+
   setOpen(false)
-   dispatch(updateCheckOut(formData))
+  //  dispatch(updateCheckOut(formData))
   
 });
 navigate(`/assets/list-of-assets`);

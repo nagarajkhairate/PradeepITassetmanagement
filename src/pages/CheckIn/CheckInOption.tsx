@@ -30,14 +30,14 @@ import { checkOutConfig } from "../CheckOut/checkOutConfig";
 import { fetchCheckOutField } from "../../redux/features/CheckOutFieldSlice";
 import AppButton from "../../components/Common/AppButton";
 import { fetchCheckInField } from "../../redux/features/CheckInFieldSlice";
-
+ 
 interface CheckInProps {
   open: boolean;
   onClose: () => void;
    id: string;
   assets: any;
 }
-
+ 
 const CheckInOption: React.FC<CheckInProps> = ({  open, onClose , id , assets }) => {
   const [formData, setFormData] = useState<any>({});
   const [sendEmail, setSendEmail] = useState<boolean>(false);
@@ -45,23 +45,26 @@ const CheckInOption: React.FC<CheckInProps> = ({  open, onClose , id , assets })
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch();
   const checkOut = useSelector((state: RootState) => state.checkOut.data);
   const checkInFields = useSelector((state: RootState) => state.checkInField.data);
-
+ 
   useEffect(() => {
-    if (assets.length) {
-      const selectedAssetId = assets[0]?.id;
-      const checkOutSelected = checkOut.find((checkout) => checkout.assetId === selectedAssetId);
+    if (id) {
+      const checkOutSelected = checkOut.find((checkout) => checkout.id === id);
       if (checkOutSelected) {
         setFormData(checkOutSelected);
       }
     }
-  }, [assets, checkOut]);
-  
-
+  }, [id, checkOut]);
+ 
+ 
+  useEffect(() => {
+    console.log("Checkout ID:", id);
+  }, [id]);
+ 
   useEffect(() => {
     dispatch(fetchCheckOut());
     dispatch(fetchCheckInField())
   }, [dispatch]);
-
+ 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData:any) => ({
@@ -69,14 +72,14 @@ const CheckInOption: React.FC<CheckInProps> = ({  open, onClose , id , assets })
       [name]: value,
     }));
   };
-
+ 
   const handleSelectChange = (newValue: any, title: string) => {
     setFormData((prevData:any) => ({
       ...prevData,
       [title]: newValue,
     }));
   };
-
+ 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     // setCheckOutTo(value);
@@ -85,25 +88,25 @@ const CheckInOption: React.FC<CheckInProps> = ({  open, onClose , id , assets })
       [name]: value,
     });
   };
-
+ 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+ 
     const updatedData = {
       ...formData,
-      checkoutId: formData.id, 
-      
+      assetId: assets[0]?.id, // Ensure the correct asset ID is used
+      id, // Use the checkoutId here to ensure proper check-in
     };
-  
+ 
     dispatch(updateCheckOut(updatedData));
   };
-
-
+ 
+ 
   const radioOptions = [
     { value: "person", label: "Person" },
     { value: "site", label: "Site / Location" },
   ];
-
+ 
   const handleInputValue = (
     field: any,
     formData: any,
@@ -120,7 +123,7 @@ const CheckInOption: React.FC<CheckInProps> = ({  open, onClose , id , assets })
       handleRadioChange,
       mode,
     };
-
+ 
     switch (field.components.type) {
       case "text":
         return (
@@ -208,7 +211,7 @@ const CheckInOption: React.FC<CheckInProps> = ({  open, onClose , id , assets })
         return null;
     }
   };
-
+ 
   return (
     <AppForm onSubmit={handleFormSubmit}>
       <Modal open={open} onClose={onClose}>
@@ -272,5 +275,5 @@ const CheckInOption: React.FC<CheckInProps> = ({  open, onClose , id , assets })
     </AppForm>
   );
 };
-
+ 
 export default CheckInOption;
