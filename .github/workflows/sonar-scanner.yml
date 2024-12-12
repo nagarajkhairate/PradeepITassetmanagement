@@ -22,16 +22,23 @@ jobs:
         run: |
           npm install  # If you're using npm, use the corresponding package manager
 
-      # Step 3: Install Java and SonarScanner
-      - name: Install SonarScanner and Java
+      # Step 3: Install Java (dependency for SonarScanner)
+      - name: Install Java
         run: |
-          # Install openjdk (dependency for SonarScanner)
           sudo apt-get update
           sudo apt-get install -y openjdk-11-jdk
-          # Install SonarScanner from the official repository
-          sudo apt-get install -y sonar-scanner
 
-      # Step 4: Run SonarQube scan
+      # Step 4: Manually install SonarScanner
+      - name: Install SonarScanner
+        run: |
+          # Download and install the latest version of SonarScanner
+          wget https://github.com/SonarSource/sonar-scanner-cli/releases/download/4.8.0.2856/sonar-scanner-cli-4.8.0.2856-linux.zip
+          unzip sonar-scanner-cli-4.8.0.2856-linux.zip
+          sudo mv sonar-scanner-4.8.0.2856-linux /opt/sonar-scanner
+          echo 'export PATH=$PATH:/opt/sonar-scanner/bin' >> ~/.bashrc
+          source ~/.bashrc
+
+      # Step 5: Run SonarQube scan
       - name: Run SonarQube scan
         run: |
           sonar-scanner \
