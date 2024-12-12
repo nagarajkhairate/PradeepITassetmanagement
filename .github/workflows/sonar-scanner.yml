@@ -1,35 +1,37 @@
-name: Build and SonarQube Scan
+name: SonarQube Analysis
 
 on:
   push:
     branches:
-      - main  # Set your branch here
-  pull_request:
-    branches:
-      - main  # Set your branch here
+      - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest  # Specify the runner you want
-
+  sonar-scan:
+    runs-on: ubuntu-latest
     steps:
-      # Step 1: Checkout the code from the repository
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      # Step 2: Install dependencies (e.g., npm for JavaScript projects)
-      - name: Install dependencies
-        run: |
-          npm install  # If you're using npm, use the corresponding package manager
+    - name: Set up JDK 17
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
 
-      # Step 3: Run SonarQube scan using Docker
-      - name: Run SonarQube scan with Docker (debug mode)
-        run: |
-          docker run --rm \
-            -v $(pwd):/usr/src \
-            -e SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }} \
-            -e SONAR_LOGIN=${{ secrets.SONAR_TOKEN }} \
-            sonarsource/sonar-scanner-cli:latest \
-            sonar-scanner -X \
-            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
-            -Dsonar.sources=src  # Adjust this line based on the location of your source code
+    - name: Cache Node modules
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-modules-
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run SonarQube Scanner
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Store your SonarQube token in GitHub secrets
+      run: |
+        sonar-scanner \
+          -Dsonar.host.url=https://your-sonar-instance.com \
+          -Dsonar.login=$SONAR_TOKEN
