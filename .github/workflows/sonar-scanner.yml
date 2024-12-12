@@ -31,10 +31,10 @@ jobs:
       # Step 4: Manually install SonarScanner
       - name: Install SonarScanner
         run: |
-          # Download and install the latest version of SonarScanner
-          wget https://github.com/SonarSource/sonar-scanner-cli/releases/download/4.8.0.2856/sonar-scanner-cli-4.8.0.2856-linux.zip
-          unzip sonar-scanner-cli-4.8.0.2856-linux.zip
-          sudo mv sonar-scanner-4.8.0.2856-linux /opt/sonar-scanner
+          # Download and install the latest version of SonarScanner (updated URL)
+          wget https://github.com/SonarSource/sonar-scanner-cli/releases/download/4.7.0.2747/sonar-scanner-cli-4.7.0.2747-linux.zip
+          unzip sonar-scanner-cli-4.7.0.2747-linux.zip
+          sudo mv sonar-scanner-4.7.0.2747-linux /opt/sonar-scanner
           echo 'export PATH=$PATH:/opt/sonar-scanner/bin' >> ~/.bashrc
           source ~/.bashrc
 
