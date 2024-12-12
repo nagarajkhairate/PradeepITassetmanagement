@@ -28,16 +28,19 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y openjdk-11-jdk
 
-      # Step 4: Install SonarScanner via apt (modern key management)
-      - name: Install SonarScanner
+      # Step 4: Install SonarScanner via direct download
+      - name: Download and install SonarScanner
         run: |
-          # Add SonarSource's GPG key and repository (modern approach)
-          curl -fsSL https://packages.sonarsource.com/sonar-scanner/deb/sonarsource-archive.key | sudo tee /etc/apt/trusted.gpg.d/sonarsource.asc
-          echo "deb https://packages.sonarsource.com/sonar-scanner/deb stable main" | sudo tee /etc/apt/sources.list.d/sonarsource.list
+          # Download SonarScanner
+          wget https://github.com/SonarSource/sonar-scanner-cli/releases/download/4.8.0.2856/sonar-scanner-cli-4.8.0.2856-linux.zip
           
-          # Update package list and install SonarScanner
-          sudo apt-get update
-          sudo apt-get install -y sonar-scanner
+          # Unzip and move it to the proper directory
+          unzip sonar-scanner-cli-4.8.0.2856-linux.zip
+          sudo mv sonar-scanner-4.8.0.2856-linux /opt/sonar-scanner
+
+          # Add SonarScanner to the PATH
+          echo 'export PATH=$PATH:/opt/sonar-scanner/bin' >> ~/.bashrc
+          source ~/.bashrc
 
       # Step 5: Run SonarQube scan
       - name: Run SonarQube scan
