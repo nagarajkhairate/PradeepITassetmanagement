@@ -23,13 +23,13 @@ jobs:
           npm install  # If you're using npm, use the corresponding package manager
 
       # Step 3: Run SonarQube scan using Docker
-      - name: Run SonarQube scan with Docker
+      - name: Run SonarQube scan with Docker (debug mode)
         run: |
           docker run --rm \
             -v $(pwd):/usr/src \
             -e SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }} \
             -e SONAR_LOGIN=${{ secrets.SONAR_TOKEN }} \
             sonarsource/sonar-scanner-cli:latest \
-            sonar-scanner \
+            sonar-scanner -X \
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
             -Dsonar.sources=src  # Adjust this line based on the location of your source code
