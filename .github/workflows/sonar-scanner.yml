@@ -3,45 +3,37 @@ name: Build and SonarQube Scan
 on:
   push:
     branches:
-      - main  # Set your branch here
+      - main  # Trigger workflow on push to main branch
   pull_request:
     branches:
-      - main  # Set your branch here
+      - main  # Trigger workflow on pull requests targeting the main branch
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Specify the runner you want
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
 
     steps:
       # Step 1: Checkout the code from the repository
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 2: Install dependencies
+      # Step 2: Install project dependencies (e.g., npm for Node.js projects)
       - name: Install dependencies
         run: |
-          npm install  # If you're using npm, use the corresponding package manager
+          npm install  # Adjust this line if you are using a different package manager (e.g., yarn)
 
-      # Step 3: Install Java (dependency for SonarScanner)
-      - name: Install Java
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y openjdk-11-jdk
+      # Step 3: Set up Docker to run the SonarScanner container
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2  # Sets up Docker Buildx for cross-platform builds
 
-      # Step 4: Install SonarScanner using the official SonarSource repository
-      - name: Install SonarScanner
+      # Step 4: Run SonarQube scan using Docker
+      - name: Run SonarQube scan with Docker
         run: |
-          sudo apt-get install -y curl
-          curl -sL https://packages.sonarsource.com/sonar-scanner/keys/sonarsource.asc | sudo tee /etc/apt/trusted.gpg.d/sonarsource.asc
-          echo "deb https://packages.sonarsource.com/sonar-scanner/deb stable main" | sudo tee /etc/apt/sources.list.d/sonarsource.list
-          sudo apt-get update
-          sudo apt-get install -y sonar-scanner
-
-      # Step 5: Run SonarQube scan
-      - name: Run SonarQube scan
-        run: |
-          sonar-scanner \
+          docker run --rm \
+            -v $(pwd):/usr/src \
+            -e SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }} \
+            -e SONAR_LOGIN=${{ secrets.SONAR_TOKEN }} \
+            sonarsource/sonar-scanner-cli:latest \
+            sonar-scanner \
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
-            -Dsonar.sources=src \
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.sources=src  # Adjust this line based on the location of your source code
