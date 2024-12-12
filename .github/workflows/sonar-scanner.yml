@@ -3,30 +3,26 @@ name: Build and SonarQube Scan
 on:
   push:
     branches:
-      - main  # Trigger workflow on push to main branch
+      - main  # Set your branch here
   pull_request:
     branches:
-      - main  # Trigger workflow on pull requests targeting the main branch
+      - main  # Set your branch here
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+    runs-on: ubuntu-latest  # Specify the runner you want
 
     steps:
       # Step 1: Checkout the code from the repository
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 2: Install project dependencies (e.g., npm for Node.js projects)
+      # Step 2: Install dependencies (e.g., npm for JavaScript projects)
       - name: Install dependencies
         run: |
-          npm install  # Adjust this line if you are using a different package manager (e.g., yarn)
+          npm install  # If you're using npm, use the corresponding package manager
 
-      # Step 3: Set up Docker to run the SonarScanner container
-      - name: Set up Docker
-        uses: docker/setup-buildx-action@v2  # Sets up Docker Buildx for cross-platform builds
-
-      # Step 4: Run SonarQube scan using Docker
+      # Step 3: Run SonarQube scan using Docker
       - name: Run SonarQube scan with Docker
         run: |
           docker run --rm \
