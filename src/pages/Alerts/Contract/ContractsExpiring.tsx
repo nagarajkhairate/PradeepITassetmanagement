@@ -25,6 +25,7 @@ import { ThunkDispatch } from 'redux-thunk'
 import AlertsSetupColumnTable from '../Maintenances/AlertsSetupColumnTable'
 import { green } from '@mui/material/colors'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye'
+// Ensure the correct path is used for importing fetchAlertsContract
 import { fetchAlertsContract } from '../../../redux/features/AlertsContractslice'
 
 export const ContractsExpiring: React.FC = () => {
@@ -36,12 +37,11 @@ export const ContractsExpiring: React.FC = () => {
   const alertsContract = useSelector(
     (state: RootState) => state.alertsContract.data,
   )
-  const location=useLocation()
+  const location = useLocation()
   const [selectedColumns, setSelectedColumns] = useState<string[]>([])
   const [formData, setFormData] = useState<any>(alertsContract)
-  const [selectedContractId, setSelectedContractId] = useState<string | null>(null);
-  const [selectedCellId, setSelectedCellId] = useState<string | null>(null);
-
+  const [selectedContractId, setSelectedContractId] = useState<string | null>(null)
+  const [selectedCellId, setSelectedCellId] = useState<string | null>(null)
 
   useEffect(() => {
     dispatch(fetchContractDatabase())
@@ -51,20 +51,19 @@ export const ContractsExpiring: React.FC = () => {
     dispatch(fetchAlertsContract())
   }, [dispatch])
 
-  useEffect(()=>{
-    if(location.state && location.state.selectedColumns){
+  useEffect(() => {
+    if (location.state && location.state.selectedColumns) {
       setSelectedColumns(location.state.selectedColumns)
     }
   }, [location.state])
 
-   useEffect(() => {
+  useEffect(() => {
     setFormData(alertsContract)
   }, [alertsContract])
 
-  const handleViewClick = (contractId:string) => {
-    setSelectedCellId((prevId) => (prevId === contractId ? null : contractId));
-  };
-  
+  const handleViewClick = (contractId: string) => {
+    setSelectedCellId((prevId) => (prevId === contractId ? null : contractId))
+  }
 
   return (
     <AppView>
@@ -76,12 +75,9 @@ export const ContractsExpiring: React.FC = () => {
           justifyContent: { xs: 'center', md: 'space-between' },
           gap: '5px',
           mt: 2,
-         
         }}
       >
-        <Typography level="h3"
-      
-        >Contracts / Software Licenses</Typography>
+        <Typography level="h3">Contracts / Software Licenses</Typography>
         <Box
           sx={{
             display: 'flex',
@@ -91,10 +87,7 @@ export const ContractsExpiring: React.FC = () => {
             whiteSpace: 'normal',
           }}
         >
-          <Link
-            to="/alerts/contracts-expiring/add-contract"
-            style={{ textDecoration: 'none' }}
-          >
+          <Link to="/alerts/contracts-expiring/add-contract" style={{ textDecoration: 'none' }}>
             <Button
               variant="solid"
               autoFocus
@@ -104,7 +97,6 @@ export const ContractsExpiring: React.FC = () => {
                 color: 'white',
                 borderRadius: '10px',
                 marginRight: 2,
-             
               }}
             >
               <AddTwoToneIcon />
@@ -119,7 +111,6 @@ export const ContractsExpiring: React.FC = () => {
           boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           background: '#FFF',
           flexGrow: 1,
-
           marginTop: { xs: '10px', sm: '22px' },
           height: 'auto',
           display: 'flex',
@@ -127,19 +118,14 @@ export const ContractsExpiring: React.FC = () => {
           p: 2,
         }}
       >
-        <Box
-          sx={{
-            textAlign: { xs: 'center', md: 'left' },
-          }}
-        >
+        <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
           <Typography
             sx={{
               fontSize: '20px',
               fontWeight: 500,
               lineHeight: '30px',
               textAlign: { xs: 'center', md: 'left' },
-              whiteSpace: 'normal'
-
+              whiteSpace: 'normal',
             }}
           >
             List of Contracts / Software Licenses
@@ -155,26 +141,12 @@ export const ContractsExpiring: React.FC = () => {
             mt: 2,
           }}
         >
-          {/* <Button
-            type="button"
-            variant="solid"
-            autoFocus
-            sx={{
-              background: '#1CCAB8',
-              color: 'white',
-              borderRadius: '10px',
-            }}
-          >
-            <SettingsOutlinedIcon />
-            SearchCriteria
-          </Button> */}
-
           <Box
             sx={{
               display: 'flex',
               flexDirection: { md: 'row', xs: 'column' },
               gap: '5px',
-              justifyContent:'flex-end'
+              justifyContent: 'flex-end',
             }}
           >
             <Button
@@ -183,17 +155,14 @@ export const ContractsExpiring: React.FC = () => {
               sx={{
                 background: '#388e3c',
                 color: 'white',
-                "&:hover":{background: "#4caf50"},
+                '&:hover': { background: '#4caf50' },
                 borderRadius: '10px',
               }}
             >
               <CloudUploadOutlinedIcon />
               Export to Excel
             </Button>
-            <Link
-              to="/alerts/maintenances-due/import-maintenance"
-              style={{ textDecoration: 'none' }}
-            >
+            <Link to="/alerts/maintenances-due/import-maintenance" style={{ textDecoration: 'none' }}>
               <Button
                 variant="solid"
                 autoFocus
@@ -216,38 +185,28 @@ export const ContractsExpiring: React.FC = () => {
               style={{ textDecoration: 'none' }}
             >
               <Button
-             variant="solid"
-             autoFocus
-             sx={{
-               background: 'black',
-               '&:hover':{background: "#424242"},
-               color: 'white',
-               borderRadius: '10px',
-               whiteSpace: 'nowrap',
-               gap:1
-             }}
+                variant="solid"
+                autoFocus
+                sx={{
+                  background: 'black',
+                  '&:hover': { background: '#424242' },
+                  color: 'white',
+                  borderRadius: '10px',
+                  whiteSpace: 'nowrap',
+                  gap: 1,
+                }}
               >
                 <SettingsOutlinedIcon />
-                  Setup  Columns
+                Setup Columns
               </Button>
             </Link>
           </Box>
         </Box>
 
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: { md: 'row', xs: 'column' },
-            gap: '5px',
-          }}
-        >
-        <Typography
-         sx={{
-          display: 'flex',
-          flexDirection: { md: 'row', xs: 'column' },
-          mt:4
-        }}>
-            Display contracts / software licenses associated with your organization. To create a new contract/license, click New Contract / License and enter the necessary information.
+        <Box sx={{ display: 'flex', flexDirection: { md: 'row', xs: 'column' }, gap: '5px' }}>
+          <Typography sx={{ display: 'flex', flexDirection: { md: 'row', xs: 'column' }, mt: 4 }}>
+            Display contracts / software licenses associated with your organization. To create a new
+            contract/license, click New Contract / License and enter the necessary information.
           </Typography>
         </Box>
 
@@ -270,61 +229,76 @@ export const ContractsExpiring: React.FC = () => {
               borderRadius: '5px',
             }}
           >
-             <thead>
-            <tr>
-              {contractDatabase && contractDatabase.filter((field:any) => field.isTable).map((column: any, index: number) => (
-                <th key={index}
-                style={{
-                  background: '#fff8e6',
-                  verticalAlign: 'middle',
-                  wordBreak: 'break-word',
-                  whiteSpace: 'normal',
-                  textAlign: 'left',
-                }}
-                >{column.fieldName}</th>
-               
-              ))}
-               <th
-               style={{
-                background: '#fff8e6',
-                verticalAlign: 'middle',
-                wordBreak: 'break-word',
-                whiteSpace: 'normal',
-                textAlign: 'left',
-              }}
-               >Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {alertsContract.map((contract: any, rowIndex: number) => (
-              <tr key={rowIndex}>
-                {contractDatabase && contractDatabase.filter((field:any) => field.isTable).map((column: any, colIndex: number) => (
-                  <td key={colIndex}
-                  style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}
-                  >
-                    {selectedColumns.includes(column.name)
-                      ? formData[column.name]
-                      : contract[column.name]}
-                  </td>
-                ))}
-                <td style={{ cursor: 'pointer' }}>
+            <thead>
+              <tr>
+                {contractDatabase &&
+                  contractDatabase
+                    .filter((field: any) => field.isTable)
+                    .map((column: any, index: number) => (
+                      <th
+                        key={index}
+                        style={{
+                          background: '#fff8e6',
+                          verticalAlign: 'middle',
+                          wordBreak: 'break-word',
+                          whiteSpace: 'normal',
+                          textAlign: 'left',
+                        }}
+                      >
+                        {column.fieldName}
+                      </th>
+                    ))}
+                <th
+                  style={{
+                    background: '#fff8e6',
+                    verticalAlign: 'middle',
+                    wordBreak: 'break-word',
+                    whiteSpace: 'normal',
+                    textAlign: 'left',
+                  }}
+                >
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {alertsContract.map((contract: any, rowIndex: number) => (
+                <tr key={rowIndex}>
+                  {contractDatabase &&
+                    contractDatabase
+                      .filter((field: any) => field.isTable)
+                      .map((column: any, colIndex: number) => (
+                        <td
+                          key={colIndex}
+                          style={{ wordBreak: 'break-word', whiteSpace: 'normal', textAlign: 'left' }}
+                        >
+                          {selectedColumns.includes(column.name)
+                            ? formData[column.name]
+                            : contract[column.name]}
+                        </td>
+                      ))}
+                  <td style={{ cursor: 'pointer' }}>
                     <Link
                       to={`/alerts/contracts-expiring/view-contract/${contract.id}`}
                       style={{ color: 'inherit' }}
                     >
                       <RemoveRedEyeIcon
-                      sx={{ size: '20', color: selectedContractId === contract.id ? 'green' : 'black' }}
-                      onClick={() => handleViewClick(contract.id)}
-                    />
+                        sx={{
+                          size: '20',
+                          color: selectedContractId === contract.id ? 'green' : 'black',
+                        }}
+                        onClick={() => handleViewClick(contract.id)}
+                      />
                     </Link>
                   </td>
-              </tr>
-            ))}
-          </tbody>
+                </tr>
+              ))}
+            </tbody>
           </Table>
         </Box>
       </Box>
     </AppView>
   )
 }
+
 export default React.memo(ContractsExpiring)
