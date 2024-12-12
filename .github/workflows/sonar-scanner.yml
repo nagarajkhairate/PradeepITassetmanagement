@@ -1,0 +1,26 @@
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Install SonarScanner
+      - name: Install SonarScanner
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y unzip
+          wget https://github.com/SonarSource/sonar-scanner-cli/releases/download/4.7.0.2747/sonar-scanner-cli-4.7.0.2747-linux.zip
+          unzip sonar-scanner-cli-4.7.0.2747-linux.zip
+          sudo mv sonar-scanner-4.7.0.2747-linux /opt/sonar-scanner
+          echo 'export PATH=$PATH:/opt/sonar-scanner/bin' >> ~/.bashrc
+          source ~/.bashrc
+
+      # Run SonarScanner
+      - name: Run SonarQube Scan
+        run: |
+          sonar-scanner \
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
+            -Dsonar.sources=src \
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
