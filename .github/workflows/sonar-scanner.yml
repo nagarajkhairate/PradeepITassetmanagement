@@ -26,12 +26,18 @@ jobs:
       - name: Install SonarScanner
         run: |
           sudo apt-get update
-          sudo apt-get install -y unzip
+          sudo apt-get install -y unzip wget
+          # Download the SonarScanner CLI release
           wget https://github.com/SonarSource/sonar-scanner-cli/releases/download/4.7.0.2747/sonar-scanner-cli-4.7.0.2747-linux.zip
+          # Unzip the downloaded file
           unzip sonar-scanner-cli-4.7.0.2747-linux.zip
+          # Move the extracted SonarScanner folder to a system-wide location
           sudo mv sonar-scanner-4.7.0.2747-linux /opt/sonar-scanner
+          # Add SonarScanner to the PATH
           echo 'export PATH=$PATH:/opt/sonar-scanner/bin' >> ~/.bashrc
           source ~/.bashrc
+          # Verify installation
+          sonar-scanner --version
 
       # Step 4: Run SonarQube scan
       - name: Run SonarQube scan
