@@ -25,42 +25,49 @@ import { ThunkDispatch } from 'redux-thunk'
 import AlertsSetupColumnTable from '../Maintenances/AlertsSetupColumnTable'
 import { green } from '@mui/material/colors'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye'
-// Ensure the correct path is used for importing fetchAlertsContract
-import { fetchAlertsContract } from '../../../redux/features/AlertsContractslice'
+// Corrected path for the import of fetchAlertsContract
+import { fetchAlertsContract } from '../../../redux/features/AlertsContractSlice'
 
 export const ContractsExpiring: React.FC = () => {
   const dispatch: ThunkDispatch<RootState, void, any> = useDispatch()
+  
+  // State from redux store
   const contractDatabase = useSelector(
-    (state: RootState) => state.contractDatabase.data,
+    (state: RootState) => state.contractDatabase.data
   )
-
   const alertsContract = useSelector(
-    (state: RootState) => state.alertsContract.data,
+    (state: RootState) => state.alertsContract.data
   )
+  
   const location = useLocation()
   const [selectedColumns, setSelectedColumns] = useState<string[]>([])
   const [formData, setFormData] = useState<any>(alertsContract)
   const [selectedContractId, setSelectedContractId] = useState<string | null>(null)
   const [selectedCellId, setSelectedCellId] = useState<string | null>(null)
 
+  // Dispatch fetch contract database
   useEffect(() => {
     dispatch(fetchContractDatabase())
   }, [dispatch])
 
+  // Dispatch fetch alerts contract
   useEffect(() => {
     dispatch(fetchAlertsContract())
   }, [dispatch])
 
+  // Handle selected columns from location state
   useEffect(() => {
     if (location.state && location.state.selectedColumns) {
       setSelectedColumns(location.state.selectedColumns)
     }
   }, [location.state])
 
+  // Update formData when alertsContract state changes
   useEffect(() => {
     setFormData(alertsContract)
   }, [alertsContract])
 
+  // Toggle view for a selected contract
   const handleViewClick = (contractId: string) => {
     setSelectedCellId((prevId) => (prevId === contractId ? null : contractId))
   }
