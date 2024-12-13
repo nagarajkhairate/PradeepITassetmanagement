@@ -54,12 +54,10 @@ jobs:
     needs: build
     environment:
       name: testing
+      # This will require manual approval before proceeding
+      reviewers:
+        - your-username  # Specify the GitHub username of the approvers here
     steps:
-      - name: Wait for Manual Approval for Testing
-        uses: actions/manual@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Deploy to Testing Environment
         run: |
           echo "Deploying to Testing Environment"
@@ -70,12 +68,9 @@ jobs:
     needs: test
     environment:
       name: staging
+      reviewers:
+        - your-username  # Specify the GitHub username of the approvers here
     steps:
-      - name: Wait for Manual Approval for Staging
-        uses: actions/manual@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Deploy to Staging Environment
         run: |
           echo "Deploying to Staging Environment"
@@ -86,12 +81,9 @@ jobs:
     needs: staging
     environment:
       name: production
+      reviewers:
+        - your-username  # Specify the GitHub username of the approvers here
     steps:
-      - name: Wait for Manual Approval for Production
-        uses: actions/manual@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Deploy to Production Environment
         run: |
           echo "Deploying to Production Environment"
