@@ -22,15 +22,8 @@ jobs:
         run: |
           npm install  # If you're using npm, use the corresponding package manager
 
-      # Step 3: Debug the secrets to verify if they're being passed correctly
-      - name: Debug Secrets
-        run: |
-          echo "SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }}"
-          echo "SONAR_PROJECT_KEY=${{ secrets.SONAR_PROJECT_KEY }}"
-          echo "SONAR_TOKEN is set: ${{ secrets.SONAR_TOKEN != '' }}"
-
-      # Step 4: Run SonarQube scan using Docker
-      - name: Run SonarQube scan with Docker (debug mode)
+      # Step 3: Run SonarQube scan using Docker
+      - name: Run SonarQube scan with Docker
         run: |
           docker run --rm \
             -v "$(pwd)":/usr/src \
@@ -39,4 +32,4 @@ jobs:
             sonarsource/sonar-scanner-cli:latest \
             sonar-scanner -X -Dsonar.verbose=true \
             -Dsonar.projectKey="${{ secrets.SONAR_PROJECT_KEY }}" \
-            -Dsonar.sources=src  # Adjust this path to your source code location
+            -Dsonar.sources=src  # Adjust this line based on the location of your source code
