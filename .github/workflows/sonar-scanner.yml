@@ -33,10 +33,10 @@ jobs:
       - name: Run SonarQube scan with Docker (debug mode)
         run: |
           docker run --rm \
-            -v $(pwd):/usr/src \
-            -e SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }} \
-            -e SONAR_LOGIN=${{ secrets.SONAR_TOKEN }} \  # Ensure your SonarQube token is stored here
+            -v "$(pwd)":/usr/src \
+            -e SONAR_HOST_URL="${{ secrets.SONAR_HOST_URL }}" \
+            -e SONAR_LOGIN="${{ secrets.SONAR_TOKEN }}" \
             sonarsource/sonar-scanner-cli:latest \
-            sonar-scanner -X -Dsonar.verbose=true \  # Add verbosity for more debugging information
-            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
+            sonar-scanner -X -Dsonar.verbose=true \
+            -Dsonar.projectKey="${{ secrets.SONAR_PROJECT_KEY }}" \
             -Dsonar.sources=src  # Adjust this path to your source code location
