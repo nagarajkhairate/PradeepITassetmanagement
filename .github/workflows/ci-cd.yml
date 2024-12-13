@@ -1,4 +1,4 @@
-name: CI/CD Pipeline with Docker and SonarQube
+name: Docker Build, Push, and Pull
 
 on:
   push:
@@ -9,89 +9,35 @@ on:
       - main
 
 jobs:
-  # Step 1: Build Job
-  build:
+  docker:
     runs-on: ubuntu-latest
+
     steps:
+      # Step 1: Checkout the code from the repository
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'  # Specify the Node.js version you are using
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Application
-        run: npm run build
-
-      # Step 2: Run SonarQube Analysis
-      - name: Run SonarQube scan with Docker
-        run: |
-          docker run --rm \
-            -v "$(pwd)":/usr/src \
-            -e SONAR_HOST_URL="http://13.232.44.153:9000" \
-            -e SONAR_LOGIN="${{ secrets.SONAR_TOKEN }}" \
-            sonarsource/sonar-scanner-cli:latest \
-            sonar-scanner \
-            -Dsonar.projectKey="PradeepITassetmanagement" \
-            -Dsonar.sources="." \
-            -Dsonar.host.url="http://13.232.44.153:9000" \
-            -Dsonar.token="${{ secrets.SONAR_TOKEN }}"
-
-      # Step 3: Docker Build and Push Image
+      # Step 2: Log in to Docker Hub
       - name: Docker Login
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      # Step 3: Build the Docker image
       - name: Build Docker Image
-        run: docker build -t yourdockerhubusername/asset-management-ui .
+        run: docker build -t yourdockerhubusername/asset-management-ui:${{ github.sha }} .
 
+      # Step 4: Push the Docker image to Docker Hub
       - name: Push Docker Image to Docker Hub
-        run: docker push yourdockerhubusername/asset-management-ui
+        run: docker push yourdockerhubusername/asset-management-ui:${{ github.sha }}
 
-  # Step 2: Testing Job
-  test:
-    runs-on: ubuntu-latest
-    needs: build  # This ensures 'test' runs after 'build' job
-    environment:
-      name: testing
-      reviewers:
-        - your-username  # Replace with the GitHub username of the approvers here
-    steps:
-      - name: Deploy to Testing Environment
-        run: |
-          echo "Deploying to Testing Environment"
-          # Replace this with your actual deployment commands for testing
-          
-  # Step 3: Staging Job
-  staging:
-    runs-on: ubuntu-latest
-    needs: test  # This ensures 'staging' runs after 'test' job
-    environment:
-      name: staging
-      reviewers:
-        - your-username  # Replace with the GitHub username of the approvers here
-    steps:
-      - name: Deploy to Staging Environment
-        run: |
-          echo "Deploying to Staging Environment"
-          # Replace this with your actual deployment commands for staging
+      # Step 5: Pull the Docker image from Docker Hub (optional, to verify the push)
+      - name: Pull Docker Image from Docker Hub
+        run: docker pull yourdockerhubusername/asset-management-ui:${{ github.sha }}
 
-  # Step 4: Production Job
-  production:
-    runs-on: ubuntu-latest
-    needs: staging  # This ensures 'production' runs after 'staging' job
-    environment:
-      name: production
-      reviewers:
-        - your-username  # Replace with the GitHub username of the approvers here
-    steps:
-      - name: Deploy to Production Environment
+      # Optional: Verify the image (e.g., run a container from the pulled image)
+      - name: Run Docker Container (optional)
         run: |
-          echo "Deploying to Production Environment"
-          # Replace this with your actual deployment commands for production
+          docker run -d --name test-container yourdockerhubusername/asset-management-ui:${{ github.sha }}
+          docker ps
