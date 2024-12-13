@@ -3,30 +3,31 @@ name: Build and SonarQube Scan
 on:
   push:
     branches:
-      - main  # Trigger on push to the main branch
+      - main  # Set your branch here
   pull_request:
     branches:
-      - main  # Trigger on pull requests targeting the main branch
+      - main  # Set your branch here
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+    runs-on: ubuntu-latest  # Specify the runner you want
 
     steps:
       # Step 1: Checkout the code from the repository
       - name: Checkout code
-        uses: actions/checkout@v3  # Updated to the latest version
+        uses: actions/checkout@v2
 
-      # Step 2: Set up Node.js (only needed if you're using Node.js)
-      - name: Set up Node.js
-        uses: actions/setup-node@v3  # Ensure the latest Node.js is used
-        with:
-          node-version: '16'  # Set the Node.js version that your project needs
-
-      # Step 3: Install dependencies (e.g., npm for JavaScript projects)
+      # Step 2: Install dependencies (e.g., npm for JavaScript projects)
       - name: Install dependencies
         run: |
-          npm install  # Use npm or yarn based on your project
+          npm install  # If you're using npm, use the corresponding package manager
+
+      # Step 3: Debug the secrets to verify if they're being passed correctly
+      - name: Debug Secrets
+        run: |
+          echo "SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }}"
+          echo "SONAR_PROJECT_KEY=${{ secrets.SONAR_PROJECT_KEY }}"
+          echo "SONAR_TOKEN is set: ${{ secrets.SONAR_TOKEN != '' }}"
 
       # Step 4: Run SonarQube scan using Docker
       - name: Run SonarQube scan with Docker (debug mode)
@@ -34,9 +35,8 @@ jobs:
           docker run --rm \
             -v $(pwd):/usr/src \
             -e SONAR_HOST_URL=${{ secrets.SONAR_HOST_URL }} \
-            -e SONAR_LOGIN=${{ secrets.SONAR_TOKEN }} \
+            -e SONAR_LOGIN=${{ secrets.SONAR_TOKEN }} \  # Ensure your SonarQube token is stored here
             sonarsource/sonar-scanner-cli:latest \
-            sonar-scanner -X \
+            sonar-scanner -X -Dsonar.verbose=true \  # Add verbosity for more debugging information
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
             -Dsonar.sources=src  # Adjust this path to your source code location
-
