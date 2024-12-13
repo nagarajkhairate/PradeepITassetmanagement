@@ -33,3 +33,5 @@ jobs:
             sonar-scanner -X -Dsonar.verbose=true \
             -Dsonar.projectKey="${{ secrets.SONAR_PROJECT_KEY }}" \
             -Dsonar.sources=src  # Adjust this line based on the location of your source code
+
+# You can add additional jobs or steps if needed, for example, testing or deployment.
