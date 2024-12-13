@@ -22,16 +22,16 @@ jobs:
         run: |
           npm install  # If you're using npm, use the corresponding package manager
 
-      # Step 3: Run SonarQube scan using Docker
+      # Step 3: Run SonarQube scan with Docker
       - name: Run SonarQube scan with Docker
         run: |
           docker run --rm \
             -v "$(pwd)":/usr/src \
-            -e SONAR_HOST_URL="${{ secrets.SONAR_HOST_URL }}" \
+            -e SONAR_HOST_URL="http://13.232.44.153:9000" \
             -e SONAR_LOGIN="${{ secrets.SONAR_TOKEN }}" \
             sonarsource/sonar-scanner-cli:latest \
-            sonar-scanner -X -Dsonar.verbose=true \
-            -Dsonar.projectKey="${{ secrets.SONAR_PROJECT_KEY }}" \
-            -Dsonar.sources=src  # Adjust this line based on the location of your source code
-
-# You can add additional jobs or steps if needed, for example, testing or deployment.
+            sonar-scanner \
+            -Dsonar.projectKey="PradeepITassetmanagement" \
+            -Dsonar.sources="." \
+            -Dsonar.host.url="http://13.232.44.153:9000" \
+            -Dsonar.token="${{ secrets.SONAR_TOKEN }}"
