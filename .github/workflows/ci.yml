@@ -1,4 +1,4 @@
-name: CI/CD Pipeline with Manual Approvals
+name: CI/CD Pipeline with SonarQube Scan and Manual Approvals
 
 on:
   push:
@@ -25,18 +25,21 @@ jobs:
       - name: Build Application
         run: npm run build
 
-      - name: SonarQube Scan
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+      # Step: Run SonarQube scan with Docker
+      - name: Run SonarQube scan with Docker
         run: |
-          sonar-scanner \
-            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }} \
-            -Dsonar.sources=src \
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          docker run --rm \
+            -v "$(pwd)":/usr/src \
+            -e SONAR_HOST_URL="http://13.232.44.153:9000" \
+            -e SONAR_LOGIN="${{ secrets.SONAR_TOKEN }}" \
+            sonarsource/sonar-scanner-cli:latest \
+            sonar-scanner \
+            -Dsonar.projectKey="PradeepITassetmanagement" \
+            -Dsonar.sources="." \
+            -Dsonar.host.url="http://13.232.44.153:9000" \
+            -Dsonar.token="${{ secrets.SONAR_TOKEN }}"
 
+      # Docker build and push
       - name: Docker Login
         uses: docker/login-action@v2
         with:
@@ -54,9 +57,9 @@ jobs:
     needs: build
     environment:
       name: testing
-      # This will require manual approval before proceeding
+      # GitHub Environments with required reviewers for manual approval
       reviewers:
-        - your-username  # Specify the GitHub username of the approvers here
+        - your-username  # Replace with the GitHub username of the approvers
     steps:
       - name: Deploy to Testing Environment
         run: |
@@ -69,7 +72,7 @@ jobs:
     environment:
       name: staging
       reviewers:
-        - your-username  # Specify the GitHub username of the approvers here
+        - your-username  # Replace with the GitHub username of the approvers
     steps:
       - name: Deploy to Staging Environment
         run: |
@@ -82,7 +85,7 @@ jobs:
     environment:
       name: production
       reviewers:
-        - your-username  # Specify the GitHub username of the approvers here
+        - your-username  # Replace with the GitHub username of the approvers
     steps:
       - name: Deploy to Production Environment
         run: |
