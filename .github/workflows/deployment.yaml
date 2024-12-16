@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: asset-management-ui
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: asset-management-ui
+  template:
+    metadata:
+      labels:
+        app: asset-management-ui
+    spec:
+      containers:
+      - name: asset-management-ui
+        image: 529088291001.dkr.ecr.ap-south-1.amazonaws.com/asset-management-ui:asset-management-ui
+        ports:
+        - containerPort: 80
