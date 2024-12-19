@@ -1,9 +1,40 @@
-version: '3'
+version: '3.7'
+
 services:
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
-    environment:
-      - discovery.type=single-node
+  react-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - "80:80"
+    restart: always
+    networks:
+      - monitoring
+
+  prometheus:
+    image: prom/prometheus:v2.44.0
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - monitoring
+    restart: always
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: Nagaraj@123
+    networks:
+      - monitoring
+    restart: always
+    depends_on:
+      - prometheus
+
+networks:
+  monitoring:
+    driver: bridge
