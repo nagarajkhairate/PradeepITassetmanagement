@@ -30,7 +30,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t ${{ secrets.ECR_REPOSITORY_URI }} .
-      
+
       - name: Push Docker image to ECR
         run: |
           docker push ${{ secrets.ECR_REPOSITORY_URI }}
@@ -38,13 +38,16 @@ jobs:
       # Step 4: SSH into EC2 and deploy the new image
       - name: SSH into EC2 and deploy
         env:
-          EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-          EC2_USER: ${{ secrets.EC2_USER }}
-          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}  # GitHub secret for your private key
+          EC2_USER: ${{ secrets.EC2_USER }}  # EC2 username (e.g., ec2-user, ubuntu)
+          EC2_PUBLIC_IP: 13.126.160.215  # Public IP of your EC2 instance
         run: |
-          echo "$EC2_SSH_PRIVATE_KEY" > private_key.pem
-          chmod 600 private_key.pem
-          ssh -o StrictHostKeyChecking=no -i private_key.pem $EC2_USER@$EC2_HOST << 'EOF'
+          # Save the SSH private key to a file named ssh.pem
+          echo "$EC2_SSH_PRIVATE_KEY" > ssh.pem
+          chmod 600 ssh.pem  # Set permissions for the private key file
+
+          # SSH into the EC2 instance using the private key and public IP
+          ssh -o StrictHostKeyChecking=no -i ssh.pem $EC2_USER@$EC2_PUBLIC_IP << 'EOF'
             # Install AWS CLI if not installed
             if ! command -v aws &> /dev/null; then
               echo "AWS CLI not found, installing..."
@@ -54,10 +57,15 @@ jobs:
 
             # Get login credentials from ECR and authenticate Docker
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY_URI }}
-            
-            # Pull the image from ECR
+
+            # Pull the Docker image from ECR
             docker pull ${{ secrets.ECR_REPOSITORY_URI }}
 
-            # Run the Docker container (adjust the run command according to your needs)
+            # Run the Docker container (adjust the run command as per your needs)
             docker run -d -p 80:80 ${{ secrets.ECR_REPOSITORY_URI }}
           EOF
+
+      # Step 5: Test the service
+      - name: Test the service
+        run: |
+          curl http://13.126.160.215:80  # Test the service via EC2 public IP and port 80
