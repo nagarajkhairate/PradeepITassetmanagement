@@ -30,6 +30,7 @@ jobs:
           AWS_REGION=ap-south-1
           REPO_NAME=assetmanagementui  # Replace with your repository name
           aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+          docker info  # This should show a successful login message
 
       # Step 4: Build and Push Docker Image to ECR
       - name: Build and Push Docker Image to ECR
