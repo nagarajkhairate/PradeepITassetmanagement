@@ -1,62 +1,63 @@
-name: CI/CD Pipeline for React Application
+name: Deploy to AWS App Runner
 
 on:
   push:
     branches:
-      - nagaraj  # Change this to your branch name
+      - nagaraj  # Run workflow only when pushing to this branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
+      # Step 1: Checkout Repository
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # Step 2: Set up AWS credentials (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION stored in GitHub Secrets)
-      - name: Set up AWS Credentials
+      # Step 2: Set Up AWS Credentials
+      - name: Set Up AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}  # Make sure the region is set properly
+          aws-region: ap-south-1  # Change to your AWS region
 
-      # Step 3: Log in to Amazon ECR (Elastic Container Registry)
+      # Step 3: Login to Amazon ECR
       - name: Login to Amazon ECR
         id: ecr-login
         run: |
-          AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID }}
-          AWS_REGION=${{ secrets.AWS_REGION }}
-          REPO_NAME=${{ secrets.ECR_REPOSITORY_NAME }}
+          AWS_ACCOUNT_ID=034362057723  # Replace with your AWS account ID
+          AWS_REGION=ap-south-1
+          REPO_NAME=assetmanagementui  # Replace with your repository name
           aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
-      # Step 4: Build the Docker image
-      - name: Build Docker Image
+      # Step 4: Build and Push Docker Image to ECR
+      - name: Build and Push Docker Image to ECR
+        env:
+          AWS_ACCOUNT_ID: 034362057723  # Replace with your AWS account ID
+          AWS_REGION: ap-south-1
+          REPO_NAME: assetmanagementui  # Replace with your repository name
         run: |
-          IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NAME }}:latest"
+          IMAGE_URI="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO_NAME:latest"
           docker build -t $IMAGE_URI .
+          docker push $IMAGE_URI
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
 
-      # Step 5: Push the Docker image to ECR
-      - name: Push Docker Image to Amazon ECR
-        run: |
-          IMAGE_URI="${{ env.IMAGE_URI }}"
-          docker push $IMAGE_URI
-
-      # Step 6: Deploy to AWS App Runner (Create or Update service)
+      # Step 5: Deploy to AWS App Runner
       - name: Deploy to AWS App Runner
         run: |
           SERVICE_NAME="assetmanagement-ui"  # Change service name if needed
           IMAGE_URI="${{ env.IMAGE_URI }}"
           EXISTING_SERVICE=$(aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='$SERVICE_NAME'].ServiceArn" --output text)
+
           if [ -n "$EXISTING_SERVICE" ]; then
             echo "Updating existing App Runner service..."
-            aws apprunner update-service --service-arn $EXISTING_SERVICE --source-configuration "ImageRepository={ImageIdentifier=$IMAGE_URI,ImageRepositoryType=ECR}"
+            aws apprunner update-service --service-arn $EXISTING_SERVICE \
+              --source-configuration "ImageRepository={ImageIdentifier=$IMAGE_URI,ImageRepositoryType=ECR}"
           else
             echo "Creating new App Runner service..."
             aws apprunner create-service \
               --service-name $SERVICE_NAME \
               --source-configuration "ImageRepository={ImageIdentifier=$IMAGE_URI,ImageRepositoryType=ECR}" \
-              --instance-configuration Cpu=1 vCpu,Memory=2 GB
+              --instance-configuration Cpu=1 vCpu,Memory=2GB
           fi
