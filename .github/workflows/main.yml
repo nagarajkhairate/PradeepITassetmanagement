@@ -1,75 +1,54 @@
-name: CI/CD Pipeline for EC2 Deployment via ECR
+name: CI/CD Pipeline for EC2 Deployment
 
 on:
   push:
     branches:
-      - main  # Trigger the workflow when changes are pushed to the main branch
+      - main  # Trigger on push to the main branch (you can change this to any branch)
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Checkout the repository
-    - name: Checkout code
-      uses: actions/checkout@v2
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    # Step 2: Set up Docker Buildx
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+      # Step 2: Set up SSH for EC2
+      - name: Set up SSH key for EC2
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" | base64 --decode > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          touch ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
-    # Step 3: Set up AWS CLI and authenticate with ECR
-    - name: Set up AWS CLI
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
+      # Step 3: Build Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t myapp .
 
-    # Step 4: Build Docker image
-    - name: Build Docker image
-      run: |
-        docker build -t assetmanagementui .
-
-    # Step 5: Login to Amazon ECR
-    - name: Login to Amazon ECR
-      run: |
-        aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY_URI }}
-
-    # Step 6: Tag and push the Docker image to ECR
-    - name: Tag and push Docker image to ECR
-      run: |
-        docker tag assetmanagementui:latest ${{ secrets.ECR_REPOSITORY_URI }}:latest
-        docker push ${{ secrets.ECR_REPOSITORY_URI }}:latest
-
-    # Step 7: Set up SSH and deploy to EC2
-    - name: Set up SSH key for EC2
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" | base64 --decode > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        touch ~/.ssh/known_hosts
-        ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts  # Add EC2 host to known_hosts
-
-    # Step 8: SSH into EC2 and pull the Docker image from ECR
-    - name: SSH and deploy Docker container on EC2
-      run: |
-        ssh -i ~/.ssh/id_rsa ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-          # Authenticate to ECR
+      # Step 4: Authenticate to ECR
+      - name: Authenticate to ECR
+        run: |
           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY_URI }}
-          
-          # Pull the latest image from ECR
-          docker pull ${{ secrets.ECR_REPOSITORY_URI }}:latest
 
-          # Stop and remove the existing container (if any)
-          docker stop my-running-container || true
-          docker rm my-running-container || true
+      # Step 5: Tag Docker image for ECR
+      - name: Tag Docker image
+        run: |
+          docker tag myapp:latest ${{ secrets.ECR_REPOSITORY_URI }}:latest
 
-          # Run the new container
-          docker run -d --name my-running-container -p 80:80 ${{ secrets.ECR_REPOSITORY_URI }}:latest
-        EOF
+      # Step 6: Push Docker image to ECR
+      - name: Push Docker image to ECR
+        run: |
+          docker push ${{ secrets.ECR_REPOSITORY_URI }}:latest
 
-    # Step 9: Output EC2 Public IP (frontend UI URL)
-    - name: Output EC2 Public IP
-      run: |
-        echo "EC2 Public IP: http://${{ secrets.EC2_HOST }}"
+      # Step 7: SSH into EC2 and deploy the Docker container
+      - name: Deploy Docker container on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+            docker pull ${{ secrets.ECR_REPOSITORY_URI }}:latest
+            docker stop myapp || true
+            docker rm myapp || true
+            docker run -d -p 80:80 --name myapp ${{ secrets.ECR_REPOSITORY_URI }}:latest
+          EOF
