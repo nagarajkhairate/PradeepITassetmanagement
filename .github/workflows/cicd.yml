@@ -20,35 +20,42 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-south-1  # Change to your AWS region
+          aws-region: ${{ secrets.AWS_REGION }}  # Use the region from GitHub secrets
 
       # Step 3: Login to Amazon ECR
       - name: Login to Amazon ECR
         id: ecr-login
         run: |
-          AWS_ACCOUNT_ID=034362057723  # Replace with your AWS account ID
-          AWS_REGION=ap-south-1
-          REPO_NAME=assetmanagementui  # Replace with your repository name
-          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-          docker info  # This should show a successful login message
+          AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID }}  # Your AWS account ID
+          AWS_REGION=${{ secrets.AWS_REGION }}  # Use the region from GitHub secrets
+          REPO_NAME=${{ secrets.ECR_REPOSITORY_NAME }}  # ECR repository name from secrets
+          IMAGE_URI="${{ secrets.ECR_REPOSITORY_URI }}"  # Full ECR URI from secrets
+          
+          # Log into ECR
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $IMAGE_URI
+          docker info  # Ensure login was successful
 
       # Step 4: Build and Push Docker Image to ECR
       - name: Build and Push Docker Image to ECR
         env:
-          AWS_ACCOUNT_ID: 034362057723  # Replace with your AWS account ID
-          AWS_REGION: ap-south-1
-          REPO_NAME: assetmanagementui  # Replace with your repository name
+          IMAGE_URI: ${{ secrets.ECR_REPOSITORY_URI }}  # The ECR URI secret
         run: |
-          IMAGE_URI="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO_NAME:latest"
-          docker build -t $IMAGE_URI .
-          docker push $IMAGE_URI
-          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
+          IMAGE_TAG="$IMAGE_URI:latest"
+          
+          # Build the Docker image
+          docker build -t $IMAGE_TAG .
+          
+          # Push the Docker image to ECR
+          docker push $IMAGE_TAG
+          echo "IMAGE_URI=$IMAGE_TAG" >> $GITHUB_ENV
 
       # Step 5: Deploy to AWS App Runner
       - name: Deploy to AWS App Runner
         run: |
           SERVICE_NAME="assetmanagement-ui"  # Change service name if needed
           IMAGE_URI="${{ env.IMAGE_URI }}"
+          
+          # Check if the service exists
           EXISTING_SERVICE=$(aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='$SERVICE_NAME'].ServiceArn" --output text)
 
           if [ -n "$EXISTING_SERVICE" ]; then
