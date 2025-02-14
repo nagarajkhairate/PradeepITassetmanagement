@@ -1,74 +1,75 @@
-name: Deploy to EC2 via SSH
+name: CI/CD Pipeline for EC2 Deployment via ECR
 
 on:
   push:
     branches:
-      - main  # Run workflow when pushing to the main branch
+      - main  # Trigger the workflow when changes are pushed to the main branch
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout Repository
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+    # Step 1: Checkout the repository
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      # Set up SSH key for EC2 deployment
-      - name: Set up SSH key
-        run: |
-          mkdir -p ~/.ssh  # Ensure .ssh directory exists
-          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" | base64 --decode > ~/.ssh/id_rsa  # Decode base64-encoded key
-          chmod 600 ~/.ssh/id_rsa  # Ensure the key has proper permissions
-          touch ~/.ssh/known_hosts  # Ensure known_hosts file exists
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts  # Add EC2 host to known_hosts
+    # Step 2: Set up Docker Buildx
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
 
-      # Set up AWS credentials for Docker login and image push to ECR
-      - name: Set up AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+    # Step 3: Set up AWS CLI and authenticate with ECR
+    - name: Set up AWS CLI
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
 
-      # Login to Amazon ECR
-      - name: Login to Amazon ECR
-        run: |
+    # Step 4: Build Docker image
+    - name: Build Docker image
+      run: |
+        docker build -t assetmanagementui .
+
+    # Step 5: Login to Amazon ECR
+    - name: Login to Amazon ECR
+      run: |
+        aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY_URI }}
+
+    # Step 6: Tag and push the Docker image to ECR
+    - name: Tag and push Docker image to ECR
+      run: |
+        docker tag assetmanagementui:latest ${{ secrets.ECR_REPOSITORY_URI }}:latest
+        docker push ${{ secrets.ECR_REPOSITORY_URI }}:latest
+
+    # Step 7: Set up SSH and deploy to EC2
+    - name: Set up SSH key for EC2
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" | base64 --decode > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        touch ~/.ssh/known_hosts
+        ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts  # Add EC2 host to known_hosts
+
+    # Step 8: SSH into EC2 and pull the Docker image from ECR
+    - name: SSH and deploy Docker container on EC2
+      run: |
+        ssh -i ~/.ssh/id_rsa ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+          # Authenticate to ECR
           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY_URI }}
+          
+          # Pull the latest image from ECR
+          docker pull ${{ secrets.ECR_REPOSITORY_URI }}:latest
 
-      # Build and push Docker image to ECR
-      - name: Build and push Docker image
-        run: |
-          IMAGE_URI="${{ secrets.ECR_REPOSITORY_URI }}:latest"
-          docker build -t $IMAGE_URI .
-          docker push $IMAGE_URI
+          # Stop and remove the existing container (if any)
+          docker stop my-running-container || true
+          docker rm my-running-container || true
 
-      # Deploy to EC2 via SSH
-      - name: Deploy to EC2 via SSH
-        uses: appleboy/ssh-action@v0.1.5
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-          script: |
-            # Set image URI variable for easy reference
-            IMAGE_URI="${{ secrets.ECR_REPOSITORY_URI }}:latest"
+          # Run the new container
+          docker run -d --name my-running-container -p 80:80 ${{ secrets.ECR_REPOSITORY_URI }}:latest
+        EOF
 
-            # Login to Docker with ECR credentials (ensure login before pulling)
-            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin $IMAGE_URI
-
-            # Pull the latest Docker image from ECR
-            docker pull $IMAGE_URI
-
-            # Stop and remove any existing container with the same name if it's running
-            CONTAINER_ID=$(docker ps -q --filter "name=assetmanagement-ui")
-            if [ -n "$CONTAINER_ID" ]; then
-              echo "Stopping and removing existing container with ID $CONTAINER_ID"
-              docker stop assetmanagement-ui && docker rm assetmanagement-ui
-            fi
-
-            # Run the new container
-            docker run -d --name assetmanagement-ui -p 80:80 $IMAGE_URI
-
-            # Optional: Clean up unused Docker images to save space
-            docker image prune -f
+    # Step 9: Output EC2 Public IP (frontend UI URL)
+    - name: Output EC2 Public IP
+      run: |
+        echo "EC2 Public IP: http://${{ secrets.EC2_HOST }}"
