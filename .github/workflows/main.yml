@@ -49,10 +49,10 @@ jobs:
       # Step 5: Set up SSH key for EC2 access
       - name: Set up SSH key
         run: |
-          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" | base64 --decode > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          mkdir -p ~/.ssh
-          touch ~/.ssh/known_hosts
+          mkdir -p ~/.ssh  # Ensure the .ssh directory exists
+          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" | base64 --decode > ~/.ssh/id_rsa  # Decode and save private key
+          chmod 600 ~/.ssh/id_rsa  # Ensure the private key has proper permissions
+          touch ~/.ssh/known_hosts  # Create the known_hosts file if it doesn't exist
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts  # Add EC2 host to known_hosts for security
 
       # Step 6: SSH to EC2 and deploy Docker Image
