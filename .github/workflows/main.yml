@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout repository
+      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -35,17 +35,7 @@ jobs:
         run: |
           docker push ${{ secrets.ECR_REPOSITORY_URI }}
 
-      # Step 4: Install SSM agent on EC2 (Optional: If the EC2 instance requires SSM)
-      - name: Install Amazon SSM Agent
-        run: |
-          curl -o amazon-ssm-agent.deb "https://d1vvhvl2y92vvt.cloudfront.net/latest/ubuntu_amd64/amazon-ssm-agent.deb"
-          sudo dpkg -i amazon-ssm-agent.deb
-          sudo apt-get install -f
-          sudo systemctl enable amazon-ssm-agent
-          sudo systemctl start amazon-ssm-agent
-        continue-on-error: true  # If you don't need to install the SSM agent, you can set this to true
-
-      # Step 5: SSH into EC2 instance and deploy the new image
+      # Step 4: SSH into EC2 and deploy the new image
       - name: SSH into EC2 and deploy
         env:
           EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
@@ -55,9 +45,19 @@ jobs:
           echo "$EC2_SSH_PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem $EC2_USER@$EC2_HOST << 'EOF'
-            # Pull the image from ECR
+            # Install AWS CLI if not installed
+            if ! command -v aws &> /dev/null; then
+              echo "AWS CLI not found, installing..."
+              sudo apt-get update
+              sudo apt-get install -y awscli
+            fi
+
+            # Get login credentials from ECR and authenticate Docker
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY_URI }}
+            
+            # Pull the image from ECR
             docker pull ${{ secrets.ECR_REPOSITORY_URI }}
+
             # Run the Docker container (adjust the run command according to your needs)
             docker run -d -p 80:80 ${{ secrets.ECR_REPOSITORY_URI }}
           EOF
