@@ -62,3 +62,10 @@ jobs:
               --source-configuration "ImageRepository={ImageIdentifier=$IMAGE_URI,ImageRepositoryType=ECR}" \
               --instance-configuration Cpu=1 vCpu,Memory=2GB
           fi
+
+      # Step 6: Fetch App Runner Service URL
+      - name: Fetch App Runner Service URL
+        run: |
+          SERVICE_NAME="assetmanagement-ui"  # Ensure the same name as your service
+          APP_URL=$(aws apprunner describe-service --service-name $SERVICE_NAME --query "Service.Url" --output text)
+          echo "Frontend is deployed and accessible at: $APP_URL"
