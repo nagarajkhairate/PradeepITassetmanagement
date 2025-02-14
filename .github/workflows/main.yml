@@ -3,69 +3,56 @@ name: Deploy to EC2 via SSH
 on:
   push:
     branches:
-      - main  # Adjust the branch name if necessary
+      - main  # Run workflow when pushing to the main branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # Step 2: Set up AWS credentials (for ECR access)
-      - name: Set Up AWS Credentials
+      # Set up SSH key for EC2 deployment
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh  # Ensure .ssh directory exists
+          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" | base64 --decode > ~/.ssh/id_rsa  # Decode base64-encoded key
+          chmod 600 ~/.ssh/id_rsa  # Ensure the key has proper permissions
+          touch ~/.ssh/known_hosts  # Ensure known_hosts file exists
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts  # Add EC2 host to known_hosts
+
+      # Set up AWS credentials for Docker login and image push to ECR
+      - name: Set up AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # Step 3: Login to Amazon ECR
+      # Login to Amazon ECR
       - name: Login to Amazon ECR
-        id: ecr-login
         run: |
-          AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID }}
-          AWS_REGION=${{ secrets.AWS_REGION }}
-          IMAGE_URI="${{ secrets.ECR_REPOSITORY_URI }}"
-          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $IMAGE_URI
-          docker info  # Ensure login was successful
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY_URI }}
 
-      # Step 4: Build and Push Docker Image to ECR
-      - name: Build and Push Docker Image to ECR
-        env:
-          IMAGE_URI: ${{ secrets.ECR_REPOSITORY_URI }}  # The ECR URI secret
+      # Build and push Docker image to ECR
+      - name: Build and push Docker image
         run: |
-          IMAGE_TAG="$IMAGE_URI:latest"
-          
-          # Build the Docker image
-          docker build -t $IMAGE_TAG .
-          
-          # Push the Docker image to ECR
-          docker push $IMAGE_TAG
-          echo "IMAGE_URI=$IMAGE_TAG" >> $GITHUB_ENV
+          IMAGE_URI="${{ secrets.ECR_REPOSITORY_URI }}:latest"
+          docker build -t $IMAGE_URI .
+          docker push $IMAGE_URI
 
-      # Step 5: Set up SSH key for EC2 access
-      - name: Set up SSH key
-        run: |
-          mkdir -p ~/.ssh  # Ensure the .ssh directory exists
-          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" | base64 --decode > ~/.ssh/id_rsa  # Decode and save private key
-          chmod 600 ~/.ssh/id_rsa  # Ensure the private key has proper permissions
-          touch ~/.ssh/known_hosts  # Create the known_hosts file if it doesn't exist
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts  # Add EC2 host to known_hosts for security
-
-      # Step 6: SSH to EC2 and deploy Docker Image
+      # Deploy to EC2 via SSH
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v0.1.5
         with:
-          host: ${{ secrets.EC2_HOST }}  # The EC2 instance public IP or DNS name
-          username: ${{ secrets.EC2_USER }}  # The EC2 username (e.g., ec2-user or ubuntu)
-          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}  # The private SSH key (GitHub secret)
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           script: |
             # Pull the latest Docker image from ECR
             IMAGE_URI="${{ secrets.ECR_REPOSITORY_URI }}:latest"
-            aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $IMAGE_URI
+            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin $IMAGE_URI
             docker pull $IMAGE_URI
 
             # Stop and remove any existing container with the same name
