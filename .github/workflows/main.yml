@@ -1,54 +1,63 @@
-name: CI/CD Pipeline for EC2 Deployment
+name: CI/CD Pipeline
 
 on:
   push:
     branches:
-      - main  # Trigger on push to the main branch (you can change this to any branch)
+      - main
+  workflow_dispatch:
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code
+      # Step 1: Checkout repository
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 2: Set up SSH for EC2
-      - name: Set up SSH key for EC2
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" | base64 --decode > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          touch ~/.ssh/known_hosts
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+      # Step 2: Set up AWS CLI
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
-      # Step 3: Build Docker image
+      # Step 3: Build and push Docker image to ECR
+      - name: Log in to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
+
       - name: Build Docker image
         run: |
-          docker build -t myapp .
-
-      # Step 4: Authenticate to ECR
-      - name: Authenticate to ECR
-        run: |
-          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY_URI }}
-
-      # Step 5: Tag Docker image for ECR
-      - name: Tag Docker image
-        run: |
-          docker tag myapp:latest ${{ secrets.ECR_REPOSITORY_URI }}:latest
-
-      # Step 6: Push Docker image to ECR
+          docker build -t ${{ secrets.ECR_REPOSITORY_URI }} .
+      
       - name: Push Docker image to ECR
         run: |
-          docker push ${{ secrets.ECR_REPOSITORY_URI }}:latest
+          docker push ${{ secrets.ECR_REPOSITORY_URI }}
 
-      # Step 7: SSH into EC2 and deploy the Docker container
-      - name: Deploy Docker container on EC2
+      # Step 4: Install SSM agent on EC2 (Optional: If the EC2 instance requires SSM)
+      - name: Install Amazon SSM Agent
         run: |
-          ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
-            docker pull ${{ secrets.ECR_REPOSITORY_URI }}:latest
-            docker stop myapp || true
-            docker rm myapp || true
-            docker run -d -p 80:80 --name myapp ${{ secrets.ECR_REPOSITORY_URI }}:latest
+          curl -o amazon-ssm-agent.deb "https://d1vvhvl2y92vvt.cloudfront.net/latest/ubuntu_amd64/amazon-ssm-agent.deb"
+          sudo dpkg -i amazon-ssm-agent.deb
+          sudo apt-get install -f
+          sudo systemctl enable amazon-ssm-agent
+          sudo systemctl start amazon-ssm-agent
+        continue-on-error: true  # If you don't need to install the SSM agent, you can set this to true
+
+      # Step 5: SSH into EC2 instance and deploy the new image
+      - name: SSH into EC2 and deploy
+        env:
+          EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          EC2_USER: ${{ secrets.EC2_USER }}
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+        run: |
+          echo "$EC2_SSH_PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+          ssh -o StrictHostKeyChecking=no -i private_key.pem $EC2_USER@$EC2_HOST << 'EOF'
+            # Pull the image from ECR
+            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REPOSITORY_URI }}
+            docker pull ${{ secrets.ECR_REPOSITORY_URI }}
+            # Run the Docker container (adjust the run command according to your needs)
+            docker run -d -p 80:80 ${{ secrets.ECR_REPOSITORY_URI }}
           EOF
