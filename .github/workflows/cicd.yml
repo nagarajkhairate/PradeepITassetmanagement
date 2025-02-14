@@ -1,53 +1,79 @@
-name: CI/CD Pipeline
+name: CI/CD for Frontend UI with AWS App Runner
 
 on:
   push:
     branches:
-      - main
-  pull_request:
-    branches:
-      - main
+      - nagaraj  # Trigger the workflow on pushes to the 'nagaraj' branch
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      # Step 1: Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      # Step 2: Set up AWS credentials from GitHub Secrets
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
         with:
-          node-version: '20'
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}  # AWS region (e.g., ap-south-1)
 
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Application
-        run: npm run build
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build Docker Image
+      # Step 3: Log in to Amazon ECR (Elastic Container Registry)
+      - name: Log in to Amazon ECR
+        id: ecr-login
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/react-asset:latest .
+          AWS_ACCOUNT_ID=034362057723  # Your AWS Account ID
+          AWS_REGION=${{ secrets.AWS_REGION }}
+          REPO_NAME=assetmanagementui  # ECR repository name
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
-      - name: Push Docker Image
+      # Step 4: Build Docker image
+      - name: Build Docker image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/react-asset:latest
+          IMAGE_URI="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO_NAME:latest"
+          docker build -t $IMAGE_URI .
 
-      - name: Install Docker Compose
+      # Step 5: Push the Docker image to Amazon ECR
+      - name: Push Docker image to ECR
         run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-          docker-compose --version
+          IMAGE_URI="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO_NAME:latest"
+          docker push $IMAGE_URI
 
-      - name: Deploy to Docker Compose
+      # Step 6: Check if the service exists on AWS App Runner
+      - name: Check if App Runner service exists
+        id: check_service
         run: |
-          docker-compose down
-          docker-compose up -d
+          SERVICE_NAME="assetmanagementui"
+          EXISTING_SERVICE=$(aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='$SERVICE_NAME'].ServiceArn" --output text)
+          echo "Existing service ARN: $EXISTING_SERVICE"
+          echo "::set-output name=existing-service::$EXISTING_SERVICE"
+
+      # Step 7: Deploy or update the service on AWS App Runner
+      - name: Deploy to AWS App Runner
+        run: |
+          SERVICE_NAME="assetmanagementui"
+          IMAGE_URI="${{ steps.ecr-login.outputs.image-uri }}"
+          EXISTING_SERVICE="${{ steps.check_service.outputs.existing-service }}"
+          
+          if [ -n "$EXISTING_SERVICE" ]; then
+            echo "Updating existing App Runner service..."
+            aws apprunner update-service --service-arn $EXISTING_SERVICE --source-configuration "ImageRepository={ImageIdentifier=$IMAGE_URI,ImageRepositoryType=ECR}"
+          else
+            echo "Creating new App Runner service..."
+            aws apprunner create-service \
+              --service-name $SERVICE_NAME \
+              --source-configuration "ImageRepository={ImageIdentifier=$IMAGE_URI,ImageRepositoryType=ECR}" \
+              --instance-configuration Cpu=1 vCpu,Memory=2 GB
+          fi
+
+      # Step 8: Output the service URL (App Runner URL)
+      - name: Output App Runner Service URL
+        run: |
+          SERVICE_NAME="assetmanagementui"
+          APP_RUNNER_URL=$(aws apprunner describe-service --service-name $SERVICE_NAME --query "Service.Url" --output text)
+          echo "Your AWS App Runner service is available at: $APP_RUNNER_URL"
+          echo "::set-output name=app-runner-url::$APP_RUNNER_URL"
