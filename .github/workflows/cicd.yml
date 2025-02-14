@@ -20,26 +20,26 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}  # Set AWS region
+          aws-region: ${{ secrets.AWS_REGION }}
 
       # Step 3: Log in to Amazon ECR
       - name: Log in to Amazon ECR
         run: |
-          AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID }}  # Your AWS Account ID
-          AWS_REGION=${{ secrets.AWS_REGION }}
-          REPO_NAME=${{ secrets.REPO_NAME }}  # ECR repository name
+          AWS_ACCOUNT_ID="${{ secrets.AWS_ACCOUNT_ID }}"
+          AWS_REGION="${{ secrets.AWS_REGION }}"
+          REPO_NAME="${{ secrets.ECR_REPOSITORY_NAME }}"  # Replace with your secret name
           aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
       # Step 4: Build Docker image
       - name: Build Docker image
         run: |
-          IMAGE_URI="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO_NAME:latest"
+          IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NAME }}:latest"
           docker build -t $IMAGE_URI .
 
       # Step 5: Push Docker image to ECR
       - name: Push Docker image to ECR
         run: |
-          IMAGE_URI="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO_NAME:latest"
+          IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NAME }}:latest"
           docker push $IMAGE_URI
 
       # Step 6: Check if the App Runner service exists
@@ -55,7 +55,7 @@ jobs:
       - name: Deploy to AWS App Runner
         run: |
           SERVICE_NAME="assetmanagementui"
-          IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.REPO_NAME }}:latest"
+          IMAGE_URI="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NAME }}:latest"
           EXISTING_SERVICE="${{ steps.check_service.outputs.existing-service }}"
           
           if [ -n "$EXISTING_SERVICE" ]; then
