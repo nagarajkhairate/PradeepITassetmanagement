@@ -67,7 +67,7 @@ jobs:
             aws apprunner create-service \
               --service-name $SERVICE_NAME \
               --source-configuration "ImageRepository={ImageIdentifier=$IMAGE_URI,ImageRepositoryType=ECR}" \
-              --instance-configuration Cpu=1 vCpu,Memory=2GB
+              --instance-configuration Cpu="1 vCpu",Memory="2GB"  # Corrected the format here
           fi
 
       # Step 6: Fetch App Runner Service URL
