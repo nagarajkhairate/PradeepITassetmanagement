@@ -37,8 +37,11 @@ pipeline {
 
         stage('Git Checkout') {
             steps {
-                checkout scm
-                echo "Checked out from branch: ${params.BRANCH_NAME}"
+                script {
+                    // Explicitly check out from GitHub using the branch provided by the parameter
+                    echo "Checking out from branch: ${params.BRANCH_NAME}"
+                    git branch: "${params.BRANCH_NAME}", url: 'https://github.com/yourusername/your-repo.git'
+                }
             }
         }
 
